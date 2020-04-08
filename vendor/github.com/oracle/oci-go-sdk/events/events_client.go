@@ -91,8 +91,12 @@ func (client EventsClient) ChangeRuleCompartment(ctx context.Context, request Ch
 	ociResponse, err = common.Retry(ctx, request, client.changeRuleCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeRuleCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRuleCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRuleCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -139,8 +143,12 @@ func (client EventsClient) CreateRule(ctx context.Context, request CreateRuleReq
 	ociResponse, err = common.Retry(ctx, request, client.createRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRuleResponse{}
+			}
 		}
 		return
 	}
@@ -182,8 +190,12 @@ func (client EventsClient) DeleteRule(ctx context.Context, request DeleteRuleReq
 	ociResponse, err = common.Retry(ctx, request, client.deleteRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRuleResponse{}
+			}
 		}
 		return
 	}
@@ -225,8 +237,12 @@ func (client EventsClient) GetRule(ctx context.Context, request GetRuleRequest) 
 	ociResponse, err = common.Retry(ctx, request, client.getRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRuleResponse{}
+			}
 		}
 		return
 	}
@@ -268,8 +284,12 @@ func (client EventsClient) ListRules(ctx context.Context, request ListRulesReque
 	ociResponse, err = common.Retry(ctx, request, client.listRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRulesResponse{}
+			}
 		}
 		return
 	}
@@ -311,8 +331,12 @@ func (client EventsClient) UpdateRule(ctx context.Context, request UpdateRuleReq
 	ociResponse, err = common.Retry(ctx, request, client.updateRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRuleResponse{}
+			}
 		}
 		return
 	}

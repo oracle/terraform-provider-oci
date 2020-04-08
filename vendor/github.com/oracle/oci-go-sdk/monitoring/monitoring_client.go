@@ -92,8 +92,12 @@ func (client MonitoringClient) ChangeAlarmCompartment(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.changeAlarmCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeAlarmCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAlarmCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAlarmCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -144,8 +148,12 @@ func (client MonitoringClient) CreateAlarm(ctx context.Context, request CreateAl
 	ociResponse, err = common.Retry(ctx, request, client.createAlarm, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateAlarmResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAlarmResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAlarmResponse{}
+			}
 		}
 		return
 	}
@@ -191,8 +199,12 @@ func (client MonitoringClient) DeleteAlarm(ctx context.Context, request DeleteAl
 	ociResponse, err = common.Retry(ctx, request, client.deleteAlarm, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteAlarmResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAlarmResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAlarmResponse{}
+			}
 		}
 		return
 	}
@@ -238,8 +250,12 @@ func (client MonitoringClient) GetAlarm(ctx context.Context, request GetAlarmReq
 	ociResponse, err = common.Retry(ctx, request, client.getAlarm, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetAlarmResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAlarmResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAlarmResponse{}
+			}
 		}
 		return
 	}
@@ -285,8 +301,12 @@ func (client MonitoringClient) GetAlarmHistory(ctx context.Context, request GetA
 	ociResponse, err = common.Retry(ctx, request, client.getAlarmHistory, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetAlarmHistoryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAlarmHistoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAlarmHistoryResponse{}
+			}
 		}
 		return
 	}
@@ -332,8 +352,12 @@ func (client MonitoringClient) ListAlarms(ctx context.Context, request ListAlarm
 	ociResponse, err = common.Retry(ctx, request, client.listAlarms, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAlarmsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAlarmsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAlarmsResponse{}
+			}
 		}
 		return
 	}
@@ -379,8 +403,12 @@ func (client MonitoringClient) ListAlarmsStatus(ctx context.Context, request Lis
 	ociResponse, err = common.Retry(ctx, request, client.listAlarmsStatus, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAlarmsStatusResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAlarmsStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAlarmsStatusResponse{}
+			}
 		}
 		return
 	}
@@ -425,8 +453,12 @@ func (client MonitoringClient) ListMetrics(ctx context.Context, request ListMetr
 	ociResponse, err = common.Retry(ctx, request, client.listMetrics, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListMetricsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMetricsResponse{}
+			}
 		}
 		return
 	}
@@ -480,8 +512,12 @@ func (client MonitoringClient) PostMetricData(ctx context.Context, request PostM
 	ociResponse, err = common.Retry(ctx, request, client.postMetricData, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = PostMetricDataResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PostMetricDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PostMetricDataResponse{}
+			}
 		}
 		return
 	}
@@ -527,8 +563,12 @@ func (client MonitoringClient) RemoveAlarmSuppression(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.removeAlarmSuppression, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = RemoveAlarmSuppressionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveAlarmSuppressionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveAlarmSuppressionResponse{}
+			}
 		}
 		return
 	}
@@ -573,8 +613,12 @@ func (client MonitoringClient) SummarizeMetricsData(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.summarizeMetricsData, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = SummarizeMetricsDataResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeMetricsDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeMetricsDataResponse{}
+			}
 		}
 		return
 	}
@@ -620,8 +664,12 @@ func (client MonitoringClient) UpdateAlarm(ctx context.Context, request UpdateAl
 	ociResponse, err = common.Retry(ctx, request, client.updateAlarm, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateAlarmResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAlarmResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAlarmResponse{}
+			}
 		}
 		return
 	}

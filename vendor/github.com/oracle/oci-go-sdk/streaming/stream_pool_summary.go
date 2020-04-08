@@ -31,6 +31,10 @@ type StreamPoolSummary struct {
 	// Example: `2018-04-20T00:00:07.405Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// True if the stream pool is private, false otherwise.
+	// The associated endpoint and subnetId of a private stream pool can be retrieved through the GetStreamPool API.
+	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair that is applied with no predefined name, type, or namespace. Exists for cross-compatibility only.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
