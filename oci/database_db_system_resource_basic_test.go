@@ -158,7 +158,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
 					hostname = "myOracleDB"
 					data_storage_size_in_gb = "256"
-					license_model = "LICENSE_INCLUDED"
+					license_model = "BRING_YOUR_OWN_LICENSE"
 					node_count = "1"
 					fault_domains = ["FAULT-DOMAIN-1"]
         			nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
@@ -185,7 +185,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
