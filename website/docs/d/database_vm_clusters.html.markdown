@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_vm_clusters
 This data source provides the list of Vm Clusters in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the VM clusters in the specified compartment.            
+Gets a list of the VM clusters in the specified compartment.
 
 
 ## Example Usage

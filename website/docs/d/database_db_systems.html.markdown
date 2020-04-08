@@ -11,7 +11,6 @@ description: |-
 This data source provides the list of Db Systems in Oracle Cloud Infrastructure Database service.
 
 Gets a list of the DB systems in the specified compartment. You can specify a backupId to list only the DB systems that support creating a database using this backup in this compartment.
-    
 
 
 ## Example Usage
