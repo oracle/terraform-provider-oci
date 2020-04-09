@@ -45,6 +45,10 @@ type OceInstance struct {
 	// OceInstance description, can be updated
 	Description *string `mandatory:"false" json:"description"`
 
+	// Upgrade schedule type representing service to be upgraded immediately whenever latest version is released
+	// or delay upgrade of the service to previous released version
+	UpgradeSchedule OceInstanceUpgradeScheduleEnum `mandatory:"false" json:"upgradeSchedule,omitempty"`
+
 	IdentityStripe *IdentityStripeDetails `mandatory:"false" json:"identityStripe"`
 
 	// Instance type based on its usage
@@ -52,6 +56,9 @@ type OceInstance struct {
 
 	// Web Application Firewall(WAF) primary domain
 	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
+
+	// Flag indicating whether the instance access is private or public
+	InstanceAccessType OceInstanceInstanceAccessTypeEnum `mandatory:"false" json:"instanceAccessType,omitempty"`
 
 	// The time the the OceInstance was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -82,6 +89,29 @@ func (m OceInstance) String() string {
 	return common.PointerString(m)
 }
 
+// OceInstanceUpgradeScheduleEnum Enum with underlying type: string
+type OceInstanceUpgradeScheduleEnum string
+
+// Set of constants representing the allowable values for OceInstanceUpgradeScheduleEnum
+const (
+	OceInstanceUpgradeScheduleUpgradeImmediately OceInstanceUpgradeScheduleEnum = "UPGRADE_IMMEDIATELY"
+	OceInstanceUpgradeScheduleDelayedUpgrade     OceInstanceUpgradeScheduleEnum = "DELAYED_UPGRADE"
+)
+
+var mappingOceInstanceUpgradeSchedule = map[string]OceInstanceUpgradeScheduleEnum{
+	"UPGRADE_IMMEDIATELY": OceInstanceUpgradeScheduleUpgradeImmediately,
+	"DELAYED_UPGRADE":     OceInstanceUpgradeScheduleDelayedUpgrade,
+}
+
+// GetOceInstanceUpgradeScheduleEnumValues Enumerates the set of values for OceInstanceUpgradeScheduleEnum
+func GetOceInstanceUpgradeScheduleEnumValues() []OceInstanceUpgradeScheduleEnum {
+	values := make([]OceInstanceUpgradeScheduleEnum, 0)
+	for _, v := range mappingOceInstanceUpgradeSchedule {
+		values = append(values, v)
+	}
+	return values
+}
+
 // OceInstanceInstanceUsageTypeEnum Enum with underlying type: string
 type OceInstanceInstanceUsageTypeEnum string
 
@@ -100,6 +130,29 @@ var mappingOceInstanceInstanceUsageType = map[string]OceInstanceInstanceUsageTyp
 func GetOceInstanceInstanceUsageTypeEnumValues() []OceInstanceInstanceUsageTypeEnum {
 	values := make([]OceInstanceInstanceUsageTypeEnum, 0)
 	for _, v := range mappingOceInstanceInstanceUsageType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// OceInstanceInstanceAccessTypeEnum Enum with underlying type: string
+type OceInstanceInstanceAccessTypeEnum string
+
+// Set of constants representing the allowable values for OceInstanceInstanceAccessTypeEnum
+const (
+	OceInstanceInstanceAccessTypePublic  OceInstanceInstanceAccessTypeEnum = "PUBLIC"
+	OceInstanceInstanceAccessTypePrivate OceInstanceInstanceAccessTypeEnum = "PRIVATE"
+)
+
+var mappingOceInstanceInstanceAccessType = map[string]OceInstanceInstanceAccessTypeEnum{
+	"PUBLIC":  OceInstanceInstanceAccessTypePublic,
+	"PRIVATE": OceInstanceInstanceAccessTypePrivate,
+}
+
+// GetOceInstanceInstanceAccessTypeEnumValues Enumerates the set of values for OceInstanceInstanceAccessTypeEnum
+func GetOceInstanceInstanceAccessTypeEnumValues() []OceInstanceInstanceAccessTypeEnum {
+	values := make([]OceInstanceInstanceAccessTypeEnum, 0)
+	for _, v := range mappingOceInstanceInstanceAccessType {
 		values = append(values, v)
 	}
 	return values
