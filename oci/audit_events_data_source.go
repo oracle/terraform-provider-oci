@@ -5,7 +5,6 @@ package oci
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -419,9 +418,7 @@ func dataToMap(obj *oci_audit.Data) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	for keys := range obj.AdditionalDetails {
-		if reflect.TypeOf(obj.AdditionalDetails[keys]).String() == "float64" {
-			obj.AdditionalDetails[keys] = fmt.Sprintf("%f", obj.AdditionalDetails[keys])
-		}
+		obj.AdditionalDetails[keys] = fmt.Sprintf("%v", obj.AdditionalDetails[keys])
 	}
 
 	result["additional_details"] = obj.AdditionalDetails
