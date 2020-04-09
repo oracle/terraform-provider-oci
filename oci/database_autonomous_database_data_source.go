@@ -146,6 +146,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("private_endpoint", *s.Res.PrivateEndpoint)
 	}
 
+	if s.Res.PrivateEndpointIp != nil {
+		s.D.Set("private_endpoint_ip", *s.Res.PrivateEndpointIp)
+	}
+
 	if s.Res.PrivateEndpointLabel != nil {
 		s.D.Set("private_endpoint_label", *s.Res.PrivateEndpointLabel)
 	}
