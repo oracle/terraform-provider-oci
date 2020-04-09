@@ -44,8 +44,15 @@ type CreateOceInstanceDetails struct {
 	// Instance type based on its usage
 	InstanceUsageType CreateOceInstanceDetailsInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
 
+	// Upgrade schedule type representing service to be upgraded immediately whenever latest version is released
+	// or delay upgrade of the service to previous released version
+	UpgradeSchedule OceInstanceUpgradeScheduleEnum `mandatory:"false" json:"upgradeSchedule,omitempty"`
+
 	// Web Application Firewall(WAF) primary domain
 	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
+
+	// Flag indicating whether the instance access is private or public
+	InstanceAccessType CreateOceInstanceDetailsInstanceAccessTypeEnum `mandatory:"false" json:"instanceAccessType,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -78,6 +85,29 @@ var mappingCreateOceInstanceDetailsInstanceUsageType = map[string]CreateOceInsta
 func GetCreateOceInstanceDetailsInstanceUsageTypeEnumValues() []CreateOceInstanceDetailsInstanceUsageTypeEnum {
 	values := make([]CreateOceInstanceDetailsInstanceUsageTypeEnum, 0)
 	for _, v := range mappingCreateOceInstanceDetailsInstanceUsageType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// CreateOceInstanceDetailsInstanceAccessTypeEnum Enum with underlying type: string
+type CreateOceInstanceDetailsInstanceAccessTypeEnum string
+
+// Set of constants representing the allowable values for CreateOceInstanceDetailsInstanceAccessTypeEnum
+const (
+	CreateOceInstanceDetailsInstanceAccessTypePublic  CreateOceInstanceDetailsInstanceAccessTypeEnum = "PUBLIC"
+	CreateOceInstanceDetailsInstanceAccessTypePrivate CreateOceInstanceDetailsInstanceAccessTypeEnum = "PRIVATE"
+)
+
+var mappingCreateOceInstanceDetailsInstanceAccessType = map[string]CreateOceInstanceDetailsInstanceAccessTypeEnum{
+	"PUBLIC":  CreateOceInstanceDetailsInstanceAccessTypePublic,
+	"PRIVATE": CreateOceInstanceDetailsInstanceAccessTypePrivate,
+}
+
+// GetCreateOceInstanceDetailsInstanceAccessTypeEnumValues Enumerates the set of values for CreateOceInstanceDetailsInstanceAccessTypeEnum
+func GetCreateOceInstanceDetailsInstanceAccessTypeEnumValues() []CreateOceInstanceDetailsInstanceAccessTypeEnum {
+	values := make([]CreateOceInstanceDetailsInstanceAccessTypeEnum, 0)
+	for _, v := range mappingCreateOceInstanceDetailsInstanceAccessType {
 		values = append(values, v)
 	}
 	return values
