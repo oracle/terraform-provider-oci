@@ -51,7 +51,7 @@ func TestObjectStorageReplicationSourceResource_basic(t *testing.T) {
 					compartmentIdVariableStr + ReplicationSourceResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", replicationBucketName),
-					resource.TestCheckResourceAttr(datasourceName, "namespace", "dxterraformdev"),
+					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(datasourceName, "replication_sources.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "replication_sources.0.policy_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "replication_sources.0.source_bucket_name"),
