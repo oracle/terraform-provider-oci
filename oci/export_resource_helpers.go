@@ -37,6 +37,12 @@ type TerraformResourceAssociation struct {
 	datasourceQueryParams map[string]string // Mapping of data source inputs and the source attribute from a parent resource
 }
 
+// Wrapper around string value to differentiate strings from interpolations
+// Differentiation needed to write oci_resource.resource_name vs "oci_resource.resource_name" for v0.12
+type InterpolationString struct {
+	value string
+}
+
 type GenerateConfigStep struct {
 	root                *OCIResource
 	resourceGraph       TerraformResourceGraph
@@ -118,7 +124,7 @@ func processInstances(clients *OracleClients, resources []*OCIResource) ([]*OCIR
 		// Ensure the boot volume created by this instance can be referenced elsewhere by adding it to the reference map
 		if bootVolumeId, exists := instance.sourceAttributes["boot_volume_id"]; exists {
 			if bootVolumeIdStr, ok := bootVolumeId.(string); ok {
-				referenceMap[bootVolumeIdStr] = fmt.Sprintf("${%s.%s}", instance.getTerraformReference(), "boot_volume_id")
+				referenceMap[bootVolumeIdStr] = tfHclVersion.getDoubleExpHclString(instance.getTerraformReference(), "boot_volume_id")
 			}
 		}
 
@@ -131,7 +137,7 @@ func processInstances(clients *OracleClients, resources []*OCIResource) ([]*OCIR
 						// The image OCID may be different if it's in a different tenancy or region, add a variable for users to specify
 						imageVarName := fmt.Sprintf("%s_source_image_id", instance.terraformName)
 						vars[imageVarName] = fmt.Sprintf("\"%s\"", imageId)
-						referenceMap[imageId] = fmt.Sprintf("${var.%s}", imageVarName)
+						referenceMap[imageId] = tfHclVersion.getVarHclString(imageVarName)
 					}
 
 					// Workaround for service limitation. Service returns 47GB size for boot volume but LaunchInstance can only
@@ -218,7 +224,7 @@ func processAvailabilityDomains(clients *OracleClients, resources []*OCIResource
 		if !ok || adName == "" {
 			return resources, fmt.Errorf("[ERROR] availability domain at index '%v' has no name\n", idx)
 		}
-		referenceMap[adName] = fmt.Sprintf("${data.%s.name}", ad.getTerraformReference())
+		referenceMap[adName] = tfHclVersion.getDataSourceHclString(ad.getTerraformReference(), "name")
 	}
 
 	return resources, nil
@@ -230,7 +236,7 @@ func processObjectStorageNamespace(clients *OracleClients, resources []*OCIResou
 		if !ok || namespaceName == "" {
 			return resources, fmt.Errorf("[ERROR] object storage namespace data source has no name\n")
 		}
-		referenceMap[namespaceName] = fmt.Sprintf("${data.%s.namespace}", ns.getTerraformReference())
+		referenceMap[namespaceName] = tfHclVersion.getDataSourceHclString(ns.getTerraformReference(), "namespace")
 	}
 
 	return resources, nil
@@ -239,13 +245,13 @@ func processObjectStorageNamespace(clients *OracleClients, resources []*OCIResou
 func getAvailabilityDomainHCLDatasource(builder *strings.Builder, ociRes *OCIResource, varMap map[string]string) error {
 	builder.WriteString(fmt.Sprintf("data %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
 
-	builder.WriteString(fmt.Sprintf("compartment_id = \"%s\"\n", varMap[ociRes.compartmentId]))
+	builder.WriteString(fmt.Sprintf("compartment_id = %v\n", varMap[ociRes.compartmentId]))
 
 	adIndex, ok := ociRes.sourceAttributes["index"]
 	if !ok {
 		return fmt.Errorf("[ERROR] no index found for availability domain '%s'", ociRes.getTerraformReference())
 	}
-	builder.WriteString(fmt.Sprintf("ad_number = \"%v\"", adIndex.(int)))
+	builder.WriteString(fmt.Sprintf("ad_number = \"%v\"\n", adIndex.(int)))
 	builder.WriteString("}\n")
 
 	return nil
@@ -253,7 +259,7 @@ func getAvailabilityDomainHCLDatasource(builder *strings.Builder, ociRes *OCIRes
 
 func getObjectStorageNamespaceHCLDatasource(builder *strings.Builder, ociRes *OCIResource, varMap map[string]string) error {
 	builder.WriteString(fmt.Sprintf("data %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
-	builder.WriteString(fmt.Sprintf("compartment_id = \"%s\"\n", varMap[ociRes.compartmentId]))
+	builder.WriteString(fmt.Sprintf("compartment_id = %v\n", varMap[ociRes.compartmentId]))
 	builder.WriteString("}\n")
 
 	return nil
@@ -322,7 +328,7 @@ func processLoadBalancerBackends(clients *OracleClients, resources []*OCIResourc
 
 		// Don't use references to parent resources if they will be omitted from final result
 		if !backend.parent.omitFromExport {
-			backend.sourceAttributes["backendset_name"] = fmt.Sprintf("${%s.%s}", backend.parent.getTerraformReference(), "name")
+			backend.sourceAttributes["backendset_name"] = InterpolationString{tfHclVersion.getDoubleExpHclString(backend.parent.getTerraformReference(), "name")}
 		} else {
 			backend.sourceAttributes["backendset_name"] = backend.parent.sourceAttributes["name"].(string)
 		}
@@ -494,7 +500,7 @@ func findLoadBalancerListeners(clients *OracleClients, tfMeta *TerraformResource
 		}
 
 		if !parent.omitFromExport {
-			resource.sourceAttributes["default_backend_set_name"] = fmt.Sprintf("${%s.%s}", parent.getTerraformReference(), "name")
+			resource.sourceAttributes["default_backend_set_name"] = InterpolationString{tfHclVersion.getDoubleExpHclString(parent.getTerraformReference(), "name")}
 		} else {
 			resource.sourceAttributes["default_backend_set_name"] = parent.sourceAttributes["name"].(string)
 		}
