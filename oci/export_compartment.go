@@ -11,11 +11,10 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
-
+	"github.com/hashicorp/hcl2/hclwrite"
 	"github.com/hashicorp/terraform/backend/local"
 	"github.com/mitchellh/cli"
 
-	"github.com/hashicorp/hcl/hcl/fmtcmd"
 	"github.com/hashicorp/terraform/command"
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/common"
@@ -40,12 +39,12 @@ var datasourcesMap map[string]*schema.Resource
 var compartmentScopeServices []string
 var isMissingRequiredAttributes bool
 var exportConfigProvider oci_common.ConfigurationProvider
+var tfHclVersion TfHclVersion
 
 func init() {
 	resourceNameCount = map[string]int{}
 	vars = map[string]string{}
 	referenceMap = map[string]string{}
-
 	compartmentScopeServices = make([]string, len(compartmentResourceGraphs))
 	idx := 0
 	for mode := range compartmentResourceGraphs {
@@ -113,15 +112,14 @@ type ExportCommandArgs struct {
 	Services        []string
 	OutputDir       *string
 	GenerateState   bool
+	TFVersion       *TfHclVersion
 }
 
 func RunExportCommand(args *ExportCommandArgs) error {
 	resourcesMap = ResourcesMap()
 	datasourcesMap = DataSourcesMap()
 
-	if err := args.validate(); err != nil {
-		return err
-	}
+	tfHclVersion = *args.TFVersion
 
 	r := &schema.Resource{
 		Schema: schemaMap(),
@@ -306,7 +304,10 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 			allDiscoveredResources = append(allDiscoveredResources, resource)
 		}
 
-		_, err = file.WriteString(builder.String())
+		// Format the HCL config
+		formattedString := hclwrite.Format([]byte(builder.String()))
+
+		_, err = file.WriteString(string(formattedString))
 		if err != nil {
 			_ = file.Close()
 			return err
@@ -317,11 +318,6 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 		}
 
 		if err := os.Rename(tmpConfigOutputFile, configOutputFile); err != nil {
-			return err
-		}
-
-		// Format the HCL config
-		if err := fmtcmd.Run([]string{configOutputFile}, []string{}, nil, nil, fmtcmd.Options{Write: true}); err != nil {
 			return err
 		}
 
@@ -464,7 +460,7 @@ func buildGenerateConfigSteps(compartmentId *string, services []string) ([]*Gene
 			})
 
 			vars["tenancy_ocid"] = fmt.Sprintf("\"%s\"", tenancyId)
-			referenceMap[tenancyId] = "${var.tenancy_ocid}"
+			referenceMap[tenancyId] = tfHclVersion.getVarHclString("tenancy_ocid")
 		}
 	}
 
@@ -489,7 +485,7 @@ func buildGenerateConfigSteps(compartmentId *string, services []string) ([]*Gene
 			})
 
 			vars["compartment_ocid"] = fmt.Sprintf("\"%s\"", *compartmentId)
-			referenceMap[*compartmentId] = "${var.compartment_ocid}"
+			referenceMap[*compartmentId] = tfHclVersion.getVarHclString("compartment_ocid")
 		}
 	}
 
@@ -581,7 +577,7 @@ func generateProviderFile(outputDir *string) error {
 		return err
 	}
 
-	_, err = file.WriteString(fmt.Sprintf("provider oci {\n\tregion = \"${var.region}\"\n}\n"))
+	_, err = file.WriteString(fmt.Sprintf("provider oci {\n\tregion = %s\n}\n", tfHclVersion.getVarHclString("region")))
 	if err != nil {
 		_ = file.Close()
 		return err
@@ -612,16 +608,16 @@ type TerraformResource struct {
 	importId                   string
 	terraformClass             string
 	terraformName              string
-	terraformReferenceIdString string
+	terraformReferenceIdString string // syntax independent interpolation- `resource_type.resource_name.id`
 	terraformTypeInfo          *TerraformResourceHints
 	omitFromExport             bool
 }
 
 func (tr *TerraformResource) getHclReferenceIdString() string {
 	if tr.terraformReferenceIdString != "" {
-		return fmt.Sprintf("${%s}", tr.terraformReferenceIdString)
+		return tfHclVersion.getSingleExpHclString(tr.terraformReferenceIdString)
 	}
-	return fmt.Sprintf("${%s.id}", tr.getTerraformReference())
+	return tfHclVersion.getDoubleExpHclString(tr.getTerraformReference(), "id")
 }
 
 func (tr *TerraformResource) getTerraformReference() string {
@@ -645,11 +641,16 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 
 		if attributeVal, exists := sourceAttributes[tfAttribute]; exists {
 			switch v := attributeVal.(type) {
+			case InterpolationString:
+				builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, v.value))
+				continue
 			case string:
 				if varOverride, exists := interpolationMap[fmt.Sprintf("%v", v)]; exists {
 					v = varOverride
+					builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, v))
+				} else {
+					builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, v))
 				}
-				builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, v))
 				continue
 			case int, bool, float64:
 				builder.WriteString(fmt.Sprintf("%s = \"%v\"\n", tfAttribute, v))
@@ -669,15 +670,19 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 							}
 						}
 						continue
-					case *schema.Schema, schema.ValueType:
+					case *schema.Schema, schema.ValueType, InterpolationString:
 						builder.WriteString(fmt.Sprintf("%s = [\n", tfAttribute))
 						for _, item := range v {
 							switch trueListVal := item.(type) {
+							case InterpolationString:
+								builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, trueListVal.value))
 							case string:
 								if varOverride, exists := interpolationMap[fmt.Sprintf("%v", trueListVal)]; exists {
 									trueListVal = varOverride
+									builder.WriteString(fmt.Sprintf("%v,\n", trueListVal))
+								} else {
+									builder.WriteString(fmt.Sprintf("%q,\n", trueListVal))
 								}
-								builder.WriteString(fmt.Sprintf("%q,\n", trueListVal))
 							case int, bool, float64:
 								builder.WriteString(fmt.Sprintf("\"%v\",\n", trueListVal))
 							default:
@@ -708,11 +713,15 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 					keys := getSortedKeys(v)
 					for _, mapKey := range keys {
 						switch mapVal := v[mapKey].(type) {
+						case InterpolationString:
+							builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, mapVal.value))
 						case string:
 							if varOverride, exists := interpolationMap[fmt.Sprintf("%v", mapVal)]; exists {
 								mapVal = varOverride
+								builder.WriteString(fmt.Sprintf("\"%s\" = %v\n", mapKey, mapVal))
+							} else {
+								builder.WriteString(fmt.Sprintf("\"%s\" = %q\n", mapKey, mapVal))
 							}
-							builder.WriteString(fmt.Sprintf("\"%s\" = %q\n", mapKey, mapVal))
 						case int, bool, float64:
 							builder.WriteString(fmt.Sprintf("\"%s\" = \"%v\"\n", mapKey, mapVal))
 						default:
