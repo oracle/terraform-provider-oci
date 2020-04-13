@@ -102,7 +102,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"number_of_nodes": {
 							Type:         schema.TypeInt,
 							Required:     true,
-							ValidateFunc: validation.IntBetween(1, 1),
+							ValidateFunc: validation.IntBetween(1, 2),
 						},
 					},
 				},
@@ -138,7 +138,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"number_of_nodes": {
 							Type:         schema.TypeInt,
 							Required:     true,
-							ValidateFunc: validation.IntBetween(1, 1),
+							ValidateFunc: validation.IntBetween(1, 2),
 						},
 					},
 				},
