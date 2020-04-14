@@ -2,6 +2,7 @@
 
 ### Added
 - Support for update `license_model` in `oci_database_db_system`
+- Support for ADB-S Version Upgrade 19c (manual)
 
 ## 3.73.0 (April 29, 2020)
 
