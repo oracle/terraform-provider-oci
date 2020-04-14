@@ -11,6 +11,7 @@
 ### Added
 - Support for private customer onboarding and delayed upgrade in `oci_oce_oce_instance`
 - Support private stream pools and custom KMS key integration in streaming service
+- Support Always-Free Multi DB Version for ADBS 
 
 ## 3.70.0 (April 08, 2020)
 
