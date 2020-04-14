@@ -246,6 +246,8 @@ resource "oci_core_vcn" "vcn1" {
   dns_label      = "tfexamplevcn"
 }
 
+# Terraform will take 5 minutes after destroying an application due to a known service issue.
+# please refer: https://docs.cloud.oracle.com/iaas/Content/Functions/Tasks/functionsdeleting.htm
 resource "oci_functions_application" "test_application" {
   #Required
   compartment_id = "${var.compartment_ocid}"
