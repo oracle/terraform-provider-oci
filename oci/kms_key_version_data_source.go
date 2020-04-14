@@ -107,5 +107,8 @@ func (s *KmsKeyVersionDataSourceCrud) SetData() error {
 		s.D.Set("vault_id", *s.Res.VaultId)
 	}
 
+	if s.Res.RestoredFromKeyVersionId != nil {
+		s.D.Set("restored_from_key_id", *s.Res.RestoredFromKeyVersionId)
+	}
 	return nil
 }
