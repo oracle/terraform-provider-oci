@@ -36,7 +36,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `images` - Deprecated. See sources. When creating a node pool, only image names contained in this property can be passed to the `node_image_name` property. 
+* `images` - Deprecated. See sources. When creating a node pool, only image names contained in this property can be passed to the `node_image_name` property.
 * `kubernetes_versions` - Available Kubernetes versions.
 * `shapes` - Available shapes for nodes.
 * `sources` - Available source of the node.
