@@ -136,6 +136,8 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 			oceInstance["idcs_tenancy"] = *r.IdcsTenancy
 		}
 
+		oceInstance["instance_access_type"] = r.InstanceAccessType
+
 		oceInstance["instance_usage_type"] = r.InstanceUsageType
 
 		if r.Name != nil {
@@ -169,6 +171,8 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 		if r.TimeUpdated != nil {
 			oceInstance["time_updated"] = r.TimeUpdated.String()
 		}
+
+		oceInstance["upgrade_schedule"] = r.UpgradeSchedule
 
 		if r.WafPrimaryDomain != nil {
 			oceInstance["waf_primary_domain"] = *r.WafPrimaryDomain

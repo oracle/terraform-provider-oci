@@ -52,7 +52,9 @@ var (
 		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":              Representation{repType: Optional, create: `description`, update: `description2`},
 		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"instance_access_type":     Representation{repType: Optional, create: `PUBLIC`},
 		"instance_usage_type":      Representation{repType: Optional, create: `NONPRIMARY`},
+		"upgrade_schedule":         Representation{repType: Optional, create: `UPGRADE_IMMEDIATELY`},
 		"waf_primary_domain":       Representation{repType: Optional, create: `oracle.com`, update: `java.com`},
 	}
 
@@ -134,11 +136,13 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
+					resource.TestCheckResourceAttr(resourceName, "instance_access_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
+					resource.TestCheckResourceAttr(resourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
 					resource.TestCheckResourceAttr(resourceName, "waf_primary_domain", "oracle.com"),
 
 					func(s *terraform.State) (err error) {
@@ -170,11 +174,13 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
+					resource.TestCheckResourceAttr(resourceName, "instance_access_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
+					resource.TestCheckResourceAttr(resourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
 					resource.TestCheckResourceAttr(resourceName, "waf_primary_domain", "oracle.com"),
 
 					func(s *terraform.State) (err error) {
@@ -201,11 +207,13 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
+					resource.TestCheckResourceAttr(resourceName, "instance_access_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
+					resource.TestCheckResourceAttr(resourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
 					resource.TestCheckResourceAttr(resourceName, "waf_primary_domain", "java.com"),
 
 					func(s *terraform.State) (err error) {
@@ -237,6 +245,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.guid"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.idcs_tenancy"),
+					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_access_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.name", instanceName),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.object_storage_namespace"),
@@ -246,6 +255,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.tenancy_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.time_updated"),
+					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.upgrade_schedule", "UPGRADE_IMMEDIATELY"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.waf_primary_domain", "java.com"),
 				),
 			},
@@ -265,6 +275,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "guid"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "idcs_tenancy"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_access_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "object_storage_namespace"),
@@ -272,6 +283,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state_message"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "waf_primary_domain", "java.com"),
 				),
 			},
