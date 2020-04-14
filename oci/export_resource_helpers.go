@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
@@ -90,7 +91,7 @@ func init() {
 	exportIdentityAvailabilityDomainHints.processDiscoveredResourcesFn = processAvailabilityDomains
 	exportIdentityAvailabilityDomainHints.getHCLStringOverrideFn = getAvailabilityDomainHCLDatasource
 	exportIdentityAuthenticationPolicyHints.processDiscoveredResourcesFn = processIdentityAuthenticationPolicies
-	exportIdentityTagHints.processDiscoveredResourcesFn = processTagDefinitions
+	exportIdentityTagHints.findResourcesOverrideFn = findIdentityTags
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
 	exportObjectStorageBucketHints.requireResourceRefresh = true
@@ -635,6 +636,66 @@ func getObjectStorageBucketId(resource *OCIResource) (string, error) {
 	return getBucketCompositeId(name, namespace), nil
 }
 
+func findIdentityTags(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) ([]*OCIResource, error) {
+	// List on Tags does not return validator, and resource Read requires tagNamespaceId
+	// which is also not returned in Summary response. Tags also do not have composite id in state.
+	// Getting tags using ListTagsRequest and the calling tagResource.Read
+	tagNamespaceId := parent.id
+	request := oci_identity.ListTagsRequest{}
+
+	request.TagNamespaceId = &tagNamespaceId
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+	results := []*OCIResource{}
+
+	response, err := clients.identityClient.ListTags(context.Background(), request)
+	if err != nil {
+		return results, err
+	}
+
+	request.Page = response.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := clients.identityClient.ListTags(context.Background(), request)
+		if err != nil {
+			return results, err
+		}
+
+		response.Items = append(response.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	for _, tag := range response.Items {
+		tagResource := resourcesMap[tfMeta.resourceClass]
+
+		d := tagResource.TestResourceData()
+		d.Set("tag_namespace_id", parent.id)
+		d.Set("name", tag.Name)
+
+		if err := tagResource.Read(d, clients); err != nil {
+			return results, err
+		}
+
+		resource := &OCIResource{
+			compartmentId:    parent.compartmentId,
+			sourceAttributes: convertResourceDataToMap(tagResource.Schema, d),
+			rawResource:      tag,
+			TerraformResource: TerraformResource{
+				id:             d.Id(),
+				terraformClass: tfMeta.resourceClass,
+				terraformName:  fmt.Sprintf("%s_%s", parent.parent.terraformName, *tag.Name),
+			},
+			getHclStringFn: getHclStringFromGenericMap,
+			parent:         parent,
+		}
+
+		results = append(results, resource)
+	}
+
+	return results, nil
+
+}
+
 func findLoadBalancerListeners(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) ([]*OCIResource, error) {
 	loadBalancerId := parent.sourceAttributes["load_balancer_id"].(string)
 	backendSetName := parent.sourceAttributes["name"].(string)
@@ -688,14 +749,6 @@ func findLoadBalancerListeners(clients *OracleClients, tfMeta *TerraformResource
 	}
 
 	return results, nil
-}
-
-func processTagDefinitions(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
-	for _, resource := range resources {
-		resource.sourceAttributes["tag_namespace_id"] = resource.parent.id
-		resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.parent.id, resource.sourceAttributes["name"].(string))
-	}
-	return resources, nil
 }
 
 func processNetworkSecurityGroupRules(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {

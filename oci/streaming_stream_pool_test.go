@@ -41,19 +41,35 @@ var (
 	}
 
 	streamPoolRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: `MyStreamPool`, update: `name2`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"kafka_settings": RepresentationGroup{Optional, streamPoolKafkaSettingsRepresentation},
+		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
+		"name":                      Representation{repType: Required, create: `MyStreamPool`, update: `name2`},
+		"custom_encryption_key":     RepresentationGroup{Optional, streamPoolCustomEncryptionKeyRepresentation},
+		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"kafka_settings":            RepresentationGroup{Optional, streamPoolKafkaSettingsRepresentation},
+		"private_endpoint_settings": RepresentationGroup{Optional, streamPoolPrivateEndpointSettingsRepresentation},
+	}
+	streamPoolCustomEncryptionKeyRepresentation = map[string]interface{}{
+		"kms_key_id": Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 	streamPoolKafkaSettingsRepresentation = map[string]interface{}{
 		"auto_create_topics_enable": Representation{repType: Optional, create: `false`, update: `true`},
 		"log_retention_hours":       Representation{repType: Optional, create: `25`, update: `30`},
 		"num_partitions":            Representation{repType: Optional, create: `10`, update: `11`},
 	}
+	streamPoolPrivateEndpointSettingsRepresentation = map[string]interface{}{
+		"nsg_ids":             Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"private_endpoint_ip": Representation{repType: Optional, create: `10.0.0.5`},
+		"subnet_id":           Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
+	}
 
-	StreamPoolResourceDependencies = DefinedTagsDependencies
+	StreamPoolResourceDependencies = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 )
 
 func TestStreamingStreamPoolResource_basic(t *testing.T) {
@@ -107,6 +123,8 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Create, streamPoolRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -115,6 +133,9 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.log_retention_hours", "25"),
 					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.num_partitions", "10"),
 					resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
+					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
+					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -139,6 +160,8 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -147,6 +170,9 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.log_retention_hours", "25"),
 					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.num_partitions", "10"),
 					resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
+					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
+					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -166,6 +192,8 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Update, streamPoolRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -174,6 +202,9 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.log_retention_hours", "30"),
 					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.num_partitions", "11"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
+					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -203,6 +234,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.is_private"),
 					resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.name", "name2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.time_created"),
@@ -217,15 +249,21 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_pool_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "custom_encryption_key.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_encryption_key.0.key_state"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "endpoint_fqdn"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_private"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.0.auto_create_topics_enable", "true"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "kafka_settings.0.bootstrap_servers"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.0.log_retention_hours", "30"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.0.num_partitions", "11"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_settings.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
