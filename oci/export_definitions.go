@@ -1,6 +1,7 @@
 package oci
 
 import (
+	oci_bds "github.com/oracle/oci-go-sdk/bds"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -8,6 +9,16 @@ import (
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportBdsBdsInstanceHints = &TerraformResourceHints{
+	resourceClass:        "oci_bds_bds_instance",
+	datasourceClass:      "oci_bds_bds_instances",
+	datasourceItemsAttr:  "bds_instances",
+	resourceAbbreviation: "bds_instance",
+	discoverableLifecycleStates: []string{
+		string(oci_bds.BdsInstanceLifecycleStateActive),
+	},
+}
+
 var exportCoreBootVolumeHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_boot_volume",
 	datasourceClass:      "oci_core_boot_volumes",

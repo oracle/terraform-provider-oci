@@ -493,6 +493,8 @@ func buildGenerateConfigSteps(compartmentId *string, services []string, configPr
 
 			vars["compartment_ocid"] = ""
 			referenceMap[*compartmentId] = "${var.compartment_ocid}"
+		} else {
+			return result, fmt.Errorf("[DEBUG] TerraformResourceGraph not found for '%s'", mode)
 		}
 	}
 
