@@ -1,4 +1,8 @@
 ## 3.72.0 (Unreleased)
+
+### Added
+- Support for resource discovery in Big Data service
+
 ## 3.71.0 (April 16, 2020)
 
 ### Added

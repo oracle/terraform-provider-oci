@@ -62,6 +62,8 @@ func init() {
 	exportLoadBalancerPathRouteSetHints.processDiscoveredResourcesFn = processLoadBalancerPathRouteSets
 	exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
 
+	exportBdsBdsInstanceHints.requireResourceRefresh = true
+
 	exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
 	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
@@ -351,6 +353,12 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 				"namespace": "namespace",
 			},
 		},
+	},
+}
+
+var bdsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportBdsBdsInstanceHints},
 	},
 }
 
