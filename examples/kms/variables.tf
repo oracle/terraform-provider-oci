@@ -13,6 +13,10 @@ variable "key_display_name" {
   default = "Key C"
 }
 
+variable "vault_display_name" {
+  default = "Vault C"
+}
+
 variable "key_key_shape_algorithm" {
   default = "AES"
 }
@@ -34,6 +38,11 @@ variable "volume_size" {
   default = "50"
 }
 
+variable "vault_type" {
+  type    = "list"
+  default = ["DEFAULT", "VIRTUAL_PRIVATE"]
+}
+
 variable "instance_image_ocid" {
   type = "map"
 
@@ -46,4 +55,26 @@ variable "instance_image_ocid" {
     eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
     uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
   }
+}
+
+variable "virtual_vault_ids" {
+  type = "map"
+
+  default = {
+    us-phoenix-1 = ""
+    us-ashburn-1 = ""
+  }
+}
+
+variable "destination" {
+  type    = "list"
+  default = ["BUCKET", "PRE_AUTHENTICATED_REQUEST_URI"]
+}
+
+variable "key_restore_trigger" {
+  default = false
+}
+
+variable "vault_restore_trigger" {
+  default = false
 }

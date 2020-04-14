@@ -217,6 +217,7 @@ func TestKmsVaultResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_endpoint"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "restored_from_vault_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "vault_type", "VIRTUAL_PRIVATE"),

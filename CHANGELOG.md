@@ -3,6 +3,7 @@
 ### Added
 - Support for update `license_model` in `oci_database_db_system`
 - Support for ADB-S Version Upgrade 19c (manual)
+- Support restore feature for key and vault
 
 ### Fixed
 - Fix `streaming_stream_pool_resource` send empty key

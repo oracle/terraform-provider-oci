@@ -41,3 +41,39 @@ data "oci_core_volumes" "test_volumes" {
     values = ["${oci_core_volume.my_volume.id}"]
   }
 }
+
+//bucket object details where key was backed up
+/*data "oci_objectstorage_object" "key_backup_object" {
+  #Required
+  bucket    = "bucket-name"
+  namespace = "namespace"
+  object    = "object"
+}*/
+
+
+//bucket object details where vault was backed up
+/*data "oci_objectstorage_object" "vault_backup_object" {
+  #Required
+  bucket    = "bucket-name"
+  namespace = "namespace"
+  object    = "object"
+}*/
+
+
+//Pre-authenticated-request details for key backup
+/*data "oci_objectstorage_preauthrequest" "key_backup_preauthenticated_request" {
+  #Required
+  bucket    = "bucket-name"
+  namespace = "namespace"
+  par_id    = "par_id"
+}*/
+
+
+//Pre-authenticated-request for vault backup
+/*data "oci_objectstorage_preauthrequest" "vault_backup_preauthenticated_request" {
+  #Required
+  bucket    = "bucket-name"
+  namespace = "namespace"
+  par_id    = "par_id"
+}*/
+

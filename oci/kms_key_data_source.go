@@ -105,6 +105,10 @@ func (s *KmsKeyDataSourceCrud) SetData() error {
 		s.D.Set("key_shape", nil)
 	}
 
+	if s.Res.RestoredFromKeyId != nil {
+		s.D.Set("restored_from_key_id", *s.Res.RestoredFromKeyId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

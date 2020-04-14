@@ -88,6 +88,10 @@ func (s *KmsVaultDataSourceCrud) SetData() error {
 		s.D.Set("management_endpoint", *s.Res.ManagementEndpoint)
 	}
 
+	if s.Res.RestoredFromVaultId != nil {
+		s.D.Set("restored_from_vault_id", *s.Res.RestoredFromVaultId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
