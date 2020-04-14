@@ -48,6 +48,10 @@ func DatabaseAutonomousDbVersionsDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_free_tier_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"version": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -131,6 +135,10 @@ func (s *DatabaseAutonomousDbVersionsDataSourceCrud) SetData() error {
 
 		if r.IsDedicated != nil {
 			autonomousDbVersion["is_dedicated"] = *r.IsDedicated
+		}
+
+		if r.IsFreeTierEnabled != nil {
+			autonomousDbVersion["is_free_tier_enabled"] = *r.IsFreeTierEnabled
 		}
 
 		if r.Version != nil {
