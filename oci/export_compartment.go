@@ -129,8 +129,16 @@ func RunExportCommand(args *ExportCommandArgs) error {
 	if err := d.Set(authAttrName, getEnvSettingWithDefault(authAttrName, authAPIKeySetting)); err != nil {
 		return err
 	}
-	if err := d.Set(regionAttrName, getEnvSettingWithBlankDefault(regionAttrName)); err != nil {
+	if err := d.Set(configFileProfileAttrName, getEnvSettingWithBlankDefault(configFileProfileAttrName)); err != nil {
 		return err
+	}
+	region := getEnvSettingWithBlankDefault(regionAttrName)
+
+	// Do not set empty region - used in client Host creation
+	if region != "" {
+		if err := d.Set(regionAttrName, region); err != nil {
+			return err
+		}
 	}
 	if err := d.Set(userOcidAttrName, getEnvSettingWithBlankDefault(userOcidAttrName)); err != nil {
 		return err

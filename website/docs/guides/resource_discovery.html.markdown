@@ -13,13 +13,13 @@ Beginning with version 3.50, the terraform-oci-provider can be run as a command 
 
 The latest version of the terraform-oci-provider can be downloaded using `terraform init` or by going to https://releases.hashicorp.com/terraform-provider-oci/
 
-### Prerequisites
+### Authentication
 To discover resources in your compartment, the terraform-oci-provider will need authentication information about the user, tenancy, and region with which to discover
 the resources. It is recommended to specify a user that has access to inspect and read the resources to discover. 
 
-By default, the user authentication information is retrieved from a configuration file. For details on setting this up, see [SDK and CLI configuration file](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm)
+Resource discovery supports API Key based authentication and Instance Principal based authentication.
 
-In the absence of a configuration file, the authentication information can also be specified using the following environment variables:
+The authentication information can be specified using the following environment variables:
 
 ```
 export TF_VAR_tenancy_ocid=<value>
@@ -35,6 +35,21 @@ If your private key is password-encrypted, you may also need to specify a passwo
 ```
 export TF_VAR_private_key_password=<password for private key>
 ```
+
+The authentication information can also be specified using a configuration file. For details on setting this up, see [SDK and CLI configuration file](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm)
+A non-default profile can be set using environment variable: 
+
+```
+export TF_VAR_config_file_profile=<value>
+``` 
+
+
+If the parameters have multiple sources, the priority will be in the following order: 
+
+    Environment variables
+    Non-default profile
+    DEFAULT profile
+
 
 ### Usage
 
