@@ -1,4 +1,8 @@
 ## 3.73.0 (Unreleased)
+
+### Added
+- Support for Start/Stop `oci_integration_integration_instance`
+
 ## 3.72.0 (April 22, 2020)
 
 ### Added

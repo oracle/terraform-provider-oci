@@ -28,6 +28,7 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	idcs_at = "${var.integration_instance_idcs_at}"
+	state = "${var.integration_instance_target_state}"
 }
 ```
 
@@ -43,6 +44,7 @@ The following arguments are supported:
 * `integration_instance_type` - (Required) (Updatable) Standard or Enterprise type
 * `is_byol` - (Required) (Updatable) Bring your own license.
 * `message_packs` - (Required) (Updatable) The number of configured message packs
+* `state` - (Optional) (Updatable) The target state for the instance. Could be set to ACTIVE or INACTIVE
 
 
 ** IMPORTANT **

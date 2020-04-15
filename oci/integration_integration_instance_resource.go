@@ -8,6 +8,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform/helper/validation"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -79,8 +81,14 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:             schema.TypeString,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_integration.IntegrationInstanceLifecycleStateActive),
+					string(oci_integration.IntegrationInstanceLifecycleStateInactive),
+				}, true),
 			},
 			"state_message": {
 				Type:     schema.TypeString,
@@ -103,7 +111,30 @@ func createIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 	sync.D = d
 	sync.Client = m.(*OracleClients).integrationInstanceClient
 
-	return CreateResource(d, sync)
+	var powerOff = false
+	if configState, ok := sync.D.GetOkExists("state"); ok {
+		wantedState := oci_integration.IntegrationInstanceLifecycleStateEnum(strings.ToUpper(configState.(string)))
+		if wantedState == oci_integration.IntegrationInstanceLifecycleStateInactive {
+			powerOff = true
+		}
+	}
+
+	if error := CreateResource(d, sync); error != nil {
+		return error
+	}
+
+	if powerOff {
+		return powerOffIntegrationInstance(d, sync)
+	}
+
+	return nil
+}
+
+func powerOffIntegrationInstance(d *schema.ResourceData, sync *IntegrationIntegrationInstanceResourceCrud) error {
+	if err := sync.StopIntegerationInstance(); err != nil {
+		return err
+	}
+	return ReadResource(sync)
 }
 
 func readIntegrationIntegrationInstance(d *schema.ResourceData, m interface{}) error {
@@ -119,7 +150,43 @@ func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 	sync.D = d
 	sync.Client = m.(*OracleClients).integrationInstanceClient
 
-	return UpdateResource(d, sync)
+	// Start/Stop Integration instance
+	powerOn, powerOff := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_integration.IntegrationInstanceLifecycleStateActive == oci_integration.IntegrationInstanceLifecycleStateEnum(wantedState) {
+			powerOn = true
+		} else if oci_integration.IntegrationInstanceLifecycleStateInactive == oci_integration.IntegrationInstanceLifecycleStateEnum(wantedState) {
+			powerOff = true
+		} else {
+			return fmt.Errorf("[ERROR] Invalid state input for update %v", wantedState)
+		}
+	}
+
+	if powerOn {
+		if err := sync.StartIntegerationInstance(); err != nil {
+			return err
+		}
+		if err := sync.D.Set("state", oci_integration.IntegrationInstanceLifecycleStateActive); err != nil {
+			return err
+		}
+	}
+
+	if err := UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	if powerOff {
+		if err := sync.StopIntegerationInstance(); err != nil {
+			return err
+		}
+		if err := sync.D.Set("state", oci_integration.IntegrationInstanceLifecycleStateInactive); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func deleteIntegrationIntegrationInstance(d *schema.ResourceData, m interface{}) error {
@@ -493,4 +560,50 @@ func (s *IntegrationIntegrationInstanceResourceCrud) updateCompartment(compartme
 		return err
 	}
 	return nil
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) StartIntegerationInstance() error {
+	state := oci_integration.IntegrationInstanceLifecycleStateActive
+	if err := s.Get(); err != nil {
+		return err
+	}
+	if s.Res.LifecycleState == state {
+		fmt.Printf("[WARN] The Integration instance already in the wanted state: %v", state)
+		return nil
+	}
+	request := oci_integration.StartIntegrationInstanceRequest{}
+
+	tmp := s.D.Id()
+	request.IntegrationInstanceId = &tmp
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	if _, err := s.Client.StartIntegrationInstance(context.Background(), request); err != nil {
+		return err
+	}
+	resourceChangedFunc := func() bool { return s.Res.LifecycleState == state }
+
+	return WaitForResourceCondition(s, resourceChangedFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) StopIntegerationInstance() error {
+	state := oci_integration.IntegrationInstanceLifecycleStateInactive
+	if err := s.Get(); err != nil {
+		return err
+	}
+	if s.Res.LifecycleState == state {
+		fmt.Printf("[WARN] The Integration instance already in the wanted state: %v", state)
+		return nil
+	}
+	request := oci_integration.StopIntegrationInstanceRequest{}
+
+	tmp := s.D.Id()
+	request.IntegrationInstanceId = &tmp
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	if _, err := s.Client.StopIntegrationInstance(context.Background(), request); err != nil {
+		return err
+	}
+	resourceChangedFunc := func() bool { return s.Res.LifecycleState == state }
+
+	return WaitForResourceCondition(s, resourceChangedFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
