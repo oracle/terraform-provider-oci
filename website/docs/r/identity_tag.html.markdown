@@ -101,6 +101,6 @@ The following attributes are exported:
 Tags can be imported using the `tagNamespaceId` and `tagName`, e.g.
 
 ```
-$ terraform import oci_identity_tag.test_tag "tagNamespaces/{tagNamespaceId}/tags/{tagName}"
+$ terraform import oci_identity_tag.test_tag "tagNamespaces/{tagNamespaceId}/tags/{tagName}" 
 ```
 

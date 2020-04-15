@@ -91,7 +91,19 @@ func OceOceInstanceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"instance_access_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"instance_usage_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"upgrade_schedule": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -240,6 +252,10 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 		request.IdcsAccessToken = &tmp
 	}
 
+	if instanceAccessType, ok := s.D.GetOkExists("instance_access_type"); ok {
+		request.InstanceAccessType = oci_oce.CreateOceInstanceDetailsInstanceAccessTypeEnum(instanceAccessType.(string))
+	}
+
 	if instanceUsageType, ok := s.D.GetOkExists("instance_usage_type"); ok {
 		request.InstanceUsageType = oci_oce.CreateOceInstanceDetailsInstanceUsageTypeEnum(instanceUsageType.(string))
 	}
@@ -262,6 +278,10 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 	if tenancyName, ok := s.D.GetOkExists("tenancy_name"); ok {
 		tmp := tenancyName.(string)
 		request.TenancyName = &tmp
+	}
+
+	if upgradeSchedule, ok := s.D.GetOkExists("upgrade_schedule"); ok {
+		request.UpgradeSchedule = oci_oce.OceInstanceUpgradeScheduleEnum(upgradeSchedule.(string))
 	}
 
 	if wafPrimaryDomain, ok := s.D.GetOkExists("waf_primary_domain"); ok {
@@ -515,6 +535,8 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 		s.D.Set("idcs_tenancy", *s.Res.IdcsTenancy)
 	}
 
+	s.D.Set("instance_access_type", s.Res.InstanceAccessType)
+
 	s.D.Set("instance_usage_type", s.Res.InstanceUsageType)
 
 	if s.Res.Name != nil {
@@ -548,6 +570,8 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
+	s.D.Set("upgrade_schedule", s.Res.UpgradeSchedule)
 
 	if s.Res.WafPrimaryDomain != nil {
 		s.D.Set("waf_primary_domain", *s.Res.WafPrimaryDomain)

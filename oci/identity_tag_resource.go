@@ -376,6 +376,16 @@ func (s *IdentityTagResourceCrud) Update() error {
 			baseObject = details
 			request.Validator = baseObject
 		}
+	} else {
+		// For testing only- When Update() is called from Create() and there is no validator in config (Required create)
+		// remove the validator for an imported tag as Step 0 of test expects tag without validator
+		importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+		if importIfExists {
+			var baseObject oci_identity.BaseTagDefinitionValidator
+			details := oci_identity.DefaultTagDefinitionValidator{}
+			baseObject = details
+			request.Validator = baseObject
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")

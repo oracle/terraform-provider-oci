@@ -332,6 +332,9 @@ func deleteTestChild(d *schema.ResourceData, m interface{}) error {
 func initResourceDiscoveryTests() {
 	resourceNameCount = map[string]int{}
 
+	resourcesMap = ResourcesMap()
+	datasourcesMap = DataSourcesMap()
+
 	resourcesMap["oci_test_parent"] = testParentResource()
 	resourcesMap["oci_test_child"] = testChildResource()
 	datasourcesMap["oci_test_parents"] = testParentsDatasource()
@@ -341,6 +344,13 @@ func initResourceDiscoveryTests() {
 	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
 
 	initTestResources()
+}
+
+func cleanupResourceDiscoveryTests() {
+	delete(resourcesMap, "oci_test_parent")
+	delete(resourcesMap, "oci_test_child")
+	delete(datasourcesMap, "oci_test_parents")
+	delete(datasourcesMap, "oci_test_children")
 }
 
 func initTestResources() {
@@ -445,6 +455,7 @@ func generateTestResourceFromSchema(id int, resourceSchemaMap map[string]*schema
 // Basic test to ensure that RunExportCommand generates TF artifacts
 func TestUnitRunExportCommand_basic(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	compartmentId := resourceDiscoveryTestCompartmentOcid
 	outputDir, err := os.Getwd()
 	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
@@ -484,6 +495,7 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 
 func TestUnitRunExportCommand_error(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	compartmentId := resourceDiscoveryTestCompartmentOcid
 	outputDir, err := os.Getwd()
 	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
@@ -510,6 +522,7 @@ func TestUnitRunExportCommand_error(t *testing.T) {
 // Test that resources can be found using a resource dependency graph
 func TestUnitFindResources_basic(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
 	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
@@ -542,6 +555,7 @@ func TestUnitFindResources_basic(t *testing.T) {
 // Test that only targeted ocid resources are exportable
 func TestUnitFindResources_restrictedOcids(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
 	// Parent resources are defined as alwaysExportable. So even if it's not specified in the ocids, it should be exported.
@@ -593,6 +607,7 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 // Test that overriden find function is invoked if a resource has one
 func TestUnitFindResources_overrideFn(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
 	// Create an override function that returns nothing when discovering child test resources
@@ -624,6 +639,7 @@ func TestUnitFindResources_overrideFn(t *testing.T) {
 // Test that process resource function is invoked if a resource has one
 func TestUnitFindResources_processResourceFn(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
 	// Create a processing function that adds a new attribute to every discovered child resource
@@ -717,6 +733,7 @@ func TestUnitGenerateTerraformNameFromResource_basic(t *testing.T) {
 // Test that correct HCL is generated from a discovered test resource
 func TestUnitGetHCLString_basic(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
 	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
@@ -792,6 +809,7 @@ parent_id = "ocid1.parent.abcdefghiklmnop.3"
 // Test that HCL can be generated when optional or required fields are missing
 func TestUnitGetHCLString_missingFields(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
 	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
@@ -833,6 +851,7 @@ func TestUnitGetHCLString_missingFields(t *testing.T) {
 // Test that HCL can be generated with values replaced by interpolation syntax
 func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
 	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)

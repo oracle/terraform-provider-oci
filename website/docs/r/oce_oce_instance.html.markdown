@@ -30,7 +30,9 @@ resource "oci_oce_oce_instance" "test_oce_instance" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = "${var.oce_instance_description}"
 	freeform_tags = {"bar-key"= "value"}
+	instance_access_type = "${var.oce_instance_instance_access_type}"
 	instance_usage_type = "${var.oce_instance_instance_usage_type}"
+	upgrade_schedule = "${var.oce_instance_upgrade_schedule}"
 	waf_primary_domain = "${var.oce_instance_waf_primary_domain}"
 }
 ```
@@ -44,13 +46,14 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) OceInstance description
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `idcs_access_token` - (Required) Identity Cloud Service access token identifying a stripe and service administrator user. 
-        **Note:** The `idcs_access_token` is stored in the Terraform state file.
+* `idcs_access_token` - (Required) Identity Cloud Service access token identifying a stripe and service administrator user
+* `instance_access_type` - (Optional) Flag indicating whether the instance access is private or public
 * `instance_usage_type` - (Optional) Instance type based on its usage
 * `name` - (Required) OceInstance Name
 * `object_storage_namespace` - (Required) Object Storage Namespace of Tenancy
 * `tenancy_id` - (Required) Tenancy Identifier
 * `tenancy_name` - (Required) Tenancy Name
+* `upgrade_schedule` - (Optional) Upgrade schedule type representing service to be upgraded immediately whenever latest version is released or delay upgrade of the service to previous released version 
 * `waf_primary_domain` - (Optional) (Updatable) Web Application Firewall(WAF) primary domain
 
 
@@ -69,6 +72,7 @@ The following attributes are exported:
 * `guid` - Unique GUID identifier that is immutable on creation
 * `id` - Unique identifier that is immutable on creation
 * `idcs_tenancy` - IDCS Tenancy Identifier
+* `instance_access_type` - Flag indicating whether the instance access is private or public
 * `instance_usage_type` - Instance type based on its usage
 * `name` - OceInstance Name
 * `object_storage_namespace` - Object Storage Namespace of tenancy
@@ -79,6 +83,7 @@ The following attributes are exported:
 * `tenancy_name` - Tenancy Name
 * `time_created` - The time the the OceInstance was created. An RFC3339 formatted datetime string
 * `time_updated` - The time the OceInstance was updated. An RFC3339 formatted datetime string
+* `upgrade_schedule` - Upgrade schedule type representing service to be upgraded immediately whenever latest version is released or delay upgrade of the service to previous released version 
 * `waf_primary_domain` - Web Application Firewall(WAF) primary domain
 
 ## Import

@@ -70,11 +70,25 @@ func (s *StreamingStreamPoolDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.CustomEncryptionKey != nil {
+		s.D.Set("custom_encryption_key", []interface{}{CustomEncryptionKeyToMap(s.Res.CustomEncryptionKey)})
+	} else {
+		s.D.Set("custom_encryption_key", nil)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.EndpointFqdn != nil {
+		s.D.Set("endpoint_fqdn", *s.Res.EndpointFqdn)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsPrivate != nil {
+		s.D.Set("is_private", *s.Res.IsPrivate)
+	}
 
 	if s.Res.KafkaSettings != nil {
 		s.D.Set("kafka_settings", []interface{}{KafkaSettingsToMap(s.Res.KafkaSettings)})
@@ -88,6 +102,12 @@ func (s *StreamingStreamPoolDataSourceCrud) SetData() error {
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
+	}
+
+	if s.Res.PrivateEndpointSettings != nil {
+		s.D.Set("private_endpoint_settings", []interface{}{PrivateEndpointSettingsToMap(s.Res.PrivateEndpointSettings, true)})
+	} else {
+		s.D.Set("private_endpoint_settings", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

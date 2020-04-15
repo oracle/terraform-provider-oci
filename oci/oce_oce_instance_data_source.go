@@ -92,6 +92,8 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 		s.D.Set("idcs_tenancy", *s.Res.IdcsTenancy)
 	}
 
+	s.D.Set("instance_access_type", s.Res.InstanceAccessType)
+
 	s.D.Set("instance_usage_type", s.Res.InstanceUsageType)
 
 	if s.Res.Name != nil {
@@ -125,6 +127,8 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
+	s.D.Set("upgrade_schedule", s.Res.UpgradeSchedule)
 
 	if s.Res.WafPrimaryDomain != nil {
 		s.D.Set("waf_primary_domain", *s.Res.WafPrimaryDomain)
