@@ -988,7 +988,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		}
 	}
 
-	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
 	}
