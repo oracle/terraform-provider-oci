@@ -31,12 +31,10 @@ func IdentityRegionSubscriptionsDataSource() *schema.Resource {
 						"region_key": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"tenancy_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional

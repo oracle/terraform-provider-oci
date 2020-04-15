@@ -59,7 +59,6 @@ func MonitoringMetricsDataSource() *schema.Resource {
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -67,20 +66,17 @@ func MonitoringMetricsDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"dimension_filters": {
 							Type:     schema.TypeMap,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem:     schema.TypeString,
 						},
 						"group_by": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -89,19 +85,16 @@ func MonitoringMetricsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"namespace": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"resource_group": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 
 						// Computed

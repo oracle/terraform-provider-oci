@@ -43,12 +43,10 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 						"boot_volume_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"instance_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -56,7 +54,6 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 
 						// Computed
