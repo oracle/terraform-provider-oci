@@ -48,8 +48,15 @@ type OceInstanceSummary struct {
 	// Instance type based on its usage
 	InstanceUsageType OceInstanceSummaryInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
 
+	// Upgrade schedule type representing service to be upgraded immediately whenever latest version is released
+	// or delay upgrade of the service to previous released version
+	UpgradeSchedule OceInstanceUpgradeScheduleEnum `mandatory:"false" json:"upgradeSchedule,omitempty"`
+
 	// Web Application Firewall(WAF) primary domain
 	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
+
+	// Flag indicating whether the instance access is private or public
+	InstanceAccessType OceInstanceSummaryInstanceAccessTypeEnum `mandatory:"false" json:"instanceAccessType,omitempty"`
 
 	// The time the the OceInstance was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -98,6 +105,29 @@ var mappingOceInstanceSummaryInstanceUsageType = map[string]OceInstanceSummaryIn
 func GetOceInstanceSummaryInstanceUsageTypeEnumValues() []OceInstanceSummaryInstanceUsageTypeEnum {
 	values := make([]OceInstanceSummaryInstanceUsageTypeEnum, 0)
 	for _, v := range mappingOceInstanceSummaryInstanceUsageType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// OceInstanceSummaryInstanceAccessTypeEnum Enum with underlying type: string
+type OceInstanceSummaryInstanceAccessTypeEnum string
+
+// Set of constants representing the allowable values for OceInstanceSummaryInstanceAccessTypeEnum
+const (
+	OceInstanceSummaryInstanceAccessTypePublic  OceInstanceSummaryInstanceAccessTypeEnum = "PUBLIC"
+	OceInstanceSummaryInstanceAccessTypePrivate OceInstanceSummaryInstanceAccessTypeEnum = "PRIVATE"
+)
+
+var mappingOceInstanceSummaryInstanceAccessType = map[string]OceInstanceSummaryInstanceAccessTypeEnum{
+	"PUBLIC":  OceInstanceSummaryInstanceAccessTypePublic,
+	"PRIVATE": OceInstanceSummaryInstanceAccessTypePrivate,
+}
+
+// GetOceInstanceSummaryInstanceAccessTypeEnumValues Enumerates the set of values for OceInstanceSummaryInstanceAccessTypeEnum
+func GetOceInstanceSummaryInstanceAccessTypeEnumValues() []OceInstanceSummaryInstanceAccessTypeEnum {
+	values := make([]OceInstanceSummaryInstanceAccessTypeEnum, 0)
+	for _, v := range mappingOceInstanceSummaryInstanceAccessType {
 		values = append(values, v)
 	}
 	return values

@@ -129,6 +129,10 @@ func (s *StreamingStreamPoolsDataSourceCrud) SetData() error {
 			streamPool["id"] = *r.Id
 		}
 
+		if r.IsPrivate != nil {
+			streamPool["is_private"] = *r.IsPrivate
+		}
+
 		if r.Name != nil {
 			streamPool["name"] = *r.Name
 		}

@@ -29,6 +29,22 @@ function check_make_target() {
 }
 
 echo "go version $(go version | awk '{print $3}')"
+local_go_version="$(go version | { read _ _ v _; echo ${v#go}; })"
+provider_go_version=$(<.go-version)
+
+if [[ "$local_go_version" == "$provider_go_version" ]]; then
+ echo "Go version match!"
+else
+    echo "GO version mismatch! You are currently on GO version ${local_go_version} and the expected GO version is ${provider_go_version}"
+    read -p "Do you wish to continue with the Push before synchronizing the GO version (y/n)?" input < /dev/tty
+
+    if [[ "$input" == "y" ]]; then
+        :
+    else
+        echo "Aborting Push"
+        exit 1
+    fi
+fi
 
 check_make_target 2 'vet'
 check_make_target 3 'errcheck'

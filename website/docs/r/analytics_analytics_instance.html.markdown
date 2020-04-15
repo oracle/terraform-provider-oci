@@ -53,7 +53,8 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `idcs_access_token` - (Optional) IDCS access token identifying a stripe and service administrator user. 
 * `license_type` - (Required) (Updatable) The license used for the service. 
-* `name` - (Required) The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed. 
+* `name` - (Required) The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed.
+* `state` - (Optional) (Updatable) The target state for the instance. Could be set to `ACTIVE` or `INACTIVE`. 
 
 
 ** IMPORTANT **
