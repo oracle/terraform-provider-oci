@@ -91,6 +91,7 @@ func (s *DatabaseDbNodesDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
+
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
