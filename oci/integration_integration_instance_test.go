@@ -33,7 +33,7 @@ var (
 	integrationInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"state":          Representation{repType: Optional, create: `Active`},
 		"filter":         RepresentationGroup{Required, integrationInstanceDataSourceFilterRepresentation}}
 	integrationInstanceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -49,6 +49,7 @@ var (
 		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		"idcs_at":                   Representation{repType: Required, create: `${var.idcs_access_token}`},
+		"state":                     Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`},
 	}
 
 	IntegrationInstanceResourceDependencies = DefinedTagsDependencies
@@ -124,6 +125,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
 					resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
 					resource.TestCheckResourceAttr(resourceName, "message_packs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -181,6 +183,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "ENTERPRISE"),
 					resource.TestCheckResourceAttr(resourceName, "is_byol", "true"),
 					resource.TestCheckResourceAttr(resourceName, "message_packs", "11"),
+					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -200,7 +203,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
 
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.compartment_id", compartmentId),
