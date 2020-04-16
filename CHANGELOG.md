@@ -1,4 +1,4 @@
-## 3.71.0 (Unreleased)
+## 3.71.0 (April 16, 2020)
 
 ### Added
 - Support for private customer onboarding and delayed upgrade in `oci_oce_oce_instance`
