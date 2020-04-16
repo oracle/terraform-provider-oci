@@ -48,7 +48,7 @@ The following attributes are exported:
 
 	If you use the default validiator (or don't define a validator), the user applying the tag  enters a value. No additional validation is performed.
 
-	To clear the validator, call UpdateTag with  [DefaultTagDefinitionValidator](/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
+	To clear the validator, call UpdateTag with  [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator).
 	* `validator_type` - Specifies the type of validation: a static value (no validation) or a list.  
 	* `values` - The list of allowed values for a definedTag value. 
 
