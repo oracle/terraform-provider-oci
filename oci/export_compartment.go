@@ -38,6 +38,7 @@ var resourcesMap map[string]*schema.Resource
 var datasourcesMap map[string]*schema.Resource
 var compartmentScopeServices []string
 var isMissingRequiredAttributes bool
+var exportConfigProvider oci_common.ConfigurationProvider
 
 func init() {
 	resourceNameCount = map[string]int{}
@@ -126,33 +127,8 @@ func RunExportCommand(args *ExportCommandArgs) error {
 	}
 	d := r.Data(nil)
 
-	if err := d.Set(authAttrName, getEnvSettingWithDefault(authAttrName, authAPIKeySetting)); err != nil {
-		return err
-	}
-	if err := d.Set(configFileProfileAttrName, getEnvSettingWithBlankDefault(configFileProfileAttrName)); err != nil {
-		return err
-	}
-	region := getEnvSettingWithBlankDefault(regionAttrName)
-
-	// Do not set empty region - used in client Host creation
-	if region != "" {
-		if err := d.Set(regionAttrName, region); err != nil {
-			return err
-		}
-	}
-	if err := d.Set(userOcidAttrName, getEnvSettingWithBlankDefault(userOcidAttrName)); err != nil {
-		return err
-	}
-	if err := d.Set(fingerprintAttrName, getEnvSettingWithBlankDefault(fingerprintAttrName)); err != nil {
-		return err
-	}
-	if err := d.Set(privateKeyAttrName, getEnvSettingWithBlankDefault(privateKeyAttrName)); err != nil {
-		return err
-	}
-	if err := d.Set(privateKeyPathAttrName, getEnvSettingWithBlankDefault(privateKeyPathAttrName)); err != nil {
-		return err
-	}
-	if err := d.Set(privateKeyPasswordAttrName, getEnvSettingWithBlankDefault(privateKeyPasswordAttrName)); err != nil {
+	err := readEnvironmentVars(d)
+	if err != nil {
 		return err
 	}
 
@@ -213,7 +189,7 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	exportConfigProvider = sdkConfigProvider
 	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
 	configureClient, err := buildConfigureClientFn(sdkConfigProvider, httpClient)
 	if err != nil {
@@ -250,7 +226,7 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	}
 
 	args.finalizeServices()
-	generateConfigSteps, err := buildGenerateConfigSteps(args.CompartmentId, args.Services, oci_common.DefaultConfigProvider())
+	generateConfigSteps, err := buildGenerateConfigSteps(args.CompartmentId, args.Services)
 	if err != nil {
 		return err
 	}
@@ -449,10 +425,10 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	return nil
 }
 
-func buildGenerateConfigSteps(compartmentId *string, services []string, configProvider oci_common.ConfigurationProvider) ([]*GenerateConfigStep, error) {
+func buildGenerateConfigSteps(compartmentId *string, services []string) ([]*GenerateConfigStep, error) {
 	result := []*GenerateConfigStep{}
 
-	tenancyId, err := configProvider.TenancyOCID()
+	tenancyId, err := exportConfigProvider.TenancyOCID()
 	if err != nil {
 		return nil, err
 	}
@@ -1051,7 +1027,7 @@ func generateOciResourceFromResourceData(d *schema.ResourceData, rawResource int
 func resolveCompartmentId(clients *OracleClients, compartmentName *string) (*string, error) {
 	req := oci_identity.ListCompartmentsRequest{}
 
-	rootCompartment, err := oci_common.DefaultConfigProvider().TenancyOCID()
+	rootCompartment, err := exportConfigProvider.TenancyOCID()
 	if err != nil {
 		return nil, err
 	}
@@ -1080,4 +1056,37 @@ func resolveCompartmentId(clients *OracleClients, compartmentName *string) (*str
 	}
 
 	return nil, fmt.Errorf("[ERROR] Could not find a compartment named '%s' in your tenancy", *compartmentName)
+}
+
+func readEnvironmentVars(d *schema.ResourceData) error {
+
+	if err := d.Set(authAttrName, getEnvSettingWithDefault(authAttrName, authAPIKeySetting)); err != nil {
+		return err
+	}
+	if err := d.Set(configFileProfileAttrName, getEnvSettingWithBlankDefault(configFileProfileAttrName)); err != nil {
+		return err
+	}
+	// Do not set empty region- if set then client Host will have empty region
+	region := getEnvSettingWithBlankDefault(regionAttrName)
+	if region != "" {
+		if err := d.Set(regionAttrName, region); err != nil {
+			return err
+		}
+	}
+	if err := d.Set(userOcidAttrName, getEnvSettingWithBlankDefault(userOcidAttrName)); err != nil {
+		return err
+	}
+	if err := d.Set(fingerprintAttrName, getEnvSettingWithBlankDefault(fingerprintAttrName)); err != nil {
+		return err
+	}
+	if err := d.Set(privateKeyAttrName, getEnvSettingWithBlankDefault(privateKeyAttrName)); err != nil {
+		return err
+	}
+	if err := d.Set(privateKeyPathAttrName, getEnvSettingWithBlankDefault(privateKeyPathAttrName)); err != nil {
+		return err
+	}
+	if err := d.Set(privateKeyPasswordAttrName, getEnvSettingWithBlankDefault(privateKeyPasswordAttrName)); err != nil {
+		return err
+	}
+	return nil
 }
