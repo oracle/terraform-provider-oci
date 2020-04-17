@@ -15,9 +15,6 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/hashicorp/terraform/command"
-	"github.com/mitchellh/cli"
-
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -422,33 +419,15 @@ func testExportCompartment(id *string, compartmentId *string, exportCommandArgs 
 	if errExport := RunExportCommand(exportCommandArgs); errExport != nil {
 		return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport)
 	}
-	meta := command.Meta{
-		//Color:            true,
-		//GlobalPluginDirs: globalPluginDirs(),
-		//PluginOverrides:  &PluginOverrides,
-		Ui: &cli.BasicUi{
-			Reader:      os.Stdin,
-			Writer:      os.Stdout,
-			ErrorWriter: os.Stderr,
-		},
 
-		//Services: services,
-
-		RunningInAutomation: true,
-		//PluginCacheDir:      config.PluginCacheDir,
-		//OverrideDataDir:     dataDir,
-
-		//ShutdownCh: makeShutdownCh(),
-	}
-	initCmd := command.InitCommand{Meta: meta}
-	var initArgs []string
+	initArgs := []string{"init"}
 	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
 		log.Printf("[INFO] plugin dir: '%s'", pluginDir)
 		initArgs = append(initArgs, fmt.Sprintf("-plugin-dir=%v", pluginDir))
 	}
 	initArgs = append(initArgs, *exportCommandArgs.OutputDir)
-	if errCode := initCmd.Run(initArgs); errCode != 0 {
-		return nil
+	if err := runTerraform(initArgs); err != nil {
+		return err
 	}
 
 	// Need to set the compartment id environment variable for plan step
@@ -466,8 +445,7 @@ func testExportCompartment(id *string, compartmentId *string, exportCommandArgs 
 		}
 	}()
 
-	planCmd := command.PlanCommand{Meta: meta}
-	var planArgs []string
+	planArgs := []string{"plan"}
 	if exportCommandArgs.GenerateState {
 		statefile := fmt.Sprintf(*exportCommandArgs.OutputDir + "/terraform.tfstate")
 		planArgs = append(planArgs, "-detailed-exitcode", fmt.Sprintf("-state=%v", statefile))
@@ -475,12 +453,8 @@ func testExportCompartment(id *string, compartmentId *string, exportCommandArgs 
 
 	planArgs = append(planArgs, *exportCommandArgs.OutputDir)
 
-	if errCode := planCmd.Run(planArgs); errCode != 0 {
-		if errCode == 1 {
-			return fmt.Errorf("[ERROR] terraform plan command failed")
-		} else {
-			return fmt.Errorf("[ERROR] terraform plan command return non-empty diff")
-		}
+	if err := runTerraform(planArgs); err != nil {
+		return err
 	}
 	return nil
 }

@@ -12,11 +12,7 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/hashicorp/terraform/backend/local"
-	"github.com/mitchellh/cli"
-
 	"github.com/hashicorp/hcl/hcl/fmtcmd"
-	"github.com/hashicorp/terraform/command"
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -24,6 +20,7 @@ import (
 
 const (
 	exportUserAgentFormatter        = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform-oci-exporter/%s)"
+	defaultStateFilename            = "terraform.tfstate"
 	defaultTmpStateFile             = "terraform.tfstate.tmp"
 	varsFile                        = "vars.tf"
 	missingRequiredAttributeWarning = `Warning: There are one or more 'Required' attributes for which a value could not be discovered.
@@ -233,7 +230,7 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 		return fmt.Errorf("[ERROR] no output directory specified")
 	}
 
-	stateOutputFile := fmt.Sprintf("%s%s%s", *args.OutputDir, string(os.PathSeparator), local.DefaultStateFilename)
+	stateOutputFile := fmt.Sprintf("%s%s%s", *args.OutputDir, string(os.PathSeparator), defaultStateFilename)
 	tmpStateOutputFile := fmt.Sprintf("%s%s%s", *args.OutputDir, string(os.PathSeparator), defaultTmpStateFile)
 
 	log.Printf("Running export command\n")
@@ -355,24 +352,15 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 
 	if args.GenerateState {
 		// Run init and import commands
-		meta := command.Meta{
-			Ui: &cli.BasicUi{
-				Reader:      os.Stdin,
-				Writer:      os.Stdout,
-				ErrorWriter: os.Stderr,
-			},
-			RunningInAutomation: true,
-		}
 
-		initCmd := command.InitCommand{Meta: meta}
-		var initArgs []string
+		initArgs := []string{"init"}
 		if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
 			log.Printf("[INFO] plugin dir: '%s'", pluginDir)
 			initArgs = append(initArgs, fmt.Sprintf("-plugin-dir=%v", pluginDir))
 		}
 		initArgs = append(initArgs, *args.OutputDir)
-		if errCode := initCmd.Run(initArgs); errCode != 0 {
-			return nil
+		if err := runTerraform(initArgs); err != nil {
+			return fmt.Errorf("[ERROR] terraform init command failed: %s", err)
 		}
 
 		if err := os.RemoveAll(tmpStateOutputFile); err != nil {
@@ -394,20 +382,20 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 				continue
 			}
 
-			importCmd := command.ImportCommand{Meta: meta}
 			importId := resource.importId
 			if len(importId) == 0 {
 				importId = resource.id
 			}
 
 			importArgs := []string{
+				"import",
 				fmt.Sprintf("-config=%s", *args.OutputDir),
 				fmt.Sprintf("-state=%s", tmpStateOutputFile),
 				resource.getTerraformReference(),
 				importId,
 			}
-			if errCode := importCmd.Run(importArgs); errCode != 0 {
-				return fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
+			if err := runTerraform(importArgs); err != nil {
+				return fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s", resource.getTerraformReference(), importId, err)
 			}
 		}
 
