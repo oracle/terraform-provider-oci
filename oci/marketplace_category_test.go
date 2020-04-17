@@ -13,7 +13,9 @@ import (
 )
 
 var (
-	categoryDataSourceRepresentation = map[string]interface{}{}
+	categoryDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+	}
 
 	CategoryResourceConfig = ""
 )
