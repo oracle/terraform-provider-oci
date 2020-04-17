@@ -59,6 +59,11 @@ type UpdateBucketDetails struct {
 	// there is one, from the bucket. (The bucket will continue to be encrypted, but with an encryption key managed
 	// by Oracle.)
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The versioning status on the bucket. If in state `Enabled`, multiple versions of the same object can be kept in the bucket.
+	// When the object is overwritten or deleted, previous versions will still be available. When versioning is `Suspended`, the previous versions will still remain but new versions will no longer be created when overwitten or deleted.
+	// Versioning cannot be disabled on a bucket once enabled.
+	Versioning UpdateBucketDetailsVersioningEnum `mandatory:"false" json:"versioning,omitempty"`
 }
 
 func (m UpdateBucketDetails) String() string {
@@ -85,6 +90,29 @@ var mappingUpdateBucketDetailsPublicAccessType = map[string]UpdateBucketDetailsP
 func GetUpdateBucketDetailsPublicAccessTypeEnumValues() []UpdateBucketDetailsPublicAccessTypeEnum {
 	values := make([]UpdateBucketDetailsPublicAccessTypeEnum, 0)
 	for _, v := range mappingUpdateBucketDetailsPublicAccessType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// UpdateBucketDetailsVersioningEnum Enum with underlying type: string
+type UpdateBucketDetailsVersioningEnum string
+
+// Set of constants representing the allowable values for UpdateBucketDetailsVersioningEnum
+const (
+	UpdateBucketDetailsVersioningEnabled   UpdateBucketDetailsVersioningEnum = "Enabled"
+	UpdateBucketDetailsVersioningSuspended UpdateBucketDetailsVersioningEnum = "Suspended"
+)
+
+var mappingUpdateBucketDetailsVersioning = map[string]UpdateBucketDetailsVersioningEnum{
+	"Enabled":   UpdateBucketDetailsVersioningEnabled,
+	"Suspended": UpdateBucketDetailsVersioningSuspended,
+}
+
+// GetUpdateBucketDetailsVersioningEnumValues Enumerates the set of values for UpdateBucketDetailsVersioningEnum
+func GetUpdateBucketDetailsVersioningEnumValues() []UpdateBucketDetailsVersioningEnum {
+	values := make([]UpdateBucketDetailsVersioningEnum, 0)
+	for _, v := range mappingUpdateBucketDetailsVersioning {
 		values = append(values, v)
 	}
 	return values

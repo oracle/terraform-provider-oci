@@ -84,6 +84,9 @@ type CommitMultipartUploadResponse struct {
 
 	// The time the object was last modified, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.29).
 	LastModified *common.SDKTime `presentIn:"header" name:"last-modified"`
+
+	// VersionId of the newly created object
+	VersionId *string `presentIn:"header" name:"version-id"`
 }
 
 func (response CommitMultipartUploadResponse) String() string {

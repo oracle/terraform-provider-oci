@@ -23,6 +23,9 @@ type RestoreObjectsDetails struct {
 	// The number of hours for which this object will be restored.
 	// By default objects will be restored for 24 hours. You can instead configure the duration using the hours parameter.
 	Hours *int `mandatory:"false" json:"hours"`
+
+	// The versionId of the object to restore. Current object version is used by default.
+	VersionId *string `mandatory:"false" json:"versionId"`
 }
 
 func (m RestoreObjectsDetails) String() string {

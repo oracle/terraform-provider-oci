@@ -39,6 +39,9 @@ type CopyObjectDetails struct {
 	// with a given name is the version of that object storing a specified ETag.
 	SourceObjectIfMatchETag *string `mandatory:"false" json:"sourceObjectIfMatchETag"`
 
+	// VersionId of the object to copy. If not provided then current version is copied by default.
+	SourceVersionId *string `mandatory:"false" json:"sourceVersionId"`
+
 	// The entity tag (ETag) to match against that of the destination object (an object intended to be overwritten).
 	// Used to confirm that the destination object stored under a given name is the version of that object
 	// storing a specified entity tag.

@@ -36,6 +36,9 @@ type VolumeBackupPolicy struct {
 	// The date and time the volume backup policy was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The paired destination region (pre-defined by oracle) for scheduled cross region backup calls. Example `us-ashburn-1`
+	DestinationRegion *string `mandatory:"false" json:"destinationRegion"`
+
 	// The OCID of the compartment that contains the volume backup.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 

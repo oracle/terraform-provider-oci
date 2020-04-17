@@ -3,7 +3,7 @@
 
 // Database Service API
 //
-// The API for the Database Service.
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -32,6 +32,9 @@ type MaintenanceWindow struct {
 	// The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
 	// - 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	HoursOfDay []int `mandatory:"false" json:"hoursOfDay"`
+
+	// Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4.
+	LeadTimeInWeeks *int `mandatory:"false" json:"leadTimeInWeeks"`
 }
 
 func (m MaintenanceWindow) String() string {

@@ -45,6 +45,19 @@ type InstanceConfigurationCreateVolumeDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The OCID of the Key Management key to assign as the master encryption key
+	// for the volume.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB,
+	// representing the Block Volume service's elastic performance options.
+	// See Block Volume Elastic Performance (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+	// Allowed values:
+	//   * `0`: Represents Lower Cost option.
+	//   * `10`: Represents Balanced option.
+	//   * `20`: Represents Higher Performance option.
+	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
+
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -67,6 +80,8 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 		DefinedTags        map[string]map[string]interface{}        `json:"definedTags"`
 		DisplayName        *string                                  `json:"displayName"`
 		FreeformTags       map[string]string                        `json:"freeformTags"`
+		KmsKeyId           *string                                  `json:"kmsKeyId"`
+		VpusPerGB          *int64                                   `json:"vpusPerGB"`
 		SizeInGBs          *int64                                   `json:"sizeInGBs"`
 		SourceDetails      instanceconfigurationvolumesourcedetails `json:"sourceDetails"`
 	}{}
@@ -87,6 +102,10 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 	m.DisplayName = model.DisplayName
 
 	m.FreeformTags = model.FreeformTags
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.VpusPerGB = model.VpusPerGB
 
 	m.SizeInGBs = model.SizeInGBs
 

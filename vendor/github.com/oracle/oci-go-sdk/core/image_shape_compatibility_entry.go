@@ -24,6 +24,8 @@ type ImageShapeCompatibilityEntry struct {
 
 	// The shape name.
 	Shape *string `mandatory:"true" json:"shape"`
+
+	OcpuConstraints *ImageOcpuConstraints `mandatory:"false" json:"ocpuConstraints"`
 }
 
 func (m ImageShapeCompatibilityEntry) String() string {

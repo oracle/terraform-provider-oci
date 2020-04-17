@@ -3,7 +3,7 @@
 
 // Database Service API
 //
-// The API for the Database Service.
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -28,6 +28,9 @@ type AutonomousDbVersionSummary struct {
 
 	// A URL that points to a detailed description of the Autonomous Database version.
 	Details *string `mandatory:"false" json:"details"`
+
+	// True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases.
+	IsFreeTierEnabled *bool `mandatory:"false" json:"isFreeTierEnabled"`
 }
 
 func (m AutonomousDbVersionSummary) String() string {

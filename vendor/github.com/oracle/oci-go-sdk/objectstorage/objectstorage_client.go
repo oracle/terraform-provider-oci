@@ -1451,6 +1451,56 @@ func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, requ
 	return response, err
 }
 
+// ListObjectVersions Lists the object versions in a bucket.
+// To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
+// talk to an administrator. If you are an administrator who needs to write policies to give users access, see
+// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+func (client ObjectStorageClient) ListObjectVersions(ctx context.Context, request ListObjectVersionsRequest) (response ListObjectVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listObjectVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListObjectVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListObjectVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListObjectVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListObjectVersionsResponse")
+	}
+	return
+}
+
+// listObjectVersions implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) listObjectVersions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/objectversions")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListObjectVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListObjects Lists the objects in a bucket.
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
@@ -2001,6 +2051,7 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 // objects created before the time of the API call will be re-encrypted. The call can take a long time, depending on how many
 // objects are in the bucket and how big they are. This API returns a work request ID that you can use to retrieve the status
 // of the work request task.
+// All the versions of objects will be re-encrypted whether versioning is enabled or suspended at the bucket.
 func (client ObjectStorageClient) ReencryptBucket(ctx context.Context, request ReencryptBucketRequest) (response ReencryptBucketResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -3,6 +3,9 @@
 ### Added
 - Support for resource discovery in Big Data service
 
+### Notes
+`oci_streaming_stream_archiver` data source and resource were not supported by the service and removed from the provider since v3.72.0
+
 ## 3.71.0 (April 16, 2020)
 
 ### Added
