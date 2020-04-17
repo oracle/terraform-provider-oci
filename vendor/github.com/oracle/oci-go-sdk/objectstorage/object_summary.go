@@ -34,6 +34,9 @@ type ObjectSummary struct {
 
 	// The current entity tag (ETag) for the object.
 	Etag *string `mandatory:"false" json:"etag"`
+
+	// The date and time the object was modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
+	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 }
 
 func (m ObjectSummary) String() string {

@@ -68,6 +68,8 @@ type UpdateInstanceDetails struct {
 	// If the instance is running when you change the shape, the instance is rebooted.
 	// Example: `VM.Standard2.1`
 	Shape *string `mandatory:"false" json:"shape"`
+
+	ShapeConfig *UpdateInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 }
 
 func (m UpdateInstanceDetails) String() string {

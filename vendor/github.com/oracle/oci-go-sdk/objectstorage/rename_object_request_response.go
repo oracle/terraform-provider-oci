@@ -61,6 +61,9 @@ type RenameObjectResponse struct {
 
 	// The time the object was modified, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.29).
 	LastModified *common.SDKTime `presentIn:"header" name:"last-modified"`
+
+	// VersionId of the renamed object
+	VersionId *string `presentIn:"header" name:"version-id"`
 }
 
 func (response RenameObjectResponse) String() string {

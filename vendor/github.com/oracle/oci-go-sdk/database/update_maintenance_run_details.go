@@ -3,7 +3,7 @@
 
 // Database Service API
 //
-// The API for the Database Service.
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
 package database
@@ -17,6 +17,9 @@ type UpdateMaintenanceRunDetails struct {
 
 	// If set to false, skips the Maintenance Run.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+
+	// The scheduled date and time of the Maintenance Run to update.
+	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
 }
 
 func (m UpdateMaintenanceRunDetails) String() string {

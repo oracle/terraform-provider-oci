@@ -124,6 +124,8 @@ type Instance struct {
 	// Custom metadata that you provide.
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
 
+	ShapeConfig *InstanceShapeConfig `mandatory:"false" json:"shapeConfig"`
+
 	// Details for creating an instance
 	SourceDetails InstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
 
@@ -158,6 +160,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		LaunchMode               InstanceLaunchModeEnum            `json:"launchMode"`
 		LaunchOptions            *LaunchOptions                    `json:"launchOptions"`
 		Metadata                 map[string]string                 `json:"metadata"`
+		ShapeConfig              *InstanceShapeConfig              `json:"shapeConfig"`
 		SourceDetails            instancesourcedetails             `json:"sourceDetails"`
 		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
 		AgentConfig              *InstanceAgentConfig              `json:"agentConfig"`
@@ -197,6 +200,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.LaunchOptions = model.LaunchOptions
 
 	m.Metadata = model.Metadata
+
+	m.ShapeConfig = model.ShapeConfig
 
 	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {

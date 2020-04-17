@@ -29,6 +29,9 @@ type DeleteObjectRequest struct {
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
+	// VersionId used to identify a particular version of the object
+	VersionId *string `mandatory:"false" contributesTo:"query" name:"versionId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -63,6 +66,13 @@ type DeleteObjectResponse struct {
 
 	// The time the object was deleted, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.29).
 	LastModified *common.SDKTime `presentIn:"header" name:"last-modified"`
+
+	// The `versionId` of the delete marker created as a result of the DELETE Object.
+	// If the request contains a specific `versionId`, then this response header will be the same as the requested `versionId` of the object that was deleted.
+	VersionId *string `presentIn:"header" name:"version-id"`
+
+	// This is `true` if the deleted object is a delete marker, otherwise `false`
+	IsDeleteMarker *bool `presentIn:"header" name:"is-delete-marker"`
 }
 
 func (response DeleteObjectResponse) String() string {

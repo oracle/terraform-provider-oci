@@ -61,6 +61,9 @@ type CreateBucketDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key
 	// Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// Set the versioning status on the bucket. By default, a bucket is created with versioning `Disabled`. Use this option to enable versioning during bucket creation. Objects in a version enabled bucket are protected from overwrites and deletions. Previous versions of the same object will be available in the bucket.
+	Versioning CreateBucketDetailsVersioningEnum `mandatory:"false" json:"versioning,omitempty"`
 }
 
 func (m CreateBucketDetails) String() string {
@@ -110,6 +113,29 @@ var mappingCreateBucketDetailsStorageTier = map[string]CreateBucketDetailsStorag
 func GetCreateBucketDetailsStorageTierEnumValues() []CreateBucketDetailsStorageTierEnum {
 	values := make([]CreateBucketDetailsStorageTierEnum, 0)
 	for _, v := range mappingCreateBucketDetailsStorageTier {
+		values = append(values, v)
+	}
+	return values
+}
+
+// CreateBucketDetailsVersioningEnum Enum with underlying type: string
+type CreateBucketDetailsVersioningEnum string
+
+// Set of constants representing the allowable values for CreateBucketDetailsVersioningEnum
+const (
+	CreateBucketDetailsVersioningEnabled  CreateBucketDetailsVersioningEnum = "Enabled"
+	CreateBucketDetailsVersioningDisabled CreateBucketDetailsVersioningEnum = "Disabled"
+)
+
+var mappingCreateBucketDetailsVersioning = map[string]CreateBucketDetailsVersioningEnum{
+	"Enabled":  CreateBucketDetailsVersioningEnabled,
+	"Disabled": CreateBucketDetailsVersioningDisabled,
+}
+
+// GetCreateBucketDetailsVersioningEnumValues Enumerates the set of values for CreateBucketDetailsVersioningEnum
+func GetCreateBucketDetailsVersioningEnumValues() []CreateBucketDetailsVersioningEnum {
+	values := make([]CreateBucketDetailsVersioningEnum, 0)
+	for _, v := range mappingCreateBucketDetailsVersioning {
 		values = append(values, v)
 	}
 	return values

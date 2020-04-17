@@ -23,6 +23,9 @@ type GetObjectRequest struct {
 	// Example: `test/object1.log`
 	ObjectName *string `mandatory:"true" contributesTo:"path" name:"objectName"`
 
+	// VersionId used to identify a particular version of the object
+	VersionId *string `mandatory:"false" contributesTo:"query" name:"versionId"`
+
 	// The entity tag (ETag) to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
 	// For uploading a part, this is the entity tag of the target part.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
@@ -38,6 +41,20 @@ type GetObjectRequest struct {
 	// Optional byte range to fetch, as described in RFC 7233 (https://tools.ietf.org/html/rfc7233#section-2.1).
 	// Note that only a single range of bytes is supported.
 	Range *string `mandatory:"false" contributesTo:"header" name:"range"`
+
+	// The optional header that specifies "AES256" as the encryption algorithm. For more information, see
+	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourecryptionkeys.htm).
+	OpcSseCustomerAlgorithm *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-algorithm"`
+
+	// The optional header that specifies the base64-encoded 256-bit encryption key to use to encrypt or
+	// decrypt the data. For more information, see
+	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourecryptionkeys.htm).
+	OpcSseCustomerKey *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key"`
+
+	// The optional header that specifies the base64-encoded SHA256 hash of the encryption key. This
+	// value is used to check the integrity of the encryption key. For more information, see
+	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourecryptionkeys.htm).
+	OpcSseCustomerKeySha256 *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key-sha256"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -120,6 +137,9 @@ type GetObjectResponse struct {
 
 	// Time that the object is returned to the archived state. This field is only present for restored objects.
 	TimeOfArchival *common.SDKTime `presentIn:"header" name:"time-of-archival"`
+
+	// VersionId of the object requested
+	VersionId *string `presentIn:"header" name:"version-id"`
 
 	// Flag to indicate whether or not the object was modified.  If this is true,
 	// the getter for the object itself will return null.  Callers should check this
