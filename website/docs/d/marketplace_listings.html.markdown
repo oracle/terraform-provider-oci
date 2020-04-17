@@ -21,6 +21,7 @@ data "oci_marketplace_listings" "test_listings" {
 
 	#Optional
 	category = "${var.listing_category}"
+	compartment_id = "${var.compartment_id}"
 	is_featured = "${var.listing_is_featured}"
 	listing_id = "${oci_marketplace_listing.test_listing.id}"
 	name = "${var.listing_name}"
@@ -35,6 +36,7 @@ data "oci_marketplace_listings" "test_listings" {
 The following arguments are supported:
 
 * `category` - (Optional) Name of the product category or categories. If you specify multiple categories, then Marketplace returns any listing with one or more matching categories. 
+* `compartment_id` - (Optional) The unique identifier for the compartment.
 * `is_featured` - (Optional) Indicates whether to show only featured listings. If this is set to `false` or is omitted, then all listings will be returned. 
 * `listing_id` - (Optional) The unique identifier for the listing.
 * `name` - (Optional) The name of the listing.

@@ -18,6 +18,10 @@ func MarketplaceCategoriesDataSource() *schema.Resource {
 		Read: readMarketplaceCategories,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"categories": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -59,6 +63,11 @@ func (s *MarketplaceCategoriesDataSourceCrud) VoidState() {
 
 func (s *MarketplaceCategoriesDataSourceCrud) Get() error {
 	request := oci_marketplace.ListCategoriesRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
 
