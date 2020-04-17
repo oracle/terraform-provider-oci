@@ -3,6 +3,7 @@
 ### Added
 - Support harvesting sources with Private IPs for resource `datacatalog`
 - Support `dataflow_archive_uri` for service `dataflow`
+- Support for Data Integration Service
 
 ## 3.81.0 (June 17, 2020)
 
