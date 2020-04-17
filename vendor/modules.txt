@@ -500,6 +500,7 @@ github.com/oracle/oci-go-sdk/core
 github.com/oracle/oci-go-sdk/database
 github.com/oracle/oci-go-sdk/datacatalog
 github.com/oracle/oci-go-sdk/dataflow
+github.com/oracle/oci-go-sdk/dataintegration
 github.com/oracle/oci-go-sdk/datasafe
 github.com/oracle/oci-go-sdk/datascience
 github.com/oracle/oci-go-sdk/dns
