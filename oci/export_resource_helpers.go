@@ -105,6 +105,7 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 }
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
+	"bds":                 bdsResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
