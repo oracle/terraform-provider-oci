@@ -64,5 +64,8 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+DNS records can be imported using the `zone`, `domain`, `rtype`, `record_hash` and, optionally, the `compartment_id`, e.g.
 
+```
+$ terraform import module.dp_dns.oci_dns_record.test_record "zones/{zone}/records/{domain}/rtypes/{rtype}/recordHashes/{record_hash}[/compartmentId/{compartment_id}]"
+```

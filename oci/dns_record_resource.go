@@ -12,6 +12,8 @@ package oci
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -27,6 +29,25 @@ func init() {
 
 func DnsRecordResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: func(d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
+				zone, domain, rtype, recordHash, compartmentId, err := parseDnsRecordCompositeId(d.Id())
+				if err != nil {
+					return nil, err
+				}
+
+				d.Set("zone_name_or_id", zone)
+				d.Set("domain", domain)
+				d.Set("rtype", rtype)
+				d.Set("record_hash", recordHash)
+				d.SetId(recordHash)
+				if compartmentId != "" {
+					d.Set("compartment_id", compartmentId)
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createDnsRecord,
 		Read:     readDnsRecord,
@@ -391,4 +412,24 @@ func normalizeRData(rtype, rdata string) string {
 	}
 
 	return rdata
+}
+
+func parseDnsRecordCompositeId(compositeId string) (zone, domain, rtype, recordHash, compartmentId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("^(zones/.*/records/.*/rtypes/.*/recordHashes/[a-f0-9]{32}?)(?:/compartmentIds/.*)?", compositeId)
+	if !match || (len(parts) != 8 && len(parts) != 10) {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+
+	zone, _ = url.PathUnescape(parts[1])
+	domain, _ = url.PathUnescape(parts[3])
+	rtype, _ = url.PathUnescape(parts[5])
+	recordHash, _ = url.PathUnescape(parts[7])
+	compartmentId = ""
+	if len(parts) == 10 {
+		compartmentId, _ = url.PathUnescape(parts[9])
+	}
+
+	return
 }
