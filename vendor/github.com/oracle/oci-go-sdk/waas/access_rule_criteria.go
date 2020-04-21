@@ -1,4 +1,5 @@
-// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2020, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Web Application Acceleration and Security Services API
@@ -98,17 +99,17 @@ var mappingAccessRuleCriteriaCondition = map[string]AccessRuleCriteriaConditionE
 	"URL_DOES_NOT_START_WITH":    AccessRuleCriteriaConditionUrlDoesNotStartWith,
 	"URL_PART_DOES_NOT_CONTAIN":  AccessRuleCriteriaConditionUrlPartDoesNotContain,
 	"URL_PART_DOES_NOT_END_WITH": AccessRuleCriteriaConditionUrlPartDoesNotEndWith,
-	"IP_IS":                AccessRuleCriteriaConditionIpIs,
-	"IP_IS_NOT":            AccessRuleCriteriaConditionIpIsNot,
-	"IP_IN_LIST":           AccessRuleCriteriaConditionIpInList,
-	"IP_NOT_IN_LIST":       AccessRuleCriteriaConditionIpNotInList,
-	"HTTP_HEADER_CONTAINS": AccessRuleCriteriaConditionHttpHeaderContains,
-	"HTTP_METHOD_IS":       AccessRuleCriteriaConditionHttpMethodIs,
-	"HTTP_METHOD_IS_NOT":   AccessRuleCriteriaConditionHttpMethodIsNot,
-	"COUNTRY_IS":           AccessRuleCriteriaConditionCountryIs,
-	"COUNTRY_IS_NOT":       AccessRuleCriteriaConditionCountryIsNot,
-	"USER_AGENT_IS":        AccessRuleCriteriaConditionUserAgentIs,
-	"USER_AGENT_IS_NOT":    AccessRuleCriteriaConditionUserAgentIsNot,
+	"IP_IS":                      AccessRuleCriteriaConditionIpIs,
+	"IP_IS_NOT":                  AccessRuleCriteriaConditionIpIsNot,
+	"IP_IN_LIST":                 AccessRuleCriteriaConditionIpInList,
+	"IP_NOT_IN_LIST":             AccessRuleCriteriaConditionIpNotInList,
+	"HTTP_HEADER_CONTAINS":       AccessRuleCriteriaConditionHttpHeaderContains,
+	"HTTP_METHOD_IS":             AccessRuleCriteriaConditionHttpMethodIs,
+	"HTTP_METHOD_IS_NOT":         AccessRuleCriteriaConditionHttpMethodIsNot,
+	"COUNTRY_IS":                 AccessRuleCriteriaConditionCountryIs,
+	"COUNTRY_IS_NOT":             AccessRuleCriteriaConditionCountryIsNot,
+	"USER_AGENT_IS":              AccessRuleCriteriaConditionUserAgentIs,
+	"USER_AGENT_IS_NOT":          AccessRuleCriteriaConditionUserAgentIsNot,
 }
 
 // GetAccessRuleCriteriaConditionEnumValues Enumerates the set of values for AccessRuleCriteriaConditionEnum
