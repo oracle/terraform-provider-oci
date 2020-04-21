@@ -117,7 +117,8 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 			return 0
 		}
 	case 409:
-		if e != nil && strings.Contains(e.Error(), "InvalidatedRetryToken") {
+		if e != nil && (strings.Contains(e.Error(), "InvalidatedRetryToken") ||
+			strings.Contains(e.Error(), "BucketNotEmpty")) {
 			return 0
 		}
 	case 412:

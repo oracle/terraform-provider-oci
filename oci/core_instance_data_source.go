@@ -139,6 +139,12 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("shape", *s.Res.Shape)
 	}
 
+	if s.Res.ShapeConfig != nil {
+		s.D.Set("shape_config", []interface{}{InstanceShapeConfigToMap(s.Res.ShapeConfig)})
+	} else {
+		s.D.Set("shape_config", nil)
+	}
+
 	bootVolume, bootVolumeErr := s.getBootVolume()
 	if bootVolumeErr != nil {
 		log.Printf("[WARN] Could not get the boot volume: %q", bootVolumeErr)

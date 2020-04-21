@@ -4,9 +4,11 @@ package oci
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
@@ -37,6 +39,12 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
+			},
+			"time_scheduled": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: timeDiffSuppressFunction,
 			},
 
 			// Computed
@@ -77,10 +85,6 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_ended": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_scheduled": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -170,6 +174,14 @@ func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 		request.MaintenanceRunId = &tmp
 	}
 
+	if timeScheduled, ok := s.D.GetOkExists("time_scheduled"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeScheduled.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeScheduled = &oci_common.SDKTime{Time: tmp}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateMaintenanceRun(context.Background(), request)
@@ -208,6 +220,14 @@ func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.MaintenanceRunId = &tmp
+
+	if timeScheduled, ok := s.D.GetOkExists("time_scheduled"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeScheduled.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeScheduled = &oci_common.SDKTime{Time: tmp}
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
@@ -254,7 +274,7 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 	}
 
 	if s.Res.TimeScheduled != nil {
-		s.D.Set("time_scheduled", s.Res.TimeScheduled.String())
+		s.D.Set("time_scheduled", s.Res.TimeScheduled.Format(time.RFC3339Nano))
 	}
 
 	if s.Res.TimeStarted != nil {

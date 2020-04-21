@@ -104,6 +104,17 @@ The following attributes are exported:
 
 	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
+* `shape_config` - 
+	* `gpu_description` - A short description of the GPUs available to this instance. This field is `null` if `gpus` is `0`. 
+	* `gpus` - The number of GPUs available to this instance. 
+	* `local_disk_description` - A short description of the local disks available to this instance. This field is `null` if `localDisks` is equal to `0`. 
+	* `local_disks` - The number of local disks available to the instance. 
+	* `local_disks_total_size_in_gbs` - The size of the local disks, aggregated, in gigabytes. This field is `null` if `localDisks` is equal to `0`. 
+	* `max_vnic_attachments` - The maximum number of VNIC attachments for the instance. 
+	* `memory_in_gbs` - The total amount of memory, in gigabytes, available to the instance. 
+	* `networking_bandwidth_in_gbps` - The networking bandwidth, in gigabits per second, available to the instance. 
+	* `ocpus` - The total number of OCPUs available to the instance. 
+	* `processor_description` - A short description of the processors available to the instance. 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.

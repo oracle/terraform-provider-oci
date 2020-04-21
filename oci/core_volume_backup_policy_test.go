@@ -30,11 +30,12 @@ var (
 	}
 
 	volumeBackupPolicyRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `BackupPolicy1`, update: `BackupPolicy2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"schedules":      RepresentationGroup{Optional, volumeBackupPolicySchedulesRepresentation},
+		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
+		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"destination_region": Representation{repType: Optional, create: `${var.destination_region}`},
+		"display_name":       Representation{repType: Optional, create: `BackupPolicy1`, update: `BackupPolicy2`},
+		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"schedules":          RepresentationGroup{Optional, volumeBackupPolicySchedulesRepresentation},
 	}
 	volumeBackupPolicySchedulesRepresentation = map[string]interface{}{
 		"backup_type":       Representation{repType: Required, create: `INCREMENTAL`, update: `FULL`},
@@ -61,6 +62,9 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	destinationRegion := getEnvSettingWithBlankDefault("destination_region")
+	destinationRegionVariableStr := fmt.Sprintf("variable \"destination_region\" { default = \"%s\" }\n", destinationRegion)
 
 	resourceName := "oci_core_volume_backup_policy.test_volume_backup_policy"
 	datasourceName := "data.oci_core_volume_backup_policies.test_volume_backup_policies"
@@ -94,11 +98,12 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies +
+				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
 					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "BackupPolicy1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -132,11 +137,12 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies +
+				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
 					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "BackupPolicy2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -169,7 +175,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_volume_backup_policies", "test_volume_backup_policies", Optional, Update, volumeBackupPolicyDataSourceRepresentation) +
-					compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies +
+					compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
 					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -177,6 +183,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.destination_region"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.display_name", "BackupPolicy2"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.id"),

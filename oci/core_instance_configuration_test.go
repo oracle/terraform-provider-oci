@@ -72,19 +72,29 @@ var (
 		"attach_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsBlockVolumesAttachDetailsRepresentation},
 		"volume_id":      Representation{repType: Optional, create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
+	instanceShapeConfigRepresentation = map[string]interface{}{
+		"ocpus": Representation{repType: Optional, create: "1"},
+	}
 	instanceConfigurationInstanceDetailsLaunchDetailsRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Optional, create: `${var.compartment_id}`},
-		"create_vnic_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        Representation{repType: Optional, create: `backend-servers`},
-		"extended_metadata":   Representation{repType: Optional, create: map[string]string{"extendedMetadata": "extendedMetadata"}, update: map[string]string{"extendedMetadata2": "extendedMetadata2"}},
-		"fault_domain":        Representation{repType: Optional, create: `FAULT-DOMAIN-2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"ipxe_script":         Representation{repType: Optional, create: `ipxeScript`},
-		"metadata":            Representation{repType: Optional, create: map[string]string{"metadata": "metadata"}, update: map[string]string{"metadata2": "metadata2"}},
-		"shape":               Representation{repType: Optional, create: InstanceConfigurationVmShape},
-		"source_details":      RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation},
+		"availability_domain":                 Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                      Representation{repType: Optional, create: `${var.compartment_id}`},
+		"create_vnic_details":                 RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation},
+		"defined_tags":                        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                        Representation{repType: Optional, create: `backend-servers`},
+		"extended_metadata":                   Representation{repType: Optional, create: map[string]string{"extendedMetadata": "extendedMetadata"}, update: map[string]string{"extendedMetadata2": "extendedMetadata2"}},
+		"fault_domain":                        Representation{repType: Optional, create: `FAULT-DOMAIN-2`},
+		"freeform_tags":                       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"ipxe_script":                         Representation{repType: Optional, create: `ipxeScript`},
+		"metadata":                            Representation{repType: Optional, create: map[string]string{"metadata": "metadata"}, update: map[string]string{"metadata2": "metadata2"}},
+		"shape":                               Representation{repType: Optional, create: InstanceConfigurationVmShape},
+		"source_details":                      RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation},
+		"agent_config":                        RepresentationGroup{Optional, instanceAgentConfigRepresentation},
+		"launch_options":                      RepresentationGroup{Optional, instanceLaunchOptionsRepresentation},
+		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
+		"dedicated_vm_host_id":                Representation{repType: Optional, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
+		"launch_mode":                         Representation{repType: Optional, create: `NATIVE`},
+		"preferred_maintenance_action":        Representation{repType: Optional, create: `LIVE_MIGRATE`},
+		"shape_config":                        RepresentationGroup{Optional, instanceShapeConfigRepresentation},
 	}
 	instanceConfigurationInstanceDetailsSecondaryVnicsRepresentation = map[string]interface{}{
 		"create_vnic_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation},
@@ -106,6 +116,8 @@ var (
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"size_in_gbs":         Representation{repType: Optional, create: `10`},
 		"source_details":      RepresentationGroup{Optional, instanceConfigurationInstanceDetailsBlockVolumesCreateDetailsSourceDetailsRepresentation},
+		"vpus_per_gb":         Representation{repType: Optional, create: `10`},
+		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 	instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_public_ip":       Representation{repType: Optional, create: `false`},
@@ -123,7 +135,9 @@ var (
 	}
 	instanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_public_ip":       Representation{repType: Optional, create: `false`},
+		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 		"display_name":           Representation{repType: Optional, create: `backend-servers`},
+		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}},
 		"hostname_label":         Representation{repType: Optional, create: `hostnameLabel`},
 		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"private_ip":             Representation{repType: Optional, create: `privateIp`},
@@ -136,6 +150,7 @@ var (
 	}
 
 	InstanceConfigurationResourceDependencies = generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostRepresentation) +
 		OciImageIdsVariable +
 		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
@@ -143,7 +158,8 @@ var (
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		VolumeBackupPolicyDependency +
 		AvailabilityDomainConfig +
-		DefinedTagsDependencies
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 	InstanceConfigurationVmShape = `VM.Standard2.1`
 
 	InstanceConfigurationResourceImageConfig = generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
@@ -254,6 +270,14 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.boot_volume_size_in_gbs", "55"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.source_details.0.image_id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_options.0.network_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.dedicated_vm_host_id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_mode", "NATIVE"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.preferred_maintenance_action", "LIVE_MIGRATE"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.ocpus", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -337,6 +361,8 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.create_details.0.source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.block_volumes.0.create_details.0.source_details.0.id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.create_details.0.source_details.0.type", "volume"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.create_details.0.vpus_per_gb", "10"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.block_volumes.0.create_details.0.kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.block_volumes.0.volume_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -396,7 +422,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.assign_public_ip", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.display_name", "backend-servers"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.nsg_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", "privateIp"),
@@ -427,7 +455,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.assign_public_ip", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.display_name", "backend-servers"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.nsg_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", "privateIp"),
@@ -482,7 +512,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.assign_public_ip", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.display_name", "backend-servers"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.nsg_ids.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", "privateIp"),

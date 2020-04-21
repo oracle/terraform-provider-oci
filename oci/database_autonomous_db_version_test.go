@@ -67,6 +67,7 @@ func TestDatabaseAutonomousDbVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_versions.0.db_workload"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_versions.0.details"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_versions.0.is_dedicated"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_versions.0.is_free_tier_enabled"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_versions.0.version"),
 				),
 			},

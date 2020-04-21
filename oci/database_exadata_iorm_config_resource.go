@@ -27,15 +27,11 @@ func DatabaseExadataIormConfigResource() *schema.Resource {
 		Delete:   deleteDatabaseExadataIormConfig,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"db_system_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"db_plans": {
 				Type:     schema.TypeSet,
 				Required: true,
 				MinItems: 1,
-				Set:      dbPlanHashCodeForSets,
+				Set:      dbPlansHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -49,6 +45,7 @@ func DatabaseExadataIormConfigResource() *schema.Resource {
 							Required:     true,
 							ValidateFunc: validation.IntBetween(1, 32),
 						},
+
 						// Optional
 
 						// Computed
@@ -58,6 +55,10 @@ func DatabaseExadataIormConfigResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"db_system_id": {
+				Type:     schema.TypeString,
+				Required: true,
 			},
 
 			// Optional
@@ -206,7 +207,7 @@ func (s *DatabaseExadataIormConfigResourceCrud) Update() error {
 		interfaces := set.List()
 		tmp := make([]oci_database.DbIormConfigUpdateDetail, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := dbPlanHashCodeForSets(interfaces[i])
+			stateDataIndex := dbPlansHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_plans", stateDataIndex)
 			converted, err := s.mapTodbIormConfigUpdateDetail(fieldKeyFormat)
 			if err != nil {
@@ -238,33 +239,17 @@ func (s *DatabaseExadataIormConfigResourceCrud) Update() error {
 	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatabaseExadataIormConfigResourceCrud) Delete() error {
-	request := oci_database.UpdateExadataIormConfigRequest{}
-
-	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
-		tmp := dbSystemId.(string)
-		request.DbSystemId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-
-	response, err := s.Client.UpdateExadataIormConfig(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response.ExadataIormConfig
-	return nil
-}
-
 func (s *DatabaseExadataIormConfigResourceCrud) SetData() error {
+
+	s.D.SetId(s.D.Get("db_system_id").(string))
+
 	dbPlans := []interface{}{}
 	for _, item := range s.Res.DbPlans {
 		if configMap := dbIormConfigToMap(item); configMap != nil {
 			dbPlans = append(dbPlans, configMap)
 		}
 	}
-	s.D.Set("db_plans", schema.NewSet(dbPlanHashCodeForSets, dbPlans))
+	s.D.Set("db_plans", schema.NewSet(dbPlansHashCodeForSets, dbPlans))
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -273,8 +258,6 @@ func (s *DatabaseExadataIormConfigResourceCrud) SetData() error {
 	s.D.Set("objective", s.Res.Objective)
 
 	s.D.Set("state", s.Res.LifecycleState)
-
-	s.D.SetId(s.D.Get("db_system_id").(string))
 
 	return nil
 }
@@ -319,17 +302,33 @@ func dbIormConfigToMap(obj oci_database.DbIormConfig) map[string]interface{} {
 	return result
 }
 
-func dbPlanHashCodeForSets(v interface{}) int {
+func dbPlansHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
-
 	if dbName, ok := m["db_name"]; ok && dbName != "" {
 		buf.WriteString(fmt.Sprintf("%v-", dbName))
 	}
-
 	if share, ok := m["share"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", share))
 	}
-
 	return hashcode.String(buf.String())
+}
+
+func (s *DatabaseExadataIormConfigResourceCrud) Delete() error {
+	request := oci_database.UpdateExadataIormConfigRequest{}
+
+	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
+		tmp := dbSystemId.(string)
+		request.DbSystemId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateExadataIormConfig(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.ExadataIormConfig
+	return nil
 }

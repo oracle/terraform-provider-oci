@@ -38,6 +38,10 @@ variable "instance_shape" {
   default = "VM.Standard2.1"
 }
 
+variable "instance_ocpus" {
+  default = 1
+}
+
 variable "instance_image_ocid" {
   type = "map"
 
@@ -70,6 +74,10 @@ resource "oci_core_instance" "test_instance" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TestInstance${count.index}"
   shape               = "${var.instance_shape}"
+
+  shape_config {
+    ocpus = "${var.instance_ocpus}"
+  }
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.test_subnet.id}"
