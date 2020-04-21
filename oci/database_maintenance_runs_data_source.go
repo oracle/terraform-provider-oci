@@ -4,6 +4,7 @@ package oci
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -168,7 +169,7 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 		}
 
 		if r.TimeScheduled != nil {
-			maintenanceRun["time_scheduled"] = r.TimeScheduled.String()
+			maintenanceRun["time_scheduled"] = r.TimeScheduled.Format(time.RFC3339Nano)
 		}
 
 		if r.TimeStarted != nil {

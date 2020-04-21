@@ -43,6 +43,11 @@ func CoreVolumeBackupPolicyResource() *schema.Resource {
 				DiffSuppressFunc: definedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"destination_region": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -182,6 +187,11 @@ func (s *CoreVolumeBackupPolicyResourceCrud) Create() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if destinationRegion, ok := s.D.GetOkExists("destination_region"); ok {
+		tmp := destinationRegion.(string)
+		request.DestinationRegion = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -248,6 +258,11 @@ func (s *CoreVolumeBackupPolicyResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if destinationRegion, ok := s.D.GetOkExists("destination_region"); ok {
+		tmp := destinationRegion.(string)
+		request.DestinationRegion = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -308,6 +323,10 @@ func (s *CoreVolumeBackupPolicyResourceCrud) SetData() error {
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.DestinationRegion != nil {
+		s.D.Set("destination_region", *s.Res.DestinationRegion)
 	}
 
 	if s.Res.DisplayName != nil {

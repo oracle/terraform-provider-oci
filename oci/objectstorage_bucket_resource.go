@@ -147,6 +147,11 @@ func ObjectStorageBucketResource() *schema.Resource {
 					},
 				},
 			},
+			"versioning": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"approximate_count": {
@@ -305,6 +310,10 @@ func (s *ObjectStorageBucketResourceCrud) Create() error {
 		request.StorageTier = oci_object_storage.CreateBucketDetailsStorageTierEnum(storageTier.(string))
 	}
 
+	if versioning, ok := s.D.GetOkExists("versioning"); ok {
+		request.Versioning = oci_object_storage.CreateBucketDetailsVersioningEnum(versioning.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.CreateBucket(context.Background(), request)
@@ -444,6 +453,10 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 	//	request.Namespace = &tmp
 	//}
 
+	if versioning, ok := s.D.GetOkExists("versioning"); ok && s.D.HasChange("versioning") {
+		request.Versioning = oci_object_storage.UpdateBucketDetailsVersioningEnum(versioning.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.UpdateBucket(context.Background(), request)
@@ -559,6 +572,8 @@ func (s *ObjectStorageBucketResourceCrud) SetData() error {
 	}
 
 	s.D.Set("retention_rules", retentionRulesResToSet(s.RetentionRuleRes, false))
+
+	s.D.Set("versioning", s.Res.Versioning)
 
 	return nil
 }

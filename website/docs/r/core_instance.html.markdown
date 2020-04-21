@@ -95,6 +95,11 @@ resource "oci_core_instance" "test_instance" {
 		network_type = "${var.instance_launch_options_network_type}"
 		remote_data_volume_type = "${var.instance_launch_options_remote_data_volume_type}"
 	}
+	shape_config {
+
+		#Optional
+		ocpus = "${var.instance_shape_config_ocpus}"
+    }
 	metadata = {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 		user_data = "${base64encode(file(var.custom_bootstrap_file_name))}"
@@ -140,9 +145,9 @@ The following arguments are supported:
 
 		Example: `bminstance-1` 
 	* `nsg_ids` - (Optional) (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
-	* `private_ip` - (Optional) A private IP address of your choice to assign to the VNIC. Value is ignored if a `vlanId` value is specified. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This is the VNIC's *primary* private IP address. The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp).  Example: `10.0.3.3` 
+	* `private_ip` - (Optional) A private IP address of your choice to assign to the VNIC. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This is the VNIC's *primary* private IP address. The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp). Example: `10.0.3.3` 
 	* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).  Example: `true` 
-	* `subnet_id` - (Required) The OCID of the subnet to create the VNIC in. When launching an instance, use this `subnetId` instead of the deprecated `subnetId` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/requests/LaunchInstanceDetails). Alternatively, the `vlanId` can be used instead of a `subnetId`. At least one `subnetId` value is required if this field is populated; if you provide both, the values must match. If both the `vlanId` and `subnetId` fields are provided, the launch will fail. 
+	* `subnet_id` - (Required) The OCID of the subnet to create the VNIC in. When launching an instance, use this `subnetId` instead of the deprecated `subnetId` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/requests/LaunchInstanceDetails). At least one of them is required; if you provide both, the values must match. 
 * `dedicated_vm_host_id` - (Optional) The OCID of dedicated VM host. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
@@ -230,6 +235,8 @@ The following arguments are supported:
 * `shape` - (Required) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
+* `shape_config` - (Optional) (Updatable) 
+	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
 * `source_details` - (Optional) Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
 	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `kms_key_id` - (Applicable when source_type=image) The OCID of the Key Management key to assign as the master encryption key for the boot volume.
@@ -316,6 +323,17 @@ The following attributes are exported:
 
 	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
+* `shape_config` - 
+	* `gpu_description` - A short description of the GPUs available to this instance. This field is `null` if `gpus` is `0`. 
+	* `gpus` - The number of GPUs available to this instance. 
+	* `local_disk_description` - A short description of the local disks available to this instance. This field is `null` if `localDisks` is equal to `0`. 
+	* `local_disks` - The number of local disks available to the instance. 
+	* `local_disks_total_size_in_gbs` - The size of the local disks, aggregated, in gigabytes. This field is `null` if `localDisks` is equal to `0`. 
+	* `max_vnic_attachments` - The maximum number of VNIC attachments for the instance. 
+	* `memory_in_gbs` - The total amount of memory, in gigabytes, available to the instance. 
+	* `networking_bandwidth_in_gbps` - The networking bandwidth, in gigabits per second, available to the instance. 
+	* `ocpus` - The total number of OCPUs available to the instance. 
+	* `processor_description` - A short description of the processors available to the instance. 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.

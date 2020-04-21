@@ -290,6 +290,63 @@ func CoreInstanceResource() *schema.Resource {
 				Optional: true,
 				Elem:     schema.TypeString,
 			},
+			"shape_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"ocpus": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"gpu_description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"gpus": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"local_disk_description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"local_disks": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"local_disks_total_size_in_gbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"max_vnic_attachments": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"memory_in_gbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"networking_bandwidth_in_gbps": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"processor_description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"preserve_boot_volume": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -652,6 +709,17 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		request.Shape = &tmp
 	}
 
+	if shapeConfig, ok := s.D.GetOkExists("shape_config"); ok {
+		if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_config", 0)
+			tmp, err := s.mapToLaunchInstanceShapeConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ShapeConfig = &tmp
+		}
+	}
+
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
 		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
@@ -706,15 +774,14 @@ func (s *CoreInstanceResourceCrud) Update() error {
 			}
 		}
 	}
-	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
-		oldRaw, newRaw := s.D.GetChange("shape")
-		if newRaw != "" && oldRaw != "" {
-			err := s.updateShape(shape)
-			if err != nil {
-				return err
-			}
-		}
+
+	// update shape and shape config
+	err := s.updateShape()
+
+	if err != nil {
+		return err
 	}
+
 	request := oci_core.UpdateInstanceRequest{}
 
 	if agentConfig, ok := s.D.GetOkExists("agent_config"); ok {
@@ -911,6 +978,12 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
+	}
+
+	if s.Res.ShapeConfig != nil {
+		s.D.Set("shape_config", []interface{}{InstanceShapeConfigToMap(s.Res.ShapeConfig)})
+	} else {
+		s.D.Set("shape_config", []interface{}{})
 	}
 
 	bootVolume, bootVolumeErr := s.getBootVolume()
@@ -1349,6 +1422,74 @@ func InstanceAgentConfigToMap(obj *oci_core.InstanceAgentConfig) map[string]inte
 	return result
 }
 
+func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.LaunchInstanceShapeConfigDetails, error) {
+	result := oci_core.LaunchInstanceShapeConfigDetails{}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *CoreInstanceResourceCrud) mapToUpdateInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.UpdateInstanceShapeConfigDetails, error) {
+	result := oci_core.UpdateInstanceShapeConfigDetails{}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func InstanceShapeConfigToMap(obj *oci_core.InstanceShapeConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.GpuDescription != nil {
+		result["gpu_description"] = string(*obj.GpuDescription)
+	}
+
+	if obj.Gpus != nil {
+		result["gpus"] = int(*obj.Gpus)
+	}
+
+	if obj.LocalDiskDescription != nil {
+		result["local_disk_description"] = string(*obj.LocalDiskDescription)
+	}
+
+	if obj.LocalDisks != nil {
+		result["local_disks"] = int(*obj.LocalDisks)
+	}
+
+	if obj.LocalDisksTotalSizeInGBs != nil {
+		result["local_disks_total_size_in_gbs"] = float32(*obj.LocalDisksTotalSizeInGBs)
+	}
+
+	if obj.MaxVnicAttachments != nil {
+		result["max_vnic_attachments"] = int(*obj.MaxVnicAttachments)
+	}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.NetworkingBandwidthInGbps != nil {
+		result["networking_bandwidth_in_gbps"] = float32(*obj.NetworkingBandwidthInGbps)
+	}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	if obj.ProcessorDescription != nil {
+		result["processor_description"] = string(*obj.ProcessorDescription)
+	}
+
+	return result
+}
+
 func (s *CoreInstanceResourceCrud) mapToLaunchOptions(fieldKeyFormat string) (oci_core.LaunchOptions, error) {
 	result := oci_core.LaunchOptions{}
 
@@ -1485,11 +1626,32 @@ func (s *CoreInstanceResourceCrud) updateCompartment(compartment interface{}) er
 	return nil
 }
 
-func (s *CoreInstanceResourceCrud) updateShape(shape interface{}) error {
+func (s *CoreInstanceResourceCrud) updateShape() error {
 	changeShapeRequest := oci_core.UpdateInstanceRequest{}
 
-	shapeTmp := shape.(string)
-	changeShapeRequest.Shape = &shapeTmp
+	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
+		oldRaw, newRaw := s.D.GetChange("shape")
+		if newRaw != "" && oldRaw != "" {
+			shapeTmp := shape.(string)
+			changeShapeRequest.Shape = &shapeTmp
+		}
+	}
+
+	if shapeConfig, ok := s.D.GetOkExists("shape_config"); ok && s.D.HasChange("shape_config") {
+		if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_config", 0)
+			tmp, err := s.mapToUpdateInstanceShapeConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			changeShapeRequest.ShapeConfig = &tmp
+		}
+	}
+
+	if changeShapeRequest.Shape == nil && changeShapeRequest.ShapeConfig == nil {
+		// no-op
+		return nil
+	}
 
 	idTmp := s.D.Id()
 	changeShapeRequest.InstanceId = &idTmp

@@ -51,6 +51,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				defined_tags = {"Operations.CostCenter"= "42"}
 				display_name = "${var.instance_configuration_instance_details_block_volumes_create_details_display_name}"
 				freeform_tags = {"Department"= "Finance"}
+				kms_key_id = "${oci_kms_key.test_key.id}"
 				size_in_gbs = "${var.instance_configuration_instance_details_block_volumes_create_details_size_in_gbs}"
 				source_details {
 					#Required
@@ -59,33 +60,61 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 					#Optional
 					id = "${var.instance_configuration_instance_details_block_volumes_create_details_source_details_id}"
 				}
+				vpus_per_gb = "${var.instance_configuration_instance_details_block_volumes_create_details_vpus_per_gb}"
 			}
 			volume_id = "${oci_core_volume.test_volume.id}"
 		}
 		launch_details {
 
 			#Optional
+			agent_config {
+
+				#Optional
+				is_management_disabled = "${var.instance_configuration_instance_details_launch_details_agent_config_is_management_disabled}"
+				is_monitoring_disabled = "${var.instance_configuration_instance_details_launch_details_agent_config_is_monitoring_disabled}"
+			}
 			availability_domain = "${var.instance_configuration_instance_details_launch_details_availability_domain}"
 			compartment_id = "${var.compartment_id}"
 			create_vnic_details {
 
 				#Optional
 				assign_public_ip = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_public_ip}"
+				defined_tags = {"Operations.CostCenter"= "42"}
 				display_name = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_display_name}"
+				freeform_tags = {"Department"= "Finance"}
 				hostname_label = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_hostname_label}"
 				nsg_ids = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_nsg_ids}"
 				private_ip = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_private_ip}"
 				skip_source_dest_check = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_skip_source_dest_check}"
 				subnet_id = "${oci_core_subnet.test_subnet.id}"
 			}
+			dedicated_vm_host_id = "${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}"
 			defined_tags = {"Operations.CostCenter"= "42"}
 			display_name = "${var.instance_configuration_instance_details_launch_details_display_name}"
 			extended_metadata = "${var.instance_configuration_instance_details_launch_details_extended_metadata}"
 			fault_domain = "${var.instance_configuration_instance_details_launch_details_fault_domain}"
 			freeform_tags = {"Department"= "Finance"}
 			ipxe_script = "${var.instance_configuration_instance_details_launch_details_ipxe_script}"
+			is_pv_encryption_in_transit_enabled = "${var.instance_configuration_instance_details_launch_details_is_pv_encryption_in_transit_enabled}"
+			launch_mode = "${var.instance_configuration_instance_details_launch_details_launch_mode}"
+			launch_options {
+
+				#Optional
+				boot_volume_type = "${var.instance_configuration_instance_details_launch_details_launch_options_boot_volume_type}"
+				firmware = "${var.instance_configuration_instance_details_launch_details_launch_options_firmware}"
+				is_consistent_volume_naming_enabled = "${var.instance_configuration_instance_details_launch_details_launch_options_is_consistent_volume_naming_enabled}"
+				is_pv_encryption_in_transit_enabled = "${var.instance_configuration_instance_details_launch_details_launch_options_is_pv_encryption_in_transit_enabled}"
+				network_type = "${var.instance_configuration_instance_details_launch_details_launch_options_network_type}"
+				remote_data_volume_type = "${var.instance_configuration_instance_details_launch_details_launch_options_remote_data_volume_type}"
+			}
 			metadata = "${var.instance_configuration_instance_details_launch_details_metadata}"
+			preferred_maintenance_action = "${var.instance_configuration_instance_details_launch_details_preferred_maintenance_action}"
 			shape = "${var.instance_configuration_instance_details_launch_details_shape}"
+			shape_config {
+
+				#Optional
+				ocpus = "${var.instance_configuration_instance_details_launch_details_shape_config_ocpus}"
+			}
 			source_details {
 				#Required
 				source_type = "${var.instance_configuration_instance_details_launch_details_source_details_source_type}"
@@ -103,7 +132,9 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
 				#Optional
 				assign_public_ip = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_assign_public_ip}"
+				defined_tags = {"Operations.CostCenter"= "42"}
 				display_name = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_display_name}"
+				freeform_tags = {"Department"= "Finance"}
 				hostname_label = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_hostname_label}"
 				nsg_ids = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_nsg_ids}"
 				private_ip = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_private_ip}"
@@ -141,23 +172,36 @@ The following arguments are supported:
 			* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 			* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+			* `kms_key_id` - (Optional) The OCID of the Key Management key to assign as the master encryption key for the volume. 
 			* `size_in_gbs` - (Optional) The size of the volume in GBs.
 			* `source_details` - (Optional) Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same availability domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
 				* `id` - (Optional) The OCID of the volume backup.
 				* `type` - (Required) The type can be one of these values: `volume`, `volumeBackup`
+			* `vpus_per_gb` - (Optional) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+
+				Allowed values:
+				* `0`: Represents Lower Cost option.
+				* `10`: Represents Balanced option.
+				* `20`: Represents Higher Performance option. 
 		* `volume_id` - (Optional) The OCID of the volume.
 	* `instance_type` - (Required) The type of instance details. Supported instanceType is compute 
 	* `launch_details` - (Optional) 
+		* `agent_config` - (Optional) 
+			* `is_management_disabled` - (Optional) Whether the agent running on the instance can run all the available management plugins. Default value is false. 
+			* `is_monitoring_disabled` - (Optional) Whether the agent running on the instance can gather performance metrics and monitor the instance. Default value is false. 
 		* `availability_domain` - (Optional) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 		* `compartment_id` - (Optional) The OCID of the compartment.
 		* `create_vnic_details` - (Optional) Details for the primary VNIC, which is automatically created and attached when the instance is launched. 
 			* `assign_public_ip` - (Optional) Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
+			* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - (Optional) A user-friendly name for the VNIC. Does not have to be unique. Avoid entering confidential information. 
+			* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 			* `hostname_label` - (Optional) The hostname for the VNIC's primary private IP. See the `hostnameLabel` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `nsg_ids` - (Optional) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 			* `private_ip` - (Optional) A private IP address of your choice to assign to the VNIC. See the `privateIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `skip_source_dest_check` - (Optional) Whether the source/destination check is disabled on the VNIC. See the `skipSourceDestCheck` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `subnet_id` - (Optional) The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
+		* `dedicated_vm_host_id` - (Optional) The OCID of dedicated VM host. 
 		* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 		* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
 		* `extended_metadata` - (Optional) Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
@@ -182,6 +226,34 @@ The following arguments are supported:
 			For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 			For more information about iPXE, see http://ipxe.org. 
+		* `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
+		* `launch_mode` - (Optional) Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
+			* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
+			* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
+			* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
+			* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
+		* `launch_options` - (Optional) 
+			* `boot_volume_type` - (Optional) Emulation type for volume.
+				* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+				* `SCSI` - Emulated SCSI disk.
+				* `IDE` - Emulated IDE disk.
+				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
+				* `PARAVIRTUALIZED` - Paravirtualized disk. 
+			* `firmware` - (Optional) Firmware used to boot VM.  Select the option that matches your operating system.
+				* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
+				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
+			* `is_consistent_volume_naming_enabled` - (Optional) Whether to enable consistent volume naming feature. Defaults to false.
+			* `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the boot volume's paravirtualized attachment. The default value is false.
+			* `network_type` - (Optional) Emulation type for the physical network interface card (NIC).
+				* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
+				* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
+				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
+			* `remote_data_volume_type` - (Optional) Emulation type for volume.
+				* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+				* `SCSI` - Emulated SCSI disk.
+				* `IDE` - Emulated IDE disk.
+				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
+				* `PARAVIRTUALIZED` - Paravirtualized disk. 
 		* `metadata` - (Optional) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -211,9 +283,14 @@ The following arguments are supported:
 			curl http://169.254.169.254/opc/v1/instance/ curl http://169.254.169.254/opc/v1/instance/metadata/ curl http://169.254.169.254/opc/v1/instance/metadata/<any-key-name>
 
 			You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively. 
+		* `preferred_maintenance_action` - (Optional) The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
+			* `LIVE_MIGRATE` - Run maintenance using a live migration.
+			* `REBOOT` - Run maintenance using a reboot. 
 		* `shape` - (Optional) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 			You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
+		* `shape_config` - (Optional) 
+			* `ocpus` - (Optional) The total number of OCPUs available to the instance. 
 		* `source_details` - (Optional) Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
 			* `boot_volume_id` - (Applicable when source_type=bootVolume) The OCID of the boot volume used to boot the instance.
 			* `boot_volume_size_in_gbs` - (Applicable when source_type=image) The size of the boot volume in GBs. The minimum value is 50 GB and the maximum value is 16384 GB (16TB).
@@ -222,7 +299,9 @@ The following arguments are supported:
 	* `secondary_vnics` - (Optional) 
 		* `create_vnic_details` - (Optional) Details for creating a new VNIC. 
 			* `assign_public_ip` - (Optional) Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
+			* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - (Optional) A user-friendly name for the VNIC. Does not have to be unique. Avoid entering confidential information. 
+			* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 			* `hostname_label` - (Optional) The hostname for the VNIC's primary private IP. See the `hostnameLabel` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `nsg_ids` - (Optional) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 			* `private_ip` - (Optional) A private IP address of your choice to assign to the VNIC. See the `privateIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
@@ -265,23 +344,36 @@ The following attributes are exported:
 			* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 			* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+			* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the volume. 
 			* `size_in_gbs` - The size of the volume in GBs.
 			* `source_details` - Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same availability domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
 				* `id` - The OCID of the volume backup.
 				* `type` - The type can be one of these values: `volume`, `volumeBackup`
+			* `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+
+				Allowed values:
+				* `0`: Represents Lower Cost option.
+				* `10`: Represents Balanced option.
+				* `20`: Represents Higher Performance option. 
 		* `volume_id` - The OCID of the volume.
 	* `instance_type` - The type of instance details. Supported instanceType is compute 
 	* `launch_details` - 
+		* `agent_config` - 
+			* `is_management_disabled` - Whether the agent running on the instance can run all the available management plugins. Default value is false. 
+			* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. Default value is false. 
 		* `availability_domain` - The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 		* `compartment_id` - The OCID of the compartment.
 		* `create_vnic_details` - Details for the primary VNIC, which is automatically created and attached when the instance is launched. 
 			* `assign_public_ip` - Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
+			* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - A user-friendly name for the VNIC. Does not have to be unique. Avoid entering confidential information. 
+			* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 			* `hostname_label` - The hostname for the VNIC's primary private IP. See the `hostnameLabel` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 			* `private_ip` - A private IP address of your choice to assign to the VNIC. See the `privateIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `skip_source_dest_check` - Whether the source/destination check is disabled on the VNIC. See the `skipSourceDestCheck` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `subnet_id` - The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
+		* `dedicated_vm_host_id` - The OCID of dedicated VM host. 
 		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
 		* `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
@@ -306,6 +398,34 @@ The following attributes are exported:
 			For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 			For more information about iPXE, see http://ipxe.org. 
+		* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
+		* `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
+			* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
+			* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
+			* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
+			* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
+		* `launch_options` - 
+			* `boot_volume_type` - Emulation type for volume.
+				* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+				* `SCSI` - Emulated SCSI disk.
+				* `IDE` - Emulated IDE disk.
+				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
+				* `PARAVIRTUALIZED` - Paravirtualized disk. 
+			* `firmware` - Firmware used to boot VM.  Select the option that matches your operating system.
+				* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
+				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
+			* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
+			* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the boot volume's paravirtualized attachment. The default value is false.
+			* `network_type` - Emulation type for the physical network interface card (NIC).
+				* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
+				* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
+				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
+			* `remote_data_volume_type` - Emulation type for volume.
+				* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+				* `SCSI` - Emulated SCSI disk.
+				* `IDE` - Emulated IDE disk.
+				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
+				* `PARAVIRTUALIZED` - Paravirtualized disk. 
 		* `metadata` - Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -335,9 +455,14 @@ The following attributes are exported:
 			curl http://169.254.169.254/opc/v1/instance/ curl http://169.254.169.254/opc/v1/instance/metadata/ curl http://169.254.169.254/opc/v1/instance/metadata/<any-key-name>
 
 			You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively. 
+		* `preferred_maintenance_action` - The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
+			* `LIVE_MIGRATE` - Run maintenance using a live migration.
+			* `REBOOT` - Run maintenance using a reboot. 
 		* `shape` - The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 			You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
+		* `shape_config` - 
+			* `ocpus` - The total number of OCPUs available to the instance. 
 		* `source_details` - Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
 			* `boot_volume_id` - The OCID of the boot volume used to boot the instance.
 			* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. The minimum value is 50 GB and the maximum value is 16384 GB (16TB).
@@ -346,7 +471,9 @@ The following attributes are exported:
 	* `secondary_vnics` - 
 		* `create_vnic_details` - Details for creating a new VNIC. 
 			* `assign_public_ip` - Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
+			* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - A user-friendly name for the VNIC. Does not have to be unique. Avoid entering confidential information. 
+			* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 			* `hostname_label` - The hostname for the VNIC's primary private IP. See the `hostnameLabel` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 			* `private_ip` - A private IP address of your choice to assign to the VNIC. See the `privateIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 

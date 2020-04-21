@@ -136,10 +136,26 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
     instance_type = "compute"
 
     launch_details {
-      compartment_id = "${var.compartment_ocid}"
-      ipxe_script    = "ipxeScript"
-      shape          = "${var.instance_shape}"
-      display_name   = "TestInstanceConfigurationLaunchDetails"
+      compartment_id                      = "${var.compartment_ocid}"
+      ipxe_script                         = "ipxeScript"
+      shape                               = "${var.instance_shape}"
+      display_name                        = "TestInstanceConfigurationLaunchDetails"
+      is_pv_encryption_in_transit_enabled = false
+      preferred_maintenance_action        = "LIVE_MIGRATE"
+      launch_mode                         = "NATIVE"
+
+      agent_config {
+        is_management_disabled = false
+        is_monitoring_disabled = false
+      }
+
+      launch_options {
+        network_type = "PARAVIRTUALIZED"
+      }
+
+      shape_config {
+        ocpus = 1
+      }
 
       create_vnic_details {
         assign_public_ip       = true

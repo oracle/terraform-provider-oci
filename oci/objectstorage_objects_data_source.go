@@ -42,6 +42,10 @@ func ObjectStorageObjectsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"start_after": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
 			// @CODEGEN 2/2018: The result type is defined and generated from spec is a ListObject.
 			// But the actual result we want to return is the array of ObjectSummary objects within
@@ -142,6 +146,11 @@ func (s *ObjectStorageObjectsDataSourceCrud) Get() error {
 	if start, ok := s.D.GetOkExists("start"); ok {
 		tmp := start.(string)
 		request.Start = &tmp
+	}
+
+	if startAfter, ok := s.D.GetOkExists("start_after"); ok {
+		tmp := startAfter.(string)
+		request.StartAfter = &tmp
 	}
 
 	// @CODEGEN 2/2018: Preserve the custom logic to extract the ObjectSummary results from ListObjects response

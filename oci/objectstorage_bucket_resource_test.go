@@ -43,7 +43,7 @@ var (
 	}
 
 	bucketRepresentationWithoutUpdateToForceNewFields = representationCopyWithNewProperties(
-		representationCopyWithRemovedProperties(bucketRepresentation, []string{"name", "namespace", "storage_tier"}),
+		representationCopyWithRemovedProperties(bucketRepresentation, []string{"name", "namespace", "storage_tier", "versioning"}),
 		map[string]interface{}{
 			"name":         Representation{repType: Required, create: testBucketName},
 			"namespace":    Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},

@@ -188,6 +188,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["id"] = *r.Id
 		}
 
+		if r.LastMaintenanceRunId != nil {
+			dbSystem["last_maintenance_run_id"] = *r.LastMaintenanceRunId
+		}
+
 		if r.LastPatchHistoryEntryId != nil {
 			dbSystem["last_patch_history_entry_id"] = *r.LastPatchHistoryEntryId
 		}
@@ -200,6 +204,16 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 
 		if r.ListenerPort != nil {
 			dbSystem["listener_port"] = *r.ListenerPort
+		}
+
+		if r.MaintenanceWindow != nil {
+			dbSystem["maintenance_window"] = []interface{}{MaintenanceWindowToMap(r.MaintenanceWindow)}
+		} else {
+			dbSystem["maintenance_window"] = nil
+		}
+
+		if r.NextMaintenanceRunId != nil {
+			dbSystem["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
 
 		if r.NodeCount != nil {

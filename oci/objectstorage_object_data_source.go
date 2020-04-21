@@ -45,6 +45,11 @@ func ObjectStorageObjectDataSource() *schema.Resource {
 				Optional: true,
 				Default:  false,
 			},
+			"version_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"cache_control": {
@@ -127,6 +132,11 @@ func (s *ObjectStorageObjectDataSourceCrud) Get() error {
 
 	headObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
 
+	if versionId, ok := s.D.GetOkExists("version_id"); ok {
+		tmp := versionId.(string)
+		headObjectRequest.VersionId = &tmp
+	}
+
 	headObjectResponse, err := s.Client.HeadObject(context.Background(), *headObjectRequest)
 	if err != nil {
 		return err
@@ -145,6 +155,11 @@ func (s *ObjectStorageObjectDataSourceCrud) Get() error {
 	request.NamespaceName = headObjectRequest.NamespaceName
 	request.BucketName = headObjectRequest.BucketName
 	request.ObjectName = headObjectRequest.ObjectName
+
+	if versionId, ok := s.D.GetOkExists("version_id"); ok {
+		tmp := versionId.(string)
+		request.VersionId = &tmp
+	}
 
 	response, err := s.Client.GetObject(context.Background(), request)
 	if err != nil {
@@ -205,6 +220,10 @@ func (s *ObjectStorageObjectDataSourceCrud) SetData() error {
 
 	if s.Res.ContentType != nil {
 		s.D.Set("content_type", *s.Res.ContentType)
+	}
+
+	if s.Res.VersionId != nil {
+		s.D.Set("version_id", *s.Res.VersionId)
 	}
 
 	if s.Res.OpcMeta != nil {

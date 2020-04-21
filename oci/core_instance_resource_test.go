@@ -60,7 +60,8 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
 		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
 	  }
-	}` + DefinedTagsDependencies
+	}
+	` + DefinedTagsDependencies + FlexVmImageIdsVariable
 
 	s.ResourceName = "oci_core_instance.t"
 }
@@ -1183,6 +1184,214 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
+func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape() {
+
+	var resId, resId2 string
+
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			// create with flex shape and shape config
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard.E3.Flex"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "1"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
+					func(ts *terraform.State) (err error) {
+						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
+				),
+			},
+			// update shape config
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard.E3.Flex"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "2"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// update shape_config and displayName
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard.E3.Flex"
+					display_name = "-tf-instance-1"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "1"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance-1"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// update displayName
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard.E3.Flex"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "1"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// update shape and shape_config
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.2"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "2"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard2.2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					func(ts *terraform.State) (err error) {
 						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
 						if resId != resId2 {

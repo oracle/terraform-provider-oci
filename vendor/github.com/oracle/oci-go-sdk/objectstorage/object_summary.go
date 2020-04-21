@@ -1,4 +1,5 @@
-// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2020, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Object Storage Service API
@@ -34,6 +35,9 @@ type ObjectSummary struct {
 
 	// The current entity tag (ETag) for the object.
 	Etag *string `mandatory:"false" json:"etag"`
+
+	// The date and time the object was modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
+	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 }
 
 func (m ObjectSummary) String() string {

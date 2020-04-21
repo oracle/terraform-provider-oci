@@ -510,3 +510,54 @@ func getObjectStorageErrorFromWorkRequest(workRequestId *string, client *oci_obj
 	errorMessage := strings.Join(allErrs, "\n")
 	return errorMessage, nil
 }
+
+func DeleteAllObjectVersions(client *oci_object_storage.ObjectStorageClient, bucket string, namespace string, prefix string) error {
+	request := oci_object_storage.ListObjectVersionsRequest{}
+
+	request.BucketName = &bucket
+	request.NamespaceName = &namespace
+
+	if prefix != "" {
+		request.Prefix = &prefix
+	}
+
+	response, err := client.ListObjectVersions(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	request.Page = response.OpcNextPage
+
+	for request.Page != nil {
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+
+		listResponse, err := client.ListObjectVersions(context.Background(), request)
+		if err != nil {
+			return err
+		}
+		response.Items = append(response.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	var errors []string
+	for _, objectVersion := range response.Items {
+
+		deleteObjectVersionRequest := oci_object_storage.DeleteObjectRequest{}
+		deleteObjectVersionRequest.BucketName = &bucket
+		deleteObjectVersionRequest.NamespaceName = &namespace
+		deleteObjectVersionRequest.ObjectName = objectVersion.Name
+		deleteObjectVersionRequest.VersionId = objectVersion.VersionId
+
+		deleteObjectVersionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+
+		_, err := client.DeleteObject(context.Background(), deleteObjectVersionRequest)
+		if err != nil {
+			errors = append(errors, err.Error())
+		}
+	}
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+
+	return nil
+}
