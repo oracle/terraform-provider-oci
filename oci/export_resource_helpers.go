@@ -62,6 +62,8 @@ func init() {
 	exportLoadBalancerPathRouteSetHints.processDiscoveredResourcesFn = processLoadBalancerPathRouteSets
 	exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
 
+	exportBdsBdsInstanceHints.requireResourceRefresh = true
+
 	exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
 	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
@@ -92,6 +94,7 @@ func init() {
 	exportIdentityAvailabilityDomainHints.getHCLStringOverrideFn = getAvailabilityDomainHCLDatasource
 	exportIdentityAuthenticationPolicyHints.processDiscoveredResourcesFn = processIdentityAuthenticationPolicies
 	exportIdentityTagHints.findResourcesOverrideFn = findIdentityTags
+	exportIdentityTagHints.processDiscoveredResourcesFn = processTagDefinitions
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
 	exportObjectStorageBucketHints.requireResourceRefresh = true
@@ -102,6 +105,7 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 }
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
+	"bds":                 bdsResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
@@ -351,6 +355,12 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 				"namespace": "namespace",
 			},
 		},
+	},
+}
+
+var bdsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportBdsBdsInstanceHints},
 	},
 }
 
@@ -694,6 +704,14 @@ func findIdentityTags(clients *OracleClients, tfMeta *TerraformResourceAssociati
 
 	return results, nil
 
+}
+
+func processTagDefinitions(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		resource.sourceAttributes["tag_namespace_id"] = resource.parent.id
+		resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.parent.id, resource.sourceAttributes["name"].(string))
+	}
+	return resources, nil
 }
 
 func findLoadBalancerListeners(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) ([]*OCIResource, error) {

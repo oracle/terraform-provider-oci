@@ -86,7 +86,6 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			"maintenance_window_details": {
 				Type:     schema.TypeList,
 				Optional: true,
-				//Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -125,6 +124,11 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},
+						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
 						},
 						"months": {
 							Type:     schema.TypeList,
@@ -218,6 +222,10 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},
+						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Computed: true,
 						},
 						"months": {
 							Type:     schema.TypeList,
@@ -504,7 +512,6 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.UpdateAutonomousExadataInfrastructuresDetails.NsgIds = tmp
 		}
@@ -627,7 +634,6 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 
-		// maintenance window fields are expected to be nil when preference = NO_PREFERENCE
 		if result.Preference == oci_database.MaintenanceWindowPreferenceNoPreference {
 			return result, nil
 		}
@@ -660,6 +666,13 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 		}
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "hours_of_day")) {
 			result.HoursOfDay = tmp
+		}
+	}
+
+	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
+		tmp := leadTimeInWeeks.(int)
+		if tmp > 0 {
+			result.LeadTimeInWeeks = &tmp
 		}
 	}
 
@@ -706,6 +719,10 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 	result["days_of_week"] = daysOfWeek
 
 	result["hours_of_day"] = obj.HoursOfDay
+
+	if obj.LeadTimeInWeeks != nil {
+		result["lead_time_in_weeks"] = int(*obj.LeadTimeInWeeks)
+	}
 
 	months := []interface{}{}
 	for _, item := range obj.Months {

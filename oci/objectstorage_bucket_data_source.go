@@ -154,5 +154,7 @@ func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 
 	s.D.Set("retention_rules", retentionRulesResToSet(s.RetentionRuleRes, true))
 
+	s.D.Set("versioning", s.Res.Versioning)
+
 	return nil
 }

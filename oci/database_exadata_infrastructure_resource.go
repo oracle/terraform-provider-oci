@@ -86,14 +86,14 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 			},
 
 			// Optional
+			"activation_file": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"corporate_proxy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-			},
-			"activation_file": {
-				Type:     schema.TypeString,
-				Optional: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -329,7 +329,6 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 
 	s.Res = &response.ExadataInfrastructure
 
-	//wait for Exadata Infrastructure to not be in creating state
 	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
@@ -342,6 +341,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		}
 		s.Res = &response.ExadataInfrastructure
 	}
+
 	return nil
 }
 
@@ -363,11 +363,6 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Get() error {
 }
 
 func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
-
-	if s.D.Get("state").(string) == string(oci_database.ExadataInfrastructureLifecycleStateActive) {
-		return fmt.Errorf("update not allowed on activated exadata infrastructure")
-	}
-
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -376,6 +371,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 				return err
 			}
 		}
+	}
+
+	if s.D.Get("state").(string) == string(oci_database.ExadataInfrastructureLifecycleStateActive) {
+		return fmt.Errorf("update not allowed on activated exadata infrastructure")
 	}
 
 	request := oci_database.UpdateExadataInfrastructureRequest{}
@@ -417,7 +416,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.DnsServer = tmp
+		if len(tmp) != 0 || s.D.HasChange("dns_server") {
+			request.DnsServer = tmp
+		}
 	}
 
 	tmp := s.D.Id()
@@ -451,7 +452,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.NtpServer = tmp
+		if len(tmp) != 0 || s.D.HasChange("ntp_server") {
+			request.NtpServer = tmp
+		}
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok && s.D.HasChange("time_zone") {
@@ -468,7 +471,6 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 
 	s.Res = &response.ExadataInfrastructure
 
-	//wait for Exadata Infrastructure to not be in updating state after the update
 	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
@@ -481,6 +483,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		}
 		s.Res = &response.ExadataInfrastructure
 	}
+
 	return nil
 }
 

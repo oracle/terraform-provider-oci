@@ -13,13 +13,13 @@ Beginning with version 3.50, the terraform-oci-provider can be run as a command 
 
 The latest version of the terraform-oci-provider can be downloaded using `terraform init` or by going to https://releases.hashicorp.com/terraform-provider-oci/
 
-### Prerequisites
+### Authentication
 To discover resources in your compartment, the terraform-oci-provider will need authentication information about the user, tenancy, and region with which to discover
 the resources. It is recommended to specify a user that has access to inspect and read the resources to discover. 
 
-By default, the user authentication information is retrieved from a configuration file. For details on setting this up, see [SDK and CLI configuration file](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm)
+Resource discovery supports API Key based authentication and Instance Principal based authentication.
 
-In the absence of a configuration file, the authentication information can also be specified using the following environment variables:
+The authentication information can be specified using the following environment variables:
 
 ```
 export TF_VAR_tenancy_ocid=<value>
@@ -35,6 +35,21 @@ If your private key is password-encrypted, you may also need to specify a passwo
 ```
 export TF_VAR_private_key_password=<password for private key>
 ```
+
+The authentication information can also be specified using a configuration file. For details on setting this up, see [SDK and CLI configuration file](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm)
+A non-default profile can be set using environment variable: 
+
+```
+export TF_VAR_config_file_profile=<value>
+``` 
+
+
+If the parameters have multiple sources, the priority will be in the following order: 
+
+    Environment variables
+    Non-default profile
+    DEFAULT profile
+
 
 ### Usage
 
@@ -62,12 +77,14 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported.
 * `output_path` - Path to output generated configurations and state files of the exported compartment
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
+    * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value.
+    * `bds` - Discovers big data service resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `database` - Discovers database and autonomous database resources within the specified compartment
-    * `load_balancer` - Discovers load balancer resources within the specified compartment
-    * `tagging` - Discovers tag-related resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
-    * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value.
+    * `load_balancer` - Discovers load balancer resources within the specified compartment
+    * `object_storage` - Discovers object storage resources within the specified compartment
+    * `tagging` - Discovers tag-related resources within the specified compartment
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
 
 > **Note**: The compartment export functionality currently supports discovery of the target compartment. The ability to discover resources in child compartments is not yet supported.  

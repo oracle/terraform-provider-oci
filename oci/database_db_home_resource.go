@@ -9,11 +9,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oracle/oci-go-sdk/common"
-
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
+	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
@@ -100,6 +99,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 										ForceNew: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
+												// Required
 
 												// Optional
 												"id": {
@@ -114,6 +114,8 @@ func DatabaseDbHomeResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+
+												// Computed
 											},
 										},
 									},
@@ -300,14 +302,6 @@ func readDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-func updateDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseDbHomeResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
-
-	return UpdateResource(d, sync)
-}
-
 func deleteDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbHomeResourceCrud{}
 	sync.D = d
@@ -374,9 +368,6 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	// Only one dbHome can be created at a time on service side as the dbSystem will go into UPDATING state.
-	// A 409 is returned if you try to create a dbHome when the state of the dbSystem is UPDATING
-	// For the case of multiple dbHomes we want to wait for the dbSystem to not be UPDATING so that we use the Create Timeout instead of the retry timeout
 	dbSystemMayBeUpdating := true
 	startTime := time.Now()
 	endTime := startTime.Add(s.D.Timeout(schema.TimeoutCreate))
@@ -400,7 +391,6 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 		}
 
 		response, err := s.Client.CreateDbHome(context.Background(), request)
-		// because we cannot control what sets the DbSystem into UPDATING state we have to check again to account for race conditions
 		if err != nil {
 			if strings.Contains(err.Error(), "has a conflicting state of UPDATING") && timeout > 0 {
 				continue
@@ -414,6 +404,7 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 	if err != nil {
 		log.Printf("[ERROR] Could not get Database info for the dbHome: %v", err)
 	}
+
 	return nil
 }
 
@@ -440,92 +431,6 @@ func (s *DatabaseDbHomeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseDbHomeResourceCrud) getDatabaseInfo() error {
-	listDatabasesRequest := oci_database.ListDatabasesRequest{}
-
-	listDatabasesRequest.CompartmentId = s.Res.CompartmentId
-	listDatabasesRequest.DbHomeId = s.Res.Id
-	listDatabasesRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
-	listDatabasesRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
-	listDatabasesRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
-	listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDatabasesRequest)
-	if err != nil {
-		return err
-	}
-	if len(listDatabasesResponse.Items) <= 0 {
-		return fmt.Errorf("could not get details of the database for the dbHome")
-	}
-
-	databaseId := listDatabasesResponse.Items[0].Id
-
-	getDatabaseRequest := oci_database.GetDatabaseRequest{}
-	getDatabaseRequest.DatabaseId = databaseId
-	getDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
-	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
-	if err != nil {
-		return err
-	}
-
-	s.Database = &getDatabaseResponse.Database
-
-	return nil
-}
-
-func (s *DatabaseDbHomeResourceCrud) Update() error {
-	err := s.Get()
-	if err != nil {
-		log.Printf("[ERROR] error refreshing the dbHome information before an upate: %v", err)
-	}
-	if s.Database == nil || s.Database.Id == nil {
-		err := s.getDatabaseInfo()
-		if err != nil {
-			return fmt.Errorf("could not perform an update as we could not get the databaseId in the dbHome: %v", err)
-		}
-	}
-
-	request := oci_database.UpdateDatabaseRequest{}
-
-	request.DatabaseId = s.Database.Id
-
-	if database, ok := s.D.GetOkExists("database"); ok {
-		if tmpList := database.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
-			tmp, err := s.mapToUpdateDatabaseDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.UpdateDatabaseDetails = tmp
-		}
-	}
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	//wait for database to not be in updating state after the update
-	getDatabaseRequest := oci_database.GetDatabaseRequest{}
-
-	getDatabaseRequest.DatabaseId = s.Database.Id
-
-	getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
-	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
-	if err != nil {
-		// In UpdateDatabase some properties are updated right away like tags but others like auto_backup_enabled are only updated after lifecycleState is not Updating so we update the state here as well in the case of an error in the polling
-		s.Database = &updateDatabaseResponse.Database
-		err = s.SetData()
-		if err != nil {
-			log.Printf("[ERROR] error setting data after polling error on database: %v", err)
-		}
-		return fmt.Errorf("[ERROR] unable to get database after the update: %v", err)
-	}
-
-	s.Database = &getDatabaseResponse.Database
-
-	return err
-}
-
 func (s *DatabaseDbHomeResourceCrud) Delete() error {
 	request := oci_database.DeleteDbHomeRequest{}
 
@@ -539,15 +444,11 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	// Delete nested database to be able to delete dbhome. Shared DBHome case
 	dbErr := s.deleteNestedDB()
 	if dbErr != nil {
 		log.Printf("[WARN] Could not delete nested database in DbHome. Will proceed to delete dbHome: %v", dbErr)
 	}
 
-	// Only one dbHome can be deleted at a time on service side as the dbSystem will go into UPDATING state.
-	// A 409 is returned if you try to delete a dbHome when the state of the dbSystem is UPDATING
-	// For the case of multiple dbHomes we want to wait for the dbSystem to not be UPDATING so that we use the Delete Timeout instead of the retry timeout
 	dbSystemMayBeUpdating := true
 	startTime := time.Now()
 	endTime := startTime.Add(s.D.Timeout(schema.TimeoutDelete))
@@ -565,7 +466,6 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 		}
 
 		_, err := s.Client.DeleteDbHome(context.Background(), request)
-		// because we cannot control what sets the DbSystem into UPDATING state we have to check again to account for race conditions
 		if err != nil {
 			if strings.Contains(err.Error(), "has a conflicting state of UPDATING") && timeout > 0 {
 				continue
@@ -577,59 +477,20 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
-
-	request := oci_database.DeleteDatabaseRequest{}
-
-	dbCompartment, ok := s.D.GetOkExists("compartment_id")
-	if !ok {
-		return fmt.Errorf("no compartment information to delete nested database")
-	}
-
-	dbHomeIdStr := s.D.Id()
-	dbCompartmentStr := dbCompartment.(string)
-
-	listDBRequest := oci_database.ListDatabasesRequest{}
-	listDBRequest.CompartmentId = &dbCompartmentStr
-	listDBRequest.DbHomeId = &dbHomeIdStr
-	listDBRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
-	listDBRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
-	listDBRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
-	listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDBRequest)
-	if err != nil {
-		return err
-	}
-
-	if len(listDatabasesResponse.Items) == 0 {
-		return fmt.Errorf("failed to get details of the nested database in dbHome")
-	}
-
-	dbHomeTimeCreated, ok := s.D.GetOkExists("time_created")
-	if !ok {
-		tmp, err := time.Parse(time.RFC3339, dbHomeTimeCreated.(string))
-		if err != nil {
-			return err
-		}
-		if listDatabasesResponse.Items[0].TimeCreated.Sub(common.SDKTime{Time: tmp}.Time) > time.Hour*24 {
-			return fmt.Errorf("the first database of the dbHome has since been terminated. Will not try to delete dbHome's database")
-		}
-	}
-
-	request.DatabaseId = listDatabasesResponse.Items[0].Id
-
-	if performFinalBackup, ok := s.D.GetOkExists("perform_final_backup"); ok {
-		tmp := performFinalBackup.(bool)
-		request.PerformFinalBackup = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-
-	_, err = s.Client.DeleteDatabase(context.Background(), request)
-
-	return nil
-}
-
 func (s *DatabaseDbHomeResourceCrud) SetData() error {
+
+	if s.Res.Id != nil {
+		s.D.SetId(*s.Res.Id)
+	}
+
+	if s.Database != nil {
+		s.D.Set("database", []interface{}{s.DatabaseToMap(s.Database)})
+	}
+
+	if source, ok := s.D.GetOkExists("source"); !ok || source.(string) == "" {
+		s.D.Set("source", "NONE")
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -650,10 +511,6 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	if s.Res.Id != nil {
-		s.D.SetId(*s.Res.Id)
-	}
-
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
 	}
@@ -672,13 +529,6 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 		s.D.Set("vm_cluster_id", *s.Res.VmClusterId)
 	}
 
-	if s.Database != nil {
-		s.D.Set("database", []interface{}{s.DatabaseToMap(s.Database)})
-	}
-
-	if source, ok := s.D.GetOkExists("source"); !ok || source.(string) == "" {
-		s.D.Set("source", "NONE")
-	}
 	return nil
 }
 
@@ -755,77 +605,6 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 	return result, nil
 }
 
-func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	//Create parameters that are not returned by the service
-	if adminPassword, ok := s.D.GetOkExists("database.0.admin_password"); ok && adminPassword != nil {
-		result["admin_password"] = adminPassword.(string)
-	}
-
-	if backupId, ok := s.D.GetOkExists("database.0.backup_id"); ok && backupId != nil {
-		result["backup_id"] = backupId.(string)
-	}
-
-	if backupTDEPassword, ok := s.D.GetOkExists("database.0.backup_tde_password"); ok && backupTDEPassword != nil {
-		result["backup_tde_password"] = backupTDEPassword.(string)
-	}
-
-	if obj.CharacterSet != nil {
-		result["character_set"] = string(*obj.CharacterSet)
-	}
-
-	if obj.ConnectionStrings != nil {
-		result["connection_strings"] = []interface{}{DatabaseConnectionStringsToMap(obj.ConnectionStrings)}
-	}
-
-	if obj.DbBackupConfig != nil {
-		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
-	}
-
-	if obj.DbName != nil {
-		result["db_name"] = string(*obj.DbName)
-	}
-
-	if obj.DbUniqueName != nil {
-		result["db_unique_name"] = string(*obj.DbUniqueName)
-	}
-
-	if obj.DbWorkload != nil {
-		result["db_workload"] = string(*obj.DbWorkload)
-	}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	if obj.LifecycleDetails != nil {
-		result["lifecycle_details"] = string(*obj.LifecycleDetails)
-	}
-
-	if obj.NcharacterSet != nil {
-		result["ncharacter_set"] = string(*obj.NcharacterSet)
-	}
-
-	if obj.PdbName != nil {
-		result["pdb_name"] = string(*obj.PdbName)
-	}
-
-	result["state"] = string(obj.LifecycleState)
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	return result
-}
-
 func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
 	result := oci_database.CreateDatabaseFromBackupDetails{}
 
@@ -847,81 +626,6 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldK
 	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
 		tmp := dbName.(string)
 		result.DbName = &tmp
-	}
-
-	return result, nil
-}
-
-func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
-	result := oci_database.UpdateDatabaseDetails{}
-
-	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
-		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
-			tmp, err := s.mapToUpdateDbBackupConfig(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, err
-			}
-			result.DbBackupConfig = &tmp
-		}
-	}
-
-	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
-		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
-		if err != nil {
-			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
-		}
-		result.DefinedTags = tmp
-	}
-
-	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
-	}
-
-	return result, nil
-}
-
-func (s *DatabaseDbHomeResourceCrud) CreateDatabaseFromBackupDetailsToMap(obj *oci_database.CreateDatabaseFromBackupDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.AdminPassword != nil {
-		result["admin_password"] = string(*obj.AdminPassword)
-	}
-
-	if obj.BackupId != nil {
-		result["backup_id"] = string(*obj.BackupId)
-	}
-
-	if obj.BackupTDEPassword != nil {
-		result["backup_tde_password"] = string(*obj.BackupTDEPassword)
-	}
-
-	if obj.DbName != nil {
-		result["db_name"] = string(*obj.DbName)
-	}
-
-	return result
-}
-
-// We cannot use the same function we use in create because the HasChanged check needed for the update to succeed interferes with the Create functionality
-func (s *DatabaseDbHomeResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
-	result := oci_database.DbBackupConfig{}
-
-	// Service does not allow to update auto_backup_enabled and recovery_window_in_days at the same time so we must have the HasChanged check
-	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")) {
-		tmp := autoBackupEnabled.(bool)
-		result.AutoBackupEnabled = &tmp
-	}
-
-	if autoBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_window")); ok {
-		if result.AutoBackupEnabled != nil && *result.AutoBackupEnabled == true {
-			result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
-		}
-	}
-
-	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
-		tmp := recoveryWindowInDays.(int)
-		result.RecoveryWindowInDays = &tmp
 	}
 
 	return result, nil
@@ -965,28 +669,6 @@ func (s *DatabaseDbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) 
 	}
 
 	return result, nil
-}
-
-func (s *DatabaseDbHomeResourceCrud) DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.AutoBackupEnabled != nil {
-		result["auto_backup_enabled"] = bool(*obj.AutoBackupEnabled)
-	}
-
-	result["auto_backup_window"] = string(obj.AutoBackupWindow)
-
-	backupDestinationDetails := []interface{}{}
-	for _, item := range obj.BackupDestinationDetails {
-		backupDestinationDetails = append(backupDestinationDetails, BackupDestinationDetailsToMap(item))
-	}
-	result["backup_destination_details"] = backupDestinationDetails
-
-	if obj.RecoveryWindowInDays != nil {
-		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
-	}
-
-	return result
 }
 
 func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(request *oci_database.CreateDbHomeRequest) error {
@@ -1074,4 +756,291 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		return fmt.Errorf("unknown source '%v' was specified", source)
 	}
 	return nil
+}
+
+func updateDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbHomeResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).databaseClient
+
+	return UpdateResource(d, sync)
+}
+
+func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
+
+	request := oci_database.DeleteDatabaseRequest{}
+
+	dbCompartment, ok := s.D.GetOkExists("compartment_id")
+	if !ok {
+		return fmt.Errorf("no compartment information to delete nested database")
+	}
+
+	dbHomeIdStr := s.D.Id()
+	dbCompartmentStr := dbCompartment.(string)
+
+	listDBRequest := oci_database.ListDatabasesRequest{}
+	listDBRequest.CompartmentId = &dbCompartmentStr
+	listDBRequest.DbHomeId = &dbHomeIdStr
+	listDBRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
+	listDBRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
+	listDBRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDBRequest)
+	if err != nil {
+		return err
+	}
+
+	if len(listDatabasesResponse.Items) == 0 {
+		return fmt.Errorf("failed to get details of the nested database in dbHome")
+	}
+
+	dbHomeTimeCreated, ok := s.D.GetOkExists("time_created")
+	if !ok {
+		tmp, err := time.Parse(time.RFC3339, dbHomeTimeCreated.(string))
+		if err != nil {
+			return err
+		}
+		if listDatabasesResponse.Items[0].TimeCreated.Sub(common.SDKTime{Time: tmp}.Time) > time.Hour*24 {
+			return fmt.Errorf("the first database of the dbHome has since been terminated. Will not try to delete dbHome's database")
+		}
+	}
+
+	request.DatabaseId = listDatabasesResponse.Items[0].Id
+
+	if performFinalBackup, ok := s.D.GetOkExists("perform_final_backup"); ok {
+		tmp := performFinalBackup.(bool)
+		request.PerformFinalBackup = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err = s.Client.DeleteDatabase(context.Background(), request)
+
+	return nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) getDatabaseInfo() error {
+	listDatabasesRequest := oci_database.ListDatabasesRequest{}
+
+	listDatabasesRequest.CompartmentId = s.Res.CompartmentId
+	listDatabasesRequest.DbHomeId = s.Res.Id
+	listDatabasesRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
+	listDatabasesRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
+	listDatabasesRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDatabasesRequest)
+	if err != nil {
+		return err
+	}
+	if len(listDatabasesResponse.Items) <= 0 {
+		return fmt.Errorf("could not get details of the database for the dbHome")
+	}
+
+	databaseId := listDatabasesResponse.Items[0].Id
+
+	getDatabaseRequest := oci_database.GetDatabaseRequest{}
+	getDatabaseRequest.DatabaseId = databaseId
+	getDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+	if err != nil {
+		return err
+	}
+
+	s.Database = &getDatabaseResponse.Database
+
+	return nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) Update() error {
+	err := s.Get()
+	if err != nil {
+		log.Printf("[ERROR] error refreshing the dbHome information before an upate: %v", err)
+	}
+	if s.Database == nil || s.Database.Id == nil {
+		err := s.getDatabaseInfo()
+		if err != nil {
+			return fmt.Errorf("could not perform an update as we could not get the databaseId in the dbHome: %v", err)
+		}
+	}
+
+	request := oci_database.UpdateDatabaseRequest{}
+
+	request.DatabaseId = s.Database.Id
+
+	if database, ok := s.D.GetOkExists("database"); ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+			tmp, err := s.mapToUpdateDatabaseDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.UpdateDatabaseDetails = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	getDatabaseRequest := oci_database.GetDatabaseRequest{}
+
+	getDatabaseRequest.DatabaseId = s.Database.Id
+
+	getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
+	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+	if err != nil {
+		s.Database = &updateDatabaseResponse.Database
+		err = s.SetData()
+		if err != nil {
+			log.Printf("[ERROR] error setting data after polling error on database: %v", err)
+		}
+		return fmt.Errorf("[ERROR] unable to get database after the update: %v", err)
+	}
+
+	s.Database = &getDatabaseResponse.Database
+
+	return err
+}
+
+func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if adminPassword, ok := s.D.GetOkExists("database.0.admin_password"); ok && adminPassword != nil {
+		result["admin_password"] = adminPassword.(string)
+	}
+
+	if backupId, ok := s.D.GetOkExists("database.0.backup_id"); ok && backupId != nil {
+		result["backup_id"] = backupId.(string)
+	}
+
+	if backupTDEPassword, ok := s.D.GetOkExists("database.0.backup_tde_password"); ok && backupTDEPassword != nil {
+		result["backup_tde_password"] = backupTDEPassword.(string)
+	}
+
+	if obj.CharacterSet != nil {
+		result["character_set"] = string(*obj.CharacterSet)
+	}
+
+	if obj.ConnectionStrings != nil {
+		result["connection_strings"] = []interface{}{DatabaseConnectionStringsToMap(obj.ConnectionStrings)}
+	}
+
+	if obj.DbBackupConfig != nil {
+		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
+	}
+
+	if obj.DbName != nil {
+		result["db_name"] = string(*obj.DbName)
+	}
+
+	if obj.DbUniqueName != nil {
+		result["db_unique_name"] = string(*obj.DbUniqueName)
+	}
+
+	if obj.DbWorkload != nil {
+		result["db_workload"] = string(*obj.DbWorkload)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.NcharacterSet != nil {
+		result["ncharacter_set"] = string(*obj.NcharacterSet)
+	}
+
+	if obj.PdbName != nil {
+		result["pdb_name"] = string(*obj.PdbName)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
+}
+
+func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
+	result := oci_database.UpdateDatabaseDetails{}
+
+	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
+		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
+			tmp, err := s.mapToUpdateDbBackupConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			result.DbBackupConfig = &tmp
+		}
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) CreateDatabaseFromBackupDetailsToMap(obj *oci_database.CreateDatabaseFromBackupDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdminPassword != nil {
+		result["admin_password"] = string(*obj.AdminPassword)
+	}
+
+	if obj.BackupId != nil {
+		result["backup_id"] = string(*obj.BackupId)
+	}
+
+	if obj.BackupTDEPassword != nil {
+		result["backup_tde_password"] = string(*obj.BackupTDEPassword)
+	}
+
+	if obj.DbName != nil {
+		result["db_name"] = string(*obj.DbName)
+	}
+
+	return result
+}
+
+func (s *DatabaseDbHomeResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
+	result := oci_database.DbBackupConfig{}
+
+	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")) {
+		tmp := autoBackupEnabled.(bool)
+		result.AutoBackupEnabled = &tmp
+	}
+
+	if autoBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_window")); ok {
+		if result.AutoBackupEnabled != nil && *result.AutoBackupEnabled == true {
+			result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
+		}
+	}
+
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
+		tmp := recoveryWindowInDays.(int)
+		result.RecoveryWindowInDays = &tmp
+	}
+
+	return result, nil
 }

@@ -118,6 +118,11 @@ func ObjectStorageObjectResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"delete_all_object_versions": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"metadata": {
 				// @CODEGEN 2/2018: This should be a map[string]string. Spec doesn't specify this correctly and
 				// generates it as a TypeString
@@ -185,6 +190,11 @@ func ObjectStorageObjectResource() *schema.Resource {
 							Optional: true,
 							ForceNew: true,
 						},
+						"source_version_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
 					},
 				},
 			},
@@ -193,6 +203,10 @@ func ObjectStorageObjectResource() *schema.Resource {
 			// @CODEGEN 12/20/2018 - Even though Object resource is not stateful for content and multi-part variations
 			// making those variations stateful to match the logic for copy case to ensure that provider does not fail during state polling due to missing state property
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"version_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -342,6 +356,11 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 		if destinationObjectIfNoneMatchETag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_object_if_none_match_etag")); ok {
 			tmp := destinationObjectIfNoneMatchETag.(string)
 			copyObjectRequest.DestinationObjectIfNoneMatchETag = &tmp
+		}
+
+		if sourceVersionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_version_id")); ok {
+			tmp := sourceVersionId.(string)
+			copyObjectRequest.SourceVersionId = &tmp
 		}
 	}
 
@@ -747,34 +766,34 @@ func (s *ObjectStorageObjectResourceCrud) getObject() error {
 func (s *ObjectStorageObjectResourceCrud) Update() error {
 
 	// @CODEGEN 06/2018: Update is only supported for the change in name - all others are a forceNew
-	if !s.D.HasChange("object") {
-		return fmt.Errorf("unexpected change encountered")
-	}
-	request := oci_object_storage.RenameObjectRequest{}
+	if s.D.HasChange("object") {
 
-	if bucket, ok := s.D.GetOkExists("bucket"); ok {
-		tmp := bucket.(string)
-		request.BucketName = &tmp
-	}
-	if namespace, ok := s.D.GetOkExists("namespace"); ok {
-		tmp := namespace.(string)
-		request.NamespaceName = &tmp
-	}
-	oldRaw, newRaw := s.D.GetChange("object")
-	sourceName := oldRaw.(string)
-	request.SourceName = &sourceName
+		request := oci_object_storage.RenameObjectRequest{}
 
-	newName := newRaw.(string)
-	request.NewName = &newName
+		if bucket, ok := s.D.GetOkExists("bucket"); ok {
+			tmp := bucket.(string)
+			request.BucketName = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists("namespace"); ok {
+			tmp := namespace.(string)
+			request.NamespaceName = &tmp
+		}
+		oldRaw, newRaw := s.D.GetChange("object")
+		sourceName := oldRaw.(string)
+		request.SourceName = &sourceName
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
-	_, err := s.Client.RenameObject(context.Background(), request)
-	if err != nil {
-		return err
+		newName := newRaw.(string)
+		request.NewName = &newName
+
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+		_, err := s.Client.RenameObject(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		updatedId := getObjectCompositeId(*request.BucketName, *request.NamespaceName, *request.NewName)
+		s.D.SetId(updatedId)
 	}
-
-	updatedId := getObjectCompositeId(*request.BucketName, *request.NamespaceName, *request.NewName)
-	s.D.SetId(updatedId)
 	return s.Get()
 }
 
@@ -796,10 +815,14 @@ func (s *ObjectStorageObjectResourceCrud) Delete() error {
 		request.ObjectName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	if deleteAllObjectVersions, ok := s.D.GetOkExists("delete_all_object_versions"); ok && deleteAllObjectVersions.(bool) {
+		return DeleteAllObjectVersions(s.Client, *request.BucketName, *request.NamespaceName, *request.ObjectName)
+	} else {
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-	_, err := s.Client.DeleteObject(context.Background(), request)
-	return err
+		_, err := s.Client.DeleteObject(context.Background(), request)
+		return err
+	}
 }
 
 func (s *ObjectStorageObjectResourceCrud) SetData() error {
@@ -847,6 +870,10 @@ func (s *ObjectStorageObjectResourceCrud) setDataObjectHead() error {
 
 	if response.ContentType != nil {
 		s.D.Set("content_type", *response.ContentType)
+	}
+
+	if response.VersionId != nil {
+		s.D.Set("version_id", *response.VersionId)
 	}
 
 	if response.OpcMeta != nil {
@@ -924,6 +951,10 @@ func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 		s.D.Set("content_type", *s.Res.ObjectResponse.ContentType)
 	}
 
+	if s.Res.ObjectResponse.VersionId != nil {
+		s.D.Set("version_id", *s.Res.ObjectResponse.VersionId)
+	}
+
 	if s.Res.ObjectResponse.OpcMeta != nil {
 		// Note: regardless of what we sent to the SDK, the keys we get back from OpcMeta will always be
 		// converted to lower case
@@ -956,6 +987,10 @@ func ObjectSummaryToMap(obj oci_object_storage.ObjectSummary) map[string]interfa
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeModified != nil {
+		result["time_modified"] = obj.TimeModified.String()
 	}
 
 	return result
