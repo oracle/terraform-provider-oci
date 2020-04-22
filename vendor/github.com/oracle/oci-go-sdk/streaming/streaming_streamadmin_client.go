@@ -1,4 +1,5 @@
-// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2020, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Streaming Service API
@@ -205,60 +206,6 @@ func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context,
 	}
 
 	var response ChangeStreamPoolCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateArchiver Starts the provisioning of a new stream archiver.
-// To track the progress of the provisioning, you can periodically call GetArchiver.
-// In the response, the `lifecycleState` parameter of the Archiver object tells you its current state.
-func (client StreamAdminClient) CreateArchiver(ctx context.Context, request CreateArchiverRequest) (response CreateArchiverResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createArchiver, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateArchiverResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateArchiverResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateArchiverResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateArchiverResponse")
-	}
-	return
-}
-
-// createArchiver implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) createArchiver(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/archiver")
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateArchiverResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -579,53 +526,6 @@ func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request co
 	return response, err
 }
 
-// GetArchiver Returns the current state of the stream archiver.
-func (client StreamAdminClient) GetArchiver(ctx context.Context, request GetArchiverRequest) (response GetArchiverResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getArchiver, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetArchiverResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetArchiverResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetArchiverResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetArchiverResponse")
-	}
-	return
-}
-
-// getArchiver implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) getArchiver(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams/{streamId}/archiver")
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetArchiverResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetConnectHarness Gets detailed information about a connect harness.
 func (client StreamAdminClient) GetConnectHarness(ctx context.Context, request GetConnectHarnessRequest) (response GetConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -899,147 +799,6 @@ func (client StreamAdminClient) listStreams(ctx context.Context, request common.
 	}
 
 	var response ListStreamsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// StartArchiver Start the archiver for the specified stream.
-func (client StreamAdminClient) StartArchiver(ctx context.Context, request StartArchiverRequest) (response StartArchiverResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.startArchiver, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = StartArchiverResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = StartArchiverResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(StartArchiverResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into StartArchiverResponse")
-	}
-	return
-}
-
-// startArchiver implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) startArchiver(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/archiver/actions/start")
-	if err != nil {
-		return nil, err
-	}
-
-	var response StartArchiverResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// StopArchiver Stop the archiver for the specified stream.
-func (client StreamAdminClient) StopArchiver(ctx context.Context, request StopArchiverRequest) (response StopArchiverResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.stopArchiver, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = StopArchiverResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = StopArchiverResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(StopArchiverResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into StopArchiverResponse")
-	}
-	return
-}
-
-// stopArchiver implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) stopArchiver(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/archiver/actions/stop")
-	if err != nil {
-		return nil, err
-	}
-
-	var response StopArchiverResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateArchiver Update the stream archiver parameters.
-func (client StreamAdminClient) UpdateArchiver(ctx context.Context, request UpdateArchiverRequest) (response UpdateArchiverResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateArchiver, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateArchiverResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateArchiverResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateArchiverResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateArchiverResponse")
-	}
-	return
-}
-
-// updateArchiver implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) updateArchiver(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/streams/{streamId}/archiver")
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateArchiverResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

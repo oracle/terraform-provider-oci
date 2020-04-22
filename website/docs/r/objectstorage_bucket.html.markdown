@@ -31,7 +31,6 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 	metadata = "${var.bucket_metadata}"
 	object_events_enabled = "${var.bucket_object_events_enabled}"
 	storage_tier = "${var.bucket_storage_tier}"
-	#Optional
 	retention_rules {
         display_name = "${var.retention_rule_display_name}"
         duration {
@@ -41,6 +40,7 @@ resource "oci_objectstorage_bucket" "test_bucket" {
         }
         time_rule_locked = "${var.retention_rule_time_rule_locked}"
     }
+	versioning = "${var.bucket_versioning}"
 }
 ```
 
@@ -64,6 +64,7 @@ The following arguments are supported:
         * `time_unit` - (Required) (Updatable) The unit that should be used to interpret timeAmount.
     * `time_rule_locked` - (Optional) (Updatable) The date and time as per [RFC 3339](https://tools.ietf.org/html/rfc3339) after which this rule is locked and can only be deleted by deleting the bucket. Once a rule is locked, only increases in the duration are allowed and no other properties can be changed. This property cannot be updated for rules that are in a locked state. Specifying it when a duration is not specified is considered an error. 
 * `storage_tier` - (Optional) The type of storage tier of this bucket. A bucket is set to 'Standard' tier by default, which means the bucket will be put in the standard storage tier. When 'Archive' tier type is set explicitly, the bucket is put in the Archive Storage tier. The 'storageTier' property is immutable after bucket is created. 
+* `versioning` - (Optional) (Updatable) Set the versioning status on the bucket. By default, a bucket is created with versioning `Disabled`. Use this option to enable versioning during bucket creation. Objects in a version enabled bucket are protected from overwrites and deletions. Previous versions of the same object will be available in the bucket. Allowed Create values: Enabled, Disabled. Allowed Update values: Enabled, Suspended.
 
 
 ** IMPORTANT **
@@ -101,6 +102,7 @@ The following attributes are exported:
 * `replication_enabled` - Whether or not this bucket is a replication source. By default, `replicationEnabled` is set to `false`. This will be set to 'true' when you create a replication policy for the bucket. 
 * `storage_tier` - The storage tier type assigned to the bucket. A bucket is set to 'Standard' tier by default, which means objects uploaded or copied to the bucket will be in the standard storage tier. When the 'Archive' tier type is set explicitly for a bucket, objects uploaded or copied to the bucket will be stored in archive storage. The 'storageTier' property is immutable after bucket is created. 
 * `time_created` - The date and time the bucket was created, as described in [RFC 2616](https://tools.ietf.org/html/rfc2616#section-14.29).
+* `versioning` - The versioning status on the bucket. A bucket is created with versioning `Disabled` by default. For versioning `Enabled`, objects are protected from overwrites and deletes, by maintaining their version history. When versioning is `Suspended`, the previous versions will still remain but new versions will no longer be created when overwitten or deleted. 
 
 ## Import
 

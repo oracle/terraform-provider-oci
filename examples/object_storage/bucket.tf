@@ -11,9 +11,17 @@ resource "oci_objectstorage_bucket" "bucket1" {
   access_type    = "NoPublicAccess"
 }
 
+resource "oci_objectstorage_bucket" "bucket_with_versioning" {
+  compartment_id = "${var.compartment_ocid}"
+  namespace      = "${data.oci_objectstorage_namespace.ns.namespace}"
+  name           = "bucketWithVersioning"
+  access_type    = "NoPublicAccess"
+  versioning     = "Suspended"
+}
+
 resource "oci_objectstorage_object_lifecycle_policy" "lifecyclePolicy1" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket    = "tf-example-bucket"
+  bucket    = "${oci_objectstorage_bucket.bucket1.name}"
 
   #Optional
   rules {
@@ -48,11 +56,21 @@ output buckets {
 
 data "oci_objectstorage_object_lifecycle_policy" "lifecyclePolicies1" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket    = "tf-example-bucket"
+  bucket    = "${oci_objectstorage_bucket.bucket1.name}"
 
   depends_on = ["oci_objectstorage_object_lifecycle_policy.lifecyclePolicy1"]
 }
 
 output lifecyclePolicies1 {
   value = "${data.oci_objectstorage_object_lifecycle_policy.lifecyclePolicies1.rules}"
+}
+
+data "oci_objectstorage_object_versions" "test_object_versions1" {
+  #Required
+  bucket    = "${oci_objectstorage_bucket.bucket1.name}"
+  namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
+}
+
+output test_object_versions1 {
+  value = "${data.oci_objectstorage_object_versions.test_object_versions1.items}"
 }

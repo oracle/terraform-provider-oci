@@ -47,5 +47,6 @@ The following attributes are exported:
 	* DW - indicates an Autonomous Data Warehouse database 
 * `details` - A URL that points to a detailed description of the Autonomous Database version.
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
+* `is_free_tier_enabled` - True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases.
 * `version` - A valid Oracle Database version for Autonomous Database.
 

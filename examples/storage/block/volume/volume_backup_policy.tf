@@ -6,6 +6,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
+variable "destination_region" {}
 
 provider "oci" {
   tenancy_ocid     = "${var.tenancy_ocid}"
@@ -87,6 +88,8 @@ resource "oci_core_volume_backup_policy" "test_volume_backup_policy_custom" {
     offset_type    = "STRUCTURED"
     time_zone      = "UTC"
   }
+
+  destination_region = "${var.destination_region}"
 }
 
 resource "oci_core_volume" "test_volume_2" {

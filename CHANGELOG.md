@@ -1,4 +1,20 @@
 ## 3.72.0 (Unreleased)
+
+### Added
+- Support for resource discovery in Big Data service
+- Support for Scheduled Cross-Region Backups in `oci_core_volume_backup_policy`
+- Support Closing InstanceConfigurationLaunchInstanceDetails parity gaps with LaunchInstanceDetails 
+- Support Flexible Infrastructure - Flexible VM Instance
+- Support for object versioning in Object Storage 
+- Support for `is_free_tier_enabled` attribute in `oci_database_autonomous_db_versions` data source
+- Support for `maintenance_window` in `oci_database_db_system` resource for ExaCS infrastructure
+
+### Fixed
+- Update `cpu_core_count` with the other attributes in `oci_database_db_system` resource [Github issue #1026](https://github.com/terraform-providers/terraform-provider-oci/issues/1026)
+
+### Notes
+`oci_streaming_stream_archiver` data source and resource were not supported by the service and removed from the provider since v3.72.0
+
 ## 3.71.0 (April 16, 2020)
 
 ### Added

@@ -25,6 +25,23 @@ resource "oci_database_db_system" "test_db_system" {
     display_name = "MyTFDBHome1Exa"
   }
 
+  maintenance_window_details {
+    preference = "CUSTOM_PREFERENCE"
+
+    days_of_week {
+      name = "MONDAY"
+    }
+
+    hours_of_day       = ["4"]
+    lead_time_in_weeks = 2
+
+    months {
+      name = "APRIL"
+    }
+
+    weeks_of_month = ["2"]
+  }
+
   disk_redundancy  = "${var.db_disk_redundancy}"
   shape            = "${var.db_system_shape}"
   subnet_id        = "${oci_core_subnet.subnet.id}"

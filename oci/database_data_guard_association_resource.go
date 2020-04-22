@@ -188,14 +188,6 @@ func readDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) err
 	return ReadResource(sync)
 }
 
-func updateDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseDataGuardAssociationResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
-
-	return UpdateResource(d, sync)
-}
-
 func deleteDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDataGuardAssociationResourceCrud{}
 	sync.D = d
@@ -209,15 +201,6 @@ type DatabaseDataGuardAssociationResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.DataGuardAssociation
 	DisableNotFoundRetries bool
-}
-
-//after deleting the dataguard we should wait a little bit of time because the dbSystem sometime goes from terminating to available if deleted right after the standby dbHome is deleted and the dataguard is deleted.
-func (s *DatabaseDataGuardAssociationResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
-	if httpreplay.ShouldRetryImmediately() {
-		return 10 * time.Millisecond
-	}
-
-	return time.Second * 30
 }
 
 func (s *DatabaseDataGuardAssociationResourceCrud) ID() string {
@@ -289,103 +272,20 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Get() error {
 	return nil
 }
 
-//We need to have an empty delete because otherwise the added delete_standby_db_home_on_delete would have to be marked as ForceNew, which is undesireable. This way the update will pass the new value for this property from the config to the statefile.
-func (s *DatabaseDataGuardAssociationResourceCrud) Update() error {
-	return s.Get()
-}
-
-func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
-	if deleteStandbyDbHomeOnDelete, ok := s.D.GetOkExists("delete_standby_db_home_on_delete"); ok {
-		tmp := deleteStandbyDbHomeOnDelete.(string)
-		if tmp != "true" {
-			return fmt.Errorf("we do not currently support deleting the dataguard association without deleting the standby dbHome. Please set delete_standby_db_home_on_delete to \"true\" if you want to continue with the destroy. Once you change the value of delete_standby_db_home_on_delete you must do a `terraform apply` before running a `terraform destroy` so that destroy operation would get the new value")
-		}
-	}
-
-	err := s.Get()
-	if err != nil {
-		return err
-	}
-
-	creationType, ok := s.D.GetOkExists("creation_type")
-	if !ok {
-		return fmt.Errorf("creation_type could not be established during the delete")
-	}
-	if strings.ToLower(creationType.(string)) == strings.ToLower("ExistingDbSystem") {
-		var standbyDbHomeId *string
-		if s.Res.PeerRole == oci_database.DataGuardAssociationPeerRoleStandby {
-			standbyDbHomeId = s.Res.PeerDbHomeId
-		} else if s.Res.Role == oci_database.DataGuardAssociationRoleStandby {
-			standbyDbHomeId, err = s.GetDbHomeIdFromDatabaseId(s.Res.DatabaseId)
-			if err != nil {
-				return fmt.Errorf("could not delete the dataguard association as the standby DB Home Id could not be obtained: %v", err)
-			}
-		} else {
-			return fmt.Errorf("could not delete the dataguard association as it is not possible to determine the standby DB home")
-		}
-
-		if standbyDbHomeId == nil {
-			return fmt.Errorf("could not delete the dataguard association as the standby DB Home Id could not be obtained")
-		}
-
-		request := oci_database.DeleteDbHomeRequest{}
-		request.DbHomeId = standbyDbHomeId
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-		_, err = s.Client.DeleteDbHome(context.Background(), request)
-		if err != nil {
-			return fmt.Errorf("could not delete standby DB Home to delete the data guard association: %v", err)
-		}
-
-		getDbHomeRequest := oci_database.GetDbHomeRequest{}
-		getDbHomeRequest.DbHomeId = standbyDbHomeId
-		getDbHomeRequest.RequestMetadata.RetryPolicy = waitForDbHomeToTerminateRetryPolicy(2 * time.Hour)
-		getDbHomeResponse, err := s.Client.GetDbHome(context.Background(), getDbHomeRequest)
-		//Sometimed the DB Home goes from a TERMINATING Lifecycle state into AVAILABLE, this is to catch that case and report it ot the user as a failure in deleting the database
-		if getDbHomeResponse.LifecycleState == oci_database.DbHomeLifecycleStateAvailable {
-			return fmt.Errorf("could not delete the dataguard association as the dbHome could not be deleted")
-		}
-
-		return err
-	} else if strings.ToLower(creationType.(string)) == strings.ToLower("NewDbSystem") {
-		var standbyDbSystemId *string
-		if s.Res.PeerRole == oci_database.DataGuardAssociationPeerRoleStandby {
-			standbyDbSystemId = s.Res.PeerDbSystemId
-		} else if s.Res.Role == oci_database.DataGuardAssociationRoleStandby {
-			standbyDbSystemId, err = s.GetDbSystemIdFromDatabaseId(s.Res.DatabaseId)
-			if err != nil {
-				return fmt.Errorf("could not delete the dataguard association as the standby DB System Id could not be obtained: %v", err)
-			}
-		} else {
-			return fmt.Errorf("could not delete the dataguard association as it is not possible to determine the standby DB System")
-		}
-
-		if standbyDbSystemId == nil {
-			return fmt.Errorf("could not delete the dataguard association as the standby DB System Id could not be obtained")
-		}
-
-		request := oci_database.TerminateDbSystemRequest{}
-		request.DbSystemId = standbyDbSystemId
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-		_, err := s.Client.TerminateDbSystem(context.Background(), request)
-		if err != nil {
-			return fmt.Errorf("could not delete standby DB System to delete the data guard association: %v", err)
-		}
-
-		getDbSystemRequest := oci_database.GetDbSystemRequest{}
-		getDbSystemRequest.DbSystemId = standbyDbSystemId
-		getDbSystemRequest.RequestMetadata.RetryPolicy = waitForDbSystemToTerminateRetryPolicy(2 * time.Hour)
-		getDbSystemResponse, err := s.Client.GetDbSystem(context.Background(), getDbSystemRequest)
-		//Sometimes the DB System goes from a TERMINATING Lifecycle state into AVAILABLE, this is to catch that case and report it ot the user as a failure in deleting the db System
-		if getDbSystemResponse.LifecycleState == oci_database.DbSystemLifecycleStateAvailable {
-			return fmt.Errorf("could not delete the dataguard association as the dbSystem could not be deleted")
-		}
-
-		return err
-	}
-	return fmt.Errorf("unrecognized creation_type during delete")
-}
-
 func (s *DatabaseDataGuardAssociationResourceCrud) SetData() error {
+
+	if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+		s.D.Set("backup_network_nsg_ids", backupNetworkNsgIds)
+	} else {
+		s.D.Set("backup_network_nsg_ids", nil)
+	}
+
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		s.D.Set("nsg_ids", nsgIds)
+	} else {
+		s.D.Set("nsg_ids", nil)
+	}
+
 	if s.Res.ApplyLag != nil {
 		s.D.Set("apply_lag", *s.Res.ApplyLag)
 	}
@@ -394,25 +294,12 @@ func (s *DatabaseDataGuardAssociationResourceCrud) SetData() error {
 		s.D.Set("apply_rate", *s.Res.ApplyRate)
 	}
 
-	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
-	if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
-		s.D.Set("backup_network_nsg_ids", backupNetworkNsgIds)
-	} else {
-		s.D.Set("backup_network_nsg_ids", nil)
-	}
-
 	if s.Res.DatabaseId != nil {
 		s.D.Set("database_id", *s.Res.DatabaseId)
 	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
-	}
-	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
-	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
-		s.D.Set("nsg_ids", nsgIds)
-	} else {
-		s.D.Set("nsg_ids", nil)
 	}
 
 	if s.Res.PeerDataGuardAssociationId != nil {
@@ -485,7 +372,6 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := availabilityDomain.(string)
 			details.AvailabilityDomain = &tmp
 		}
-		//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
 			set := backupNetworkNsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -507,7 +393,6 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := hostname.(string)
 			details.Hostname = &tmp
 		}
-		//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -550,6 +435,117 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 	return nil
 }
 
+func (s *DatabaseDataGuardAssociationResourceCrud) Update() error {
+	return s.Get()
+}
+
+func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
+	if deleteStandbyDbHomeOnDelete, ok := s.D.GetOkExists("delete_standby_db_home_on_delete"); ok {
+		tmp := deleteStandbyDbHomeOnDelete.(string)
+		if tmp != "true" {
+			return fmt.Errorf("we do not currently support deleting the dataguard association without deleting the standby dbHome. Please set delete_standby_db_home_on_delete to \"true\" if you want to continue with the destroy. Once you change the value of delete_standby_db_home_on_delete you must do a `terraform apply` before running a `terraform destroy` so that destroy operation would get the new value")
+		}
+	}
+
+	err := s.Get()
+	if err != nil {
+		return err
+	}
+
+	creationType, ok := s.D.GetOkExists("creation_type")
+	if !ok {
+		return fmt.Errorf("creation_type could not be established during the delete")
+	}
+	if strings.ToLower(creationType.(string)) == strings.ToLower("ExistingDbSystem") {
+		var standbyDbHomeId *string
+		if s.Res.PeerRole == oci_database.DataGuardAssociationPeerRoleStandby {
+			standbyDbHomeId = s.Res.PeerDbHomeId
+		} else if s.Res.Role == oci_database.DataGuardAssociationRoleStandby {
+			standbyDbHomeId, err = s.GetDbHomeIdFromDatabaseId(s.Res.DatabaseId)
+			if err != nil {
+				return fmt.Errorf("could not delete the dataguard association as the standby DB Home Id could not be obtained: %v", err)
+			}
+		} else {
+			return fmt.Errorf("could not delete the dataguard association as it is not possible to determine the standby DB home")
+		}
+
+		if standbyDbHomeId == nil {
+			return fmt.Errorf("could not delete the dataguard association as the standby DB Home Id could not be obtained")
+		}
+
+		request := oci_database.DeleteDbHomeRequest{}
+		request.DbHomeId = standbyDbHomeId
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		_, err = s.Client.DeleteDbHome(context.Background(), request)
+		if err != nil {
+			return fmt.Errorf("could not delete standby DB Home to delete the data guard association: %v", err)
+		}
+
+		getDbHomeRequest := oci_database.GetDbHomeRequest{}
+		getDbHomeRequest.DbHomeId = standbyDbHomeId
+		getDbHomeRequest.RequestMetadata.RetryPolicy = waitForDbHomeToTerminateRetryPolicy(2 * time.Hour)
+		getDbHomeResponse, err := s.Client.GetDbHome(context.Background(), getDbHomeRequest)
+
+		if getDbHomeResponse.LifecycleState == oci_database.DbHomeLifecycleStateAvailable {
+			return fmt.Errorf("could not delete the dataguard association as the dbHome could not be deleted")
+		}
+
+		return err
+	} else if strings.ToLower(creationType.(string)) == strings.ToLower("NewDbSystem") {
+		var standbyDbSystemId *string
+		if s.Res.PeerRole == oci_database.DataGuardAssociationPeerRoleStandby {
+			standbyDbSystemId = s.Res.PeerDbSystemId
+		} else if s.Res.Role == oci_database.DataGuardAssociationRoleStandby {
+			standbyDbSystemId, err = s.GetDbSystemIdFromDatabaseId(s.Res.DatabaseId)
+			if err != nil {
+				return fmt.Errorf("could not delete the dataguard association as the standby DB System Id could not be obtained: %v", err)
+			}
+		} else {
+			return fmt.Errorf("could not delete the dataguard association as it is not possible to determine the standby DB System")
+		}
+
+		if standbyDbSystemId == nil {
+			return fmt.Errorf("could not delete the dataguard association as the standby DB System Id could not be obtained")
+		}
+
+		request := oci_database.TerminateDbSystemRequest{}
+		request.DbSystemId = standbyDbSystemId
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		_, err := s.Client.TerminateDbSystem(context.Background(), request)
+		if err != nil {
+			return fmt.Errorf("could not delete standby DB System to delete the data guard association: %v", err)
+		}
+
+		getDbSystemRequest := oci_database.GetDbSystemRequest{}
+		getDbSystemRequest.DbSystemId = standbyDbSystemId
+		getDbSystemRequest.RequestMetadata.RetryPolicy = waitForDbSystemToTerminateRetryPolicy(2 * time.Hour)
+		getDbSystemResponse, err := s.Client.GetDbSystem(context.Background(), getDbSystemRequest)
+
+		if getDbSystemResponse.LifecycleState == oci_database.DbSystemLifecycleStateAvailable {
+			return fmt.Errorf("could not delete the dataguard association as the dbSystem could not be deleted")
+		}
+
+		return err
+	}
+	return fmt.Errorf("unrecognized creation_type during delete")
+}
+
+func updateDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDataGuardAssociationResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).databaseClient
+
+	return UpdateResource(d, sync)
+}
+
+func (s *DatabaseDataGuardAssociationResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
+	if httpreplay.ShouldRetryImmediately() {
+		return 10 * time.Millisecond
+	}
+
+	return time.Second * 30
+}
+
 func (s *DatabaseDataGuardAssociationResourceCrud) GetDbHomeIdFromDatabaseId(databaseId *string) (*string, error) {
 	request := oci_database.GetDatabaseRequest{}
 
@@ -588,7 +584,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) GetDbSystemIdFromDbHomeId(dbH
 
 func waitForDbHomeToTerminateRetryPolicy(timeout time.Duration) *oci_common.RetryPolicy {
 	startTime := time.Now()
-	// wait for peering status to not be Pending
+
 	return &oci_common.RetryPolicy{
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
 			if shouldRetry(response, false, "database", startTime) {
@@ -611,7 +607,7 @@ func waitForDbHomeToTerminateRetryPolicy(timeout time.Duration) *oci_common.Retr
 
 func waitForDbSystemToTerminateRetryPolicy(timeout time.Duration) *oci_common.RetryPolicy {
 	startTime := time.Now()
-	// wait for peering status to not be Pending
+
 	return &oci_common.RetryPolicy{
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
 			if shouldRetry(response, false, "database", startTime) {

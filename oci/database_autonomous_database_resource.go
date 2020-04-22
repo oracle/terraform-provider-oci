@@ -517,7 +517,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 
 	request := oci_database.UpdateAutonomousDatabaseRequest{}
 
-	// @CODEGEN 09/2018: Cannot update the password and scale the Autonomous Transaction Processing in same request, only include changed properties in request
 	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok && s.D.HasChange("admin_password") {
 		tmp := adminPassword.(string)
 		request.AdminPassword = &tmp

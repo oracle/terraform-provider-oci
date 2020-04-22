@@ -69,7 +69,7 @@ The following arguments are supported:
 	* `hostname` - (Required) (Updatable) The SCAN hostname.
 	* `ips` - (Required) (Updatable) The list of SCAN IP addresses. Three addresses should be provided.
 	* `port` - (Required) (Updatable) The SCAN port. Default is 1521.
-* `validate_vm_cluster_network` - (Optional) A boolean flag indicating whether or not to validate VM cluster network after creation. Updates are not allowed on validated exadata VM cluster network.
+* `validate_vm_cluster_network` - (Optional) (Updatable) A boolean flag indicating whether or not to validate VM cluster network after creation. Updates are not allowed on validated exadata VM cluster network.
 * `vm_networks` - (Required) (Updatable) Details of the client and backup networks.
 	* `domain_name` - (Required) (Updatable) The network domain name.
 	* `gateway` - (Required) (Updatable) The network gateway.

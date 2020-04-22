@@ -183,6 +183,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													ForceNew: true,
 													Elem:     schema.TypeString,
 												},
+												"kms_key_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"size_in_gbs": {
 													Type:             schema.TypeString,
 													Optional:         true,
@@ -224,6 +230,14 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 														},
 													},
 												},
+												"vpus_per_gb": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													ValidateFunc:     validateInt64TypeString,
+													DiffSuppressFunc: int64StringDiffSuppressFunction,
+												},
 
 												// Computed
 											},
@@ -252,6 +266,35 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"agent_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"is_management_disabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_monitoring_disabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"availability_domain": {
 										Type:             schema.TypeString,
 										Optional:         true,
@@ -283,11 +326,26 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"defined_tags": {
+													Type:             schema.TypeMap,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: definedTagsDiffSuppressFunction,
+													Elem:             schema.TypeString,
+												},
 												"display_name": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"freeform_tags": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem:     schema.TypeString,
 												},
 												"hostname_label": {
 													Type:     schema.TypeString,
@@ -326,6 +384,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Computed
 											},
 										},
+									},
+									"dedicated_vm_host_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
 									},
 									"defined_tags": {
 										Type:             schema.TypeMap,
@@ -368,6 +432,71 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"is_pv_encryption_in_transit_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"launch_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"launch_options": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"boot_volume_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"firmware": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_consistent_volume_naming_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_pv_encryption_in_transit_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"network_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"remote_data_volume_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"metadata": {
 										Type:     schema.TypeMap,
 										Optional: true,
@@ -375,11 +504,40 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										ForceNew: true,
 										Elem:     schema.TypeString,
 									},
+									"preferred_maintenance_action": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"shape": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
+									},
+									"shape_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"ocpus": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 									"source_details": {
 										Type:     schema.TypeList,
@@ -461,11 +619,26 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"defined_tags": {
+													Type:             schema.TypeMap,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: definedTagsDiffSuppressFunction,
+													Elem:             schema.TypeString,
+												},
 												"display_name": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"freeform_tags": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem:     schema.TypeString,
 												},
 												"hostname_label": {
 													Type:     schema.TypeString,
@@ -915,9 +1088,21 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.AssignPublicIp = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
@@ -964,9 +1149,15 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 		result["assign_public_ip"] = bool(*obj.AssignPublicIp)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.HostnameLabel != nil {
 		result["hostname_label"] = string(*obj.HostnameLabel)
@@ -1032,6 +1223,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+
 	if sizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size_in_gbs")); ok {
 		tmp := sizeInGBs.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
@@ -1050,6 +1246,15 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 			}
 			result.SourceDetails = &tmp
 		}
+	}
+
+	if vpusPerGB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpus_per_gb")); ok {
+		tmp := vpusPerGB.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert vpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.VpusPerGB = &tmpInt64
 	}
 
 	return result, nil
@@ -1080,6 +1285,10 @@ func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 
 	result["freeform_tags"] = obj.FreeformTags
 
+	if obj.KmsKeyId != nil {
+		result["kms_key_id"] = string(*obj.KmsKeyId)
+	}
+
 	if obj.SizeInGBs != nil {
 		result["size_in_gbs"] = strconv.FormatInt(*obj.SizeInGBs, 10)
 	}
@@ -1090,6 +1299,10 @@ func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 		}
 		result["source_details"] = sourceDetailsArray
+	}
+
+	if obj.VpusPerGB != nil {
+		result["vpus_per_gb"] = strconv.FormatInt(*obj.VpusPerGB, 10)
 	}
 
 	return result
@@ -1252,8 +1465,49 @@ func InstanceConfigurationInstanceSourceDetailsToMap(obj *oci_core.InstanceConfi
 	return result
 }
 
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunchInstanceAgentConfigDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationLaunchInstanceAgentConfigDetails, error) {
+	result := oci_core.InstanceConfigurationLaunchInstanceAgentConfigDetails{}
+
+	if isManagementDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_management_disabled")); ok {
+		tmp := isManagementDisabled.(bool)
+		result.IsManagementDisabled = &tmp
+	}
+
+	if isMonitoringDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monitoring_disabled")); ok {
+		tmp := isMonitoringDisabled.(bool)
+		result.IsMonitoringDisabled = &tmp
+	}
+
+	return result, nil
+}
+
+func InstanceConfigurationLaunchInstanceAgentConfigDetailsToMap(obj *oci_core.InstanceConfigurationLaunchInstanceAgentConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsManagementDisabled != nil {
+		result["is_management_disabled"] = bool(*obj.IsManagementDisabled)
+	}
+
+	if obj.IsMonitoringDisabled != nil {
+		result["is_monitoring_disabled"] = bool(*obj.IsMonitoringDisabled)
+	}
+
+	return result
+}
+
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunchInstanceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationLaunchInstanceDetails, error) {
 	result := oci_core.InstanceConfigurationLaunchInstanceDetails{}
+
+	if agentConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "agent_config")); ok {
+		if tmpList := agentConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "agent_config"), 0)
+			tmp, err := s.mapToInstanceConfigurationLaunchInstanceAgentConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert agent_config, encountered error: %v", err)
+			}
+			result.AgentConfig = &tmp
+		}
+	}
 
 	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
 		tmp := availabilityDomain.(string)
@@ -1274,6 +1528,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 			}
 			result.CreateVnicDetails = &tmp
 		}
+	}
+
+	if dedicatedVmHostId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dedicated_vm_host_id")); ok {
+		tmp := dedicatedVmHostId.(string)
+		result.DedicatedVmHostId = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
@@ -1311,13 +1570,48 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.IpxeScript = &tmp
 	}
 
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+		tmp := isPvEncryptionInTransitEnabled.(bool)
+		result.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
+	if launchMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_mode")); ok {
+		result.LaunchMode = oci_core.InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum(launchMode.(string))
+	}
+
+	if launchOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_options")); ok {
+		if tmpList := launchOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "launch_options"), 0)
+			tmp, err := s.mapToInstanceConfigurationLaunchOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert launch_options, encountered error: %v", err)
+			}
+			result.LaunchOptions = &tmp
+		}
+	}
+
 	if metadata, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metadata")); ok {
 		result.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
+	}
+
+	if preferredMaintenanceAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preferred_maintenance_action")); ok {
+		result.PreferredMaintenanceAction = oci_core.InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum(preferredMaintenanceAction.(string))
 	}
 
 	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
 		tmp := shape.(string)
 		result.Shape = &tmp
+	}
+
+	if shapeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_config")); ok {
+		if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "shape_config"), 0)
+			tmp, err := s.mapToInstanceConfigurationLaunchInstanceShapeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert shape_config, encountered error: %v", err)
+			}
+			result.ShapeConfig = &tmp
+		}
 	}
 
 	if sourceDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_details")); ok {
@@ -1337,6 +1631,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfigurationLaunchInstanceDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AgentConfig != nil {
+		result["agent_config"] = []interface{}{InstanceConfigurationLaunchInstanceAgentConfigDetailsToMap(obj.AgentConfig)}
+	}
+
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
 	}
@@ -1347,6 +1645,10 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 
 	if obj.CreateVnicDetails != nil {
 		result["create_vnic_details"] = []interface{}{InstanceConfigurationCreateVnicDetailsToMap(obj.CreateVnicDetails, datasource)}
+	}
+
+	if obj.DedicatedVmHostId != nil {
+		result["dedicated_vm_host_id"] = string(*obj.DedicatedVmHostId)
 	}
 
 	if obj.DefinedTags != nil {
@@ -1369,10 +1671,26 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 		result["ipxe_script"] = string(*obj.IpxeScript)
 	}
 
+	if obj.IsPvEncryptionInTransitEnabled != nil {
+		result["is_pv_encryption_in_transit_enabled"] = bool(*obj.IsPvEncryptionInTransitEnabled)
+	}
+
+	result["launch_mode"] = string(obj.LaunchMode)
+
+	if obj.LaunchOptions != nil {
+		result["launch_options"] = []interface{}{InstanceConfigurationLaunchOptionsToMap(obj.LaunchOptions)}
+	}
+
 	result["metadata"] = obj.Metadata
+
+	result["preferred_maintenance_action"] = string(obj.PreferredMaintenanceAction)
 
 	if obj.Shape != nil {
 		result["shape"] = string(*obj.Shape)
+	}
+
+	if obj.ShapeConfig != nil {
+		result["shape_config"] = []interface{}{InstanceConfigurationLaunchInstanceShapeConfigDetailsToMap(obj.ShapeConfig)}
 	}
 
 	if obj.SourceDetails != nil {
@@ -1382,6 +1700,81 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 		}
 		result["source_details"] = sourceDetailsArray
 	}
+
+	return result
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunchInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetails, error) {
+	result := oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetails{}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func InstanceConfigurationLaunchInstanceShapeConfigDetailsToMap(obj *oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	return result
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunchOptions(fieldKeyFormat string) (oci_core.InstanceConfigurationLaunchOptions, error) {
+	result := oci_core.InstanceConfigurationLaunchOptions{}
+
+	if bootVolumeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_type")); ok {
+		result.BootVolumeType = oci_core.InstanceConfigurationLaunchOptionsBootVolumeTypeEnum(bootVolumeType.(string))
+	}
+
+	if firmware, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "firmware")); ok {
+		result.Firmware = oci_core.InstanceConfigurationLaunchOptionsFirmwareEnum(firmware.(string))
+	}
+
+	if isConsistentVolumeNamingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_consistent_volume_naming_enabled")); ok {
+		tmp := isConsistentVolumeNamingEnabled.(bool)
+		result.IsConsistentVolumeNamingEnabled = &tmp
+	}
+
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+		tmp := isPvEncryptionInTransitEnabled.(bool)
+		result.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
+	if networkType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_type")); ok {
+		result.NetworkType = oci_core.InstanceConfigurationLaunchOptionsNetworkTypeEnum(networkType.(string))
+	}
+
+	if remoteDataVolumeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_data_volume_type")); ok {
+		result.RemoteDataVolumeType = oci_core.InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum(remoteDataVolumeType.(string))
+	}
+
+	return result, nil
+}
+
+func InstanceConfigurationLaunchOptionsToMap(obj *oci_core.InstanceConfigurationLaunchOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["boot_volume_type"] = string(obj.BootVolumeType)
+
+	result["firmware"] = string(obj.Firmware)
+
+	if obj.IsConsistentVolumeNamingEnabled != nil {
+		result["is_consistent_volume_naming_enabled"] = bool(*obj.IsConsistentVolumeNamingEnabled)
+	}
+
+	if obj.IsPvEncryptionInTransitEnabled != nil {
+		result["is_pv_encryption_in_transit_enabled"] = bool(*obj.IsPvEncryptionInTransitEnabled)
+	}
+
+	result["network_type"] = string(obj.NetworkType)
+
+	result["remote_data_volume_type"] = string(obj.RemoteDataVolumeType)
 
 	return result
 }

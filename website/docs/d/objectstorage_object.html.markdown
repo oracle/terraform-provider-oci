@@ -21,6 +21,9 @@ data "oci_objectstorage_object" "test_object" {
 	bucket = "${var.object_bucket}"
 	namespace = "${var.object_namespace}"
 	object = "${var.object_object}"
+
+	#Optional
+	version_id = "${oci_objectstorage_version.test_version.id}"
 }
 ```
 
@@ -34,6 +37,7 @@ The following arguments are supported:
 * `content_length_limit` - (Optional) The limit of the content length of the object body to download from the object store. The default is 1Mb.
 * `base64_encode_content` - (Optional) Encodes the downloaded content in base64. It is recommended to set this to `true` for binary content to avoid corrupting the zip file in Terraform state. The default value is `false` to preserve backwards compatibility with Terraform v0.11 configurations.
 If passing the base64 encoded content to a `local_file` resource, please use the `content_base64` attribute of the `local_file` resource.
+* `version_id` - (Optional) VersionId used to identify a particular version of the object
 
 
 ## Attributes Reference
