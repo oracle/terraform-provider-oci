@@ -268,6 +268,12 @@ resource "oci_load_balancer_backend_set" "lb-bes2" {
     response_body_regex = ".*"
     url_path            = "/"
   }
+
+  ssl_configuration {
+    protocols         = ["TLSv1.1", "TLSv1.2"]
+    cipher_suite_name = "${oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite.name}"
+    certificate_name  = "${oci_load_balancer_certificate.lb-cert1.certificate_name}"
+  }
 }
 
 resource "oci_load_balancer_certificate" "lb-cert1" {
@@ -337,6 +343,9 @@ resource "oci_load_balancer_listener" "lb-listener2" {
   ssl_configuration {
     certificate_name        = "${oci_load_balancer_certificate.lb-cert1.certificate_name}"
     verify_peer_certificate = false
+    protocols               = ["TLSv1.1", "TLSv1.2"]
+    cipher_suite_name       = "${oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite.name}"
+    certificate_name        = "${oci_load_balancer_certificate.lb-cert1.certificate_name}"
   }
 }
 
@@ -435,4 +444,19 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 
 output "lb_public_ip" {
   value = ["${oci_load_balancer.lb1.ip_address_details}"]
+}
+
+resource "oci_load_balancer_ssl_cipher_suite" "test_ssl_cipher_suite" {
+  #Required
+  name = "test_cipher_name"
+
+  ciphers = ["AES128-SHA", "AES256-SHA"]
+
+  #Optional
+  load_balancer_id = "${oci_load_balancer.lb1.id}"
+}
+
+data "oci_load_balancer_ssl_cipher_suites" "test_ssl_cipher_suites" {
+  #Optional
+  load_balancer_id = "${oci_load_balancer.lb1.id}"
 }
