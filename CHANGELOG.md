@@ -5,6 +5,7 @@
 - OKE Support for the AMD ROME Adoption
 - Support for VM DB System Cloning
 - Support for DBAAS ADB Serverless Refreshable Clone
+- Support for LBaaS Cipher Suite Configuration
 
 ## 3.90.1 (August 26, 2020)
 
