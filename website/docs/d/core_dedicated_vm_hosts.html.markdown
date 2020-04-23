@@ -68,6 +68,6 @@ The following attributes are exported:
 * `id` - The OCID of the dedicated VM host. 
 * `remaining_ocpus` - The current available OCPUs of the dedicated VM host. 
 * `state` - The current state of the dedicated VM host. 
-* `time_created` - The date and time the dedicated VM host was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the dedicated VM host was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `total_ocpus` - The current total OCPUs of the dedicated VM host. 
 

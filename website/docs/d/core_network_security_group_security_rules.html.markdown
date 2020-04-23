@@ -85,7 +85,7 @@ The following attributes are exported:
 	* `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 		* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 		* `min` - The minimum port number. Must not be greater than the maximum port number.
-* `time_created` - The date and time the security rule was created. Format defined by RFC3339.
+* `time_created` - The date and time the security rule was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `udp_options` - Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
 	* `destination_port_range` - An inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 		* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
