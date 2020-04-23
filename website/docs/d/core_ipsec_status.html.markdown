@@ -35,10 +35,10 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the IPSec connection.
 * `id` - The IPSec connection's Oracle ID (OCID).
-* `time_created` - The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `tunnels` - Two [TunnelStatus](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/TunnelStatus/) objects.
-	* `ip_address` - The IP address of Oracle's VPN headend.  Example: `129.146.17.50` 
+	* `ip_address` - The IP address of Oracle's VPN headend.  Example: `203.0.113.50` 
 	* `state` - The tunnel's current state.
-	* `time_created` - The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
-	* `time_state_modified` - When the state of the tunnel last changed, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+	* `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+	* `time_state_modified` - When the state of the tunnel last changed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 

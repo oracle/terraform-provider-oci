@@ -83,7 +83,7 @@ The following attributes are exported:
 			* `subnet_id` - The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 	* `size` - The number of instances that should be in the instance pool.
 	* `state` - The current state of the instance pool.
-	* `time_created` - The date and time the instance pool was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
+	* `time_created` - The date and time the instance pool was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 * `placement_configuration` - The placement configuration for the instance pools in the cluster network. 
 	* `availability_domain` - The availability domain to place instances.  Example: `Uocm:PHX-AD-1` 
 	* `primary_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 
@@ -91,6 +91,6 @@ The following attributes are exported:
 		* `display_name` - The display name of the VNIC. This is also use to match against the instance configuration defined secondary VNIC. 
 		* `subnet_id` - The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 * `state` - The current state of the cluster network.
-* `time_created` - The date and time the resource was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
-* `time_updated` - The date and time the resource was updated, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the resource was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `time_updated` - The date and time the resource was updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 

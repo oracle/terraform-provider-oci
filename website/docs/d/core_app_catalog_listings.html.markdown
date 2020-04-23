@@ -50,5 +50,5 @@ The following attributes are exported:
 * `publisher_logo_url` - Publisher's logo URL.
 * `publisher_name` - The name of the publisher who published this listing.
 * `summary` - The short summary for the listing.
-* `time_published` - Date and time the listing was published, in RFC3339 format. Example: `2018-03-20T12:32:53.532Z` 
+* `time_published` - Date and time the listing was published, in [RFC3339](https://tools.ietf.org/html/rfc3339) format. Example: `2018-03-20T12:32:53.532Z` 
 

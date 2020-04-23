@@ -181,7 +181,7 @@ The following attributes are exported:
 * `operating_system_version` - The image's operating system version.  Example: `7.2` 
 * `size_in_mbs` - The boot volume size for an instance launched from this image, (1 MB = 1048576 bytes). Note this is not the same as the size of the image when it was exported or the actual size of the image.  Example: `47694` 
 * `state` - The current state of the image.
-* `time_created` - The date and time the image was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the image was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import
 

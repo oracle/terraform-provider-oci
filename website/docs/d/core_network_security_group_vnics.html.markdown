@@ -40,6 +40,6 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `resource_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent resource that the VNIC is attached to (for example, a Compute instance). 
-* `time_associated` - The date and time the VNIC was added to the network security group, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_associated` - The date and time the VNIC was added to the network security group, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vnic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 

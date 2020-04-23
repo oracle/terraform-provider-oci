@@ -78,7 +78,7 @@ The following attributes are exported:
 	* `volume_group_id` - The OCID of the volume group to clone from.
 	* `volume_ids` - OCIDs for the volumes in this volume group.
 * `state` - The current state of a volume group.
-* `time_created` - The date and time the volume group was created. Format defined by RFC3339.
+* `time_created` - The date and time the volume group was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `volume_ids` - OCIDs for the volumes in this volume group.
 
 ## Import

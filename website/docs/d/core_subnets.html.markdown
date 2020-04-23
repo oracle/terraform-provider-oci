@@ -48,7 +48,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `availability_domain` - The subnet's availability domain. This attribute will be null if this is a regional subnet instead of an AD-specific subnet. Oracle recommends creating regional subnets.  Example: `Uocm:PHX-AD-1` 
-* `cidr_block` - The subnet's CIDR block.  Example: `172.16.1.0/24` 
+* `cidr_block` - The subnet's CIDR block.  Example: `10.0.1.0/24` 
 * `compartment_id` - The OCID of the compartment containing the subnet.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `dhcp_options_id` - The OCID of the set of DHCP options that the subnet uses. 
@@ -74,8 +74,8 @@ The following attributes are exported:
 	For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 
 	Example: `subnet123.vcn1.oraclevcn.com` 
-* `time_created` - The date and time the subnet was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the subnet was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The OCID of the VCN the subnet is in.
 * `virtual_router_ip` - The IP address of the virtual router.  Example: `10.0.14.1` 
-* `virtual_router_mac` - The MAC address of the virtual router.  Example: `00:00:17:B6:4D:DD` 
+* `virtual_router_mac` - The MAC address of the virtual router.  Example: `00:00:00:00:00:01` 
 

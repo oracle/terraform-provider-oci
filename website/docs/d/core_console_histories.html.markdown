@@ -55,5 +55,5 @@ The following attributes are exported:
 * `id` - The OCID of the console history metadata object.
 * `instance_id` - The OCID of the instance this console history was fetched from.
 * `state` - The current state of the console history.
-* `time_created` - The date and time the history was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the history was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 
