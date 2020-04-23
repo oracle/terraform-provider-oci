@@ -1074,6 +1074,12 @@ func readEnvironmentVars(d *schema.ResourceData) error {
 		}
 	}
 
+	if tenancyOcid := getProviderEnvSettingWithDefault(tenancyOcidAttrName, ""); tenancyOcid != "" {
+		if err := d.Set(tenancyOcidAttrName, tenancyOcid); err != nil {
+			return err
+		}
+	}
+
 	if userOcid := getProviderEnvSettingWithDefault(userOcidAttrName, ""); userOcid != "" {
 		if err := d.Set(userOcidAttrName, userOcid); err != nil {
 			return err
