@@ -73,13 +73,13 @@ type ListAcceptedAgreementsResponse struct {
 	// A list of []AcceptedAgreementSummary instances
 	Items []AcceptedAgreementSummary `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain.
-	// Include this value as the `page` parameter for the subsequent GET request. For important details about
-	// how pagination works, see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#List_Pagination).
+	// For pagination of a list of items. When paging through a list, if this header appears in the response,
+	// then a partial list might have been returned. Include this value as the `page` parameter for the
+	// subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

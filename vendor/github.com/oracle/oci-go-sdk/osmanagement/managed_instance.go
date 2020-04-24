@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OSMS
+// OS Management API
 //
-// OS Management as a Service API definition
+// API for the OS Management service. Use these API operations for working
+// with Managed instances and Managed instance groups.
 //
 
 package osmanagement
@@ -58,6 +59,12 @@ type ManagedInstance struct {
 	// The ids of the managed instance groups of which this instance is a
 	// member.
 	ManagedInstanceGroups []Id `mandatory:"false" json:"managedInstanceGroups"`
+
+	// The Operating System type of the managed instance.
+	OsFamily OsFamiliesEnum `mandatory:"false" json:"osFamily,omitempty"`
+
+	// Indicates whether a reboot is required to complete installation of updates.
+	IsRebootRequired *bool `mandatory:"false" json:"isRebootRequired"`
 }
 
 func (m ManagedInstance) String() string {

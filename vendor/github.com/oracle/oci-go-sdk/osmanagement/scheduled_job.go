@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OSMS
+// OS Management API
 //
-// OS Management as a Service API definition
+// API for the OS Management service. Use these API operations for working
+// with Managed instances and Managed instance groups.
 //
 
 package osmanagement
@@ -52,10 +53,10 @@ type ScheduledJob struct {
 	// the type of operation this Scheduled Job performs
 	OperationType OperationTypesEnum `mandatory:"false" json:"operationType,omitempty"`
 
-	// Type of the update (only if operation type is UPDATE_ALL_PACKAGES)
+	// Type of the update (only if operation type is UPDATEALL)
 	UpdateType PackageUpdateTypesEnum `mandatory:"false" json:"updateType,omitempty"`
 
-	// the names of the packages (only if operation type is INSTALL/UPDATE/REMOVE_PACKAGE)
+	// the names of the updates (only if operation type is INSTALL/UPDATE/REMOVE)
 	PackageNames []PackageName `mandatory:"false" json:"packageNames"`
 
 	// list of Work Requests associated with this Scheduled Job
@@ -71,6 +72,13 @@ type ScheduledJob struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The unique names of the Windows Updates (only if operation type is INSTALL).
+	// This is only applicable when the osFamily is for Windows managed instances.
+	UpdateNames []string `mandatory:"false" json:"updateNames"`
+
+	// The Operating System type of the managed instance.
+	OsFamily OsFamiliesEnum `mandatory:"false" json:"osFamily,omitempty"`
 }
 
 func (m ScheduledJob) String() string {
