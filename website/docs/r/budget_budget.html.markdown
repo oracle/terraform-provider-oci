@@ -43,7 +43,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) The description of the budget.
 * `display_name` - (Optional) (Updatable) The displayName of the budget.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `reset_period` - (Required) (Updatable) The reset period for the budget. 
+* `reset_period` - (Required) (Updatable) The reset period for the budget. Valid value is MONTHLY.
 * `target_compartment_id` - (Optional) This is DEPRECTAED. Set the target compartment id in targets instead. 
 * `target_type` - (Optional) The type of target on which the budget is applied. 
 * `targets` - (Optional) The list of targets on which the budget is applied. If targetType is "COMPARTMENT", targets contains list of compartment OCIDs. If targetType is "TAG", targets contains list of cost tracking tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}". Curerntly, the array should contain EXACT ONE item. 
