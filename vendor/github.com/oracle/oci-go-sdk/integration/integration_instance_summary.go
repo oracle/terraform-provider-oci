@@ -85,6 +85,7 @@ const (
 	IntegrationInstanceSummaryLifecycleStateCreating IntegrationInstanceSummaryLifecycleStateEnum = "CREATING"
 	IntegrationInstanceSummaryLifecycleStateUpdating IntegrationInstanceSummaryLifecycleStateEnum = "UPDATING"
 	IntegrationInstanceSummaryLifecycleStateActive   IntegrationInstanceSummaryLifecycleStateEnum = "ACTIVE"
+	IntegrationInstanceSummaryLifecycleStateInactive IntegrationInstanceSummaryLifecycleStateEnum = "INACTIVE"
 	IntegrationInstanceSummaryLifecycleStateDeleting IntegrationInstanceSummaryLifecycleStateEnum = "DELETING"
 	IntegrationInstanceSummaryLifecycleStateDeleted  IntegrationInstanceSummaryLifecycleStateEnum = "DELETED"
 	IntegrationInstanceSummaryLifecycleStateFailed   IntegrationInstanceSummaryLifecycleStateEnum = "FAILED"
@@ -94,6 +95,7 @@ var mappingIntegrationInstanceSummaryLifecycleState = map[string]IntegrationInst
 	"CREATING": IntegrationInstanceSummaryLifecycleStateCreating,
 	"UPDATING": IntegrationInstanceSummaryLifecycleStateUpdating,
 	"ACTIVE":   IntegrationInstanceSummaryLifecycleStateActive,
+	"INACTIVE": IntegrationInstanceSummaryLifecycleStateInactive,
 	"DELETING": IntegrationInstanceSummaryLifecycleStateDeleting,
 	"DELETED":  IntegrationInstanceSummaryLifecycleStateDeleted,
 	"FAILED":   IntegrationInstanceSummaryLifecycleStateFailed,

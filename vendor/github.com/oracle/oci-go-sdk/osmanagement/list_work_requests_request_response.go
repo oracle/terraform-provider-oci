@@ -37,6 +37,9 @@ type ListWorkRequestsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The OS family for which to list resources.
+	OsFamily ListWorkRequestsOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -126,6 +129,31 @@ var mappingListWorkRequestsSortBy = map[string]ListWorkRequestsSortByEnum{
 func GetListWorkRequestsSortByEnumValues() []ListWorkRequestsSortByEnum {
 	values := make([]ListWorkRequestsSortByEnum, 0)
 	for _, v := range mappingListWorkRequestsSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListWorkRequestsOsFamilyEnum Enum with underlying type: string
+type ListWorkRequestsOsFamilyEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsOsFamilyEnum
+const (
+	ListWorkRequestsOsFamilyLinux   ListWorkRequestsOsFamilyEnum = "LINUX"
+	ListWorkRequestsOsFamilyWindows ListWorkRequestsOsFamilyEnum = "WINDOWS"
+	ListWorkRequestsOsFamilyAll     ListWorkRequestsOsFamilyEnum = "ALL"
+)
+
+var mappingListWorkRequestsOsFamily = map[string]ListWorkRequestsOsFamilyEnum{
+	"LINUX":   ListWorkRequestsOsFamilyLinux,
+	"WINDOWS": ListWorkRequestsOsFamilyWindows,
+	"ALL":     ListWorkRequestsOsFamilyAll,
+}
+
+// GetListWorkRequestsOsFamilyEnumValues Enumerates the set of values for ListWorkRequestsOsFamilyEnum
+func GetListWorkRequestsOsFamilyEnumValues() []ListWorkRequestsOsFamilyEnum {
+	values := make([]ListWorkRequestsOsFamilyEnum, 0)
+	for _, v := range mappingListWorkRequestsOsFamily {
 		values = append(values, v)
 	}
 	return values

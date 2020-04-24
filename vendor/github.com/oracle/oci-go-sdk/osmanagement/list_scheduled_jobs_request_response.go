@@ -46,6 +46,9 @@ type ListScheduledJobsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The OS family for which to list resources.
+	OsFamily ListScheduledJobsOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -193,6 +196,31 @@ var mappingListScheduledJobsLifecycleState = map[string]ListScheduledJobsLifecyc
 func GetListScheduledJobsLifecycleStateEnumValues() []ListScheduledJobsLifecycleStateEnum {
 	values := make([]ListScheduledJobsLifecycleStateEnum, 0)
 	for _, v := range mappingListScheduledJobsLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListScheduledJobsOsFamilyEnum Enum with underlying type: string
+type ListScheduledJobsOsFamilyEnum string
+
+// Set of constants representing the allowable values for ListScheduledJobsOsFamilyEnum
+const (
+	ListScheduledJobsOsFamilyLinux   ListScheduledJobsOsFamilyEnum = "LINUX"
+	ListScheduledJobsOsFamilyWindows ListScheduledJobsOsFamilyEnum = "WINDOWS"
+	ListScheduledJobsOsFamilyAll     ListScheduledJobsOsFamilyEnum = "ALL"
+)
+
+var mappingListScheduledJobsOsFamily = map[string]ListScheduledJobsOsFamilyEnum{
+	"LINUX":   ListScheduledJobsOsFamilyLinux,
+	"WINDOWS": ListScheduledJobsOsFamilyWindows,
+	"ALL":     ListScheduledJobsOsFamilyAll,
+}
+
+// GetListScheduledJobsOsFamilyEnumValues Enumerates the set of values for ListScheduledJobsOsFamilyEnum
+func GetListScheduledJobsOsFamilyEnumValues() []ListScheduledJobsOsFamilyEnum {
+	values := make([]ListScheduledJobsOsFamilyEnum, 0)
+	for _, v := range mappingListScheduledJobsOsFamily {
 		values = append(values, v)
 	}
 	return values
