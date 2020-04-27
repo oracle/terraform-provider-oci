@@ -6,6 +6,7 @@ require (
 	github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce // indirect
 	github.com/hashicorp/hcl2 v0.0.0-20190618163856-0b64543c968c
 	github.com/hashicorp/terraform v0.12.4-0.20190628193153-a74738cd35fc
+	github.com/jstemmer/go-junit-report v0.9.1 // indirect
 	github.com/mitchellh/cli v1.0.0
 	github.com/oracle/oci-go-sdk/v25 v25.2.0
 	github.com/stretchr/objx v0.1.1 // indirect
