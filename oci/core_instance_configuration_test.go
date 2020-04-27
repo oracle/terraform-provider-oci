@@ -99,11 +99,15 @@ var (
 		"source_details":                      RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation},
 		"agent_config":                        RepresentationGroup{Optional, instanceAgentConfigRepresentation},
 		"launch_options":                      RepresentationGroup{Optional, instanceLaunchOptionsRepresentation},
+		"instance_options":                    RepresentationGroup{Optional, instanceConfigurationInstanceOptionsRepresentation},
 		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
 		"dedicated_vm_host_id":                Representation{repType: Optional, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
 		"launch_mode":                         Representation{repType: Optional, create: `NATIVE`},
 		"preferred_maintenance_action":        Representation{repType: Optional, create: `LIVE_MIGRATE`},
 		"shape_config":                        RepresentationGroup{Optional, instanceShapeConfigRepresentation},
+	}
+	instanceConfigurationInstanceOptionsRepresentation = map[string]interface{}{
+		"are_legacy_imds_endpoints_disabled": Representation{repType: Optional, create: `false`},
 	}
 	instanceConfigurationInstanceDetailsSecondaryVnicsRepresentation = map[string]interface{}{
 		"create_vnic_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation},
@@ -290,6 +294,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.agent_config.0.is_monitoring_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_options.0.network_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.dedicated_vm_host_id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_mode", "NATIVE"),

@@ -468,6 +468,29 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										ForceNew: true,
 										Elem:     schema.TypeString,
 									},
+									"instance_options": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"are_legacy_imds_endpoints_disabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"ipxe_script": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -1499,6 +1522,27 @@ func InstanceConfigurationInstanceDetailsToMap(obj *oci_core.InstanceConfigurati
 	return result
 }
 
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstanceOptions(fieldKeyFormat string) (oci_core.InstanceConfigurationInstanceOptions, error) {
+	result := oci_core.InstanceConfigurationInstanceOptions{}
+
+	if areLegacyImdsEndpointsDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_legacy_imds_endpoints_disabled")); ok {
+		tmp := areLegacyImdsEndpointsDisabled.(bool)
+		result.AreLegacyImdsEndpointsDisabled = &tmp
+	}
+
+	return result, nil
+}
+
+func InstanceConfigurationInstanceOptionsToMap(obj *oci_core.InstanceConfigurationInstanceOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AreLegacyImdsEndpointsDisabled != nil {
+		result["are_legacy_imds_endpoints_disabled"] = bool(*obj.AreLegacyImdsEndpointsDisabled)
+	}
+
+	return result
+}
+
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstanceSourceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationInstanceSourceDetails, error) {
 	var baseObject oci_core.InstanceConfigurationInstanceSourceDetails
 	//discriminator
@@ -1676,6 +1720,17 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if instanceOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_options")); ok {
+		if tmpList := instanceOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_options"), 0)
+			tmp, err := s.mapToInstanceConfigurationInstanceOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert instance_options, encountered error: %v", err)
+			}
+			result.InstanceOptions = &tmp
+		}
+	}
+
 	if ipxeScript, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipxe_script")); ok {
 		tmp := ipxeScript.(string)
 		result.IpxeScript = &tmp
@@ -1781,6 +1836,10 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.InstanceOptions != nil {
+		result["instance_options"] = []interface{}{InstanceConfigurationInstanceOptionsToMap(obj.InstanceOptions)}
+	}
 
 	if obj.IpxeScript != nil {
 		result["ipxe_script"] = string(*obj.IpxeScript)
