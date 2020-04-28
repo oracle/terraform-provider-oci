@@ -14,7 +14,8 @@ import (
 
 var (
 	publisherDataSourceRepresentation = map[string]interface{}{
-		"publisher_id": Representation{repType: Optional, create: `${oci_marketplace_publisher.test_publisher.id}`},
+		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"publisher_id":   Representation{repType: Optional, create: `${oci_marketplace_publisher.test_publisher.id}`},
 	}
 
 	PublisherResourceConfig = ``

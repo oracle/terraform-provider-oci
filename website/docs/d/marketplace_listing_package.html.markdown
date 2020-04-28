@@ -20,6 +20,9 @@ data "oci_marketplace_listing_package" "test_listing_package" {
 	#Required
 	listing_id = "${oci_marketplace_listing.test_listing.id}"
 	package_version = "${var.listing_package_package_version}"
+
+	#Optional
+	compartment_id = "${var.compartment_id}"
 }
 ```
 
@@ -27,6 +30,7 @@ data "oci_marketplace_listing_package" "test_listing_package" {
 
 The following arguments are supported:
 
+* `compartment_id` - (Optional) The unique identifier for the compartment.
 * `listing_id` - (Required) The unique identifier for the listing.
 * `package_version` - (Required) The version of the package. Package versions are unique within a listing.
 

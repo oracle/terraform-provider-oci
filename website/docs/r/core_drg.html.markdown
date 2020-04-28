@@ -62,7 +62,7 @@ The following attributes are exported:
 * `id` - The DRG's Oracle ID (OCID).
 * `redundancy_status` - The redundancy status of the DRG specified.
 * `state` - The DRG's current state.
-* `time_created` - The date and time the DRG was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the DRG was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import
 

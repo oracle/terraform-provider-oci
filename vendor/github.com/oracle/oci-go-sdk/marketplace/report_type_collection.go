@@ -2,27 +2,24 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OSMS
+// Marketplace Service API
 //
-// OS Management as a Service API definition
+// Manage applications in Oracle Cloud Infrastructure Marketplace.
 //
 
-package osmanagement
+package marketplace
 
 import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ErrataId Identifying information for an errata
-type ErrataId struct {
+// ReportTypeCollection A collection of report types.
+type ReportTypeCollection struct {
 
-	// errata identifier
-	Id *string `mandatory:"true" json:"id"`
-
-	// errata name
-	Name *string `mandatory:"false" json:"name"`
+	// Array of report types.
+	Items []ReportTypeSummary `mandatory:"true" json:"items"`
 }
 
-func (m ErrataId) String() string {
+func (m ReportTypeCollection) String() string {
 	return common.PointerString(m)
 }

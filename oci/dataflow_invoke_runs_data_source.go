@@ -5,6 +5,7 @@ package oci
 import (
 	"context"
 	"strconv"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/common"
@@ -108,8 +109,11 @@ func (s *DataflowInvokeRunsDataSourceCrud) Get() error {
 	}
 
 	if timeCreatedGreaterThan, ok := s.D.GetOkExists("time_created_greater_than"); ok {
-		tmp := timeCreatedGreaterThan.(oci_common.SDKTime)
-		request.TimeCreatedGreaterThan = &tmp
+		tmp, err := time.Parse(time.RFC3339, timeCreatedGreaterThan.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeCreatedGreaterThan = &oci_common.SDKTime{Time: tmp}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")

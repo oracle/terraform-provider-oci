@@ -31,7 +31,7 @@ var (
 
 	cpeRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"ip_address":          Representation{repType: Required, create: `189.44.2.135`},
+		"ip_address":          Representation{repType: Required, create: `203.0.113.6`},
 		"cpe_device_shape_id": Representation{repType: Optional, create: `${data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id}`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `MyCpe`, update: `displayName2`},
@@ -72,7 +72,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Required, Create, cpeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "189.44.2.135"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "203.0.113.6"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -97,7 +97,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCpe"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "189.44.2.135"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "203.0.113.6"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -126,7 +126,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCpe"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "189.44.2.135"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "203.0.113.6"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -150,7 +150,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "189.44.2.135"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "203.0.113.6"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -178,7 +178,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "cpes.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "cpes.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cpes.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "cpes.0.ip_address", "189.44.2.135"),
+					resource.TestCheckResourceAttr(datasourceName, "cpes.0.ip_address", "203.0.113.6"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cpes.0.time_created"),
 				),
 			},

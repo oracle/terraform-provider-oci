@@ -61,17 +61,14 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"namespace": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"query": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -79,32 +76,27 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"end_time": {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: timeDiffSuppressFunction,
 						},
 						"resolution": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"resource_group": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"start_time": {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: timeDiffSuppressFunction,
 						},
 

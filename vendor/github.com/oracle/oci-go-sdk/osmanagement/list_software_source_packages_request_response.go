@@ -15,7 +15,7 @@ type ListSoftwareSourcePackagesRequest struct {
 	// The OCID of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
-	// The ID of the compartment in which to list resources.
+	// The ID of the compartment in which to list resources. This parameter is optional and in some cases may have no effect.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

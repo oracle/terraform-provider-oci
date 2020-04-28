@@ -54,8 +54,8 @@ The following attributes are exported:
 * `size_in_gbs` - The aggregate size of the volume group backup, in GBs. 
 * `size_in_mbs` - The aggregate size of the volume group backup, in MBs. 
 * `state` - The current state of a volume group backup.
-* `time_created` - The date and time the volume group backup was created. This is the time the actual point-in-time image of the volume group data was taken. Format defined by RFC3339. 
-* `time_request_received` - The date and time the request to create the volume group backup was received. Format defined by RFC3339. 
+* `time_created` - The date and time the volume group backup was created. This is the time the actual point-in-time image of the volume group data was taken. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
+* `time_request_received` - The date and time the request to create the volume group backup was received. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 * `type` - The type of backup.
 * `unique_size_in_gbs` - The aggregate size used by the volume group backup, in GBs.  It is typically smaller than `size_in_gbs`, depending on the space consumed on the volume group and whether the volume backup is full or incremental. 
 * `unique_size_in_mbs` - The aggregate size used by the volume group backup, in MBs.  It is typically smaller than `size_in_mbs`, depending on the space consumed on the volume group and whether the volume backup is full or incremental. 

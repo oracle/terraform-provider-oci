@@ -49,5 +49,5 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains the virtual machine instance. 
 * `instance_id` - The OCID of the virtual machine instance. 
 * `shape` - The shape of the VM instance. 
-* `time_created` - The date and time the virtual machine instance was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the virtual machine instance was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 

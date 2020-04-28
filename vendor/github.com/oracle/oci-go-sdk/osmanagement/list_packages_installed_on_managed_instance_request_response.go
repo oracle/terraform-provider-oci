@@ -19,7 +19,7 @@ type ListPackagesInstalledOnManagedInstanceRequest struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// The ID of the compartment in which to list resources.
+	// The ID of the compartment in which to list resources. This parameter is optional and in some cases may have no effect.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The maximum number of items to return.

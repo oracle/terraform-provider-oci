@@ -234,7 +234,7 @@ func (s *IdentitySwiftPasswordResourceCrud) SetData() error {
 	}
 
 	if s.Res.ExpiresOn != nil {
-		s.D.Set("expires_on", *s.Res.ExpiresOn)
+		s.D.Set("expires_on", s.Res.ExpiresOn.String())
 	}
 
 	if s.Res.InactiveStatus != nil {

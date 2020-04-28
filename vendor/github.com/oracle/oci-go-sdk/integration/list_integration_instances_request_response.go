@@ -96,6 +96,7 @@ const (
 	ListIntegrationInstancesLifecycleStateCreating ListIntegrationInstancesLifecycleStateEnum = "CREATING"
 	ListIntegrationInstancesLifecycleStateUpdating ListIntegrationInstancesLifecycleStateEnum = "UPDATING"
 	ListIntegrationInstancesLifecycleStateActive   ListIntegrationInstancesLifecycleStateEnum = "ACTIVE"
+	ListIntegrationInstancesLifecycleStateInactive ListIntegrationInstancesLifecycleStateEnum = "INACTIVE"
 	ListIntegrationInstancesLifecycleStateDeleting ListIntegrationInstancesLifecycleStateEnum = "DELETING"
 	ListIntegrationInstancesLifecycleStateDeleted  ListIntegrationInstancesLifecycleStateEnum = "DELETED"
 	ListIntegrationInstancesLifecycleStateFailed   ListIntegrationInstancesLifecycleStateEnum = "FAILED"
@@ -105,6 +106,7 @@ var mappingListIntegrationInstancesLifecycleState = map[string]ListIntegrationIn
 	"CREATING": ListIntegrationInstancesLifecycleStateCreating,
 	"UPDATING": ListIntegrationInstancesLifecycleStateUpdating,
 	"ACTIVE":   ListIntegrationInstancesLifecycleStateActive,
+	"INACTIVE": ListIntegrationInstancesLifecycleStateInactive,
 	"DELETING": ListIntegrationInstancesLifecycleStateDeleting,
 	"DELETED":  ListIntegrationInstancesLifecycleStateDeleted,
 	"FAILED":   ListIntegrationInstancesLifecycleStateFailed,

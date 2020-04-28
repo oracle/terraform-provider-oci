@@ -49,5 +49,5 @@ The following attributes are exported:
 * `listing_id` - The OCID of the listing this resource version belongs to.
 * `listing_resource_id` - OCID of the listing resource.
 * `listing_resource_version` - Resource Version.
-* `time_published` - Date and time the listing resource version was published, in RFC3339 format. Example: `2018-03-20T12:32:53.532Z` 
+* `time_published` - Date and time the listing resource version was published, in [RFC3339](https://tools.ietf.org/html/rfc3339) format. Example: `2018-03-20T12:32:53.532Z` 
 

@@ -121,6 +121,6 @@ The following attributes are exported:
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - The minimum port number. Must not be greater than the maximum port number.
 * `state` - The security list's current state.
-* `time_created` - The date and time the security list was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the security list was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The OCID of the VCN the security list belongs to.
 

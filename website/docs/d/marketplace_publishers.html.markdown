@@ -19,6 +19,7 @@ Gets the list of all the publishers of listings available in Oracle Cloud Infras
 data "oci_marketplace_publishers" "test_publishers" {
 
 	#Optional
+	compartment_id = "${var.compartment_id}"
 	publisher_id = "${oci_marketplace_publisher.test_publisher.id}"
 }
 ```
@@ -27,6 +28,7 @@ data "oci_marketplace_publishers" "test_publishers" {
 
 The following arguments are supported:
 
+* `compartment_id` - (Optional) The unique identifier for the compartment.
 * `publisher_id` - (Optional) Limit results to just this publisher.
 
 
