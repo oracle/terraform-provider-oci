@@ -98,7 +98,7 @@ The following attributes are exported:
 	* `type` - The type can be one of these values: `volume`, `volumeBackup`
 * `state` - The current state of a volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `time_created` - The date and time the volume was created. Format defined by RFC3339.
+* `time_created` - The date and time the volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `volume_group_id` - The OCID of the source volume group.
 * `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
 

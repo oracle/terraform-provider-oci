@@ -20,18 +20,10 @@ func DatabaseAutonomousDatabaseWalletDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularDatabaseAutonomousDatabaseWallet,
 		Schema: map[string]*schema.Schema{
-			// Required
 			"autonomous_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				Sensitive: true,
-			},
-
-			// Optional
 			"base64_encode_content": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -43,7 +35,11 @@ func DatabaseAutonomousDatabaseWalletDataSource() *schema.Resource {
 				Default:          "SINGLE",
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
-
+			"password": {
+				Type:      schema.TypeString,
+				Required:  true,
+				Sensitive: true,
+			},
 			// Computed
 			"content": {
 				Type:     schema.TypeString,
@@ -120,8 +116,6 @@ func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) SetData() error {
 	}
 
 	if base64EncodeContent {
-		// This use case is for v0.12, where content should be base64 encoded to avoid
-		// being normalized before setting in state. Otherwise, the zip file may get corrupted.
 		s.D.Set("content", base64.StdEncoding.EncodeToString(*s.Res))
 	} else {
 		s.D.Set("content", string(*s.Res))

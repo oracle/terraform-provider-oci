@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OSMS
+// OS Management API
 //
-// OS Management as a Service API definition
+// API for the OS Management service. Use these API operations for working
+// with Managed instances and Managed instance groups.
 //
 
 package osmanagement
@@ -37,11 +38,15 @@ type UpdateScheduledJobDetails struct {
 	// the type of operation this Scheduled Job performs
 	OperationType OperationTypesEnum `mandatory:"false" json:"operationType,omitempty"`
 
-	// Type of the update (only if operation type is UPDATE_ALL_PACKAGES)
+	// Type of the update (only if operation type is UPDATEALL)
 	UpdateType PackageUpdateTypesEnum `mandatory:"false" json:"updateType,omitempty"`
 
-	// the id of the package (only if operation type is INSTALL/UPDATE/REMOVE_PACKAGE)
+	// the id of the package (only if operation type is INSTALL/UPDATE/REMOVE)
 	PackageNames []PackageName `mandatory:"false" json:"packageNames"`
+
+	// The unique names of the Windows Updates (only if operation type is INSTALL).
+	// This is only applicable when the osFamily is for Windows managed instances.
+	UpdateNames []string `mandatory:"false" json:"updateNames"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

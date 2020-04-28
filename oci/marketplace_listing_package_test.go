@@ -15,11 +15,13 @@ import (
 var (
 	listingPackageSingularDataSourceRepresentation = map[string]interface{}{
 		"listing_id":      Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.id}`},
+		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
 		"package_version": Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
 	}
 
 	listingPackageDataSourceRepresentation = map[string]interface{}{
 		"listing_id":      Representation{repType: Required, create: `${data.oci_marketplace_listings.test_listings.listings.0.id}`},
+		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
 		"package_type":    Representation{repType: Optional, create: `packageType`},
 		"package_version": Representation{repType: Optional, create: `packageVersion`},
 	}

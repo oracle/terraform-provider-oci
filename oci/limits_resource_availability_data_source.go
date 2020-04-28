@@ -19,8 +19,9 @@ func LimitsResourceAvailabilityDataSource() *schema.Resource {
 		Read: readSingularLimitsResourceAvailability,
 		Schema: map[string]*schema.Schema{
 			"availability_domain": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,

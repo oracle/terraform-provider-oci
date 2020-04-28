@@ -20,6 +20,11 @@ func DatabaseVmClusterNetworkDownloadConfigFileDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularDatabaseVmClusterNetworkDownloadConfigFile,
 		Schema: map[string]*schema.Schema{
+			"base64_encode_content": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"exadata_infrastructure_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -28,14 +33,6 @@ func DatabaseVmClusterNetworkDownloadConfigFileDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
-			//Optional
-			"base64_encode_content": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-
 			// Computed
 			"content": {
 				Type:     schema.TypeString,
@@ -105,8 +102,6 @@ func (s *DatabaseVmClusterNetworkDownloadConfigFileDataSourceCrud) SetData() err
 	if err != nil {
 		log.Printf("unable to read 'content' from response. Error: %v", err)
 	} else if base64EncodeContent {
-		// This use case is for v0.12, where content should be base64 encoded to avoid
-		// being normalized before setting in state.
 		s.D.Set("content", base64.StdEncoding.EncodeToString(contentArray))
 	} else {
 		s.D.Set("content", string(contentArray))

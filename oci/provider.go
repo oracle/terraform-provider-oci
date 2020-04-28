@@ -257,6 +257,23 @@ func ResourcesMap() map[string]*schema.Resource {
 	return OciResources
 }
 
+// Added for resource discovery AUTH
+func getProviderEnvSettingWithDefault(s string, dv string) string {
+	v := os.Getenv(tfEnvPrefix + s)
+	if v != "" {
+		return v
+	}
+	v = os.Getenv(ociEnvPrefix + strings.ToUpper(s))
+	if v != "" {
+		return v
+	}
+	v = os.Getenv(s)
+	if v != "" {
+		return v
+	}
+	return dv
+}
+
 func getEnvSettingWithBlankDefault(s string) string {
 	return getEnvSettingWithDefault(s, "")
 }

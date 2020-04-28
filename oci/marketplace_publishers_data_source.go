@@ -18,6 +18,10 @@ func MarketplacePublishersDataSource() *schema.Resource {
 		Read: readMarketplacePublishers,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"publisher_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -71,6 +75,11 @@ func (s *MarketplacePublishersDataSourceCrud) VoidState() {
 
 func (s *MarketplacePublishersDataSourceCrud) Get() error {
 	request := oci_marketplace.ListPublishersRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	if publisherId, ok := s.D.GetOkExists("publisher_id"); ok {
 		tmp := publisherId.(string)

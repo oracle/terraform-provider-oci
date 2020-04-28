@@ -64,12 +64,16 @@ type WorkRequestSummaryOperationTypeEnum string
 const (
 	WorkRequestSummaryOperationTypeCreateIntegrationInstance WorkRequestSummaryOperationTypeEnum = "CREATE_INTEGRATION_INSTANCE"
 	WorkRequestSummaryOperationTypeUpdateIntegrationInstance WorkRequestSummaryOperationTypeEnum = "UPDATE_INTEGRATION_INSTANCE"
+	WorkRequestSummaryOperationTypeStopIntegrationInstance   WorkRequestSummaryOperationTypeEnum = "STOP_INTEGRATION_INSTANCE"
+	WorkRequestSummaryOperationTypeStartIntegrationInstance  WorkRequestSummaryOperationTypeEnum = "START_INTEGRATION_INSTANCE"
 	WorkRequestSummaryOperationTypeDeleteIntegrationInstance WorkRequestSummaryOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
 )
 
 var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperationTypeEnum{
 	"CREATE_INTEGRATION_INSTANCE": WorkRequestSummaryOperationTypeCreateIntegrationInstance,
 	"UPDATE_INTEGRATION_INSTANCE": WorkRequestSummaryOperationTypeUpdateIntegrationInstance,
+	"STOP_INTEGRATION_INSTANCE":   WorkRequestSummaryOperationTypeStopIntegrationInstance,
+	"START_INTEGRATION_INSTANCE":  WorkRequestSummaryOperationTypeStartIntegrationInstance,
 	"DELETE_INTEGRATION_INSTANCE": WorkRequestSummaryOperationTypeDeleteIntegrationInstance,
 }
 

@@ -22,6 +22,7 @@ var (
 	listingPackageAgreementDataSourceRepresentation = map[string]interface{}{
 		"listing_id":      Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.id}`},
 		"package_version": Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
+		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
 	}
 
 	ListingPackageAgreementResourceConfig = generateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation) +
