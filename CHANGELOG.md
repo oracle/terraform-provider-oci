@@ -2,6 +2,7 @@
 
 ### Added
 - Support resource discovery for limits resources
+- Support for Online resize (grow) of block volume
 
 ### Fixed
 - Add missing attributes for `oci_file_storage_mount_target` import [Github issue #1037](https://github.com/terraform-providers/terraform-provider-oci/issues/1037)
