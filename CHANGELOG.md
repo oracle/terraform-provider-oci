@@ -1,6 +1,7 @@
 ## 3.82.0 (Unreleased)
 
 ### Added
+- Support for MySQL service added
 - Support harvesting sources with Private IPs for resource `datacatalog`
 - Support `dataflow_archive_uri` for service `dataflow`
 - Support for Data Integration Service
