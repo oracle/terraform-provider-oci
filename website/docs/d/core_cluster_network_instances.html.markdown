@@ -60,5 +60,5 @@ The following attributes are exported:
 
 	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `state` - The current state of the instance pool instance.
-* `time_created` - The date and time the instance pool instance was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the instance pool instance was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 

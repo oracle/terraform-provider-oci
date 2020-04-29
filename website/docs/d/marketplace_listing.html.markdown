@@ -20,6 +20,9 @@ resources.
 data "oci_marketplace_listing" "test_listing" {
 	#Required
 	listing_id = "${oci_marketplace_listing.test_listing.id}"
+
+	#Optional
+	compartment_id = "${var.compartment_id}"
 }
 ```
 
@@ -27,6 +30,7 @@ data "oci_marketplace_listing" "test_listing" {
 
 The following arguments are supported:
 
+* `compartment_id` - (Optional) The unique identifier for the compartment.
 * `listing_id` - (Required) The unique identifier for the listing.
 
 

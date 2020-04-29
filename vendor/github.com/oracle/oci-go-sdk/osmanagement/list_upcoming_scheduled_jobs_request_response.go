@@ -47,6 +47,9 @@ type ListUpcomingScheduledJobsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The OS family for which to list resources.
+	OsFamily ListUpcomingScheduledJobsOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -167,6 +170,31 @@ var mappingListUpcomingScheduledJobsLifecycleState = map[string]ListUpcomingSche
 func GetListUpcomingScheduledJobsLifecycleStateEnumValues() []ListUpcomingScheduledJobsLifecycleStateEnum {
 	values := make([]ListUpcomingScheduledJobsLifecycleStateEnum, 0)
 	for _, v := range mappingListUpcomingScheduledJobsLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListUpcomingScheduledJobsOsFamilyEnum Enum with underlying type: string
+type ListUpcomingScheduledJobsOsFamilyEnum string
+
+// Set of constants representing the allowable values for ListUpcomingScheduledJobsOsFamilyEnum
+const (
+	ListUpcomingScheduledJobsOsFamilyLinux   ListUpcomingScheduledJobsOsFamilyEnum = "LINUX"
+	ListUpcomingScheduledJobsOsFamilyWindows ListUpcomingScheduledJobsOsFamilyEnum = "WINDOWS"
+	ListUpcomingScheduledJobsOsFamilyAll     ListUpcomingScheduledJobsOsFamilyEnum = "ALL"
+)
+
+var mappingListUpcomingScheduledJobsOsFamily = map[string]ListUpcomingScheduledJobsOsFamilyEnum{
+	"LINUX":   ListUpcomingScheduledJobsOsFamilyLinux,
+	"WINDOWS": ListUpcomingScheduledJobsOsFamilyWindows,
+	"ALL":     ListUpcomingScheduledJobsOsFamilyAll,
+}
+
+// GetListUpcomingScheduledJobsOsFamilyEnumValues Enumerates the set of values for ListUpcomingScheduledJobsOsFamilyEnum
+func GetListUpcomingScheduledJobsOsFamilyEnumValues() []ListUpcomingScheduledJobsOsFamilyEnum {
+	values := make([]ListUpcomingScheduledJobsOsFamilyEnum, 0)
+	for _, v := range mappingListUpcomingScheduledJobsOsFamily {
 		values = append(values, v)
 	}
 	return values

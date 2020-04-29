@@ -56,5 +56,5 @@ The following attributes are exported:
 * `peer_tenancy_id` - If this RPC is peered, this value is the OCID of the other RPC's tenancy. 
 * `peering_status` - Whether the RPC is peered with another RPC. `NEW` means the RPC has not yet been peered. `PENDING` means the peering is being established. `REVOKED` means the RPC at the other end of the peering has been deleted. 
 * `state` - The RPC's current lifecycle state.
-* `time_created` - The date and time the RPC was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the RPC was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 

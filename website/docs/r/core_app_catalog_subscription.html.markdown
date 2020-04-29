@@ -38,7 +38,7 @@ The following arguments are supported:
 * `listing_resource_version` - (Required) Listing resource version.
 * `oracle_terms_of_use_link` - (Required) Oracle TOU link
 * `signature` - (Required) A generated signature for this listing resource version retrieved the agreements API.
-* `time_retrieved` - (Required) Date and time the agreements were retrieved, in RFC3339 format. Example: `2018-03-20T12:32:53.532Z` 
+* `time_retrieved` - (Required) Date and time the agreements were retrieved, in [RFC3339](https://tools.ietf.org/html/rfc3339) format. Example: `2018-03-20T12:32:53.532Z` 
 
 
 ** IMPORTANT **
@@ -55,7 +55,7 @@ The following attributes are exported:
 * `listing_resource_version` - Listing resource version.
 * `publisher_name` - Name of the publisher who published this listing.
 * `summary` - The short summary to the listing.
-* `time_created` - Date and time at which the subscription was created, in RFC3339 format. Example: `2018-03-20T12:32:53.532Z` 
+* `time_created` - Date and time at which the subscription was created, in [RFC3339](https://tools.ietf.org/html/rfc3339) format. Example: `2018-03-20T12:32:53.532Z` 
 
 ## Import
 

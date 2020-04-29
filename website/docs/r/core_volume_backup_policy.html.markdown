@@ -120,7 +120,7 @@ The following attributes are exported:
 	* `period` - The volume backup frequency.
 	* `retention_seconds` - How long, in seconds, to keep the volume backups created by this schedule.
 	* `time_zone` - Specifies what time zone is the schedule in
-* `time_created` - The date and time the volume backup policy was created. Format defined by RFC3339. 
+* `time_created` - The date and time the volume backup policy was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 
 ## Import
 

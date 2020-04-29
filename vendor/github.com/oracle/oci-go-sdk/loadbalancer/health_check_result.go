@@ -53,7 +53,7 @@ const (
 )
 
 var mappingHealthCheckResultHealthCheckStatus = map[string]HealthCheckResultHealthCheckStatusEnum{
-	"OK":                  HealthCheckResultHealthCheckStatusOk,
+	"OK": HealthCheckResultHealthCheckStatusOk,
 	"INVALID_STATUS_CODE": HealthCheckResultHealthCheckStatusInvalidStatusCode,
 	"TIMED_OUT":           HealthCheckResultHealthCheckStatusTimedOut,
 	"REGEX_MISMATCH":      HealthCheckResultHealthCheckStatusRegexMismatch,

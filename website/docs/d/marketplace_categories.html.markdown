@@ -18,6 +18,9 @@ to the software product provided by the listing.
 
 ```hcl
 data "oci_marketplace_categories" "test_categories" {
+
+	#Optional
+	compartment_id = "${var.compartment_id}"
 }
 ```
 
@@ -25,6 +28,7 @@ data "oci_marketplace_categories" "test_categories" {
 
 The following arguments are supported:
 
+* `compartment_id` - (Optional) The unique identifier for the compartment.
 
 
 ## Attributes Reference

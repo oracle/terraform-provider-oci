@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OSMS
+// OS Management API
 //
-// OS Management as a Service API definition
+// API for the OS Management service. Use these API operations for working
+// with Managed instances and Managed instance groups.
 //
 
 package osmanagement
@@ -50,10 +51,10 @@ type CreateScheduledJobDetails struct {
 	// managedInstances must be supplied.
 	ManagedInstanceGroups []Id `mandatory:"false" json:"managedInstanceGroups"`
 
-	// Type of the update (only if operation type is UPDATE_ALL_PACKAGES)
+	// Type of the update (only if operation type is UPDATEALL)
 	UpdateType PackageUpdateTypesEnum `mandatory:"false" json:"updateType,omitempty"`
 
-	// the id of the package (only if operation type is INSTALL/UPDATE/REMOVE_PACKAGE)
+	// the id of the package (only if operation type is INSTALL/UPDATE/REMOVE)
 	PackageNames []PackageName `mandatory:"false" json:"packageNames"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -63,6 +64,14 @@ type CreateScheduledJobDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The unique names of the Windows Updates (only if operation type is INSTALL).
+	// This is only applicable when the osFamily is for Windows managed instances.
+	UpdateNames []string `mandatory:"false" json:"updateNames"`
+
+	// The Operating System type of the managed instance(s) on which this scheduled job will operate.
+	// If not specified, this defaults to Linux.
+	OsFamily OsFamiliesEnum `mandatory:"false" json:"osFamily,omitempty"`
 }
 
 func (m CreateScheduledJobDetails) String() string {

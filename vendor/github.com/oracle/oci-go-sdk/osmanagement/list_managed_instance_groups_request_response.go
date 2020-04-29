@@ -37,6 +37,9 @@ type ListManagedInstanceGroupsRequest struct {
 	// The current lifecycle state for the object.
 	LifecycleState ListManagedInstanceGroupsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// The OS family for which to list resources.
+	OsFamily ListManagedInstanceGroupsOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -159,6 +162,31 @@ var mappingListManagedInstanceGroupsLifecycleState = map[string]ListManagedInsta
 func GetListManagedInstanceGroupsLifecycleStateEnumValues() []ListManagedInstanceGroupsLifecycleStateEnum {
 	values := make([]ListManagedInstanceGroupsLifecycleStateEnum, 0)
 	for _, v := range mappingListManagedInstanceGroupsLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListManagedInstanceGroupsOsFamilyEnum Enum with underlying type: string
+type ListManagedInstanceGroupsOsFamilyEnum string
+
+// Set of constants representing the allowable values for ListManagedInstanceGroupsOsFamilyEnum
+const (
+	ListManagedInstanceGroupsOsFamilyLinux   ListManagedInstanceGroupsOsFamilyEnum = "LINUX"
+	ListManagedInstanceGroupsOsFamilyWindows ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS"
+	ListManagedInstanceGroupsOsFamilyAll     ListManagedInstanceGroupsOsFamilyEnum = "ALL"
+)
+
+var mappingListManagedInstanceGroupsOsFamily = map[string]ListManagedInstanceGroupsOsFamilyEnum{
+	"LINUX":   ListManagedInstanceGroupsOsFamilyLinux,
+	"WINDOWS": ListManagedInstanceGroupsOsFamilyWindows,
+	"ALL":     ListManagedInstanceGroupsOsFamilyAll,
+}
+
+// GetListManagedInstanceGroupsOsFamilyEnumValues Enumerates the set of values for ListManagedInstanceGroupsOsFamilyEnum
+func GetListManagedInstanceGroupsOsFamilyEnumValues() []ListManagedInstanceGroupsOsFamilyEnum {
+	values := make([]ListManagedInstanceGroupsOsFamilyEnum, 0)
+	for _, v := range mappingListManagedInstanceGroupsOsFamily {
 		values = append(values, v)
 	}
 	return values

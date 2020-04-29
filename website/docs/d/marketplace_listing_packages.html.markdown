@@ -21,6 +21,7 @@ data "oci_marketplace_listing_packages" "test_listing_packages" {
 	listing_id = "${oci_marketplace_listing.test_listing.id}"
 
 	#Optional
+	compartment_id = "${var.compartment_id}"
 	package_type = "${var.listing_package_package_type}"
 	package_version = "${var.listing_package_package_version}"
 }
@@ -30,6 +31,7 @@ data "oci_marketplace_listing_packages" "test_listing_packages" {
 
 The following arguments are supported:
 
+* `compartment_id` - (Optional) The unique identifier for the compartment.
 * `listing_id` - (Required) The unique identifier for the listing.
 * `package_type` - (Optional) A filter to return only packages that match the given package type exactly. 
 * `package_version` - (Optional) The version of the package. Package versions are unique within a listing.

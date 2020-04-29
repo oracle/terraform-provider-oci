@@ -44,6 +44,8 @@ type WorkRequestResourceActionTypeEnum string
 const (
 	WorkRequestResourceActionTypeCreated    WorkRequestResourceActionTypeEnum = "CREATED"
 	WorkRequestResourceActionTypeUpdated    WorkRequestResourceActionTypeEnum = "UPDATED"
+	WorkRequestResourceActionTypeStopped    WorkRequestResourceActionTypeEnum = "STOPPED"
+	WorkRequestResourceActionTypeStarted    WorkRequestResourceActionTypeEnum = "STARTED"
 	WorkRequestResourceActionTypeDeleted    WorkRequestResourceActionTypeEnum = "DELETED"
 	WorkRequestResourceActionTypeInProgress WorkRequestResourceActionTypeEnum = "IN_PROGRESS"
 )
@@ -51,6 +53,8 @@ const (
 var mappingWorkRequestResourceActionType = map[string]WorkRequestResourceActionTypeEnum{
 	"CREATED":     WorkRequestResourceActionTypeCreated,
 	"UPDATED":     WorkRequestResourceActionTypeUpdated,
+	"STOPPED":     WorkRequestResourceActionTypeStopped,
+	"STARTED":     WorkRequestResourceActionTypeStarted,
 	"DELETED":     WorkRequestResourceActionTypeDeleted,
 	"IN_PROGRESS": WorkRequestResourceActionTypeInProgress,
 }

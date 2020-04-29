@@ -159,8 +159,11 @@ func (s *DatacatalogConnectionsDataSourceCrud) Get() error {
 	}
 
 	if timeStatusUpdated, ok := s.D.GetOkExists("time_status_updated"); ok {
-		tmp := timeStatusUpdated.(oci_common.SDKTime)
-		request.TimeStatusUpdated = &tmp
+		tmp, err := time.Parse(time.RFC3339, timeStatusUpdated.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeStatusUpdated = &oci_common.SDKTime{Time: tmp}
 	}
 
 	if timeUpdated, ok := s.D.GetOkExists("time_updated"); ok {
