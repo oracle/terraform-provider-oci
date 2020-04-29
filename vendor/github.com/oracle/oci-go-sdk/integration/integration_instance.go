@@ -95,6 +95,7 @@ const (
 	IntegrationInstanceLifecycleStateCreating IntegrationInstanceLifecycleStateEnum = "CREATING"
 	IntegrationInstanceLifecycleStateUpdating IntegrationInstanceLifecycleStateEnum = "UPDATING"
 	IntegrationInstanceLifecycleStateActive   IntegrationInstanceLifecycleStateEnum = "ACTIVE"
+	IntegrationInstanceLifecycleStateInactive IntegrationInstanceLifecycleStateEnum = "INACTIVE"
 	IntegrationInstanceLifecycleStateDeleting IntegrationInstanceLifecycleStateEnum = "DELETING"
 	IntegrationInstanceLifecycleStateDeleted  IntegrationInstanceLifecycleStateEnum = "DELETED"
 	IntegrationInstanceLifecycleStateFailed   IntegrationInstanceLifecycleStateEnum = "FAILED"
@@ -104,6 +105,7 @@ var mappingIntegrationInstanceLifecycleState = map[string]IntegrationInstanceLif
 	"CREATING": IntegrationInstanceLifecycleStateCreating,
 	"UPDATING": IntegrationInstanceLifecycleStateUpdating,
 	"ACTIVE":   IntegrationInstanceLifecycleStateActive,
+	"INACTIVE": IntegrationInstanceLifecycleStateInactive,
 	"DELETING": IntegrationInstanceLifecycleStateDeleting,
 	"DELETED":  IntegrationInstanceLifecycleStateDeleted,
 	"FAILED":   IntegrationInstanceLifecycleStateFailed,

@@ -120,7 +120,7 @@ The following attributes are exported:
 		* **CustomDnsServer:** Instances use a DNS server of your choice (three maximum). 
 	* `type` - The specific DHCP option. Either `DomainNameServer` (for [DhcpDnsOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/DhcpDnsOption/)) or `SearchDomain` (for [DhcpSearchDomainOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/DhcpSearchDomainOption/)). 
 * `state` - The current state of the set of DHCP options.
-* `time_created` - Date and time the set of DHCP options was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - Date and time the set of DHCP options was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The OCID of the VCN the set of DHCP options belongs to.
 
 ## Import

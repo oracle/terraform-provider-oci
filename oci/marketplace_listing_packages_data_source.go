@@ -19,6 +19,10 @@ func MarketplaceListingPackagesDataSource() *schema.Resource {
 		Read: readMarketplaceListingPackages,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"listing_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -93,6 +97,11 @@ func (s *MarketplaceListingPackagesDataSourceCrud) VoidState() {
 
 func (s *MarketplaceListingPackagesDataSourceCrud) Get() error {
 	request := oci_marketplace.ListPackagesRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	if listingId, ok := s.D.GetOkExists("listing_id"); ok {
 		tmp := listingId.(string)

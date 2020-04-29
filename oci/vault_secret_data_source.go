@@ -6,9 +6,9 @@ import (
 	"context"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_vault "github.com/oracle/oci-go-sdk/vault"
 )
 
@@ -239,7 +239,7 @@ func SecretRuleToMap(obj oci_vault.SecretRule) map[string]interface{} {
 		}
 
 		if v.TimeOfAbsoluteExpiry != nil {
-			result["time_of_absolute_expiry"] = oci_common.SDKTime(*v.TimeOfAbsoluteExpiry)
+			result["time_of_absolute_expiry"] = v.TimeOfAbsoluteExpiry.Format(time.RFC3339Nano)
 		}
 	case oci_vault.SecretReuseRule:
 		result["rule_type"] = "SECRET_REUSE_RULE"

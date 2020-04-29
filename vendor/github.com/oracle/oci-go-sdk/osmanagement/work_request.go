@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OSMS
+// OS Management API
 //
-// OS Management as a Service API definition
+// API for the OS Management service. Use these API operations for working
+// with Managed instances and Managed instance groups.
 //
 
 package osmanagement
@@ -47,12 +48,17 @@ type WorkRequest struct {
 	// A progress or error message, if there is any.
 	Message *string `mandatory:"false" json:"message"`
 
+	ManagedInstanceId *Id `mandatory:"false" json:"managedInstanceId"`
+
 	// The date and time the request was started, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339),
 	// section 14.29.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
 	// The date and time the object was finished, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
+
+	// The Operating System type of the managed instance.
+	OsFamily OsFamiliesEnum `mandatory:"false" json:"osFamily,omitempty"`
 }
 
 func (m WorkRequest) String() string {

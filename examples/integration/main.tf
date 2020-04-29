@@ -33,6 +33,7 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
   }
 
   idcs_at = "${var.integration_instance_idcs_access_token}"
+  state   = "ACTIVE"
 }
 
 data "oci_integration_integration_instances" "test_integration_instances" {
@@ -41,5 +42,10 @@ data "oci_integration_integration_instances" "test_integration_instances" {
 
   #Optional
   display_name = "displayName"
-  state        = "ACTIVE"
+  state        = "Active"
+}
+
+data "oci_integration_integration_instance" "test_integration_instance" {
+  #Required
+  integration_instance_id = "${oci_integration_integration_instance.test_integration_instance.id}"
 }

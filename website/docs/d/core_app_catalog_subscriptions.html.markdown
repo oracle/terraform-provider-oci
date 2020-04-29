@@ -49,5 +49,5 @@ The following attributes are exported:
 * `listing_resource_version` - Listing resource version.
 * `publisher_name` - Name of the publisher who published this listing.
 * `summary` - The short summary to the listing.
-* `time_created` - Date and time at which the subscription was created, in RFC3339 format. Example: `2018-03-20T12:32:53.532Z` 
+* `time_created` - Date and time at which the subscription was created, in [RFC3339](https://tools.ietf.org/html/rfc3339) format. Example: `2018-03-20T12:32:53.532Z` 
 

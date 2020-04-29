@@ -428,6 +428,10 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 func buildGenerateConfigSteps(compartmentId *string, services []string) ([]*GenerateConfigStep, error) {
 	result := []*GenerateConfigStep{}
 
+	// Note: In case of Instance Principal auth, the TenancyOCID will return
+	// the ocid for the tenancy for the compute instance and not the one for the customer
+	// This needs to be updated in future (if we have customer request) in order to enable
+	// tenancy level resources to be discovered with Instance Principal auth
 	tenancyId, err := exportConfigProvider.TenancyOCID()
 	if err != nil {
 		return nil, err
@@ -1058,33 +1062,48 @@ func resolveCompartmentId(clients *OracleClients, compartmentName *string) (*str
 
 func readEnvironmentVars(d *schema.ResourceData) error {
 
-	if err := d.Set(authAttrName, getEnvSettingWithDefault(authAttrName, authAPIKeySetting)); err != nil {
+	if err := d.Set(authAttrName, getProviderEnvSettingWithDefault(authAttrName, authAPIKeySetting)); err != nil {
 		return err
 	}
-	if err := d.Set(configFileProfileAttrName, getEnvSettingWithBlankDefault(configFileProfileAttrName)); err != nil {
+	if err := d.Set(configFileProfileAttrName, getProviderEnvSettingWithDefault(configFileProfileAttrName, "")); err != nil {
 		return err
 	}
-	// Do not set empty region- if set then client Host will have empty region
-	region := getEnvSettingWithBlankDefault(regionAttrName)
-	if region != "" {
+	if region := getProviderEnvSettingWithDefault(regionAttrName, ""); region != "" {
 		if err := d.Set(regionAttrName, region); err != nil {
 			return err
 		}
 	}
-	if err := d.Set(userOcidAttrName, getEnvSettingWithBlankDefault(userOcidAttrName)); err != nil {
-		return err
+
+	if tenancyOcid := getProviderEnvSettingWithDefault(tenancyOcidAttrName, ""); tenancyOcid != "" {
+		if err := d.Set(tenancyOcidAttrName, tenancyOcid); err != nil {
+			return err
+		}
 	}
-	if err := d.Set(fingerprintAttrName, getEnvSettingWithBlankDefault(fingerprintAttrName)); err != nil {
-		return err
+
+	if userOcid := getProviderEnvSettingWithDefault(userOcidAttrName, ""); userOcid != "" {
+		if err := d.Set(userOcidAttrName, userOcid); err != nil {
+			return err
+		}
 	}
-	if err := d.Set(privateKeyAttrName, getEnvSettingWithBlankDefault(privateKeyAttrName)); err != nil {
-		return err
+	if fingerprint := getProviderEnvSettingWithDefault(fingerprintAttrName, ""); fingerprint != "" {
+		if err := d.Set(fingerprintAttrName, fingerprint); err != nil {
+			return err
+		}
 	}
-	if err := d.Set(privateKeyPathAttrName, getEnvSettingWithBlankDefault(privateKeyPathAttrName)); err != nil {
-		return err
+	if privateKey := getProviderEnvSettingWithDefault(privateKeyAttrName, ""); privateKey != "" {
+		if err := d.Set(privateKeyAttrName, privateKey); err != nil {
+			return err
+		}
 	}
-	if err := d.Set(privateKeyPasswordAttrName, getEnvSettingWithBlankDefault(privateKeyPasswordAttrName)); err != nil {
-		return err
+	if privateKeyPath := getProviderEnvSettingWithDefault(privateKeyPathAttrName, ""); privateKeyPath != "" {
+		if err := d.Set(privateKeyPathAttrName, privateKeyPath); err != nil {
+			return err
+		}
+	}
+	if privateKeyPassword := getProviderEnvSettingWithDefault(privateKeyPasswordAttrName, ""); privateKeyPassword != "" {
+		if err := d.Set(privateKeyPasswordAttrName, privateKeyPassword); err != nil {
+			return err
+		}
 	}
 	return nil
 }

@@ -38,7 +38,7 @@ The following attributes are exported:
 * `id` - The IPSec connection's Oracle ID (OCID).
 * `time_created` - The date and time the IPSec connection was created.
 * `tunnels` - Two [TunnelConfig](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/TunnelConfig/) objects.
-	* `ip_address` - The IP address of Oracle's VPN headend.  Example: `129.146.17.50` 
-	* `shared_secret` - The shared secret of the IPSec tunnel.  Example: `EXAMPLEToUis6j1cp8GdVQxcmdfMO0yXMLilZTbYCMDGu4V8o` 
-	* `time_created` - The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+	* `ip_address` - The IP address of Oracle's VPN headend.  Example: `203.0.113.50 ` 
+	* `shared_secret` - The shared secret of the IPSec tunnel. 
+	* `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 

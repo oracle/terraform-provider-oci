@@ -37,6 +37,6 @@ The following attributes are exported:
 * `cross_connect_id` - The OCID of the cross-connect.
 * `facility_location` - The address of the FastConnect location.
 * `port_name` - The meet-me room port for this cross-connect.
-* `time_expires` - The date and time when the Letter of Authority expires, in the format defined by RFC3339. 
-* `time_issued` - The date and time the Letter of Authority was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_expires` - The date and time when the Letter of Authority expires, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
+* `time_issued` - The date and time the Letter of Authority was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 

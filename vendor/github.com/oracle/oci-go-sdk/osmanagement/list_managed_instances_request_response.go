@@ -34,6 +34,9 @@ type ListManagedInstancesRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The OS family for which to list resources.
+	OsFamily ListManagedInstancesOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -125,6 +128,31 @@ var mappingListManagedInstancesSortBy = map[string]ListManagedInstancesSortByEnu
 func GetListManagedInstancesSortByEnumValues() []ListManagedInstancesSortByEnum {
 	values := make([]ListManagedInstancesSortByEnum, 0)
 	for _, v := range mappingListManagedInstancesSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListManagedInstancesOsFamilyEnum Enum with underlying type: string
+type ListManagedInstancesOsFamilyEnum string
+
+// Set of constants representing the allowable values for ListManagedInstancesOsFamilyEnum
+const (
+	ListManagedInstancesOsFamilyLinux   ListManagedInstancesOsFamilyEnum = "LINUX"
+	ListManagedInstancesOsFamilyWindows ListManagedInstancesOsFamilyEnum = "WINDOWS"
+	ListManagedInstancesOsFamilyAll     ListManagedInstancesOsFamilyEnum = "ALL"
+)
+
+var mappingListManagedInstancesOsFamily = map[string]ListManagedInstancesOsFamilyEnum{
+	"LINUX":   ListManagedInstancesOsFamilyLinux,
+	"WINDOWS": ListManagedInstancesOsFamilyWindows,
+	"ALL":     ListManagedInstancesOsFamilyAll,
+}
+
+// GetListManagedInstancesOsFamilyEnumValues Enumerates the set of values for ListManagedInstancesOsFamilyEnum
+func GetListManagedInstancesOsFamilyEnumValues() []ListManagedInstancesOsFamilyEnum {
+	values := make([]ListManagedInstancesOsFamilyEnum, 0)
+	for _, v := range mappingListManagedInstancesOsFamily {
 		values = append(values, v)
 	}
 	return values
