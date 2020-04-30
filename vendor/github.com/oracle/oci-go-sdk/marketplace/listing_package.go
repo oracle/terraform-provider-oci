@@ -17,10 +17,10 @@ import (
 // ListingPackage A base object for all types of listing packages.
 type ListingPackage interface {
 
-	// The id of the listing this package belongs to.
+	// The ID of the listing this package belongs to.
 	GetListingId() *string
 
-	// The version of this package.
+	// The package version.
 	GetVersion() *string
 
 	// Description of this package.

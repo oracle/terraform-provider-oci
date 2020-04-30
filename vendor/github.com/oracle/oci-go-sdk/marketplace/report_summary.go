@@ -16,16 +16,16 @@ import (
 // ReportSummary The model of a single report.
 type ReportSummary struct {
 
-	// The type of the report.
+	// The type of report.
 	ReportType *string `mandatory:"true" json:"reportType"`
 
-	// Date of the report.
+	// The date of the report.
 	Date *common.SDKTime `mandatory:"true" json:"date"`
 
-	// The columns in the report content.
+	// The columns in the report.
 	Columns []string `mandatory:"true" json:"columns"`
 
-	// The content of report in CSV string format.
+	// The contents of the report in comma-separated values (CSV) file format.
 	Content *string `mandatory:"true" json:"content"`
 }
 

@@ -16,7 +16,7 @@ import (
 // ReportTypeCollection A collection of report types.
 type ReportTypeCollection struct {
 
-	// Array of report types.
+	// An array of report types.
 	Items []ReportTypeSummary `mandatory:"true" json:"items"`
 }
 

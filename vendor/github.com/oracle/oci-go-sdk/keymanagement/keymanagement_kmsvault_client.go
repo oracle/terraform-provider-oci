@@ -75,6 +75,60 @@ func (client *KmsVaultClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
+// BackupVault Backs up an encrypted file that contains all the metadata of a vault so that you can restore the vault later.
+// You can backup a vault whether or not it contains keys. This operation only backs up the
+// metadata of the vault, and does not include key metadata.
+func (client KmsVaultClient) BackupVault(ctx context.Context, request BackupVaultRequest) (response BackupVaultResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.backupVault, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BackupVaultResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BackupVaultResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BackupVaultResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BackupVaultResponse")
+	}
+	return
+}
+
+// backupVault implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) backupVault(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/backup")
+	if err != nil {
+		return nil, err
+	}
+
+	var response BackupVaultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelVaultDeletion Cancels the scheduled deletion of the specified vault. Canceling a scheduled deletion
 // restores the vault and all keys in it to their respective states from before their
 // scheduled deletion. All keys that were scheduled for deletion prior to vault
@@ -400,8 +454,116 @@ func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// RestoreVaultFromFile Restores a vault from an encrypted backup file. If a vault
+// with the same OCID already exists, this operation returns a response with a
+// 409 HTTP status error code.
+func (client KmsVaultClient) RestoreVaultFromFile(ctx context.Context, request RestoreVaultFromFileRequest) (response RestoreVaultFromFileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.restoreVaultFromFile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestoreVaultFromFileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestoreVaultFromFileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestoreVaultFromFileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestoreVaultFromFileResponse")
+	}
+	return
+}
+
+// restoreVaultFromFile implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) restoreVaultFromFile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/actions/restoreFromFile")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestoreVaultFromFileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestoreVaultFromObjectStore Restores a vault from an encrypted backup file stored in Oracle Cloud Infrastructure Object
+// Storage. If a vault with the same OCID already exists, this operation returns
+// a response with a 409 HTTP status error code.
+func (client KmsVaultClient) RestoreVaultFromObjectStore(ctx context.Context, request RestoreVaultFromObjectStoreRequest) (response RestoreVaultFromObjectStoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.restoreVaultFromObjectStore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestoreVaultFromObjectStoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestoreVaultFromObjectStoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestoreVaultFromObjectStoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestoreVaultFromObjectStoreResponse")
+	}
+	return
+}
+
+// restoreVaultFromObjectStore implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) restoreVaultFromObjectStore(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/actions/restoreFromObjectStore")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestoreVaultFromObjectStoreResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ScheduleVaultDeletion Schedules the deletion of the specified vault. This sets the lifecycle state of the vault and all keys in it
-// that are not already scheduled for deletion to PENDING_DELETION and then deletes them after the
+// that are not already scheduled for deletion to `PENDING_DELETION` and then deletes them after the
 // retention period ends. The lifecycle state and time of deletion for keys already scheduled for deletion won't
 // change. If any keys in the vault are scheduled to be deleted after the specified time of
 // deletion for the vault, the call is rejected with the error code 409.

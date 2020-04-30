@@ -25,7 +25,7 @@ type KeyVersionSummary struct {
 	// The OCID of the master encryption key associated with this key version.
 	KeyId *string `mandatory:"true" json:"keyId"`
 
-	// The source of the key material. When this value is INTERNAL, OCI KMS created the key material. When this value is EXTERNAL, the key material was imported
+	// The source of the key material. When this value is INTERNAL, Key Management created the key material. When this value is EXTERNAL, the key material was imported from an external source.
 	Origin KeyVersionSummaryOriginEnum `mandatory:"true" json:"origin"`
 
 	// The date and time this key version was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
@@ -35,7 +35,7 @@ type KeyVersionSummary struct {
 	// The OCID of the vault that contains this key version.
 	VaultId *string `mandatory:"true" json:"vaultId"`
 
-	// The key version's current state.
+	// The key version's current lifecycle state.
 	// Example: `ENABLED`
 	LifecycleState KeyVersionSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
