@@ -261,6 +261,7 @@ var databaseResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
 		{TerraformResourceHints: exportDatabaseAutonomousDatabaseHints},
 		{TerraformResourceHints: exportDatabaseAutonomousExadataInfrastructureHints},
+		{TerraformResourceHints: exportDatabaseAutonomousVmClusterHints},
 		{TerraformResourceHints: exportDatabaseBackupDestinationHints},
 		{TerraformResourceHints: exportDatabaseBackupHints},
 		{TerraformResourceHints: exportDatabaseDbSystemHints},

@@ -25,6 +25,7 @@ data "oci_database_autonomous_databases" "test_autonomous_databases" {
 	db_version = "${var.autonomous_database_db_version}"
 	db_workload = "${var.autonomous_database_db_workload}"
 	display_name = "${var.autonomous_database_display_name}"
+	infrastructure_type = "${var.autonomous_database_infrastructure_type}"
 	is_free_tier = "${var.autonomous_database_is_free_tier}"
 	state = "${var.autonomous_database_state}"
 }
@@ -39,6 +40,7 @@ The following arguments are supported:
 * `db_version` - (Optional) A filter to return only autonomous database resources that match the specified dbVersion.
 * `db_workload` - (Optional) A filter to return only autonomous database resources that match the specified workload type.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
+* `infrastructure_type` - (Optional) A filter to return only resources that match the given Infrastructure Type.
 * `is_free_tier` - (Optional) Filter on the value of the resource's 'isFreeTier' property. A value of `true` returns only Always Free resources. A value of `false` excludes Always Free resources from the returned results. Omitting this parameter returns both Always Free and paid resources. 
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
@@ -78,6 +80,7 @@ The following attributes are exported:
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+* `infrastructure_type` - The infrastructure type this resource belongs to.
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. Note that auto scaling is available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only. 
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
 * `is_free_tier` - Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. 

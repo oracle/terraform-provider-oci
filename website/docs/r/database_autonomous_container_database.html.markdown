@@ -18,17 +18,19 @@ Create a new Autonomous Container Database in the specified Autonomous Exadata I
 ```hcl
 resource "oci_database_autonomous_container_database" "test_autonomous_container_database" {
 	#Required
-	autonomous_exadata_infrastructure_id = "${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}"
 	display_name = "${var.autonomous_container_database_display_name}"
 	patch_model = "${var.autonomous_container_database_patch_model}"
 
 	#Optional
+	autonomous_exadata_infrastructure_id = "${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}"
+	autonomous_vm_cluster_id = "${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}"
 	backup_config {
 
 		#Optional
 		recovery_window_in_days = "${var.autonomous_container_database_backup_config_recovery_window_in_days}"
 	}
 	compartment_id = "${var.compartment_id}"
+	db_unique_name = "${var.autonomous_container_database_db_unique_name}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 	maintenance_window_details {
@@ -56,10 +58,12 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 
 The following arguments are supported:
 
-* `autonomous_exadata_infrastructure_id` - (Required) The OCID of the Autonomous Exadata Infrastructure.
+* `autonomous_exadata_infrastructure_id` - (Optional) The OCID of the Autonomous Exadata Infrastructure.
+* `autonomous_vm_cluster_id` - (Optional) The OCID of the Autonomous VM Cluster.
 * `backup_config` - (Optional) (Updatable) 
 	* `recovery_window_in_days` - (Optional) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 * `compartment_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Autonomous Container Database.
+* `db_unique_name` - (Optional) The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The display name for the Autonomous Container Database.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -85,15 +89,18 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `autonomous_exadata_infrastructure_id` - The OCID of the Autonomous Exadata Infrastructure.
+* `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
 * `availability_domain` - The availability domain of the Autonomous Container Database.
 * `backup_config` - 
 	* `recovery_window_in_days` - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 * `compartment_id` - The OCID of the compartment.
+* `db_unique_name` - The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
 * `db_version` - Oracle Database version of the Autonomous Container Database
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-provided name for the Autonomous Container Database.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the Autonomous Container Database.
+* `infrastructure_type` - The infrastructure type this resource belongs to.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance_window` - 

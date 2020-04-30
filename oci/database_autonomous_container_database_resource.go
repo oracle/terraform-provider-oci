@@ -32,11 +32,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 		Delete: deleteDatabaseAutonomousContainerDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"autonomous_exadata_infrastructure_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -47,6 +42,18 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			},
 
 			// Optional
+			"autonomous_exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"autonomous_vm_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"backup_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -72,6 +79,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"db_unique_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -175,6 +188,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 
 			// Computed
 			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"infrastructure_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -374,6 +391,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.AutonomousExadataInfrastructureId = &tmp
 	}
 
+	if autonomousVmClusterId, ok := s.D.GetOkExists("autonomous_vm_cluster_id"); ok {
+		tmp := autonomousVmClusterId.(string)
+		request.AutonomousVmClusterId = &tmp
+	}
+
 	if backupConfig, ok := s.D.GetOkExists("backup_config"); ok {
 		if tmpList := backupConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_config", 0)
@@ -388,6 +410,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists("db_unique_name"); ok {
+		tmp := dbUniqueName.(string)
+		request.DbUniqueName = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -540,6 +567,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("autonomous_exadata_infrastructure_id", *s.Res.AutonomousExadataInfrastructureId)
 	}
 
+	if s.Res.AutonomousVmClusterId != nil {
+		s.D.Set("autonomous_vm_cluster_id", *s.Res.AutonomousVmClusterId)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -558,6 +589,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("db_version", *s.Res.DbVersion)
 	}
 
+	if s.Res.DbUniqueName != nil {
+		s.D.Set("db_unique_name", *s.Res.DbUniqueName)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -567,6 +602,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
