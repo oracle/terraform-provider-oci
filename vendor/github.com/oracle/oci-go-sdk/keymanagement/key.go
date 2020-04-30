@@ -21,7 +21,7 @@ type Key struct {
 
 	// The OCID of the key version used in cryptographic operations. During key rotation, the service might be
 	// in a transitional state where this or a newer key version are used intermittently. The `currentKeyVersion`
-	// field is updated when the service is guaranteed to use the new key version for all subsequent encryption operations.
+	// property is updated when the service is guaranteed to use the new key version for all subsequent encryption operations.
 	CurrentKeyVersion *string `mandatory:"true" json:"currentKeyVersion"`
 
 	// A user-friendly name for the key. It does not have to be unique, and it is changeable.
@@ -33,7 +33,7 @@ type Key struct {
 
 	KeyShape *KeyShape `mandatory:"true" json:"keyShape"`
 
-	// The key's current state.
+	// The key's current lifecycle state.
 	// Example: `ENABLED`
 	LifecycleState KeyLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -57,6 +57,9 @@ type Key struct {
 	// An optional property indicating when to delete the key, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-04-03T21:10:29.600Z`
 	TimeOfDeletion *common.SDKTime `mandatory:"false" json:"timeOfDeletion"`
+
+	// The OCID of the key from which this key was restored.
+	RestoredFromKeyId *string `mandatory:"false" json:"restoredFromKeyId"`
 }
 
 func (m Key) String() string {
@@ -79,6 +82,8 @@ const (
 	KeyLifecycleStateSchedulingDeletion KeyLifecycleStateEnum = "SCHEDULING_DELETION"
 	KeyLifecycleStateCancellingDeletion KeyLifecycleStateEnum = "CANCELLING_DELETION"
 	KeyLifecycleStateUpdating           KeyLifecycleStateEnum = "UPDATING"
+	KeyLifecycleStateBackupInProgress   KeyLifecycleStateEnum = "BACKUP_IN_PROGRESS"
+	KeyLifecycleStateRestoring          KeyLifecycleStateEnum = "RESTORING"
 )
 
 var mappingKeyLifecycleState = map[string]KeyLifecycleStateEnum{
@@ -93,6 +98,8 @@ var mappingKeyLifecycleState = map[string]KeyLifecycleStateEnum{
 	"SCHEDULING_DELETION": KeyLifecycleStateSchedulingDeletion,
 	"CANCELLING_DELETION": KeyLifecycleStateCancellingDeletion,
 	"UPDATING":            KeyLifecycleStateUpdating,
+	"BACKUP_IN_PROGRESS":  KeyLifecycleStateBackupInProgress,
+	"RESTORING":           KeyLifecycleStateRestoring,
 }
 
 // GetKeyLifecycleStateEnumValues Enumerates the set of values for KeyLifecycleStateEnum

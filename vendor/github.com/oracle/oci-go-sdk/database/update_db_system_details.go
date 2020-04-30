@@ -50,9 +50,35 @@ type UpdateDbSystemDetails struct {
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata DB systems.
 	BackupNetworkNsgIds []string `mandatory:"false" json:"backupNetworkNsgIds"`
 
+	// The Oracle Database license model that applies to all databases on the DB system. The default is LICENSE_INCLUDED.
+	LicenseModel UpdateDbSystemDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
+
 	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`
 }
 
 func (m UpdateDbSystemDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UpdateDbSystemDetailsLicenseModelEnum Enum with underlying type: string
+type UpdateDbSystemDetailsLicenseModelEnum string
+
+// Set of constants representing the allowable values for UpdateDbSystemDetailsLicenseModelEnum
+const (
+	UpdateDbSystemDetailsLicenseModelLicenseIncluded     UpdateDbSystemDetailsLicenseModelEnum = "LICENSE_INCLUDED"
+	UpdateDbSystemDetailsLicenseModelBringYourOwnLicense UpdateDbSystemDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
+)
+
+var mappingUpdateDbSystemDetailsLicenseModel = map[string]UpdateDbSystemDetailsLicenseModelEnum{
+	"LICENSE_INCLUDED":       UpdateDbSystemDetailsLicenseModelLicenseIncluded,
+	"BRING_YOUR_OWN_LICENSE": UpdateDbSystemDetailsLicenseModelBringYourOwnLicense,
+}
+
+// GetUpdateDbSystemDetailsLicenseModelEnumValues Enumerates the set of values for UpdateDbSystemDetailsLicenseModelEnum
+func GetUpdateDbSystemDetailsLicenseModelEnumValues() []UpdateDbSystemDetailsLicenseModelEnum {
+	values := make([]UpdateDbSystemDetailsLicenseModelEnum, 0)
+	for _, v := range mappingUpdateDbSystemDetailsLicenseModel {
+		values = append(values, v)
+	}
+	return values
 }

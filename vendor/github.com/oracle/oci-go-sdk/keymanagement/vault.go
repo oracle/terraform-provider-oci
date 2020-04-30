@@ -31,7 +31,7 @@ type Vault struct {
 	// The OCID of the vault.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The vault's current state.
+	// The vault's current lifecycle state.
 	// Example: `DELETED`
 	LifecycleState VaultLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -46,7 +46,7 @@ type Vault struct {
 	// degrees of isolation and has different options and pricing.
 	VaultType VaultVaultTypeEnum `mandatory:"true" json:"vaultType"`
 
-	// The OCID of the vault wrapping key.
+	// The OCID of the vault's wrapping key.
 	WrappingkeyId *string `mandatory:"true" json:"wrappingkeyId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -62,6 +62,11 @@ type Vault struct {
 	// An optional property to indicate when to delete the vault, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeOfDeletion *common.SDKTime `mandatory:"false" json:"timeOfDeletion"`
+
+	// The OCID of the vault from which this vault was restored, if it was restored from a backup file.
+	// If you restore a vault to the same region, the vault retains the same OCID that it had when you
+	// backed up the vault.
+	RestoredFromVaultId *string `mandatory:"false" json:"restoredFromVaultId"`
 }
 
 func (m Vault) String() string {
@@ -81,6 +86,8 @@ const (
 	VaultLifecycleStateSchedulingDeletion VaultLifecycleStateEnum = "SCHEDULING_DELETION"
 	VaultLifecycleStateCancellingDeletion VaultLifecycleStateEnum = "CANCELLING_DELETION"
 	VaultLifecycleStateUpdating           VaultLifecycleStateEnum = "UPDATING"
+	VaultLifecycleStateBackupInProgress   VaultLifecycleStateEnum = "BACKUP_IN_PROGRESS"
+	VaultLifecycleStateRestoring          VaultLifecycleStateEnum = "RESTORING"
 )
 
 var mappingVaultLifecycleState = map[string]VaultLifecycleStateEnum{
@@ -92,6 +99,8 @@ var mappingVaultLifecycleState = map[string]VaultLifecycleStateEnum{
 	"SCHEDULING_DELETION": VaultLifecycleStateSchedulingDeletion,
 	"CANCELLING_DELETION": VaultLifecycleStateCancellingDeletion,
 	"UPDATING":            VaultLifecycleStateUpdating,
+	"BACKUP_IN_PROGRESS":  VaultLifecycleStateBackupInProgress,
+	"RESTORING":           VaultLifecycleStateRestoring,
 }
 
 // GetVaultLifecycleStateEnumValues Enumerates the set of values for VaultLifecycleStateEnum
