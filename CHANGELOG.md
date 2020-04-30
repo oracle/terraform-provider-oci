@@ -4,6 +4,9 @@
 - Support for update `license_model` in `oci_database_db_system`
 - Support for ADB-S Version Upgrade 19c (manual)
 
+### Fixed
+- Fix `streaming_stream_pool_resource` send empty key
+
 ## 3.73.0 (April 29, 2020)
 
 ### Added
