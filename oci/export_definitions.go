@@ -533,6 +533,16 @@ var exportDatabaseAutonomousExadataInfrastructureHints = &TerraformResourceHints
 	},
 }
 
+var exportDatabaseAutonomousVmClusterHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_autonomous_vm_cluster",
+	datasourceClass:      "oci_database_autonomous_vm_clusters",
+	datasourceItemsAttr:  "autonomous_vm_clusters",
+	resourceAbbreviation: "autonomous_vm_cluster",
+	discoverableLifecycleStates: []string{
+		string(oci_database.AutonomousVmClusterLifecycleStateAvailable),
+	},
+}
+
 var exportDatabaseBackupDestinationHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_backup_destination",
 	datasourceClass:      "oci_database_backup_destinations",

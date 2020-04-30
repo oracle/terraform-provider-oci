@@ -43,9 +43,9 @@ var (
 	}
 
 	autonomousContainerDatabaseRepresentation = map[string]interface{}{
-		"autonomous_exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
 		"display_name":                         Representation{repType: Required, create: `containerdatabases2`, update: `displayName2`},
 		"patch_model":                          Representation{repType: Required, create: `RELEASE_UPDATES`, update: `RELEASE_UPDATE_REVISIONS`},
+		"autonomous_exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
 		"backup_config":                        RepresentationGroup{Optional, autonomousContainerDatabaseBackupConfigRepresentation},
 		"compartment_id":                       Representation{repType: Optional, create: `${var.compartment_id}`},
 		"defined_tags":                         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -73,7 +73,12 @@ var (
 		"name": Representation{repType: Required, create: `APRIL`, update: `MAY`},
 	}
 
-	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig
+	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig +
+		generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
+			representationCopyWithNewProperties(exadataInfrastructureRepresentation, map[string]interface{}{"activation_file": Representation{repType: Required, create: activationFilePath}})) +
+		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
+			representationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{repType: Required, create: "true"}}))
 )
 
 func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {

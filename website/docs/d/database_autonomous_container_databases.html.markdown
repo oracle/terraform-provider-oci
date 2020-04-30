@@ -22,8 +22,10 @@ data "oci_database_autonomous_container_databases" "test_autonomous_container_da
 
 	#Optional
 	autonomous_exadata_infrastructure_id = "${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}"
+	autonomous_vm_cluster_id = "${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}"
 	availability_domain = "${var.autonomous_container_database_availability_domain}"
 	display_name = "${var.autonomous_container_database_display_name}"
+	infrastructure_type = "${var.autonomous_container_database_infrastructure_type}"
 	state = "${var.autonomous_container_database_state}"
 }
 ```
@@ -33,9 +35,11 @@ data "oci_database_autonomous_container_databases" "test_autonomous_container_da
 The following arguments are supported:
 
 * `autonomous_exadata_infrastructure_id` - (Optional) The Autonomous Exadata Infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `autonomous_vm_cluster_id` - (Optional) The Autonomous VM Cluster [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `availability_domain` - (Optional) A filter to return only resources that match the given availability domain exactly.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
+* `infrastructure_type` - (Optional) A filter to return only resources that match the given Infrastructure Type.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
@@ -50,15 +54,18 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `autonomous_exadata_infrastructure_id` - The OCID of the Autonomous Exadata Infrastructure.
+* `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
 * `availability_domain` - The availability domain of the Autonomous Container Database.
 * `backup_config` - 
 	* `recovery_window_in_days` - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 * `compartment_id` - The OCID of the compartment.
+* `db_unique_name` - The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
 * `db_version` - Oracle Database version of the Autonomous Container Database
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-provided name for the Autonomous Container Database.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the Autonomous Container Database.
+* `infrastructure_type` - The infrastructure type this resource belongs to.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance_window` - 

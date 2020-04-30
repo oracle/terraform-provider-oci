@@ -286,6 +286,7 @@ database
 * oci\_database\_autonomous\_container\_database
 * oci\_database\_autonomous\_database
 * oci\_database\_autonomous\_exadata\_infrastructure
+* oci\_database\_autonomous\_vm\_cluster
 * oci\_database\_backup\_destination
 * oci\_database\_backup
 * oci\_database\_database
