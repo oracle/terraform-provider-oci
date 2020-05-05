@@ -10,10 +10,11 @@ import (
 
 // Hints for discovering and exporting this resource to configuration and state files
 var exportBdsBdsInstanceHints = &TerraformResourceHints{
-	resourceClass:        "oci_bds_bds_instance",
-	datasourceClass:      "oci_bds_bds_instances",
-	datasourceItemsAttr:  "bds_instances",
-	resourceAbbreviation: "bds_instance",
+	resourceClass:          "oci_bds_bds_instance",
+	datasourceClass:        "oci_bds_bds_instances",
+	datasourceItemsAttr:    "bds_instances",
+	resourceAbbreviation:   "bds_instance",
+	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_bds.BdsInstanceLifecycleStateActive),
 	},
@@ -98,17 +99,19 @@ var exportCoreImageHints = &TerraformResourceHints{
 }
 
 var exportCoreInstanceConfigurationHints = &TerraformResourceHints{
-	resourceClass:        "oci_core_instance_configuration",
-	datasourceClass:      "oci_core_instance_configurations",
-	datasourceItemsAttr:  "instance_configurations",
-	resourceAbbreviation: "instance_configuration",
+	resourceClass:          "oci_core_instance_configuration",
+	datasourceClass:        "oci_core_instance_configurations",
+	datasourceItemsAttr:    "instance_configurations",
+	resourceAbbreviation:   "instance_configuration",
+	requireResourceRefresh: true,
 }
 
 var exportCoreInstancePoolHints = &TerraformResourceHints{
-	resourceClass:        "oci_core_instance_pool",
-	datasourceClass:      "oci_core_instance_pools",
-	datasourceItemsAttr:  "instance_pools",
-	resourceAbbreviation: "instance_pool",
+	resourceClass:          "oci_core_instance_pool",
+	datasourceClass:        "oci_core_instance_pools",
+	datasourceItemsAttr:    "instance_pools",
+	resourceAbbreviation:   "instance_pool",
+	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_core.InstancePoolLifecycleStateRunning),
 	},
@@ -510,10 +513,11 @@ var exportIdentityTagNamespaceHints = &TerraformResourceHints{
 }
 
 var exportIdentityTagHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_tag",
-	datasourceClass:      "oci_identity_tags",
-	datasourceItemsAttr:  "tags",
-	resourceAbbreviation: "tag",
+	resourceClass:          "oci_identity_tag",
+	datasourceClass:        "oci_identity_tags",
+	datasourceItemsAttr:    "tags",
+	resourceAbbreviation:   "tag",
+	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_identity.TagLifecycleStateActive),
 	},
@@ -577,10 +581,11 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 }
 
 var exportObjectStorageBucketHints = &TerraformResourceHints{
-	resourceClass:        "oci_objectstorage_bucket",
-	datasourceClass:      "oci_objectstorage_bucket_summaries",
-	datasourceItemsAttr:  "bucket_summaries",
-	resourceAbbreviation: "bucket",
+	resourceClass:          "oci_objectstorage_bucket",
+	datasourceClass:        "oci_objectstorage_bucket_summaries",
+	datasourceItemsAttr:    "bucket_summaries",
+	resourceAbbreviation:   "bucket",
+	requireResourceRefresh: true,
 }
 
 var exportObjectStorageNamespaceHints = &TerraformResourceHints{

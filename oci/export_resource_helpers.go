@@ -62,8 +62,6 @@ func init() {
 	exportLoadBalancerPathRouteSetHints.processDiscoveredResourcesFn = processLoadBalancerPathRouteSets
 	exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
 
-	exportBdsBdsInstanceHints.requireResourceRefresh = true
-
 	exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
 	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
@@ -71,8 +69,6 @@ func init() {
 	exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
 	exportCoreInstanceHints.processDiscoveredResourcesFn = processInstances
 	exportCoreInstanceHints.requireResourceRefresh = true
-	exportCoreInstanceConfigurationHints.requireResourceRefresh = true
-	exportCoreInstancePoolHints.requireResourceRefresh = true
 	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceClass = "oci_core_network_security_group_security_rules"
 	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceItemsAttr = "security_rules"
 	exportCoreNetworkSecurityGroupSecurityRuleHints.processDiscoveredResourcesFn = processNetworkSecurityGroupRules
@@ -101,7 +97,6 @@ func init() {
 	exportObjectStorageNamespaceHints.alwaysExportable = true
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
-	exportObjectStorageBucketHints.requireResourceRefresh = true
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
