@@ -3,6 +3,7 @@
 ### Added
 - Support for HTTP Header in load balancer rule set
 - Support for `oci_metering_computation_usage` resource and `oci_metering_computation_configuration` datasource
+- Support for new optional parameters in `oci_core_instance_configuration`
 
 ## 3.82.0 (June 24, 2020)
 

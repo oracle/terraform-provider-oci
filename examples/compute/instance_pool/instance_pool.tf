@@ -136,6 +136,25 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
   instance_details {
     instance_type = "compute"
 
+    block_volumes {
+      create_details {
+        compartment_id      = "${var.compartment_ocid}"
+        display_name        = "TestCreateVolumeDetails"
+        availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+        size_in_gbs         = 50
+        vpus_per_gb         = 2
+      }
+
+      attach_details {
+        type                                = "paravirtualized"
+        display_name                        = "TestAttachVolumeDetails"
+        is_read_only                        = true
+        device                              = "TestDeviceName"
+        is_pv_encryption_in_transit_enabled = true
+        is_shareable                        = true
+      }
+    }
+
     launch_details {
       compartment_id                      = "${var.compartment_ocid}"
       ipxe_script                         = "ipxeScript"
