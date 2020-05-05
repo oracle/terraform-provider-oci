@@ -149,6 +149,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["autonomous_container_database_id"] = *r.AutonomousContainerDatabaseId
 		}
 
+		autonomousDatabase["available_upgrade_versions"] = r.AvailableUpgradeVersions
+
 		if r.ConnectionStrings != nil {
 			autonomousDatabase["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}
 		} else {

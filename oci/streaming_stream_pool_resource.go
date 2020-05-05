@@ -352,7 +352,7 @@ func (s *StreamingStreamPoolResourceCrud) Update() error {
 	}
 	request := oci_streaming.UpdateStreamPoolRequest{}
 
-	if customEncryptionKey, ok := s.D.GetOkExists("custom_encryption_key"); ok {
+	if customEncryptionKey, ok := s.D.GetOkExists("custom_encryption_key"); ok && s.D.HasChange("custom_encryption_key") {
 		if tmpList := customEncryptionKey.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "custom_encryption_key", 0)
 			tmp, err := s.mapToCustomEncryptionKeyDetails(fieldKeyFormat)

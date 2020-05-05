@@ -12,10 +12,10 @@ import (
 // ListReportsRequest wrapper for the ListReports operation
 type ListReportsRequest struct {
 
-	// Type of the report.
+	// The type of the report.
 	ReportType *string `mandatory:"true" contributesTo:"query" name:"reportType"`
 
-	// Date in YYYYMMDD format
+	// Date, expressed in `YYYYMMDD` format, where `Y` represents the year, `M` represents the month, and `D` represents the day.
 	Date *common.SDKTime `mandatory:"true" contributesTo:"query" name:"date"`
 
 	// The unique identifier for the compartment.

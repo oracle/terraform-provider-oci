@@ -6,15 +6,13 @@ import (
 	"context"
 	"fmt"
 	"log"
-
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
+	"strings"
+	"time"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"strings"
-
-	"time"
+	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
@@ -329,88 +327,6 @@ func (s *ContainerengineClusterResourceCrud) DeletedTarget() []string {
 	}
 }
 
-//containerEngineWorkRequestShouldRetryFunc Custom retry function for containerengine service
-func containerEngineWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
-	startTime := time.Now()
-	stopTime := startTime.Add(timeout)
-	return func(response oci_common.OCIOperationResponse) bool {
-
-		//Stop after timeout has elapsed
-		if time.Now().After(stopTime) {
-			return false
-		}
-
-		//Make sure we stop on default rules
-		if shouldRetry(response, false, "containerengine", startTime) {
-			return true
-		}
-
-		// Only stop if the time Finished is set
-		if okeRes, ok := response.Response.(oci_containerengine.GetWorkRequestResponse); ok {
-			return okeRes.TimeFinished == nil
-		}
-		return false
-	}
-}
-
-//containerEngineWaitForWorkRequest custom logic to extract an identifier from a workRequest
-func containerEngineWaitForWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
-	timeout time.Duration, disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "containerengine")
-	retryPolicy.ShouldRetryOperation = containerEngineWorkRequestShouldRetryFunc(timeout)
-
-	response := oci_containerengine.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_containerengine.WorkRequestStatusInProgress),
-			string(oci_containerengine.WorkRequestStatusAccepted),
-			string(oci_containerengine.WorkRequestStatusCanceling),
-		},
-		Target: []string{
-			string(oci_containerengine.WorkRequestStatusSucceeded),
-			string(oci_containerengine.WorkRequestStatusFailed),
-			string(oci_containerengine.WorkRequestStatusCanceled),
-		},
-		Refresh: func() (interface{}, string, error) {
-			var err error
-			response, err = client.GetWorkRequest(context.Background(),
-				oci_containerengine.GetWorkRequestRequest{
-					WorkRequestId: wId,
-					RequestMetadata: oci_common.RequestMetadata{
-						RetryPolicy: retryPolicy,
-					},
-				})
-			wr := &response.WorkRequest
-			return wr, string(wr.Status), err
-		},
-		Timeout: timeout,
-	}
-
-	// Set PollInterval to 1 for replay mode.
-	if httpreplay.ShouldRetryImmediately() {
-		stateConf.PollInterval = 1
-	}
-
-	if _, e := stateConf.WaitForState(); e != nil {
-		return nil, e
-	}
-
-	var identifier *string
-	//The work request response contains an array of objects that finished the operation
-	for _, res := range response.Resources {
-		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
-			identifier = res.Identifier
-			if res.ActionType == action {
-				return res.Identifier, nil
-			}
-		}
-	}
-
-	//Otherwise the operation ended unsucessfully
-	errorMessage, _ := getErrorFromWorkRequest(wId, response.CompartmentId, client, disableFoundRetries)
-	return identifier, fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
-}
-
 func (s *ContainerengineClusterResourceCrud) Create() error {
 	request := oci_containerengine.CreateClusterRequest{}
 
@@ -449,36 +365,35 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 		tmp := vcnId.(string)
 		request.VcnId = &tmp
 	}
-	//Trigger a create request
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+
 	response, err := s.Client.CreateCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	//Wait until it finishes
-	clusterID, err := containerEngineWaitForWorkRequest(workId, "cluster",
+
+	clusterID, err := clusterWaitForWorkRequest(workId, "cluster",
 		oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		if clusterID != nil {
-			//Try to clean up
+
 			log.Printf("[DEBUG] creation failed, attempting to delete the cluster: %v\n", clusterID)
 
 			delReq := oci_containerengine.DeleteClusterRequest{}
 			delReq.ClusterId = clusterID
 			delReq.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-			//Issue the delete delReq
 			delRes, delErr := s.Client.DeleteCluster(context.Background(), delReq)
 			if delErr != nil {
 				return err
 			}
 			delWorkRequest := delRes.OpcWorkRequestId
 
-			//Wait until request finishes
-			_, delErr = containerEngineWaitForWorkRequest(delWorkRequest, "cluster",
+			_, delErr = clusterWaitForWorkRequest(delWorkRequest, "cluster",
 				oci_containerengine.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 			if delErr != nil {
 				log.Printf("[DEBUG] cleanup delWorkRequest failed with the error: %v\n", delErr)
@@ -487,7 +402,6 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 		return err
 	}
 
-	//Fetch the cluster object
 	requestGet := oci_containerengine.GetClusterRequest{}
 	requestGet.ClusterId = clusterID
 	requestGet.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
@@ -498,6 +412,98 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 	s.Res = &responseGet.Cluster
 
 	return nil
+}
+
+func (s *ContainerengineClusterResourceCrud) getClusterFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_containerengine.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
+	clusterId, err := clusterWaitForWorkRequest(workId, "cluster",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+
+	if err != nil {
+		return err
+	}
+	s.D.SetId(*clusterId)
+
+	return s.Get()
+}
+
+func clusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if shouldRetry(response, false, "containerengine", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_containerengine.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func clusterWaitForWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
+	retryPolicy := getRetryPolicy(disableFoundRetries, "containerengine")
+	retryPolicy.ShouldRetryOperation = clusterWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_containerengine.GetWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_containerengine.WorkRequestStatusInProgress),
+			string(oci_containerengine.WorkRequestStatusAccepted),
+			string(oci_containerengine.WorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_containerengine.WorkRequestStatusSucceeded),
+			string(oci_containerengine.WorkRequestStatusFailed),
+			string(oci_containerengine.WorkRequestStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_containerengine.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	// Set PollInterval to 1 for replay mode.
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
+	}
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			identifier = res.Identifier
+			if res.ActionType == action {
+				return res.Identifier, nil
+			}
+		}
+	}
+
+	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
+	errorMessage, _ := getErrorFromWorkRequest(wId, response.CompartmentId, client, disableFoundRetries)
+	return identifier, fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 }
 
 func (s *ContainerengineClusterResourceCrud) Get() error {
@@ -544,33 +550,15 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 		}
 	}
 
-	//Issue update request
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+
 	response, err := s.Client.UpdateCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}
-	workRequest := response.OpcWorkRequestId
 
-	//Wait until request finishes
-	clusterID, err := containerEngineWaitForWorkRequest(workRequest, "cluster",
-		oci_containerengine.WorkRequestResourceActionTypeUpdated,
-		s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
-	if err != nil {
-		return err
-	}
-
-	//Refresh data
-	requestGet := oci_containerengine.GetClusterRequest{}
-	requestGet.ClusterId = clusterID
-	requestGet.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-	responseGet, err := s.Client.GetCluster(context.Background(), requestGet)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &responseGet.Cluster
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getClusterFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ContainerengineClusterResourceCrud) Delete() error {
@@ -581,18 +569,16 @@ func (s *ContainerengineClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	//Issue the delete request
 	response, err := s.Client.DeleteCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}
-	workRequest := response.OpcWorkRequestId
 
-	//Wait until request finishes
-	_, err = containerEngineWaitForWorkRequest(workRequest, "cluster",
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := clusterWaitForWorkRequest(workId, "cluster",
 		oci_containerengine.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
-
-	return err
+	return delWorkRequestErr
 }
 
 func (s *ContainerengineClusterResourceCrud) SetData() error {
@@ -748,23 +734,6 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 	return result, nil
 }
 
-func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fieldKeyFormat string) (oci_containerengine.UpdateClusterOptionsDetails, error) {
-	result := oci_containerengine.UpdateClusterOptionsDetails{}
-
-	if admissionControllerOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admission_controller_options")); ok {
-		if tmpList := admissionControllerOptions.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "admission_controller_options"), 0)
-			tmp, err := s.mapToAdmissionControllerOptions(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert admission_controller_options, encountered error: %v", err)
-			}
-			result.AdmissionControllerOptions = &tmp
-		}
-	}
-
-	return result, nil
-}
-
 func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -867,7 +836,23 @@ func KubernetesNetworkConfigToMap(obj *oci_containerengine.KubernetesNetworkConf
 	return result
 }
 
-// getErrorFromWorkRequest retuns a concatened string of all errors for a given work request, if there is a reading the error it returns an empty string an error
+func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fieldKeyFormat string) (oci_containerengine.UpdateClusterOptionsDetails, error) {
+	result := oci_containerengine.UpdateClusterOptionsDetails{}
+
+	if admissionControllerOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admission_controller_options")); ok {
+		if tmpList := admissionControllerOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "admission_controller_options"), 0)
+			tmp, err := s.mapToAdmissionControllerOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert admission_controller_options, encountered error: %v", err)
+			}
+			result.AdmissionControllerOptions = &tmp
+		}
+	}
+
+	return result, nil
+}
+
 func getErrorFromWorkRequest(workRequestId *string, compartmentId *string, client *oci_containerengine.ContainerEngineClient, disableFoundAutoRetries bool) (string, error) {
 	req := oci_containerengine.ListWorkRequestErrorsRequest{}
 	req.WorkRequestId = workRequestId

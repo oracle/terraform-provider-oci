@@ -17,10 +17,10 @@ import (
 // ImageListingPackage A package for image listings.
 type ImageListingPackage struct {
 
-	// The id of the listing this package belongs to.
+	// The ID of the listing this package belongs to.
 	ListingId *string `mandatory:"true" json:"listingId"`
 
-	// The version of this package.
+	// The package version.
 	Version *string `mandatory:"true" json:"version"`
 
 	// Description of this package.
@@ -36,13 +36,13 @@ type ImageListingPackage struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The id of the AppCatalogListing associated with this ListingPackage.
+	// The ID of the listing resource associated with this listing package. For more information, see AppCatalogListing (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListing/) in the Core Services API.
 	AppCatalogListingId *string `mandatory:"false" json:"appCatalogListingId"`
 
-	// The resource version of the AppCatalogListing associated with this ListingPackage.
+	// The resource version of the listing resource associated with this listing package.
 	AppCatalogListingResourceVersion *string `mandatory:"false" json:"appCatalogListingResourceVersion"`
 
-	// List of regions in which this ListingPackage is available.
+	// The regions where the listing is available.
 	Regions []Region `mandatory:"false" json:"regions"`
 }
 

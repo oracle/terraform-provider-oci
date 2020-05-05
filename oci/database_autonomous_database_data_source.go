@@ -70,6 +70,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("autonomous_container_database_id", *s.Res.AutonomousContainerDatabaseId)
 	}
 
+	s.D.Set("available_upgrade_versions", s.Res.AvailableUpgradeVersions)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

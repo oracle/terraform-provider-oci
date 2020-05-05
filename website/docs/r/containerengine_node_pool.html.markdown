@@ -62,7 +62,7 @@ The following arguments are supported:
 		* `subnet_id` - (Required) (Updatable) The OCID of the subnet in which to place nodes.
 	* `size` - (Required) (Updatable) The number of nodes that should be in the node pool. 
 * `node_image_id` - (Optional) Deprecated. Use `node_source_details` instead. The OCID of the image running on the nodes in the node pool. Cannot be used when `node_image_name` is specified.
-* `node_image_name` - (Optional) Deprecated. Use `node_source_details` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
+* `node_image_name` - (Optional) Deprecated. Use `nodeSourceDetails` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_metadata` - (Optional) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool.
 * `node_shape` - (Required) The name of the node shape of the nodes in the node pool.
 * `node_source_details` - (Optional) Specify the source to use to launch nodes in the node pool. Currently, image is the only supported source. 
