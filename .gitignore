@@ -1,4 +1,5 @@
 .terraform
+.terraform_bk*
 terraform.tfstate*
 .terraform.tfstate.lock.info
 tf.plan

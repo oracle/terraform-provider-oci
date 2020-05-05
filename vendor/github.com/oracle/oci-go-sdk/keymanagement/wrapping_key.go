@@ -22,7 +22,7 @@ type WrappingKey struct {
 	// The OCID of the key.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The key's current state.
+	// The key's current lifecycle state.
 	// Example: `ENABLED`
 	LifecycleState WrappingKeyLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -46,17 +46,35 @@ type WrappingKeyLifecycleStateEnum string
 
 // Set of constants representing the allowable values for WrappingKeyLifecycleStateEnum
 const (
-	WrappingKeyLifecycleStateCreating WrappingKeyLifecycleStateEnum = "CREATING"
-	WrappingKeyLifecycleStateEnabled  WrappingKeyLifecycleStateEnum = "ENABLED"
-	WrappingKeyLifecycleStateDeleting WrappingKeyLifecycleStateEnum = "DELETING"
-	WrappingKeyLifecycleStateDeleted  WrappingKeyLifecycleStateEnum = "DELETED"
+	WrappingKeyLifecycleStateCreating           WrappingKeyLifecycleStateEnum = "CREATING"
+	WrappingKeyLifecycleStateEnabling           WrappingKeyLifecycleStateEnum = "ENABLING"
+	WrappingKeyLifecycleStateEnabled            WrappingKeyLifecycleStateEnum = "ENABLED"
+	WrappingKeyLifecycleStateDisabling          WrappingKeyLifecycleStateEnum = "DISABLING"
+	WrappingKeyLifecycleStateDisabled           WrappingKeyLifecycleStateEnum = "DISABLED"
+	WrappingKeyLifecycleStateDeleting           WrappingKeyLifecycleStateEnum = "DELETING"
+	WrappingKeyLifecycleStateDeleted            WrappingKeyLifecycleStateEnum = "DELETED"
+	WrappingKeyLifecycleStatePendingDeletion    WrappingKeyLifecycleStateEnum = "PENDING_DELETION"
+	WrappingKeyLifecycleStateSchedulingDeletion WrappingKeyLifecycleStateEnum = "SCHEDULING_DELETION"
+	WrappingKeyLifecycleStateCancellingDeletion WrappingKeyLifecycleStateEnum = "CANCELLING_DELETION"
+	WrappingKeyLifecycleStateUpdating           WrappingKeyLifecycleStateEnum = "UPDATING"
+	WrappingKeyLifecycleStateBackupInProgress   WrappingKeyLifecycleStateEnum = "BACKUP_IN_PROGRESS"
+	WrappingKeyLifecycleStateRestoring          WrappingKeyLifecycleStateEnum = "RESTORING"
 )
 
 var mappingWrappingKeyLifecycleState = map[string]WrappingKeyLifecycleStateEnum{
-	"CREATING": WrappingKeyLifecycleStateCreating,
-	"ENABLED":  WrappingKeyLifecycleStateEnabled,
-	"DELETING": WrappingKeyLifecycleStateDeleting,
-	"DELETED":  WrappingKeyLifecycleStateDeleted,
+	"CREATING":            WrappingKeyLifecycleStateCreating,
+	"ENABLING":            WrappingKeyLifecycleStateEnabling,
+	"ENABLED":             WrappingKeyLifecycleStateEnabled,
+	"DISABLING":           WrappingKeyLifecycleStateDisabling,
+	"DISABLED":            WrappingKeyLifecycleStateDisabled,
+	"DELETING":            WrappingKeyLifecycleStateDeleting,
+	"DELETED":             WrappingKeyLifecycleStateDeleted,
+	"PENDING_DELETION":    WrappingKeyLifecycleStatePendingDeletion,
+	"SCHEDULING_DELETION": WrappingKeyLifecycleStateSchedulingDeletion,
+	"CANCELLING_DELETION": WrappingKeyLifecycleStateCancellingDeletion,
+	"UPDATING":            WrappingKeyLifecycleStateUpdating,
+	"BACKUP_IN_PROGRESS":  WrappingKeyLifecycleStateBackupInProgress,
+	"RESTORING":           WrappingKeyLifecycleStateRestoring,
 }
 
 // GetWrappingKeyLifecycleStateEnumValues Enumerates the set of values for WrappingKeyLifecycleStateEnum

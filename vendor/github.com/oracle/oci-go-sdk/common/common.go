@@ -4,7 +4,11 @@
 package common
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path"
 	"regexp"
 	"strings"
 )
@@ -35,6 +39,8 @@ const (
 	RegionAPSeoul1 Region = "ap-seoul-1"
 	//RegionAPMumbai1 region for mumbai
 	RegionAPMumbai1 Region = "ap-mumbai-1"
+	//RegionAPHyderabad1 region for Hyderabad
+	RegionAPHyderabad1 Region = "ap-hyderabad-1"
 	//RegionAPMelbourne1 region for Melbourne
 	RegionAPMelbourne1 Region = "ap-melbourne-1"
 	//RegionAPSydney1 region for Sydney
@@ -60,6 +66,25 @@ const (
 	RegionUSGovPhoenix1 Region = "us-gov-phoenix-1"
 	//RegionUKGovLondon1 gov region London
 	RegionUKGovLondon1 Region = "uk-gov-london-1"
+
+	//RegionUKGovCardiff1 gov region Cardiff
+	RegionUKGovCardiff1 Region = "uk-gov-cardiff-1"
+
+	//RegionUSTacoma1 region for us-tacoma-1
+	RegionUSTacoma1 Region = "us-tacoma-1"
+
+	// Region Metadata Configuration File
+	regionMetadataCfgDirName  = ".oci"
+	regionMetadataCfgFileName = "regions-config.json"
+
+	// Region Metadata Environment Variable
+	regionMetadataEnvVarName = "OCI_REGION_METADATA"
+
+	// Region Metadata
+	regionIdentifierPropertyName     = "regionIdentifier"     // e.g. "ap-sydney-1"
+	realmKeyPropertyName             = "realmKey"             // e.g. "oc1"
+	realmDomainComponentPropertyName = "realmDomainComponent" // e.g. "oraclecloud.com"
+	regionKeyPropertyName            = "regionKey"            // e.g. "SYD"
 )
 
 var realm = map[string]string{
@@ -81,6 +106,7 @@ var regionRealm = map[Region]string{
 	RegionAPSeoul1:     "oc1",
 	RegionAPSydney1:    "oc1",
 	RegionAPMumbai1:    "oc1",
+	RegionAPHyderabad1: "oc1",
 	RegionAPMelbourne1: "oc1",
 	RegionMEJeddah1:    "oc1",
 	RegionEUZurich1:    "oc1",
@@ -100,7 +126,7 @@ func (region Region) Endpoint(service string) string {
 	return fmt.Sprintf("%s.%s.%s", service, region, region.secondLevelDomain())
 }
 
-// EndpointForTemplate returns a endpoint for a service based on template
+// EndpointForTemplate returns a endpoint for a service based on template, only unknown region name can fall back to "oc1", but not short code region name.
 func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate string) string {
 	if serviceEndpointTemplate == "" {
 		return region.Endpoint(service)
@@ -154,6 +180,8 @@ func StringToRegion(stringRegion string) (r Region) {
 		r = RegionAPSeoul1
 	case "bom", "ap-mumbai-1":
 		r = RegionAPMumbai1
+	case "hyd", "ap-hyderabad-1":
+		r = RegionAPHyderabad1
 	case "mel", "ap-melbourne-1":
 		r = RegionAPMelbourne1
 	case "syd", "ap-sydney-1":
@@ -179,8 +207,8 @@ func StringToRegion(stringRegion string) (r Region) {
 	case "ltn", "uk-gov-london-1":
 		r = RegionUKGovLondon1
 	default:
-		r = Region(stringRegion)
 		Debugf("region named: %s, is not recognized", stringRegion)
+		r = checkAndAddRegionMetadata(stringRegion)
 	}
 	return
 }
@@ -194,4 +222,122 @@ func canStringBeRegion(stringRegion string) (region string, err error) {
 		return "", fmt.Errorf("region can not be empty or have spaces")
 	}
 	return stringRegion, nil
+}
+
+// check region info from original map
+func checkAndAddRegionMetadata(region string) Region {
+	switch {
+	case SetRegionMetadataFromCfgFile(&region):
+	case SetRegionMetadataFromEnvVar(&region):
+	case SetRegionFromInstanceMetadataService(&region):
+	default:
+		//err := fmt.Errorf("failed to get region metadata information.")
+		return Region(region)
+	}
+	return Region(region)
+}
+
+// SetRegionMetadataFromEnvVar checks if region metadata env variable is provided, once it's there, parse and added it to region map
+func SetRegionMetadataFromEnvVar(region *string) bool {
+	// check from env variable
+	if jsonStr, existed := os.LookupEnv(regionMetadataEnvVarName); existed {
+		Debugf("Raw content of region metadata env var:", jsonStr)
+		var regionSchema map[string]string
+		if err := json.Unmarshal([]byte(jsonStr), &regionSchema); err != nil {
+			Debugf("Can't unmarshal env var, the error info is", err)
+			return false
+		}
+		// check if the specified region is in the env var.
+		if checkSchemaItems(regionSchema) {
+			// set mapping table
+			addRegionSchema(regionSchema)
+			if regionSchema[regionKeyPropertyName] == *region ||
+				regionSchema[regionIdentifierPropertyName] == *region {
+				*region = regionSchema[regionIdentifierPropertyName]
+				return true
+			}
+		}
+		return false
+	}
+	Debugf("The Region Metadata Schema wasn't set in env variable - OCI_REGION_METADATA.")
+	return false
+}
+
+// SetRegionMetadataFromCfgFile checks if region metadata config file is provided, once it's there, parse and added it to region map
+func SetRegionMetadataFromCfgFile(region *string) bool {
+	homeFolder := getHomeFolder()
+	configFile := path.Join(homeFolder, regionMetadataCfgDirName, regionMetadataCfgFileName)
+	if jsonArr, ok := readAndParseConfigFile(&configFile); ok {
+		added := false
+		for _, jsonItem := range jsonArr {
+			if checkSchemaItems(jsonItem) {
+				addRegionSchema(jsonItem)
+				if jsonItem[regionKeyPropertyName] == *region ||
+					jsonItem[regionIdentifierPropertyName] == *region {
+					*region = jsonItem[regionIdentifierPropertyName]
+					added = true
+				}
+			}
+		}
+		return added
+	}
+	return false
+}
+
+func readAndParseConfigFile(configFileName *string) (fileContent []map[string]string, ok bool) {
+
+	if content, err := ioutil.ReadFile(*configFileName); err == nil {
+		Debugf("Raw content of region metadata config file content:", string(content[:]))
+		if err := json.Unmarshal(content, &fileContent); err != nil {
+			Debugf("Can't unmarshal env var, the error info is", err)
+			return
+		}
+		ok = true
+		return
+	}
+	Debugf("No Region Metadata Config File provided.")
+	return
+
+}
+
+// check map regionRealm's region name, if it's already there, no need to add it.
+func addRegionSchema(regionSchema map[string]string) {
+	r := Region(strings.ToLower(regionSchema[regionIdentifierPropertyName]))
+	if _, ok := regionRealm[r]; !ok {
+		// set mapping table
+		realm[regionSchema[realmKeyPropertyName]] = regionSchema[realmDomainComponentPropertyName]
+		regionRealm[r] = regionSchema[realmKeyPropertyName]
+		return
+	}
+	Debugf("Region {} has already been added, no need to add again.", regionSchema[regionIdentifierPropertyName])
+}
+
+// check region schema content if all the required contents are provided
+func checkSchemaItems(regionSchema map[string]string) bool {
+	if checkSchemaItem(regionSchema, regionIdentifierPropertyName) &&
+		checkSchemaItem(regionSchema, realmKeyPropertyName) &&
+		checkSchemaItem(regionSchema, realmDomainComponentPropertyName) &&
+		checkSchemaItem(regionSchema, regionKeyPropertyName) {
+		return true
+	}
+	return false
+}
+
+// check region schema item is valid, if so, convert it to lower case.
+func checkSchemaItem(regionSchema map[string]string, key string) bool {
+	if val, ok := regionSchema[key]; ok {
+		if val != "" {
+			regionSchema[key] = strings.ToLower(val)
+			return true
+		}
+		Debugf("Region metadata schema {} is provided,but content is empty.", key)
+		return false
+	}
+	Debugf("Region metadata schema {} is not provided, please update the content", key)
+	return false
+}
+
+// SetRegionFromInstanceMetadataService checks if region metadata can be provided from InstanceMetadataService.
+func SetRegionFromInstanceMetadataService(region *string) bool {
+	return false
 }

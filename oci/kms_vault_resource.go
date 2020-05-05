@@ -4,9 +4,13 @@ package oci
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
@@ -71,6 +75,10 @@ func KmsVaultResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"restored_from_vault_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -78,6 +86,50 @@ func KmsVaultResource() *schema.Resource {
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"restore_from_object_store": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"destination": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"BUCKET",
+								"PRE_AUTHENTICATED_REQUEST_URI",
+							}, true),
+						},
+
+						// Optional
+						"bucket": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"object": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"uri": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"restore_trigger": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 		},
 	}
@@ -129,6 +181,7 @@ func (s *KmsVaultResourceCrud) ID() string {
 func (s *KmsVaultResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_kms.VaultLifecycleStateCreating),
+		string(oci_kms.VaultLifecycleStateRestoring),
 	}
 }
 
@@ -153,6 +206,16 @@ func (s *KmsVaultResourceCrud) DeletedTarget() []string {
 }
 
 func (s *KmsVaultResourceCrud) Create() error {
+	if _, ok := s.D.GetOkExists("restore_from_object_store"); ok {
+		err := s.RestoreVaultFromObjectStore()
+		if err != nil {
+			return err
+		}
+		s.D.SetId(s.ID())
+
+		return s.UpdateVaultDetails()
+	}
+
 	request := oci_kms.CreateVaultRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -210,6 +273,17 @@ func (s *KmsVaultResourceCrud) Get() error {
 }
 
 func (s *KmsVaultResourceCrud) Update() error {
+	if _, ok := s.D.GetOkExists("restore_from_object_store"); ok && s.D.HasChange("restore_trigger") {
+		err := s.RestoreVaultFromObjectStore()
+		if err != nil {
+			return err
+		}
+		s.D.SetId(s.ID())
+	}
+	return s.UpdateVaultDetails()
+}
+
+func (s *KmsVaultResourceCrud) UpdateVaultDetails() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -220,7 +294,6 @@ func (s *KmsVaultResourceCrud) Update() error {
 		}
 	}
 	request := oci_kms.UpdateVaultRequest{}
-
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -228,19 +301,15 @@ func (s *KmsVaultResourceCrud) Update() error {
 		}
 		request.DefinedTags = convertedDefinedTags
 	}
-
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
-
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
-
 	tmp := s.D.Id()
 	request.VaultId = &tmp
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.UpdateVault(context.Background(), request)
@@ -295,6 +364,10 @@ func (s *KmsVaultResourceCrud) SetData() error {
 		s.D.Set("management_endpoint", *s.Res.ManagementEndpoint)
 	}
 
+	if s.Res.RestoredFromVaultId != nil {
+		s.D.Set("restored_from_vault_id", *s.Res.RestoredFromVaultId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -326,4 +399,105 @@ func (s *KmsVaultResourceCrud) updateCompartment(compartment interface{}) error 
 		return err
 	}
 	return nil
+}
+
+func (s *KmsVaultResourceCrud) RestoreVaultFromObjectStore() error {
+	request := oci_kms.RestoreVaultFromObjectStoreRequest{}
+
+	if backupLocation, ok := s.D.GetOkExists("restore_from_object_store"); ok {
+		if tmpList := backupLocation.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "restore_from_object_store", 0)
+			tmp, err := s.mapToBackupLocation(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.BackupLocation = tmp
+		}
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+
+	response, err := s.Client.RestoreVaultFromObjectStore(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Vault
+	//call set data explicitly or check it is called.
+	return nil
+}
+
+func (s *KmsVaultResourceCrud) mapToBackupLocation(fieldKeyFormat string) (oci_kms.BackupLocation, error) {
+	var baseObject oci_kms.BackupLocation
+	//discriminator
+	destinationRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination"))
+	var destination string
+	if ok {
+		destination = destinationRaw.(string)
+	} else {
+		destination = "" // default value
+	}
+	switch strings.ToLower(destination) {
+	case strings.ToLower("BUCKET"):
+		details := oci_kms.BackupLocationBucket{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.BucketName = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if object, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object")); ok {
+			tmp := object.(string)
+			details.ObjectName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PRE_AUTHENTICATED_REQUEST_URI"):
+		details := oci_kms.BackupLocationUri{}
+		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+			tmp := uri.(string)
+			details.Uri = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown destination '%v' was specified", destination)
+	}
+	return baseObject, nil
+}
+
+func VaultBackupLocationToMap(obj *oci_kms.BackupLocation) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_kms.BackupLocationBucket:
+		result["destination"] = "BUCKET"
+
+		if v.BucketName != nil {
+			result["bucket"] = string(*v.BucketName)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.ObjectName != nil {
+			result["object"] = string(*v.ObjectName)
+		}
+	case oci_kms.BackupLocationUri:
+		result["destination"] = "PRE_AUTHENTICATED_REQUEST_URI"
+
+		if v.Uri != nil {
+			result["uri"] = string(*v.Uri)
+		}
+	default:
+		log.Printf("[WARN] Received 'destination' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }

@@ -7,10 +7,15 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
+	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
@@ -466,36 +471,32 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	//Trigger create request
 	response, err := s.Client.CreateNodePool(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	workID := response.OpcWorkRequestId
+	workId := response.OpcWorkRequestId
 
-	//Wait until it finishes
-	nodePoolID, err := containerEngineWaitForWorkRequest(workID, "nodepool",
-		oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries,
-		s.Client)
+	nodePoolID, err := nodePoolWaitForWorkRequest(workId, "nodepool",
+		oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
+
 	if err != nil {
 		if nodePoolID != nil {
-			//Try to clean up
+
 			log.Printf("[DEBUG] creation failed, attempting to delete the node pool: %v\n", nodePoolID)
 
 			delReq := oci_containerengine.DeleteNodePoolRequest{}
 			delReq.NodePoolId = nodePoolID
 			delReq.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-			//Issues delete delRequest
 			delRes, delErr := s.Client.DeleteNodePool(context.Background(), delReq)
 			if delErr != nil {
 				return err
 			}
 			delWorkRequest := delRes.OpcWorkRequestId
 
-			//Wait until delRequest finishes
-			_, delErr = containerEngineWaitForWorkRequest(delWorkRequest, "nodepool",
+			_, delErr = nodePoolWaitForWorkRequest(delWorkRequest, "nodepool",
 				oci_containerengine.WorkRequestResourceActionTypeDeleted,
 				s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 			if delErr != nil {
@@ -505,7 +506,6 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 		return err
 	}
 
-	//Fetch nodepool object
 	requestGet := oci_containerengine.GetNodePoolRequest{}
 	requestGet.NodePoolId = nodePoolID
 	requestGet.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
@@ -515,6 +515,98 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	}
 	s.Res = &responseGet.NodePool
 	return nil
+}
+
+func (s *ContainerengineNodePoolResourceCrud) getNodePoolFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_containerengine.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
+	nodePoolId, err := nodePoolWaitForWorkRequest(workId, "nodepool",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+
+	if err != nil {
+		return err
+	}
+	s.D.SetId(*nodePoolId)
+
+	return s.Get()
+}
+
+func nodePoolWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if shouldRetry(response, false, "containerengine", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_containerengine.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
+	retryPolicy := getRetryPolicy(disableFoundRetries, "containerengine")
+	retryPolicy.ShouldRetryOperation = nodePoolWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_containerengine.GetWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_containerengine.WorkRequestStatusInProgress),
+			string(oci_containerengine.WorkRequestStatusAccepted),
+			string(oci_containerengine.WorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_containerengine.WorkRequestStatusSucceeded),
+			string(oci_containerengine.WorkRequestStatusFailed),
+			string(oci_containerengine.WorkRequestStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_containerengine.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	// Set PollInterval to 1 for replay mode.
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
+	}
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			identifier = res.Identifier
+			if res.ActionType == action {
+				return res.Identifier, nil
+			}
+		}
+	}
+
+	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
+	errorMessage, _ := getErrorFromWorkRequest(wId, response.CompartmentId, client, disableFoundRetries)
+	return identifier, fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 }
 
 func (s *ContainerengineNodePoolResourceCrud) Get() error {
@@ -564,69 +656,46 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		request.Name = &tmp
 	}
 
-	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok {
-		if s.D.HasChange("node_config_details") {
-			if tmpList := nodeConfigDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
-				tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				request.NodeConfigDetails = &tmp
+	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok && s.D.HasChange("node_config_details") {
+		if tmpList := nodeConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
+			tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
 			}
-		}
-	}
-	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
-		if s.D.HasChange("subnet_ids") {
-			set := subnetIds.(*schema.Set)
-			interfaces := set.List()
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			request.SubnetIds = tmp
+			request.NodeConfigDetails = &tmp
 		}
 	}
 
 	tmp := s.D.Id()
 	request.NodePoolId = &tmp
 
-	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok {
-		if s.D.HasChange("quantity_per_subnet") {
-			tmp := quantityPerSubnet.(int)
-			request.QuantityPerSubnet = &tmp
-		}
+	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok && s.D.HasChange("quantity_per_subnet") {
+		tmp := quantityPerSubnet.(int)
+		request.QuantityPerSubnet = &tmp
 	}
 
-	//Issue update request
+	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok && s.D.HasChange("subnet_ids") {
+		set := subnetIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.SubnetIds = tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+
 	response, err := s.Client.UpdateNodePool(context.Background(), request)
 	if err != nil {
 		return err
 	}
-	workRequest := response.OpcWorkRequestId
 
-	//Wait until request finishes
-	nodePoolID, err := containerEngineWaitForWorkRequest(workRequest, "nodepool",
-		oci_containerengine.WorkRequestResourceActionTypeUpdated,
-		s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
-	if err != nil {
-		return err
-	}
-
-	//Refresh data
-	requestGet := oci_containerengine.GetNodePoolRequest{}
-	requestGet.NodePoolId = nodePoolID
-	requestGet.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-	responseGet, err := s.Client.GetNodePool(context.Background(), requestGet)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &responseGet.NodePool
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getNodePoolFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ContainerengineNodePoolResourceCrud) Delete() error {
@@ -637,21 +706,16 @@ func (s *ContainerengineNodePoolResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	//Issue delete request
 	response, err := s.Client.DeleteNodePool(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	workRequest := response.OpcWorkRequestId
-
-	//Wait until request finishes
-	_, err = containerEngineWaitForWorkRequest(workRequest, "nodepool",
-		oci_containerengine.WorkRequestResourceActionTypeDeleted,
-		s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
-
-	return err
-
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := nodePoolWaitForWorkRequest(workId, "nodepool",
+		oci_containerengine.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	return delWorkRequestErr
 }
 
 func (s *ContainerengineNodePoolResourceCrud) SetData() error {
@@ -752,33 +816,6 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "placement_configs")) {
 			result.PlacementConfigs = tmp
 		}
-	}
-
-	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
-		tmp := size.(int)
-		result.Size = &tmp
-	}
-
-	return result, nil
-}
-
-func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodePoolNodeConfigDetails, error) {
-	result := oci_containerengine.UpdateNodePoolNodeConfigDetails{}
-
-	result.PlacementConfigs = []oci_containerengine.NodePoolPlacementConfigDetails{}
-	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
-		interfaces := placementConfigs.([]interface{})
-		tmp := make([]oci_containerengine.NodePoolPlacementConfigDetails, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "placement_configs"), stateDataIndex)
-			converted, err := s.mapToNodePoolPlacementConfigDetails(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, err
-			}
-			tmp[i] = converted
-		}
-		result.PlacementConfigs = tmp
 	}
 
 	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
@@ -995,4 +1032,31 @@ func NodeSourceOptionToMap(obj *oci_containerengine.NodeSourceOption) map[string
 	}
 
 	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodePoolNodeConfigDetails, error) {
+	result := oci_containerengine.UpdateNodePoolNodeConfigDetails{}
+
+	result.PlacementConfigs = []oci_containerengine.NodePoolPlacementConfigDetails{}
+	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
+		interfaces := placementConfigs.([]interface{})
+		tmp := make([]oci_containerengine.NodePoolPlacementConfigDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "placement_configs"), stateDataIndex)
+			converted, err := s.mapToNodePoolPlacementConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.PlacementConfigs = tmp
+	}
+
+	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
+		tmp := size.(int)
+		result.Size = &tmp
+	}
+
+	return result, nil
 }

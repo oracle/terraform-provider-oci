@@ -69,6 +69,10 @@ func KmsKeyVersionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"restored_from_key_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"vault_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -282,7 +286,9 @@ func (s *KmsKeyVersionResourceCrud) SetData() error {
 	if s.Res.VaultId != nil {
 		s.D.Set("vault_id", *s.Res.VaultId)
 	}
-
+	if s.Res.RestoredFromKeyVersionId != nil {
+		s.D.Set("restored_from_key_id", *s.Res.RestoredFromKeyVersionId)
+	}
 	return nil
 }
 

@@ -39,3 +39,4 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `content` - content of the Kubeconfig YAML for the cluster.
+

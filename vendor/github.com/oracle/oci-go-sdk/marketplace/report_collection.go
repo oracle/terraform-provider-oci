@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ReportCollection A collection of reports.
+// ReportCollection A collection of reports that match the parameters of the request.
 type ReportCollection struct {
 
-	// Array of reports.
+	// An array of reports.
 	Items []ReportSummary `mandatory:"true" json:"items"`
 }
 
