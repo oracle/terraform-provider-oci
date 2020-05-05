@@ -26,6 +26,7 @@ const (
 	exportUserAgentFormatter        = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform-oci-exporter/%s)"
 	defaultTmpStateFile             = "terraform.tfstate.tmp"
 	varsFile                        = "vars.tf"
+	providerFile                    = "provider.tf"
 	missingRequiredAttributeWarning = `Warning: There are one or more 'Required' attributes for which a value could not be discovered.
 This may be expected behavior from the service, which may prevent discovery of certain sensitive attributes or secrets.
 Run 'terraform plan' against the generated configuration files to get more information about the missing values.`
@@ -230,7 +231,6 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	if err != nil {
 		return err
 	}
-
 	// Discover and build a model of all targeted resources
 	matchResourceIds := map[string]bool{}
 	for _, id := range args.IDs {
@@ -331,6 +331,15 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	if isMissingRequiredAttributes {
 		summaryStatements = append(summaryStatements, "")
 		summaryStatements = append(summaryStatements, missingRequiredAttributeWarning)
+	}
+	region, err := exportConfigProvider.Region()
+	if err != nil {
+		return err
+	}
+	vars["region"] = fmt.Sprintf("\"%s\"", region)
+
+	if err := generateProviderFile(args.OutputDir); err != nil {
+		return err
 	}
 
 	if err := generateVarsFile(vars, args.OutputDir); err != nil {
@@ -454,7 +463,7 @@ func buildGenerateConfigSteps(compartmentId *string, services []string) ([]*Gene
 				stepName:      mode,
 			})
 
-			vars["tenancy_ocid"] = ""
+			vars["tenancy_ocid"] = fmt.Sprintf("\"%s\"", tenancyId)
 			referenceMap[tenancyId] = "${var.tenancy_ocid}"
 		}
 	}
@@ -479,7 +488,7 @@ func buildGenerateConfigSteps(compartmentId *string, services []string) ([]*Gene
 				stepName:      mode,
 			})
 
-			vars["compartment_ocid"] = ""
+			vars["compartment_ocid"] = fmt.Sprintf("\"%s\"", *compartmentId)
 			referenceMap[*compartmentId] = "${var.compartment_ocid}"
 		}
 	}
@@ -558,6 +567,31 @@ func generateVarsFile(vars map[string]string, outputDir *string) error {
 	}
 
 	if err := os.Rename(varsTmpFile, varsOutputFile); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func generateProviderFile(outputDir *string) error {
+	providerTmpFile := fmt.Sprintf("%s%s%s.tmp", *outputDir, string(os.PathSeparator), providerFile)
+	providerOutputFile := fmt.Sprintf("%s%s%s", *outputDir, string(os.PathSeparator), providerFile)
+	file, err := os.OpenFile(providerTmpFile, os.O_CREATE|os.O_RDWR, 0666)
+	if err != nil {
+		return err
+	}
+
+	_, err = file.WriteString(fmt.Sprintf("provider oci {\n\tregion = \"${var.region}\"\n}\n"))
+	if err != nil {
+		_ = file.Close()
+		return err
+	}
+
+	if fErr := file.Close(); fErr != nil {
+		return fErr
+	}
+
+	if err := os.Rename(providerTmpFile, providerOutputFile); err != nil {
 		return err
 	}
 
