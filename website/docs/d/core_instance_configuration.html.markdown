@@ -41,8 +41,11 @@ The following attributes are exported:
 * `instance_details` - 
 	* `block_volumes` - 
 		* `attach_details` - 
+			* `device` - The device name.
 			* `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
+			* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 			* `is_read_only` - Whether the attachment should be created in read-only mode.
+			* `is_shareable` - Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
 			* `type` - The type of volume. The only supported values are "iscsi" and "paravirtualized".
 			* `use_chap` - Whether to use CHAP authentication for the volume attachment. Defaults to false.
 		* `create_details` - 
