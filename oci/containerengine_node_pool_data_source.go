@@ -89,7 +89,7 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.NodeConfigDetails != nil {
-		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails)})
+		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails, true)})
 	} else {
 		s.D.Set("node_config_details", nil)
 	}
