@@ -183,7 +183,7 @@ The following arguments are supported:
 	The maximum length of the combined hostname and domain is 63 characters.
 
 	**Note:** The hostname must be unique within the subnet. If it is not unique, the DB system will fail to provision. 
-* `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED. 
+* `license_model` - (Optional) (Updatable) The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED. 
 * `maintenance_window_details` - (Applicable when source=NONE) (Updatable) 
 	* `days_of_week` - (Applicable when source=NONE) (Updatable) Days during the week when maintenance should be performed.
 		* `name` - (Required when source=NONE) (Updatable) Name of the day of the week.

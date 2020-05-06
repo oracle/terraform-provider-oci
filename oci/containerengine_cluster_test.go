@@ -41,7 +41,7 @@ var (
 		"name":               Representation{repType: Required, create: `name`, update: `name2`},
 		"vcn_id":             Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"kms_key_id":         Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"options":            RepresentationGroup{Required, clusterOptionsRepresentation}, // @CODEGEN: Change to Optional once service fixes the regression
+		"options":            RepresentationGroup{Optional, clusterOptionsRepresentation},
 	}
 	clusterOptionsRepresentation = map[string]interface{}{
 		"add_ons":                      RepresentationGroup{Optional, clusterOptionsAddOnsRepresentation},

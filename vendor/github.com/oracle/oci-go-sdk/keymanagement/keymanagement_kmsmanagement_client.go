@@ -68,6 +68,59 @@ func (client *KmsManagementClient) ConfigurationProvider() *common.Configuration
 	return client.config
 }
 
+// BackupKey Backs up an encrypted file that contains all key versions and metadata of the specified key so that you can restore
+// the key later. The file also contains the metadata of the vault that the key belonged to.
+func (client KmsManagementClient) BackupKey(ctx context.Context, request BackupKeyRequest) (response BackupKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.backupKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BackupKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BackupKeyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BackupKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BackupKeyResponse")
+	}
+	return
+}
+
+// backupKey implements the OCIOperation interface (enables retrying operations)
+func (client KmsManagementClient) backupKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/backup")
+	if err != nil {
+		return nil, err
+	}
+
+	var response BackupKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelKeyDeletion Cancels the scheduled deletion of the specified key. Canceling
 // a scheduled deletion restores the key's lifecycle state to what
 // it was before its scheduled deletion.
@@ -299,7 +352,7 @@ func (client KmsManagementClient) createKey(ctx context.Context, request common.
 }
 
 // CreateKeyVersion Generates a new KeyVersion (https://docs.cloud.oracle.com/api/#/en/key/release/KeyVersion/) resource that provides new cryptographic
-// material for a master encryption key. The key must be in an ENABLED state to be rotated.
+// material for a master encryption key. The key must be in an `ENABLED` state to be rotated.
 // As a management operation, this call is subject to a Key Management limit that applies to the total number
 // of requests across all  management write operations. Key Management might throttle this call to reject an
 // otherwise valid request when the total rate of management write operations exceeds 10 requests per second
@@ -571,7 +624,8 @@ func (client KmsManagementClient) getKeyVersion(ctx context.Context, request com
 	return response, err
 }
 
-// GetWrappingKey Returns the RSA wrapping key associated with the vault in the endpoint.
+// GetWrappingKey Gets details about the public RSA wrapping key associated with the vault in the endpoint. Each vault has an RSA key-pair that wraps and
+// unwraps AES key material for import into Key Management.
 func (client KmsManagementClient) GetWrappingKey(ctx context.Context, request GetWrappingKeyRequest) (response GetWrappingKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -618,7 +672,9 @@ func (client KmsManagementClient) getWrappingKey(ctx context.Context, request co
 	return response, err
 }
 
-// ImportKey Imports the given wrapped/encrypted AES key.
+// ImportKey Imports AES key material to create a new key with. The key material must be base64-encoded and
+// wrapped by the vault's public RSA wrapping key before you can import it. Key Management supports AES symmetric keys
+// that are exactly 16, 24, or 32 bytes. Furthermore, the key length must match what you specify at the time of import.
 func (client KmsManagementClient) ImportKey(ctx context.Context, request ImportKeyRequest) (response ImportKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -670,7 +726,11 @@ func (client KmsManagementClient) importKey(ctx context.Context, request common.
 	return response, err
 }
 
-// ImportKeyVersion Imports the given key version.
+// ImportKeyVersion Imports AES key material to create a new key version with, and then rotates the key to begin using the new
+// key version. The key material must be base64-encoded and wrapped by the vault's public RSA wrapping key
+// before you can import it. Key Management supports AES symmetric keys that are exactly 16, 24, or 32 bytes.
+// Furthermore, the key length must match the length of the specified key and what you specify as the length
+// at the time of import.
 func (client KmsManagementClient) ImportKeyVersion(ctx context.Context, request ImportKeyVersionRequest) (response ImportKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -813,6 +873,114 @@ func (client KmsManagementClient) listKeys(ctx context.Context, request common.O
 	}
 
 	var response ListKeysResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestoreKeyFromFile Restores the specified key to the specified vault, based on information in the backup file provided.
+// If the vault doesn't exist, the operation returns a response with a 404 HTTP status error code. You
+// need to first restore the vault associated with the key.
+func (client KmsManagementClient) RestoreKeyFromFile(ctx context.Context, request RestoreKeyFromFileRequest) (response RestoreKeyFromFileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.restoreKeyFromFile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestoreKeyFromFileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestoreKeyFromFileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestoreKeyFromFileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestoreKeyFromFileResponse")
+	}
+	return
+}
+
+// restoreKeyFromFile implements the OCIOperation interface (enables retrying operations)
+func (client KmsManagementClient) restoreKeyFromFile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/actions/restoreFromFile")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestoreKeyFromFileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestoreKeyFromObjectStore Restores the specified key to the specified vault from an Oracle Cloud Infrastructure
+// Object Storage location. If the vault doesn't exist, the operation returns a response with a
+// 404 HTTP status error code. You need to first restore the vault associated with the key.
+func (client KmsManagementClient) RestoreKeyFromObjectStore(ctx context.Context, request RestoreKeyFromObjectStoreRequest) (response RestoreKeyFromObjectStoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.restoreKeyFromObjectStore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestoreKeyFromObjectStoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestoreKeyFromObjectStoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestoreKeyFromObjectStoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestoreKeyFromObjectStoreResponse")
+	}
+	return
+}
+
+// restoreKeyFromObjectStore implements the OCIOperation interface (enables retrying operations)
+func (client KmsManagementClient) restoreKeyFromObjectStore(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/actions/restoreFromObjectStore")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestoreKeyFromObjectStoreResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

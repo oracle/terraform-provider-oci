@@ -6,16 +6,27 @@ description: |-
   The Oracle Cloud Infrastructure provider. Discovering resources in an existing compartment
 ---
 
-## Discovering Terraform resources in an Oracle Cloud Infrastructure compartment
-
 ### Overview
-Beginning with version 3.50, the terraform-oci-provider can be run as a command line tool to discover resources that have been created within Oracle Cloud Infrastructure compartments and generate Terraform configuration files for the discovered resources.
 
-The latest version of the terraform-oci-provider can be downloaded using `terraform init` or by going to https://releases.hashicorp.com/terraform-provider-oci/
+You can use Terraform Resource Discovery to discover deployed resources in your compartment and export them to Terraform configuration and state files. This release supports the most commonly used Oracle Cloud Infrastructure services, such as Compute, Block Volumes, Networking, Load Balancing, Database, and Identity and Access Management (IAM). Please look at the section “Supported Resources” for details.
+
+### Use Cases and Benefits
+
+With this feature, you can perform the following tasks:
+
+* **Move from manually-managed infrastructure to Terraform-managed infrastructure:** You can generate a baseline Terraform state file for your existing infrastructure with a single command, and manage this infrastructure by using Terraform.
+
+* **Detect state drift:** By managing the infrastructure using Terraform, you can detect when the state of your resources changes and differs from the desired configuration.
+
+* **Duplicate or rebuild existing infrastructure:** By creating Terraform configuration files, you can re-create your existing infrastructure architecture in a new tenancy or compartment.
+
+* **Get started with Terraform:** If you’re new to Terraform, you can learn about Terraform’s HCL syntax and how to represent Oracle Cloud Infrastructure resources in HCL.
+
+Please note that this feature is available for version 3.50 and above. The latest version of the terraform-oci-provider can be downloaded using terraform init or by going to https://releases.hashicorp.com/terraform-provider-oci/
 
 ### Authentication
 To discover resources in your compartment, the terraform-oci-provider will need authentication information about the user, tenancy, and region with which to discover
-the resources. It is recommended to specify a user that has access to inspect and read the resources to discover. 
+the resources. It is recommended to specify a user that has access to inspect and read the resources to discover.
 
 Resource discovery supports API Key based authentication and Instance Principal based authentication.
 
@@ -37,14 +48,14 @@ export TF_VAR_private_key_password=<password for private key>
 ```
 
 The authentication information can also be specified using a configuration file. For details on setting this up, see [SDK and CLI configuration file](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm)
-A non-default profile can be set using environment variable: 
+A non-default profile can be set using environment variable:
 
 ```
 export TF_VAR_config_file_profile=<value>
-``` 
+```
 
 
-If the parameters have multiple sources, the priority will be in the following order: 
+If the parameters have multiple sources, the priority will be in the following order:
 
     Environment variables
     Non-default profile
@@ -64,12 +75,12 @@ terraform-provider-oci -command=export -compartment_name=<name of compartment to
 terraform-provider-oci -command=export -compartment_id=<OCID of compartment to export> -output_path=<directory under which to generate Terraform files>
 ```
 
-This command will discover resources within your compartment and generates Terraform configuration files in the given `output_path`. 
+This command will discover resources within your compartment and generates Terraform configuration files in the given `output_path`.
 The generated `.tf` files contain the Terraform configuration with the resources that the command has discovered.
 
 **Parameter Description**
 
-* `command` - Command to run. Supported commands include: 
+* `command` - Command to run. Supported commands include:
     * `export` - Discovers Oracle Cloud Infrastructure resources within your compartment and generates Terraform configuration files for them
     * `list_export_resources` - Lists the Terraform Oracle Cloud Infrastructure resources types that can be discovered by the `export` command
 * `compartment_id` - OCID of a compartment to export. If `compartment_id`  or `compartment_name` is not specified, the root compartment will be used.
@@ -80,14 +91,14 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value.
     * `bds` - Discovers big data service resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
-    * `database` - Discovers database and autonomous database resources within the specified compartment
+    * `database` - Discovers database resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
 
-> **Note**: The compartment export functionality currently supports discovery of the target compartment. The ability to discover resources in child compartments is not yet supported.  
+> **Note**: The compartment export functionality currently supports discovery of the target compartment. The ability to discover resources in child compartments is not yet supported.
 
 ### Generated Terraform Configuration Contents
 
@@ -113,7 +124,7 @@ the following command.
 
 ```
 terraform-provider-oci -command=export -output_path=<directory under which to generate Terraform files> -services=identity
-``` 
+```
 
 > **Note**: When exporting identity resources, a `compartment_id` is not required. If a `compartment_id` is specified, the value will be ignored for discovering identity resources.
 
@@ -121,7 +132,7 @@ terraform-provider-oci -command=export -output_path=<directory under which to ge
 ### Exporting Resources to Another Compartment
 Once the user has reviewed the generated configuration and made the necessary changes to reflect the desired settings, the configuration can be used with Terraform.
 One such use case is the re-deploying of those resources in a new compartment or tenancy, using Terraform.
- 
+
 To do so, specify the following environment variables:
 
 ```
@@ -129,7 +140,7 @@ export TF_VAR_tenancy_ocid=<new tenancy OCID>
 export TF_VAR_compartment_ocid=<new compartment OCID>
 ```
 
-And run 
+And run
 
 ```
 terraform apply
@@ -156,36 +167,23 @@ The list of supported resources can also be retrieved by running this command:
 terraform-provider-oci -command=list_export_resources
 ```
 
-identity (tenancy-scope resources)
+bds
+    
+* oci\_bds\_bds\_instance
 
-* oci\_identity\_api\_key
-* oci\_identity\_auth\_token
-* oci\_identity\_authentication\_policy
-* oci\_identity\_compartment
-* oci\_identity\_customer\_secret\_key
-* oci\_identity\_dynamic\_group
-* oci\_identity\_group
-* oci\_identity\_identity\_provider
-* oci\_identity\_idp\_group\_mapping
-* oci\_identity\_policy
-* oci\_identity\_smtp\_credential
-* oci\_identity\_ui\_password
-* oci\_identity\_user
-* oci\_identity\_user\_group\_membership
-
-core (compartment-scope resources)
-
+core
+    
 * oci\_core\_boot\_volume
 * oci\_core\_cpe
-* oci\_core\_cross\_connect
 * oci\_core\_cross\_connect\_group
+* oci\_core\_cross\_connect
 * oci\_core\_dhcp\_options
-* oci\_core\_drg
 * oci\_core\_drg\_attachment
+* oci\_core\_drg
 * oci\_core\_image
-* oci\_core\_instance
 * oci\_core\_instance\_configuration
 * oci\_core\_instance\_pool
+* oci\_core\_instance
 * oci\_core\_internet\_gateway
 * oci\_core\_ipsec
 * oci\_core\_local\_peering\_gateway
@@ -200,21 +198,38 @@ core (compartment-scope resources)
 * oci\_core\_vcn
 * oci\_core\_virtual\_circuit
 * oci\_core\_vnic\_attachment
-* oci\_core\_volume
 * oci\_core\_volume\_attachment
 * oci\_core\_volume\_backup\_policy\_assignment
 * oci\_core\_volume\_group
+* oci\_core\_volume
 
-database (compartment-scope resources)
-
+database
+    
 * oci\_database\_autonomous\_container\_database
 * oci\_database\_autonomous\_database
 * oci\_database\_autonomous\_exadata\_infrastructure
 * oci\_database\_db\_home
 * oci\_database\_db\_system
 
-load\_balancer (compartment-scope resources)
+identity
+    
+* oci\_identity\_api\_key
+* oci\_identity\_authentication\_policy
+* oci\_identity\_auth\_token
+* oci\_identity\_compartment
+* oci\_identity\_customer\_secret\_key
+* oci\_identity\_dynamic\_group
+* oci\_identity\_group
+* oci\_identity\_identity\_provider
+* oci\_identity\_idp\_group\_mapping
+* oci\_identity\_policy
+* oci\_identity\_smtp\_credential
+* oci\_identity\_ui\_password
+* oci\_identity\_user\_group\_membership
+* oci\_identity\_user
 
+load_balancer
+    
 * oci\_load\_balancer\_backend
 * oci\_load\_balancer\_backend\_set
 * oci\_load\_balancer\_certificate
@@ -224,12 +239,12 @@ load\_balancer (compartment-scope resources)
 * oci\_load\_balancer\_path\_route\_set
 * oci\_load\_balancer\_rule\_set
 
-object_storage (compartment-scope resources)
-
+object_storage
+    
 * oci\_objectstorage\_bucket
 
-tagging (compartment-scope resources)
-
-* oci\_identity\_tag
+tagging
+    
 * oci\_identity\_tag\_default
 * oci\_identity\_tag\_namespace
+* oci\_identity\_tag

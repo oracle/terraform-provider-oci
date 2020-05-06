@@ -98,7 +98,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ForceNew:         true,
 				DiffSuppressFunc: dbVersionDiffSuppress,
 			},
 			"db_workload": {
@@ -208,6 +207,13 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 
 			// Computed
+			"available_upgrade_versions": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"connection_strings": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -421,6 +427,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedPending() []string {
 		string(oci_database.AutonomousDatabaseLifecycleStateScaleInProgress),
 		string(oci_database.AutonomousDatabaseLifecycleStateUpdating),
 		string(oci_database.AutonomousDatabaseLifecycleStateMaintenanceInProgress),
+		string(oci_database.AutonomousDatabaseLifecycleStateUpgrading),
 	}
 }
 
@@ -535,6 +542,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.DataStorageSizeInTBs = &tmp
 	}
 
+	if dbVersion, ok := s.D.GetOkExists("db_version"); ok && s.D.HasChange("db_version") {
+		err := s.updateDbVersion(dbVersion.(string))
+		if err != nil {
+			return err
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -609,6 +623,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.AutonomousContainerDatabaseId != nil {
 		s.D.Set("autonomous_container_database_id", *s.Res.AutonomousContainerDatabaseId)
 	}
+
+	s.D.Set("available_upgrade_versions", s.Res.AvailableUpgradeVersions)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -1282,4 +1298,27 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 		return fmt.Errorf("received unknown 'data_safe_status' %s", dataSafeStatus)
 	}
 
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateDbVersion(dbVersion string) error {
+	changeDbVersionRequest := oci_database.UpdateAutonomousDatabaseRequest{}
+	changeDbVersionRequest.DbVersion = &dbVersion
+
+	tmp := s.D.Id()
+	changeDbVersionRequest.AutonomousDatabaseId = &tmp
+
+	changeDbVersionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), changeDbVersionRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

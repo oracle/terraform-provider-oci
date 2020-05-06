@@ -15,7 +15,7 @@ type DeleteAcceptedAgreementRequest struct {
 	// The unique identifier for the accepted terms of use agreement.
 	AcceptedAgreementId *string `mandatory:"true" contributesTo:"path" name:"acceptedAgreementId"`
 
-	// A signature generated for the listing package terms of use agreements that can be retrieved with GetAgreement.
+	// A signature generated for the listing package terms of use agreements that you can retrieve with a GetAgreement (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/marketplace/latest/Agreement/GetAgreement) API call.
 	Signature *string `mandatory:"true" contributesTo:"query" name:"signature"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,

@@ -13,9 +13,9 @@ This resource provides the Key Version resource in Oracle Cloud Infrastructure K
 Generates a new [KeyVersion](https://docs.cloud.oracle.com/iaas/api/#/en/key/release/KeyVersion/) resource that provides new cryptographic
 material for a master encryption key. The key must be in an ENABLED state to be rotated.
 
-As a management operation, this call is subject to a Key Management limit that applies to the total number 
-of requests across all  management write operations. Key Management might throttle this call to reject an 
-otherwise valid request when the total rate of management write operations exceeds 10 requests per second 
+As a management operation, this call is subject to a Key Management limit that applies to the total number
+of requests across all  management write operations. Key Management might throttle this call to reject an
+otherwise valid request when the total rate of management write operations exceeds 10 requests per second
 for a given tenancy.
 
 
@@ -47,7 +47,8 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains this key version.
 * `id` - The OCID of the key version.
 * `key_id` - The OCID of the master encryption key associated with this key version.
-* `state` - The key version's current state.  Example: `ENABLED` 
+* `restored_from_key_version_id` - The OCID of the key version from which this key version was restored.
+* `state` - The key version's current lifecycle state.  Example: `ENABLED` 
 * `time_created` - The date and time this key version was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: "2018-04-03T21:10:29.600Z" 
 * `time_of_deletion` - An optional property to indicate when to delete the key version, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 * `vault_id` - The OCID of the vault that contains this key version.

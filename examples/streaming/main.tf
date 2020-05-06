@@ -71,10 +71,18 @@ resource "oci_streaming_stream_pool" "test_stream_pool" {
   compartment_id = "${var.compartment_ocid}"
   name           = "TFStreamPool"
 
+  #Optional
   private_endpoint_settings {
     nsg_ids             = ["${oci_core_network_security_group.test_nsg.id}"]
     private_endpoint_ip = "10.0.0.5"
     subnet_id           = "${oci_core_subnet.test_subnet.id}"
+  }
+
+  kafka_settings {
+    #Optional
+    auto_create_topics_enable = true
+    log_retention_hours       = 24
+    num_partitions            = 1
   }
 }
 
