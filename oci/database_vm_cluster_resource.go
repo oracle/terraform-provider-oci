@@ -65,6 +65,16 @@ func DatabaseVmClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
+			"db_node_storage_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -95,6 +105,11 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"memory_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"time_zone": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -104,10 +119,6 @@ func DatabaseVmClusterResource() *schema.Resource {
 
 			// Computed
 			"cpus_enabled": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"data_storage_size_in_tbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -224,6 +235,16 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+		tmp := dataStorageSizeInTBs.(float64)
+		request.DataStorageSizeInTBs = &tmp
+	}
+
+	if dbNodeStorageSizeInGBs, ok := s.D.GetOkExists("db_node_storage_size_in_gbs"); ok {
+		tmp := dbNodeStorageSizeInGBs.(int)
+		request.DbNodeStorageSizeInGBs = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -263,6 +284,11 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_database.CreateVmClusterDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok {
+		tmp := memorySizeInGBs.(int)
+		request.MemorySizeInGBs = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
@@ -335,6 +361,16 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+		tmp := dataStorageSizeInTBs.(float64)
+		request.DataStorageSizeInTBs = &tmp
+	}
+
+	if dbNodeStorageSizeInGBs, ok := s.D.GetOkExists("db_node_storage_size_in_gbs"); ok {
+		tmp := dbNodeStorageSizeInGBs.(int)
+		request.DbNodeStorageSizeInGBs = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -349,6 +385,11 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateVmClusterDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok {
+		tmp := memorySizeInGBs.(int)
+		request.MemorySizeInGBs = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok && s.D.HasChange("ssh_public_keys") {
@@ -404,6 +445,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
 	}
 
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -434,6 +479,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
 	if s.Res.Shape != nil {

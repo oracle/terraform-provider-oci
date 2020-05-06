@@ -49,11 +49,14 @@ var (
 		"gi_version":                  Representation{repType: Required, create: `19.1.0.0`},
 		"ssh_public_keys":             Representation{repType: Required, create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
 		"vm_cluster_network_id":       Representation{repType: Required, create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
+		"data_storage_size_in_tbs":    Representation{repType: Optional, create: `84`, update: `1.1`},
+		"db_node_storage_size_in_gbs": Representation{repType: Optional, create: `120`, update: `121`},
 		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"is_local_backup_enabled":     Representation{repType: Optional, create: `false`},
 		"is_sparse_diskgroup_enabled": Representation{repType: Optional, create: `false`},
 		"license_model":               Representation{repType: Optional, create: `LICENSE_INCLUDED`},
+		"memory_size_in_gbs":          Representation{repType: Optional, create: `60`, update: `61`},
 		"time_zone":                   Representation{repType: Optional, create: `US/Pacific`},
 	}
 
@@ -116,6 +119,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
+					resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -124,6 +129,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -149,6 +155,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
+					resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -157,6 +165,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -177,6 +186,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1.1"),
+					resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "121"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -185,6 +196,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "61"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -212,7 +224,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.cpus_enabled"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.data_storage_size_in_tbs"),
+					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_storage_size_in_tbs", "1.1"),
+					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_node_storage_size_in_gbs", "121"),
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.display_name", "vmCluster"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.exadata_infrastructure_id"),
@@ -222,6 +235,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.is_local_backup_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.memory_size_in_gbs", "61"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.shape"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.time_created"),
@@ -239,7 +253,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_tbs"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1.1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_node_storage_size_in_gbs", "121"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "vmCluster"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -248,6 +263,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_local_backup_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "memory_size_in_gbs", "61"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

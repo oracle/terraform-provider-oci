@@ -52,6 +52,7 @@ The following attributes are exported:
 * `corporate_proxy` - The corporate network proxy for access to the control plane network.
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
+* `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Exadata infrastructure. The name does not need to be unique.
 * `dns_server` - The list of DNS server IP addresses. Maximum of 3 allowed.
@@ -60,6 +61,11 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `infini_band_network_cidr` - The CIDR block for the Exadata InfiniBand interconnect.
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `max_cpu_count` - The total number of CPU cores available.
+* `max_data_storage_in_tbs` - The total available DATA disk group size.
+* `max_db_node_storage_in_gbs` - The total local node storage available in GBs.
+* `max_memory_in_gbs` - The total memory available in GBs.
+* `memory_size_in_gbs` - The memory allocated in GBs.
 * `netmask` - The netmask for the control plane network.
 * `ntp_server` - The list of NTP server IP addresses. Maximum of 3 allowed.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
