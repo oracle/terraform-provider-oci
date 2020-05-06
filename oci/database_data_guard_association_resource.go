@@ -458,37 +458,35 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 		return fmt.Errorf("creation_type could not be established during the delete")
 	}
 	if strings.ToLower(creationType.(string)) == strings.ToLower("ExistingDbSystem") {
-		var standbyDbHomeId *string
+		deleteDBrequest := oci_database.DeleteDatabaseRequest{}
+
+		var standbyDatabaseId *string
 		if s.Res.PeerRole == oci_database.DataGuardAssociationPeerRoleStandby {
-			standbyDbHomeId = s.Res.PeerDbHomeId
+			standbyDatabaseId = s.Res.PeerDatabaseId
 		} else if s.Res.Role == oci_database.DataGuardAssociationRoleStandby {
-			standbyDbHomeId, err = s.GetDbHomeIdFromDatabaseId(s.Res.DatabaseId)
-			if err != nil {
-				return fmt.Errorf("could not delete the dataguard association as the standby DB Home Id could not be obtained: %v", err)
-			}
+			standbyDatabaseId = s.Res.DatabaseId
 		} else {
-			return fmt.Errorf("could not delete the dataguard association as it is not possible to determine the standby DB home")
+			return fmt.Errorf("could not delete the dataguard association as it is not possible to determine the standby database Id")
 		}
 
-		if standbyDbHomeId == nil {
-			return fmt.Errorf("could not delete the dataguard association as the standby DB Home Id could not be obtained")
+		if standbyDatabaseId == nil {
+			return fmt.Errorf("could not delete the dataguard association as the standby Database Id could not be obtained")
 		}
 
-		request := oci_database.DeleteDbHomeRequest{}
-		request.DbHomeId = standbyDbHomeId
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-		_, err = s.Client.DeleteDbHome(context.Background(), request)
-		if err != nil {
-			return fmt.Errorf("could not delete standby DB Home to delete the data guard association: %v", err)
+		deleteDBrequest.DatabaseId = standbyDatabaseId
+		deleteDBrequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+		if _, err = s.Client.DeleteDatabase(context.Background(), deleteDBrequest); err != nil {
+			return fmt.Errorf("failed to delete the standby database")
 		}
 
-		getDbHomeRequest := oci_database.GetDbHomeRequest{}
-		getDbHomeRequest.DbHomeId = standbyDbHomeId
-		getDbHomeRequest.RequestMetadata.RetryPolicy = waitForDbHomeToTerminateRetryPolicy(2 * time.Hour)
-		getDbHomeResponse, err := s.Client.GetDbHome(context.Background(), getDbHomeRequest)
+		getDatabaseRequest := oci_database.GetDatabaseRequest{}
+		getDatabaseRequest.DatabaseId = standbyDatabaseId
+		getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseToTerminateRetryPolicy(2 * time.Hour)
+		getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
 
-		if getDbHomeResponse.LifecycleState == oci_database.DbHomeLifecycleStateAvailable {
-			return fmt.Errorf("could not delete the dataguard association as the dbHome could not be deleted")
+		if getDatabaseResponse.LifecycleState == oci_database.DatabaseLifecycleStateAvailable {
+			return fmt.Errorf("could not delete the dataguard association as the standby database could not be deleted")
 		}
 
 		return err
@@ -616,6 +614,29 @@ func waitForDbSystemToTerminateRetryPolicy(timeout time.Duration) *oci_common.Re
 			}
 			if getDbSystemResponse, ok := response.Response.(oci_database.GetDbSystemResponse); ok {
 				if getDbSystemResponse.LifecycleState != oci_database.DbSystemLifecycleStateTerminated && getDbSystemResponse.LifecycleState != oci_database.DbSystemLifecycleStateAvailable {
+					timeWaited := getElapsedRetryDuration(startTime)
+					return timeWaited < timeout
+				}
+			}
+			return false
+		},
+		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
+			return getRetryBackoffDuration(response, false, "database", startTime)
+		},
+		MaximumNumberAttempts: 0,
+	}
+}
+
+func waitForDatabaseToTerminateRetryPolicy(timeout time.Duration) *oci_common.RetryPolicy {
+	startTime := time.Now()
+
+	return &oci_common.RetryPolicy{
+		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
+			if shouldRetry(response, false, "database", startTime) {
+				return true
+			}
+			if getDatabaseResponse, ok := response.Response.(oci_database.GetDatabaseResponse); ok {
+				if getDatabaseResponse.LifecycleState != oci_database.DatabaseLifecycleStateTerminated && getDatabaseResponse.LifecycleState != oci_database.DatabaseLifecycleStateAvailable {
 					timeWaited := getElapsedRetryDuration(startTime)
 					return timeWaited < timeout
 				}
