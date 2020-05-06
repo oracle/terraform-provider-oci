@@ -242,6 +242,7 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 				"load_balancer_id": "load_balancer_id",
 			},
 		},
+		{TerraformResourceHints: exportLoadBalancerListenerHints},
 	},
 	"oci_load_balancer_load_balancer": {
 		{
@@ -274,7 +275,6 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 				"load_balancer_id": "id",
 			},
 		},
-		{TerraformResourceHints: exportLoadBalancerListenerHints},
 	},
 }
 
