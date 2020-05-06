@@ -93,6 +93,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
+    * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
@@ -227,6 +228,10 @@ identity
 * oci\_identity\_ui\_password
 * oci\_identity\_user\_group\_membership
 * oci\_identity\_user
+
+limits
+    
+* oci\_limits\_quota
 
 load_balancer
     

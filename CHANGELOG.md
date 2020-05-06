@@ -1,4 +1,8 @@
 ## 3.75.0 (Unreleased)
+
+### Added
+- Support resource discovery for limits resources
+
 ## 3.74.0 (May 06, 2020)
 
 ### Added

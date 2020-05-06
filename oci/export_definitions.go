@@ -5,6 +5,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
@@ -520,6 +521,17 @@ var exportIdentityTagHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_identity.TagLifecycleStateActive),
+	},
+}
+
+var exportLimitsQuotaHints = &TerraformResourceHints{
+	resourceClass:          "oci_limits_quota",
+	datasourceClass:        "oci_limits_quotas",
+	datasourceItemsAttr:    "quotas",
+	resourceAbbreviation:   "quota",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_limits.QuotaLifecycleStateActive),
 	},
 }
 
