@@ -7,6 +7,7 @@
 
 ### Fixed
 - Add missing attributes for `oci_file_storage_mount_target` import [Github issue #1037](https://github.com/terraform-providers/terraform-provider-oci/issues/1037)
+- Fixed the diff for `whitelisted_ips` arguments order in `oci_database_autonomous_database` resource [Issue #1050](https://github.com/terraform-providers/terraform-provider-oci/issues/1050)
 
 ## 3.74.0 (May 06, 2020)
 

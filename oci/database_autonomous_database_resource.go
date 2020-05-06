@@ -199,8 +199,9 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				DiffSuppressFunc: timeDiffSuppressFunction,
 			},
 			"whitelisted_ips": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
+				Set:      literalTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -581,8 +582,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	}
 
 	if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok && s.D.HasChange("whitelisted_ips") {
-		request.WhitelistedIps = []string{}
-		interfaces := whitelistedIps.([]interface{})
+		set := whitelistedIps.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -746,7 +747,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("used_data_storage_size_in_tbs", *s.Res.UsedDataStorageSizeInTBs)
 	}
 
-	s.D.Set("whitelisted_ips", s.Res.WhitelistedIps)
+	whitelistedIps := []interface{}{}
+	for _, item := range s.Res.WhitelistedIps {
+		whitelistedIps = append(whitelistedIps, item)
+	}
+	s.D.Set("whitelisted_ips", schema.NewSet(literalTypeHashCodeForSets, whitelistedIps))
 
 	return nil
 }
@@ -898,7 +903,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.SubnetId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
-			interfaces := whitelistedIps.([]interface{})
+			set := whitelistedIps.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
 				if interfaces[i] != nil {
@@ -1012,7 +1018,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.SubnetId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
-			interfaces := whitelistedIps.([]interface{})
+			set := whitelistedIps.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
 				if interfaces[i] != nil {
@@ -1119,7 +1126,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.SubnetId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
-			interfaces := whitelistedIps.([]interface{})
+			set := whitelistedIps.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
 				if interfaces[i] != nil {
@@ -1217,7 +1225,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.SubnetId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
-			interfaces := whitelistedIps.([]interface{})
+			set := whitelistedIps.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
 				if interfaces[i] != nil {
