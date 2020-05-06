@@ -3,6 +3,9 @@
 ### Added
 - Support resource discovery for limits resources
 
+### Fixed
+- Add missing attributes for `oci_file_storage_mount_target` import [Github issue #1037](https://github.com/terraform-providers/terraform-provider-oci/issues/1037)
+
 ## 3.74.0 (May 06, 2020)
 
 ### Added
