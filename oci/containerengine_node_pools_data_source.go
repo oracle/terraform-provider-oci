@@ -134,7 +134,7 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 		}
 
 		if r.NodeConfigDetails != nil {
-			nodePool["node_config_details"] = []interface{}{NodePoolNodeConfigDetailsToMap(r.NodeConfigDetails)}
+			nodePool["node_config_details"] = []interface{}{NodePoolNodeConfigDetailsToMap(r.NodeConfigDetails, true)}
 		} else {
 			nodePool["node_config_details"] = nil
 		}
