@@ -412,7 +412,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				ValidateFunc: validation.StringInSlice([]string{
 					string(oci_database.DbSystemLicenseModelLicenseIncluded),
 					string(oci_database.DbSystemLicenseModelBringYourOwnLicense)}, false),
@@ -906,6 +905,12 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
+		if err := s.sendUpdateForLicenseModel(s.D.Id(), licenseModel); err != nil {
+			return err
+		}
 	}
 
 	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
@@ -1685,6 +1690,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := hostname.(string)
 			details.Hostname = &tmp
 		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchDbSystemFromBackupDetailsLicenseModelEnum(licenseModel.(string))
+		}
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 			tmp := nodeCount.(int)
 			details.NodeCount = &tmp
@@ -1847,6 +1855,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 				}
 				details.MaintenanceWindowDetails = &tmp
 			}
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchDbSystemDetailsLicenseModelEnum(licenseModel.(string))
 		}
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 			tmp := nodeCount.(int)
@@ -2133,6 +2144,34 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 	}
 
 	s.Database = &getDatabaseResponse.Database
+
+	return nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) sendUpdateForLicenseModel(dbSystemId string, licenseModel interface{}) error {
+	request := oci_database.UpdateDbSystemRequest{}
+	request.LicenseModel = oci_database.UpdateDbSystemDetailsLicenseModelEnum(licenseModel.(string))
+
+	request.DbSystemId = &dbSystemId
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateDbSystem(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.DbSystem
+
+	getDbSystemResponse, err := waitForDbSystemIfItIsUpdating(s.Res.Id, s.Client, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		err = s.SetData()
+		if err != nil {
+			log.Printf("[ERROR] error setting data after polling error on the dbSystem: %v", err)
+		}
+		return fmt.Errorf("[ERROR] unable to get dbSystem after the update: %v", err)
+	}
+
+	s.Res = &getDbSystemResponse.DbSystem
 
 	return nil
 }

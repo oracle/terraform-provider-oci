@@ -16,7 +16,7 @@ import (
 // ChangeKeyCompartmentDetails The representation of ChangeKeyCompartmentDetails
 type ChangeKeyCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the key to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that you want to move the key to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

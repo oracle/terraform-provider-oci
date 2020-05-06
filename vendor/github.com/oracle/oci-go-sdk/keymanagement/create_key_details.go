@@ -16,7 +16,7 @@ import (
 // CreateKeyDetails The representation of CreateKeyDetails
 type CreateKeyDetails struct {
 
-	// The OCID of the compartment that contains this master encryption key.
+	// The OCID of the compartment where you want to create the master encryption key.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name for the key. It does not have to be unique, and it is changeable.

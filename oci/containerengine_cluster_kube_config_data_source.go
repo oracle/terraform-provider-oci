@@ -32,7 +32,6 @@ func ContainerengineClusterKubeConfigDataSource() *schema.Resource {
 				Optional: true,
 			},
 			// Computed
-
 			"content": {
 				Type:     schema.TypeString,
 				Computed: true,

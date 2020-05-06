@@ -59,8 +59,8 @@ var (
 	variable "vault_ids" {
 		type = "map"
 		default = {
-			us-phoenix-1 = "ocid1.vault.oc1.phx.avnzdivwaadfa.abyhqljrmb7herjt4gz64avusyue25grswwsqc5x75im7vtg4x7yfgszqkfa"
-			us-ashburn-1 = "ocid1.vault.oc1.iad.annnb3f4aacuu.abuwcljrumuxamzquswnwvgvqdyc76v4e6lyo4372wcjvtdxrhxdc6qxlupq"
+			us-phoenix-1 = "ocid1.vault.oc1.phx.a5pjotzlaafna.abyhqljsb46thuxvjrzwyygjju6ins6ftaeimjtqhnlu67qy74zalmxpdiaq"
+			us-ashburn-1 = "ocid1.vault.oc1.iad.bbo7h3seaaeug.abuwcljskeh5tco23lpk5hkijjrlrj64q5afzz3qbe25ku3b4n5ozn66qr5a"
 		}
 	}
 	data "oci_kms_vault" "test_vault" {
@@ -256,6 +256,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.algorithm", "AES"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.length", "16"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "restored_from_key_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),

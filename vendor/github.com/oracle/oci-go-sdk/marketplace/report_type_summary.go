@@ -16,7 +16,7 @@ import (
 // ReportTypeSummary The model of the description of a report.
 type ReportTypeSummary struct {
 
-	// The type of the report.
+	// The type of report.
 	ReportType *string `mandatory:"false" json:"reportType"`
 
 	// The name of the report.

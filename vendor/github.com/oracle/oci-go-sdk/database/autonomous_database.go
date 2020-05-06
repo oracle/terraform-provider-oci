@@ -135,6 +135,9 @@ type AutonomousDatabase struct {
 
 	// The date and time when maintenance will end.
 	TimeMaintenanceEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceEnd"`
+
+	// List of Oracle Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
+	AvailableUpgradeVersions []string `mandatory:"false" json:"availableUpgradeVersions"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -162,6 +165,7 @@ const (
 	AutonomousDatabaseLifecycleStateUpdating                AutonomousDatabaseLifecycleStateEnum = "UPDATING"
 	AutonomousDatabaseLifecycleStateMaintenanceInProgress   AutonomousDatabaseLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 	AutonomousDatabaseLifecycleStateRestarting              AutonomousDatabaseLifecycleStateEnum = "RESTARTING"
+	AutonomousDatabaseLifecycleStateUpgrading               AutonomousDatabaseLifecycleStateEnum = "UPGRADING"
 )
 
 var mappingAutonomousDatabaseLifecycleState = map[string]AutonomousDatabaseLifecycleStateEnum{
@@ -181,6 +185,7 @@ var mappingAutonomousDatabaseLifecycleState = map[string]AutonomousDatabaseLifec
 	"UPDATING":                  AutonomousDatabaseLifecycleStateUpdating,
 	"MAINTENANCE_IN_PROGRESS":   AutonomousDatabaseLifecycleStateMaintenanceInProgress,
 	"RESTARTING":                AutonomousDatabaseLifecycleStateRestarting,
+	"UPGRADING":                 AutonomousDatabaseLifecycleStateUpgrading,
 }
 
 // GetAutonomousDatabaseLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseLifecycleStateEnum

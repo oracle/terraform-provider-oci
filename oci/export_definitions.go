@@ -97,14 +97,11 @@ var exportCoreImageHints = &TerraformResourceHints{
 	},
 }
 
-var exportCoreInstanceHints = &TerraformResourceHints{
-	resourceClass:        "oci_core_instance",
-	datasourceClass:      "oci_core_instances",
-	datasourceItemsAttr:  "instances",
-	resourceAbbreviation: "instance",
-	discoverableLifecycleStates: []string{
-		string(oci_core.InstanceLifecycleStateRunning),
-	},
+var exportCoreInstanceConfigurationHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_instance_configuration",
+	datasourceClass:      "oci_core_instance_configurations",
+	datasourceItemsAttr:  "instance_configurations",
+	resourceAbbreviation: "instance_configuration",
 }
 
 var exportCoreInstancePoolHints = &TerraformResourceHints{
@@ -117,11 +114,14 @@ var exportCoreInstancePoolHints = &TerraformResourceHints{
 	},
 }
 
-var exportCoreInstanceConfigurationHints = &TerraformResourceHints{
-	resourceClass:        "oci_core_instance_configuration",
-	datasourceClass:      "oci_core_instance_configurations",
-	datasourceItemsAttr:  "instance_configurations",
-	resourceAbbreviation: "instance_configuration",
+var exportCoreInstanceHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_instance",
+	datasourceClass:      "oci_core_instances",
+	datasourceItemsAttr:  "instances",
+	resourceAbbreviation: "instance",
+	discoverableLifecycleStates: []string{
+		string(oci_core.InstanceLifecycleStateRunning),
+	},
 }
 
 var exportCoreInternetGatewayHints = &TerraformResourceHints{
@@ -229,6 +229,16 @@ var exportCoreSubnetHints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreVcnHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_vcn",
+	datasourceClass:      "oci_core_vcns",
+	datasourceItemsAttr:  "virtual_networks",
+	resourceAbbreviation: "vcn",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VcnLifecycleStateAvailable),
+	},
+}
+
 var exportCoreVirtualCircuitHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_virtual_circuit",
 	datasourceClass:      "oci_core_virtual_circuits",
@@ -237,16 +247,6 @@ var exportCoreVirtualCircuitHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_core.VirtualCircuitLifecycleStatePendingProvider),
 		string(oci_core.VirtualCircuitLifecycleStateProvisioned),
-	},
-}
-
-var exportCoreVcnHints = &TerraformResourceHints{
-	resourceClass:        "oci_core_vcn",
-	datasourceClass:      "oci_core_vcns",
-	datasourceItemsAttr:  "virtual_networks",
-	resourceAbbreviation: "vcn",
-	discoverableLifecycleStates: []string{
-		string(oci_core.VcnLifecycleStateAvailable),
 	},
 }
 
@@ -277,16 +277,6 @@ var exportCoreVolumeBackupPolicyAssignmentHints = &TerraformResourceHints{
 	resourceAbbreviation: "volume_backup_policy_assignment",
 }
 
-var exportCoreVolumeHints = &TerraformResourceHints{
-	resourceClass:        "oci_core_volume",
-	datasourceClass:      "oci_core_volumes",
-	datasourceItemsAttr:  "volumes",
-	resourceAbbreviation: "volume",
-	discoverableLifecycleStates: []string{
-		string(oci_core.VolumeLifecycleStateAvailable),
-	},
-}
-
 var exportCoreVolumeGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_volume_group",
 	datasourceClass:      "oci_core_volume_groups",
@@ -294,6 +284,16 @@ var exportCoreVolumeGroupHints = &TerraformResourceHints{
 	resourceAbbreviation: "volume_group",
 	discoverableLifecycleStates: []string{
 		string(oci_core.VolumeGroupLifecycleStateAvailable),
+	},
+}
+
+var exportCoreVolumeHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_volume",
+	datasourceClass:      "oci_core_volumes",
+	datasourceItemsAttr:  "volumes",
+	resourceAbbreviation: "volume",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VolumeLifecycleStateAvailable),
 	},
 }
 
@@ -581,4 +581,10 @@ var exportObjectStorageBucketHints = &TerraformResourceHints{
 	datasourceClass:      "oci_objectstorage_bucket_summaries",
 	datasourceItemsAttr:  "bucket_summaries",
 	resourceAbbreviation: "bucket",
+}
+
+var exportObjectStorageNamespaceHints = &TerraformResourceHints{
+	resourceClass:        "oci_objectstorage_namespace",
+	datasourceClass:      "oci_objectstorage_namespace",
+	resourceAbbreviation: "namespace",
 }

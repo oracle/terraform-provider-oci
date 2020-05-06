@@ -17,10 +17,10 @@ import (
 // OrchestrationListingPackage A listing package for orchestration.
 type OrchestrationListingPackage struct {
 
-	// The id of the listing this package belongs to.
+	// The ID of the listing this package belongs to.
 	ListingId *string `mandatory:"true" json:"listingId"`
 
-	// The version of this package.
+	// The package version.
 	Version *string `mandatory:"true" json:"version"`
 
 	// Description of this package.
