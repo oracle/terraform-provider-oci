@@ -135,6 +135,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
 
+		if r.DbNodeStorageSizeInGBs != nil {
+			exadataInfrastructure["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
+		}
+
 		if r.DefinedTags != nil {
 			exadataInfrastructure["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
@@ -161,6 +165,26 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.LifecycleDetails != nil {
 			exadataInfrastructure["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.MaxCpuCount != nil {
+			exadataInfrastructure["max_cpu_count"] = *r.MaxCpuCount
+		}
+
+		if r.MaxDataStorageInTBs != nil {
+			exadataInfrastructure["max_data_storage_in_tbs"] = *r.MaxDataStorageInTBs
+		}
+
+		if r.MaxDbNodeStorageInGBs != nil {
+			exadataInfrastructure["max_db_node_storage_in_gbs"] = *r.MaxDbNodeStorageInGBs
+		}
+
+		if r.MaxMemoryInGBs != nil {
+			exadataInfrastructure["max_memory_in_gbs"] = *r.MaxMemoryInGBs
+		}
+
+		if r.MemorySizeInGBs != nil {
+			exadataInfrastructure["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
 
 		if r.Netmask != nil {

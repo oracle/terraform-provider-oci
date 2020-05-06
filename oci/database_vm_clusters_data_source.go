@@ -129,6 +129,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
 
+		if r.DbNodeStorageSizeInGBs != nil {
+			vmCluster["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
+		}
+
 		if r.DefinedTags != nil {
 			vmCluster["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
@@ -163,6 +167,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		if r.LifecycleDetails != nil {
 			vmCluster["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.MemorySizeInGBs != nil {
+			vmCluster["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
 
 		if r.Shape != nil {
