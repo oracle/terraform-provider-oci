@@ -1,4 +1,5 @@
-## 3.74.0 (Unreleased)
+## 3.75.0 (Unreleased)
+## 3.74.0 (May 06, 2020)
 
 ### Added
 - Support for update `license_model` in `oci_database_db_system`
