@@ -22,6 +22,7 @@ data "oci_osmanagement_managed_instances" "test_managed_instances" {
 
 	#Optional
 	display_name = "${var.managed_instance_display_name}"
+	os_family = "${var.managed_instance_os_family}"
 }
 ```
 
@@ -31,6 +32,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.  Example: `My new resource` 
+* `os_family` - (Optional) The OS family for which to list resources.
 
 
 ## Attributes Reference
@@ -50,11 +52,13 @@ The following attributes are exported:
 * `description` - Information specified by the user about the managed instance
 * `display_name` - Managed Instance identifier
 * `id` - OCID for the managed instance
+* `is_reboot_required` - Indicates whether a reboot is required to complete installation of updates.
 * `last_boot` - Time at which the instance last booted
 * `last_checkin` - Time at which the instance last checked in
 * `managed_instance_groups` - The ids of the managed instance groups of which this instance is a member. 
 	* `display_name` - User friendly name
 	* `id` - unique identifier that is immutable on creation
+* `os_family` - The Operating System type of the managed instance.
 * `os_kernel_version` - Operating System Kernel Version
 * `os_name` - Operating System Name
 * `os_version` - Operating System Version
