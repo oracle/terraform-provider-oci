@@ -55,17 +55,14 @@ var (
 		"algorithm": Representation{repType: Required, create: `AES`},
 		"length":    Representation{repType: Required, create: `16`},
 	}
-	KeyResourceDependencies = `
-	variable "vault_ids" {
-		type = "map"
-		default = {
-			us-phoenix-1 = "ocid1.vault.oc1.phx.a5pjotzlaafna.abyhqljsb46thuxvjrzwyygjju6ins6ftaeimjtqhnlu67qy74zalmxpdiaq"
-			us-ashburn-1 = "ocid1.vault.oc1.iad.bbo7h3seaaeug.abuwcljskeh5tco23lpk5hkijjrlrj64q5afzz3qbe25ku3b4n5ozn66qr5a"
-		}
-	}
+
+	kmsVaultId            = getEnvSettingWithBlankDefault("kms_vault_ocid")
+	kmsVaultIdVariableStr = fmt.Sprintf("variable \"kms_vault_id\" { default = \"%s\" }\n", kmsVaultId)
+
+	KeyResourceDependencies = kmsVaultIdVariableStr + `
 	data "oci_kms_vault" "test_vault" {
 		#Required
-		vault_id = "${var.vault_ids[var.region]}"
+		vault_id = "${var.kms_vault_id}"
 	}
 	`
 	KeyResourceDependencyConfig = KeyResourceDependencies + `
