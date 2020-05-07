@@ -27,6 +27,7 @@ resource "oci_osmanagement_managed_instance_group" "test_managed_instance_group"
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = "${var.managed_instance_group_description}"
 	freeform_tags = {"bar-key"= "value"}
+	os_family = "${var.managed_instance_group_os_family}"
 }
 ```
 
@@ -39,6 +40,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) Information specified by the user about the managed instance group
 * `display_name` - (Required) (Updatable) Managed Instance Group identifier
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `os_family` - (Optional) The Operating System type of the managed instance(s) on which this scheduled job will operate. If not specified, this defaults to Linux. 
 
 
 ** IMPORTANT **
@@ -57,6 +59,7 @@ The following attributes are exported:
 * `managed_instances` - list of Managed Instances in the group
 	* `display_name` - User friendly name
 	* `id` - unique identifier that is immutable on creation
+* `os_family` - The Operating System type of the managed instance.
 * `state` - The current state of the Software Source.
 
 ## Import

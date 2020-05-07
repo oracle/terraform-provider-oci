@@ -90,6 +90,8 @@ func (s *OsmanagementManagedInstanceGroupDataSourceCrud) SetData() error {
 	}
 	s.D.Set("managed_instances", managedInstances)
 
+	s.D.Set("os_family", s.Res.OsFamily)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	return nil

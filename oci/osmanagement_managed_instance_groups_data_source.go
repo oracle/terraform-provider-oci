@@ -26,6 +26,10 @@ func OsmanagementManagedInstanceGroupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"os_family": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -68,6 +72,10 @@ func (s *OsmanagementManagedInstanceGroupsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+		request.OsFamily = oci_osmanagement.ListManagedInstanceGroupsOsFamilyEnum(osFamily.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -131,6 +139,8 @@ func (s *OsmanagementManagedInstanceGroupsDataSourceCrud) SetData() error {
 		if r.ManagedInstanceCount != nil {
 			managedInstanceGroup["managed_instance_count"] = *r.ManagedInstanceCount
 		}
+
+		managedInstanceGroup["os_family"] = r.OsFamily
 
 		managedInstanceGroup["state"] = r.LifecycleState
 		managedInstanceGroup["managed_instance_count"] = r.ManagedInstanceCount
