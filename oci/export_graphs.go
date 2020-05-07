@@ -2,7 +2,7 @@ package oci
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 	"identity": identityResourceGraph,
-	"limits":  limitsResourceGraph,
+	"limits":   limitsResourceGraph,
 }
 
 var availabilityDomainsGraph = TerraformResourceGraph{
