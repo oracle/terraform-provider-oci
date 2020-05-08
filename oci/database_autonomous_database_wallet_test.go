@@ -57,7 +57,7 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
 				),
 			},
-			// verify datasource with base64 encoded content
+
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +

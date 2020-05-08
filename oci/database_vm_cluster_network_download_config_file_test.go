@@ -52,7 +52,7 @@ func TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic(t *testing.T) 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
 				),
 			},
-			// verify singular datasource with base64 encoded content
+
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", Optional, Create, vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
