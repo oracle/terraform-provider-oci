@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// TerraformVersionCollection The list of Terraform versions supported for use with stacks.
-type TerraformVersionCollection struct {
+// StackResourceDriftCollection Drift status details for resources in the stack.
+type StackResourceDriftCollection struct {
 
-	// Collection of supported Terraform versions.
-	Items []TerraformVersionSummary `mandatory:"true" json:"items"`
+	// Collection of drift status details for all resources defined in the stack.
+	Items []StackResourceDriftSummary `mandatory:"false" json:"items"`
 }
 
-func (m TerraformVersionCollection) String() string {
+func (m StackResourceDriftCollection) String() string {
 	return common.PointerString(m)
 }
