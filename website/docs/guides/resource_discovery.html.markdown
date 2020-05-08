@@ -92,6 +92,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `bds` - Discovers big data service resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
+    * `functions` - Discovers functions resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
@@ -214,6 +215,11 @@ database
 * oci\_database\_autonomous\_exadata\_infrastructure
 * oci\_database\_db\_home
 * oci\_database\_db\_system
+
+functions
+    
+* oci\_functions\_application
+* oci\_functions\_function
 
 identity
     
