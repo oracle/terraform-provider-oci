@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_kms_key_versions
 This data source provides the list of Key Versions in Oracle Cloud Infrastructure Kms service.
 
-Lists all [KeyVersion](/api/#/en/key/release/KeyVersion/) resources for the specified
+Lists all [KeyVersion](https://docs.cloud.oracle.com/iaas/api/#/en/key/release/KeyVersion/) resources for the specified
 master encryption key.
 
 As a management operation, this call is subject to a Key Management limit that applies to the total number
