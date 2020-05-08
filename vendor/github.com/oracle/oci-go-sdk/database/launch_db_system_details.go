@@ -130,10 +130,6 @@ type LaunchDbSystemDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A private IP address of your choice. Must be an available IP address within the subnet's CIDR.
-	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
-	PrivateIp *string `mandatory:"false" json:"privateIp"`
-
 	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`
 
 	// The Oracle Database Edition that applies to all the databases on the DB system.
@@ -257,11 +253,6 @@ func (m LaunchDbSystemDetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m LaunchDbSystemDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
-}
-
-//GetPrivateIp returns PrivateIp
-func (m LaunchDbSystemDetails) GetPrivateIp() *string {
-	return m.PrivateIp
 }
 
 func (m LaunchDbSystemDetails) String() string {
