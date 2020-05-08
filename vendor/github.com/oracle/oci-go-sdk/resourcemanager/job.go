@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Job Jobs perform the actions that are defined in your configuration. There are three job types
+// Job The properties that define a job. Jobs perform the actions that are defined in your configuration.
 // - **Plan job**. A plan job takes your Terraform configuration, parses it, and creates an execution plan.
 // - **Apply job**. The apply job takes your execution plan, applies it to the associated stack, then executes
 // the configuration's instructions.
@@ -54,6 +54,9 @@ type Job struct {
 	// The date and time at which the job stopped running, irrespective of whether the job ran successfully.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
+	// Current state of the specified job.
+	// For more information about resource states in Resource Manager, see
+	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts).
 	LifecycleState JobLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	FailureDetails *FailureDetails `mandatory:"false" json:"failureDetails"`
