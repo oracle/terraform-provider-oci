@@ -520,6 +520,7 @@ github.com/oracle/oci-go-sdk/mysql
 github.com/oracle/oci-go-sdk/nosql
 github.com/oracle/oci-go-sdk/objectstorage
 github.com/oracle/oci-go-sdk/oce
+github.com/oracle/oci-go-sdk/ocvp
 github.com/oracle/oci-go-sdk/oda
 github.com/oracle/oci-go-sdk/ons
 github.com/oracle/oci-go-sdk/osmanagement
