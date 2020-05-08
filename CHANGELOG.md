@@ -4,6 +4,7 @@
 - Support resource discovery for limits resources
 - Support for Online resize (grow) of block volume
 - Support Terraform v0.12 syntax for resource discovery. Default is now v0.12 for generated configurations. 
+- Support resource discovery for functions resources
 
 ### Fixed
 - Add missing attributes for `oci_file_storage_mount_target` import [Github issue #1037](https://github.com/terraform-providers/terraform-provider-oci/issues/1037)

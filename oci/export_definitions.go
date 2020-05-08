@@ -4,6 +4,7 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -348,6 +349,28 @@ var exportDatabaseDbSystemHints = &TerraformResourceHints{
 	resourceAbbreviation: "db_system",
 	discoverableLifecycleStates: []string{
 		string(oci_database.DbSystemLifecycleStateAvailable),
+	},
+}
+
+var exportFunctionsApplicationHints = &TerraformResourceHints{
+	resourceClass:          "oci_functions_application",
+	datasourceClass:        "oci_functions_applications",
+	datasourceItemsAttr:    "applications",
+	resourceAbbreviation:   "application",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_functions.ApplicationLifecycleStateActive),
+	},
+}
+
+var exportFunctionsFunctionHints = &TerraformResourceHints{
+	resourceClass:          "oci_functions_function",
+	datasourceClass:        "oci_functions_functions",
+	datasourceItemsAttr:    "functions",
+	resourceAbbreviation:   "function",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_functions.FunctionLifecycleStateActive),
 	},
 }
 

@@ -26,6 +26,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"bds":                 bdsResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"functions":           functionsResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"tagging":             taggingResourceGraph,
@@ -149,6 +150,20 @@ var databaseResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportDatabaseDbHomeHints,
 			datasourceQueryParams: map[string]string{
 				"db_system_id": "id",
+			},
+		},
+	},
+}
+
+var functionsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportFunctionsApplicationHints},
+	},
+	"oci_functions_application": {
+		{
+			TerraformResourceHints: exportFunctionsFunctionHints,
+			datasourceQueryParams: map[string]string{
+				"application_id": "id",
 			},
 		},
 	},
