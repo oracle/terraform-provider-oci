@@ -154,6 +154,12 @@ type DbSystem struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system.
+	SourceDbSystemId *string `mandatory:"false" json:"sourceDbSystemId"`
+
+	// The point in time for a cloned database system when the data disks were cloned from the source database system, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
+	PointInTimeDataDiskCloneTimestamp *common.SDKTime `mandatory:"false" json:"pointInTimeDataDiskCloneTimestamp"`
+
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
 }
 

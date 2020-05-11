@@ -11,47 +11,47 @@ import (
 )
 
 func init() {
-	RegisterDatasource("oci_core_private_ip", CorePrivateIpDataSource())
+	RegisterDatasource("oci_core_vlan", CoreVlanDataSource())
 }
 
-func CorePrivateIpDataSource() *schema.Resource {
+func CoreVlanDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
-	fieldMap["private_ip_id"] = &schema.Schema{
+	fieldMap["vlan_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return GetSingularDataSourceItemSchema(CorePrivateIpResource(), fieldMap, readSingularCorePrivateIp)
+	return GetSingularDataSourceItemSchema(CoreVlanResource(), fieldMap, readSingularCoreVlan)
 }
 
-func readSingularCorePrivateIp(d *schema.ResourceData, m interface{}) error {
-	sync := &CorePrivateIpDataSourceCrud{}
+func readSingularCoreVlan(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVlanDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
 
-type CorePrivateIpDataSourceCrud struct {
+type CoreVlanDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
-	Res    *oci_core.GetPrivateIpResponse
+	Res    *oci_core.GetVlanResponse
 }
 
-func (s *CorePrivateIpDataSourceCrud) VoidState() {
+func (s *CoreVlanDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CorePrivateIpDataSourceCrud) Get() error {
-	request := oci_core.GetPrivateIpRequest{}
+func (s *CoreVlanDataSourceCrud) Get() error {
+	request := oci_core.GetVlanRequest{}
 
-	if privateIpId, ok := s.D.GetOkExists("private_ip_id"); ok {
-		tmp := privateIpId.(string)
-		request.PrivateIpId = &tmp
+	if vlanId, ok := s.D.GetOkExists("vlan_id"); ok {
+		tmp := vlanId.(string)
+		request.VlanId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
 
-	response, err := s.Client.GetPrivateIp(context.Background(), request)
+	response, err := s.Client.GetVlan(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -60,7 +60,7 @@ func (s *CorePrivateIpDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CorePrivateIpDataSourceCrud) SetData() error {
+func (s *CoreVlanDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -69,6 +69,10 @@ func (s *CorePrivateIpDataSourceCrud) SetData() error {
 
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
+	if s.Res.CidrBlock != nil {
+		s.D.Set("cidr_block", *s.Res.CidrBlock)
 	}
 
 	if s.Res.CompartmentId != nil {
@@ -85,32 +89,24 @@ func (s *CorePrivateIpDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.HostnameLabel != nil {
-		s.D.Set("hostname_label", *s.Res.HostnameLabel)
+	s.D.Set("nsg_ids", s.Res.NsgIds)
+
+	if s.Res.RouteTableId != nil {
+		s.D.Set("route_table_id", *s.Res.RouteTableId)
 	}
 
-	if s.Res.IpAddress != nil {
-		s.D.Set("ip_address", *s.Res.IpAddress)
-	}
-
-	if s.Res.IsPrimary != nil {
-		s.D.Set("is_primary", *s.Res.IsPrimary)
-	}
-
-	if s.Res.SubnetId != nil {
-		s.D.Set("subnet_id", *s.Res.SubnetId)
-	}
+	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
-	if s.Res.VlanId != nil {
-		s.D.Set("vlan_id", *s.Res.VlanId)
+	if s.Res.VcnId != nil {
+		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
-	if s.Res.VnicId != nil {
-		s.D.Set("vnic_id", *s.Res.VnicId)
+	if s.Res.VlanTag != nil {
+		s.D.Set("vlan_tag", *s.Res.VlanTag)
 	}
 
 	return nil
