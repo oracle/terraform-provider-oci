@@ -16,12 +16,34 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
+var (
+	vnicAttachmentRepresentationVlan = getMultipleUpdatedNestedRepresenationCopy([]string{
+		"create_vnic_details.hostname_label",
+		"create_vnic_details.nsg_ids",
+		"create_vnic_details.private_ip",
+		"create_vnic_details.skip_source_dest_check",
+		"create_vnic_details.subnet_id",
+	}, vnicAttachmentRepresentation)
+	vnicAttachmentRepresentationSubnet = getMultipleUpdatedNestedRepresenationCopy([]string{
+		"create_vnic_details.vlan_id",
+	}, vnicAttachmentRepresentation)
+
+	VnicAttachmentResourceDependenciesVlan = generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create,
+			representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{"dns_label": Representation{repType: Required, create: `dnslabel`}})) +
+		AvailabilityDomainConfig
+)
+
 type ResourceCoreVnicAttachmentTestSuite struct {
 	suite.Suite
 	Providers        map[string]terraform.ResourceProvider
 	Config           string
 	ResourceName     string
 	VnicResourceName string
+	VlanResourceName string
+	VlanDataSource   string
 }
 
 func (s *ResourceCoreVnicAttachmentTestSuite) SetupTest() {
@@ -30,6 +52,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) SetupTest() {
 	s.Config = legacyTestProviderConfig() + instanceDnsConfig
 	s.ResourceName = "oci_core_vnic_attachment.va"
 	s.VnicResourceName = "data.oci_core_vnic.v"
+	s.VlanResourceName = "oci_core_vnic_attachment.test_vnic_attachment"
 }
 
 func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_basic() {
@@ -206,6 +229,67 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 						if newId != vaId {
 							return fmt.Errorf("Expected same ocid, got different.")
 						}
+						return err
+					},
+				),
+			},
+			{
+				Config: s.Config +
+					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentationVlan) +
+					`data "oci_core_vnic" "v" {
+						vnic_id = "${oci_core_vnic_attachment.test_vnic_attachment.vnic_id}"
+					}` + VnicAttachmentResourceDependenciesVlan,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "instance_id"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "state", string(core.VnicAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_tag"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttrSet(s.VnicResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.VnicResourceName, "display_name"),
+					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
+					func(ts *terraform.State) (err error) {
+						vaId, err = fromInstanceState(ts, s.VlanResourceName, "id")
+						return err
+					},
+				),
+			},
+
+			{
+				Config: s.Config + VnicAttachmentResourceDependenciesVlan,
+			},
+
+			{
+				Config: s.Config +
+					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentationVlan) +
+					`data "oci_core_vnic" "v" {
+						vnic_id = "${oci_core_vnic_attachment.test_vnic_attachment.vnic_id}"
+					}` + VnicAttachmentResourceDependenciesVlan,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "instance_id"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "state", string(core.VnicAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_tag"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "create_vnic_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(s.VnicResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.VnicResourceName, "display_name"),
+					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
+					func(ts *terraform.State) (err error) {
+						vaId, err = fromInstanceState(ts, s.VlanResourceName, "id")
 						return err
 					},
 				),

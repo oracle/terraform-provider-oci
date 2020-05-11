@@ -1,3 +1,4 @@
+eibcccntjjbgvvjtneihheklndfcnicuglkengicdbgk
 ---
 subcategory: "Core"
 layout: "oci"
@@ -19,8 +20,6 @@ For more information about secondary private IPs, see
 
 ```hcl
 resource "oci_core_private_ip" "test_private_ip" {
-	#Required
-	vnic_id = "${oci_core_vnic.test_vnic.id}"
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
@@ -28,6 +27,8 @@ resource "oci_core_private_ip" "test_private_ip" {
 	freeform_tags = {"Department"= "Finance"}
 	hostname_label = "${var.private_ip_hostname_label}"
 	ip_address = "${var.private_ip_ip_address}"
+	vlan_id = "${oci_core_vlan.test_vlan.id}"
+	vnic_id = "${oci_core_vnic_attachment.test_vnic_attachment.id}"
 }
 ```
 
@@ -44,7 +45,10 @@ The following arguments are supported:
 
 	Example: `bminstance-1` 
 * `ip_address` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.  Example: `10.0.3.3` 
-* `vnic_id` - (Required) (Updatable) The OCID of the VNIC to assign the private IP to. The VNIC and private IP must be in the same subnet. 
+* `vlan_id` - (Optional) Use this attribute only with the Oracle Cloud VMware Solution.
+
+	The OCID of the VLAN from which the private IP is to be drawn. The IP address, *if supplied*, must be valid for the given VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vlan). 
+* `vnic_id` - (Optional) (Updatable) The OCID of the VNIC to assign the private IP to. The VNIC and private IP must be in the same subnet. 
 
 
 ** IMPORTANT **
@@ -65,11 +69,20 @@ The following attributes are exported:
 
 	Example: `bminstance-1` 
 * `id` - The private IP's Oracle ID (OCID).
-* `ip_address` - The private IP address of the `privateIp` object. The address is within the CIDR of the VNIC's subnet.   Example: `10.0.3.3` 
+* `ip_address` - The private IP address of the `privateIp` object. The address is within the CIDR of the VNIC's subnet.
+
+	However, if the `PrivateIp` object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the address is from the range specified by the `cidrBlock` attribute for the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vlan).
+
+	Example: `10.0.3.3` 
 * `is_primary` - Whether this private IP is the primary one on the VNIC. Primary private IPs are unassigned and deleted automatically when the VNIC is terminated.  Example: `true` 
-* `subnet_id` - The OCID of the subnet the VNIC is in. 
+* `subnet_id` - The OCID of the subnet the VNIC is in.
+
+	However, if the `PrivateIp` object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the `subnetId` is null. 
 * `time_created` - The date and time the private IP was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `vnic_id` - The OCID of the VNIC the private IP is assigned to. The VNIC and private IP must be in the same subnet. 
+* `vlan_id` - Applicable only if the `PrivateIp` object is being used with a VLAN as part of the Oracle Cloud VMware Solution. The `vlanId` is the OCID of the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vlan). 
+* `vnic_id` - The OCID of the VNIC the private IP is assigned to. The VNIC and private IP must be in the same subnet.
+
+	However, if the `PrivateIp` object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the `vnicId` is null. 
 
 ## Import
 

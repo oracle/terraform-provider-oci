@@ -38,11 +38,6 @@ func CoreVnicAttachmentResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"subnet_id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
 
 						// Optional
 						"assign_public_ip": {
@@ -50,7 +45,7 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							// values for boolean nested objects correctly.
 							Type:     schema.TypeString,
 							Optional: true,
-							Default:  "true",
+							Default:  "false",
 							ForceNew: true,
 							ValidateFunc: func(v interface{}, k string) ([]string, []error) {
 								// Verify that we can parse the string value as a bool value.
@@ -106,7 +101,19 @@ func CoreVnicAttachmentResource() *schema.Resource {
 						"skip_source_dest_check": {
 							Type:     schema.TypeBool,
 							Optional: true,
-							Default:  false,
+							Computed: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"vlan_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 
 						// Computed
@@ -151,6 +158,10 @@ func CoreVnicAttachmentResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vlan_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -377,6 +388,10 @@ func (s *CoreVnicAttachmentResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.VlanId != nil {
+		s.D.Set("vlan_id", *s.Res.VlanId)
+	}
+
 	if s.Res.VlanTag != nil {
 		s.D.Set("vlan_tag", *s.Res.VlanTag)
 	}
@@ -392,7 +407,9 @@ func (s *CoreVnicAttachmentResourceCrud) SetData() error {
 	response, err := s.VirtualNetworkClient.GetVnic(context.Background(), request)
 	if err != nil {
 		// VNIC might not be found when attaching or detaching; or if it is in a different compartment
-		log.Printf("[DEBUG] VNIC not found during VNIC Attachment refresh. (VNIC ID: %q, Error: %q)", *request.VnicId, err)
+		if request.VnicId != nil {
+			log.Printf("[DEBUG] VNIC not found during VNIC Attachment refresh. (VNIC ID: %q, Error: %q)", *request.VnicId, err)
+		}
 		return nil
 	}
 
@@ -473,6 +490,11 @@ func (s *CoreVnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat s
 		result.SubnetId = &tmp
 	}
 
+	if vlanId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan_id")); ok {
+		tmp := vlanId.(string)
+		result.VlanId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -501,8 +523,8 @@ func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat s
 		result.HostnameLabel = &tmp
 	}
 
-	result.NsgIds = []string{}
-	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); s.Res.VlanId == nil && ok {
+		result.NsgIds = []string{}
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
@@ -514,7 +536,7 @@ func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat s
 		result.NsgIds = tmp
 	}
 
-	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
+	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); s.Res.VlanId == nil && ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
 	}
@@ -570,6 +592,10 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	if obj.VlanId != nil {
+		result["vlan_id"] = string(*obj.VlanId)
 	}
 
 	return result

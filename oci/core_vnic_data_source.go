@@ -88,6 +88,10 @@ func CoreVnicDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"vlan_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -188,6 +192,10 @@ func (s *CoreVnicDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.VlanId != nil {
+		s.D.Set("vlan_id", *s.Res.VlanId)
 	}
 
 	return nil

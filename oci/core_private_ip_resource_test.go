@@ -17,9 +17,11 @@ import (
 
 type ResourcePrivateIPTestSuite struct {
 	suite.Suite
-	Providers    map[string]terraform.ResourceProvider
-	Config       string
-	ResourceName string
+	Providers        map[string]terraform.ResourceProvider
+	Config           string
+	ResourceName     string
+	VlanConfig       string
+	VlanResourceName string
 }
 
 func (s *ResourcePrivateIPTestSuite) SetupTest() {
@@ -31,8 +33,13 @@ func (s *ResourcePrivateIPTestSuite) SetupTest() {
 		compartment_id = "${var.compartment_id}"
 		instance_id = "${oci_core_instance.t.id}"
 	}`
+	s.VlanConfig = legacyTestProviderConfig() +
+		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		AvailabilityDomainConfig + DefinedTagsDependencies
 
 	s.ResourceName = "oci_core_private_ip.t"
+	s.VlanResourceName = "oci_core_private_ip.tpvlan"
 }
 
 func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
@@ -143,6 +150,64 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 						}
 						return err
 					},
+				),
+			},
+		},
+	})
+}
+
+func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
+	resource.Test(s.T(), resource.TestCase{
+		Providers:    s.Providers,
+		CheckDestroy: testAccCheckCorePrivateIpDestroy,
+		Steps: []resource.TestStep{
+			// test create
+			{
+				Config: s.VlanConfig + `
+				resource "oci_core_private_ip" "tpvlan" {
+					vlan_id		 = "${oci_core_vlan.test_vlan.id}"
+					ip_address	 = "10.0.1.5"
+					display_name = "-private-ip"
+					defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+									)}"
+                    freeform_tags = { "Department" = "Finance"}
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "id"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "is_primary"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "display_name", "-private-ip"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "freeform_tags.%", "1"),
+				),
+			},
+			// test update
+			{
+				Config: s.VlanConfig + `
+				resource "oci_core_private_ip" "tpvlan" {
+					vlan_id		 = "${oci_core_vlan.test_vlan.id}"
+					ip_address	 = "10.0.1.10"
+					display_name = "-private-ip2"
+					defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+									)}"
+                    freeform_tags = { "Department" = "Accounting"}
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.VlanResourceName, "display_name", "-private-ip2"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.1.10"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "is_primary"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_id"),
+					resource.TestCheckResourceAttrSet(s.VlanResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "freeform_tags.%", "1"),
 				),
 			},
 		},

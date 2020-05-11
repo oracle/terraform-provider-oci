@@ -44,10 +44,10 @@ var (
 		"is_shareable":                        Representation{repType: Optional, create: `false`},
 	}
 
-	VolumeAttachmentResourceDependencies = OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+	VolumeAttachmentResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation) +
 		AvailabilityDomainConfig
 )

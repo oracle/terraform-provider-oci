@@ -14,8 +14,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// LaunchDbSystemFromBackupDetails Used for creating a new DB system from a database backup.
-type LaunchDbSystemFromBackupDetails struct {
+// LaunchDbSystemFromDbSystemDetails Used for creating a new database system by cloning an existing DB system.
+type LaunchDbSystemFromDbSystemDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -62,7 +62,10 @@ type LaunchDbSystemFromBackupDetails struct {
 	// For information about the number of cores for a virtual machine DB system shape, see Virtual Machine DB Systems (https://docs.cloud.oracle.com/Content/Database/Concepts/overview.htm#virtualmachine)
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
-	DbHome *CreateDbHomeFromBackupDetails `mandatory:"true" json:"dbHome"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system.
+	SourceDbSystemId *string `mandatory:"true" json:"sourceDbSystemId"`
+
+	DbHome *CreateDbHomeFromDbSystemDetails `mandatory:"true" json:"dbHome"`
 
 	// A Fault Domain is a grouping of hardware and infrastructure within an availability domain.
 	// Fault Domains let you distribute your instances so that they are not on the same physical
@@ -118,6 +121,12 @@ type LaunchDbSystemFromBackupDetails struct {
 	// Size (in GB) of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.
 	InitialDataStorageSizeInGB *int `mandatory:"false" json:"initialDataStorageSizeInGB"`
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
 	// The number of nodes to launch for a 2-node RAC virtual machine DB system. Specify either 1 or 2.
 	NodeCount *int `mandatory:"false" json:"nodeCount"`
 
@@ -134,220 +143,171 @@ type LaunchDbSystemFromBackupDetails struct {
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
-	// The Oracle Database Edition that applies to all the databases on the DB system.
-	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
-	DatabaseEdition LaunchDbSystemFromBackupDetailsDatabaseEditionEnum `mandatory:"true" json:"databaseEdition"`
-
-	// The type of redundancy configured for the DB system.
-	// NORMAL 2-way redundancy, recommended for test and development systems.
-	// HIGH is 3-way redundancy, recommended for production systems.
-	DiskRedundancy LaunchDbSystemFromBackupDetailsDiskRedundancyEnum `mandatory:"false" json:"diskRedundancy,omitempty"`
-
 	// The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED.
-	LicenseModel LaunchDbSystemFromBackupDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
+	LicenseModel LaunchDbSystemFromDbSystemDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 }
 
 //GetCompartmentId returns CompartmentId
-func (m LaunchDbSystemFromBackupDetails) GetCompartmentId() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
 //GetFaultDomains returns FaultDomains
-func (m LaunchDbSystemFromBackupDetails) GetFaultDomains() []string {
+func (m LaunchDbSystemFromDbSystemDetails) GetFaultDomains() []string {
 	return m.FaultDomains
 }
 
 //GetDisplayName returns DisplayName
-func (m LaunchDbSystemFromBackupDetails) GetDisplayName() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 //GetAvailabilityDomain returns AvailabilityDomain
-func (m LaunchDbSystemFromBackupDetails) GetAvailabilityDomain() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetAvailabilityDomain() *string {
 	return m.AvailabilityDomain
 }
 
 //GetSubnetId returns SubnetId
-func (m LaunchDbSystemFromBackupDetails) GetSubnetId() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
 //GetBackupSubnetId returns BackupSubnetId
-func (m LaunchDbSystemFromBackupDetails) GetBackupSubnetId() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetBackupSubnetId() *string {
 	return m.BackupSubnetId
 }
 
 //GetNsgIds returns NsgIds
-func (m LaunchDbSystemFromBackupDetails) GetNsgIds() []string {
+func (m LaunchDbSystemFromDbSystemDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
 //GetBackupNetworkNsgIds returns BackupNetworkNsgIds
-func (m LaunchDbSystemFromBackupDetails) GetBackupNetworkNsgIds() []string {
+func (m LaunchDbSystemFromDbSystemDetails) GetBackupNetworkNsgIds() []string {
 	return m.BackupNetworkNsgIds
 }
 
 //GetShape returns Shape
-func (m LaunchDbSystemFromBackupDetails) GetShape() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetShape() *string {
 	return m.Shape
 }
 
 //GetTimeZone returns TimeZone
-func (m LaunchDbSystemFromBackupDetails) GetTimeZone() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetTimeZone() *string {
 	return m.TimeZone
 }
 
 //GetDbSystemOptions returns DbSystemOptions
-func (m LaunchDbSystemFromBackupDetails) GetDbSystemOptions() *DbSystemOptions {
+func (m LaunchDbSystemFromDbSystemDetails) GetDbSystemOptions() *DbSystemOptions {
 	return m.DbSystemOptions
 }
 
 //GetSparseDiskgroup returns SparseDiskgroup
-func (m LaunchDbSystemFromBackupDetails) GetSparseDiskgroup() *bool {
+func (m LaunchDbSystemFromDbSystemDetails) GetSparseDiskgroup() *bool {
 	return m.SparseDiskgroup
 }
 
 //GetSshPublicKeys returns SshPublicKeys
-func (m LaunchDbSystemFromBackupDetails) GetSshPublicKeys() []string {
+func (m LaunchDbSystemFromDbSystemDetails) GetSshPublicKeys() []string {
 	return m.SshPublicKeys
 }
 
 //GetHostname returns Hostname
-func (m LaunchDbSystemFromBackupDetails) GetHostname() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetHostname() *string {
 	return m.Hostname
 }
 
 //GetDomain returns Domain
-func (m LaunchDbSystemFromBackupDetails) GetDomain() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetDomain() *string {
 	return m.Domain
 }
 
 //GetCpuCoreCount returns CpuCoreCount
-func (m LaunchDbSystemFromBackupDetails) GetCpuCoreCount() *int {
+func (m LaunchDbSystemFromDbSystemDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
 //GetClusterName returns ClusterName
-func (m LaunchDbSystemFromBackupDetails) GetClusterName() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetClusterName() *string {
 	return m.ClusterName
 }
 
 //GetDataStoragePercentage returns DataStoragePercentage
-func (m LaunchDbSystemFromBackupDetails) GetDataStoragePercentage() *int {
+func (m LaunchDbSystemFromDbSystemDetails) GetDataStoragePercentage() *int {
 	return m.DataStoragePercentage
 }
 
 //GetInitialDataStorageSizeInGB returns InitialDataStorageSizeInGB
-func (m LaunchDbSystemFromBackupDetails) GetInitialDataStorageSizeInGB() *int {
+func (m LaunchDbSystemFromDbSystemDetails) GetInitialDataStorageSizeInGB() *int {
 	return m.InitialDataStorageSizeInGB
 }
 
+//GetKmsKeyId returns KmsKeyId
+func (m LaunchDbSystemFromDbSystemDetails) GetKmsKeyId() *string {
+	return m.KmsKeyId
+}
+
+//GetKmsKeyVersionId returns KmsKeyVersionId
+func (m LaunchDbSystemFromDbSystemDetails) GetKmsKeyVersionId() *string {
+	return m.KmsKeyVersionId
+}
+
 //GetNodeCount returns NodeCount
-func (m LaunchDbSystemFromBackupDetails) GetNodeCount() *int {
+func (m LaunchDbSystemFromDbSystemDetails) GetNodeCount() *int {
 	return m.NodeCount
 }
 
 //GetFreeformTags returns FreeformTags
-func (m LaunchDbSystemFromBackupDetails) GetFreeformTags() map[string]string {
+func (m LaunchDbSystemFromDbSystemDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 //GetDefinedTags returns DefinedTags
-func (m LaunchDbSystemFromBackupDetails) GetDefinedTags() map[string]map[string]interface{} {
+func (m LaunchDbSystemFromDbSystemDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
 //GetPrivateIp returns PrivateIp
-func (m LaunchDbSystemFromBackupDetails) GetPrivateIp() *string {
+func (m LaunchDbSystemFromDbSystemDetails) GetPrivateIp() *string {
 	return m.PrivateIp
 }
 
-func (m LaunchDbSystemFromBackupDetails) String() string {
+func (m LaunchDbSystemFromDbSystemDetails) String() string {
 	return common.PointerString(m)
 }
 
 // MarshalJSON marshals to json representation
-func (m LaunchDbSystemFromBackupDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeLaunchDbSystemFromBackupDetails LaunchDbSystemFromBackupDetails
+func (m LaunchDbSystemFromDbSystemDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeLaunchDbSystemFromDbSystemDetails LaunchDbSystemFromDbSystemDetails
 	s := struct {
 		DiscriminatorParam string `json:"source"`
-		MarshalTypeLaunchDbSystemFromBackupDetails
+		MarshalTypeLaunchDbSystemFromDbSystemDetails
 	}{
-		"DB_BACKUP",
-		(MarshalTypeLaunchDbSystemFromBackupDetails)(m),
+		"DB_SYSTEM",
+		(MarshalTypeLaunchDbSystemFromDbSystemDetails)(m),
 	}
 
 	return json.Marshal(&s)
 }
 
-// LaunchDbSystemFromBackupDetailsDatabaseEditionEnum Enum with underlying type: string
-type LaunchDbSystemFromBackupDetailsDatabaseEditionEnum string
+// LaunchDbSystemFromDbSystemDetailsLicenseModelEnum Enum with underlying type: string
+type LaunchDbSystemFromDbSystemDetailsLicenseModelEnum string
 
-// Set of constants representing the allowable values for LaunchDbSystemFromBackupDetailsDatabaseEditionEnum
+// Set of constants representing the allowable values for LaunchDbSystemFromDbSystemDetailsLicenseModelEnum
 const (
-	LaunchDbSystemFromBackupDetailsDatabaseEditionStandardEdition                     LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "STANDARD_EDITION"
-	LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEdition                   LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION"
-	LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionHighPerformance    LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
-	LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionExtremePerformance LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	LaunchDbSystemFromDbSystemDetailsLicenseModelLicenseIncluded     LaunchDbSystemFromDbSystemDetailsLicenseModelEnum = "LICENSE_INCLUDED"
+	LaunchDbSystemFromDbSystemDetailsLicenseModelBringYourOwnLicense LaunchDbSystemFromDbSystemDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingLaunchDbSystemFromBackupDetailsDatabaseEdition = map[string]LaunchDbSystemFromBackupDetailsDatabaseEditionEnum{
-	"STANDARD_EDITION":                       LaunchDbSystemFromBackupDetailsDatabaseEditionStandardEdition,
-	"ENTERPRISE_EDITION":                     LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEdition,
-	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionHighPerformance,
-	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionExtremePerformance,
+var mappingLaunchDbSystemFromDbSystemDetailsLicenseModel = map[string]LaunchDbSystemFromDbSystemDetailsLicenseModelEnum{
+	"LICENSE_INCLUDED":       LaunchDbSystemFromDbSystemDetailsLicenseModelLicenseIncluded,
+	"BRING_YOUR_OWN_LICENSE": LaunchDbSystemFromDbSystemDetailsLicenseModelBringYourOwnLicense,
 }
 
-// GetLaunchDbSystemFromBackupDetailsDatabaseEditionEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsDatabaseEditionEnum
-func GetLaunchDbSystemFromBackupDetailsDatabaseEditionEnumValues() []LaunchDbSystemFromBackupDetailsDatabaseEditionEnum {
-	values := make([]LaunchDbSystemFromBackupDetailsDatabaseEditionEnum, 0)
-	for _, v := range mappingLaunchDbSystemFromBackupDetailsDatabaseEdition {
-		values = append(values, v)
-	}
-	return values
-}
-
-// LaunchDbSystemFromBackupDetailsDiskRedundancyEnum Enum with underlying type: string
-type LaunchDbSystemFromBackupDetailsDiskRedundancyEnum string
-
-// Set of constants representing the allowable values for LaunchDbSystemFromBackupDetailsDiskRedundancyEnum
-const (
-	LaunchDbSystemFromBackupDetailsDiskRedundancyHigh   LaunchDbSystemFromBackupDetailsDiskRedundancyEnum = "HIGH"
-	LaunchDbSystemFromBackupDetailsDiskRedundancyNormal LaunchDbSystemFromBackupDetailsDiskRedundancyEnum = "NORMAL"
-)
-
-var mappingLaunchDbSystemFromBackupDetailsDiskRedundancy = map[string]LaunchDbSystemFromBackupDetailsDiskRedundancyEnum{
-	"HIGH":   LaunchDbSystemFromBackupDetailsDiskRedundancyHigh,
-	"NORMAL": LaunchDbSystemFromBackupDetailsDiskRedundancyNormal,
-}
-
-// GetLaunchDbSystemFromBackupDetailsDiskRedundancyEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsDiskRedundancyEnum
-func GetLaunchDbSystemFromBackupDetailsDiskRedundancyEnumValues() []LaunchDbSystemFromBackupDetailsDiskRedundancyEnum {
-	values := make([]LaunchDbSystemFromBackupDetailsDiskRedundancyEnum, 0)
-	for _, v := range mappingLaunchDbSystemFromBackupDetailsDiskRedundancy {
-		values = append(values, v)
-	}
-	return values
-}
-
-// LaunchDbSystemFromBackupDetailsLicenseModelEnum Enum with underlying type: string
-type LaunchDbSystemFromBackupDetailsLicenseModelEnum string
-
-// Set of constants representing the allowable values for LaunchDbSystemFromBackupDetailsLicenseModelEnum
-const (
-	LaunchDbSystemFromBackupDetailsLicenseModelLicenseIncluded     LaunchDbSystemFromBackupDetailsLicenseModelEnum = "LICENSE_INCLUDED"
-	LaunchDbSystemFromBackupDetailsLicenseModelBringYourOwnLicense LaunchDbSystemFromBackupDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
-)
-
-var mappingLaunchDbSystemFromBackupDetailsLicenseModel = map[string]LaunchDbSystemFromBackupDetailsLicenseModelEnum{
-	"LICENSE_INCLUDED":       LaunchDbSystemFromBackupDetailsLicenseModelLicenseIncluded,
-	"BRING_YOUR_OWN_LICENSE": LaunchDbSystemFromBackupDetailsLicenseModelBringYourOwnLicense,
-}
-
-// GetLaunchDbSystemFromBackupDetailsLicenseModelEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsLicenseModelEnum
-func GetLaunchDbSystemFromBackupDetailsLicenseModelEnumValues() []LaunchDbSystemFromBackupDetailsLicenseModelEnum {
-	values := make([]LaunchDbSystemFromBackupDetailsLicenseModelEnum, 0)
-	for _, v := range mappingLaunchDbSystemFromBackupDetailsLicenseModel {
+// GetLaunchDbSystemFromDbSystemDetailsLicenseModelEnumValues Enumerates the set of values for LaunchDbSystemFromDbSystemDetailsLicenseModelEnum
+func GetLaunchDbSystemFromDbSystemDetailsLicenseModelEnumValues() []LaunchDbSystemFromDbSystemDetailsLicenseModelEnum {
+	values := make([]LaunchDbSystemFromDbSystemDetailsLicenseModelEnum, 0)
+	for _, v := range mappingLaunchDbSystemFromDbSystemDetailsLicenseModel {
 		values = append(values, v)
 	}
 	return values
