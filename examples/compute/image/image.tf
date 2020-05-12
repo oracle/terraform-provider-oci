@@ -133,6 +133,11 @@ data "oci_core_images" "supported_shape_images" {
   #sort_order              = "DESC"
 }
 
+# Another way to get the custom image that will be created by this Terraform config
+data "oci_core_image" "supported_image" {
+  image_id = "${oci_core_image.custom_image.id}"
+}
+
 output "supported_shape_images" {
   value = "${data.oci_core_images.supported_shape_images.images}"
 }
