@@ -2,7 +2,6 @@
 
 ### Added
 - Support resource discovery for limits resources
-- Support for Online resize (grow) of block volume
 - Support Terraform v0.12 syntax for resource discovery. Default is now v0.12 for generated configurations. 
 - Support resource discovery for functions resources
 
