@@ -55,7 +55,7 @@ func IdentityUiPasswordResource() *schema.Resource {
 func createIdentityUiPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUiPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return CreateResource(d, sync)
 }

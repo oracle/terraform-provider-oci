@@ -65,7 +65,7 @@ func IdentitySwiftPasswordResource() *schema.Resource {
 func createIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return CreateResource(d, sync)
 }
@@ -73,7 +73,7 @@ func createIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 func readIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }
@@ -81,7 +81,7 @@ func readIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 func updateIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return UpdateResource(d, sync)
 }
@@ -89,7 +89,7 @@ func updateIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 func deleteIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

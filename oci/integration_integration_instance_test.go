@@ -260,7 +260,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 func testAccCheckIntegrationIntegrationInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).integrationInstanceClient
+	client := testAccProvider.Meta().(*OracleClients).integrationInstanceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_integration_integration_instance" {
 			noResourceFound = false
@@ -312,7 +312,7 @@ func init() {
 }
 
 func sweepIntegrationIntegrationInstanceResource(compartment string) error {
-	integrationInstanceClient := GetTestClients(&schema.ResourceData{}).integrationInstanceClient
+	integrationInstanceClient := GetTestClients(&schema.ResourceData{}).integrationInstanceClient()
 	integrationInstanceIds, err := getIntegrationInstanceIds(compartment)
 	if err != nil {
 		return err
@@ -343,7 +343,7 @@ func getIntegrationInstanceIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	integrationInstanceClient := GetTestClients(&schema.ResourceData{}).integrationInstanceClient
+	integrationInstanceClient := GetTestClients(&schema.ResourceData{}).integrationInstanceClient()
 
 	listIntegrationInstancesRequest := oci_integration.ListIntegrationInstancesRequest{}
 	listIntegrationInstancesRequest.CompartmentId = &compartmentId
@@ -370,7 +370,7 @@ func integrationInstanceSweepWaitCondition(response common.OCIOperationResponse)
 }
 
 func integrationInstanceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.integrationInstanceClient.GetIntegrationInstance(context.Background(), oci_integration.GetIntegrationInstanceRequest{
+	_, err := client.integrationInstanceClient().GetIntegrationInstance(context.Background(), oci_integration.GetIntegrationInstanceRequest{
 		IntegrationInstanceId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

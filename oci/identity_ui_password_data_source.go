@@ -25,7 +25,7 @@ func IdentityUiPasswordDataSource() *schema.Resource {
 func readSingularIdentityUiPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUiPasswordDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

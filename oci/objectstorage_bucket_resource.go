@@ -197,7 +197,7 @@ func ObjectStorageBucketResource() *schema.Resource {
 func createObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageBucketResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -205,7 +205,7 @@ func createObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
 func readObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageBucketResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return ReadResource(sync)
 }
@@ -213,7 +213,7 @@ func readObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
 func updateObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageBucketResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return UpdateResource(d, sync)
 }
@@ -221,7 +221,7 @@ func updateObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
 func deleteObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageBucketResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

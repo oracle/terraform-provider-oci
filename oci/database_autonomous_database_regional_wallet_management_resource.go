@@ -51,7 +51,7 @@ func DatabaseAutonomousDatabaseRegionalWalletManagementResource() *schema.Resour
 func createDatabaseAutonomousDatabaseRegionalWalletManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.Configuration = m.(*OracleClients).configuration
 
 	return CreateResource(d, sync)
@@ -60,7 +60,7 @@ func createDatabaseAutonomousDatabaseRegionalWalletManagement(d *schema.Resource
 func readDatabaseAutonomousDatabaseRegionalWalletManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.Configuration = m.(*OracleClients).configuration
 
 	return ReadResource(sync)
@@ -69,7 +69,7 @@ func readDatabaseAutonomousDatabaseRegionalWalletManagement(d *schema.ResourceDa
 func updateDatabaseAutonomousDatabaseRegionalWalletManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.Configuration = m.(*OracleClients).configuration
 
 	return UpdateResource(d, sync)

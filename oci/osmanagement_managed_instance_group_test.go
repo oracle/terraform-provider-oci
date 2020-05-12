@@ -224,7 +224,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 
 func testAccCheckOsmanagementManagedInstanceGroupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).osManagementClient
+	client := testAccProvider.Meta().(*OracleClients).osManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_osmanagement_managed_instance_group" {
 			noResourceFound = false
@@ -276,7 +276,7 @@ func init() {
 }
 
 func sweepOsmanagementManagedInstanceGroupResource(compartment string) error {
-	osManagementClient := GetTestClients(&schema.ResourceData{}).osManagementClient
+	osManagementClient := GetTestClients(&schema.ResourceData{}).osManagementClient()
 	managedInstanceGroupIds, err := getManagedInstanceGroupIds(compartment)
 	if err != nil {
 		return err
@@ -307,7 +307,7 @@ func getManagedInstanceGroupIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	osManagementClient := GetTestClients(&schema.ResourceData{}).osManagementClient
+	osManagementClient := GetTestClients(&schema.ResourceData{}).osManagementClient()
 
 	listManagedInstanceGroupsRequest := oci_osmanagement.ListManagedInstanceGroupsRequest{}
 	listManagedInstanceGroupsRequest.CompartmentId = &compartmentId
@@ -334,7 +334,7 @@ func managedInstanceGroupSweepWaitCondition(response common.OCIOperationResponse
 }
 
 func managedInstanceGroupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.osManagementClient.GetManagedInstanceGroup(context.Background(), oci_osmanagement.GetManagedInstanceGroupRequest{
+	_, err := client.osManagementClient().GetManagedInstanceGroup(context.Background(), oci_osmanagement.GetManagedInstanceGroupRequest{
 		ManagedInstanceGroupId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

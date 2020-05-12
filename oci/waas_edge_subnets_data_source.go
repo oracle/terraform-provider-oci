@@ -50,7 +50,7 @@ func WaasEdgeSubnetsDataSource() *schema.Resource {
 func readWaasEdgeSubnets(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasEdgeSubnetsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return ReadResource(sync)
 }

@@ -32,15 +32,14 @@ type DefaultSecurityListResourceCrud struct {
 func createDefaultSecurityList(d *schema.ResourceData, m interface{}) error {
 	sync := &DefaultSecurityListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
-
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return CreateResource(d, sync)
 }
 
 func deleteDefaultSecurityList(d *schema.ResourceData, m interface{}) error {
 	sync := &DefaultSecurityListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

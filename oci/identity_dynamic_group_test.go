@@ -185,7 +185,7 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 
 func testAccCheckIdentityDynamicGroupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient
+	client := testAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_dynamic_group" {
 			noResourceFound = false

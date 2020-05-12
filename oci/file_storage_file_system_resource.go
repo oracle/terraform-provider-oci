@@ -82,7 +82,7 @@ func FileStorageFileSystemResource() *schema.Resource {
 func createFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageFileSystemResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -90,7 +90,7 @@ func createFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 func readFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageFileSystemResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return ReadResource(sync)
 }
@@ -98,7 +98,7 @@ func readFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 func updateFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageFileSystemResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return UpdateResource(d, sync)
 }
@@ -106,7 +106,7 @@ func updateFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 func deleteFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageFileSystemResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

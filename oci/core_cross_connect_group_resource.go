@@ -72,7 +72,7 @@ func CoreCrossConnectGroupResource() *schema.Resource {
 func createCoreCrossConnectGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCrossConnectGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -80,7 +80,7 @@ func createCoreCrossConnectGroup(d *schema.ResourceData, m interface{}) error {
 func readCoreCrossConnectGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCrossConnectGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -88,7 +88,7 @@ func readCoreCrossConnectGroup(d *schema.ResourceData, m interface{}) error {
 func updateCoreCrossConnectGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCrossConnectGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -96,7 +96,7 @@ func updateCoreCrossConnectGroup(d *schema.ResourceData, m interface{}) error {
 func deleteCoreCrossConnectGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCrossConnectGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

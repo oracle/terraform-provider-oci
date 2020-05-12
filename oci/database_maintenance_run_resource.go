@@ -99,7 +99,7 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 func createDatabaseMaintenanceRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseMaintenanceRunResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -107,7 +107,7 @@ func createDatabaseMaintenanceRun(d *schema.ResourceData, m interface{}) error {
 func readDatabaseMaintenanceRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseMaintenanceRunResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -115,7 +115,7 @@ func readDatabaseMaintenanceRun(d *schema.ResourceData, m interface{}) error {
 func updateDatabaseMaintenanceRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseMaintenanceRunResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }

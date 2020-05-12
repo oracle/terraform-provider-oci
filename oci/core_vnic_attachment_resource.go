@@ -168,8 +168,8 @@ func CoreVnicAttachmentResource() *schema.Resource {
 func createCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
-	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).computeClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -177,8 +177,8 @@ func createCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
 func readCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
-	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).computeClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -186,8 +186,8 @@ func readCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
 func updateCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
-	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).computeClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -195,8 +195,8 @@ func updateCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
 func deleteCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
-	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).computeClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

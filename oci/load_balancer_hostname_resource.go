@@ -61,7 +61,7 @@ func LoadBalancerHostnameResource() *schema.Resource {
 func createLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerHostnameResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return CreateResource(d, sync)
 }
@@ -69,7 +69,7 @@ func createLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
 func readLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerHostnameResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return ReadResource(sync)
 }
@@ -77,7 +77,7 @@ func readLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
 func updateLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerHostnameResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return UpdateResource(d, sync)
 }
@@ -85,7 +85,7 @@ func updateLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
 func deleteLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerHostnameResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

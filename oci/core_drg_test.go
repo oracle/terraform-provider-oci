@@ -188,7 +188,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 
 func testAccCheckCoreDrgDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_drg" {
 			noResourceFound = false
@@ -240,7 +240,7 @@ func init() {
 }
 
 func sweepCoreDrgResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	drgIds, err := getDrgIds(compartment)
 	if err != nil {
 		return err
@@ -271,7 +271,7 @@ func getDrgIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listDrgsRequest := oci_core.ListDrgsRequest{}
 	listDrgsRequest.CompartmentId = &compartmentId
@@ -297,7 +297,7 @@ func drgSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func drgSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetDrg(context.Background(), oci_core.GetDrgRequest{
+	_, err := client.virtualNetworkClient().GetDrg(context.Background(), oci_core.GetDrgRequest{
 		DrgId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

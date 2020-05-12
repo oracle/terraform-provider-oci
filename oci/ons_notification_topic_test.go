@@ -244,7 +244,7 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 
 func testAccCheckOnsNotificationTopicDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).notificationControlPlaneClient
+	client := testAccProvider.Meta().(*OracleClients).notificationControlPlaneClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_ons_notification_topic" {
 			noResourceFound = false
@@ -293,7 +293,7 @@ func init() {
 }
 
 func sweepOnsNotificationTopicResource(compartment string) error {
-	notificationControlPlaneClient := GetTestClients(&schema.ResourceData{}).notificationControlPlaneClient
+	notificationControlPlaneClient := GetTestClients(&schema.ResourceData{}).notificationControlPlaneClient()
 	notificationTopicIds, err := getNotificationTopicIds(compartment)
 	if err != nil {
 		return err
@@ -322,7 +322,7 @@ func getNotificationTopicIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	notificationControlPlaneClient := GetTestClients(&schema.ResourceData{}).notificationControlPlaneClient
+	notificationControlPlaneClient := GetTestClients(&schema.ResourceData{}).notificationControlPlaneClient()
 
 	listTopicsRequest := oci_ons.ListTopicsRequest{}
 	listTopicsRequest.CompartmentId = &compartmentId
@@ -350,7 +350,7 @@ func topicSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func topicSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.notificationControlPlaneClient.GetTopic(context.Background(), oci_ons.GetTopicRequest{
+	_, err := client.notificationControlPlaneClient().GetTopic(context.Background(), oci_ons.GetTopicRequest{
 		TopicId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

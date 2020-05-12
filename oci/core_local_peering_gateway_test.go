@@ -265,7 +265,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 
 func testAccCheckCoreLocalPeeringGatewayDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_local_peering_gateway" {
 			noResourceFound = false
@@ -317,7 +317,7 @@ func init() {
 }
 
 func sweepCoreLocalPeeringGatewayResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	localPeeringGatewayIds, err := getLocalPeeringGatewayIds(compartment)
 	if err != nil {
 		return err
@@ -348,7 +348,7 @@ func getLocalPeeringGatewayIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listLocalPeeringGatewaysRequest := oci_core.ListLocalPeeringGatewaysRequest{}
 	listLocalPeeringGatewaysRequest.CompartmentId = &compartmentId
@@ -384,7 +384,7 @@ func localPeeringGatewaySweepWaitCondition(response common.OCIOperationResponse)
 }
 
 func localPeeringGatewaySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetLocalPeeringGateway(context.Background(), oci_core.GetLocalPeeringGatewayRequest{
+	_, err := client.virtualNetworkClient().GetLocalPeeringGateway(context.Background(), oci_core.GetLocalPeeringGatewayRequest{
 		LocalPeeringGatewayId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

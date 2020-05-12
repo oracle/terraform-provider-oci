@@ -508,7 +508,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 func testAccCheckCoreVirtualCircuitDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_virtual_circuit" {
 			noResourceFound = false
@@ -560,7 +560,7 @@ func init() {
 }
 
 func sweepCoreVirtualCircuitResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	virtualCircuitIds, err := getVirtualCircuitIds(compartment)
 	if err != nil {
 		return err
@@ -591,7 +591,7 @@ func getVirtualCircuitIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listVirtualCircuitsRequest := oci_core.ListVirtualCircuitsRequest{}
 	listVirtualCircuitsRequest.CompartmentId = &compartmentId
@@ -618,7 +618,7 @@ func virtualCircuitSweepWaitCondition(response common.OCIOperationResponse) bool
 }
 
 func virtualCircuitSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetVirtualCircuit(context.Background(), oci_core.GetVirtualCircuitRequest{
+	_, err := client.virtualNetworkClient().GetVirtualCircuit(context.Background(), oci_core.GetVirtualCircuitRequest{
 		VirtualCircuitId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

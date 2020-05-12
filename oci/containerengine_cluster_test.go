@@ -223,7 +223,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 
 func testAccCheckContainerengineClusterDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).containerEngineClient
+	client := testAccProvider.Meta().(*OracleClients).containerEngineClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_containerengine_cluster" {
 			noResourceFound = false
@@ -275,7 +275,7 @@ func init() {
 }
 
 func sweepContainerengineClusterResource(compartment string) error {
-	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient()
 	clusterIds, err := getClusterIds(compartment)
 	if err != nil {
 		return err
@@ -306,7 +306,7 @@ func getClusterIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient()
 
 	listClustersRequest := oci_containerengine.ListClustersRequest{}
 	listClustersRequest.CompartmentId = &compartmentId
@@ -332,7 +332,7 @@ func clusterSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func clusterSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.containerEngineClient.GetCluster(context.Background(), oci_containerengine.GetClusterRequest{
+	_, err := client.containerEngineClient().GetCluster(context.Background(), oci_containerengine.GetClusterRequest{
 		ClusterId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

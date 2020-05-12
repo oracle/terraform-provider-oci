@@ -35,7 +35,7 @@ func ResourcemanagerStackTfStateDataSource() *schema.Resource {
 func readSingularResourcemanagerStackTfState(d *schema.ResourceData, m interface{}) error {
 	sync := &ResourcemanagerStackTfStateDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).resourceManagerClient
+	sync.Client = m.(*OracleClients).resourceManagerClient()
 
 	return ReadResource(sync)
 }

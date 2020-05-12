@@ -173,7 +173,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 
 func testAccCheckLoadBalancerListenerDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient
+	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_listener" {
 			noResourceFound = false

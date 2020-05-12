@@ -26,7 +26,7 @@ func CoreBootVolumeDataSource() *schema.Resource {
 func readSingularCoreBootVolume(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return ReadResource(sync)
 }

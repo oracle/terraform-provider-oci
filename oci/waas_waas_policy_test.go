@@ -1212,7 +1212,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 
 func testAccCheckWaasWaasPolicyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).waasClient
+	client := testAccProvider.Meta().(*OracleClients).waasClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_waas_waas_policy" {
 			noResourceFound = false
@@ -1264,7 +1264,7 @@ func init() {
 }
 
 func sweepWaasWaasPolicyResource(compartment string) error {
-	waasClient := GetTestClients(&schema.ResourceData{}).waasClient
+	waasClient := GetTestClients(&schema.ResourceData{}).waasClient()
 	waasPolicyIds, err := getWaasPolicyIds(compartment)
 	if err != nil {
 		return err
@@ -1295,7 +1295,7 @@ func getWaasPolicyIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	waasClient := GetTestClients(&schema.ResourceData{}).waasClient
+	waasClient := GetTestClients(&schema.ResourceData{}).waasClient()
 
 	listWaasPoliciesRequest := oci_waas.ListWaasPoliciesRequest{}
 	listWaasPoliciesRequest.CompartmentId = &compartmentId
@@ -1321,7 +1321,7 @@ func waasPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func waasPolicySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.waasClient.GetWaasPolicy(context.Background(), oci_waas.GetWaasPolicyRequest{
+	_, err := client.waasClient().GetWaasPolicy(context.Background(), oci_waas.GetWaasPolicyRequest{
 		WaasPolicyId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

@@ -25,7 +25,7 @@ func AuditConfigurationDataSource() *schema.Resource {
 func readSingularAuditConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &AuditConfigurationDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).auditClient
+	sync.Client = m.(*OracleClients).auditClient()
 
 	return ReadResource(sync)
 }

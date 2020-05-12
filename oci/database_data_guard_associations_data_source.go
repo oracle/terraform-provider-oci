@@ -34,7 +34,7 @@ func DatabaseDataGuardAssociationsDataSource() *schema.Resource {
 func readDatabaseDataGuardAssociations(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDataGuardAssociationsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

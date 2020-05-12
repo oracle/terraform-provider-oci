@@ -25,7 +25,7 @@ func DatascienceModelProvenanceDataSource() *schema.Resource {
 func readSingularDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelProvenanceDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return ReadResource(sync)
 }

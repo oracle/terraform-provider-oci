@@ -50,7 +50,7 @@ func AnalyticsAnalyticsInstancesDataSource() *schema.Resource {
 func readAnalyticsAnalyticsInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient
+	sync.Client = m.(*OracleClients).analyticsClient()
 
 	return ReadResource(sync)
 }

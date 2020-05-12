@@ -50,7 +50,7 @@ func DatascienceProjectsDataSource() *schema.Resource {
 func readDatascienceProjects(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceProjectsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return ReadResource(sync)
 }

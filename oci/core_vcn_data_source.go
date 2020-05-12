@@ -25,7 +25,7 @@ func CoreVcnDataSource() *schema.Resource {
 func readSingularCoreVcn(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVcnDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

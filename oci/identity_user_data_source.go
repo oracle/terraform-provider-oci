@@ -26,7 +26,7 @@ func IdentityUserDataSource() *schema.Resource {
 func readSingularIdentityUser(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

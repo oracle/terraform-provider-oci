@@ -46,7 +46,7 @@ func CoreVnicAttachmentsDataSource() *schema.Resource {
 func readCoreVnicAttachments(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVnicAttachmentsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

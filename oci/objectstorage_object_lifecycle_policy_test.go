@@ -347,7 +347,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_validations(t *testing.T) {
 
 func testAccCheckObjectStorageObjectLifecyclePolicyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).objectStorageClient
+	client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_objectstorage_object_lifecycle_policy" {
 			noResourceFound = false

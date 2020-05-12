@@ -77,7 +77,7 @@ func CoreInternetGatewayResource() *schema.Resource {
 func createCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -85,7 +85,7 @@ func createCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
 func readCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -93,7 +93,7 @@ func readCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
 func updateCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -101,7 +101,7 @@ func updateCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
 func deleteCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

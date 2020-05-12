@@ -42,7 +42,7 @@ func ContainerengineNodePoolsDataSource() *schema.Resource {
 func readContainerengineNodePools(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineNodePoolsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return ReadResource(sync)
 }
@@ -134,7 +134,7 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 		}
 
 		if r.NodeConfigDetails != nil {
-			nodePool["node_config_details"] = []interface{}{NodePoolNodeConfigDetailsToMap(r.NodeConfigDetails)}
+			nodePool["node_config_details"] = []interface{}{NodePoolNodeConfigDetailsToMap(r.NodeConfigDetails, true)}
 		} else {
 			nodePool["node_config_details"] = nil
 		}

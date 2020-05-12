@@ -332,7 +332,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 func testAccCheckDataflowApplicationDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataFlowClient
+	client := testAccProvider.Meta().(*OracleClients).dataFlowClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dataflow_application" {
 			noResourceFound = false
@@ -384,7 +384,7 @@ func init() {
 }
 
 func sweepDataflowApplicationResource(compartment string) error {
-	dataFlowClient := GetTestClients(&schema.ResourceData{}).dataFlowClient
+	dataFlowClient := GetTestClients(&schema.ResourceData{}).dataFlowClient()
 	applicationIds, err := dataFlowGetApplicationIds(compartment)
 	if err != nil {
 		return err
@@ -415,7 +415,7 @@ func dataFlowGetApplicationIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dataFlowClient := GetTestClients(&schema.ResourceData{}).dataFlowClient
+	dataFlowClient := GetTestClients(&schema.ResourceData{}).dataFlowClient()
 
 	listApplicationsRequest := oci_dataflow.ListApplicationsRequest{}
 	listApplicationsRequest.CompartmentId = &compartmentId
@@ -441,7 +441,7 @@ func dataFlowApplicationSweepWaitCondition(response common.OCIOperationResponse)
 }
 
 func dataFlowApplicationSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.dataFlowClient.GetApplication(context.Background(), oci_dataflow.GetApplicationRequest{
+	_, err := client.dataFlowClient().GetApplication(context.Background(), oci_dataflow.GetApplicationRequest{
 		ApplicationId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

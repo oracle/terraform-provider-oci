@@ -50,7 +50,7 @@ func DatabaseGiVersionsDataSource() *schema.Resource {
 func readDatabaseGiVersions(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseGiVersionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

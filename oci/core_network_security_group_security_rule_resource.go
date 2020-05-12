@@ -235,28 +235,28 @@ func CoreNetworkSecurityGroupSecurityRuleResource() *schema.Resource {
 func createCoreNetworkSecurityGroupSecurityRule(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSecurityRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return CreateResource(d, sync)
 }
 
 func readCoreNetworkSecurityGroupSecurityRule(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSecurityRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return ReadResource(sync)
 }
 
 func updateCoreNetworkSecurityGroupSecurityRule(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSecurityRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return UpdateResource(d, sync)
 }
 
 func deleteCoreNetworkSecurityGroupSecurityRule(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSecurityRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return DeleteResource(d, sync)
 }
 

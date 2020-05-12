@@ -124,7 +124,7 @@ func HealthChecksHttpMonitorResource() *schema.Resource {
 func createHealthChecksHttpMonitor(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksHttpMonitorResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return CreateResource(d, sync)
 }
@@ -132,7 +132,7 @@ func createHealthChecksHttpMonitor(d *schema.ResourceData, m interface{}) error 
 func readHealthChecksHttpMonitor(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksHttpMonitorResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return ReadResource(sync)
 }
@@ -140,7 +140,7 @@ func readHealthChecksHttpMonitor(d *schema.ResourceData, m interface{}) error {
 func updateHealthChecksHttpMonitor(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksHttpMonitorResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return UpdateResource(d, sync)
 }
@@ -148,7 +148,7 @@ func updateHealthChecksHttpMonitor(d *schema.ResourceData, m interface{}) error 
 func deleteHealthChecksHttpMonitor(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksHttpMonitorResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

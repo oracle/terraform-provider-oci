@@ -25,7 +25,7 @@ func CoreCrossConnectDataSource() *schema.Resource {
 func readSingularCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCrossConnectDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

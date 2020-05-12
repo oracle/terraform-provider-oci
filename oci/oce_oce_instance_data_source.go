@@ -25,7 +25,7 @@ func OceOceInstanceDataSource() *schema.Resource {
 func readSingularOceOceInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OceOceInstanceDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).oceInstanceClient
+	sync.Client = m.(*OracleClients).oceInstanceClient()
 
 	return ReadResource(sync)
 }

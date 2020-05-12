@@ -129,7 +129,7 @@ func CoreDhcpOptionsResource() *schema.Resource {
 func createCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDhcpOptionsResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -137,7 +137,7 @@ func createCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
 func readCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDhcpOptionsResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -145,7 +145,7 @@ func readCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
 func updateCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDhcpOptionsResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -153,7 +153,7 @@ func updateCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
 func deleteCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDhcpOptionsResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -203,7 +203,7 @@ func DataflowInvokeRunResource() *schema.Resource {
 func createDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowInvokeRunResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return CreateResource(d, sync)
 }
@@ -211,7 +211,7 @@ func createDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
 func readDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowInvokeRunResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return ReadResource(sync)
 }
@@ -219,7 +219,7 @@ func readDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
 func updateDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowInvokeRunResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return UpdateResource(d, sync)
 }
@@ -227,7 +227,7 @@ func updateDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
 func deleteDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowInvokeRunResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

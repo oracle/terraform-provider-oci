@@ -286,7 +286,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 
 func testAccCheckStreamingStreamPoolDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).streamAdminClient
+	client := testAccProvider.Meta().(*OracleClients).streamAdminClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_streaming_stream_pool" {
 			noResourceFound = false
@@ -338,7 +338,7 @@ func init() {
 }
 
 func sweepStreamingStreamPoolResource(compartment string) error {
-	streamAdminClient := GetTestClients(&schema.ResourceData{}).streamAdminClient
+	streamAdminClient := GetTestClients(&schema.ResourceData{}).streamAdminClient()
 	streamPoolIds, err := getStreamPoolIds(compartment)
 	if err != nil {
 		return err
@@ -369,7 +369,7 @@ func getStreamPoolIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	streamAdminClient := GetTestClients(&schema.ResourceData{}).streamAdminClient
+	streamAdminClient := GetTestClients(&schema.ResourceData{}).streamAdminClient()
 
 	listStreamPoolsRequest := oci_streaming.ListStreamPoolsRequest{}
 	listStreamPoolsRequest.CompartmentId = &compartmentId
@@ -396,7 +396,7 @@ func streamPoolSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func streamPoolSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.streamAdminClient.GetStreamPool(context.Background(), oci_streaming.GetStreamPoolRequest{
+	_, err := client.streamAdminClient().GetStreamPool(context.Background(), oci_streaming.GetStreamPoolRequest{
 		StreamPoolId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

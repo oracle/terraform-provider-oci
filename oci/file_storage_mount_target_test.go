@@ -42,7 +42,7 @@ var (
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `mount-target-5`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"hostname_label":      Representation{repType: Optional, create: `hostnameLabel`},
+		"hostname_label":      Representation{repType: Optional, create: `hostnamelabel`},
 		"ip_address":          Representation{repType: Optional, create: `10.0.0.5`},
 		"nsg_ids":             Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
 	}
@@ -116,7 +116,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
@@ -151,7 +151,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
@@ -181,7 +181,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
@@ -224,14 +224,11 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"hostname_label",
-					"ip_address",
-				},
-				ResourceName: resourceName,
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
 			},
 		},
 	})
@@ -271,7 +268,7 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 
 func testAccCheckFileStorageMountTargetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).fileStorageClient
+	client := testAccProvider.Meta().(*OracleClients).fileStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_file_storage_mount_target" {
 			noResourceFound = false
@@ -323,7 +320,7 @@ func init() {
 }
 
 func sweepFileStorageMountTargetResource(compartment string) error {
-	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient()
 	mountTargetIds, err := getMountTargetIds(compartment)
 	if err != nil {
 		return err
@@ -354,7 +351,7 @@ func getMountTargetIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient()
 
 	listMountTargetsRequest := oci_file_storage.ListMountTargetsRequest{}
 	listMountTargetsRequest.CompartmentId = &compartmentId
@@ -391,7 +388,7 @@ func mountTargetSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func mountTargetSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.fileStorageClient.GetMountTarget(context.Background(), oci_file_storage.GetMountTargetRequest{
+	_, err := client.fileStorageClient().GetMountTarget(context.Background(), oci_file_storage.GetMountTargetRequest{
 		MountTargetId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

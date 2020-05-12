@@ -25,7 +25,7 @@ func KmsVaultDataSource() *schema.Resource {
 func readSingularKmsVault(d *schema.ResourceData, m interface{}) error {
 	sync := &KmsVaultDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).kmsVaultClient
+	sync.Client = m.(*OracleClients).kmsVaultClient()
 
 	return ReadResource(sync)
 }

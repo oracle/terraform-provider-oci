@@ -72,7 +72,7 @@ func CoreImagesDataSource() *schema.Resource {
 func readCoreImages(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreImagesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

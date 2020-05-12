@@ -141,7 +141,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient
+	sync.Client = m.(*OracleClients).analyticsClient()
 
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
@@ -201,7 +201,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StopOacInstance() error {
 func readAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient
+	sync.Client = m.(*OracleClients).analyticsClient()
 
 	return ReadResource(sync)
 }
@@ -209,7 +209,7 @@ func readAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error
 func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient
+	sync.Client = m.(*OracleClients).analyticsClient()
 
 	// switch to power on
 	powerOn, powerOff := false, false
@@ -247,7 +247,7 @@ func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 func deleteAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient
+	sync.Client = m.(*OracleClients).analyticsClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

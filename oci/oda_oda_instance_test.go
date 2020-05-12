@@ -239,7 +239,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 
 func testAccCheckOdaOdaInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).odaClient
+	client := testAccProvider.Meta().(*OracleClients).odaClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_oda_oda_instance" {
 			noResourceFound = false
@@ -291,7 +291,7 @@ func init() {
 }
 
 func sweepOdaOdaInstanceResource(compartment string) error {
-	odaClient := GetTestClients(&schema.ResourceData{}).odaClient
+	odaClient := GetTestClients(&schema.ResourceData{}).odaClient()
 	odaInstanceIds, err := getOdaInstanceIds(compartment)
 	if err != nil {
 		return err
@@ -322,7 +322,7 @@ func getOdaInstanceIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	odaClient := GetTestClients(&schema.ResourceData{}).odaClient
+	odaClient := GetTestClients(&schema.ResourceData{}).odaClient()
 
 	listOdaInstancesRequest := oci_oda.ListOdaInstancesRequest{}
 	listOdaInstancesRequest.CompartmentId = &compartmentId
@@ -349,7 +349,7 @@ func odaInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func odaInstanceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.odaClient.GetOdaInstance(context.Background(), oci_oda.GetOdaInstanceRequest{
+	_, err := client.odaClient().GetOdaInstance(context.Background(), oci_oda.GetOdaInstanceRequest{
 		OdaInstanceId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

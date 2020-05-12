@@ -239,7 +239,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 
 func testAccCheckWaasCustomProtectionRuleDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).waasClient
+	client := testAccProvider.Meta().(*OracleClients).waasClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_waas_custom_protection_rule" {
 			noResourceFound = false
@@ -291,7 +291,7 @@ func init() {
 }
 
 func sweepWaasCustomProtectionRuleResource(compartment string) error {
-	waasClient := GetTestClients(&schema.ResourceData{}).waasClient
+	waasClient := GetTestClients(&schema.ResourceData{}).waasClient()
 	customProtectionRuleIds, err := getCustomProtectionRuleIds(compartment)
 	if err != nil {
 		return err
@@ -322,7 +322,7 @@ func getCustomProtectionRuleIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	waasClient := GetTestClients(&schema.ResourceData{}).waasClient
+	waasClient := GetTestClients(&schema.ResourceData{}).waasClient()
 
 	listCustomProtectionRulesRequest := oci_waas.ListCustomProtectionRulesRequest{}
 	listCustomProtectionRulesRequest.CompartmentId = &compartmentId
@@ -349,7 +349,7 @@ func customProtectionRuleSweepWaitCondition(response common.OCIOperationResponse
 }
 
 func customProtectionRuleSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.waasClient.GetCustomProtectionRule(context.Background(), oci_waas.GetCustomProtectionRuleRequest{
+	_, err := client.waasClient().GetCustomProtectionRule(context.Background(), oci_waas.GetCustomProtectionRuleRequest{
 		CustomProtectionRuleId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

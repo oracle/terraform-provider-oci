@@ -146,7 +146,7 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 func readMonitoringMetricData(d *schema.ResourceData, m interface{}) error {
 	sync := &MonitoringMetricDataDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).monitoringClient
+	sync.Client = m.(*OracleClients).monitoringClient()
 
 	return ReadResource(sync)
 }

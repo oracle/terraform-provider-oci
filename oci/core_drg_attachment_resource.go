@@ -69,7 +69,7 @@ func CoreDrgAttachmentResource() *schema.Resource {
 func createCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -77,7 +77,7 @@ func createCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
 func readCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -85,7 +85,7 @@ func readCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
 func updateCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -93,7 +93,7 @@ func updateCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
 func deleteCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

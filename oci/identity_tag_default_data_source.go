@@ -25,7 +25,7 @@ func IdentityTagDefaultDataSource() *schema.Resource {
 func readSingularIdentityTagDefault(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagDefaultDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

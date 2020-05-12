@@ -308,7 +308,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 
 func testAccCheckCoreBootVolumeDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).blockstorageClient
+	client := testAccProvider.Meta().(*OracleClients).blockstorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_boot_volume" {
 			noResourceFound = false
@@ -347,7 +347,7 @@ func testAccCheckCoreBootVolumeDestroy(s *terraform.State) error {
 }
 
 func bootVolumeResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *oci_common.RetryPolicy) error {
-	_, err := client.blockstorageClient.GetBootVolume(context.Background(), oci_core.GetBootVolumeRequest{
+	_, err := client.blockstorageClient().GetBootVolume(context.Background(), oci_core.GetBootVolumeRequest{
 		BootVolumeId: resourceId,
 		RequestMetadata: oci_common.RequestMetadata{
 			RetryPolicy: retryPolicy,
@@ -378,7 +378,7 @@ func init() {
 }
 
 func sweepCoreBootVolumeResource(compartment string) error {
-	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient()
 	bootVolumeIds, err := getBootVolumeIds(compartment)
 	if err != nil {
 		return err
@@ -409,7 +409,7 @@ func getBootVolumeIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient()
 
 	listBootVolumesRequest := oci_core.ListBootVolumesRequest{}
 	listBootVolumesRequest.CompartmentId = &compartmentId
@@ -445,7 +445,7 @@ func bootVolumeSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func bootVolumeSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.blockstorageClient.GetBootVolume(context.Background(), oci_core.GetBootVolumeRequest{
+	_, err := client.blockstorageClient().GetBootVolume(context.Background(), oci_core.GetBootVolumeRequest{
 		BootVolumeId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

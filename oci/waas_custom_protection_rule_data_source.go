@@ -25,7 +25,7 @@ func WaasCustomProtectionRuleDataSource() *schema.Resource {
 func readSingularWaasCustomProtectionRule(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasCustomProtectionRuleDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return ReadResource(sync)
 }

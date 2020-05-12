@@ -162,7 +162,7 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 func readLoadBalancerListenerRules(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerListenerRulesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return ReadResource(sync)
 }

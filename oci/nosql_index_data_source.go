@@ -33,7 +33,7 @@ func NosqlIndexDataSource() *schema.Resource {
 func readSingularNosqlIndex(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlIndexDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 
 	return ReadResource(sync)
 }

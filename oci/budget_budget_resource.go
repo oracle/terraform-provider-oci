@@ -129,7 +129,7 @@ func BudgetBudgetResource() *schema.Resource {
 func createBudgetBudget(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetBudgetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 
 	return CreateResource(d, sync)
 }
@@ -137,7 +137,7 @@ func createBudgetBudget(d *schema.ResourceData, m interface{}) error {
 func readBudgetBudget(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetBudgetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 
 	return ReadResource(sync)
 }
@@ -145,7 +145,7 @@ func readBudgetBudget(d *schema.ResourceData, m interface{}) error {
 func updateBudgetBudget(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetBudgetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 
 	return UpdateResource(d, sync)
 }
@@ -153,7 +153,7 @@ func updateBudgetBudget(d *schema.ResourceData, m interface{}) error {
 func deleteBudgetBudget(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetBudgetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -17,7 +17,7 @@ import (
 type TerraformVersionCollection struct {
 
 	// Collection of supported Terraform versions.
-	Items []TerraformVersionSummary `mandatory:"false" json:"items"`
+	Items []TerraformVersionSummary `mandatory:"true" json:"items"`
 }
 
 func (m TerraformVersionCollection) String() string {

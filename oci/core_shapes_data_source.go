@@ -198,7 +198,7 @@ func CoreShapesDataSource() *schema.Resource {
 func readCoreShapes(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreShapesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

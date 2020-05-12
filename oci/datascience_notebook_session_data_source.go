@@ -25,7 +25,7 @@ func DatascienceNotebookSessionDataSource() *schema.Resource {
 func readSingularDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return ReadResource(sync)
 }

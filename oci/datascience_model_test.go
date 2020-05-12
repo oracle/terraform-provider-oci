@@ -242,7 +242,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 
 func testAccCheckDatascienceModelDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataScienceClient
+	client := testAccProvider.Meta().(*OracleClients).dataScienceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_datascience_model" {
 			noResourceFound = false
@@ -294,7 +294,7 @@ func init() {
 }
 
 func sweepDatascienceModelResource(compartment string) error {
-	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient
+	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient()
 	modelIds, err := getModelIds(compartment)
 	if err != nil {
 		return err
@@ -325,7 +325,7 @@ func getModelIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient
+	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient()
 
 	listModelsRequest := oci_datascience.ListModelsRequest{}
 	listModelsRequest.CompartmentId = &compartmentId
@@ -352,7 +352,7 @@ func modelSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func modelSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.dataScienceClient.GetModel(context.Background(), oci_datascience.GetModelRequest{
+	_, err := client.dataScienceClient().GetModel(context.Background(), oci_datascience.GetModelRequest{
 		ModelId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,
