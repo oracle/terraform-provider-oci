@@ -84,6 +84,10 @@ func DatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -244,6 +248,10 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 	}
 
 	s.D.Set("type", s.Res.Type)
+
+	if s.Res.Version != nil {
+		s.D.Set("version", *s.Res.Version)
+	}
 
 	return nil
 }
