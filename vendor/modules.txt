@@ -294,23 +294,22 @@ github.com/hashicorp/go-uuid
 # github.com/hashicorp/go-version v1.1.0
 github.com/hashicorp/go-version
 # github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce
-github.com/hashicorp/hcl/hcl/fmtcmd
 github.com/hashicorp/hcl
-github.com/hashicorp/hcl/hcl/printer
 github.com/hashicorp/hcl/hcl/ast
 github.com/hashicorp/hcl/hcl/parser
 github.com/hashicorp/hcl/hcl/token
 github.com/hashicorp/hcl/json/parser
+github.com/hashicorp/hcl/hcl/printer
 github.com/hashicorp/hcl/hcl/scanner
 github.com/hashicorp/hcl/hcl/strconv
 github.com/hashicorp/hcl/json/scanner
 github.com/hashicorp/hcl/json/token
 # github.com/hashicorp/hcl2 v0.0.0-20190618163856-0b64543c968c
+github.com/hashicorp/hcl2/hclwrite
 github.com/hashicorp/hcl2/hcl
 github.com/hashicorp/hcl2/hcl/hclsyntax
 github.com/hashicorp/hcl2/hcldec
 github.com/hashicorp/hcl2/hcl/json
-github.com/hashicorp/hcl2/hclwrite
 github.com/hashicorp/hcl2/gohcl
 github.com/hashicorp/hcl2/hclparse
 github.com/hashicorp/hcl2/ext/typeexpr
@@ -487,7 +486,7 @@ github.com/modern-go/reflect2
 github.com/nu7hatch/gouuid
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk v19.1.0+incompatible => ../../oracle/oci-go-sdk
+# github.com/oracle/oci-go-sdk v19.2.0+incompatible
 github.com/oracle/oci-go-sdk/analytics
 github.com/oracle/oci-go-sdk/apigateway
 github.com/oracle/oci-go-sdk/audit
@@ -543,7 +542,7 @@ github.com/satori/go.uuid
 # github.com/spf13/afero v1.2.1
 github.com/spf13/afero
 github.com/spf13/afero/mem
-# github.com/stretchr/testify v1.4.0
+# github.com/stretchr/testify v1.3.0
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/suite
 github.com/stretchr/testify/require
