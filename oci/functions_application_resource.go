@@ -89,7 +89,7 @@ func FunctionsApplicationResource() *schema.Resource {
 func createFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &FunctionsApplicationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).functionsManagementClient
+	sync.Client = m.(*OracleClients).functionsManagementClient()
 
 	return CreateResource(d, sync)
 }
@@ -97,7 +97,7 @@ func createFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 func readFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &FunctionsApplicationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).functionsManagementClient
+	sync.Client = m.(*OracleClients).functionsManagementClient()
 
 	return ReadResource(sync)
 }
@@ -105,7 +105,7 @@ func readFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 func updateFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &FunctionsApplicationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).functionsManagementClient
+	sync.Client = m.(*OracleClients).functionsManagementClient()
 
 	return UpdateResource(d, sync)
 }
@@ -113,7 +113,7 @@ func updateFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 func deleteFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &FunctionsApplicationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).functionsManagementClient
+	sync.Client = m.(*OracleClients).functionsManagementClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

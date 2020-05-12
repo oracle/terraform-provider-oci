@@ -29,7 +29,7 @@ func NosqlTableDataSource() *schema.Resource {
 func readSingularNosqlTable(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTableDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 
 	return ReadResource(sync)
 }

@@ -35,7 +35,7 @@ func IdentitySwiftPasswordsDataSource() *schema.Resource {
 func readIdentitySwiftPasswords(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySwiftPasswordsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

@@ -42,7 +42,7 @@ func BdsBdsInstancesDataSource() *schema.Resource {
 func readBdsBdsInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &BdsBdsInstancesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).bdsClient
+	sync.Client = m.(*OracleClients).bdsClient()
 
 	return ReadResource(sync)
 }

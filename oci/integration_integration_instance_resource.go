@@ -109,7 +109,7 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 func createIntegrationIntegrationInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &IntegrationIntegrationInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).integrationInstanceClient
+	sync.Client = m.(*OracleClients).integrationInstanceClient()
 
 	var powerOff = false
 	if configState, ok := sync.D.GetOkExists("state"); ok {
@@ -140,7 +140,7 @@ func powerOffIntegrationInstance(d *schema.ResourceData, sync *IntegrationIntegr
 func readIntegrationIntegrationInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &IntegrationIntegrationInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).integrationInstanceClient
+	sync.Client = m.(*OracleClients).integrationInstanceClient()
 
 	return ReadResource(sync)
 }
@@ -148,7 +148,7 @@ func readIntegrationIntegrationInstance(d *schema.ResourceData, m interface{}) e
 func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &IntegrationIntegrationInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).integrationInstanceClient
+	sync.Client = m.(*OracleClients).integrationInstanceClient()
 
 	// Start/Stop Integration instance
 	powerOn, powerOff := false, false
@@ -192,7 +192,7 @@ func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 func deleteIntegrationIntegrationInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &IntegrationIntegrationInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).integrationInstanceClient
+	sync.Client = m.(*OracleClients).integrationInstanceClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

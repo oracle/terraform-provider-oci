@@ -46,7 +46,7 @@ func CoreRouteTablesDataSource() *schema.Resource {
 func readCoreRouteTables(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreRouteTablesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

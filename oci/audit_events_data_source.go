@@ -293,7 +293,7 @@ func AuditAuditEventsDataSource() *schema.Resource {
 func readAuditAuditEvents(d *schema.ResourceData, m interface{}) error {
 	sync := &AuditAuditEventsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).auditClient
+	sync.Client = m.(*OracleClients).auditClient()
 
 	return ReadResource(sync)
 }

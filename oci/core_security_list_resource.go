@@ -400,7 +400,7 @@ func CoreSecurityListResource() *schema.Resource {
 func createCoreSecurityList(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSecurityListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -408,7 +408,7 @@ func createCoreSecurityList(d *schema.ResourceData, m interface{}) error {
 func readCoreSecurityList(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSecurityListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -416,7 +416,7 @@ func readCoreSecurityList(d *schema.ResourceData, m interface{}) error {
 func updateCoreSecurityList(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSecurityListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -424,7 +424,7 @@ func updateCoreSecurityList(d *schema.ResourceData, m interface{}) error {
 func deleteCoreSecurityList(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSecurityListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

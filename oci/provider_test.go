@@ -304,7 +304,7 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 	// compartmentalized and registered with the test provider in a scalable manner.
 	maintenanceRebootTime, ok := data.GetOkExists("test_time_maintenance_reboot_due")
 	if ok {
-		computeClient := client.(*OracleClients).computeClient
+		computeClient := client.(*OracleClients).computeClient()
 		baseInterceptor := computeClient.Interceptor
 		computeClient.Interceptor = func(r *http.Request) error {
 			if err := baseInterceptor(r); err != nil {
@@ -458,13 +458,13 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 		assert.NotNil(t, c.Signer)
 	}
 
-	testClient(&oracleClient.blockstorageClient.BaseClient)
-	testClient(&oracleClient.computeClient.BaseClient)
-	testClient(&oracleClient.databaseClient.BaseClient)
-	testClient(&oracleClient.identityClient.BaseClient)
-	testClient(&oracleClient.virtualNetworkClient.BaseClient)
-	testClient(&oracleClient.objectStorageClient.BaseClient)
-	testClient(&oracleClient.loadBalancerClient.BaseClient)
+	testClient(&oracleClient.blockstorageClient().BaseClient)
+	testClient(&oracleClient.computeClient().BaseClient)
+	testClient(&oracleClient.databaseClient().BaseClient)
+	testClient(&oracleClient.identityClient().BaseClient)
+	testClient(&oracleClient.virtualNetworkClient().BaseClient)
+	testClient(&oracleClient.objectStorageClient().BaseClient)
+	testClient(&oracleClient.loadBalancerClient().BaseClient)
 }
 
 func writeConfigFile() (string, string, error) {

@@ -38,7 +38,7 @@ func CoreLocalPeeringGatewaysDataSource() *schema.Resource {
 func readCoreLocalPeeringGateways(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreLocalPeeringGatewaysDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

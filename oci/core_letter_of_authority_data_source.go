@@ -53,7 +53,7 @@ func CoreLetterOfAuthorityDataSource() *schema.Resource {
 func readSingularCoreLetterOfAuthority(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreLetterOfAuthorityDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

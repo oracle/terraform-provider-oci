@@ -25,7 +25,7 @@ func DatabaseAutonomousContainerDatabaseDataSource() *schema.Resource {
 func readSingularDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousContainerDatabaseDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

@@ -25,7 +25,7 @@ func ApigatewayGatewayDataSource() *schema.Resource {
 func readSingularApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayGatewayDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).gatewayClient
+	sync.Client = m.(*OracleClients).gatewayClient()
 
 	return ReadResource(sync)
 }

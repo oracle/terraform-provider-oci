@@ -35,7 +35,7 @@ func IdentityCustomerSecretKeysDataSource() *schema.Resource {
 func readIdentityCustomerSecretKeys(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeysDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

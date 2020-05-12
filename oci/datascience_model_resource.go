@@ -123,7 +123,7 @@ func DatascienceModelResource() *schema.Resource {
 func createDatascienceModel(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	var deactivateModel = false
 	if state, ok := sync.D.GetOkExists("state"); ok {
@@ -152,7 +152,7 @@ func createDatascienceModel(d *schema.ResourceData, m interface{}) error {
 func readDatascienceModel(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return ReadResource(sync)
 }
@@ -160,7 +160,7 @@ func readDatascienceModel(d *schema.ResourceData, m interface{}) error {
 func updateDatascienceModel(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	// Activate/Deactivate Model
 	activate, deactivate := false, false
@@ -202,7 +202,7 @@ func updateDatascienceModel(d *schema.ResourceData, m interface{}) error {
 func deleteDatascienceModel(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

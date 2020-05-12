@@ -76,7 +76,7 @@ func CoreConsoleHistoryResource() *schema.Resource {
 func createCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreConsoleHistoryResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return CreateResource(d, sync)
 }
@@ -84,7 +84,7 @@ func createCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
 func readCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreConsoleHistoryResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }
@@ -92,7 +92,7 @@ func readCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
 func updateCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreConsoleHistoryResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return UpdateResource(d, sync)
 }
@@ -100,7 +100,7 @@ func updateCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
 func deleteCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreConsoleHistoryResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

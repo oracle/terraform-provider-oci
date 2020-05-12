@@ -330,7 +330,7 @@ func DatabaseDatabaseResource() *schema.Resource {
 func createDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -338,7 +338,7 @@ func createDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 func readDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -346,7 +346,7 @@ func readDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 func deleteDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -777,7 +777,7 @@ func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabase
 func updateDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }

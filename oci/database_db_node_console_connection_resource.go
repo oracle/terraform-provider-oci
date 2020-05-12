@@ -67,7 +67,7 @@ func DatabaseDbNodeConsoleConnectionResource() *schema.Resource {
 func createDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -75,7 +75,7 @@ func createDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}
 func readDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -83,7 +83,7 @@ func readDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) 
 func deleteDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

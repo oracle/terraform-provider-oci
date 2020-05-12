@@ -65,7 +65,7 @@ func WaasWaasPoliciesDataSource() *schema.Resource {
 func readWaasWaasPolicies(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasWaasPoliciesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return ReadResource(sync)
 }

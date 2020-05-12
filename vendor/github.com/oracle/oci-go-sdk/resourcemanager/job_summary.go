@@ -46,7 +46,10 @@ type JobSummary struct {
 	// The date and time the job succeeded or failed.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
-	// Current state of the specified job. Allowed values are:
+	// Current state of the specified job.
+	// For more information about resource states in Resource Manager, see
+	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts).
+	// Allowable values:
 	// - ACCEPTED
 	// - IN_PROGRESS
 	// - FAILED

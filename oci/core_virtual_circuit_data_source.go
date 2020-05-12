@@ -26,7 +26,7 @@ func CoreVirtualCircuitDataSource() *schema.Resource {
 func readSingularCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVirtualCircuitDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

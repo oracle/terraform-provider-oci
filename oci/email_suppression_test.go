@@ -131,7 +131,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 
 func testAccCheckEmailSuppressionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).emailClient
+	client := testAccProvider.Meta().(*OracleClients).emailClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_email_suppression" {
 			noResourceFound = false
@@ -175,7 +175,7 @@ func init() {
 }
 
 func sweepEmailSuppressionResource(compartment string) error {
-	emailClient := GetTestClients(&schema.ResourceData{}).emailClient
+	emailClient := GetTestClients(&schema.ResourceData{}).emailClient()
 	// EmailSuppressionResource can only run on root compartment
 	compartment = getEnvSettingWithBlankDefault("tenancy_ocid")
 	suppressionIds, err := getSuppressionIds(compartment)
@@ -206,7 +206,7 @@ func getSuppressionIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	emailClient := GetTestClients(&schema.ResourceData{}).emailClient
+	emailClient := GetTestClients(&schema.ResourceData{}).emailClient()
 
 	listSuppressionsRequest := oci_email.ListSuppressionsRequest{}
 	listSuppressionsRequest.CompartmentId = &compartmentId

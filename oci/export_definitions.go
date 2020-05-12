@@ -4,16 +4,19 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
 var exportBdsBdsInstanceHints = &TerraformResourceHints{
-	resourceClass:        "oci_bds_bds_instance",
-	datasourceClass:      "oci_bds_bds_instances",
-	datasourceItemsAttr:  "bds_instances",
-	resourceAbbreviation: "bds_instance",
+	resourceClass:          "oci_bds_bds_instance",
+	datasourceClass:        "oci_bds_bds_instances",
+	datasourceItemsAttr:    "bds_instances",
+	resourceAbbreviation:   "bds_instance",
+	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_bds.BdsInstanceLifecycleStateActive),
 	},
@@ -98,17 +101,19 @@ var exportCoreImageHints = &TerraformResourceHints{
 }
 
 var exportCoreInstanceConfigurationHints = &TerraformResourceHints{
-	resourceClass:        "oci_core_instance_configuration",
-	datasourceClass:      "oci_core_instance_configurations",
-	datasourceItemsAttr:  "instance_configurations",
-	resourceAbbreviation: "instance_configuration",
+	resourceClass:          "oci_core_instance_configuration",
+	datasourceClass:        "oci_core_instance_configurations",
+	datasourceItemsAttr:    "instance_configurations",
+	resourceAbbreviation:   "instance_configuration",
+	requireResourceRefresh: true,
 }
 
 var exportCoreInstancePoolHints = &TerraformResourceHints{
-	resourceClass:        "oci_core_instance_pool",
-	datasourceClass:      "oci_core_instance_pools",
-	datasourceItemsAttr:  "instance_pools",
-	resourceAbbreviation: "instance_pool",
+	resourceClass:          "oci_core_instance_pool",
+	datasourceClass:        "oci_core_instance_pools",
+	datasourceItemsAttr:    "instance_pools",
+	resourceAbbreviation:   "instance_pool",
+	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_core.InstancePoolLifecycleStateRunning),
 	},
@@ -347,6 +352,28 @@ var exportDatabaseDbSystemHints = &TerraformResourceHints{
 	},
 }
 
+var exportFunctionsApplicationHints = &TerraformResourceHints{
+	resourceClass:          "oci_functions_application",
+	datasourceClass:        "oci_functions_applications",
+	datasourceItemsAttr:    "applications",
+	resourceAbbreviation:   "application",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_functions.ApplicationLifecycleStateActive),
+	},
+}
+
+var exportFunctionsFunctionHints = &TerraformResourceHints{
+	resourceClass:          "oci_functions_function",
+	datasourceClass:        "oci_functions_functions",
+	datasourceItemsAttr:    "functions",
+	resourceAbbreviation:   "function",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_functions.FunctionLifecycleStateActive),
+	},
+}
+
 var exportIdentityApiKeyHints = &TerraformResourceHints{
 	resourceClass:        "oci_identity_api_key",
 	datasourceClass:      "oci_identity_api_keys",
@@ -510,12 +537,24 @@ var exportIdentityTagNamespaceHints = &TerraformResourceHints{
 }
 
 var exportIdentityTagHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_tag",
-	datasourceClass:      "oci_identity_tags",
-	datasourceItemsAttr:  "tags",
-	resourceAbbreviation: "tag",
+	resourceClass:          "oci_identity_tag",
+	datasourceClass:        "oci_identity_tags",
+	datasourceItemsAttr:    "tags",
+	resourceAbbreviation:   "tag",
+	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_identity.TagLifecycleStateActive),
+	},
+}
+
+var exportLimitsQuotaHints = &TerraformResourceHints{
+	resourceClass:          "oci_limits_quota",
+	datasourceClass:        "oci_limits_quotas",
+	datasourceItemsAttr:    "quotas",
+	resourceAbbreviation:   "quota",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_limits.QuotaLifecycleStateActive),
 	},
 }
 
@@ -577,10 +616,11 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 }
 
 var exportObjectStorageBucketHints = &TerraformResourceHints{
-	resourceClass:        "oci_objectstorage_bucket",
-	datasourceClass:      "oci_objectstorage_bucket_summaries",
-	datasourceItemsAttr:  "bucket_summaries",
-	resourceAbbreviation: "bucket",
+	resourceClass:          "oci_objectstorage_bucket",
+	datasourceClass:        "oci_objectstorage_bucket_summaries",
+	datasourceItemsAttr:    "bucket_summaries",
+	resourceAbbreviation:   "bucket",
+	requireResourceRefresh: true,
 }
 
 var exportObjectStorageNamespaceHints = &TerraformResourceHints{

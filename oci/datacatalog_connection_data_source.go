@@ -41,7 +41,7 @@ func DatacatalogConnectionDataSource() *schema.Resource {
 func readSingularDatacatalogConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogConnectionDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataCatalogClient
+	sync.Client = m.(*OracleClients).dataCatalogClient()
 
 	return ReadResource(sync)
 }

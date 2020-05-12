@@ -224,7 +224,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 func testAccCheckOnsSubscriptionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).notificationDataPlaneClient
+	client := testAccProvider.Meta().(*OracleClients).notificationDataPlaneClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_ons_subscription" {
 			noResourceFound = false
@@ -276,7 +276,7 @@ func init() {
 }
 
 func sweepOnsSubscriptionResource(compartment string) error {
-	notificationDataPlaneClient := GetTestClients(&schema.ResourceData{}).notificationDataPlaneClient
+	notificationDataPlaneClient := GetTestClients(&schema.ResourceData{}).notificationDataPlaneClient()
 	subscriptionIds, err := getSubscriptionIds(compartment)
 	if err != nil {
 		return err
@@ -307,7 +307,7 @@ func getSubscriptionIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	notificationDataPlaneClient := GetTestClients(&schema.ResourceData{}).notificationDataPlaneClient
+	notificationDataPlaneClient := GetTestClients(&schema.ResourceData{}).notificationDataPlaneClient()
 
 	listSubscriptionsRequest := oci_ons.ListSubscriptionsRequest{}
 	listSubscriptionsRequest.CompartmentId = &compartmentId
@@ -333,7 +333,7 @@ func subscriptionSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func subscriptionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.notificationDataPlaneClient.GetSubscription(context.Background(), oci_ons.GetSubscriptionRequest{
+	_, err := client.notificationDataPlaneClient().GetSubscription(context.Background(), oci_ons.GetSubscriptionRequest{
 		SubscriptionId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

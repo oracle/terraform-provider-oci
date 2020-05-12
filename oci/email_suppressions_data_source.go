@@ -48,7 +48,7 @@ func EmailSuppressionsDataSource() *schema.Resource {
 func readEmailSuppressions(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailSuppressionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).emailClient
+	sync.Client = m.(*OracleClients).emailClient()
 
 	return ReadResource(sync)
 }

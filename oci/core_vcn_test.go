@@ -242,7 +242,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 
 func testAccCheckCoreVcnDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_vcn" {
 			noResourceFound = false
@@ -294,7 +294,7 @@ func init() {
 }
 
 func sweepCoreVcnResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	vcnIds, err := getVcnIds(compartment)
 	if err != nil {
 		return err
@@ -325,7 +325,7 @@ func getVcnIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listVcnsRequest := oci_core.ListVcnsRequest{}
 	listVcnsRequest.CompartmentId = &compartmentId
@@ -356,7 +356,7 @@ func vcnSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func vcnSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetVcn(context.Background(), oci_core.GetVcnRequest{
+	_, err := client.virtualNetworkClient().GetVcn(context.Background(), oci_core.GetVcnRequest{
 		VcnId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

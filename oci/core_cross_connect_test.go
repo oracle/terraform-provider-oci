@@ -245,7 +245,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 
 func testAccCheckCoreCrossConnectDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_cross_connect" {
 			noResourceFound = false
@@ -297,7 +297,7 @@ func init() {
 }
 
 func sweepCoreCrossConnectResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	crossConnectIds, err := getCrossConnectIds(compartment)
 	if err != nil {
 		return err
@@ -328,7 +328,7 @@ func getCrossConnectIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listCrossConnectsRequest := oci_core.ListCrossConnectsRequest{}
 	listCrossConnectsRequest.CompartmentId = &compartmentId
@@ -355,7 +355,7 @@ func crossConnectSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func crossConnectSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetCrossConnect(context.Background(), oci_core.GetCrossConnectRequest{
+	_, err := client.virtualNetworkClient().GetCrossConnect(context.Background(), oci_core.GetCrossConnectRequest{
 		CrossConnectId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

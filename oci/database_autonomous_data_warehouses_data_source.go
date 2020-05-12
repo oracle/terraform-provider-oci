@@ -42,7 +42,7 @@ func DatabaseAutonomousDataWarehousesDataSource() *schema.Resource {
 func readDatabaseAutonomousDataWarehouses(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDataWarehousesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

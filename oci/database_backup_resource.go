@@ -90,7 +90,7 @@ func DatabaseBackupResource() *schema.Resource {
 func createDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -98,7 +98,7 @@ func createDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 func readDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -106,7 +106,7 @@ func readDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 func deleteDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

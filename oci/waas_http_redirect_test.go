@@ -276,7 +276,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 
 func testAccCheckWaasHttpRedirectDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).redirectClient
+	client := testAccProvider.Meta().(*OracleClients).redirectClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_waas_http_redirect" {
 			noResourceFound = false
@@ -328,7 +328,7 @@ func init() {
 }
 
 func sweepWaasHttpRedirectResource(compartment string) error {
-	redirectClient := GetTestClients(&schema.ResourceData{}).redirectClient
+	redirectClient := GetTestClients(&schema.ResourceData{}).redirectClient()
 	httpRedirectIds, err := getHttpRedirectIds(compartment)
 	if err != nil {
 		return err
@@ -359,7 +359,7 @@ func getHttpRedirectIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	redirectClient := GetTestClients(&schema.ResourceData{}).redirectClient
+	redirectClient := GetTestClients(&schema.ResourceData{}).redirectClient()
 
 	listHttpRedirectsRequest := oci_waas.ListHttpRedirectsRequest{}
 	listHttpRedirectsRequest.CompartmentId = &compartmentId
@@ -385,7 +385,7 @@ func httpRedirectSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func httpRedirectSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.redirectClient.GetHttpRedirect(context.Background(), oci_waas.GetHttpRedirectRequest{
+	_, err := client.redirectClient().GetHttpRedirect(context.Background(), oci_waas.GetHttpRedirectRequest{
 		HttpRedirectId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

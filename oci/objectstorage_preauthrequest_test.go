@@ -173,7 +173,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 
 func testAccCheckObjectStoragePreauthenticatedRequestDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).objectStorageClient
+	client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_objectstorage_preauthrequest" {
 			noResourceFound = false
@@ -231,7 +231,7 @@ func init() {
 }
 
 func sweepObjectStoragePreauthenticatedRequestResource(compartment string) error {
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient()
 	preauthenticatedRequestIds, err := getPreauthenticatedRequestIds(compartment)
 	if err != nil {
 		return err
@@ -260,7 +260,7 @@ func getPreauthenticatedRequestIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient()
 
 	listPreauthenticatedRequestsRequest := oci_object_storage.ListPreauthenticatedRequestsRequest{}
 

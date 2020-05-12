@@ -15,7 +15,7 @@ type ListWorkRequestErrorsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
-	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) on which to filter.
+	// A filter to return only resources that exist in the compartment, identified by OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The number of items returned in a paginated `List` call. For information about pagination, see
@@ -26,7 +26,7 @@ type ListWorkRequestErrorsRequest struct {
 	// For information about pagination, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order, either `ASC` (ascending) or `DESC` (descending).
+	// The sort order to use when sorting returned resources. Ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListWorkRequestErrorsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

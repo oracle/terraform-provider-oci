@@ -345,7 +345,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseAutonomousContainerDatabaseDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_autonomous_container_database" {
 			noResourceFound = false
@@ -397,7 +397,7 @@ func init() {
 }
 
 func sweepDatabaseAutonomousContainerDatabaseResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	autonomousContainerDatabaseIds, err := getAutonomousContainerDatabaseIds(compartment)
 	if err != nil {
 		return err
@@ -428,7 +428,7 @@ func getAutonomousContainerDatabaseIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listAutonomousContainerDatabasesRequest := oci_database.ListAutonomousContainerDatabasesRequest{}
 	listAutonomousContainerDatabasesRequest.CompartmentId = &compartmentId
@@ -455,7 +455,7 @@ func autonomousContainerDatabaseSweepWaitCondition(response common.OCIOperationR
 }
 
 func autonomousContainerDatabaseSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetAutonomousContainerDatabase(context.Background(), oci_database.GetAutonomousContainerDatabaseRequest{
+	_, err := client.databaseClient().GetAutonomousContainerDatabase(context.Background(), oci_database.GetAutonomousContainerDatabaseRequest{
 		AutonomousContainerDatabaseId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

@@ -599,7 +599,7 @@ func ApigatewayDeploymentResource() *schema.Resource {
 func createApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).deploymentClient
+	sync.Client = m.(*OracleClients).deploymentClient()
 	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return CreateResource(d, sync)
@@ -608,7 +608,7 @@ func createApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 func readApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).deploymentClient
+	sync.Client = m.(*OracleClients).deploymentClient()
 	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return ReadResource(sync)
@@ -617,7 +617,7 @@ func readApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 func updateApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).deploymentClient
+	sync.Client = m.(*OracleClients).deploymentClient()
 	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return UpdateResource(d, sync)
@@ -626,7 +626,7 @@ func updateApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 func deleteApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).deploymentClient
+	sync.Client = m.(*OracleClients).deploymentClient()
 	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 	sync.DisableNotFoundRetries = true
 

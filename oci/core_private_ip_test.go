@@ -210,7 +210,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 
 func testAccCheckCorePrivateIpDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_private_ip" {
 			noResourceFound = false
@@ -254,7 +254,7 @@ func init() {
 }
 
 func sweepCorePrivateIpResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	privateIpIds, err := getPrivateIpIds(compartment)
 	if err != nil {
 		return err
@@ -283,7 +283,7 @@ func getPrivateIpIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listPrivateIpsRequest := oci_core.ListPrivateIpsRequest{}
 

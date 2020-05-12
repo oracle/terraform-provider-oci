@@ -29,7 +29,7 @@ func IdentityTagDataSource() *schema.Resource {
 func readSingularIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

@@ -74,7 +74,7 @@ func DatabaseAutonomousDataWarehouseBackupResource() *schema.Resource {
 func createDatabaseAutonomousDataWarehouseBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDataWarehouseBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -82,7 +82,7 @@ func createDatabaseAutonomousDataWarehouseBackup(d *schema.ResourceData, m inter
 func readDatabaseAutonomousDataWarehouseBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDataWarehouseBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

@@ -34,7 +34,7 @@ func LoadBalancerPathRouteSetsDataSource() *schema.Resource {
 func readLoadBalancerPathRouteSets(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerPathRouteSetsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return ReadResource(sync)
 }

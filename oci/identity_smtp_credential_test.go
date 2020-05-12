@@ -116,7 +116,7 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 
 func testAccCheckIdentitySmtpCredentialDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient
+	client := testAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_smtp_credential" {
 			noResourceFound = false

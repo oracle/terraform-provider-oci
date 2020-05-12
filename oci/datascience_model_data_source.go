@@ -25,7 +25,7 @@ func DatascienceModelDataSource() *schema.Resource {
 func readSingularDatascienceModel(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return ReadResource(sync)
 }

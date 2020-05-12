@@ -25,7 +25,7 @@ func BdsBdsInstanceDataSource() *schema.Resource {
 func readSingularBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &BdsBdsInstanceDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).bdsClient
+	sync.Client = m.(*OracleClients).bdsClient()
 
 	return ReadResource(sync)
 }

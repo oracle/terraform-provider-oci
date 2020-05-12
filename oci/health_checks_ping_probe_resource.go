@@ -87,7 +87,7 @@ func HealthChecksPingProbeResource() *schema.Resource {
 func createHealthChecksPingProbe(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksPingProbeResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return CreateResource(d, sync)
 }

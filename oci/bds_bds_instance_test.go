@@ -367,7 +367,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 
 func testAccCheckBdsBdsInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).bdsClient
+	client := testAccProvider.Meta().(*OracleClients).bdsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_bds_bds_instance" {
 			noResourceFound = false
@@ -419,7 +419,7 @@ func init() {
 }
 
 func sweepBdsBdsInstanceResource(compartment string) error {
-	bdsClient := GetTestClients(&schema.ResourceData{}).bdsClient
+	bdsClient := GetTestClients(&schema.ResourceData{}).bdsClient()
 	bdsInstanceIds, err := getBdsInstanceIds(compartment)
 	if err != nil {
 		return err
@@ -450,7 +450,7 @@ func getBdsInstanceIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	bdsClient := GetTestClients(&schema.ResourceData{}).bdsClient
+	bdsClient := GetTestClients(&schema.ResourceData{}).bdsClient()
 
 	listBdsInstancesRequest := oci_bds.ListBdsInstancesRequest{}
 	listBdsInstancesRequest.CompartmentId = &compartmentId
@@ -477,7 +477,7 @@ func bdsInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func bdsInstanceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.bdsClient.GetBdsInstance(context.Background(), oci_bds.GetBdsInstanceRequest{
+	_, err := client.bdsClient().GetBdsInstance(context.Background(), oci_bds.GetBdsInstanceRequest{
 		BdsInstanceId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

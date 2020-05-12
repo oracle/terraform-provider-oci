@@ -112,7 +112,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 
 func testAccCheckCoreAppCatalogSubscriptionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient
+	client := testAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_app_catalog_subscription" {
 			noResourceFound = false
@@ -180,7 +180,7 @@ func init() {
 }
 
 func sweepCoreAppCatalogSubscriptionResource(compartment string) error {
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 	appCatalogSubscriptionIds, err := getAppCatalogSubscriptionIds(compartment)
 	if err != nil {
 		return err
@@ -207,7 +207,7 @@ func getAppCatalogSubscriptionIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 
 	listAppCatalogSubscriptionsRequest := oci_core.ListAppCatalogSubscriptionsRequest{}
 	listAppCatalogSubscriptionsRequest.CompartmentId = &compartmentId

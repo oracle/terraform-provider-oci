@@ -50,7 +50,7 @@ func LimitsServicesDataSource() *schema.Resource {
 func readLimitsServices(d *schema.ResourceData, m interface{}) error {
 	sync := &LimitsServicesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).limitsClient
+	sync.Client = m.(*OracleClients).limitsClient()
 
 	return ReadResource(sync)
 }

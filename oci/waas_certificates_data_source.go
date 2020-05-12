@@ -65,7 +65,7 @@ func WaasCertificatesDataSource() *schema.Resource {
 func readWaasCertificates(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasCertificatesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return ReadResource(sync)
 }

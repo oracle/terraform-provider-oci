@@ -159,7 +159,7 @@ func HealthChecksPingProbeResultsDataSource() *schema.Resource {
 func readHealthChecksPingProbeResults(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksPingProbeResultsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return ReadResource(sync)
 }

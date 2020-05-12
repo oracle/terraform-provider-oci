@@ -70,7 +70,7 @@ func DatabaseDbSystemPatchHistoryEntriesDataSource() *schema.Resource {
 func readDatabaseDbSystemPatchHistoryEntries(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemPatchHistoryEntriesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

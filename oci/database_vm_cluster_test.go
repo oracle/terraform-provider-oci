@@ -259,7 +259,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseVmClusterDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_vm_cluster" {
 			noResourceFound = false
@@ -311,7 +311,7 @@ func init() {
 }
 
 func sweepDatabaseVmClusterResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	vmClusterIds, err := getVmClusterIds(compartment)
 	if err != nil {
 		return err
@@ -342,7 +342,7 @@ func getVmClusterIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listVmClustersRequest := oci_database.ListVmClustersRequest{}
 	listVmClustersRequest.CompartmentId = &compartmentId
@@ -369,7 +369,7 @@ func vmClusterSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func vmClusterSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetVmCluster(context.Background(), oci_database.GetVmClusterRequest{
+	_, err := client.databaseClient().GetVmCluster(context.Background(), oci_database.GetVmClusterRequest{
 		VmClusterId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

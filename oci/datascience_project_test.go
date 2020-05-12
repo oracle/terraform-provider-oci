@@ -235,7 +235,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 
 func testAccCheckDatascienceProjectDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataScienceClient
+	client := testAccProvider.Meta().(*OracleClients).dataScienceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_datascience_project" {
 			noResourceFound = false
@@ -287,7 +287,7 @@ func init() {
 }
 
 func sweepDatascienceProjectResource(compartment string) error {
-	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient
+	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient()
 	projectIds, err := getProjectIds(compartment)
 	if err != nil {
 		return err
@@ -318,7 +318,7 @@ func getProjectIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient
+	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient()
 
 	listProjectsRequest := oci_datascience.ListProjectsRequest{}
 	listProjectsRequest.CompartmentId = &compartmentId
@@ -345,7 +345,7 @@ func projectSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func projectSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.dataScienceClient.GetProject(context.Background(), oci_datascience.GetProjectRequest{
+	_, err := client.dataScienceClient().GetProject(context.Background(), oci_datascience.GetProjectRequest{
 		ProjectId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

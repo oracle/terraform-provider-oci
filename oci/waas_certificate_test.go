@@ -258,7 +258,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 
 func testAccCheckWaasCertificateDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).waasClient
+	client := testAccProvider.Meta().(*OracleClients).waasClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_waas_certificate" {
 			noResourceFound = false
@@ -310,7 +310,7 @@ func init() {
 }
 
 func sweepWaasCertificateResource(compartment string) error {
-	waasClient := GetTestClients(&schema.ResourceData{}).waasClient
+	waasClient := GetTestClients(&schema.ResourceData{}).waasClient()
 	certificateIds, err := getCertificateIds(compartment)
 	if err != nil {
 		return err
@@ -341,7 +341,7 @@ func getCertificateIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	waasClient := GetTestClients(&schema.ResourceData{}).waasClient
+	waasClient := GetTestClients(&schema.ResourceData{}).waasClient()
 
 	listCertificatesRequest := oci_waas.ListCertificatesRequest{}
 	listCertificatesRequest.CompartmentId = &compartmentId
@@ -367,7 +367,7 @@ func certificateSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func certificateSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.waasClient.GetCertificate(context.Background(), oci_waas.GetCertificateRequest{
+	_, err := client.waasClient().GetCertificate(context.Background(), oci_waas.GetCertificateRequest{
 		CertificateId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

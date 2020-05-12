@@ -2,6 +2,7 @@ package oci
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 	"identity": identityResourceGraph,
+	"limits":   limitsResourceGraph,
 }
 
 var availabilityDomainsGraph = TerraformResourceGraph{
@@ -25,6 +26,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"bds":                 bdsResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"functions":           functionsResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"tagging":             taggingResourceGraph,
@@ -153,6 +155,20 @@ var databaseResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var functionsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportFunctionsApplicationHints},
+	},
+	"oci_functions_application": {
+		{
+			TerraformResourceHints: exportFunctionsFunctionHints,
+			datasourceQueryParams: map[string]string{
+				"application_id": "id",
+			},
+		},
+	},
+}
+
 var identityResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportIdentityAuthenticationPolicyHints},
@@ -230,6 +246,12 @@ var identityResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var limitsResourceGraph = TerraformResourceGraph{
+	"oci_identity_tenancy": {
+		{TerraformResourceHints: exportLimitsQuotaHints},
+	},
+}
+
 var loadBalancerResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLoadBalancerLoadBalancerHints},
@@ -242,6 +264,7 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 				"load_balancer_id": "load_balancer_id",
 			},
 		},
+		{TerraformResourceHints: exportLoadBalancerListenerHints},
 	},
 	"oci_load_balancer_load_balancer": {
 		{
@@ -274,7 +297,6 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 				"load_balancer_id": "id",
 			},
 		},
-		{TerraformResourceHints: exportLoadBalancerListenerHints},
 	},
 }
 

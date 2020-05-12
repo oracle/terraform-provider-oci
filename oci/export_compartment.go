@@ -11,11 +11,10 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
-
+	"github.com/hashicorp/hcl2/hclwrite"
 	"github.com/hashicorp/terraform/backend/local"
 	"github.com/mitchellh/cli"
 
-	"github.com/hashicorp/hcl/hcl/fmtcmd"
 	"github.com/hashicorp/terraform/command"
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/common"
@@ -26,6 +25,7 @@ const (
 	exportUserAgentFormatter        = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform-oci-exporter/%s)"
 	defaultTmpStateFile             = "terraform.tfstate.tmp"
 	varsFile                        = "vars.tf"
+	providerFile                    = "provider.tf"
 	missingRequiredAttributeWarning = `Warning: There are one or more 'Required' attributes for which a value could not be discovered.
 This may be expected behavior from the service, which may prevent discovery of certain sensitive attributes or secrets.
 Run 'terraform plan' against the generated configuration files to get more information about the missing values.`
@@ -39,12 +39,12 @@ var datasourcesMap map[string]*schema.Resource
 var compartmentScopeServices []string
 var isMissingRequiredAttributes bool
 var exportConfigProvider oci_common.ConfigurationProvider
+var tfHclVersion TfHclVersion
 
 func init() {
 	resourceNameCount = map[string]int{}
 	vars = map[string]string{}
 	referenceMap = map[string]string{}
-
 	compartmentScopeServices = make([]string, len(compartmentResourceGraphs))
 	idx := 0
 	for mode := range compartmentResourceGraphs {
@@ -112,15 +112,14 @@ type ExportCommandArgs struct {
 	Services        []string
 	OutputDir       *string
 	GenerateState   bool
+	TFVersion       *TfHclVersion
 }
 
 func RunExportCommand(args *ExportCommandArgs) error {
 	resourcesMap = ResourcesMap()
 	datasourcesMap = DataSourcesMap()
 
-	if err := args.validate(); err != nil {
-		return err
-	}
+	tfHclVersion = *args.TFVersion
 
 	r := &schema.Resource{
 		Schema: schemaMap(),
@@ -179,8 +178,7 @@ func (args *ExportCommandArgs) validate() error {
 }
 
 func getExportConfig(d *schema.ResourceData) (interface{}, error) {
-
-	clients := &OracleClients{configuration: map[string]string{}}
+	clients := oracleClients
 
 	userAgentString := fmt.Sprintf(exportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, Version)
 	httpClient := buildHttpClient()
@@ -230,7 +228,6 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	if err != nil {
 		return err
 	}
-
 	// Discover and build a model of all targeted resources
 	matchResourceIds := map[string]bool{}
 	for _, id := range args.IDs {
@@ -306,7 +303,10 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 			allDiscoveredResources = append(allDiscoveredResources, resource)
 		}
 
-		_, err = file.WriteString(builder.String())
+		// Format the HCL config
+		formattedString := hclwrite.Format([]byte(builder.String()))
+
+		_, err = file.WriteString(string(formattedString))
 		if err != nil {
 			_ = file.Close()
 			return err
@@ -320,17 +320,21 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 			return err
 		}
 
-		// Format the HCL config
-		if err := fmtcmd.Run([]string{configOutputFile}, []string{}, nil, nil, fmtcmd.Options{Write: true}); err != nil {
-			return err
-		}
-
 		summaryStatements = append(summaryStatements, fmt.Sprintf("Found %d '%s' resources. Generated under '%s'", len(step.discoveredResources), step.stepName, configOutputFile))
 	}
 
 	if isMissingRequiredAttributes {
 		summaryStatements = append(summaryStatements, "")
 		summaryStatements = append(summaryStatements, missingRequiredAttributeWarning)
+	}
+	region, err := exportConfigProvider.Region()
+	if err != nil {
+		return err
+	}
+	vars["region"] = fmt.Sprintf("\"%s\"", region)
+
+	if err := generateProviderFile(args.OutputDir); err != nil {
+		return err
 	}
 
 	if err := generateVarsFile(vars, args.OutputDir); err != nil {
@@ -454,8 +458,8 @@ func buildGenerateConfigSteps(compartmentId *string, services []string) ([]*Gene
 				stepName:      mode,
 			})
 
-			vars["tenancy_ocid"] = ""
-			referenceMap[tenancyId] = "${var.tenancy_ocid}"
+			vars["tenancy_ocid"] = fmt.Sprintf("\"%s\"", tenancyId)
+			referenceMap[tenancyId] = tfHclVersion.getVarHclString("tenancy_ocid")
 		}
 	}
 
@@ -479,8 +483,8 @@ func buildGenerateConfigSteps(compartmentId *string, services []string) ([]*Gene
 				stepName:      mode,
 			})
 
-			vars["compartment_ocid"] = ""
-			referenceMap[*compartmentId] = "${var.compartment_ocid}"
+			vars["compartment_ocid"] = fmt.Sprintf("\"%s\"", *compartmentId)
+			referenceMap[*compartmentId] = tfHclVersion.getVarHclString("compartment_ocid")
 		}
 	}
 
@@ -564,6 +568,31 @@ func generateVarsFile(vars map[string]string, outputDir *string) error {
 	return nil
 }
 
+func generateProviderFile(outputDir *string) error {
+	providerTmpFile := fmt.Sprintf("%s%s%s.tmp", *outputDir, string(os.PathSeparator), providerFile)
+	providerOutputFile := fmt.Sprintf("%s%s%s", *outputDir, string(os.PathSeparator), providerFile)
+	file, err := os.OpenFile(providerTmpFile, os.O_CREATE|os.O_RDWR, 0666)
+	if err != nil {
+		return err
+	}
+
+	_, err = file.WriteString(fmt.Sprintf("provider oci {\n\tregion = %s\n}\n", tfHclVersion.getVarHclString("region")))
+	if err != nil {
+		_ = file.Close()
+		return err
+	}
+
+	if fErr := file.Close(); fErr != nil {
+		return fErr
+	}
+
+	if err := os.Rename(providerTmpFile, providerOutputFile); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 type OCIResource struct {
 	TerraformResource
 	compartmentId    string
@@ -578,16 +607,16 @@ type TerraformResource struct {
 	importId                   string
 	terraformClass             string
 	terraformName              string
-	terraformReferenceIdString string
+	terraformReferenceIdString string // syntax independent interpolation- `resource_type.resource_name.id`
 	terraformTypeInfo          *TerraformResourceHints
 	omitFromExport             bool
 }
 
 func (tr *TerraformResource) getHclReferenceIdString() string {
 	if tr.terraformReferenceIdString != "" {
-		return fmt.Sprintf("${%s}", tr.terraformReferenceIdString)
+		return tfHclVersion.getSingleExpHclString(tr.terraformReferenceIdString)
 	}
-	return fmt.Sprintf("${%s.id}", tr.getTerraformReference())
+	return tfHclVersion.getDoubleExpHclString(tr.getTerraformReference(), "id")
 }
 
 func (tr *TerraformResource) getTerraformReference() string {
@@ -611,11 +640,16 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 
 		if attributeVal, exists := sourceAttributes[tfAttribute]; exists {
 			switch v := attributeVal.(type) {
+			case InterpolationString:
+				builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, v.value))
+				continue
 			case string:
 				if varOverride, exists := interpolationMap[fmt.Sprintf("%v", v)]; exists {
 					v = varOverride
+					builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, v))
+				} else {
+					builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, v))
 				}
-				builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, v))
 				continue
 			case int, bool, float64:
 				builder.WriteString(fmt.Sprintf("%s = \"%v\"\n", tfAttribute, v))
@@ -635,15 +669,19 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 							}
 						}
 						continue
-					case *schema.Schema, schema.ValueType:
+					case *schema.Schema, schema.ValueType, InterpolationString:
 						builder.WriteString(fmt.Sprintf("%s = [\n", tfAttribute))
 						for _, item := range v {
 							switch trueListVal := item.(type) {
+							case InterpolationString:
+								builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, trueListVal.value))
 							case string:
 								if varOverride, exists := interpolationMap[fmt.Sprintf("%v", trueListVal)]; exists {
 									trueListVal = varOverride
+									builder.WriteString(fmt.Sprintf("%v,\n", trueListVal))
+								} else {
+									builder.WriteString(fmt.Sprintf("%q,\n", trueListVal))
 								}
-								builder.WriteString(fmt.Sprintf("%q,\n", trueListVal))
 							case int, bool, float64:
 								builder.WriteString(fmt.Sprintf("\"%v\",\n", trueListVal))
 							default:
@@ -674,11 +712,15 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 					keys := getSortedKeys(v)
 					for _, mapKey := range keys {
 						switch mapVal := v[mapKey].(type) {
+						case InterpolationString:
+							builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, mapVal.value))
 						case string:
 							if varOverride, exists := interpolationMap[fmt.Sprintf("%v", mapVal)]; exists {
 								mapVal = varOverride
+								builder.WriteString(fmt.Sprintf("\"%s\" = %v\n", mapKey, mapVal))
+							} else {
+								builder.WriteString(fmt.Sprintf("\"%s\" = %q\n", mapKey, mapVal))
 							}
-							builder.WriteString(fmt.Sprintf("\"%s\" = %q\n", mapKey, mapVal))
 						case int, bool, float64:
 							builder.WriteString(fmt.Sprintf("\"%s\" = \"%v\"\n", mapKey, mapVal))
 						default:
@@ -1039,7 +1081,7 @@ func resolveCompartmentId(clients *OracleClients, compartmentName *string) (*str
 	req.CompartmentIdInSubtree = &recursiveSearch
 
 	for {
-		resp, err := clients.identityClient.ListCompartments(context.Background(), req)
+		resp, err := clients.identityClient().ListCompartments(context.Background(), req)
 		if err != nil {
 			return nil, err
 		}

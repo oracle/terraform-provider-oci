@@ -58,7 +58,7 @@ func ObjectStorageReplicationSourcesDataSource() *schema.Resource {
 func readObjectStorageReplicationSources(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageReplicationSourcesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return ReadResource(sync)
 }

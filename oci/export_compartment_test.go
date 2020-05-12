@@ -3,6 +3,7 @@ package oci
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"testing"
@@ -331,7 +332,6 @@ func deleteTestChild(d *schema.ResourceData, m interface{}) error {
 
 func initResourceDiscoveryTests() {
 	resourceNameCount = map[string]int{}
-
 	resourcesMap = ResourcesMap()
 	datasourcesMap = DataSourcesMap()
 
@@ -464,30 +464,35 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 		t.Fail()
 	}
 
-	args := &ExportCommandArgs{
-		CompartmentId: &compartmentId,
-		Services:      []string{"compartment_testing", "tenancy_testing"},
-		OutputDir:     &outputDir,
-		GenerateState: false,
-	}
+	tfHclVersions := []TfHclVersion{&TfHclVersion11{}, &TfHclVersion12{}}
+	for _, tfVersion := range tfHclVersions {
+		tfHclVersion = tfVersion
+		args := &ExportCommandArgs{
+			CompartmentId: &compartmentId,
+			Services:      []string{"compartment_testing", "tenancy_testing"},
+			OutputDir:     &outputDir,
+			GenerateState: false,
+			TFVersion:     &tfHclVersion,
+		}
 
-	if err = RunExportCommand(args); err != nil {
-		t.Logf("export command failed due to err: %v", err)
-		t.Fail()
-	}
+		if err = RunExportCommand(args); err != nil {
+			t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
+			t.Fail()
+		}
 
-	if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-		t.Logf("no tenancy_testing.tf file generated")
-		t.Fail()
-	}
+		if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
+			t.Logf("(TF version %s) no tenancy_testing.tf file generated", tfHclVersion.toString())
+			t.Fail()
+		}
 
-	if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-		t.Logf("no compartment_testing.tf file generated")
-		t.Fail()
-	}
+		if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
+			t.Logf("(TF version %s) no compartment_testing.tf file generated", tfHclVersion.toString())
+			t.Fail()
+		}
 
-	if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
-		t.Logf("found terraform.tfstate even though it wasn't expected")
+		if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
+			t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tfHclVersion.toString())
+		}
 	}
 
 	os.RemoveAll(outputDir)
@@ -505,11 +510,13 @@ func TestUnitRunExportCommand_error(t *testing.T) {
 	}
 
 	nonexistentOutputDir := fmt.Sprintf("%s%s%s", outputDir, string(os.PathSeparator), "baddirectory")
+	tfHclVersion = &TfHclVersion12{}
 	args := &ExportCommandArgs{
 		CompartmentId: &compartmentId,
 		Services:      []string{"compartment_testing", "tenancy_testing"},
 		OutputDir:     &nonexistentOutputDir,
 		GenerateState: false,
+		TFVersion:     &tfHclVersion,
 	}
 	if err = RunExportCommand(args); err == nil {
 		t.Logf("export command expected to fail due to non-existent path, but it succeeded")
@@ -897,7 +904,46 @@ func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 	}
 }
 
-func Test_getExportConfig(t *testing.T) {
+func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
+	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+
+	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+
+	targetResourceOcid := getTestResourceId("child", len(childrenResources)-1)
+	var targetResource *OCIResource
+	for _, resource := range results {
+		if resource.id == targetResourceOcid {
+			targetResource = resource
+			break
+		}
+	}
+
+	// Test the syntax version generated
+	tfHclVersion = &TfHclVersion11{}
+	interpolationMap := map[string]string{targetResource.parent.id: targetResource.parent.getHclReferenceIdString()}
+	r, _ := regexp.Compile("\\$\\{.*}")
+	if !r.MatchString(interpolationMap[targetResource.parent.id]) {
+		t.Logf("incorrect syntax generated for version %v", tfHclVersion.toString())
+		t.Fail()
+	}
+
+	tfHclVersion = &TfHclVersion12{}
+	interpolationMap = map[string]string{targetResource.parent.id: targetResource.parent.getHclReferenceIdString()}
+	r, _ = regexp.Compile("[^${}]")
+	if !r.MatchString(interpolationMap[targetResource.parent.id]) {
+		t.Logf("incorrect syntax generated for version %v", tfHclVersion.toString())
+		t.Fail()
+	}
+
+}
+
+func TestUnitGetExportConfig(t *testing.T) {
 
 	providerConfigTest(t, true, true, authAPIKeySetting, "", getExportConfig)              // ApiKey with required fields + disable auto-retries
 	providerConfigTest(t, false, true, authAPIKeySetting, "", getExportConfig)             // ApiKey without required fields

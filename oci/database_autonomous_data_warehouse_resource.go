@@ -137,7 +137,7 @@ func DatabaseAutonomousDataWarehouseResource() *schema.Resource {
 func createDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDataWarehouseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -145,7 +145,7 @@ func createDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}
 func readDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDataWarehouseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -153,7 +153,7 @@ func readDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) 
 func updateDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDataWarehouseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }
@@ -161,7 +161,7 @@ func updateDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}
 func deleteDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDataWarehouseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -111,7 +111,7 @@ func CoreLocalPeeringGatewayResource() *schema.Resource {
 func createCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreLocalPeeringGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	err := CreateResource(d, sync)
 	if err != nil {
@@ -124,7 +124,7 @@ func createCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error 
 func readCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreLocalPeeringGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -132,7 +132,7 @@ func readCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 func updateCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreLocalPeeringGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -140,7 +140,7 @@ func updateCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error 
 func deleteCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreLocalPeeringGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

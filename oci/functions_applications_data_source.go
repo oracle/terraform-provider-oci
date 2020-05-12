@@ -46,7 +46,7 @@ func FunctionsApplicationsDataSource() *schema.Resource {
 func readFunctionsApplications(d *schema.ResourceData, m interface{}) error {
 	sync := &FunctionsApplicationsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).functionsManagementClient
+	sync.Client = m.(*OracleClients).functionsManagementClient()
 
 	return ReadResource(sync)
 }

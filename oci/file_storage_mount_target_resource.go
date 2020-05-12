@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
+	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
@@ -62,10 +63,11 @@ func FileStorageMountTargetResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"hostname_label": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"ip_address": {
 				Type:     schema.TypeString,
@@ -114,7 +116,7 @@ func FileStorageMountTargetResource() *schema.Resource {
 func createFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -122,7 +124,7 @@ func createFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 func readFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return ReadResource(sync)
 }
@@ -130,7 +132,7 @@ func readFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 func updateFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return UpdateResource(d, sync)
 }
@@ -138,7 +140,7 @@ func updateFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 func deleteFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -372,6 +374,14 @@ func (s *FileStorageMountTargetResourceCrud) SetData() error {
 
 	s.D.Set("private_ip_ids", s.Res.PrivateIpIds)
 
+	// Service returns only 1 item in this field
+	if len(s.Res.PrivateIpIds) > 0 {
+		err := s.setPrivateIpDetails(s.Res.PrivateIpIds[0])
+		if err != nil {
+			return err
+		}
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
@@ -399,6 +409,29 @@ func (s *FileStorageMountTargetResourceCrud) updateCompartment(compartment inter
 	_, err := s.Client.ChangeMountTargetCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
+	}
+	return nil
+}
+
+func (s *FileStorageMountTargetResourceCrud) setPrivateIpDetails(privateIpOcid string) error {
+	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
+
+	request := oci_core.GetPrivateIpRequest{}
+
+	request.PrivateIpId = &privateIpOcid
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
+	response, err := virtualNetworkClient.GetPrivateIp(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	if response.HostnameLabel != nil {
+		s.D.Set("hostname_label", *response.HostnameLabel)
+	}
+
+	if response.IpAddress != nil {
+		s.D.Set("ip_address", *response.IpAddress)
 	}
 	return nil
 }

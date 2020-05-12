@@ -25,7 +25,7 @@ func BudgetBudgetDataSource() *schema.Resource {
 func readSingularBudgetBudget(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetBudgetDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 
 	return ReadResource(sync)
 }

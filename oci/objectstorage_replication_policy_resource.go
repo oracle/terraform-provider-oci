@@ -92,7 +92,7 @@ func ObjectStorageReplicationPolicyResource() *schema.Resource {
 func createObjectStorageReplicationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageReplicationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -100,7 +100,7 @@ func createObjectStorageReplicationPolicy(d *schema.ResourceData, m interface{})
 func readObjectStorageReplicationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageReplicationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return ReadResource(sync)
 }
@@ -108,7 +108,7 @@ func readObjectStorageReplicationPolicy(d *schema.ResourceData, m interface{}) e
 func deleteObjectStorageReplicationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageReplicationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

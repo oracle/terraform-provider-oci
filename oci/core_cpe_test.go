@@ -196,7 +196,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 
 func testAccCheckCoreCpeDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_cpe" {
 			noResourceFound = false
@@ -240,7 +240,7 @@ func init() {
 }
 
 func sweepCoreCpeResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	cpeIds, err := getCpeIds(compartment)
 	if err != nil {
 		return err
@@ -269,7 +269,7 @@ func getCpeIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listCpesRequest := oci_core.ListCpesRequest{}
 	listCpesRequest.CompartmentId = &compartmentId

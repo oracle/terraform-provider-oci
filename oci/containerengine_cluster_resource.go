@@ -262,7 +262,7 @@ func ContainerengineClusterResource() *schema.Resource {
 func createContainerengineCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineClusterResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return CreateResource(d, sync)
 }
@@ -270,7 +270,7 @@ func createContainerengineCluster(d *schema.ResourceData, m interface{}) error {
 func readContainerengineCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineClusterResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return ReadResource(sync)
 }
@@ -278,7 +278,7 @@ func readContainerengineCluster(d *schema.ResourceData, m interface{}) error {
 func updateContainerengineCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineClusterResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return UpdateResource(d, sync)
 }
@@ -286,7 +286,7 @@ func updateContainerengineCluster(d *schema.ResourceData, m interface{}) error {
 func deleteContainerengineCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineClusterResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

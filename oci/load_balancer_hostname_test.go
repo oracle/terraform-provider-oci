@@ -127,7 +127,7 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 
 func testAccCheckLoadBalancerHostnameDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient
+	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_hostname" {
 			noResourceFound = false
@@ -176,7 +176,7 @@ func init() {
 }
 
 func sweepLoadBalancerHostnameResource(compartment string) error {
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 	hostnameIds, err := getHostnameIds(compartment)
 	if err != nil {
 		return err
@@ -203,7 +203,7 @@ func getHostnameIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 
 	listHostnamesRequest := oci_load_balancer.ListHostnamesRequest{}
 
