@@ -53,6 +53,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"dns":                 dnsResourceGraph,
 	"email":               emailResourceGraph,
 	"events":              eventsResourceGraph,
 	"file_storage":        fileStorageResourceGraph,
@@ -276,6 +277,15 @@ var databaseResourceGraph = TerraformResourceGraph{
 				"vm_cluster_id": "id",
 			},
 		},
+	},
+}
+
+var dnsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDnsZoneHints},
+		{TerraformResourceHints: exportDnsSteeringPolicyHints},
+		{TerraformResourceHints: exportDnsSteeringPolicyAttachmentHints},
+		{TerraformResourceHints: exportDnsTsigKeyHints},
 	},
 }
 

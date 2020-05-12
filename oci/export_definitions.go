@@ -10,6 +10,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_events "github.com/oracle/oci-go-sdk/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
@@ -592,6 +593,56 @@ var exportDatabaseVmClusterHints = &TerraformResourceHints{
 	resourceAbbreviation: "vm_cluster",
 	discoverableLifecycleStates: []string{
 		string(oci_database.VmClusterLifecycleStateAvailable),
+	},
+}
+
+var exportDnsRecordHints = &TerraformResourceHints{
+	resourceClass:        "oci_dns_record",
+	datasourceClass:      "oci_dns_records",
+	datasourceItemsAttr:  "records",
+	resourceAbbreviation: "record",
+}
+
+var exportDnsZoneHints = &TerraformResourceHints{
+	resourceClass:          "oci_dns_zone",
+	datasourceClass:        "oci_dns_zones",
+	datasourceItemsAttr:    "zones",
+	resourceAbbreviation:   "zone",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dns.ZoneLifecycleStateActive),
+	},
+}
+
+var exportDnsSteeringPolicyHints = &TerraformResourceHints{
+	resourceClass:          "oci_dns_steering_policy",
+	datasourceClass:        "oci_dns_steering_policies",
+	datasourceItemsAttr:    "steering_policies",
+	resourceAbbreviation:   "steering_policy",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dns.SteeringPolicyLifecycleStateActive),
+	},
+}
+
+var exportDnsSteeringPolicyAttachmentHints = &TerraformResourceHints{
+	resourceClass:        "oci_dns_steering_policy_attachment",
+	datasourceClass:      "oci_dns_steering_policy_attachments",
+	datasourceItemsAttr:  "steering_policy_attachments",
+	resourceAbbreviation: "steering_policy_attachment",
+	discoverableLifecycleStates: []string{
+		string(oci_dns.SteeringPolicyAttachmentLifecycleStateActive),
+	},
+}
+
+var exportDnsTsigKeyHints = &TerraformResourceHints{
+	resourceClass:          "oci_dns_tsig_key",
+	datasourceClass:        "oci_dns_tsig_keys",
+	datasourceItemsAttr:    "tsig_keys",
+	resourceAbbreviation:   "tsig_key",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dns.TsigKeyLifecycleStateActive),
 	},
 }
 
