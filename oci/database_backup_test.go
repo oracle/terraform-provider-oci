@@ -104,6 +104,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_started"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.type"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.version"),
 				),
 			},
 			// verify resource import
