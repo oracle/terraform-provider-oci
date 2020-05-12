@@ -906,6 +906,7 @@ func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 
 func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
 	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
