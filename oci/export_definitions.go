@@ -11,6 +11,14 @@ import (
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
+	resourceClass:          "oci_autoscaling_auto_scaling_configuration",
+	datasourceClass:        "oci_autoscaling_auto_scaling_configurations",
+	datasourceItemsAttr:    "auto_scaling_configurations",
+	resourceAbbreviation:   "auto_scaling_configuration",
+	requireResourceRefresh: true,
+}
+
 var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_bds_bds_instance",
 	datasourceClass:        "oci_bds_bds_instances",
