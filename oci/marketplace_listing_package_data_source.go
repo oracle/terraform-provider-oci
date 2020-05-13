@@ -44,6 +44,10 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"image_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"package_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -237,6 +241,10 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 
 		if v.AppCatalogListingResourceVersion != nil {
 			s.D.Set("app_catalog_listing_resource_version", v.AppCatalogListingResourceVersion)
+		}
+
+		if v.ImageId != nil {
+			s.D.Set("image_id", v.ImageId)
 		}
 
 		if v.Description != nil {
