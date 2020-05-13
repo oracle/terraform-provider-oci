@@ -259,7 +259,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 
 func testAccCheckOsmanagementSoftwareSourceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).osManagementClient
+	client := testAccProvider.Meta().(*OracleClients).osManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_osmanagement_software_source" {
 			noResourceFound = false
@@ -311,7 +311,7 @@ func init() {
 }
 
 func sweepOsmanagementSoftwareSourceResource(compartment string) error {
-	osManagementClient := GetTestClients(&schema.ResourceData{}).osManagementClient
+	osManagementClient := GetTestClients(&schema.ResourceData{}).osManagementClient()
 	softwareSourceIds, err := getSoftwareSourceIds(compartment)
 	if err != nil {
 		return err
@@ -342,7 +342,7 @@ func getSoftwareSourceIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	osManagementClient := GetTestClients(&schema.ResourceData{}).osManagementClient
+	osManagementClient := GetTestClients(&schema.ResourceData{}).osManagementClient()
 
 	listSoftwareSourcesRequest := oci_osmanagement.ListSoftwareSourcesRequest{}
 	listSoftwareSourcesRequest.CompartmentId = &compartmentId
@@ -369,7 +369,7 @@ func softwareSourceSweepWaitCondition(response common.OCIOperationResponse) bool
 }
 
 func softwareSourceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.osManagementClient.GetSoftwareSource(context.Background(), oci_osmanagement.GetSoftwareSourceRequest{
+	_, err := client.osManagementClient().GetSoftwareSource(context.Background(), oci_osmanagement.GetSoftwareSourceRequest{
 		SoftwareSourceId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

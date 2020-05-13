@@ -215,7 +215,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 
 func testAccCheckCoreVolumeGroupBackupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).blockstorageClient
+	client := testAccProvider.Meta().(*OracleClients).blockstorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_volume_group_backup" {
 			noResourceFound = false
@@ -267,7 +267,7 @@ func init() {
 }
 
 func sweepCoreVolumeGroupBackupResource(compartment string) error {
-	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient()
 	volumeGroupBackupIds, err := getVolumeGroupBackupIds(compartment)
 	if err != nil {
 		return err
@@ -298,7 +298,7 @@ func getVolumeGroupBackupIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient()
 
 	listVolumeGroupBackupsRequest := oci_core.ListVolumeGroupBackupsRequest{}
 	listVolumeGroupBackupsRequest.CompartmentId = &compartmentId
@@ -324,7 +324,7 @@ func volumeGroupBackupSweepWaitCondition(response common.OCIOperationResponse) b
 }
 
 func volumeGroupBackupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.blockstorageClient.GetVolumeGroupBackup(context.Background(), oci_core.GetVolumeGroupBackupRequest{
+	_, err := client.blockstorageClient().GetVolumeGroupBackup(context.Background(), oci_core.GetVolumeGroupBackupRequest{
 		VolumeGroupBackupId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

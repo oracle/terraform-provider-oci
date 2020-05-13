@@ -299,7 +299,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseAutonomousExadataInfrastructureDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_autonomous_exadata_infrastructure" {
 			noResourceFound = false
@@ -351,7 +351,7 @@ func init() {
 }
 
 func sweepDatabaseAutonomousExadataInfrastructureResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	autonomousExadataInfrastructureIds, err := getAutonomousExadataInfrastructureIds(compartment)
 	if err != nil {
 		return err
@@ -382,7 +382,7 @@ func getAutonomousExadataInfrastructureIds(compartment string) ([]string, error)
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listAutonomousExadataInfrastructuresRequest := oci_database.ListAutonomousExadataInfrastructuresRequest{}
 	listAutonomousExadataInfrastructuresRequest.CompartmentId = &compartmentId
@@ -409,7 +409,7 @@ func autonomousExadataInfrastructureSweepWaitCondition(response common.OCIOperat
 }
 
 func autonomousExadataInfrastructureSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetAutonomousExadataInfrastructure(context.Background(), oci_database.GetAutonomousExadataInfrastructureRequest{
+	_, err := client.databaseClient().GetAutonomousExadataInfrastructure(context.Background(), oci_database.GetAutonomousExadataInfrastructureRequest{
 		AutonomousExadataInfrastructureId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

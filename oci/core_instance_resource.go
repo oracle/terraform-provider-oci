@@ -468,9 +468,9 @@ func CoreInstanceResource() *schema.Resource {
 func createCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
-	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
-	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).computeClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
+	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient()
 
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
@@ -501,9 +501,9 @@ func powerOffIfNeeded(d *schema.ResourceData, sync *CoreInstanceResourceCrud, po
 func readCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
-	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
-	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).computeClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
+	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient()
 
 	return ReadResource(sync)
 }
@@ -511,9 +511,9 @@ func readCoreInstance(d *schema.ResourceData, m interface{}) error {
 func updateCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
-	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
-	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).computeClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
+	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient()
 	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	// switch to power on
@@ -550,9 +550,9 @@ func updateCoreInstance(d *schema.ResourceData, m interface{}) error {
 func deleteCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
-	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
-	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).computeClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
+	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

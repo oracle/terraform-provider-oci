@@ -82,7 +82,7 @@ func CoreAppCatalogListingsDataSource() *schema.Resource {
 func readCoreAppCatalogListings(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreAppCatalogListingsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

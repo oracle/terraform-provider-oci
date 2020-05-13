@@ -103,7 +103,7 @@ func CoreRemotePeeringConnectionResource() *schema.Resource {
 func createCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreRemotePeeringConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	err := CreateResource(d, sync)
 	if err != nil {
@@ -117,7 +117,7 @@ func createCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) er
 func readCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreRemotePeeringConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -125,7 +125,7 @@ func readCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) erro
 func updateCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreRemotePeeringConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -133,7 +133,7 @@ func updateCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) er
 func deleteCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreRemotePeeringConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

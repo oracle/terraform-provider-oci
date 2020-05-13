@@ -202,7 +202,7 @@ func init() {
 }
 
 func sweepDatabaseValidatedVmClusterNetworkResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	vmClusterNetworkIds, err := getVmClusterNetworkIds(compartment)
 	if err != nil {
 		return err
@@ -233,7 +233,7 @@ func getValidatedVmClusterNetworkIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listVmClusterNetworksRequest := oci_database.ListVmClusterNetworksRequest{}
 	listVmClusterNetworksRequest.CompartmentId = &compartmentId

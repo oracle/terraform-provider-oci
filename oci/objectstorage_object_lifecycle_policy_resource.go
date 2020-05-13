@@ -144,7 +144,7 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 func createObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageObjectLifecyclePolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -152,7 +152,7 @@ func createObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interfac
 func readObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageObjectLifecyclePolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return ReadResource(sync)
 }
@@ -160,7 +160,7 @@ func readObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{
 func updateObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageObjectLifecyclePolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return UpdateResource(d, sync)
 }
@@ -168,7 +168,7 @@ func updateObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interfac
 func deleteObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageObjectLifecyclePolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

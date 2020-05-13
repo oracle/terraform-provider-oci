@@ -303,7 +303,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 func testAccCheckDataflowInvokeRunDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataFlowClient
+	client := testAccProvider.Meta().(*OracleClients).dataFlowClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dataflow_invoke_run" {
 			noResourceFound = false
@@ -347,7 +347,7 @@ func init() {
 }
 
 func sweepDataflowInvokeRunResource(compartment string) error {
-	dataFlowClient := GetTestClients(&schema.ResourceData{}).dataFlowClient
+	dataFlowClient := GetTestClients(&schema.ResourceData{}).dataFlowClient()
 	invokeRunIds, err := getInvokeRunIds(compartment)
 	if err != nil {
 		return err
@@ -374,7 +374,7 @@ func getInvokeRunIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dataFlowClient := GetTestClients(&schema.ResourceData{}).dataFlowClient
+	dataFlowClient := GetTestClients(&schema.ResourceData{}).dataFlowClient()
 
 	listRunsRequest := oci_dataflow.ListRunsRequest{}
 	listRunsRequest.CompartmentId = &compartmentId

@@ -76,7 +76,7 @@ func CoreFastConnectProviderServiceDataSource() *schema.Resource {
 func readSingularCoreFastConnectProviderService(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreFastConnectProviderServiceDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

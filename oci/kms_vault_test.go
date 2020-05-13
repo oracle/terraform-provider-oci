@@ -241,7 +241,7 @@ func TestKmsVaultResource_basic(t *testing.T) {
 
 func testAccCheckKMSVaultDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).kmsVaultClient
+	client := testAccProvider.Meta().(*OracleClients).kmsVaultClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_kms_vault" {
 			noResourceFound = false

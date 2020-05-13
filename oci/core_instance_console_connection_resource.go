@@ -81,7 +81,7 @@ func CoreInstanceConsoleConnectionResource() *schema.Resource {
 func createCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceConsoleConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return CreateResource(d, sync)
 }
@@ -89,7 +89,7 @@ func createCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) 
 func readCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceConsoleConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }
@@ -97,7 +97,7 @@ func readCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) er
 func deleteCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceConsoleConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

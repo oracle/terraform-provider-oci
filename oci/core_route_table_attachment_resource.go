@@ -44,15 +44,14 @@ func CoreRouteTableAttachmentResource() *schema.Resource {
 func createRouteTableAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &RouteTableAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
-
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return CreateResource(d, sync)
 }
 
 func deleteRouteTableAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &RouteTableAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -61,7 +60,7 @@ func deleteRouteTableAttachment(d *schema.ResourceData, m interface{}) error {
 func readRouteTableAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &RouteTableAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return ReadResource(sync)

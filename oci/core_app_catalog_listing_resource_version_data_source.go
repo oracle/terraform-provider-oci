@@ -73,7 +73,7 @@ func CoreAppCatalogListingResourceVersionDataSource() *schema.Resource {
 func readSingularCoreAppCatalogListingResourceVersion(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreAppCatalogListingResourceVersionDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

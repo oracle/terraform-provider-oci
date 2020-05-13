@@ -42,7 +42,7 @@ func ObjectStoragePreauthenticatedRequestsDataSource() *schema.Resource {
 func readObjectStoragePreauthenticatedRequests(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStoragePreauthenticatedRequestsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return ReadResource(sync)
 }

@@ -75,12 +75,12 @@ This example contains Terraform configuration to provision a virtual machine in 
 -   From the VM instance you can run the following commands to get the metadata
 
 ```powershell
-  curl http://169.254.169.254/opc/v1/instance/
-  curl http://169.254.169.254/opc/v1/instance/metadata/
-  curl http://169.254.169.254/opc/v1/instance/metadata/<any-key-name>
+  curl -H @{\"Authorization\"='Bearer Oracle'} http://169.254.169.254/opc/v2/instance/
+  curl -H @{\"Authorization\"='Bearer Oracle'} http://169.254.169.254/opc/v2/instance/metadata/
+  curl -H @{\"Authorization\"='Bearer Oracle'} http://169.254.169.254/opc/v2/instance/metadata/<any-key-name>
 
   # To get user_data
-  curl http://169.254.169.254/opc/v1/instance/metadata/user_data
+  curl -H @{\"Authorization\"='Bearer Oracle'} http://169.254.169.254/opc/v2/instance/metadata/user_data
 ```
 
 -   If you are facing issues with connecting or using WinRM from Terraform through remote-exec, an alternative approach can be to use local-exec with another library like [pywinrm](https://github.com/diyan/pywinrm)

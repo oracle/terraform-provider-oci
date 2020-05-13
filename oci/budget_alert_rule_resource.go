@@ -100,7 +100,7 @@ func BudgetAlertRuleResource() *schema.Resource {
 func createBudgetAlertRule(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetAlertRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 
 	return CreateResource(d, sync)
 }
@@ -108,7 +108,7 @@ func createBudgetAlertRule(d *schema.ResourceData, m interface{}) error {
 func readBudgetAlertRule(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetAlertRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 
 	return ReadResource(sync)
 }
@@ -116,7 +116,7 @@ func readBudgetAlertRule(d *schema.ResourceData, m interface{}) error {
 func updateBudgetAlertRule(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetAlertRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 
 	return UpdateResource(d, sync)
 }
@@ -124,7 +124,7 @@ func updateBudgetAlertRule(d *schema.ResourceData, m interface{}) error {
 func deleteBudgetAlertRule(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetAlertRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -46,7 +46,7 @@ func OnsNotificationTopicsDataSource() *schema.Resource {
 func readOnsNotificationTopics(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsNotificationTopicsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationControlPlaneClient
+	sync.Client = m.(*OracleClients).notificationControlPlaneClient()
 
 	return ReadResource(sync)
 }

@@ -327,7 +327,7 @@ func getCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err
 }
 
 func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
-	clients := &OracleClients{configuration: map[string]string{}}
+	clients := oracleClients
 
 	if d.Get(disableAutoRetriesAttrName).(bool) {
 		shortRetryTime = 0

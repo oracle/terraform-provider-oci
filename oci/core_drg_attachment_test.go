@@ -169,7 +169,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 
 func testAccCheckCoreDrgAttachmentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_drg_attachment" {
 			noResourceFound = false
@@ -221,7 +221,7 @@ func init() {
 }
 
 func sweepCoreDrgAttachmentResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	drgAttachmentIds, err := getDrgAttachmentIds(compartment)
 	if err != nil {
 		return err
@@ -252,7 +252,7 @@ func getDrgAttachmentIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listDrgAttachmentsRequest := oci_core.ListDrgAttachmentsRequest{}
 	listDrgAttachmentsRequest.CompartmentId = &compartmentId
@@ -278,7 +278,7 @@ func drgAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool 
 }
 
 func drgAttachmentSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetDrgAttachment(context.Background(), oci_core.GetDrgAttachmentRequest{
+	_, err := client.virtualNetworkClient().GetDrgAttachment(context.Background(), oci_core.GetDrgAttachmentRequest{
 		DrgAttachmentId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

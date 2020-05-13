@@ -49,7 +49,7 @@ func DataflowRunLogDataSource() *schema.Resource {
 func readSingularDataflowRunLog(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowRunLogDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return ReadResource(sync)
 }

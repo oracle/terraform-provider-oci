@@ -147,7 +147,7 @@ func OsmanagementManagedInstanceManagementResource() *schema.Resource {
 func createOsmanagementManagedInstanceManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementManagedInstanceManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return CreateResource(d, sync)
 }
@@ -155,7 +155,7 @@ func createOsmanagementManagedInstanceManagement(d *schema.ResourceData, m inter
 func readOsmanagementManagedInstanceManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementManagedInstanceManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return ReadResource(sync)
 }
@@ -163,7 +163,7 @@ func readOsmanagementManagedInstanceManagement(d *schema.ResourceData, m interfa
 func updateOsmanagementManagedInstanceManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementManagedInstanceManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return UpdateResource(d, sync)
 }

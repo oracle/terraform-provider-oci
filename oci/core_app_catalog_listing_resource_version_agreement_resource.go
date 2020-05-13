@@ -56,7 +56,7 @@ func AppCatalogListingResourceVersionAgreementResource() *schema.Resource {
 func createAppCatalogListingResourceVersionAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &AppCatalogListingResourceVersionAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return CreateResource(d, sync)
 }
@@ -64,7 +64,7 @@ func createAppCatalogListingResourceVersionAgreement(d *schema.ResourceData, m i
 func readAppCatalogListingResourceVersionAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &AppCatalogListingResourceVersionAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }
@@ -72,7 +72,7 @@ func readAppCatalogListingResourceVersionAgreement(d *schema.ResourceData, m int
 func deleteAppCatalogListingResourceVersionAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &AppCatalogListingResourceVersionAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

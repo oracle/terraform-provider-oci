@@ -255,7 +255,7 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 
 func testAccCheckCoreDedicatedVmHostDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient
+	client := testAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_dedicated_vm_host" {
 			noResourceFound = false
@@ -307,7 +307,7 @@ func init() {
 }
 
 func sweepCoreDedicatedVmHostResource(compartment string) error {
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 	dedicatedVmHostIds, err := getDedicatedVmHostIds(compartment)
 	if err != nil {
 		return err
@@ -338,7 +338,7 @@ func getDedicatedVmHostIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 
 	listDedicatedVmHostsRequest := oci_core.ListDedicatedVmHostsRequest{}
 	listDedicatedVmHostsRequest.CompartmentId = &compartmentId
@@ -365,7 +365,7 @@ func dedicatedVmHostSweepWaitCondition(response common.OCIOperationResponse) boo
 }
 
 func dedicatedVmHostSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.computeClient.GetDedicatedVmHost(context.Background(), oci_core.GetDedicatedVmHostRequest{
+	_, err := client.computeClient().GetDedicatedVmHost(context.Background(), oci_core.GetDedicatedVmHostRequest{
 		DedicatedVmHostId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

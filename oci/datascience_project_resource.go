@@ -76,7 +76,7 @@ func DatascienceProjectResource() *schema.Resource {
 func createDatascienceProject(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceProjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return CreateResource(d, sync)
 }
@@ -84,7 +84,7 @@ func createDatascienceProject(d *schema.ResourceData, m interface{}) error {
 func readDatascienceProject(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceProjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return ReadResource(sync)
 }
@@ -92,7 +92,7 @@ func readDatascienceProject(d *schema.ResourceData, m interface{}) error {
 func updateDatascienceProject(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceProjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return UpdateResource(d, sync)
 }
@@ -100,7 +100,7 @@ func updateDatascienceProject(d *schema.ResourceData, m interface{}) error {
 func deleteDatascienceProject(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceProjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

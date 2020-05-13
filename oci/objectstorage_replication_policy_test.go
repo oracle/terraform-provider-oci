@@ -139,7 +139,7 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 
 func testAccCheckObjectStorageReplicationPolicyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).objectStorageClient
+	client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_objectstorage_replication_policy" {
 			noResourceFound = false
@@ -189,7 +189,7 @@ func init() {
 }
 
 func sweepObjectStorageReplicationPolicyResource(compartment string) error {
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient()
 	replicationPolicyIds, err := getReplicationPolicyIds(compartment)
 	if err != nil {
 		return err
@@ -216,7 +216,7 @@ func getReplicationPolicyIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient()
 
 	listReplicationPoliciesRequest := oci_object_storage.ListReplicationPoliciesRequest{}
 

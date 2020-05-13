@@ -231,7 +231,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 
 func testAccCheckCoreNetworkSecurityGroupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_network_security_group" {
 			noResourceFound = false
@@ -283,7 +283,7 @@ func init() {
 }
 
 func sweepCoreNetworkSecurityGroupResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	networkSecurityGroupIds, err := getNetworkSecurityGroupIds(compartment)
 	if err != nil {
 		return err
@@ -314,7 +314,7 @@ func getNetworkSecurityGroupIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listNetworkSecurityGroupsRequest := oci_core.ListNetworkSecurityGroupsRequest{}
 	listNetworkSecurityGroupsRequest.CompartmentId = &compartmentId
@@ -341,7 +341,7 @@ func networkSecurityGroupSweepWaitCondition(response common.OCIOperationResponse
 }
 
 func networkSecurityGroupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetNetworkSecurityGroup(context.Background(), oci_core.GetNetworkSecurityGroupRequest{
+	_, err := client.virtualNetworkClient().GetNetworkSecurityGroup(context.Background(), oci_core.GetNetworkSecurityGroupRequest{
 		NetworkSecurityGroupId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

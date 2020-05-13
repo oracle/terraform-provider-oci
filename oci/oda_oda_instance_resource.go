@@ -106,7 +106,7 @@ func OdaOdaInstanceResource() *schema.Resource {
 func createOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).odaClient
+	sync.Client = m.(*OracleClients).odaClient()
 
 	var isInactiveRequest = false
 	if configState, ok := sync.D.GetOkExists("state"); ok {
@@ -137,7 +137,7 @@ func inactiveOdaIfNeeded(d *schema.ResourceData, sync *OdaOdaInstanceResourceCru
 func readOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).odaClient
+	sync.Client = m.(*OracleClients).odaClient()
 
 	return ReadResource(sync)
 }
@@ -145,7 +145,7 @@ func readOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 func updateOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).odaClient
+	sync.Client = m.(*OracleClients).odaClient()
 
 	// Start/Stop ODA instance
 	stateActive, stateInactive := false, false
@@ -192,7 +192,7 @@ func updateOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 func deleteOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).odaClient
+	sync.Client = m.(*OracleClients).odaClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

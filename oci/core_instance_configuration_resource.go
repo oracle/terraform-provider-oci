@@ -737,7 +737,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 func createCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return CreateResource(d, sync)
 }
@@ -745,7 +745,7 @@ func createCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) erro
 func readCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return ReadResource(sync)
 }
@@ -753,7 +753,7 @@ func readCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error 
 func updateCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return UpdateResource(d, sync)
 }
@@ -761,7 +761,7 @@ func updateCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) erro
 func deleteCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

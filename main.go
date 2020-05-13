@@ -25,6 +25,7 @@ func main() {
 	var ids = flag.String("ids", "", "[export] Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported.")
 	var generateStateFile = flag.Bool("generate_state", false, "[export][experimental] Set this to import the discovered resources into a state file along with the Terraform configuration")
 	var help = flag.Bool("help", false, "Prints usage options")
+	var tfVersion = flag.String("tf_version", "0.12", "The version of terraform syntax to generate for configurations. The state file will be written in v0.12 only. The allowed values are :\n * 0.11\n * 0.12")
 
 	flag.Parse()
 	provider.PrintVersion()
@@ -44,11 +45,22 @@ func main() {
 	} else {
 		switch *command {
 		case "export":
+
+			var terraformVersion provider.TfHclVersion
+			if provider.TfVersionEnum(*tfVersion) == provider.TfVersion11 {
+				terraformVersion = &provider.TfHclVersion11{Value: provider.TfVersionEnum(*tfVersion)}
+			} else if *tfVersion == "" || provider.TfVersionEnum(*tfVersion) == provider.TfVersion12 {
+				terraformVersion = &provider.TfHclVersion12{Value: provider.TfVersionEnum(*tfVersion)}
+			} else {
+				log.Printf("[ERROR]: Invalid tf_version '%s', supported values: 0.11, 0.12\n", *tfVersion)
+				os.Exit(1)
+			}
 			args := &provider.ExportCommandArgs{
 				CompartmentId:   compartmentId,
 				CompartmentName: compartmentName,
 				OutputDir:       outputPath,
 				GenerateState:   *generateStateFile,
+				TFVersion:       &terraformVersion,
 			}
 
 			if services != nil && *services != "" {

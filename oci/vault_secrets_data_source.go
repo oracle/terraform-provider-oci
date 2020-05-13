@@ -108,7 +108,7 @@ func VaultSecretsDataSource() *schema.Resource {
 func readVaultSecrets(d *schema.ResourceData, m interface{}) error {
 	sync := &VaultSecretsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).vaultsClient
+	sync.Client = m.(*OracleClients).vaultsClient()
 
 	return ReadResource(sync)
 }

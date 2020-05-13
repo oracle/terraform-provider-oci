@@ -50,7 +50,7 @@ func FileStorageExportsDataSource() *schema.Resource {
 func readFileStorageExports(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageExportsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return ReadResource(sync)
 }

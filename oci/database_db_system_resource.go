@@ -730,7 +730,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 func createDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateDBSystemResource(d, sync)
 }
@@ -738,7 +738,7 @@ func createDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 func readDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -746,7 +746,7 @@ func readDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 func updateDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }
@@ -754,7 +754,7 @@ func updateDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 func deleteDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

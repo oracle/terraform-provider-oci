@@ -94,7 +94,7 @@ func StreamingStreamResource() *schema.Resource {
 func createStreamingStream(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingStreamResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 
 	return CreateResource(d, sync)
 }
@@ -102,7 +102,7 @@ func createStreamingStream(d *schema.ResourceData, m interface{}) error {
 func readStreamingStream(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingStreamResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 
 	return ReadResource(sync)
 }
@@ -110,7 +110,7 @@ func readStreamingStream(d *schema.ResourceData, m interface{}) error {
 func updateStreamingStream(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingStreamResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 
 	return UpdateResource(d, sync)
 }
@@ -118,7 +118,7 @@ func updateStreamingStream(d *schema.ResourceData, m interface{}) error {
 func deleteStreamingStream(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingStreamResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

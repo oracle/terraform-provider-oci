@@ -202,7 +202,7 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 func readSingularDatabaseVmClusterRecommendedNetwork(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseVmClusterRecommendedNetworkDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

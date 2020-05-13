@@ -192,7 +192,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 
 func testAccCheckFileStorageSnapshotDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).fileStorageClient
+	client := testAccProvider.Meta().(*OracleClients).fileStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_file_storage_snapshot" {
 			noResourceFound = false

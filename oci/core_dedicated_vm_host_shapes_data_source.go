@@ -58,7 +58,7 @@ func CoreDedicatedVmHostShapesDataSource() *schema.Resource {
 func readCoreDedicatedVmHostShapes(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostShapesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

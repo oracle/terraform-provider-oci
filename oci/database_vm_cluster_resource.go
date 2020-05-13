@@ -130,7 +130,7 @@ func DatabaseVmClusterResource() *schema.Resource {
 func createDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -138,7 +138,7 @@ func createDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 func readDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -146,7 +146,7 @@ func readDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 func updateDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }
@@ -154,7 +154,7 @@ func updateDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 func deleteDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

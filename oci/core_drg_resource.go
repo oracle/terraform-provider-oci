@@ -72,7 +72,7 @@ func CoreDrgResource() *schema.Resource {
 func createCoreDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -80,7 +80,7 @@ func createCoreDrg(d *schema.ResourceData, m interface{}) error {
 func readCoreDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -88,7 +88,7 @@ func readCoreDrg(d *schema.ResourceData, m interface{}) error {
 func updateCoreDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.workRequestClient = m.(*OracleClients).workRequestClient
 	return UpdateResource(d, sync)
 }
@@ -96,7 +96,7 @@ func updateCoreDrg(d *schema.ResourceData, m interface{}) error {
 func deleteCoreDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

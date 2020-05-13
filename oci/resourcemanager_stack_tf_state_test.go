@@ -36,7 +36,7 @@ func TestResourcemanagerStackTfStateResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	client := GetTestClients(&schema.ResourceData{}).resourceManagerClient
+	client := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)

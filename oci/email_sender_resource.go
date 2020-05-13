@@ -71,7 +71,7 @@ func EmailSenderResource() *schema.Resource {
 func createEmailSender(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailSenderResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).emailClient
+	sync.Client = m.(*OracleClients).emailClient()
 
 	return CreateResource(d, sync)
 }
@@ -79,7 +79,7 @@ func createEmailSender(d *schema.ResourceData, m interface{}) error {
 func readEmailSender(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailSenderResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).emailClient
+	sync.Client = m.(*OracleClients).emailClient()
 
 	return ReadResource(sync)
 }
@@ -87,7 +87,7 @@ func readEmailSender(d *schema.ResourceData, m interface{}) error {
 func updateEmailSender(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailSenderResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).emailClient
+	sync.Client = m.(*OracleClients).emailClient()
 
 	return UpdateResource(d, sync)
 }
@@ -95,7 +95,7 @@ func updateEmailSender(d *schema.ResourceData, m interface{}) error {
 func deleteEmailSender(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailSenderResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).emailClient
+	sync.Client = m.(*OracleClients).emailClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

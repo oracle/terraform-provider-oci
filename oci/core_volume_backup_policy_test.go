@@ -218,7 +218,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 
 func testAccCheckCoreVolumeBackupPolicyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).blockstorageClient
+	client := testAccProvider.Meta().(*OracleClients).blockstorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_volume_backup_policy" {
 			noResourceFound = false
@@ -262,7 +262,7 @@ func init() {
 }
 
 func sweepCoreVolumeBackupPolicyResource(compartment string) error {
-	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient()
 	volumeBackupPolicyIds, err := getVolumeBackupPolicyIds(compartment)
 	if err != nil {
 		return err
@@ -291,7 +291,7 @@ func getVolumeBackupPolicyIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient()
 
 	listVolumeBackupPoliciesRequest := oci_core.ListVolumeBackupPoliciesRequest{}
 	listVolumeBackupPoliciesRequest.CompartmentId = &compartmentId

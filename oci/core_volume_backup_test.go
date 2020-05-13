@@ -208,7 +208,7 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 
 func testAccCheckCoreVolumeBackupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).blockstorageClient
+	client := testAccProvider.Meta().(*OracleClients).blockstorageClient()
 
 	if volumeBackupId != "" || volumeId != "" {
 		deleteSourceVolumeBackupToCopy()
@@ -265,7 +265,7 @@ func init() {
 }
 
 func sweepCoreVolumeBackupResource(compartment string) error {
-	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient()
 	volumeBackupIds, err := getVolumeBackupIds(compartment)
 	if err != nil {
 		return err
@@ -296,7 +296,7 @@ func getVolumeBackupIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient()
 
 	listVolumeBackupsRequest := oci_core.ListVolumeBackupsRequest{}
 	listVolumeBackupsRequest.CompartmentId = &compartmentId
@@ -323,7 +323,7 @@ func volumeBackupSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func volumeBackupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.blockstorageClient.GetVolumeBackup(context.Background(), oci_core.GetVolumeBackupRequest{
+	_, err := client.blockstorageClient().GetVolumeBackup(context.Background(), oci_core.GetVolumeBackupRequest{
 		VolumeBackupId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

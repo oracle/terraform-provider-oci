@@ -155,7 +155,7 @@ func OsmanagementManagedInstancesDataSource() *schema.Resource {
 func readOsmanagementManagedInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementManagedInstancesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return ReadResource(sync)
 }

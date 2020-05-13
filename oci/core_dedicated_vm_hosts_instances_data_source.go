@@ -70,7 +70,7 @@ func CoreDedicatedVmHostsInstancesDataSource() *schema.Resource {
 func readCoreDedicatedVmHostsInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostsInstancesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

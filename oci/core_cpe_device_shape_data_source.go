@@ -79,7 +79,7 @@ func CoreCpeDeviceShapeDataSource() *schema.Resource {
 func readSingularCoreCpeDeviceShape(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCpeDeviceShapeDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

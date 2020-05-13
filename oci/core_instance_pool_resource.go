@@ -195,7 +195,7 @@ func CoreInstancePoolResource() *schema.Resource {
 func createCoreInstancePool(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstancePoolResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return CreateResource(d, sync)
 }
@@ -203,7 +203,7 @@ func createCoreInstancePool(d *schema.ResourceData, m interface{}) error {
 func readCoreInstancePool(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstancePoolResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return ReadResource(sync)
 }
@@ -211,7 +211,7 @@ func readCoreInstancePool(d *schema.ResourceData, m interface{}) error {
 func updateCoreInstancePool(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstancePoolResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return UpdateResource(d, sync)
 }
@@ -219,7 +219,7 @@ func updateCoreInstancePool(d *schema.ResourceData, m interface{}) error {
 func deleteCoreInstancePool(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstancePoolResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

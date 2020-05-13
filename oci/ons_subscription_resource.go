@@ -87,7 +87,7 @@ func OnsSubscriptionResource() *schema.Resource {
 func createOnsSubscription(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsSubscriptionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationDataPlaneClient
+	sync.Client = m.(*OracleClients).notificationDataPlaneClient()
 
 	return CreateResource(d, sync)
 }
@@ -95,7 +95,7 @@ func createOnsSubscription(d *schema.ResourceData, m interface{}) error {
 func readOnsSubscription(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsSubscriptionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationDataPlaneClient
+	sync.Client = m.(*OracleClients).notificationDataPlaneClient()
 
 	return ReadResource(sync)
 }
@@ -103,7 +103,7 @@ func readOnsSubscription(d *schema.ResourceData, m interface{}) error {
 func updateOnsSubscription(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsSubscriptionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationDataPlaneClient
+	sync.Client = m.(*OracleClients).notificationDataPlaneClient()
 
 	return UpdateResource(d, sync)
 }
@@ -111,7 +111,7 @@ func updateOnsSubscription(d *schema.ResourceData, m interface{}) error {
 func deleteOnsSubscription(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsSubscriptionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationDataPlaneClient
+	sync.Client = m.(*OracleClients).notificationDataPlaneClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

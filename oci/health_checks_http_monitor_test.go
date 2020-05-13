@@ -271,7 +271,7 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 
 func testAccCheckHealthChecksHttpMonitorDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).healthChecksClient
+	client := testAccProvider.Meta().(*OracleClients).healthChecksClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_health_checks_http_monitor" {
 			noResourceFound = false
@@ -315,7 +315,7 @@ func init() {
 }
 
 func sweepHealthChecksHttpMonitorResource(compartment string) error {
-	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient
+	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient()
 	httpMonitorIds, err := getHttpMonitorIds(compartment)
 	if err != nil {
 		return err
@@ -344,7 +344,7 @@ func getHttpMonitorIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient
+	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient()
 
 	listHttpMonitorsRequest := oci_health_checks.ListHttpMonitorsRequest{}
 	listHttpMonitorsRequest.CompartmentId = &compartmentId

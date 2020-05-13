@@ -92,7 +92,7 @@ func OsmanagementManagedInstanceGroupResource() *schema.Resource {
 func createOsmanagementManagedInstanceGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementManagedInstanceGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return CreateResource(d, sync)
 }
@@ -100,7 +100,7 @@ func createOsmanagementManagedInstanceGroup(d *schema.ResourceData, m interface{
 func readOsmanagementManagedInstanceGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementManagedInstanceGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return ReadResource(sync)
 }
@@ -108,7 +108,7 @@ func readOsmanagementManagedInstanceGroup(d *schema.ResourceData, m interface{})
 func updateOsmanagementManagedInstanceGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementManagedInstanceGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return UpdateResource(d, sync)
 }
@@ -116,7 +116,7 @@ func updateOsmanagementManagedInstanceGroup(d *schema.ResourceData, m interface{
 func deleteOsmanagementManagedInstanceGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementManagedInstanceGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

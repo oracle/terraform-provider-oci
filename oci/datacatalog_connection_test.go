@@ -210,7 +210,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 
 func testAccCheckDatacatalogConnectionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataCatalogClient
+	client := testAccProvider.Meta().(*OracleClients).dataCatalogClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_datacatalog_connection" {
 			noResourceFound = false

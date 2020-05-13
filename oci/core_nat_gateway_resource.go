@@ -81,7 +81,7 @@ func CoreNatGatewayResource() *schema.Resource {
 func createCoreNatGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreNatGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -89,7 +89,7 @@ func createCoreNatGateway(d *schema.ResourceData, m interface{}) error {
 func readCoreNatGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreNatGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -97,7 +97,7 @@ func readCoreNatGateway(d *schema.ResourceData, m interface{}) error {
 func updateCoreNatGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreNatGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -105,7 +105,7 @@ func updateCoreNatGateway(d *schema.ResourceData, m interface{}) error {
 func deleteCoreNatGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreNatGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

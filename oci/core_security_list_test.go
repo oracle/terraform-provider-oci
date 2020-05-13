@@ -569,7 +569,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 
 func testAccCheckCoreSecurityListDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_security_list" {
 			noResourceFound = false
@@ -621,7 +621,7 @@ func init() {
 }
 
 func sweepCoreSecurityListResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	securityListIds, err := getSecurityListIds(compartment)
 	if err != nil {
 		return err
@@ -652,7 +652,7 @@ func getSecurityListIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listSecurityListsRequest := oci_core.ListSecurityListsRequest{}
 	listSecurityListsRequest.CompartmentId = &compartmentId
@@ -689,7 +689,7 @@ func securityListSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func securityListSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetSecurityList(context.Background(), oci_core.GetSecurityListRequest{
+	_, err := client.virtualNetworkClient().GetSecurityList(context.Background(), oci_core.GetSecurityListRequest{
 		SecurityListId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

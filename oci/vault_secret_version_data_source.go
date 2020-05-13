@@ -66,7 +66,7 @@ func VaultSecretVersionDataSource() *schema.Resource {
 func readSingularVaultSecretVersion(d *schema.ResourceData, m interface{}) error {
 	sync := &VaultSecretVersionDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).vaultsClient
+	sync.Client = m.(*OracleClients).vaultsClient()
 
 	return ReadResource(sync)
 }

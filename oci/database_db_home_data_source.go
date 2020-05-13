@@ -25,7 +25,7 @@ func DatabaseDbHomeDataSource() *schema.Resource {
 func readSingularDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbHomeDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

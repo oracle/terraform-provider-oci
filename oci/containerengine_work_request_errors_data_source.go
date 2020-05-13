@@ -58,7 +58,7 @@ func ContainerengineWorkRequestErrorsDataSource() *schema.Resource {
 func readContainerengineWorkRequestErrors(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineWorkRequestErrorsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return ReadResource(sync)
 }

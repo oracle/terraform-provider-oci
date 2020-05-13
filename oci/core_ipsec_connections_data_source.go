@@ -42,7 +42,7 @@ func CoreIpSecConnectionsDataSource() *schema.Resource {
 func readCoreIpSecConnections(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

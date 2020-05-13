@@ -45,7 +45,7 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	client := GetTestClients(&schema.ResourceData{}).resourceManagerClient
+	client := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -133,7 +133,7 @@ func init() {
 }
 
 func sweepResourcemanagerStackResource(compartment string) error {
-	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient
+	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
 	stackIds, err := getStackIds(compartment)
 	if err != nil {
 		return err
@@ -164,7 +164,7 @@ func getStackIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient
+	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
 
 	listStacksRequest := oci_resourcemanager.ListStacksRequest{}
 	listStacksRequest.CompartmentId = &compartmentId
@@ -191,7 +191,7 @@ func stackSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func stackSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.resourceManagerClient.GetStack(context.Background(), oci_resourcemanager.GetStackRequest{
+	_, err := client.resourceManagerClient().GetStack(context.Background(), oci_resourcemanager.GetStackRequest{
 		StackId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

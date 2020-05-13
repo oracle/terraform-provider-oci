@@ -256,7 +256,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 
 func testAccCheckCoreDhcpOptionsDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_dhcp_options" {
 			noResourceFound = false
@@ -308,7 +308,7 @@ func init() {
 }
 
 func sweepCoreDhcpOptionsResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	dhcpOptionsIds, err := getDhcpOptionsIds(compartment)
 	if err != nil {
 		return err
@@ -339,7 +339,7 @@ func getDhcpOptionsIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listDhcpOptionsRequest := oci_core.ListDhcpOptionsRequest{}
 	listDhcpOptionsRequest.CompartmentId = &compartmentId
@@ -376,7 +376,7 @@ func dhcpOptionsSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func dhcpOptionsSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetDhcpOptions(context.Background(), oci_core.GetDhcpOptionsRequest{
+	_, err := client.virtualNetworkClient().GetDhcpOptions(context.Background(), oci_core.GetDhcpOptionsRequest{
 		DhcpId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

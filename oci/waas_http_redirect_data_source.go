@@ -25,7 +25,7 @@ func WaasHttpRedirectDataSource() *schema.Resource {
 func readSingularWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasHttpRedirectDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).redirectClient
+	sync.Client = m.(*OracleClients).redirectClient()
 
 	return ReadResource(sync)
 }

@@ -42,7 +42,7 @@ func DatacatalogCatalogsDataSource() *schema.Resource {
 func readDatacatalogCatalogs(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogCatalogsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataCatalogClient
+	sync.Client = m.(*OracleClients).dataCatalogClient()
 
 	return ReadResource(sync)
 }

@@ -135,7 +135,7 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseDbNodeConsoleConnectionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_db_node_console_connection" {
 			noResourceFound = false
@@ -191,7 +191,7 @@ func init() {
 }
 
 func sweepDatabaseDbNodeConsoleConnectionResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	dbNodeConsoleConnectionIds, err := getDbNodeConsoleConnectionIds(compartment)
 	if err != nil {
 		return err
@@ -228,7 +228,7 @@ func getDbNodeConsoleConnectionIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listConsoleConnectionsRequest := oci_database.ListConsoleConnectionsRequest{}
 
@@ -263,7 +263,7 @@ func dbNodeConsoleConnectionSweepWaitCondition(response common.OCIOperationRespo
 }
 
 func dbNodeConsoleConnectionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetConsoleConnection(context.Background(), oci_database.GetConsoleConnectionRequest{
+	_, err := client.databaseClient().GetConsoleConnection(context.Background(), oci_database.GetConsoleConnectionRequest{
 		ConsoleConnectionId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

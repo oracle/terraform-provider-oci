@@ -213,7 +213,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 
 func testAccCheckFileStorageFileSystemDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).fileStorageClient
+	client := testAccProvider.Meta().(*OracleClients).fileStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_file_storage_file_system" {
 			noResourceFound = false
@@ -265,7 +265,7 @@ func init() {
 }
 
 func sweepFileStorageFileSystemResource(compartment string) error {
-	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient()
 	fileSystemIds, err := getFileSystemIds(compartment)
 	if err != nil {
 		return err
@@ -296,7 +296,7 @@ func getFileSystemIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient()
 
 	listFileSystemsRequest := oci_file_storage.ListFileSystemsRequest{}
 	listFileSystemsRequest.CompartmentId = &compartmentId
@@ -333,7 +333,7 @@ func fileSystemSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func fileSystemSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.fileStorageClient.GetFileSystem(context.Background(), oci_file_storage.GetFileSystemRequest{
+	_, err := client.fileStorageClient().GetFileSystem(context.Background(), oci_file_storage.GetFileSystemRequest{
 		FileSystemId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

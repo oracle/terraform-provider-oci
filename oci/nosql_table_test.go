@@ -236,7 +236,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 
 func testAccCheckNosqlTableDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).nosqlClient
+	client := testAccProvider.Meta().(*OracleClients).nosqlClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_nosql_table" {
 			noResourceFound = false
@@ -296,7 +296,7 @@ func init() {
 }
 
 func sweepNosqlTableResource(compartment string) error {
-	nosqlClient := GetTestClients(&schema.ResourceData{}).nosqlClient
+	nosqlClient := GetTestClients(&schema.ResourceData{}).nosqlClient()
 	tableIds, err := getTableIds(compartment)
 	if err != nil {
 		return err
@@ -325,7 +325,7 @@ func getTableIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	nosqlClient := GetTestClients(&schema.ResourceData{}).nosqlClient
+	nosqlClient := GetTestClients(&schema.ResourceData{}).nosqlClient()
 
 	listTablesRequest := oci_nosql.ListTablesRequest{}
 	listTablesRequest.CompartmentId = &compartmentId
@@ -352,7 +352,7 @@ func tableSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func tableSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.nosqlClient.GetTable(context.Background(), oci_nosql.GetTableRequest{RequestMetadata: common.RequestMetadata{
+	_, err := client.nosqlClient().GetTable(context.Background(), oci_nosql.GetTableRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},
 	})

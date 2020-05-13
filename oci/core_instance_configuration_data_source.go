@@ -25,7 +25,7 @@ func CoreInstanceConfigurationDataSource() *schema.Resource {
 func readSingularCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceConfigurationDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return ReadResource(sync)
 }

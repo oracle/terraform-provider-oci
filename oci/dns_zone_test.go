@@ -314,7 +314,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 
 func testAccCheckDnsZoneDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dnsClient
+	client := testAccProvider.Meta().(*OracleClients).dnsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dns_zone" {
 			noResourceFound = false
@@ -362,7 +362,7 @@ func init() {
 }
 
 func sweepDnsZoneResource(compartment string) error {
-	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient()
 	zoneIds, err := getZoneIds(compartment)
 	if err != nil {
 		return err
@@ -393,7 +393,7 @@ func getZoneIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient()
 
 	listZonesRequest := oci_dns.ListZonesRequest{}
 	listZonesRequest.CompartmentId = &compartmentId
@@ -420,7 +420,7 @@ func zoneSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func zoneSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.dnsClient.GetZone(context.Background(), oci_dns.GetZoneRequest{
+	_, err := client.dnsClient().GetZone(context.Background(), oci_dns.GetZoneRequest{
 		ZoneNameOrId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

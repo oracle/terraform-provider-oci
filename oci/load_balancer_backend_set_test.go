@@ -445,7 +445,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 
 func testAccCheckLoadBalancerBackendSetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient
+	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_backend_set" {
 			noResourceFound = false
@@ -494,7 +494,7 @@ func init() {
 }
 
 func sweepLoadBalancerBackendSetResource(compartment string) error {
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 	backendSetIds, err := getBackendSetIds(compartment)
 	if err != nil {
 		return err
@@ -521,7 +521,7 @@ func getBackendSetIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 
 	listBackendSetsRequest := oci_load_balancer.ListBackendSetsRequest{}
 

@@ -112,7 +112,7 @@ func CoreVcnResource() *schema.Resource {
 func createCoreVcn(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVcnResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -120,7 +120,7 @@ func createCoreVcn(d *schema.ResourceData, m interface{}) error {
 func readCoreVcn(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVcnResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -128,7 +128,7 @@ func readCoreVcn(d *schema.ResourceData, m interface{}) error {
 func updateCoreVcn(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVcnResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -136,7 +136,7 @@ func updateCoreVcn(d *schema.ResourceData, m interface{}) error {
 func deleteCoreVcn(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVcnResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

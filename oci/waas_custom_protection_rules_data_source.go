@@ -65,7 +65,7 @@ func WaasCustomProtectionRulesDataSource() *schema.Resource {
 func readWaasCustomProtectionRules(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasCustomProtectionRulesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return ReadResource(sync)
 }

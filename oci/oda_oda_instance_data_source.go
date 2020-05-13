@@ -25,7 +25,7 @@ func OdaOdaInstanceDataSource() *schema.Resource {
 func readSingularOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).odaClient
+	sync.Client = m.(*OracleClients).odaClient()
 
 	return ReadResource(sync)
 }

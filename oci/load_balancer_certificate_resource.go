@@ -83,7 +83,7 @@ func LoadBalancerCertificateResource() *schema.Resource {
 func createLoadBalancerCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return CreateResource(d, sync)
 }
@@ -91,7 +91,7 @@ func createLoadBalancerCertificate(d *schema.ResourceData, m interface{}) error 
 func readLoadBalancerCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return ReadResource(sync)
 }
@@ -99,7 +99,7 @@ func readLoadBalancerCertificate(d *schema.ResourceData, m interface{}) error {
 func deleteLoadBalancerCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -256,7 +256,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 
 func testAccCheckHealthChecksPingMonitorDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).healthChecksClient
+	client := testAccProvider.Meta().(*OracleClients).healthChecksClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_health_checks_ping_monitor" {
 			noResourceFound = false
@@ -300,7 +300,7 @@ func init() {
 }
 
 func sweepHealthChecksPingMonitorResource(compartment string) error {
-	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient
+	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient()
 	pingMonitorIds, err := getPingMonitorIds(compartment)
 	if err != nil {
 		return err
@@ -329,7 +329,7 @@ func getPingMonitorIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient
+	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient()
 
 	listPingMonitorsRequest := oci_health_checks.ListPingMonitorsRequest{}
 	listPingMonitorsRequest.CompartmentId = &compartmentId

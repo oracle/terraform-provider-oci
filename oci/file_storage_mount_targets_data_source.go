@@ -54,7 +54,7 @@ func FileStorageMountTargetsDataSource() *schema.Resource {
 func readFileStorageMountTargets(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return ReadResource(sync)
 }

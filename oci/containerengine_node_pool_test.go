@@ -276,7 +276,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 
 func testAccCheckContainerengineNodePoolDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).containerEngineClient
+	client := testAccProvider.Meta().(*OracleClients).containerEngineClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_containerengine_node_pool" {
 			noResourceFound = false
@@ -320,7 +320,7 @@ func init() {
 }
 
 func sweepContainerengineNodePoolResource(compartment string) error {
-	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient()
 	nodePoolIds, err := getNodePoolIds(compartment)
 	if err != nil {
 		return err
@@ -349,7 +349,7 @@ func getNodePoolIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient()
 
 	listNodePoolsRequest := oci_containerengine.ListNodePoolsRequest{}
 	listNodePoolsRequest.CompartmentId = &compartmentId

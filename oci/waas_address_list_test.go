@@ -228,7 +228,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 
 func testAccCheckWaasAddressListDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).waasClient
+	client := testAccProvider.Meta().(*OracleClients).waasClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_waas_address_list" {
 			noResourceFound = false
@@ -280,7 +280,7 @@ func init() {
 }
 
 func sweepWaasAddressListResource(compartment string) error {
-	waasClient := GetTestClients(&schema.ResourceData{}).waasClient
+	waasClient := GetTestClients(&schema.ResourceData{}).waasClient()
 	addressListIds, err := getAddressListIds(compartment)
 	if err != nil {
 		return err
@@ -311,7 +311,7 @@ func getAddressListIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	waasClient := GetTestClients(&schema.ResourceData{}).waasClient
+	waasClient := GetTestClients(&schema.ResourceData{}).waasClient()
 
 	listAddressListsRequest := oci_waas.ListAddressListsRequest{}
 	listAddressListsRequest.CompartmentId = &compartmentId
@@ -338,7 +338,7 @@ func addressListSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func addressListSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.waasClient.GetAddressList(context.Background(), oci_waas.GetAddressListRequest{
+	_, err := client.waasClient().GetAddressList(context.Background(), oci_waas.GetAddressListRequest{
 		AddressListId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

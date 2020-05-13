@@ -54,8 +54,7 @@ func ObjectStorageObjectHeadDataSource() *schema.Resource {
 func readObjectHead(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectHeadDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
-
+	sync.Client = m.(*OracleClients).objectStorageClient()
 	return ReadResource(sync)
 }
 

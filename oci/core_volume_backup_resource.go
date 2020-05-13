@@ -156,7 +156,7 @@ func CoreVolumeBackupResource() *schema.Resource {
 func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
@@ -187,7 +187,7 @@ func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 func readCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return ReadResource(sync)
 }
@@ -195,7 +195,7 @@ func readCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 func updateCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return UpdateResource(d, sync)
 }
@@ -203,7 +203,7 @@ func updateCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 func deleteCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

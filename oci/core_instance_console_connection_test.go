@@ -129,7 +129,7 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 
 func testAccCheckCoreInstanceConsoleConnectionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient
+	client := testAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_instance_console_connection" {
 			noResourceFound = false
@@ -181,7 +181,7 @@ func init() {
 }
 
 func sweepCoreInstanceConsoleConnectionResource(compartment string) error {
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 	instanceConsoleConnectionIds, err := getInstanceConsoleConnectionIds(compartment)
 	if err != nil {
 		return err
@@ -212,7 +212,7 @@ func getInstanceConsoleConnectionIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 
 	listInstanceConsoleConnectionsRequest := oci_core.ListInstanceConsoleConnectionsRequest{}
 	listInstanceConsoleConnectionsRequest.CompartmentId = &compartmentId
@@ -241,7 +241,7 @@ func instanceConsoleConnectionSweepWaitCondition(response common.OCIOperationRes
 }
 
 func instanceConsoleConnectionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.computeClient.GetInstanceConsoleConnection(context.Background(), oci_core.GetInstanceConsoleConnectionRequest{
+	_, err := client.computeClient().GetInstanceConsoleConnection(context.Background(), oci_core.GetInstanceConsoleConnectionRequest{
 		InstanceConsoleConnectionId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

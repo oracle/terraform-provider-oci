@@ -77,7 +77,7 @@ func WaasAddressListResource() *schema.Resource {
 func createWaasAddressList(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasAddressListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return CreateResource(d, sync)
 }
@@ -85,7 +85,7 @@ func createWaasAddressList(d *schema.ResourceData, m interface{}) error {
 func readWaasAddressList(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasAddressListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return ReadResource(sync)
 }
@@ -93,7 +93,7 @@ func readWaasAddressList(d *schema.ResourceData, m interface{}) error {
 func updateWaasAddressList(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasAddressListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return UpdateResource(d, sync)
 }
@@ -101,7 +101,7 @@ func updateWaasAddressList(d *schema.ResourceData, m interface{}) error {
 func deleteWaasAddressList(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasAddressListResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
