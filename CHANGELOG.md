@@ -5,6 +5,7 @@
 - Support resource discovery for `osmanagement` resources
 - Documentation update for oci_marketplace_listing, oci_marketplace_listing_package, oci_marketplace_listing_packages, oci_marketplace_listings datasources
 - Support Expansion: US customers can launch in all regions
+- Support for Enhance Marketplace Get Package API
 
 ## 3.78.0 (May 27, 2020)
 
