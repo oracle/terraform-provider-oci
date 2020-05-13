@@ -25,7 +25,7 @@ func MonitoringAlarmDataSource() *schema.Resource {
 func readSingularMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
 	sync := &MonitoringAlarmDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).monitoringClient
+	sync.Client = m.(*OracleClients).monitoringClient()
 
 	return ReadResource(sync)
 }

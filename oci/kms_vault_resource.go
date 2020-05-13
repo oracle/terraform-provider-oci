@@ -138,7 +138,7 @@ func KmsVaultResource() *schema.Resource {
 func createKmsVault(d *schema.ResourceData, m interface{}) error {
 	sync := &KmsVaultResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).kmsVaultClient
+	sync.Client = m.(*OracleClients).kmsVaultClient()
 
 	return CreateResource(d, sync)
 }
@@ -146,7 +146,7 @@ func createKmsVault(d *schema.ResourceData, m interface{}) error {
 func readKmsVault(d *schema.ResourceData, m interface{}) error {
 	sync := &KmsVaultResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).kmsVaultClient
+	sync.Client = m.(*OracleClients).kmsVaultClient()
 
 	return ReadResource(sync)
 }
@@ -154,7 +154,7 @@ func readKmsVault(d *schema.ResourceData, m interface{}) error {
 func updateKmsVault(d *schema.ResourceData, m interface{}) error {
 	sync := &KmsVaultResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).kmsVaultClient
+	sync.Client = m.(*OracleClients).kmsVaultClient()
 
 	return UpdateResource(d, sync)
 }
@@ -162,7 +162,7 @@ func updateKmsVault(d *schema.ResourceData, m interface{}) error {
 func deleteKmsVault(d *schema.ResourceData, m interface{}) error {
 	sync := &KmsVaultResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).kmsVaultClient
+	sync.Client = m.(*OracleClients).kmsVaultClient()
 
 	return DeleteResource(d, sync)
 }

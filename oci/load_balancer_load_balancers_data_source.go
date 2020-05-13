@@ -46,7 +46,7 @@ func LoadBalancerLoadBalancersDataSource() *schema.Resource {
 func readLoadBalancerLoadBalancers(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerLoadBalancersDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return ReadResource(sync)
 }

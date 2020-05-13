@@ -25,7 +25,7 @@ func DataSafeDataSafeConfigurationDataSource() *schema.Resource {
 func readSingularDataSafeDataSafeConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeDataSafeConfigurationDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataSafeClient
+	sync.Client = m.(*OracleClients).dataSafeClient()
 
 	return ReadResource(sync)
 }

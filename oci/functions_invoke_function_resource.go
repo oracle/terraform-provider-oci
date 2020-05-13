@@ -109,7 +109,7 @@ func createFunctionsInvokeFunction(d *schema.ResourceData, m interface{}) error 
 }
 
 func (s *FunctionsInvokeFunctionResourceCrud) getInvokeEndPoint(m interface{}) (string, error) {
-	functionsManagementClient := m.(*OracleClients).functionsManagementClient
+	functionsManagementClient := m.(*OracleClients).functionsManagementClient()
 	functionGetRequest := oci_functions.GetFunctionRequest{}
 
 	if functionId, ok := s.D.GetOkExists("function_id"); ok {

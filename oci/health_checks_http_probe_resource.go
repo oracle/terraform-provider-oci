@@ -106,7 +106,7 @@ func HealthChecksHttpProbeResource() *schema.Resource {
 func createHealthChecksHttpProbe(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksHttpProbeResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return CreateResource(d, sync)
 }

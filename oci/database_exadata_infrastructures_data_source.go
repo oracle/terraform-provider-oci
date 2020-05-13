@@ -42,7 +42,7 @@ func DatabaseExadataInfrastructuresDataSource() *schema.Resource {
 func readDatabaseExadataInfrastructures(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataInfrastructuresDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

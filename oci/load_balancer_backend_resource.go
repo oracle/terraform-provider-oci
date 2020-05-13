@@ -93,7 +93,7 @@ func LoadBalancerBackendResource() *schema.Resource {
 func createLoadBalancerBackend(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerBackendResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return CreateResource(d, sync)
 }
@@ -101,7 +101,7 @@ func createLoadBalancerBackend(d *schema.ResourceData, m interface{}) error {
 func readLoadBalancerBackend(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerBackendResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return ReadResource(sync)
 }
@@ -109,7 +109,7 @@ func readLoadBalancerBackend(d *schema.ResourceData, m interface{}) error {
 func updateLoadBalancerBackend(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerBackendResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return UpdateResource(d, sync)
 }
@@ -117,7 +117,7 @@ func updateLoadBalancerBackend(d *schema.ResourceData, m interface{}) error {
 func deleteLoadBalancerBackend(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerBackendResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

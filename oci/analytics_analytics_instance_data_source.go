@@ -25,7 +25,7 @@ func AnalyticsAnalyticsInstanceDataSource() *schema.Resource {
 func readSingularAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient
+	sync.Client = m.(*OracleClients).analyticsClient()
 
 	return ReadResource(sync)
 }

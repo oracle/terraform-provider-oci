@@ -80,7 +80,7 @@ func LimitsQuotaResource() *schema.Resource {
 func createLimitsQuota(d *schema.ResourceData, m interface{}) error {
 	sync := &LimitsQuotaResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).quotasClient
+	sync.Client = m.(*OracleClients).quotasClient()
 
 	return CreateResource(d, sync)
 }
@@ -88,7 +88,7 @@ func createLimitsQuota(d *schema.ResourceData, m interface{}) error {
 func readLimitsQuota(d *schema.ResourceData, m interface{}) error {
 	sync := &LimitsQuotaResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).quotasClient
+	sync.Client = m.(*OracleClients).quotasClient()
 
 	return ReadResource(sync)
 }
@@ -96,7 +96,7 @@ func readLimitsQuota(d *schema.ResourceData, m interface{}) error {
 func updateLimitsQuota(d *schema.ResourceData, m interface{}) error {
 	sync := &LimitsQuotaResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).quotasClient
+	sync.Client = m.(*OracleClients).quotasClient()
 
 	return UpdateResource(d, sync)
 }
@@ -104,7 +104,7 @@ func updateLimitsQuota(d *schema.ResourceData, m interface{}) error {
 func deleteLimitsQuota(d *schema.ResourceData, m interface{}) error {
 	sync := &LimitsQuotaResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).quotasClient
+	sync.Client = m.(*OracleClients).quotasClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

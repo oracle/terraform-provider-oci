@@ -37,7 +37,7 @@ func CoreInstanceCredentialDataSource() *schema.Resource {
 func readSingularCoreInstanceCredential(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceCredentialDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

@@ -94,7 +94,7 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 
 func testAccCheckCoreVolumeBackupPolicyAssignmentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).blockstorageClient
+	client := testAccProvider.Meta().(*OracleClients).blockstorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_volume_backup_policy_assignment" {
 			noResourceFound = false

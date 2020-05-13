@@ -71,7 +71,7 @@ func IdentityUserCapabilitiesManagementResource() *schema.Resource {
 func createUserCapabilitiesManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &UserCapabilitiesManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.Configuration = m.(*OracleClients).configuration
 
 	return CreateResource(d, sync)
@@ -80,23 +80,21 @@ func createUserCapabilitiesManagement(d *schema.ResourceData, m interface{}) err
 func readUserCapabilitiesManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &UserCapabilitiesManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
-
+	sync.Client = m.(*OracleClients).identityClient()
 	return ReadResource(sync)
 }
 
 func updateUserCapabilitiesManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &UserCapabilitiesManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
-
+	sync.Client = m.(*OracleClients).identityClient()
 	return UpdateResource(d, sync)
 }
 
 func deleteUserCapabilitiesManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &UserCapabilitiesManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

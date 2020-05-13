@@ -545,7 +545,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 
 func testAccCheckDnsSteeringPolicyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dnsClient
+	client := testAccProvider.Meta().(*OracleClients).dnsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dns_steering_policy" {
 			noResourceFound = false
@@ -597,7 +597,7 @@ func init() {
 }
 
 func sweepDnsSteeringPolicyResource(compartment string) error {
-	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient()
 	steeringPolicyIds, err := getSteeringPolicyIds(compartment)
 	if err != nil {
 		return err
@@ -628,7 +628,7 @@ func getSteeringPolicyIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient()
 
 	listSteeringPoliciesRequest := oci_dns.ListSteeringPoliciesRequest{}
 	listSteeringPoliciesRequest.CompartmentId = &compartmentId
@@ -655,7 +655,7 @@ func steeringPolicySweepWaitCondition(response common.OCIOperationResponse) bool
 }
 
 func steeringPolicySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.dnsClient.GetSteeringPolicy(context.Background(), oci_dns.GetSteeringPolicyRequest{
+	_, err := client.dnsClient().GetSteeringPolicy(context.Background(), oci_dns.GetSteeringPolicyRequest{
 		SteeringPolicyId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

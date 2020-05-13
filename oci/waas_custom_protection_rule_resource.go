@@ -82,7 +82,7 @@ func WaasCustomProtectionRuleResource() *schema.Resource {
 func createWaasCustomProtectionRule(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasCustomProtectionRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return CreateResource(d, sync)
 }
@@ -90,7 +90,7 @@ func createWaasCustomProtectionRule(d *schema.ResourceData, m interface{}) error
 func readWaasCustomProtectionRule(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasCustomProtectionRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return ReadResource(sync)
 }
@@ -98,7 +98,7 @@ func readWaasCustomProtectionRule(d *schema.ResourceData, m interface{}) error {
 func updateWaasCustomProtectionRule(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasCustomProtectionRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return UpdateResource(d, sync)
 }
@@ -106,7 +106,7 @@ func updateWaasCustomProtectionRule(d *schema.ResourceData, m interface{}) error
 func deleteWaasCustomProtectionRule(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasCustomProtectionRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

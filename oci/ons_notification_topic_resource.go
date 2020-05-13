@@ -88,7 +88,7 @@ func OnsNotificationTopicResource() *schema.Resource {
 func createOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsNotificationTopicResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationControlPlaneClient
+	sync.Client = m.(*OracleClients).notificationControlPlaneClient()
 
 	return CreateResource(d, sync)
 }
@@ -96,7 +96,7 @@ func createOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
 func readOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsNotificationTopicResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationControlPlaneClient
+	sync.Client = m.(*OracleClients).notificationControlPlaneClient()
 
 	return ReadResource(sync)
 }
@@ -104,7 +104,7 @@ func readOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
 func updateOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsNotificationTopicResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationControlPlaneClient
+	sync.Client = m.(*OracleClients).notificationControlPlaneClient()
 
 	return UpdateResource(d, sync)
 }
@@ -112,7 +112,7 @@ func updateOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
 func deleteOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsNotificationTopicResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationControlPlaneClient
+	sync.Client = m.(*OracleClients).notificationControlPlaneClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

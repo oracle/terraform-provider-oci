@@ -170,7 +170,7 @@ func dbBackupAvailableWaitCondition(response oci_common.OCIOperationResponse) bo
 }
 
 func listBackupsFetchOperation(client *OracleClients, databaseId *string, retryPolicy *oci_common.RetryPolicy) error {
-	_, err := client.databaseClient.ListBackups(context.Background(), database.ListBackupsRequest{
+	_, err := client.databaseClient().ListBackups(context.Background(), database.ListBackupsRequest{
 		DatabaseId: databaseId,
 		RequestMetadata: oci_common.RequestMetadata{
 			RetryPolicy: retryPolicy,

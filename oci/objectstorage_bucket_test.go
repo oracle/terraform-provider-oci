@@ -283,7 +283,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 
 func testAccCheckObjectStorageBucketDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).objectStorageClient
+	client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_objectstorage_bucket" {
 			noResourceFound = false
@@ -332,7 +332,7 @@ func init() {
 }
 
 func sweepObjectStorageBucketResource(compartment string) error {
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient()
 	bucketIds, err := getBucketIds(compartment)
 	if err != nil {
 		return err
@@ -359,7 +359,7 @@ func getBucketIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient()
 
 	listBucketsRequest := oci_object_storage.ListBucketsRequest{}
 	listBucketsRequest.CompartmentId = &compartmentId

@@ -25,7 +25,7 @@ type GetJobLogsRequest struct {
 	// A filter that returns only log entries that match a given severity level or greater.
 	LevelGreaterThanOrEqualTo LogEntryLevelEnum `mandatory:"false" contributesTo:"query" name:"levelGreaterThanOrEqualTo" omitEmpty:"true"`
 
-	// The sort order, either `ASC` (ascending) or `DESC` (descending).
+	// The sort order to use when sorting returned resources. Ascending (`ASC`) or descending (`DESC`).
 	SortOrder GetJobLogsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The number of items returned in a paginated `List` call. For information about pagination, see

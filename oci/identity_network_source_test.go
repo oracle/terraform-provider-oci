@@ -214,7 +214,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 
 func testAccCheckIdentityNetworkSourceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient
+	client := testAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_network_source" {
 			noResourceFound = false
@@ -266,7 +266,7 @@ func init() {
 }
 
 func sweepIdentityNetworkSourceResource(compartment string) error {
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
 	networkSourceIds, err := getNetworkSourceIds(compartment)
 	if err != nil {
 		return err
@@ -297,7 +297,7 @@ func getNetworkSourceIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
 
 	listNetworkSourcesRequest := oci_identity.ListNetworkSourcesRequest{}
 	listNetworkSourcesRequest.CompartmentId = &compartmentId
@@ -323,7 +323,7 @@ func networkSourceSweepWaitCondition(response common.OCIOperationResponse) bool 
 }
 
 func networkSourceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.identityClient.GetNetworkSource(context.Background(), oci_identity.GetNetworkSourceRequest{
+	_, err := client.identityClient().GetNetworkSource(context.Background(), oci_identity.GetNetworkSourceRequest{
 		NetworkSourceId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

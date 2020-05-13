@@ -42,7 +42,7 @@ func CoreDrgAttachmentsDataSource() *schema.Resource {
 func readCoreDrgAttachments(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgAttachmentsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

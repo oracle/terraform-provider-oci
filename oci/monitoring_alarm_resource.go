@@ -161,7 +161,7 @@ func MonitoringAlarmResource() *schema.Resource {
 func createMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
 	sync := &MonitoringAlarmResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).monitoringClient
+	sync.Client = m.(*OracleClients).monitoringClient()
 
 	return CreateResource(d, sync)
 }
@@ -169,7 +169,7 @@ func createMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
 func readMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
 	sync := &MonitoringAlarmResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).monitoringClient
+	sync.Client = m.(*OracleClients).monitoringClient()
 
 	return ReadResource(sync)
 }
@@ -177,7 +177,7 @@ func readMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
 func updateMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
 	sync := &MonitoringAlarmResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).monitoringClient
+	sync.Client = m.(*OracleClients).monitoringClient()
 
 	return UpdateResource(d, sync)
 }
@@ -185,7 +185,7 @@ func updateMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
 func deleteMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
 	sync := &MonitoringAlarmResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).monitoringClient
+	sync.Client = m.(*OracleClients).monitoringClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

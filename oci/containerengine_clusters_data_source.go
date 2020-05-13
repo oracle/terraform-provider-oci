@@ -45,7 +45,7 @@ func ContainerengineClustersDataSource() *schema.Resource {
 func readContainerengineClusters(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineClustersDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return ReadResource(sync)
 }

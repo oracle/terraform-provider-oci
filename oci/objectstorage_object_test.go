@@ -372,7 +372,7 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 
 	//destroy test will be skipped since there is no state after the error in Get
 	if failObjectName != "" && failBucketName != "" && failNamespaceName != "" {
-		client := testAccProvider.Meta().(*OracleClients).objectStorageClient
+		client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
 		_, objectErr := client.DeleteObject(context.Background(), oci_object_storage.DeleteObjectRequest{
 			NamespaceName: &failNamespaceName,
 			BucketName:    &failBucketName,
@@ -421,7 +421,7 @@ func TestObjectStorageObjectResource_metadata(t *testing.T) {
 
 func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).objectStorageClient
+	client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
 
 	if singlePartFile != nil {
 		if _, err := os.Stat(singlePartFile.Name()); err == nil {
@@ -490,7 +490,7 @@ func init() {
 }
 
 func sweepObjectStorageObjectResource(compartment string) error {
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient()
 	objectIds, err := getObjectIds(compartment)
 	if err != nil {
 		return err
@@ -517,7 +517,7 @@ func getObjectIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient()
 
 	listObjectsRequest := oci_object_storage.ListObjectsRequest{}
 

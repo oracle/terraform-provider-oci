@@ -42,7 +42,7 @@ func CorePrivateIpsDataSource() *schema.Resource {
 func readCorePrivateIps(d *schema.ResourceData, m interface{}) error {
 	sync := &CorePrivateIpsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

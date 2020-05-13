@@ -109,7 +109,7 @@ func FileStorageExportResource() *schema.Resource {
 func createFileStorageExport(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageExportResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -117,7 +117,7 @@ func createFileStorageExport(d *schema.ResourceData, m interface{}) error {
 func readFileStorageExport(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageExportResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return ReadResource(sync)
 }
@@ -125,7 +125,7 @@ func readFileStorageExport(d *schema.ResourceData, m interface{}) error {
 func updateFileStorageExport(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageExportResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return UpdateResource(d, sync)
 }
@@ -133,7 +133,7 @@ func updateFileStorageExport(d *schema.ResourceData, m interface{}) error {
 func deleteFileStorageExport(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageExportResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -79,7 +79,7 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 func readDatabaseDbSystemShapes(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemShapesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

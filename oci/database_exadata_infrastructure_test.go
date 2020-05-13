@@ -300,7 +300,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseExadataInfrastructureDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_exadata_infrastructure" {
 			noResourceFound = false
@@ -352,7 +352,7 @@ func init() {
 }
 
 func sweepDatabaseExadataInfrastructureResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	exadataInfrastructureIds, err := getExadataInfrastructureIds(compartment)
 	if err != nil {
 		return err
@@ -383,7 +383,7 @@ func getExadataInfrastructureIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	resourceStatesForDestroy := []oci_database.ExadataInfrastructureSummaryLifecycleStateEnum{
 		oci_database.ExadataInfrastructureSummaryLifecycleStateRequiresActivation,
 		oci_database.ExadataInfrastructureSummaryLifecycleStateActive,
@@ -416,7 +416,7 @@ func exadataInfrastructureSweepWaitCondition(response common.OCIOperationRespons
 }
 
 func exadataInfrastructureSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetExadataInfrastructure(context.Background(), oci_database.GetExadataInfrastructureRequest{
+	_, err := client.databaseClient().GetExadataInfrastructure(context.Background(), oci_database.GetExadataInfrastructureRequest{
 		ExadataInfrastructureId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

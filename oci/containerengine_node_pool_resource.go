@@ -3,17 +3,19 @@
 package oci
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-
+	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
@@ -99,8 +101,9 @@ func ContainerengineNodePoolResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"placement_configs": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Required: true,
+							Set:      placementConfigsHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -323,7 +326,7 @@ func ContainerengineNodePoolResource() *schema.Resource {
 func createContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return CreateResource(d, sync)
 }
@@ -331,7 +334,7 @@ func createContainerengineNodePool(d *schema.ResourceData, m interface{}) error 
 func readContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return ReadResource(sync)
 }
@@ -339,7 +342,7 @@ func readContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
 func updateContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return UpdateResource(d, sync)
 }
@@ -347,7 +350,7 @@ func updateContainerengineNodePool(d *schema.ResourceData, m interface{}) error 
 func deleteContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -742,7 +745,7 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 	}
 
 	if s.Res.NodeConfigDetails != nil {
-		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails)})
+		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails, false)})
 	} else {
 		s.D.Set("node_config_details", nil)
 	}
@@ -802,10 +805,11 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 	result := oci_containerengine.CreateNodePoolNodeConfigDetails{}
 
 	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
-		interfaces := placementConfigs.([]interface{})
+		set := placementConfigs.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_containerengine.NodePoolPlacementConfigDetails, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := placementConfigsHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "placement_configs"), stateDataIndex)
 			converted, err := s.mapToNodePoolPlacementConfigDetails(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -826,14 +830,18 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 	return result, nil
 }
 
-func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigDetails) map[string]interface{} {
+func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	placementConfigs := []interface{}{}
 	for _, item := range obj.PlacementConfigs {
 		placementConfigs = append(placementConfigs, NodePoolPlacementConfigDetailsToMap(item))
 	}
-	result["placement_configs"] = placementConfigs
+	if datasource {
+		result["placement_configs"] = placementConfigs
+	} else {
+		result["placement_configs"] = schema.NewSet(placementConfigsHashCodeForSets, placementConfigs)
+	}
 
 	if obj.Size != nil {
 		result["size"] = int(*obj.Size)
@@ -1034,15 +1042,28 @@ func NodeSourceOptionToMap(obj *oci_containerengine.NodeSourceOption) map[string
 	return result
 }
 
+func placementConfigsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if availabilityDomain, ok := m["availability_domain"]; ok && availabilityDomain != "" {
+		buf.WriteString(fmt.Sprintf("%v-", availabilityDomain))
+	}
+	if subnetId, ok := m["subnet_id"]; ok && subnetId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", subnetId))
+	}
+	return hashcode.String(buf.String())
+}
+
 func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodePoolNodeConfigDetails, error) {
 	result := oci_containerengine.UpdateNodePoolNodeConfigDetails{}
 
 	result.PlacementConfigs = []oci_containerengine.NodePoolPlacementConfigDetails{}
 	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
-		interfaces := placementConfigs.([]interface{})
+		set := placementConfigs.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_containerengine.NodePoolPlacementConfigDetails, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := placementConfigsHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "placement_configs"), stateDataIndex)
 			converted, err := s.mapToNodePoolPlacementConfigDetails(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -1050,7 +1071,9 @@ func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetai
 			}
 			tmp[i] = converted
 		}
-		result.PlacementConfigs = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "placement_configs")) {
+			result.PlacementConfigs = tmp
+		}
 	}
 
 	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {

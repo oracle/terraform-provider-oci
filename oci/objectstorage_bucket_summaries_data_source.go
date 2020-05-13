@@ -38,7 +38,7 @@ func ObjectStorageBucketsDataSource() *schema.Resource {
 func readObjectStorageBuckets(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageBucketsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return ReadResource(sync)
 }

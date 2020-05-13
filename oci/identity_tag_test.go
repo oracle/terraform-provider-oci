@@ -246,7 +246,7 @@ func getTagCompositeId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentityTagDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient
+	client := testAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_tag" {
 			noResourceFound = false
@@ -309,7 +309,7 @@ func sweepIdentityTagResource(compartment string) error {
 		return nil
 	}
 
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
 	tagIds, err := getTagIds(compartment)
 	if err != nil {
 		return err
@@ -338,7 +338,7 @@ func getTagIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
 
 	listTagsRequest := oci_identity.ListTagsRequest{}
 	tagNamespaceIds, error := getTagNamespaceIds(compartment)
@@ -373,7 +373,7 @@ func tagSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func tagSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.identityClient.GetTag(context.Background(), oci_identity.GetTagRequest{RequestMetadata: common.RequestMetadata{
+	_, err := client.identityClient().GetTag(context.Background(), oci_identity.GetTagRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},
 	})

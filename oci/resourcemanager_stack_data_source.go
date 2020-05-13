@@ -96,7 +96,7 @@ func ResourcemanagerStackDataSource() *schema.Resource {
 func readSingularResourcemanagerStack(d *schema.ResourceData, m interface{}) error {
 	sync := &ResourcemanagerStackDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).resourceManagerClient
+	sync.Client = m.(*OracleClients).resourceManagerClient()
 
 	return ReadResource(sync)
 }

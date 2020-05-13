@@ -428,7 +428,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &BdsBdsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).bdsClient
+	sync.Client = m.(*OracleClients).bdsClient()
 
 	cloudSqlRequest := oci_bds.AddCloudSqlRequest{}
 	cloudSql := false
@@ -479,7 +479,7 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 func readBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &BdsBdsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).bdsClient
+	sync.Client = m.(*OracleClients).bdsClient()
 
 	return ReadResource(sync)
 }
@@ -487,7 +487,7 @@ func readBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &BdsBdsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).bdsClient
+	sync.Client = m.(*OracleClients).bdsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -495,7 +495,7 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 func deleteBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &BdsBdsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).bdsClient
+	sync.Client = m.(*OracleClients).bdsClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

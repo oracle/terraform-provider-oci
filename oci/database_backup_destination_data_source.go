@@ -25,7 +25,7 @@ func DatabaseBackupDestinationDataSource() *schema.Resource {
 func readSingularDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupDestinationDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

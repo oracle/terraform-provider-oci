@@ -245,7 +245,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 
 func testAccCheckCoreRouteTableDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_route_table" {
 			noResourceFound = false
@@ -297,7 +297,7 @@ func init() {
 }
 
 func sweepCoreRouteTableResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	routeTableIds, err := getRouteTableIds(compartment)
 	if err != nil {
 		return err
@@ -328,7 +328,7 @@ func getRouteTableIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listRouteTablesRequest := oci_core.ListRouteTablesRequest{}
 	listRouteTablesRequest.CompartmentId = &compartmentId
@@ -365,7 +365,7 @@ func routeTableSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func routeTableSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetRouteTable(context.Background(), oci_core.GetRouteTableRequest{
+	_, err := client.virtualNetworkClient().GetRouteTable(context.Background(), oci_core.GetRouteTableRequest{
 		RtId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

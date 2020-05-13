@@ -279,7 +279,7 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 func createDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -287,7 +287,7 @@ func createDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 func readDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -295,7 +295,7 @@ func readDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interface
 func updateDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }
@@ -303,7 +303,7 @@ func updateDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 func deleteDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

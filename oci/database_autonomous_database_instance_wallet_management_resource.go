@@ -55,7 +55,7 @@ func DatabaseAutonomousDatabaseInstanceWalletManagementResource() *schema.Resour
 func createDatabaseAutonomousDatabaseInstanceWalletManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseInstanceWalletManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -63,7 +63,7 @@ func createDatabaseAutonomousDatabaseInstanceWalletManagement(d *schema.Resource
 func readDatabaseAutonomousDatabaseInstanceWalletManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseInstanceWalletManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -71,7 +71,7 @@ func readDatabaseAutonomousDatabaseInstanceWalletManagement(d *schema.ResourceDa
 func updateDatabaseAutonomousDatabaseInstanceWalletManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseInstanceWalletManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }

@@ -426,7 +426,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 
 func testAccCheckAnalyticsAnalyticsInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).analyticsClient
+	client := testAccProvider.Meta().(*OracleClients).analyticsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_analytics_analytics_instance" {
 			noResourceFound = false
@@ -478,7 +478,7 @@ func init() {
 }
 
 func sweepAnalyticsAnalyticsInstanceResource(compartment string) error {
-	analyticsClient := GetTestClients(&schema.ResourceData{}).analyticsClient
+	analyticsClient := GetTestClients(&schema.ResourceData{}).analyticsClient()
 	analyticsInstanceIds, err := getAnalyticsInstanceIds(compartment)
 	if err != nil {
 		return err
@@ -509,7 +509,7 @@ func getAnalyticsInstanceIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	analyticsClient := GetTestClients(&schema.ResourceData{}).analyticsClient
+	analyticsClient := GetTestClients(&schema.ResourceData{}).analyticsClient()
 
 	listAnalyticsInstancesRequest := oci_analytics.ListAnalyticsInstancesRequest{}
 	listAnalyticsInstancesRequest.CompartmentId = &compartmentId
@@ -536,7 +536,7 @@ func analyticsInstanceSweepWaitCondition(response common.OCIOperationResponse) b
 }
 
 func analyticsInstanceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.analyticsClient.GetAnalyticsInstance(context.Background(), oci_analytics.GetAnalyticsInstanceRequest{
+	_, err := client.analyticsClient().GetAnalyticsInstance(context.Background(), oci_analytics.GetAnalyticsInstanceRequest{
 		AnalyticsInstanceId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

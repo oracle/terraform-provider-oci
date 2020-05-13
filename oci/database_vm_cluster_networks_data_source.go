@@ -46,7 +46,7 @@ func DatabaseVmClusterNetworksDataSource() *schema.Resource {
 func readDatabaseVmClusterNetworks(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseVmClusterNetworksDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

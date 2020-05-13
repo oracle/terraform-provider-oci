@@ -25,7 +25,7 @@ func DataflowApplicationDataSource() *schema.Resource {
 func readSingularDataflowApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowApplicationDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return ReadResource(sync)
 }

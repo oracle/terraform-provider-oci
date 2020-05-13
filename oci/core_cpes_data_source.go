@@ -34,7 +34,7 @@ func CoreCpesDataSource() *schema.Resource {
 func readCoreCpes(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCpesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

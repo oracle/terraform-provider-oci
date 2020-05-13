@@ -221,7 +221,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 
 func testAccCheckDatacatalogCatalogDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataCatalogClient
+	client := testAccProvider.Meta().(*OracleClients).dataCatalogClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_datacatalog_catalog" {
 			noResourceFound = false
@@ -273,7 +273,7 @@ func init() {
 }
 
 func sweepDatacatalogCatalogResource(compartment string) error {
-	dataCatalogClient := GetTestClients(&schema.ResourceData{}).dataCatalogClient
+	dataCatalogClient := GetTestClients(&schema.ResourceData{}).dataCatalogClient()
 	catalogIds, err := getCatalogIds(compartment)
 	if err != nil {
 		return err
@@ -304,7 +304,7 @@ func getCatalogIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dataCatalogClient := GetTestClients(&schema.ResourceData{}).dataCatalogClient
+	dataCatalogClient := GetTestClients(&schema.ResourceData{}).dataCatalogClient()
 
 	listCatalogsRequest := oci_datacatalog.ListCatalogsRequest{}
 	listCatalogsRequest.CompartmentId = &compartmentId
@@ -331,7 +331,7 @@ func catalogSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func catalogSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.dataCatalogClient.GetCatalog(context.Background(), oci_datacatalog.GetCatalogRequest{
+	_, err := client.dataCatalogClient().GetCatalog(context.Background(), oci_datacatalog.GetCatalogRequest{
 		CatalogId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

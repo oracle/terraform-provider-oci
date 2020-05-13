@@ -152,7 +152,7 @@ func OceOceInstanceResource() *schema.Resource {
 func createOceOceInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OceOceInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).oceInstanceClient
+	sync.Client = m.(*OracleClients).oceInstanceClient()
 
 	return CreateResource(d, sync)
 }
@@ -160,7 +160,7 @@ func createOceOceInstance(d *schema.ResourceData, m interface{}) error {
 func readOceOceInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OceOceInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).oceInstanceClient
+	sync.Client = m.(*OracleClients).oceInstanceClient()
 
 	return ReadResource(sync)
 }
@@ -168,7 +168,7 @@ func readOceOceInstance(d *schema.ResourceData, m interface{}) error {
 func updateOceOceInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OceOceInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).oceInstanceClient
+	sync.Client = m.(*OracleClients).oceInstanceClient()
 
 	return UpdateResource(d, sync)
 }
@@ -176,7 +176,7 @@ func updateOceOceInstance(d *schema.ResourceData, m interface{}) error {
 func deleteOceOceInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OceOceInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).oceInstanceClient
+	sync.Client = m.(*OracleClients).oceInstanceClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

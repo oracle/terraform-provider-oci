@@ -203,7 +203,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 
 func testAccCheckLimitsQuotaDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).quotasClient
+	client := testAccProvider.Meta().(*OracleClients).quotasClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_limits_quota" {
 			noResourceFound = false
@@ -247,7 +247,7 @@ func init() {
 }
 
 func sweepLimitsQuotaResource(compartment string) error {
-	quotasClient := GetTestClients(&schema.ResourceData{}).quotasClient
+	quotasClient := GetTestClients(&schema.ResourceData{}).quotasClient()
 	// LimitsQuotaResource can only run on root compartment
 	compartment = getEnvSettingWithBlankDefault("tenancy_ocid")
 	quotaIds, err := getQuotaIds(compartment)
@@ -278,7 +278,7 @@ func getQuotaIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	quotasClient := GetTestClients(&schema.ResourceData{}).quotasClient
+	quotasClient := GetTestClients(&schema.ResourceData{}).quotasClient()
 
 	listQuotasRequest := oci_limits.ListQuotasRequest{}
 	listQuotasRequest.CompartmentId = &compartmentId

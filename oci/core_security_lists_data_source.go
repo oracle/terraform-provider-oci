@@ -46,7 +46,7 @@ func CoreSecurityListsDataSource() *schema.Resource {
 func readCoreSecurityLists(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSecurityListsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

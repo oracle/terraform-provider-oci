@@ -44,7 +44,7 @@ func AuditConfigurationResource() *schema.Resource {
 func createAuditConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &AuditConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).auditClient
+	sync.Client = m.(*OracleClients).auditClient()
 
 	return CreateResource(d, sync)
 }
@@ -52,7 +52,7 @@ func createAuditConfiguration(d *schema.ResourceData, m interface{}) error {
 func readAuditConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &AuditConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).auditClient
+	sync.Client = m.(*OracleClients).auditClient()
 
 	return ReadResource(sync)
 }
@@ -60,7 +60,7 @@ func readAuditConfiguration(d *schema.ResourceData, m interface{}) error {
 func updateAuditConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &AuditConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).auditClient
+	sync.Client = m.(*OracleClients).auditClient()
 
 	return UpdateResource(d, sync)
 }

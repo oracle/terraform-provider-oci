@@ -51,13 +51,13 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 
   node_config_details {
     placement_configs {
-      availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
-      subnet_id           = "${oci_core_subnet.node_pool_regional_subnet_1.id}"
+      availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
+      subnet_id           = "${oci_core_subnet.node_pool_regional_subnet_2.id}"
     }
 
     placement_configs {
-      availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
-      subnet_id           = "${oci_core_subnet.node_pool_regional_subnet_2.id}"
+      availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
+      subnet_id           = "${oci_core_subnet.node_pool_regional_subnet_1.id}"
     }
 
     size = 4

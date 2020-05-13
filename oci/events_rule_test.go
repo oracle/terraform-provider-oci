@@ -316,7 +316,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 
 func testAccCheckEventsRuleDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).eventsClient
+	client := testAccProvider.Meta().(*OracleClients).eventsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_events_rule" {
 			noResourceFound = false
@@ -368,7 +368,7 @@ func init() {
 }
 
 func sweepEventsRuleResource(compartment string) error {
-	eventsClient := GetTestClients(&schema.ResourceData{}).eventsClient
+	eventsClient := GetTestClients(&schema.ResourceData{}).eventsClient()
 	ruleIds, err := getRuleIds(compartment)
 	if err != nil {
 		return err
@@ -399,7 +399,7 @@ func getRuleIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	eventsClient := GetTestClients(&schema.ResourceData{}).eventsClient
+	eventsClient := GetTestClients(&schema.ResourceData{}).eventsClient()
 
 	listRulesRequest := oci_events.ListRulesRequest{}
 	listRulesRequest.CompartmentId = &compartmentId
@@ -426,7 +426,7 @@ func ruleSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func ruleSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.eventsClient.GetRule(context.Background(), oci_events.GetRuleRequest{
+	_, err := client.eventsClient().GetRule(context.Background(), oci_events.GetRuleRequest{
 		RuleId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

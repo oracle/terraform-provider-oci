@@ -90,7 +90,7 @@ func DnsRecordResource() *schema.Resource {
 func createDnsRecord(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsRecordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return CreateResource(d, sync)
 }
@@ -98,7 +98,7 @@ func createDnsRecord(d *schema.ResourceData, m interface{}) error {
 func readDnsRecord(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsRecordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return ReadResource(sync)
 }
@@ -106,7 +106,7 @@ func readDnsRecord(d *schema.ResourceData, m interface{}) error {
 func updateDnsRecord(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsRecordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -114,7 +114,7 @@ func updateDnsRecord(d *schema.ResourceData, m interface{}) error {
 func deleteDnsRecord(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsRecordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

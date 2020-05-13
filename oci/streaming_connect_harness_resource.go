@@ -71,7 +71,7 @@ func StreamingConnectHarnessResource() *schema.Resource {
 func createStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 
 	return CreateResource(d, sync)
 }
@@ -79,7 +79,7 @@ func createStreamingConnectHarness(d *schema.ResourceData, m interface{}) error 
 func readStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 
 	return ReadResource(sync)
 }
@@ -87,7 +87,7 @@ func readStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
 func updateStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 
 	return UpdateResource(d, sync)
 }
@@ -95,7 +95,7 @@ func updateStreamingConnectHarness(d *schema.ResourceData, m interface{}) error 
 func deleteStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

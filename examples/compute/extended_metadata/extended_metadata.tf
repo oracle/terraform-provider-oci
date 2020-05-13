@@ -125,7 +125,7 @@ resource "null_resource" "remote-exec" {
 
     inline = [
       #For more info on accessing metadata see https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/gettingmetadata.htm
-      "export STR=$(curl http://169.254.169.254/opc/v1/instance/metadata/nested_object/object/some_string)",
+      "export STR=$(curl --header \"Authorization: Bearer Oracle\" http://169.254.169.254/opc/v2/instance/metadata/nested_object/object/some_string)",
 
       "if [[ \"$STR\" != \"stringC\" ]]; then exit 1; fi",
     ]

@@ -46,7 +46,7 @@ func CoreNetworkSecurityGroupsDataSource() *schema.Resource {
 func readCoreNetworkSecurityGroups(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreNetworkSecurityGroupsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

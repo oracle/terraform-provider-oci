@@ -83,7 +83,7 @@ func FileStorageExportSetResource() *schema.Resource {
 func createFileStorageExportSet(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageExportSetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -91,7 +91,7 @@ func createFileStorageExportSet(d *schema.ResourceData, m interface{}) error {
 func readFileStorageExportSet(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageExportSetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return ReadResource(sync)
 }
@@ -99,7 +99,7 @@ func readFileStorageExportSet(d *schema.ResourceData, m interface{}) error {
 func updateFileStorageExportSet(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageExportSetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return UpdateResource(d, sync)
 }

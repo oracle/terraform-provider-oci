@@ -161,7 +161,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 
 func testAccCheckNosqlIndexDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).nosqlClient
+	client := testAccProvider.Meta().(*OracleClients).nosqlClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_nosql_index" {
 			noResourceFound = false
@@ -222,7 +222,7 @@ func init() {
 }
 
 func sweepNosqlIndexResource(compartment string) error {
-	nosqlClient := GetTestClients(&schema.ResourceData{}).nosqlClient
+	nosqlClient := GetTestClients(&schema.ResourceData{}).nosqlClient()
 	indexIds, err := getIndexIds(compartment)
 	if err != nil {
 		return err
@@ -251,7 +251,7 @@ func getIndexIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	nosqlClient := GetTestClients(&schema.ResourceData{}).nosqlClient
+	nosqlClient := GetTestClients(&schema.ResourceData{}).nosqlClient()
 
 	listIndexesRequest := oci_nosql.ListIndexesRequest{}
 	listIndexesRequest.CompartmentId = &compartmentId
@@ -288,7 +288,7 @@ func indexSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func indexSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.nosqlClient.GetIndex(context.Background(), oci_nosql.GetIndexRequest{RequestMetadata: common.RequestMetadata{
+	_, err := client.nosqlClient().GetIndex(context.Background(), oci_nosql.GetIndexRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},
 	})

@@ -418,6 +418,8 @@ func testExportCompartment(id *string, compartmentId *string, exportCommandArgs 
 	exportCommandArgs.CompartmentId = compartmentId
 	exportCommandArgs.OutputDir = &outputDir
 	exportCommandArgs.IDs = []string{*id}
+	var tfVersion TfHclVersion = &TfHclVersion12{Value: TfVersion12}
+	exportCommandArgs.TFVersion = &tfVersion
 
 	if errExport := RunExportCommand(exportCommandArgs); errExport != nil {
 		return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport)

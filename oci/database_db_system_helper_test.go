@@ -11,7 +11,7 @@ import (
 )
 
 func sweepDatabaseDbSystemResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	dbSystemIds, err := getDbSystemIds(compartment)
 	if err != nil {
 		return err
@@ -42,7 +42,7 @@ func getDbSystemIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listDbSystemsRequest := oci_database.ListDbSystemsRequest{}
 	listDbSystemsRequest.CompartmentId = &compartmentId
@@ -74,7 +74,7 @@ func dbSystemSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func dbSystemSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetDbSystem(context.Background(), oci_database.GetDbSystemRequest{
+	_, err := client.databaseClient().GetDbSystem(context.Background(), oci_database.GetDbSystemRequest{
 		DbSystemId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,
@@ -94,7 +94,7 @@ func getDbNodeIds(compartment string) ([]string, error) {
 		return resourceIds, fmt.Errorf("Error getting dbSystemId required for DbNode resource requests \n")
 	}
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	for _, dbSystemId := range dbSystemIds {
 		listDbNodesRequest := oci_database.ListDbNodesRequest{}

@@ -26,7 +26,7 @@ func IdentityNetworkSourceDataSource() *schema.Resource {
 func readSingularIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourceDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

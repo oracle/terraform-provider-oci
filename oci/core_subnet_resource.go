@@ -145,7 +145,7 @@ func CoreSubnetResource() *schema.Resource {
 func createCoreSubnet(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -153,7 +153,7 @@ func createCoreSubnet(d *schema.ResourceData, m interface{}) error {
 func readCoreSubnet(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -161,7 +161,7 @@ func readCoreSubnet(d *schema.ResourceData, m interface{}) error {
 func updateCoreSubnet(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -169,7 +169,7 @@ func updateCoreSubnet(d *schema.ResourceData, m interface{}) error {
 func deleteCoreSubnet(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

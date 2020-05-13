@@ -25,7 +25,7 @@ func DatabaseExadataIormConfigDataSource() *schema.Resource {
 func readSingularDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataIormConfigDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

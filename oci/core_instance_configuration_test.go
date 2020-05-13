@@ -545,7 +545,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 func testAccCheckCoreInstanceConfigurationDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeManagementClient
+	client := testAccProvider.Meta().(*OracleClients).computeManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_instance_configuration" {
 			noResourceFound = false
@@ -589,7 +589,7 @@ func init() {
 }
 
 func sweepCoreInstanceConfigurationResource(compartment string) error {
-	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
+	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient()
 	instanceConfigurationIds, err := getInstanceConfigurationIds(compartment)
 	if err != nil {
 		return err
@@ -618,7 +618,7 @@ func getInstanceConfigurationIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
+	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient()
 
 	listInstanceConfigurationsRequest := oci_core.ListInstanceConfigurationsRequest{}
 	listInstanceConfigurationsRequest.CompartmentId = &compartmentId

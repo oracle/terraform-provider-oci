@@ -134,30 +134,28 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 func createCoreIpSecConnectionTunnelManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionTunnelManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
-
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return CreateResource(d, sync)
 }
 
 func readCoreIpSecConnectionTunnelManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionTunnelManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
-
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return ReadResource(sync)
 }
 
 func updateCoreIpSecConnectionTunnelManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionTunnelManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return UpdateResource(d, sync)
 }
 
 func deleteCoreIpSecConnectionTunnelManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionTunnelManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

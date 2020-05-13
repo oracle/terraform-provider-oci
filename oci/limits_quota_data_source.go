@@ -25,7 +25,7 @@ func LimitsQuotaDataSource() *schema.Resource {
 func readSingularLimitsQuota(d *schema.ResourceData, m interface{}) error {
 	sync := &LimitsQuotaDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).quotasClient
+	sync.Client = m.(*OracleClients).quotasClient()
 
 	return ReadResource(sync)
 }

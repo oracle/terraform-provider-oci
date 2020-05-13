@@ -54,7 +54,7 @@ func DatascienceNotebookSessionShapesDataSource() *schema.Resource {
 func readDatascienceNotebookSessionShapes(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionShapesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return ReadResource(sync)
 }

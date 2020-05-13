@@ -58,7 +58,7 @@ func CoreImageShapeDataSource() *schema.Resource {
 func readSingularCoreImageShape(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreImageShapeDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

@@ -136,7 +136,7 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 func createCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return CreateResource(d, sync)
 }
@@ -144,7 +144,7 @@ func createCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 func readCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }
@@ -152,7 +152,7 @@ func readCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 func deleteCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

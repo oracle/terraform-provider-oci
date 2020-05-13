@@ -80,7 +80,7 @@ func MarketplaceListingPackagesDataSource() *schema.Resource {
 func readMarketplaceListingPackages(d *schema.ResourceData, m interface{}) error {
 	sync := &MarketplaceListingPackagesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).marketplaceClient
+	sync.Client = m.(*OracleClients).marketplaceClient()
 
 	return ReadResource(sync)
 }

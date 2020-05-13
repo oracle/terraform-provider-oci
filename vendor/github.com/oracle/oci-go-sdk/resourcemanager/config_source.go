@@ -14,11 +14,11 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ConfigSource Location of the Terraform configuration.
+// ConfigSource Information about the Terraform configuration.
 type ConfigSource interface {
 
-	// File path to the directory from which Terraform runs.
-	// If not specified, we use the root directory.
+	// File path to the directory to use for running Terraform.
+	// If not specified, the root directory is used.
 	GetWorkingDirectory() *string
 }
 

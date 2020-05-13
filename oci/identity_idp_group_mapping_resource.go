@@ -64,7 +64,7 @@ func IdentityIdpGroupMappingResource() *schema.Resource {
 func createIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return CreateResource(d, sync)
 }
@@ -72,7 +72,7 @@ func createIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error 
 func readIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }
@@ -80,7 +80,7 @@ func readIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 func updateIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return UpdateResource(d, sync)
 }
@@ -88,7 +88,7 @@ func updateIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error 
 func deleteIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

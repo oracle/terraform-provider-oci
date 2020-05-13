@@ -46,7 +46,7 @@ func NosqlIndexesDataSource() *schema.Resource {
 func readNosqlIndexes(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlIndexesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 
 	return ReadResource(sync)
 }

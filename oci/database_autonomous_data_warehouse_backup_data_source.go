@@ -25,7 +25,7 @@ func DatabaseAutonomousDataWarehouseBackupDataSource() *schema.Resource {
 func readSingularDatabaseAutonomousDataWarehouseBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDataWarehouseBackupDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

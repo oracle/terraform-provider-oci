@@ -229,7 +229,7 @@ func CoreImageResource() *schema.Resource {
 func createCoreImage(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return CreateResource(d, sync)
 }
@@ -237,7 +237,7 @@ func createCoreImage(d *schema.ResourceData, m interface{}) error {
 func readCoreImage(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }
@@ -245,7 +245,7 @@ func readCoreImage(d *schema.ResourceData, m interface{}) error {
 func updateCoreImage(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return UpdateResource(d, sync)
 }
@@ -253,7 +253,7 @@ func updateCoreImage(d *schema.ResourceData, m interface{}) error {
 func deleteCoreImage(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

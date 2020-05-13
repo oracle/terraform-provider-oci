@@ -48,7 +48,7 @@ func CoreShapeResource() *schema.Resource {
 func createCoreShape(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreShapeResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return CreateResource(d, sync)
 }
@@ -56,7 +56,7 @@ func createCoreShape(d *schema.ResourceData, m interface{}) error {
 func readCoreShape(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreShapeResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }
@@ -64,7 +64,7 @@ func readCoreShape(d *schema.ResourceData, m interface{}) error {
 func deleteCoreShape(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreShapeResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

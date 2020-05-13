@@ -307,7 +307,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 
 func testAccCheckOceOceInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).oceInstanceClient
+	client := testAccProvider.Meta().(*OracleClients).oceInstanceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_oce_oce_instance" {
 			noResourceFound = false
@@ -359,7 +359,7 @@ func init() {
 }
 
 func sweepOceOceInstanceResource(compartment string) error {
-	oceInstanceClient := GetTestClients(&schema.ResourceData{}).oceInstanceClient
+	oceInstanceClient := GetTestClients(&schema.ResourceData{}).oceInstanceClient()
 	oceInstanceIds, err := getOceInstanceIds(compartment)
 	if err != nil {
 		return err
@@ -390,7 +390,7 @@ func getOceInstanceIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	oceInstanceClient := GetTestClients(&schema.ResourceData{}).oceInstanceClient
+	oceInstanceClient := GetTestClients(&schema.ResourceData{}).oceInstanceClient()
 
 	listOceInstancesRequest := oci_oce.ListOceInstancesRequest{}
 	listOceInstancesRequest.CompartmentId = &compartmentId
@@ -417,7 +417,7 @@ func oceInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func oceInstanceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.oceInstanceClient.GetOceInstance(context.Background(), oci_oce.GetOceInstanceRequest{
+	_, err := client.oceInstanceClient().GetOceInstance(context.Background(), oci_oce.GetOceInstanceRequest{
 		OceInstanceId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,
