@@ -57,6 +57,23 @@ var exportContainerengineNodePoolHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+var exportCoreAppCatalogSubscriptionHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_app_catalog_subscription",
+	datasourceClass:      "oci_core_app_catalog_subscriptions",
+	datasourceItemsAttr:  "app_catalog_subscriptions",
+	resourceAbbreviation: "app_catalog_subscription",
+}
+
+var exportCoreBootVolumeBackupHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_boot_volume_backup",
+	datasourceClass:      "oci_core_boot_volume_backups",
+	datasourceItemsAttr:  "boot_volume_backups",
+	resourceAbbreviation: "boot_volume_backup",
+	discoverableLifecycleStates: []string{
+		string(oci_core.BootVolumeBackupLifecycleStateAvailable),
+	},
+}
+
 var exportCoreBootVolumeHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_boot_volume",
 	datasourceClass:      "oci_core_boot_volumes",
@@ -64,6 +81,27 @@ var exportCoreBootVolumeHints = &TerraformResourceHints{
 	resourceAbbreviation: "boot_volume",
 	discoverableLifecycleStates: []string{
 		string(oci_core.BootVolumeLifecycleStateAvailable),
+	},
+}
+
+var exportCoreConsoleHistoryHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_console_history",
+	datasourceClass:      "oci_core_console_histories",
+	datasourceItemsAttr:  "console_histories",
+	resourceAbbreviation: "console_history",
+	discoverableLifecycleStates: []string{
+		string(oci_core.ConsoleHistoryLifecycleStateSucceeded),
+	},
+}
+
+var exportCoreClusterNetworkHints = &TerraformResourceHints{
+	resourceClass:          "oci_core_cluster_network",
+	datasourceClass:        "oci_core_cluster_networks",
+	datasourceItemsAttr:    "cluster_networks",
+	resourceAbbreviation:   "cluster_network",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_core.ClusterNetworkLifecycleStateRunning),
 	},
 }
 
@@ -125,6 +163,17 @@ var exportCoreDrgHints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreDedicatedVmHostHints = &TerraformResourceHints{
+	resourceClass:          "oci_core_dedicated_vm_host",
+	datasourceClass:        "oci_core_dedicated_vm_hosts",
+	datasourceItemsAttr:    "dedicated_vm_hosts",
+	resourceAbbreviation:   "dedicated_vm_host",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_core.DedicatedVmHostLifecycleStateActive),
+	},
+}
+
 var exportCoreImageHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_image",
 	datasourceClass:      "oci_core_images",
@@ -141,6 +190,16 @@ var exportCoreInstanceConfigurationHints = &TerraformResourceHints{
 	datasourceItemsAttr:    "instance_configurations",
 	resourceAbbreviation:   "instance_configuration",
 	requireResourceRefresh: true,
+}
+
+var exportCoreInstanceConsoleConnectionHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_instance_console_connection",
+	datasourceClass:      "oci_core_instance_console_connections",
+	datasourceItemsAttr:  "instance_console_connections",
+	resourceAbbreviation: "instance_console_connection",
+	discoverableLifecycleStates: []string{
+		string(oci_core.InstanceConsoleConnectionLifecycleStateActive),
+	},
 }
 
 var exportCoreInstancePoolHints = &TerraformResourceHints{
@@ -217,6 +276,24 @@ var exportCoreNetworkSecurityGroupHints = &TerraformResourceHints{
 var exportCoreNetworkSecurityGroupSecurityRuleHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_network_security_group_security_rule",
 	resourceAbbreviation: "network_security_group_security_rule",
+}
+
+var exportCorePrivateIpHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_private_ip",
+	datasourceClass:      "oci_core_private_ips",
+	datasourceItemsAttr:  "private_ips",
+	resourceAbbreviation: "private_ip",
+}
+
+var exportCorePublicIpHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_public_ip",
+	datasourceClass:      "oci_core_public_ips",
+	datasourceItemsAttr:  "public_ips",
+	resourceAbbreviation: "public_ip",
+	discoverableLifecycleStates: []string{
+		string(oci_core.PublicIpLifecycleStateAvailable),
+		string(oci_core.PublicIpLifecycleStateAssigned),
+	},
 }
 
 var exportCoreRemotePeeringConnectionHints = &TerraformResourceHints{
@@ -310,6 +387,23 @@ var exportCoreVolumeAttachmentHints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreVolumeBackupHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_volume_backup",
+	datasourceClass:      "oci_core_volume_backups",
+	datasourceItemsAttr:  "volume_backups",
+	resourceAbbreviation: "volume_backup",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VolumeBackupLifecycleStateAvailable),
+	},
+}
+
+var exportCoreVolumeBackupPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_volume_backup_policy",
+	datasourceClass:      "oci_core_volume_backup_policies",
+	datasourceItemsAttr:  "volume_backup_policies",
+	resourceAbbreviation: "volume_backup_policy",
+}
+
 var exportCoreVolumeBackupPolicyAssignmentHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_volume_backup_policy_assignment",
 	datasourceClass:      "oci_core_volume_backup_policy_assignments",
@@ -324,6 +418,17 @@ var exportCoreVolumeGroupHints = &TerraformResourceHints{
 	resourceAbbreviation: "volume_group",
 	discoverableLifecycleStates: []string{
 		string(oci_core.VolumeGroupLifecycleStateAvailable),
+	},
+}
+
+var exportCoreVolumeGroupBackupHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_volume_group_backup",
+	datasourceClass:      "oci_core_volume_group_backups",
+	datasourceItemsAttr:  "volume_group_backups",
+	resourceAbbreviation: "volume_group_backup",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VolumeGroupBackupLifecycleStateCommitted),
+		string(oci_core.VolumeGroupBackupLifecycleStateAvailable),
 	},
 }
 

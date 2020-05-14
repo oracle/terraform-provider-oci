@@ -196,15 +196,21 @@ containerengine
 
 core
     
+* oci\_core\_app\_catalog\_subscription
+* oci\_core\_boot\_volume\_backup
 * oci\_core\_boot\_volume
+* oci\_core\_console\_history
+* oci\_core\_cluster\_network
 * oci\_core\_cpe
 * oci\_core\_cross\_connect\_group
 * oci\_core\_cross\_connect
 * oci\_core\_dhcp\_options
 * oci\_core\_drg\_attachment
 * oci\_core\_drg
+* oci\_core\_dedicated\_vm\_host
 * oci\_core\_image
 * oci\_core\_instance\_configuration
+* oci\_core\_instance\_console\_connection
 * oci\_core\_instance\_pool
 * oci\_core\_instance
 * oci\_core\_internet\_gateway
@@ -213,6 +219,8 @@ core
 * oci\_core\_nat\_gateway
 * oci\_core\_network\_security\_group
 * oci\_core\_network\_security\_group\_security\_rule
+* oci\_core\_private\_ip
+* oci\_core\_public\_ip
 * oci\_core\_remote\_peering\_connection
 * oci\_core\_route\_table
 * oci\_core\_security\_list
@@ -222,8 +230,11 @@ core
 * oci\_core\_virtual\_circuit
 * oci\_core\_vnic\_attachment
 * oci\_core\_volume\_attachment
+* oci\_core\_volume\_backup
+* oci\_core\_volume\_backup\_policy
 * oci\_core\_volume\_backup\_policy\_assignment
 * oci\_core\_volume\_group
+* oci\_core\_volume\_group\_backup
 * oci\_core\_volume
 
 database

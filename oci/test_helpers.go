@@ -396,6 +396,10 @@ func testExportCompartmentWithResourceName(id *string, compartmentId *string, re
 		resourceName = strings.Split(resourceName, ".")[0]
 	}
 
+	testKeyValPairs := make(map[string]string)
+	testKeyValPairs["public_key"] = "public_key"
+
+	exportCommandArgs.TestKeyValPairs = testKeyValPairs
 	var err error
 	exportCommandArgs.GenerateState, err = isResourceSupportImport(resourceName)
 	if err != nil {

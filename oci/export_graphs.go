@@ -63,24 +63,39 @@ var containerengineResourceGraph = TerraformResourceGraph{
 
 var coreResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
+		{TerraformResourceHints: exportCoreAppCatalogSubscriptionHints},
+		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
+		{TerraformResourceHints: exportCoreConsoleHistoryHints},
+		{TerraformResourceHints: exportCoreClusterNetworkHints},
 		{TerraformResourceHints: exportCoreCpeHints},
 		{TerraformResourceHints: exportCoreCrossConnectGroupHints},
 		{TerraformResourceHints: exportCoreCrossConnectHints},
 		{TerraformResourceHints: exportCoreDrgAttachmentHints},
 		{TerraformResourceHints: exportCoreDrgHints},
+		{TerraformResourceHints: exportCoreDedicatedVmHostHints},
 		{TerraformResourceHints: exportCoreImageHints},
 		{TerraformResourceHints: exportCoreInstanceConfigurationHints},
+		{TerraformResourceHints: exportCoreInstanceConsoleConnectionHints},
 		{TerraformResourceHints: exportCoreInstancePoolHints},
 		{TerraformResourceHints: exportCoreInstanceHints},
 		{TerraformResourceHints: exportCoreIpSecConnectionHints},
 		{TerraformResourceHints: exportCoreNetworkSecurityGroupHints},
+		{
+			TerraformResourceHints: exportCorePublicIpHints,
+			datasourceQueryParams: map[string]string{
+				"scope": "'REGION'",
+			},
+		},
 		{TerraformResourceHints: exportCoreRemotePeeringConnectionHints},
 		{TerraformResourceHints: exportCoreServiceGatewayHints},
 		{TerraformResourceHints: exportCoreVcnHints},
 		{TerraformResourceHints: exportCoreVirtualCircuitHints},
 		{TerraformResourceHints: exportCoreVnicAttachmentHints},
 		{TerraformResourceHints: exportCoreVolumeAttachmentHints},
+		{TerraformResourceHints: exportCoreVolumeBackupHints},
+		{TerraformResourceHints: exportCoreVolumeBackupPolicyHints},
 		{TerraformResourceHints: exportCoreVolumeGroupHints},
+		{TerraformResourceHints: exportCoreVolumeGroupBackupHints},
 		{TerraformResourceHints: exportCoreVolumeHints},
 	},
 	"oci_core_boot_volume": {
@@ -104,6 +119,14 @@ var coreResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportCoreNetworkSecurityGroupSecurityRuleHints,
 			datasourceQueryParams: map[string]string{
 				"network_security_group_id": "id",
+			},
+		},
+	},
+	"oci_core_subnet": {
+		{
+			TerraformResourceHints: exportCorePrivateIpHints,
+			datasourceQueryParams: map[string]string{
+				"subnet_id": "id",
 			},
 		},
 	},

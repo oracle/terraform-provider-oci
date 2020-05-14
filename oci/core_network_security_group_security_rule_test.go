@@ -5,6 +5,7 @@ package oci
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -95,7 +96,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 	resourceName := "oci_core_network_security_group_security_rule.test_network_security_group_security_rule"
 	datasourceName := "data.oci_core_network_security_group_security_rules.test_network_security_group_security_rules"
 
-	var resId, resId2 string
+	var resId, resId2, compositeId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -122,6 +123,13 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						networkSecurityGroupId, _ := fromInstanceState(s, resourceName, "network_security_group_id")
+						compositeId = "networkSecurityGroups/" + networkSecurityGroupId + "/securityRules/" + resId
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
 						return err
 					},
 				),
@@ -227,6 +235,16 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.time_created"),
 				),
 			},
+			// TODO Import is not working because ImportStateId param does not work. The Import step still picks id from state.
+			//// verify resource import
+			//{
+			//	Config:                  config,
+			//	ImportState:             true,
+			//	ImportStateVerify:       true,
+			//	ImportStateId:           compositeId,
+			//	ImportStateVerifyIgnore: []string{},
+			//	ResourceName:            resourceName,
+			//},
 		},
 	})
 }
