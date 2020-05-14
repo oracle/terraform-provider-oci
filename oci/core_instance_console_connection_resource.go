@@ -205,6 +205,10 @@ func (s *CoreInstanceConsoleConnectionResourceCrud) Delete() error {
 }
 
 func (s *CoreInstanceConsoleConnectionResourceCrud) SetData() error {
+	if publicKey, ok := s.D.GetOkExists("public_key"); ok {
+		s.D.Set("public_key", publicKey.(string))
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

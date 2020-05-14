@@ -182,4 +182,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+NetworkSecurityGroupSecurityRule can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_core_network_security_group_security_rule.test_network_security_group_security_rule "networkSecurityGroups/{networkSecurityGroupId}/securityRules/{securityRuleId}"
+```
+

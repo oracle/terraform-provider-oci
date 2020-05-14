@@ -343,6 +343,7 @@ func (s *CoreVcnResourceCrud) SetData() error {
 
 	if s.Res.Ipv6CidrBlock != nil {
 		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
+		s.D.Set("is_ipv6enabled", true)
 	}
 
 	if s.Res.Ipv6PublicCidrBlock != nil {

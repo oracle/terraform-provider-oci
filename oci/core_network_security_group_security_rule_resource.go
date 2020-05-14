@@ -6,6 +6,10 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/url"
+	"regexp"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -18,6 +22,9 @@ func init() {
 
 func CoreNetworkSecurityGroupSecurityRuleResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createCoreNetworkSecurityGroupSecurityRule,
 		Read:     readCoreNetworkSecurityGroupSecurityRule,
@@ -381,6 +388,15 @@ func (s *CoreSecurityRuleResourceCrud) Get() error {
 		request.NetworkSecurityGroupId = &tmp
 	}
 
+	networkSecurityGroupId, securityRuleId, err := parseNetworkSecurityGroupSecurityRuleCompositeId(s.D.Id())
+	if err == nil {
+		request.NetworkSecurityGroupId = &networkSecurityGroupId
+		s.D.Set("network_security_group_id", &networkSecurityGroupId)
+		s.D.SetId(securityRuleId)
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
 
 	response, err := s.Client.ListNetworkSecurityGroupSecurityRules(context.Background(), request)
@@ -569,7 +585,7 @@ func (s *CoreSecurityRuleResourceCrud) SetData() error {
 	}
 
 	if s.Res.TcpOptions != nil {
-		s.D.Set("tcp_options", []interface{}{TcpOptionsToMap(s.Res.TcpOptions)})
+		s.D.Set("tcp_options", []interface{}{nsgTcpOptionsToMap(s.Res.TcpOptions)})
 	} else {
 		s.D.Set("tcp_options", nil)
 	}
@@ -733,4 +749,24 @@ func nsgPortRangeToMap(obj *oci_core.PortRange) map[string]interface{} {
 	}
 
 	return result
+}
+
+func getNetworkSecurityGroupSecurityRuleCompositeId(networkSecurityGroupId string, securityRuleId string) string {
+	networkSecurityGroupId = url.PathEscape(networkSecurityGroupId)
+	securityRuleId = url.PathEscape(securityRuleId)
+	compositeId := "networkSecurityGroups/" + networkSecurityGroupId + "/securityRules/" + securityRuleId
+	return compositeId
+}
+
+func parseNetworkSecurityGroupSecurityRuleCompositeId(compositeId string) (networkSecurityGroupId string, securityRuleId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("networkSecurityGroups/.*/securityRules/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	networkSecurityGroupId, _ = url.PathUnescape(parts[1])
+	securityRuleId, _ = url.PathUnescape(parts[3])
+
+	return
 }

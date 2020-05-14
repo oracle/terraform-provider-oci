@@ -71,6 +71,7 @@ func init() {
 	exportLoadBalancerPathRouteSetHints.processDiscoveredResourcesFn = processLoadBalancerPathRouteSets
 	exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
 
+	exportCoreAppCatalogSubscriptionHints.getIdFn = getCoreAppCatalogSubscriptionId
 	exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
 	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
@@ -80,6 +81,7 @@ func init() {
 	exportCoreInstanceHints.requireResourceRefresh = true
 	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceClass = "oci_core_network_security_group_security_rules"
 	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceItemsAttr = "security_rules"
+	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	exportCoreNetworkSecurityGroupSecurityRuleHints.processDiscoveredResourcesFn = processNetworkSecurityGroupRules
 	exportCoreRouteTableHints.processDiscoveredResourcesFn = processDefaultRouteTables
 	exportCoreSecurityListHints.processDiscoveredResourcesFn = processDefaultSecurityLists
@@ -641,4 +643,29 @@ func processDefaultDhcpOptions(clients *OracleClients, resources []*OCIResource)
 		}
 	}
 	return resources, nil
+}
+
+func getCoreAppCatalogSubscriptionId(resource *OCIResource) (string, error) {
+
+	listingId, ok := resource.sourceAttributes["listing_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find listing_id for CoreAppCatalogSubscription id")
+	}
+
+	listingResourceVersion, ok := resource.sourceAttributes["listing_resource_version"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find listing_resource_version for CoreAppCatalogSubscription id")
+	}
+
+	return getSubscriptionCompositeId(resource.compartmentId, listingId, listingResourceVersion), nil
+}
+
+func getCoreNetworkSecurityGroupSecurityRuleId(resource *OCIResource) (string, error) {
+	networkSecurityGroupId := resource.parent.id
+	securityRuleId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for CoreNetworkSecurityGroupSecurityRule composite id")
+	}
+
+	return getNetworkSecurityGroupSecurityRuleCompositeId(networkSecurityGroupId, securityRuleId), nil
 }

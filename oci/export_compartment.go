@@ -43,6 +43,7 @@ var compartmentScopeServices []string
 var isMissingRequiredAttributes bool
 var exportConfigProvider oci_common.ConfigurationProvider
 var tfHclVersion TfHclVersion
+var keyValuePairsForTests map[string]string
 
 func init() {
 	resourceNameCount = map[string]int{}
@@ -116,6 +117,7 @@ type ExportCommandArgs struct {
 	OutputDir       *string
 	GenerateState   bool
 	TFVersion       *TfHclVersion
+	TestKeyValPairs map[string]string
 }
 
 func RunExportCommand(args *ExportCommandArgs) error {
@@ -150,6 +152,7 @@ func RunExportCommand(args *ExportCommandArgs) error {
 			return err
 		}
 	}
+	keyValuePairsForTests = args.TestKeyValPairs
 
 	return runExportCommand(clients.(*OracleClients), args)
 }
@@ -754,8 +757,13 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 
 		if tfSchema.Required {
 			log.Printf("[WARN] Required TF attribute '%s' not found in source\n", tfAttribute)
-			builder.WriteString(fmt.Sprintf("#%s = <<Required attribute not found in discovery>>\n", tfAttribute))
-			isMissingRequiredAttributes = true
+			// For testing only: keyValuePairsForTests map contains key value pairs for missing required attributes
+			if attributeVal, exists := keyValuePairsForTests[tfAttribute]; exists {
+				builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, attributeVal))
+			} else {
+				builder.WriteString(fmt.Sprintf("#%s = <<Required attribute not found in discovery>>\n", tfAttribute))
+				isMissingRequiredAttributes = true
+			}
 		} else if tfSchema.Optional {
 			log.Printf("[INFO] Optional TF attribute '%s' not found in source\n", tfAttribute)
 			builder.WriteString(fmt.Sprintf("#%s = <<Optional value not found in discovery>>\n", tfAttribute))

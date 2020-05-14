@@ -1,10 +1,14 @@
 ## 3.79.0 (Unreleased)
 
 ### Added
+- Support resource discovery for `core` resources
 - Support resource discovery for `nosql` resources
 - Support resource discovery for `osmanagement` resources
 - Support Expansion: US customers can launch in all regions
 - Support for Enhance Marketplace Get Package API
+
+### Fixed
+- Fixed the state for NSG rule tcp options, tcp options were not getting written to state
 
 ## 3.78.0 (May 27, 2020)
 

@@ -147,6 +147,7 @@ func (s *CoreVcnsDataSourceCrud) SetData() error {
 
 		if r.Ipv6CidrBlock != nil {
 			vcn["ipv6cidr_block"] = *r.Ipv6CidrBlock
+			vcn["is_ipv6enabled"] = true
 		}
 
 		if r.Ipv6PublicCidrBlock != nil {
