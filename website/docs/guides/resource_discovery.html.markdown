@@ -6,6 +6,8 @@ description: |-
   The Oracle Cloud Infrastructure provider. Discovering resources in an existing compartment
 ---
 
+## Resource Discovery
+
 ### Overview
 
 You can use Terraform Resource Discovery to discover deployed resources in your compartment and export them to Terraform configuration and state files. This release supports the most commonly used Oracle Cloud Infrastructure services, such as Compute, Block Volumes, Networking, Load Balancing, Database, and Identity and Access Management (IAM). Please look at the section “Supported Resources” for details.
