@@ -107,6 +107,9 @@ type AutonomousDatabase struct {
 	// The private endpoint label for the resource.
 	PrivateEndpointLabel *string `mandatory:"false" json:"privateEndpointLabel"`
 
+	// The private endpoint Ip address for the resource.
+	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
+
 	// A valid Oracle Database version for Autonomous Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 

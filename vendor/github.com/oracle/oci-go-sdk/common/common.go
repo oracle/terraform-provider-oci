@@ -7,16 +7,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"path"
 	"regexp"
 	"strings"
+	"time"
 )
 
 //Region type for regions
 type Region string
 
 const (
+	instanceMetadataRegionInfoURLV2 = "http://169.254.169.254/opc/v2/instance/regionInfo"
+
 	//RegionSEA region SEA
 	RegionSEA Region = "sea"
 	//RegionCAToronto1 region for toronto
@@ -120,6 +124,9 @@ var regionRealm = map[Region]string{
 	RegionUSGovPhoenix1: "oc3",
 	RegionUKGovLondon1:  "oc4",
 }
+
+// GetRegionInfoFromInstanceMetadataService gets the region information
+var GetRegionInfoFromInstanceMetadataService = GetRegionInfoFromInstanceMetadataServiceProd
 
 // Endpoint returns a endpoint for a service
 func (region Region) Endpoint(service string) string {
@@ -339,5 +346,67 @@ func checkSchemaItem(regionSchema map[string]string, key string) bool {
 
 // SetRegionFromInstanceMetadataService checks if region metadata can be provided from InstanceMetadataService.
 func SetRegionFromInstanceMetadataService(region *string) bool {
-	return false
+	// example of content:
+	// {
+	// 	"realmKey" : "oc1",
+	// 	"realmDomainComponent" : "oraclecloud.com",
+	// 	"regionKey" : "YUL",
+	// 	"regionIdentifier" : "ca-montreal-1"
+	// }
+	content, err := GetRegionInfoFromInstanceMetadataService()
+	if err != nil {
+		Debugf("Failed to get instance metadata. Error: %v", err)
+		return false
+	}
+
+	var regionInfo map[string]string
+	err = json.Unmarshal(content, &regionInfo)
+	if err != nil {
+		Debugf("Failed to unmarshal the response content: %v \nError: %v", string(content), err)
+		return false
+	}
+
+	if checkSchemaItems(regionInfo) {
+		addRegionSchema(regionInfo)
+		if regionInfo[regionKeyPropertyName] == *region ||
+			regionInfo[regionIdentifierPropertyName] == *region {
+			*region = regionInfo[regionIdentifierPropertyName]
+		}
+	} else {
+		Debugf("Region information is not valid.")
+		return false
+	}
+
+	return true
+}
+
+// GetRegionInfoFromInstanceMetadataServiceProd calls instance metadata service and get the region information
+func GetRegionInfoFromInstanceMetadataServiceProd() ([]byte, error) {
+	request, err := http.NewRequest(http.MethodGet, instanceMetadataRegionInfoURLV2, nil)
+	request.Header.Add("Authorization", "Bearer Oracle")
+
+	client := &http.Client{
+		Timeout: time.Second * 10,
+	}
+	resp, err := client.Do(request)
+	if err != nil {
+		return nil, fmt.Errorf("Failed to call instance metadata service. Error: %v", err)
+	}
+
+	statusCode := resp.StatusCode
+
+	defer resp.Body.Close()
+
+	content, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("Failed to get region information from response body. Error: %v", err)
+	}
+
+	if statusCode != http.StatusOK {
+		err = fmt.Errorf("HTTP Get failed: URL: %s, Status: %s, Message: %s",
+			instanceMetadataRegionInfoURLV2, resp.Status, string(content))
+		return nil, err
+	}
+
+	return content, nil
 }
