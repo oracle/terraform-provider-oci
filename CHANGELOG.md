@@ -7,6 +7,7 @@
 - Support for `os_family` attribute in `oci_osmanagement_managed_instance_group` resource
 - Support for `os_family` and `is_reboot_required` attributes in `oci_osmanagement_managed_instance` datasource
 - Support for oci core image datasource
+- Support resource discovery for `containerengine` service
 
 ## 3.75.0 (May 13, 2020)
 
