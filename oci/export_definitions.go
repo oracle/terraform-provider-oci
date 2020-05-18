@@ -2,6 +2,7 @@ package oci
 
 import (
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
+	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
@@ -28,6 +29,25 @@ var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_bds.BdsInstanceLifecycleStateActive),
 	},
+}
+
+var exportContainerengineClusterHints = &TerraformResourceHints{
+	resourceClass:          "oci_containerengine_cluster",
+	datasourceClass:        "oci_containerengine_clusters",
+	datasourceItemsAttr:    "clusters",
+	resourceAbbreviation:   "cluster",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_containerengine.ClusterLifecycleStateActive),
+	},
+}
+
+var exportContainerengineNodePoolHints = &TerraformResourceHints{
+	resourceClass:          "oci_containerengine_node_pool",
+	datasourceClass:        "oci_containerengine_node_pools",
+	datasourceItemsAttr:    "node_pools",
+	resourceAbbreviation:   "node_pool",
+	requireResourceRefresh: true,
 }
 
 var exportCoreBootVolumeHints = &TerraformResourceHints{
