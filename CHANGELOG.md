@@ -3,6 +3,9 @@
 ### Added
 - Support resource discovery for `streaming` resources
 
+### Fixed
+- Fixed DNS outage causing problems for DNS records
+
 ## 3.76.0 (May 19, 2020)
 
 ### Added
