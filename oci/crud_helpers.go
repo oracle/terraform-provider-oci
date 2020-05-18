@@ -636,6 +636,12 @@ func ResourceDeprecatedForAnother(deprecatedResourceName string, newResourceName
 	return fmt.Sprintf("The '%s' resource has been deprecated. Please use '%s' instead.", deprecatedResourceName, newResourceName)
 }
 
+func resourceNotFoundErrorMessage(resourceName string, reason string) error {
+	// Use this function to generate an error message for any resource that is not found.  The message is specially
+	// formatted so that it is detected by the handleMissingResourceError function correctly.  Do not change the message format.
+	return fmt.Errorf("%s not found. %s \n", resourceName, reason)
+}
+
 // GenerateDataSourceID generates an ID for the data source based on the current time stamp.
 func GenerateDataSourceID() string {
 	// Important, if you don't have an ID, make one up for your datasource
