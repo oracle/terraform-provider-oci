@@ -47,11 +47,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"database_edition": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"db_home": {
 				Type:     schema.TypeList,
 				Required: true,
@@ -157,6 +152,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 												// Computed
 											},
 										},
+									},
+									"db_domain": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
 									},
 									"db_name": {
 										Type:     schema.TypeString,
@@ -373,6 +374,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"database_edition": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"db_system_options": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -542,6 +549,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"private_ip": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"source": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -551,8 +564,15 @@ func DatabaseDbSystemResource() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{
 					"DATABASE",
 					"DB_BACKUP",
+					"DB_SYSTEM",
 					"NONE",
 				}, true),
+			},
+			"source_db_system_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"sparse_diskgroup": {
 				Type:     schema.TypeBool,
@@ -716,6 +736,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 				},
 			},
 			"next_maintenance_run_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"point_in_time_data_disk_clone_timestamp": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1148,6 +1172,11 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 	}
+
+	if s.Res.PointInTimeDataDiskCloneTimestamp != nil {
+		s.D.Set("point_in_time_data_disk_clone_timestamp", s.Res.PointInTimeDataDiskCloneTimestamp.String())
+	}
+
 	if s.Res.RecoStorageSizeInGB != nil {
 		s.D.Set("reco_storage_size_in_gb", *s.Res.RecoStorageSizeInGB)
 	}
@@ -1160,6 +1189,10 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
+	}
+
+	if s.Res.SourceDbSystemId != nil {
+		s.D.Set("source_db_system_id", *s.Res.SourceDbSystemId)
 	}
 
 	if s.Res.SparseDiskgroup != nil {
@@ -1417,6 +1450,87 @@ func CreateDatabaseFromBackupDetailsToMap(obj *oci_database.CreateDatabaseFromBa
 	return result
 }
 
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseFromDbSystemDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromDbSystemDetails, error) {
+	result := oci_database.CreateDatabaseFromDbSystemDetails{}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
+		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
+			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert db_backup_config, encountered error: %v", err)
+			}
+			result.DbBackupConfig = &tmp
+		}
+	}
+
+	if dbDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_domain")); ok {
+		tmp := dbDomain.(string)
+		result.DbDomain = &tmp
+	}
+
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
+func CreateDatabaseFromDbSystemDetailsToMap(obj *oci_database.CreateDatabaseFromDbSystemDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdminPassword != nil {
+		result["admin_password"] = string(*obj.AdminPassword)
+	}
+
+	if obj.DbBackupConfig != nil {
+		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
+	}
+
+	if obj.DbDomain != nil {
+		result["db_domain"] = string(*obj.DbDomain)
+	}
+
+	if obj.DbName != nil {
+		result["db_name"] = string(*obj.DbName)
+	}
+
+	if obj.DbUniqueName != nil {
+		result["db_unique_name"] = string(*obj.DbUniqueName)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	return result
+}
+
 func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat string) (oci_database.CreateDbHomeDetails, error) {
 	result := oci_database.CreateDbHomeDetails{}
 
@@ -1512,6 +1626,60 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	return result
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeFromDbSystemDetails(fieldKeyFormat string) (oci_database.CreateDbHomeFromDbSystemDetails, error) {
+	result := oci_database.CreateDbHomeFromDbSystemDetails{}
+
+	if database, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database")); ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database"), 0)
+			tmp, err := s.mapToCreateDatabaseFromDbSystemDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert database, encountered error: %v", err)
+			}
+			result.Database = &tmp
+		}
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
+func CreateDbHomeFromDbSystemDetailsToMap(obj *oci_database.CreateDbHomeFromDbSystemDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Database != nil {
+		result["database"] = []interface{}{CreateDatabaseFromDbSystemDetailsToMap(obj.Database)}
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	return result
 }
@@ -1866,6 +2034,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 				details.NsgIds = tmp
 			}
 		}
+		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+			tmp := privateIp.(string)
+			details.PrivateIp = &tmp
+		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
 			details.Shape = &tmp
@@ -2021,6 +2193,165 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+			tmp := privateIp.(string)
+			details.PrivateIp = &tmp
+		}
+		if shape, ok := s.D.GetOkExists("shape"); ok {
+			tmp := shape.(string)
+			details.Shape = &tmp
+		}
+		if sparseDiskgroup, ok := s.D.GetOkExists("sparse_diskgroup"); ok {
+			tmp := sparseDiskgroup.(bool)
+			details.SparseDiskgroup = &tmp
+		}
+		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
+			set := sshPublicKeys.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("ssh_public_keys") {
+				details.SshPublicKeys = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
+			tmp := timeZone.(string)
+			details.TimeZone = &tmp
+		}
+		request.LaunchDbSystemDetails = details
+	case strings.ToLower("DB_SYSTEM"):
+		details := oci_database.LaunchDbSystemFromDbSystemDetails{}
+		if dbHome, ok := s.D.GetOkExists("db_home"); ok {
+			if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_home", 0)
+				tmp, err := s.mapToCreateDbHomeFromDbSystemDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DbHome = &tmp
+			}
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchDbSystemFromDbSystemDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if sourceDbSystemId, ok := s.D.GetOkExists("source_db_system_id"); ok {
+			tmp := sourceDbSystemId.(string)
+			details.SourceDbSystemId = &tmp
+		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
+		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+			set := backupNetworkNsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("backup_network_nsg_ids") {
+				details.BackupNetworkNsgIds = tmp
+			}
+		}
+		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
+			tmp := backupSubnetId.(string)
+			details.BackupSubnetId = &tmp
+		}
+		if clusterName, ok := s.D.GetOkExists("cluster_name"); ok {
+			tmp := clusterName.(string)
+			details.ClusterName = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
+			tmp := dataStoragePercentage.(int)
+			details.DataStoragePercentage = &tmp
+		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.InitialDataStorageSizeInGB = &tmp
+		}
+		if dbSystemOptions, ok := s.D.GetOkExists("db_system_options"); ok {
+			if tmpList := dbSystemOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_system_options", 0)
+				tmp, err := s.mapToDbSystemOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DbSystemOptions = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if domain, ok := s.D.GetOkExists("domain"); ok {
+			tmp := domain.(string)
+			details.Domain = &tmp
+		}
+		if faultDomains, ok := s.D.GetOkExists("fault_domains"); ok {
+			interfaces := faultDomains.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("fault_domains") {
+				details.FaultDomains = tmp
+			}
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if hostname, ok := s.D.GetOkExists("hostname"); ok {
+			tmp := hostname.(string)
+			details.Hostname = &tmp
+		}
+		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+			tmp := nodeCount.(int)
+			details.NodeCount = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+			tmp := privateIp.(string)
+			details.PrivateIp = &tmp
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
@@ -2187,6 +2518,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+			tmp := privateIp.(string)
+			details.PrivateIp = &tmp
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)

@@ -2,6 +2,8 @@
 
 ### Added
 - Support for Network Source Restrictions
+- OKE Support for the AMD ROME Adoption
+- Support for VM DB System Cloning
 
 ## 3.90.1 (August 26, 2020)
 
