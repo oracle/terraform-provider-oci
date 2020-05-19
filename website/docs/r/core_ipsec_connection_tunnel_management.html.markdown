@@ -43,6 +43,7 @@ Destroying `the oci_core_ipsec_connection_tunnel_management` leaves the resource
 	}
 	display_name = "${var.ip_sec_connection_tunnel_management_display_name}"
 	shared_secret = "${var.ip_sec_connection_tunnel_management_shared_secret}"
+    ike_version = "V1"
 }
 ```
 

@@ -54,6 +54,12 @@ func OsmanagementManagedInstanceGroupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"os_family": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"managed_instances": {
@@ -187,6 +193,10 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+		request.OsFamily = oci_osmanagement.OsFamiliesEnum(osFamily.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.CreateManagedInstanceGroup(context.Background(), request)
@@ -299,6 +309,8 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) SetData() error {
 		managedInstances = append(managedInstances, IdToMap(item))
 	}
 	s.D.Set("managed_instances", managedInstances)
+
+	s.D.Set("os_family", s.Res.OsFamily)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

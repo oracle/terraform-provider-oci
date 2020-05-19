@@ -43,7 +43,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `listing_id` - (Required) The unique identifier for the listing associated with the agreement.
 * `package_version` - (Required) The package version associated with the agreement.
-* `signature` - (Required) A signature generated for the listing package agreements that you can retrieve with [GetAgreement](/api/#/en/marketplace/20181001/Agreement/GetAgreement). 
+* `signature` - (Required) A signature generated for the listing package agreements that you can retrieve with [GetAgreement](https://docs.cloud.oracle.com/iaas/api/#/en/marketplace/20181001/Agreement/GetAgreement). 
 
 
 ** IMPORTANT **

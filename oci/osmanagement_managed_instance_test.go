@@ -20,6 +20,7 @@ var (
 	managedInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `osms-instance`},
+		"os_family":      Representation{repType: Optional, create: `ALL`},
 	}
 
 	ManagedInstanceResourceConfig = ""
@@ -67,8 +68,11 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reboot_required"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "last_boot"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "last_checkin"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "managed_instance_groups.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_family"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_kernel_version"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_version"),

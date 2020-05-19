@@ -84,6 +84,7 @@ resource "oci_core_ipsec_connection_tunnel_management" "test_ipsec_connection_tu
   display_name  = "MyIPSecConnection"
   routing       = "BGP"
   shared_secret = "sharedSecret"
+  ike_version   = "V1"
 }
 
 resource "oci_identity_tag_namespace" "tag_namespace1" {

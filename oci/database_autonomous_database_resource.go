@@ -290,6 +290,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"private_endpoint_ip": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"service_console_url": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -703,6 +707,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.PrivateEndpoint != nil {
 		s.D.Set("private_endpoint", *s.Res.PrivateEndpoint)
+	}
+
+	if s.Res.PrivateEndpointIp != nil {
+		s.D.Set("private_endpoint_ip", *s.Res.PrivateEndpointIp)
 	}
 
 	if s.Res.PrivateEndpointLabel != nil {
