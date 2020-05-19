@@ -9,6 +9,9 @@
 - Support for oci core image datasource
 - Support resource discovery for `containerengine` service
 
+### Fixed
+- Fixed the delegation support in resource `oci_file_storage_mount_target`
+
 ## 3.75.0 (May 13, 2020)
 
 ### Added
