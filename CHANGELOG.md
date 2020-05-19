@@ -1,4 +1,4 @@
-## 3.76.0 (Unreleased)
+## 3.76.0 (May 19, 2020)
 
 ### Added
 - Support resource discovery for autoScaling resources
