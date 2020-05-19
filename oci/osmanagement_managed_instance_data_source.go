@@ -55,6 +55,10 @@ func OsmanagementManagedInstanceDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_reboot_required": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"last_boot": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -83,6 +87,10 @@ func OsmanagementManagedInstanceDataSource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"os_family": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"os_kernel_version": {
 				Type:     schema.TypeString,
@@ -191,6 +199,10 @@ func (s *OsmanagementManagedInstanceDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.IsRebootRequired != nil {
+		s.D.Set("is_reboot_required", *s.Res.IsRebootRequired)
+	}
+
 	if s.Res.LastBoot != nil {
 		s.D.Set("last_boot", *s.Res.LastBoot)
 	}
@@ -204,6 +216,8 @@ func (s *OsmanagementManagedInstanceDataSourceCrud) SetData() error {
 		managedInstanceGroups = append(managedInstanceGroups, IdToMap(item))
 	}
 	s.D.Set("managed_instance_groups", managedInstanceGroups)
+
+	s.D.Set("os_family", s.Res.OsFamily)
 
 	if s.Res.OsKernelVersion != nil {
 		s.D.Set("os_kernel_version", *s.Res.OsKernelVersion)

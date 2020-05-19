@@ -22,6 +22,7 @@ data "oci_osmanagement_managed_instance_groups" "test_managed_instance_groups" {
 
 	#Optional
 	display_name = "${var.managed_instance_group_display_name}"
+	os_family = "${var.managed_instance_group_os_family}"
 	state = "${var.managed_instance_group_state}"
 }
 ```
@@ -32,6 +33,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.  Example: `My new resource` 
+* `os_family` - (Optional) The OS family for which to list resources.
 * `state` - (Optional) The current lifecycle state for the object.
 
 
@@ -54,5 +56,6 @@ The following attributes are exported:
 * `managed_instances` - list of Managed Instances in the group
 	* `display_name` - User friendly name
 	* `id` - unique identifier that is immutable on creation
+* `os_family` - The Operating System type of the managed instance.
 * `state` - The current state of the Software Source.
 

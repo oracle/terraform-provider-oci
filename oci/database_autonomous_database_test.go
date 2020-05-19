@@ -367,6 +367,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_preview"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
+					// @Codegen: Can't test private_endpoint with fake resource
+					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint_ip"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_begin"),
@@ -405,6 +408,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
+					// @Codegen: Can't test private_endpoint with fake resource
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint"),
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_begin"),

@@ -22,6 +22,13 @@ var (
 	ImageRequiredOnlyResource = ImageResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
 
+	ImageResourceConfig = ImageResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation)
+
+	imageSingularDataSourceRepresentation = map[string]interface{}{
+		"image_id": Representation{repType: Required, create: `${oci_core_image.test_image.id}`},
+	}
+
 	imageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
@@ -69,6 +76,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_image.test_image"
 	datasourceName := "data.oci_core_images.test_images"
+	singularDatasourceName := "data.oci_core_image.test_image"
 
 	var resId, resId2 string
 
@@ -214,6 +222,35 @@ func TestCoreImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.time_created"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ImageResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_features.#", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "base_image_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "create_image_allowed"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_mode", "NATIVE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "operating_system"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "operating_system_version"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_mbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + ImageResourceConfig,
 			},
 			// verify resource import
 			{

@@ -20,10 +20,10 @@ import (
 
 var (
 	DeploymentRequiredOnlyResource = DeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentation)
+		generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationCustomAuth)
 
 	DeploymentResourceConfig = DeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentation)
+		generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth)
 
 	deploymentSingularDataSourceRepresentation = map[string]interface{}{
 		"deployment_id": Representation{repType: Required, create: `${oci_apigateway_deployment.test_deployment.id}`},
@@ -78,10 +78,16 @@ var (
 		"log_level":  Representation{repType: Optional, create: `INFO`, update: `WARN`},
 	}
 	deploymentSpecificationRequestPoliciesAuthenticationRepresentation = map[string]interface{}{
-		"function_id":                 Representation{repType: Required, create: `${oci_functions_function.test_function.id}`},
 		"type":                        Representation{repType: Required, create: `CUSTOM_AUTHENTICATION`, update: `CUSTOM_AUTHENTICATION`},
-		"token_header":                Representation{repType: Optional, create: `Authorization`, update: `Authorization`},
+		"audiences":                   Representation{repType: Optional, create: []string{`audiences`}, update: []string{`audiences2`}},
+		"function_id":                 Representation{repType: Optional, create: `${oci_functions_function.test_function.id}`},
 		"is_anonymous_access_allowed": Representation{repType: Optional, create: `false`, update: `true`},
+		"issuers":                     Representation{repType: Optional, create: []string{`issuers`}, update: []string{`issuers2`}},
+		"max_clock_skew_in_seconds":   Representation{repType: Optional, create: `1.0`, update: `2.0`},
+		"public_keys":                 RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesAuthenticationPublicKeysRepresentation},
+		"token_auth_scheme":           Representation{repType: Optional, create: `Bearer`, update: `Bearer`},
+		"token_header":                Representation{repType: Optional, create: `Authorization`, update: `Authorization`},
+		"verify_claims":               RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesAuthenticationVerifyClaimsRepresentation},
 	}
 	deploymentSpecificationRequestPoliciesAuthorizeScopeRepresentation = map[string]interface{}{
 		"allowed_scope": Representation{repType: Optional, create: []string{`cors`}},
@@ -114,6 +120,18 @@ var (
 		"name":  Representation{repType: Optional, create: `name`, update: `name2`},
 		"value": Representation{repType: Optional, create: `value`, update: `value2`},
 	}
+	deploymentSpecificationRequestPoliciesAuthenticationPublicKeysRepresentation = map[string]interface{}{
+		"type":                        Representation{repType: Required, create: `REMOTE_JWKS`, update: `STATIC_KEYS`},
+		"is_ssl_verify_disabled":      Representation{repType: Optional, create: `false`, update: `true`},
+		"keys":                        RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation},
+		"max_cache_duration_in_hours": Representation{repType: Optional, create: `10`, update: `11`},
+		"uri":                         Representation{repType: Optional, create: `https://oracle.com/jwks.json`, update: `https://oracle.com/jwkstest.json`},
+	}
+	deploymentSpecificationRequestPoliciesAuthenticationVerifyClaimsRepresentation = map[string]interface{}{
+		"is_required": Representation{repType: Optional, create: `false`, update: `true`},
+		"key":         Representation{repType: Optional, create: `key`, update: `key2`},
+		"values":      Representation{repType: Optional, create: []string{`values`}, update: []string{`values2`}},
+	}
 	deploymentSpecificationRoutesLoggingPoliciesAccessLogRepresentation = map[string]interface{}{
 		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
 	}
@@ -133,11 +151,31 @@ var (
 		"is_allow_credentials_enabled": Representation{repType: Optional, create: `false`, update: `true`},
 		"max_age_in_seconds":           Representation{repType: Optional, create: `600`, update: `500`},
 	}
+	deploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation = map[string]interface{}{
+		"format":  Representation{repType: Required, create: `PEM`, update: `JSON_WEB_KEY`},
+		"alg":     Representation{repType: Optional, create: `alg`, update: `RS256`},
+		"e":       Representation{repType: Optional, create: `e`, update: `AQAB`},
+		"key":     Representation{repType: Optional, create: `key`, update: `key2`},
+		"key_ops": Representation{repType: Optional, create: []string{}, update: []string{`verify`}},
+		"kid":     Representation{repType: Optional, create: `kid`, update: `master_key`},
+		"kty":     Representation{repType: Optional, create: `kty`, update: `RSA`},
+		"n":       Representation{repType: Optional, create: `n`, update: `n2`},
+		"use":     Representation{repType: Optional, create: `use`, update: `sig`},
+	}
 
 	DeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewayRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRegionalRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
+
+	deploymentRepresentationCustomAuth = getMultipleUpdatedNestedRepresenationCopy([]string{
+		"specification.request_policies.authentication.audiences",
+		"specification.request_policies.authentication.issuers",
+		"specification.request_policies.authentication.max_clock_skew_in_seconds",
+		"specification.request_policies.authentication.public_keys",
+		"specification.request_policies.authentication.token_auth_scheme",
+		"specification.request_policies.authentication.verify_claims",
+	}, deploymentRepresentation)
 )
 
 func TestApigatewayDeploymentResource_basic(t *testing.T) {
@@ -172,7 +210,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + DeploymentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentation),
+					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationCustomAuth),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
@@ -195,7 +233,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
-					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentation),
+					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentationCustomAuth),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -272,7 +310,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
 					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create,
-						representationCopyWithNewProperties(deploymentRepresentation, map[string]interface{}{
+						representationCopyWithNewProperties(deploymentRepresentationCustomAuth, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -348,7 +386,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
-					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentation),
+					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -423,7 +461,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", Optional, Update, deploymentDataSourceRepresentation) +
 					compartmentIdVariableStr + DeploymentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentation),
+					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

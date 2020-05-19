@@ -50,8 +50,8 @@ check_make_target 2 'vet'
 check_make_target 3 'errcheck'
 check_make_target 5 'test-compile' 'TEST=./oci'
 check_make_target 6 'ocicheck'
-check_make_target 7 'website-test'
-check_make_target 8 'test-docscheck'
+#check_make_target 7 'website-test'
+check_make_target 7 'test-docscheck'
 
 
 echo "checking: make build ..."

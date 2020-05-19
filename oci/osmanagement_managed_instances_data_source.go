@@ -26,6 +26,10 @@ func OsmanagementManagedInstancesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"os_family": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"managed_instances": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -73,6 +77,10 @@ func OsmanagementManagedInstancesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_reboot_required": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"last_boot": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -101,6 +109,10 @@ func OsmanagementManagedInstancesDataSource() *schema.Resource {
 									},
 								},
 							},
+						},
+						"os_family": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"os_kernel_version": {
 							Type:     schema.TypeString,
@@ -183,6 +195,10 @@ func (s *OsmanagementManagedInstancesDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+		request.OsFamily = oci_osmanagement.ListManagedInstancesOsFamilyEnum(osFamily.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "osmanagement")
 
 	response, err := s.Client.ListManagedInstances(context.Background(), request)
@@ -231,6 +247,10 @@ func (s *OsmanagementManagedInstancesDataSourceCrud) SetData() error {
 			managedInstance["id"] = *r.Id
 		}
 
+		if r.IsRebootRequired != nil {
+			managedInstance["is_reboot_required"] = *r.IsRebootRequired
+		}
+
 		if r.LastBoot != nil {
 			managedInstance["last_boot"] = *r.LastBoot
 		}
@@ -238,6 +258,8 @@ func (s *OsmanagementManagedInstancesDataSourceCrud) SetData() error {
 		if r.LastCheckin != nil {
 			managedInstance["last_checkin"] = *r.LastCheckin
 		}
+
+		managedInstance["os_family"] = r.OsFamily
 
 		managedInstance["status"] = r.Status
 

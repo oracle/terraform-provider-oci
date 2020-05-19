@@ -225,6 +225,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["private_endpoint"] = *r.PrivateEndpoint
 		}
 
+		if r.PrivateEndpointIp != nil {
+			autonomousDatabase["private_endpoint_ip"] = *r.PrivateEndpointIp
+		}
+
 		if r.PrivateEndpointLabel != nil {
 			autonomousDatabase["private_endpoint_label"] = *r.PrivateEndpointLabel
 		}

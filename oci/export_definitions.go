@@ -2,6 +2,7 @@ package oci
 
 import (
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
+	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
@@ -11,6 +12,14 @@ import (
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
+	resourceClass:          "oci_autoscaling_auto_scaling_configuration",
+	datasourceClass:        "oci_autoscaling_auto_scaling_configurations",
+	datasourceItemsAttr:    "auto_scaling_configurations",
+	resourceAbbreviation:   "auto_scaling_configuration",
+	requireResourceRefresh: true,
+}
+
 var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_bds_bds_instance",
 	datasourceClass:        "oci_bds_bds_instances",
@@ -20,6 +29,25 @@ var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_bds.BdsInstanceLifecycleStateActive),
 	},
+}
+
+var exportContainerengineClusterHints = &TerraformResourceHints{
+	resourceClass:          "oci_containerengine_cluster",
+	datasourceClass:        "oci_containerengine_clusters",
+	datasourceItemsAttr:    "clusters",
+	resourceAbbreviation:   "cluster",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_containerengine.ClusterLifecycleStateActive),
+	},
+}
+
+var exportContainerengineNodePoolHints = &TerraformResourceHints{
+	resourceClass:          "oci_containerengine_node_pool",
+	datasourceClass:        "oci_containerengine_node_pools",
+	datasourceItemsAttr:    "node_pools",
+	resourceAbbreviation:   "node_pool",
+	requireResourceRefresh: true,
 }
 
 var exportCoreBootVolumeHints = &TerraformResourceHints{

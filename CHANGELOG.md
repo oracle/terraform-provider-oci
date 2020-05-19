@@ -1,4 +1,17 @@
 ## 3.76.0 (Unreleased)
+
+### Added
+- Support resource discovery for autoScaling resources
+- Support for exposing `private_endpoint` in `oci_database_autonomous_database`
+- Support for JWT Validation in API Gateway Service
+- Support for `os_family` attribute in `oci_osmanagement_managed_instance_group` resource
+- Support for `os_family` and `is_reboot_required` attributes in `oci_osmanagement_managed_instance` datasource
+- Support for oci core image datasource
+- Support resource discovery for `containerengine` service
+
+### Fixed
+- Fixed the delegation support in resource `oci_file_storage_mount_target`
+
 ## 3.75.0 (May 13, 2020)
 
 ### Added

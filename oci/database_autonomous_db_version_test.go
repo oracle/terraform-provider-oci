@@ -54,7 +54,7 @@ func TestDatabaseAutonomousDbVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_versions.0.version"),
 				),
 			},
-			// verify datasource with optionals
+
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Optional, Create, autonomousDbVersionDataSourceRepresentation) +

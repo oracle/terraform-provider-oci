@@ -56,6 +56,10 @@ func (m *authenticationpolicy) UnmarshalPolymorphicJSON(data []byte) (interface{
 
 	var err error
 	switch m.Type {
+	case "JWT_AUTHENTICATION":
+		mm := JwtAuthenticationPolicy{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CUSTOM_AUTHENTICATION":
 		mm := CustomAuthenticationPolicy{}
 		err = json.Unmarshal(data, &mm)
@@ -80,10 +84,12 @@ type AuthenticationPolicyTypeEnum string
 // Set of constants representing the allowable values for AuthenticationPolicyTypeEnum
 const (
 	AuthenticationPolicyTypeCustomAuthentication AuthenticationPolicyTypeEnum = "CUSTOM_AUTHENTICATION"
+	AuthenticationPolicyTypeJwtAuthentication    AuthenticationPolicyTypeEnum = "JWT_AUTHENTICATION"
 )
 
 var mappingAuthenticationPolicyType = map[string]AuthenticationPolicyTypeEnum{
 	"CUSTOM_AUTHENTICATION": AuthenticationPolicyTypeCustomAuthentication,
+	"JWT_AUTHENTICATION":    AuthenticationPolicyTypeJwtAuthentication,
 }
 
 // GetAuthenticationPolicyTypeEnumValues Enumerates the set of values for AuthenticationPolicyTypeEnum
