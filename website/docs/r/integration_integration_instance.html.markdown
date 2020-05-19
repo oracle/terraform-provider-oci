@@ -28,6 +28,7 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	idcs_at = "${var.integration_instance_idcs_at}"
+	is_file_server_enabled = "${var.integration_instance_is_file_server_enabled}"
 	state = "${var.integration_instance_target_state}"
 }
 ```
@@ -43,6 +44,7 @@ The following arguments are supported:
 * `idcs_at` - (Optional) IDCS Authentication token. This is is required for pre-UCPIS cloud accounts, but not UCPIS, hence not a required parameter
 * `integration_instance_type` - (Required) (Updatable) Standard or Enterprise type
 * `is_byol` - (Required) (Updatable) Bring your own license.
+* `is_file_server_enabled` - (Optional) (Updatable) The file server is enabled or not.
 * `message_packs` - (Required) (Updatable) The number of configured message packs
 * `state` - (Optional) (Updatable) The target state for the instance. Could be set to ACTIVE or INACTIVE
 
@@ -62,6 +64,7 @@ The following attributes are exported:
 * `instance_url` - The Integration Instance URL.
 * `integration_instance_type` - Standard or Enterprise type
 * `is_byol` - Bring your own license.
+* `is_file_server_enabled` - The file server is enabled or not.
 * `message_packs` - The number of configured message packs (if any)
 * `state` - The current state of the integration instance.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

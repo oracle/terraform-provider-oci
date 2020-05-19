@@ -4,6 +4,7 @@
 - Support resource discovery for `waas` resources
 - Support resource discovery for `database` resources: exadata infrastructures, vm clusters, backup destinations, databases, database backups
 - Support resource discovery for `dns` resources
+- Support addition of File Server capability to `oci_integration_integration_instance`
 
 ## 3.79.0 (June 03, 2020)
 
