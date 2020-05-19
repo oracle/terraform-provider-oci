@@ -1,4 +1,8 @@
 ## 3.80.0 (Unreleased)
+
+### Added
+- Support resource discovery for `waas` resources
+
 ## 3.79.0 (June 03, 2020)
 
 ### Added

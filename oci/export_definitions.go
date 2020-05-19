@@ -20,6 +20,7 @@ import (
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
+	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -965,5 +966,48 @@ var exportStreamingStreamHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_streaming.StreamLifecycleStateActive),
+	},
+}
+
+var exportWaasAddressListHints = &TerraformResourceHints{
+	resourceClass:          "oci_waas_address_list",
+	datasourceClass:        "oci_waas_address_lists",
+	datasourceItemsAttr:    "address_lists",
+	resourceAbbreviation:   "address_list",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waas.LifecycleStatesActive),
+	},
+}
+
+var exportWaasCustomProtectionRuleHints = &TerraformResourceHints{
+	resourceClass:          "oci_waas_custom_protection_rule",
+	datasourceClass:        "oci_waas_custom_protection_rules",
+	datasourceItemsAttr:    "custom_protection_rules",
+	resourceAbbreviation:   "custom_protection_rule",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waas.LifecycleStatesActive),
+	},
+}
+
+var exportWaasHttpRedirectHints = &TerraformResourceHints{
+	resourceClass:        "oci_waas_http_redirect",
+	datasourceClass:      "oci_waas_http_redirects",
+	datasourceItemsAttr:  "http_redirects",
+	resourceAbbreviation: "http_redirect",
+	discoverableLifecycleStates: []string{
+		string(oci_waas.LifecycleStatesActive),
+	},
+}
+
+var exportWaasWaasPolicyHints = &TerraformResourceHints{
+	resourceClass:          "oci_waas_waas_policy",
+	datasourceClass:        "oci_waas_waas_policies",
+	datasourceItemsAttr:    "waas_policies",
+	resourceAbbreviation:   "waas_policy",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waas.WaasPolicyLifecycleStateActive),
 	},
 }
