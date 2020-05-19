@@ -10,6 +10,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
@@ -670,6 +671,28 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	datasourceClass:      "oci_load_balancer_rule_sets",
 	datasourceItemsAttr:  "rule_sets",
 	resourceAbbreviation: "rule_set",
+}
+
+var exportNosqlTableHints = &TerraformResourceHints{
+	resourceClass:          "oci_nosql_table",
+	datasourceClass:        "oci_nosql_tables",
+	datasourceItemsAttr:    "table_collection",
+	resourceAbbreviation:   "table",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_nosql.TableLifecycleStateActive),
+	},
+}
+
+var exportNosqlIndexHints = &TerraformResourceHints{
+	resourceClass:          "oci_nosql_index",
+	datasourceClass:        "oci_nosql_indexes",
+	datasourceItemsAttr:    "index_collection",
+	resourceAbbreviation:   "index",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_nosql.IndexLifecycleStateActive),
+	},
 }
 
 var exportObjectStorageBucketHints = &TerraformResourceHints{

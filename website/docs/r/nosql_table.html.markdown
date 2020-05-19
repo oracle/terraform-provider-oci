@@ -81,5 +81,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+Tables can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_nosql_table.test_table "id"
+```
 

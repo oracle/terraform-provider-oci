@@ -68,5 +68,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+Indexes can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_nosql_index.test_index "tables/{tableNameOrId}/indexes/{indexName}" 
+```
 

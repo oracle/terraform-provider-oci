@@ -5,6 +5,8 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
+	"strconv"
 	"testing"
 	"time"
 
@@ -80,6 +82,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_nosql_indexes.test_indexes"
 	singularDatasourceName := "data.oci_nosql_index.test_index"
+	var compositeId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -117,6 +120,19 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "keys.0.json_path", "info"),
 					resource.TestCheckResourceAttr(resourceName, "name", "test_index"),
 					resource.TestCheckResourceAttrSet(resourceName, "table_name_or_id"),
+
+					func(s *terraform.State) (err error) {
+						indexName, err := fromInstanceState(s, resourceName, "id")
+						tableName, _ := fromInstanceState(s, resourceName, "table_name_or_id")
+						compositeId = "tables/" + tableName + "/indexes/" + indexName
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 
