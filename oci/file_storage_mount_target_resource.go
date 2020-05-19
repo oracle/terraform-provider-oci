@@ -117,6 +117,7 @@ func createFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -125,6 +126,7 @@ func readFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -133,6 +135,7 @@ func updateFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -141,6 +144,7 @@ func deleteFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -149,6 +153,7 @@ func deleteFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 type FileStorageMountTargetResourceCrud struct {
 	BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
+	VirtualNetworkClient   *oci_core.VirtualNetworkClient
 	Res                    *oci_file_storage.MountTarget
 	DisableNotFoundRetries bool
 }
@@ -414,15 +419,13 @@ func (s *FileStorageMountTargetResourceCrud) updateCompartment(compartment inter
 }
 
 func (s *FileStorageMountTargetResourceCrud) setPrivateIpDetails(privateIpOcid string) error {
-	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
-
 	request := oci_core.GetPrivateIpRequest{}
 
 	request.PrivateIpId = &privateIpOcid
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
 
-	response, err := virtualNetworkClient.GetPrivateIp(context.Background(), request)
+	response, err := s.VirtualNetworkClient.GetPrivateIp(context.Background(), request)
 	if err != nil {
 		return err
 	}
