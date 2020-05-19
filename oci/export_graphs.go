@@ -31,6 +31,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"functions":           functionsResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
+	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
 }
 
@@ -326,6 +327,14 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 				"namespace": "namespace",
 			},
 		},
+	},
+}
+
+var streamingResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportStreamingConnectHarnessHints},
+		{TerraformResourceHints: exportStreamingStreamPoolHints},
+		{TerraformResourceHints: exportStreamingStreamHints},
 	},
 }
 
