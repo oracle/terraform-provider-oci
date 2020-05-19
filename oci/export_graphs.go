@@ -64,6 +64,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"osmanagement":        osmanagementResourceGraph,
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
+	"waas":                waasResourceGraph,
 }
 
 var apigatewayResourceGraph = TerraformResourceGraph{
@@ -463,6 +464,15 @@ var streamingResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportStreamingConnectHarnessHints},
 		{TerraformResourceHints: exportStreamingStreamPoolHints},
 		{TerraformResourceHints: exportStreamingStreamHints},
+	},
+}
+
+var waasResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportWaasAddressListHints},
+		{TerraformResourceHints: exportWaasCustomProtectionRuleHints},
+		{TerraformResourceHints: exportWaasHttpRedirectHints},
+		{TerraformResourceHints: exportWaasWaasPolicyHints},
 	},
 }
 

@@ -111,6 +111,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
+    * `waas` - Discovers waas resources within the specified compartment
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
     * 0.11
@@ -347,3 +348,10 @@ tagging
 * oci\_identity\_tag\_default
 * oci\_identity\_tag\_namespace
 * oci\_identity\_tag
+
+waas
+    
+* oci\_waas\_address\_list
+* oci\_waas\_custom\_protection\_rule
+* oci\_waas\_http\_redirect
+* oci\_waas\_waas\_policy
