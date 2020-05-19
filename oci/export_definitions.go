@@ -9,6 +9,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -655,4 +656,36 @@ var exportObjectStorageNamespaceHints = &TerraformResourceHints{
 	resourceClass:        "oci_objectstorage_namespace",
 	datasourceClass:      "oci_objectstorage_namespace",
 	resourceAbbreviation: "namespace",
+}
+
+var exportStreamingConnectHarnessHints = &TerraformResourceHints{
+	resourceClass:        "oci_streaming_connect_harness",
+	datasourceClass:      "oci_streaming_connect_harnesses",
+	datasourceItemsAttr:  "connect_harness",
+	resourceAbbreviation: "connect_harness",
+	discoverableLifecycleStates: []string{
+		string(oci_streaming.ConnectHarnessLifecycleStateActive),
+	},
+}
+
+var exportStreamingStreamPoolHints = &TerraformResourceHints{
+	resourceClass:          "oci_streaming_stream_pool",
+	datasourceClass:        "oci_streaming_stream_pools",
+	datasourceItemsAttr:    "stream_pools",
+	resourceAbbreviation:   "stream_pool",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_streaming.StreamPoolLifecycleStateActive),
+	},
+}
+
+var exportStreamingStreamHints = &TerraformResourceHints{
+	resourceClass:          "oci_streaming_stream",
+	datasourceClass:        "oci_streaming_streams",
+	datasourceItemsAttr:    "streams",
+	resourceAbbreviation:   "stream",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_streaming.StreamLifecycleStateActive),
+	},
 }

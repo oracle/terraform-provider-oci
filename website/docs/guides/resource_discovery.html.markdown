@@ -101,10 +101,11 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
+    * `streaming` - Discovers streaming resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
-    * 0.11  
+    * 0.11
     * 0.12
 
 > **Note**: The compartment export functionality currently supports discovery of the target compartment. The ability to discover resources in child compartments is not yet supported.
@@ -269,6 +270,12 @@ load_balancer
 object_storage
     
 * oci\_objectstorage\_bucket
+
+streaming
+    
+* oci\_streaming\_connect\_harness
+* oci\_streaming\_stream\_pool
+* oci\_streaming\_stream
 
 tagging
     
