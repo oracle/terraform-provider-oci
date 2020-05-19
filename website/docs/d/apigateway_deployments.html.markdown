@@ -65,11 +65,34 @@ The following attributes are exported:
 			* `log_level` - Specifies the logging level, which affects the log entries pushed to Oracle Cloud Infrastructure Public Logging if `isEnabled` is set to True. 
 	* `request_policies` - 
 		* `authentication` - 
+			* `audiences` - The list of intended recipients for the token.
 			* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
 			* `is_anonymous_access_allowed` - Whether an unauthenticated user may access the API. Must be "true" to enable ANONYMOUS route authorization. 
+			* `issuers` - A list of parties that could have issued the token.
+			* `max_clock_skew_in_seconds` - The maximum expected time difference between the system clocks of the token issuer and the API Gateway. 
+			* `public_keys` - 
+				* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
+				* `keys` - The set of static public keys.
+					* `alg` - The algorithm intended for use with this key.
+					* `e` - The base64 url encoded exponent of the RSA public key represented by this key. 
+					* `format` - The format of the public key.
+					* `key` - The content of the PEM-encoded public key.
+					* `key_ops` - The operations for which this key is to be used.
+					* `kid` - A unique key ID. This key will be used to verify the signature of a JWT with matching "kid". 
+					* `kty` - The key type.
+					* `n` - The base64 url encoded modulus of the RSA public key represented by this key. 
+					* `use` - The intended use of the public key.
+				* `max_cache_duration_in_hours` - The duration for which the JWKS should be cached before it is fetched again. 
+				* `type` - Type of the public key set.
+				* `uri` - The uri from which to retrieve the key. It must be accessible without authentication. 
+			* `token_auth_scheme` - The authentication scheme that is to be used when authenticating the token. This must to be provided if "tokenHeader" is specified. 
 			* `token_header` - The name of the header containing the authentication token.
 			* `token_query_param` - The name of the query parameter containing the authentication token.
 			* `type` - Type of the authentication policy to use.
+			* `verify_claims` - A list of claims which should be validated to consider the token valid.
+				* `is_required` - Whether the claim is required to be present in the JWT or not. If set to "false", the claim values will be matched only if the claim is present in the JWT. 
+				* `key` - Name of the claim.
+				* `values` - The list of acceptable values for a given claim. If this value is "null" or empty and "isRequired" set to "true", then the presence of this claim in the JWT is validated. 
 		* `cors` - 
 			* `allowed_headers` - The list of headers that will be allowed from the client via the Access-Control-Allow-Headers header. '*' will allow all headers. 
 			* `allowed_methods` - The list of allowed HTTP methods that will be returned for the preflight OPTIONS request in the Access-Control-Allow-Methods header. '*' will allow all methods. 

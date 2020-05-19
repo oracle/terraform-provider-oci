@@ -140,22 +140,156 @@ func ApigatewayDeploymentResource() *schema.Resource {
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
-												"function_id": {
-													Type:     schema.TypeString,
-													Required: true,
-												},
 												"type": {
 													Type:             schema.TypeString,
 													Required:         true,
 													DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 													ValidateFunc: validation.StringInSlice([]string{
 														"CUSTOM_AUTHENTICATION",
+														"JWT_AUTHENTICATION",
 													}, true),
 												},
 
 												// Optional
+												"audiences": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"function_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"is_anonymous_access_allowed": {
 													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
+												"issuers": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"max_clock_skew_in_seconds": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+												"public_keys": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"REMOTE_JWKS",
+																	"STATIC_KEYS",
+																}, true),
+															},
+
+															// Optional
+															"is_ssl_verify_disabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+															"keys": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"format": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"JSON_WEB_KEY",
+																				"PEM",
+																			}, true),
+																		},
+
+																		// Optional
+																		"alg": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"e": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"key": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"key_ops": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																		"kid": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"kty": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"n": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"use": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"max_cache_duration_in_hours": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+															"uri": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"token_auth_scheme": {
+													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 												},
@@ -168,6 +302,38 @@ func ApigatewayDeploymentResource() *schema.Resource {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
+												},
+												"verify_claims": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"is_required": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+															"key": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"values": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+
+															// Computed
+														},
+													},
 												},
 
 												// Computed
@@ -1454,6 +1620,81 @@ func (s *ApigatewayDeploymentResourceCrud) mapToAuthenticationPolicy(fieldKeyFor
 			details.IsAnonymousAccessAllowed = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("JWT_AUTHENTICATION"):
+		details := oci_apigateway.JwtAuthenticationPolicy{}
+		if audiences, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "audiences")); ok {
+			interfaces := audiences.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "audiences")) {
+				details.Audiences = tmp
+			}
+		}
+		if issuers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "issuers")); ok {
+			interfaces := issuers.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "issuers")) {
+				details.Issuers = tmp
+			}
+		}
+		if maxClockSkewInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_clock_skew_in_seconds")); ok {
+			tmp := float32(maxClockSkewInSeconds.(float64))
+			details.MaxClockSkewInSeconds = &tmp
+		}
+		if publicKeys, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "public_keys")); ok {
+			if tmpList := publicKeys.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "public_keys"), 0)
+				tmp, err := s.mapToPublicKeySet(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert public_keys, encountered error: %v", err)
+				}
+				details.PublicKeys = tmp
+			}
+		}
+		if tokenAuthScheme, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "token_auth_scheme")); ok {
+			tmp := tokenAuthScheme.(string)
+			details.TokenAuthScheme = &tmp
+		}
+		if tokenHeader, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "token_header")); ok {
+			tmp := tokenHeader.(string)
+			details.TokenHeader = &tmp
+		}
+		if tokenQueryParam, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "token_query_param")); ok {
+			tmp := tokenQueryParam.(string)
+			if len(tmp) != 0 {
+				details.TokenQueryParam = &tmp
+			}
+		}
+		if verifyClaims, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_claims")); ok {
+			interfaces := verifyClaims.([]interface{})
+			tmp := make([]oci_apigateway.JsonWebTokenClaim, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "verify_claims"), stateDataIndex)
+				converted, err := s.mapToJsonWebTokenClaim(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "verify_claims")) {
+				details.VerifyClaims = tmp
+			}
+		}
+		if isAnonymousAccessAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_anonymous_access_allowed")); ok {
+			tmp := isAnonymousAccessAllowed.(bool)
+			details.IsAnonymousAccessAllowed = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -1477,6 +1718,46 @@ func AuthenticationPolicyToMap(obj *oci_apigateway.AuthenticationPolicy) map[str
 		if v.TokenQueryParam != nil {
 			result["token_query_param"] = string(*v.TokenQueryParam)
 		}
+
+		if v.IsAnonymousAccessAllowed != nil {
+			result["is_anonymous_access_allowed"] = bool(*v.IsAnonymousAccessAllowed)
+		}
+	case oci_apigateway.JwtAuthenticationPolicy:
+		result["type"] = "JWT_AUTHENTICATION"
+
+		result["audiences"] = v.Audiences
+
+		result["issuers"] = v.Issuers
+
+		if v.MaxClockSkewInSeconds != nil {
+			result["max_clock_skew_in_seconds"] = float32(*v.MaxClockSkewInSeconds)
+		}
+
+		if v.PublicKeys != nil {
+			publicKeysArray := []interface{}{}
+			if publicKeysMap := PublicKeySetToMap(&v.PublicKeys); publicKeysMap != nil {
+				publicKeysArray = append(publicKeysArray, publicKeysMap)
+			}
+			result["public_keys"] = publicKeysArray
+		}
+
+		if v.TokenAuthScheme != nil {
+			result["token_auth_scheme"] = string(*v.TokenAuthScheme)
+		}
+
+		if v.TokenHeader != nil {
+			result["token_header"] = string(*v.TokenHeader)
+		}
+
+		if v.TokenQueryParam != nil {
+			result["token_query_param"] = string(*v.TokenQueryParam)
+		}
+
+		verifyClaims := []interface{}{}
+		for _, item := range v.VerifyClaims {
+			verifyClaims = append(verifyClaims, JsonWebTokenClaimToMap(item))
+		}
+		result["verify_claims"] = verifyClaims
 
 		if v.IsAnonymousAccessAllowed != nil {
 			result["is_anonymous_access_allowed"] = bool(*v.IsAnonymousAccessAllowed)
@@ -1686,6 +1967,135 @@ func HeaderFieldSpecificationToMap(obj oci_apigateway.HeaderFieldSpecification) 
 	return result
 }
 
+func (s *ApigatewayDeploymentResourceCrud) mapToJsonWebTokenClaim(fieldKeyFormat string) (oci_apigateway.JsonWebTokenClaim, error) {
+	result := oci_apigateway.JsonWebTokenClaim{}
+
+	if isRequired, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_required")); ok {
+		tmp := isRequired.(bool)
+		result.IsRequired = &tmp
+	}
+
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		tmp := key.(string)
+		result.Key = &tmp
+	}
+
+	if values, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "values")); ok {
+		interfaces := values.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "values")) {
+			result.Values = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func JsonWebTokenClaimToMap(obj oci_apigateway.JsonWebTokenClaim) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsRequired != nil {
+		result["is_required"] = bool(*obj.IsRequired)
+	}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	result["values"] = obj.Values
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToPublicKeySet(fieldKeyFormat string) (oci_apigateway.PublicKeySet, error) {
+	var baseObject oci_apigateway.PublicKeySet
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("REMOTE_JWKS"):
+		details := oci_apigateway.RemoteJsonWebKeySet{}
+		if isSslVerifyDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ssl_verify_disabled")); ok {
+			tmp := isSslVerifyDisabled.(bool)
+			details.IsSslVerifyDisabled = &tmp
+		}
+		if maxCacheDurationInHours, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_cache_duration_in_hours")); ok {
+			tmp := maxCacheDurationInHours.(int)
+			details.MaxCacheDurationInHours = &tmp
+		}
+		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+			tmp := uri.(string)
+			details.Uri = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("STATIC_KEYS"):
+		details := oci_apigateway.StaticPublicKeySet{}
+		if keys, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "keys")); ok {
+			interfaces := keys.([]interface{})
+			tmp := make([]oci_apigateway.StaticPublicKey, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "keys"), stateDataIndex)
+				converted, err := s.mapToStaticPublicKey(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "keys")) {
+				details.Keys = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func PublicKeySetToMap(obj *oci_apigateway.PublicKeySet) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.RemoteJsonWebKeySet:
+		result["type"] = "REMOTE_JWKS"
+
+		if v.IsSslVerifyDisabled != nil {
+			result["is_ssl_verify_disabled"] = bool(*v.IsSslVerifyDisabled)
+		}
+
+		if v.MaxCacheDurationInHours != nil {
+			result["max_cache_duration_in_hours"] = int(*v.MaxCacheDurationInHours)
+		}
+
+		if v.Uri != nil {
+			result["uri"] = string(*v.Uri)
+		}
+	case oci_apigateway.StaticPublicKeySet:
+		result["type"] = "STATIC_KEYS"
+
+		keys := []interface{}{}
+		for _, item := range v.Keys {
+			keys = append(keys, StaticPublicKeyToMap(item))
+		}
+		result["keys"] = keys
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *ApigatewayDeploymentResourceCrud) mapToRateLimitingPolicy(fieldKeyFormat string) (oci_apigateway.RateLimitingPolicy, error) {
 	result := oci_apigateway.RateLimitingPolicy{}
 
@@ -1764,6 +2174,114 @@ func RouteAuthorizationPolicyToMap(obj *oci_apigateway.RouteAuthorizationPolicy)
 		result["type"] = "AUTHENTICATION_ONLY"
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToStaticPublicKey(fieldKeyFormat string) (oci_apigateway.StaticPublicKey, error) {
+	var baseObject oci_apigateway.StaticPublicKey
+	//discriminator
+	formatRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "format"))
+	var format string
+	if ok {
+		format = formatRaw.(string)
+	} else {
+		format = "" // default value
+	}
+	switch strings.ToLower(format) {
+	case strings.ToLower("JSON_WEB_KEY"):
+		details := oci_apigateway.JsonWebKey{}
+		if alg, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "alg")); ok {
+			tmp := alg.(string)
+			details.Alg = &tmp
+		}
+		if e, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "e")); ok {
+			tmp := e.(string)
+			details.E = &tmp
+		}
+		if keyOps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_ops")); ok {
+			interfaces := keyOps.([]interface{})
+			tmp := make([]oci_apigateway.JsonWebKeyKeyOpsEnum, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = oci_apigateway.JsonWebKeyKeyOpsEnum(interfaces[i].(string))
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "key_ops")) {
+				details.KeyOps = tmp
+			}
+		}
+		if kty, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kty")); ok {
+			details.Kty = oci_apigateway.JsonWebKeyKtyEnum(kty.(string))
+		}
+		if n, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "n")); ok {
+			tmp := n.(string)
+			details.N = &tmp
+		}
+		if use, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "use")); ok {
+			details.Use = oci_apigateway.JsonWebKeyUseEnum(use.(string))
+		}
+		if kid, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kid")); ok {
+			tmp := kid.(string)
+			details.Kid = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PEM"):
+		details := oci_apigateway.PemEncodedPublicKey{}
+		if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+			tmp := key.(string)
+			details.Key = &tmp
+		}
+		if kid, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kid")); ok {
+			tmp := kid.(string)
+			details.Kid = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown format '%v' was specified", format)
+	}
+	return baseObject, nil
+}
+
+func StaticPublicKeyToMap(obj oci_apigateway.StaticPublicKey) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_apigateway.JsonWebKey:
+		result["format"] = "JSON_WEB_KEY"
+
+		if v.Alg != nil {
+			result["alg"] = string(*v.Alg)
+		}
+
+		if v.E != nil {
+			result["e"] = string(*v.E)
+		}
+
+		result["key_ops"] = v.KeyOps
+
+		result["kty"] = string(v.Kty)
+
+		if v.N != nil {
+			result["n"] = string(*v.N)
+		}
+
+		if v.Kid != nil {
+			result["kid"] = string(*v.Kid)
+		}
+		result["use"] = string(v.Use)
+	case oci_apigateway.PemEncodedPublicKey:
+		result["format"] = "PEM"
+
+		if v.Key != nil {
+			result["key"] = string(*v.Key)
+		}
+		if v.Kid != nil {
+			result["kid"] = string(*v.Kid)
+		}
+	default:
+		log.Printf("[WARN] Received 'format' of unknown type %v", obj)
 		return nil
 	}
 
