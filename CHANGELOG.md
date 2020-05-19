@@ -1,4 +1,8 @@
 ## 3.79.0 (Unreleased)
+
+### Added
+- Support resource discovery for `nosql` resources
+
 ## 3.78.0 (May 27, 2020)
 
 ### Added

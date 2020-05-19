@@ -6,6 +6,8 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/url"
+	"regexp"
 	"strings"
 	"time"
 
@@ -22,6 +24,9 @@ func init() {
 
 func NosqlIndexResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createNosqlIndex,
 		Read:     readNosqlIndex,
@@ -362,6 +367,14 @@ func (s *NosqlIndexResourceCrud) Get() error {
 		request.TableNameOrId = &tmp
 	}
 
+	index, table, err := parseIndexCompositeId(s.D.Id())
+	if err == nil {
+		request.IndexName = &index
+		request.TableNameOrId = &table
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
 	response, err := s.Client.GetIndex(context.Background(), request)
@@ -411,6 +424,15 @@ func (s *NosqlIndexResourceCrud) Delete() error {
 }
 
 func (s *NosqlIndexResourceCrud) SetData() error {
+
+	indexName, tableNameOrId, err := parseIndexCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("name", &indexName)
+		s.D.Set("table_name_or_id", &tableNameOrId)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -440,6 +462,26 @@ func (s *NosqlIndexResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getIndexCompositeId(indexName string, tableNameOrId string) string {
+	indexName = url.PathEscape(indexName)
+	tableNameOrId = url.PathEscape(tableNameOrId)
+	compositeId := "tables/" + tableNameOrId + "/indexes/" + indexName
+	return compositeId
+}
+
+func parseIndexCompositeId(compositeId string) (indexName string, tableNameOrId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("tables/.*/indexes/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	tableNameOrId, _ = url.PathUnescape(parts[1])
+	indexName, _ = url.PathUnescape(parts[3])
+
+	return
 }
 
 func (s *NosqlIndexResourceCrud) mapToIndexKey(fieldKeyFormat string) (oci_nosql.IndexKey, error) {

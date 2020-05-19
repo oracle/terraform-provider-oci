@@ -70,6 +70,8 @@ data "oci_nosql_indexes" "test_indexes" {
 }
 
 output "index_name" {
+  depends_on = ["oci_nosql_index.test_index"]
+
   value = [
     "${data.oci_nosql_indexes.test_indexes.index_collection.0.name}",
   ]

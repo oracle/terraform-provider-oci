@@ -32,6 +32,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"functions":           functionsResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
+	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
@@ -326,6 +327,20 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportLoadBalancerRuleSetHints,
 			datasourceQueryParams: map[string]string{
 				"load_balancer_id": "id",
+			},
+		},
+	},
+}
+
+var nosqlResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportNosqlTableHints},
+	},
+	"oci_nosql_table": {
+		{
+			TerraformResourceHints: exportNosqlIndexHints,
+			datasourceQueryParams: map[string]string{
+				"table_name_or_id": "id",
 			},
 		},
 	},

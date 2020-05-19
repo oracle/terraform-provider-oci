@@ -107,6 +107,9 @@ func init() {
 	exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
 
 	exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
+
+	exportNosqlIndexHints.getIdFn = getNosqlIndexId
+	exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
 }
 
 func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
@@ -134,6 +137,23 @@ func processStreamingStream(clients *OracleClients, resources []*OCIResource) ([
 		}
 	}
 	return resources, nil
+}
+
+func processNosqlIndex(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, index := range resources {
+		index.sourceAttributes["table_name_or_id"] = index.parent.id
+	}
+	return resources, nil
+}
+
+func getNosqlIndexId(resource *OCIResource) (string, error) {
+	name, ok := resource.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find name for Index id")
+	}
+	tableNameOrId := resource.parent.id
+
+	return getIndexCompositeId(name, tableNameOrId), nil
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
