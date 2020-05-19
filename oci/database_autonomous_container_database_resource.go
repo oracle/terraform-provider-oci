@@ -178,6 +178,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"db_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"last_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -548,6 +552,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DbVersion != nil {
+		s.D.Set("db_version", *s.Res.DbVersion)
 	}
 
 	if s.Res.DefinedTags != nil {
