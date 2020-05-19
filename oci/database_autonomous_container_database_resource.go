@@ -323,6 +323,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) ID() string {
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_database.AutonomousContainerDatabaseLifecycleStateProvisioning),
+		string(oci_database.AutonomousContainerDatabaseLifecycleStateBackupInProgress),
 		string(oci_database.AutonomousContainerDatabaseLifecycleStateRestoring),
 	}
 }

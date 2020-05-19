@@ -23,7 +23,9 @@ var availabilityDomainsGraph = TerraformResourceGraph{
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"availability_domain": availabilityDomainsGraph,
+	"auto_scaling":        autoScalingResourceGraph,
 	"bds":                 bdsResourceGraph,
+	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
 	"functions":           functionsResourceGraph,
@@ -32,9 +34,22 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"tagging":             taggingResourceGraph,
 }
 
+var autoScalingResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportAutoScalingAutoScalingConfigurationHints},
+	},
+}
+
 var bdsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportBdsBdsInstanceHints},
+	},
+}
+
+var containerengineResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportContainerengineClusterHints},
+		{TerraformResourceHints: exportContainerengineNodePoolHints},
 	},
 }
 

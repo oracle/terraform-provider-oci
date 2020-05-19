@@ -42,5 +42,6 @@ The following attributes are exported:
 * `managed_instances` - list of Managed Instances in the group
 	* `display_name` - User friendly name
 	* `id` - unique identifier that is immutable on creation
+* `os_family` - The Operating System type of the managed instance.
 * `state` - The current state of the Software Source.
 

@@ -50,7 +50,7 @@ func TestDatabaseExadataInfrastructureDownloadConfigFileResource_basic(t *testin
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
 				),
 			},
-			// verify singular datasource with base64 encoded content
+
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_exadata_infrastructure_download_config_file", "test_exadata_infrastructure_download_config_file", Optional, Create, exadataInfrastructureDownloadConfigFileSingularDataSourceRepresentation) +

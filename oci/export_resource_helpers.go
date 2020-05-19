@@ -103,6 +103,23 @@ func init() {
 	exportObjectStorageNamespaceHints.alwaysExportable = true
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
+
+	exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
+}
+
+func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, nodePool := range resources {
+		// subnet_ids and quantity_per_subnet are deprecated and conflict with node_config_details
+		if _, exists := nodePool.sourceAttributes["node_config_details"]; exists {
+			if _, ok := nodePool.sourceAttributes["subnet_ids"]; ok {
+				delete(nodePool.sourceAttributes, "subnet_ids")
+			}
+			if _, ok := nodePool.sourceAttributes["quantity_per_subnet"]; ok {
+				delete(nodePool.sourceAttributes, "quantity_per_subnet")
+			}
+		}
+	}
+	return resources, nil
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation

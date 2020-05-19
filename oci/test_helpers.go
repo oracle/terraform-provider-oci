@@ -272,6 +272,36 @@ func updateNestedRepresentation(currIndex int, propertyNames []string, newValue 
 	return nil
 }
 
+// removes the list of properties at nested level(given the full qualified name) from the representation map
+// example for fully qualified name of a nested level property: "specification.request_policies.authentication.audiences"
+func getMultipleUpdatedNestedRepresenationCopy(propertyNames []string, representations map[string]interface{}) map[string]interface{} {
+	for i := 0; i < len(propertyNames); i++ {
+		representations = representationCopyWithRemovedNestedProperties(propertyNames[i], representations)
+	}
+	return representations
+}
+
+func representationCopyWithRemovedNestedProperties(propertyNameStr string, representations map[string]interface{}) map[string]interface{} {
+	propertyNames := strings.Split(propertyNameStr, ".")
+	return updateNestedRepresentationRemoveProperty(0, propertyNames, cloneRepresentation(representations))
+}
+
+func updateNestedRepresentationRemoveProperty(currIndex int, propertyNames []string, representations map[string]interface{}) map[string]interface{} {
+	//recursively search the property to remove
+	for prop := range representations {
+		if prop == propertyNames[currIndex] {
+			representationGroup, ok := representations[prop].(RepresentationGroup)
+			if ok && currIndex+1 < len(propertyNames) {
+				updateNestedRepresentationRemoveProperty(currIndex+1, propertyNames, representationGroup.group)
+			} else {
+				delete(representations, prop)
+			}
+			return representations
+		}
+	}
+	return nil
+}
+
 func generateDataSourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
 	buffer.WriteString(fmt.Sprintf(`%sdata "%s" "%s" %s`, lineSeparator, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))

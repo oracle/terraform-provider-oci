@@ -69,10 +69,12 @@ The following arguments are supported:
 * `validator` - (Optional) (Updatable) The tag must have a value type, which is specified with a validator. Tags can use either a  static value or a list of possible values. Static values are entered by a user applying the tag to a resource. Lists are created by you and the user must apply a value from the list. Lists  are validiated.
 
 	If you use the default validiator (or don't define a validator), the user applying the tag  enters a value. No additional validation is performed.
-    Remove the `validator` from config to update the tag to default. 
-	* `validator_type` - (Required) (Updatable) The primitive that any value set for this definedTag must be parseable as. Only supported value is `ENUM`. Do not specify `validator` for default type.  
-	* `values` - (Applicable when validator_type=ENUM) (Required) (Updatable) The list of allowed values for a definedTag value.
+
+	To clear the validator, call UpdateTag with  [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
+	* `validator_type` - (Required) (Updatable) Specifies the type of validation: a static value (no validation) or a list.  
+	* `values` - (Applicable when validator_type=ENUM) (Updatable) The list of allowed values for a definedTag value. 
 * `is_retired` - (Optional) (Updatable) Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -92,7 +94,10 @@ The following attributes are exported:
 * `tag_namespace_id` - The OCID of the namespace that contains the tag definition.
 * `time_created` - Date and time the tag was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `validator` - The tag must have a value type, which is specified with a validator. Tags can use either a  static value or a list of possible values. Static values are entered by a user applying the tag to a resource. Lists are created by you and the user must apply a value from the list. Lists  are validiated. 
-	
+
+	If you use the default validiator (or don't define a validator), the user applying the tag  enters a value. No additional validation is performed.
+
+	To clear the validator, call UpdateTag with  [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
 	* `validator_type` - Specifies the type of validation: a static value (no validation) or a list.  
 	* `values` - The list of allowed values for a definedTag value. 
 

@@ -195,35 +195,6 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify update maintenance_window_details to NO_PREFERENCE
-			{
-				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update,
-						getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
-					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
-					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
@@ -325,6 +296,36 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
+
+			{
+				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update,
+						getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
 				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceConfig,
