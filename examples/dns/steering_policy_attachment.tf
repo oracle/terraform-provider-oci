@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 variable "steering_policy_attachment_display_name" {
   default = "Test-Steering-Policy-Attachment"
