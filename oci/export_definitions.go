@@ -512,6 +512,36 @@ var exportDatabaseAutonomousExadataInfrastructureHints = &TerraformResourceHints
 	},
 }
 
+var exportDatabaseBackupDestinationHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_backup_destination",
+	datasourceClass:      "oci_database_backup_destinations",
+	datasourceItemsAttr:  "backup_destinations",
+	resourceAbbreviation: "backup_destination",
+	discoverableLifecycleStates: []string{
+		string(oci_database.BackupDestinationLifecycleStateActive),
+	},
+}
+
+var exportDatabaseBackupHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_backup",
+	datasourceClass:      "oci_database_backups",
+	datasourceItemsAttr:  "backups",
+	resourceAbbreviation: "backup",
+	discoverableLifecycleStates: []string{
+		string(oci_database.BackupLifecycleStateActive),
+	},
+}
+
+var exportDatabaseDatabaseHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_database",
+	datasourceClass:      "oci_database_databases",
+	datasourceItemsAttr:  "databases",
+	resourceAbbreviation: "database",
+	discoverableLifecycleStates: []string{
+		string(oci_database.DatabaseLifecycleStateAvailable),
+	},
+}
+
 var exportDatabaseDbHomeHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_db_home",
 	datasourceClass:      "oci_database_db_homes",
@@ -529,6 +559,39 @@ var exportDatabaseDbSystemHints = &TerraformResourceHints{
 	resourceAbbreviation: "db_system",
 	discoverableLifecycleStates: []string{
 		string(oci_database.DbSystemLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExadataInfrastructureHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_exadata_infrastructure",
+	datasourceClass:      "oci_database_exadata_infrastructures",
+	datasourceItemsAttr:  "exadata_infrastructures",
+	resourceAbbreviation: "exadata_infrastructure",
+	discoverableLifecycleStates: []string{
+		string(oci_database.ExadataInfrastructureLifecycleStateRequiresActivation),
+		string(oci_database.ExadataInfrastructureLifecycleStateActive),
+	},
+}
+
+var exportDatabaseVmClusterNetworkHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_vm_cluster_network",
+	datasourceClass:      "oci_database_vm_cluster_networks",
+	datasourceItemsAttr:  "vm_cluster_networks",
+	resourceAbbreviation: "vm_cluster_network",
+	discoverableLifecycleStates: []string{
+		string(oci_database.VmClusterNetworkLifecycleStateRequiresValidation),
+		string(oci_database.VmClusterNetworkLifecycleStateValidated),
+		string(oci_database.VmClusterNetworkLifecycleStateAllocated),
+	},
+}
+
+var exportDatabaseVmClusterHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_vm_cluster",
+	datasourceClass:      "oci_database_vm_clusters",
+	datasourceItemsAttr:  "vm_clusters",
+	resourceAbbreviation: "vm_cluster",
+	discoverableLifecycleStates: []string{
+		string(oci_database.VmClusterLifecycleStateAvailable),
 	},
 }
 

@@ -122,6 +122,7 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		if r.CpusEnabled != nil {
 			vmCluster["cpus_enabled"] = *r.CpusEnabled
+			vmCluster["cpu_core_count"] = *r.CpusEnabled
 		}
 
 		if r.DataStorageSizeInTBs != nil {

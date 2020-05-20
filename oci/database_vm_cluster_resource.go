@@ -17,6 +17,9 @@ func init() {
 
 func DatabaseVmClusterResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createDatabaseVmCluster,
 		Read:     readDatabaseVmCluster,
@@ -394,6 +397,7 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 
 	if s.Res.CpusEnabled != nil {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)
+		s.D.Set("cpu_core_count", *s.Res.CpusEnabled)
 	}
 
 	if s.Res.DataStorageSizeInTBs != nil {

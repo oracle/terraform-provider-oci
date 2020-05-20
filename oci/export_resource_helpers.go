@@ -93,6 +93,8 @@ func init() {
 	exportDatabaseDbSystemHints.requireResourceRefresh = true
 	exportDatabaseDbHomeHints.processDiscoveredResourcesFn = filterPrimaryDbHomes
 	exportDatabaseDbHomeHints.requireResourceRefresh = true
+	exportDatabaseDatabaseHints.requireResourceRefresh = true
+	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 
 	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
 	exportIdentityAvailabilityDomainHints.alwaysExportable = true
@@ -119,6 +121,8 @@ func init() {
 
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
 }
+
+// Custom functions to alter behavior of resource discovery and resource HCL representation
 
 func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, nodePool := range resources {
@@ -587,6 +591,10 @@ func processNetworkSecurityGroupRules(clients *OracleClients, resources []*OCIRe
 }
 
 func filterPrimaryDbHomes(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	// No need to filter if db homes are in vm cluster
+	if len(resources) > 0 && resources[0].parent.terraformClass == "oci_database_vm_cluster" {
+		return resources, nil
+	}
 	results := []*OCIResource{}
 	for _, resource := range resources {
 		// Only return dbHome resources that don't match the db home ID of the db system resource.
@@ -666,4 +674,18 @@ func getCoreNetworkSecurityGroupSecurityRuleId(resource *OCIResource) (string, e
 	}
 
 	return getNetworkSecurityGroupSecurityRuleCompositeId(networkSecurityGroupId, securityRuleId), nil
+}
+
+func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
+	exadataInfrastructureId, ok := resource.sourceAttributes["exadata_infrastructure_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find exadata_infrastructure_id for VmCluster network id")
+	}
+
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for VmCluster network id")
+	}
+
+	return getVmClusterNetworkCompositeId(exadataInfrastructureId, id), nil
 }

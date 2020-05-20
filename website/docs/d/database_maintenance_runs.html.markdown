@@ -38,7 +38,7 @@ The following arguments are supported:
 * `maintenance_type` - (Optional) The maintenance type.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 * `target_resource_id` - (Optional) The target resource ID.
-* `target_resource_type` - (Optional) The type of the target resource.
+* `target_resource_type` - (Optional) The type of the target resource. Accepted values are: AUTONOMOUS_CONTAINER_DATABASE, AUTONOMOUS_EXADATA_INFRASTRUCTURE, EXADATA_DB_SYSTEM
 
 
 ## Attributes Reference

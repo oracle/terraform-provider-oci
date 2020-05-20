@@ -43,7 +43,7 @@ var (
 
 	vmClusterRepresentation = map[string]interface{}{
 		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
-		"cpu_core_count":              Representation{repType: Required, create: `4`, update: `2`},
+		"cpu_core_count":              Representation{repType: Required, create: `4`, update: `6`},
 		"display_name":                Representation{repType: Required, create: `vmCluster`},
 		"exadata_infrastructure_id":   Representation{repType: Required, create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"gi_version":                  Representation{repType: Required, create: `19.1.0.0`},
@@ -176,7 +176,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "2"),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -253,6 +253,20 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
 				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + VmClusterResourceConfig,
+			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"cpu_core_count",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

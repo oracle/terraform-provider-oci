@@ -6,6 +6,8 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -59,7 +61,7 @@ var (
 		"dhcp_options_id":     Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`},
 		"display_name":        Representation{repType: Optional, create: `ExadataSubnet`},
 		"dns_label":           Representation{repType: Optional, create: `subnetexadata1`},
-		"route_table_id":      Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_route_table_id}`},
+		"route_table_id":      Representation{repType: Optional, create: `${oci_core_route_table.exadata_route_table.id}`},
 		"security_list_ids":   Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`, `${oci_core_security_list.exadata_shapes_security_list.id}`}},
 	}
 	exaBackupSubnetRepresentation = map[string]interface{}{
@@ -70,7 +72,7 @@ var (
 		"dhcp_options_id":     Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`},
 		"display_name":        Representation{repType: Optional, create: `ExadataBackupSubnet`},
 		"dns_label":           Representation{repType: Optional, create: `subnetexadata2`},
-		"route_table_id":      Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_route_table_id}`},
+		"route_table_id":      Representation{repType: Optional, create: `${oci_core_route_table.exadata_route_table.id}`},
 		"security_list_ids":   Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}},
 	}
 
@@ -106,7 +108,9 @@ var (
 		generateResourceFromRepresentationMap("oci_core_security_list", "exadata_shapes_security_list", Optional, Create, exaSecurityListRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "exadata_subnet", Optional, Create, exaSubnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "exadata_backup_subnet", Optional, Create, exaBackupSubnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", Optional, Create, exadbSystemRepresentation)
+		generateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", Optional, Create, exadbSystemRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_route_table", "exadata_route_table", Optional, Create, routeTableRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation)
 
 	DatabaseRequiredOnlyResource = DatabaseResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseRepresentation)
@@ -231,6 +235,15 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								// service does not return `admin_password` causing the plan to show diff. we set the `admin_password` in config using TestKeyValPairs in ExportCommandArgs
+								// but since it is missing in state the plan will show diff
+								if !strings.Contains(errExport.Error(), "terraform plan command return non-empty diff") {
+									return errExport
+								}
+							}
+						}
 						return err
 					},
 				),
@@ -320,6 +333,22 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + DatabaseResourceConfig,
+			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"database",
+					"db_version",
+					"source",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

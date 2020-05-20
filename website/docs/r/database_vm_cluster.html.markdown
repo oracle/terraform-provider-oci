@@ -84,5 +84,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+VmClusters can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_database_vm_cluster.test_vm_cluster "id"
+```
 
