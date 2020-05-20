@@ -105,7 +105,6 @@ func RunListExportableResourcesCommand() error {
 	if err := printResourceGraphResources(compartmentResourceGraphs, "compartment"); err != nil {
 		return err
 	}
-
 	return nil
 }
 

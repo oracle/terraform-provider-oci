@@ -398,6 +398,9 @@ func testExportCompartmentWithResourceName(id *string, compartmentId *string, re
 
 	testKeyValPairs := make(map[string]string)
 	testKeyValPairs["public_key"] = "public_key"
+	testKeyValPairs["database_admin_password"] = "database_admin_password"
+	testKeyValPairs["admin_password"] = "admin_password"
+	testKeyValPairs["source"] = "NONE"
 
 	exportCommandArgs.TestKeyValPairs = testKeyValPairs
 	var err error

@@ -20,6 +20,9 @@ func init() {
 
 func DatabaseDatabaseResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createDatabaseDatabase,
 		Read:     readDatabaseDatabase,
@@ -454,6 +457,9 @@ func (s *DatabaseDatabaseResourceCrud) Delete() error {
 }
 
 func (s *DatabaseDatabaseResourceCrud) SetData() error {
+
+	s.D.Set("database", []interface{}{s.DatabaseToMap(s.Res)})
+
 	if s.Res.CharacterSet != nil {
 		s.D.Set("character_set", *s.Res.CharacterSet)
 	}
@@ -858,4 +864,56 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat
 	}
 
 	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if adminPassword, ok := s.D.GetOkExists("database.0.admin_password"); ok && adminPassword != nil {
+		result["admin_password"] = adminPassword.(string)
+	}
+
+	if backupId, ok := s.D.GetOkExists("database.0.backup_id"); ok && backupId != nil {
+		result["backup_id"] = backupId.(string)
+	}
+
+	if backupTDEPassword, ok := s.D.GetOkExists("database.0.backup_tde_password"); ok && backupTDEPassword != nil {
+		result["backup_tde_password"] = backupTDEPassword.(string)
+	}
+
+	if obj.CharacterSet != nil {
+		result["character_set"] = string(*obj.CharacterSet)
+	}
+
+	if obj.DbBackupConfig != nil {
+		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
+	}
+
+	if obj.DbName != nil {
+		result["db_name"] = string(*obj.DbName)
+	}
+
+	if obj.DbUniqueName != nil {
+		result["db_unique_name"] = string(*obj.DbUniqueName)
+	}
+
+	if obj.DbWorkload != nil {
+		result["db_workload"] = string(*obj.DbWorkload)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.NcharacterSet != nil {
+		result["ncharacter_set"] = string(*obj.NcharacterSet)
+	}
+
+	if obj.PdbName != nil {
+		result["pdb_name"] = string(*obj.PdbName)
+	}
+
+	return result
 }

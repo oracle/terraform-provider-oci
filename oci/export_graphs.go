@@ -239,13 +239,41 @@ var databaseResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
 		{TerraformResourceHints: exportDatabaseAutonomousDatabaseHints},
 		{TerraformResourceHints: exportDatabaseAutonomousExadataInfrastructureHints},
+		{TerraformResourceHints: exportDatabaseBackupDestinationHints},
+		{TerraformResourceHints: exportDatabaseBackupHints},
 		{TerraformResourceHints: exportDatabaseDbSystemHints},
+		{TerraformResourceHints: exportDatabaseExadataInfrastructureHints},
+		{TerraformResourceHints: exportDatabaseVmClusterHints},
+	},
+	"oci_database_db_home": {
+		{
+			TerraformResourceHints: exportDatabaseDatabaseHints,
+			datasourceQueryParams: map[string]string{
+				"db_home_id": "id",
+			},
+		},
 	},
 	"oci_database_db_system": {
 		{
 			TerraformResourceHints: exportDatabaseDbHomeHints,
 			datasourceQueryParams: map[string]string{
 				"db_system_id": "id",
+			},
+		},
+	},
+	"oci_database_exadata_infrastructure": {
+		{
+			TerraformResourceHints: exportDatabaseVmClusterNetworkHints,
+			datasourceQueryParams: map[string]string{
+				"exadata_infrastructure_id": "id",
+			},
+		},
+	},
+	"oci_database_vm_cluster": {
+		{
+			TerraformResourceHints: exportDatabaseDbHomeHints,
+			datasourceQueryParams: map[string]string{
+				"vm_cluster_id": "id",
 			},
 		},
 	},

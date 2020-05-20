@@ -262,8 +262,14 @@ database
 * oci\_database\_autonomous\_container\_database
 * oci\_database\_autonomous\_database
 * oci\_database\_autonomous\_exadata\_infrastructure
+* oci\_database\_backup\_destination
+* oci\_database\_backup
+* oci\_database\_database
 * oci\_database\_db\_home
 * oci\_database\_db\_system
+* oci\_database\_exadata\_infrastructure
+* oci\_database\_vm\_cluster\_network
+* oci\_database\_vm\_cluster
 
 email
     
