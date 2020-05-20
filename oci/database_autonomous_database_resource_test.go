@@ -45,6 +45,7 @@ var (
 			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 			"is_dedicated":                     Representation{repType: Optional, create: `true`},
 			"display_name":                     Representation{repType: Optional, create: adDedicatedName, update: adDedicatedUpdateName},
+			"data_safe_status":                 Representation{repType: Optional, create: `REGISTERED`, update: `NOT_REGISTERED`},
 		})
 
 	autonomousDatabaseDedicatedRepresentationForClone = representationCopyWithNewProperties(

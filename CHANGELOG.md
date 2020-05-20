@@ -3,6 +3,7 @@
 ### Added
 - Support `name` field to Identity Provider Group Summary response
 - Support for ADB-S: Private Endpoint
+- Support for `register` and `reregister` to `datasafe` in `Autonomous database - Dedicated` resources
 
 ## 3.83.0 (July 01, 2020)
 

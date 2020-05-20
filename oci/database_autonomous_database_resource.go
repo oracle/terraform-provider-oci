@@ -1273,6 +1273,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 	switch dataSafeStatus {
 	case oci_database.AutonomousDatabaseDataSafeStatusRegistered:
 		request := oci_database.RegisterAutonomousDatabaseDataSafeRequest{}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			request.PdbAdminPassword = &tmp
+		}
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
@@ -1290,6 +1294,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 		return nil
 	case oci_database.AutonomousDatabaseDataSafeStatusNotRegistered:
 		request := oci_database.DeregisterAutonomousDatabaseDataSafeRequest{}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			request.PdbAdminPassword = &tmp
+		}
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
