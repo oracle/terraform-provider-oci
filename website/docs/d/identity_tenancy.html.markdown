@@ -35,16 +35,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the tenancy.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-* `home_region_key` - The region key for the tenancy's home region. For more information about regions, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
-
-	Allowed values are:
-	* `IAD`
-	* `PHX`
-	* `FRA`
-	* `LHR`
-	* `ICN`
-	* `YYZ`
-	* `NRT` 
+* `home_region_key` - The region key for the tenancy's home region. For the full list of supported regions, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).  Example: `PHX` 
 * `id` - The OCID of the tenancy.
 * `name` - The name of the tenancy.
 * `upi_idcs_compatibility_layer_endpoint` - Url which refers to the UPI IDCS compatibility layer endpoint configured for this Tenant's home region.
