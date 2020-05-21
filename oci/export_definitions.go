@@ -403,6 +403,22 @@ var exportFunctionsFunctionHints = &TerraformResourceHints{
 	},
 }
 
+var exportHealthChecksHttpMonitorHints = &TerraformResourceHints{
+	resourceClass:          "oci_health_checks_http_monitor",
+	datasourceClass:        "oci_health_checks_http_monitors",
+	datasourceItemsAttr:    "http_monitors",
+	resourceAbbreviation:   "http_monitor",
+	requireResourceRefresh: true,
+}
+
+var exportHealthChecksPingMonitorHints = &TerraformResourceHints{
+	resourceClass:          "oci_health_checks_ping_monitor",
+	datasourceClass:        "oci_health_checks_ping_monitors",
+	datasourceItemsAttr:    "ping_monitors",
+	resourceAbbreviation:   "ping_monitor",
+	requireResourceRefresh: true,
+}
+
 var exportIdentityApiKeyHints = &TerraformResourceHints{
 	resourceClass:        "oci_identity_api_key",
 	datasourceClass:      "oci_identity_api_keys",

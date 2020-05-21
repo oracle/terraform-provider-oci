@@ -2,6 +2,7 @@
 
 ### Added
 - Support resource discovery for `streaming` resources
+- Support resource discovery for `healthChecks` resources
 
 ### Fixed
 - Fixed DNS outage causing problems for DNS records

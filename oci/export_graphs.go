@@ -29,6 +29,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
 	"functions":           functionsResourceGraph,
+	"health_checks":       healthChecksResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"streaming":           streamingResourceGraph,
@@ -182,6 +183,13 @@ var functionsResourceGraph = TerraformResourceGraph{
 				"application_id": "id",
 			},
 		},
+	},
+}
+
+var healthChecksResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportHealthChecksHttpMonitorHints},
+		{TerraformResourceHints: exportHealthChecksPingMonitorHints},
 	},
 }
 
