@@ -32,7 +32,7 @@ var (
 	ruleDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `This rule sends a notification upon completion of DbaaS backup`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"state":          Representation{repType: Optional, create: `INACTIVE`},
 		"filter":         RepresentationGroup{Required, ruleDataSourceFilterRepresentation}}
 	ruleDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -44,7 +44,7 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"condition":      Representation{repType: Required, create: `{\"eventType\":\"com.oraclecloud.databaseservice.autonomous.database.backup.end\"}`, update: `{}`},
 		"display_name":   Representation{repType: Required, create: `This rule sends a notification upon completion of DbaaS backup`, update: `displayName2`},
-		"is_enabled":     Representation{repType: Required, create: `false`, update: `true`},
+		"is_enabled":     Representation{repType: Required, create: `true`, update: `false`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
@@ -137,7 +137,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "This rule sends a notification upon completion of DbaaS backup"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -180,7 +180,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "This rule sends a notification upon completion of DbaaS backup"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -239,7 +239,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -261,7 +261,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "INACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "rules.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "rules.0.compartment_id", compartmentId),
@@ -271,7 +271,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "rules.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "rules.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "rules.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "rules.0.is_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "rules.0.is_enabled", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "rules.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "rules.0.time_created"),
 				),
@@ -293,7 +293,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
