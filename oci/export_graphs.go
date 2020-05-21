@@ -28,6 +28,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"events":              eventsResourceGraph,
 	"functions":           functionsResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
@@ -169,6 +170,12 @@ var databaseResourceGraph = TerraformResourceGraph{
 				"db_system_id": "id",
 			},
 		},
+	},
+}
+
+var eventsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportEventsRuleHints},
 	},
 }
 

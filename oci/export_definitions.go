@@ -5,6 +5,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_events "github.com/oracle/oci-go-sdk/events"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
@@ -378,6 +379,17 @@ var exportDatabaseDbSystemHints = &TerraformResourceHints{
 	resourceAbbreviation: "db_system",
 	discoverableLifecycleStates: []string{
 		string(oci_database.DbSystemLifecycleStateAvailable),
+	},
+}
+
+var exportEventsRuleHints = &TerraformResourceHints{
+	resourceClass:          "oci_events_rule",
+	datasourceClass:        "oci_events_rules",
+	datasourceItemsAttr:    "rules",
+	resourceAbbreviation:   "rule",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_events.RuleLifecycleStateActive),
 	},
 }
 
