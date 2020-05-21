@@ -648,7 +648,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 					v = varOverride
 					builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, v))
 				} else {
-					builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, v))
+					builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, escapeTFStrings(v)))
 				}
 				continue
 			case int, bool, float64:
@@ -680,7 +680,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 									trueListVal = varOverride
 									builder.WriteString(fmt.Sprintf("%v,\n", trueListVal))
 								} else {
-									builder.WriteString(fmt.Sprintf("%q,\n", trueListVal))
+									builder.WriteString(fmt.Sprintf("%q,\n", escapeTFStrings(trueListVal)))
 								}
 							case int, bool, float64:
 								builder.WriteString(fmt.Sprintf("\"%v\",\n", trueListVal))
@@ -719,7 +719,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 								mapVal = varOverride
 								builder.WriteString(fmt.Sprintf("\"%s\" = %v\n", mapKey, mapVal))
 							} else {
-								builder.WriteString(fmt.Sprintf("\"%s\" = %q\n", mapKey, mapVal))
+								builder.WriteString(fmt.Sprintf("\"%s\" = %q\n", mapKey, escapeTFStrings(mapVal)))
 							}
 						case int, bool, float64:
 							builder.WriteString(fmt.Sprintf("\"%s\" = \"%v\"\n", mapKey, mapVal))
@@ -996,6 +996,13 @@ func convertResourceDataToMap(schemaMap map[string]*schema.Schema, d *schema.Res
 	}
 
 	return result
+}
+
+// This function should only be used to escape TF-characters in strings
+func escapeTFStrings(val string) string {
+	val = strings.ReplaceAll(val, "%{", "%%{")
+	val = strings.ReplaceAll(val, "${", "$${")
+	return val
 }
 
 func generateTerraformNameFromResource(resourceAttributes map[string]interface{}, resourceSchema map[string]*schema.Schema) (string, error) {
