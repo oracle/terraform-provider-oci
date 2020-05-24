@@ -13,7 +13,7 @@ data "oci_kms_vault" "test_vault" {
 }
 
 /*
-//if want to create a new vault
+//create a new vault
 resource "oci_kms_vault" "test_vault" {
 	#Required
 	compartment_id = "${var.compartment_id}"

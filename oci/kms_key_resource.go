@@ -4,9 +4,13 @@
 package oci
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -104,34 +108,12 @@ func KmsKeyResource() *schema.Resource {
 				Computed: true,
 				Optional: true,
 			},
-
-			// Computed
-			"current_key_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"restored_from_key_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vault_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-
 			"restore_from_object_store": {
-				Type:     schema.TypeList,
-				Optional: true,
-				MaxItems: 1,
-				MinItems: 1,
+				Type:          schema.TypeList,
+				Optional:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"restore_from_file"},
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -167,9 +149,61 @@ func KmsKeyResource() *schema.Resource {
 					},
 				},
 			},
+			"restore_from_file": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"restore_from_object_store"},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"restore_key_from_file_details": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"content_length": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ValidateFunc:     validateInt64TypeString,
+							DiffSuppressFunc: int64StringDiffSuppressFunction,
+						},
+
+						// Optional
+						"content_md5": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"restore_trigger": {
 				Type:     schema.TypeBool,
 				Optional: true,
+			},
+
+			// Computed
+			"current_key_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"restored_from_key_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vault_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 		},
 	}
@@ -316,7 +350,15 @@ func (s *KmsKeyResourceCrud) UpdatedTarget() []string {
 }
 
 func (s *KmsKeyResourceCrud) Create() error {
-	if _, ok := s.D.GetOkExists("restore_from_object_store"); ok {
+	if _, ok := s.D.GetOk("restore_from_file"); ok {
+		err := s.RestoreKeyFromFile()
+		if err != nil {
+			return err
+		}
+		s.D.SetId(s.ID())
+		return s.UpdateKeyDetails()
+	}
+	if _, ok := s.D.GetOk("restore_from_object_store"); ok {
 		err := s.RestoreKeyFromObjectStore()
 		if err != nil {
 			return err
@@ -394,7 +436,14 @@ func (s *KmsKeyResourceCrud) Get() error {
 }
 
 func (s *KmsKeyResourceCrud) Update() error {
-	if _, ok := s.D.GetOkExists("restore_from_object_store"); ok && s.D.HasChange("restore_trigger") {
+	if _, ok := s.D.GetOk("restore_from_file"); ok && s.D.HasChange("restore_trigger") {
+		err := s.RestoreKeyFromFile()
+		if err != nil {
+			return err
+		}
+		s.D.SetId(s.ID())
+	}
+	if _, ok := s.D.GetOk("restore_from_object_store"); ok && s.D.HasChange("restore_trigger") {
 		err := s.RestoreKeyFromObjectStore()
 		if err != nil {
 			return err
@@ -603,6 +652,40 @@ func (s *KmsKeyResourceCrud) RestoreKeyFromObjectStore() error {
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.RestoreKeyFromObjectStore(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Key
+	return nil
+}
+
+func (s *KmsKeyResourceCrud) RestoreKeyFromFile() error {
+	request := oci_kms.RestoreKeyFromFileRequest{}
+	if restoreKeyFromFileDetails, ok := s.D.GetOk("restore_from_file.0.restore_key_from_file_details"); ok {
+		decodedFileContent, _ := base64.StdEncoding.DecodeString(restoreKeyFromFileDetails.(string))
+		request.RestoreKeyFromFileDetails = ioutil.NopCloser(bytes.NewBuffer(decodedFileContent))
+	} else {
+		request.RestoreKeyFromFileDetails = ioutil.NopCloser(bytes.NewBuffer([]byte{}))
+	}
+
+	if contentLength, ok := s.D.GetOk("restore_from_file.0.content_length"); ok {
+		tmp := contentLength.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert content-length string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.ContentLength = &tmpInt64
+	}
+
+	if contentMd5, ok := s.D.GetOk("restore_from_file.0.content_md5"); ok {
+		tmp := contentMd5.(string)
+		request.ContentMd5 = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+
+	response, err := s.Client.RestoreKeyFromFile(context.Background(), request)
 	if err != nil {
 		return err
 	}

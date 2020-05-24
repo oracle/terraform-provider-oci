@@ -14,37 +14,57 @@ import (
 )
 
 var (
-	keyRestoreFromFileRepresentation = map[string]interface{}{
-		"restore_key_from_file_details": Representation{repType: Optional, create: `${data.oci_objectstorage_object.test_object.content}`},
-		"content_length":                Representation{repType: Required, create: `10`},
+	keyRestorekeyRepresentation = map[string]interface{}{
+		"restore_trigger":     Representation{repType: Required, create: `0`, update: `1`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":        Representation{repType: Required, create: `Key C`, update: `displayName2`},
+		"key_shape":           RepresentationGroup{Required, keyRestoreKeyShapeRepresentation},
+		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value-updated")}`},
 	}
-
+	keyRestorekeyRepresentationUpdate2 = map[string]interface{}{
+		"restore_trigger":     Representation{repType: Required, create: `1`, update: `1`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":        Representation{repType: Required, create: `Key C`, update: `displayName2`},
+		"key_shape":           RepresentationGroup{Required, keyRestoreKeyShapeRepresentation},
+		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value-updated")}`},
+	}
+	keyRestoreKeyShapeRepresentation = map[string]interface{}{
+		"algorithm": Representation{repType: Required, create: `AES`},
+		"length":    Representation{repType: Required, create: `16`},
+	}
 	keyrestoreFromObjectBackupLocationRepresentation = map[string]interface{}{
 		"destination": Representation{repType: Required, create: `BUCKET`},
 		"bucket":      Representation{repType: Optional, create: `private-vault-kms-backup`},
 		"namespace":   Representation{repType: Optional, create: `${data.oci_objectstorage_object.test_object.namespace}`},
 		"object":      Representation{repType: Optional, create: `Key-C-backup`},
-		"uri":         Representation{repType: Optional, create: `https://objectstorage.us-phoenix-1.oraclecloud.com/p/5FhcAi6WKBBXLneoMYB51sM1mIgJllbhX5OdgwPGp-Y/n/dxterraformdev/b/private-vault-kms-backup/o/example-key2-backup`},
 	}
 	keyrestoreFromObjectUriBackupLocationRepresentation = map[string]interface{}{
 		"destination": Representation{repType: Required, create: `PRE_AUTHENTICATED_REQUEST_URI`},
-		"bucket":      Representation{repType: Optional, create: `private-vault-kms-backup`},
-		"namespace":   Representation{repType: Optional, create: `${data.oci_objectstorage_object.test_object.namespace}`},
-		"object":      Representation{repType: Optional, create: `test-key-backup`},
-		"uri":         Representation{repType: Optional, create: `https://objectstorage.us-phoenix-1.oraclecloud.com/p/R1m0iYINWXwjq1BjxXWypMt0XKj3WCIT4M05hGZ9baw/n/dxterraformdev/b/private-vault-kms-backup/o/test-key-backup`},
+		"uri":         Representation{repType: Optional, create: `PAR-uri`},
 	}
-	keyRestoreFileContent = `
+	keyRestoreFromFileRepresentation = map[string]interface{}{
+		"restore_key_from_file_details": Representation{repType: Required, create: `${data.oci_objectstorage_object.test_object.content}`},
+		"content_length":                Representation{repType: Required, create: `${data.oci_objectstorage_object.test_object.content_length}`},
+	}
+	keyRestoreFileContentObject = `
 		data "oci_objectstorage_object" "test_object" {
 			#Required
-			bucket = "private-vault-kms-backup"
-			namespace = "dxterraformdev"
-			object = "example-key2-backup"
-		}
-	`
+			bucket = "bucket"
+			namespace = "object-namespace"
+			object = "KeyC-backup"
+			base64_encode_content = "true"
+		}`
+	vaultData = `
+	data "oci_kms_vault" "test_vault" {
+		vault_id = "${oci_kms_vault.test_vault.id}"
+	}`
 )
 
 func TestResourceKmsKeyRestore_basic(t *testing.T) {
-	//t.Skip("Skip this test till KMS provides a better way of testing this.")
+	t.Skip("Skip this test till KMS provides a better way of testing this.")
+
 	httpreplay.SetScenario("TestResourceKmsKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -62,11 +82,21 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify restore from object storage
+			// verify restore key from file
+			{
+				Config: config + compartmentIdVariableStr + DefinedTagsDependencies + keyRestoreFileContentObject +
+					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
+						representationCopyWithNewProperties(keyRestorekeyRepresentation, map[string]interface{}{
+							"restore_from_file": RepresentationGroup{Required, keyRestoreFromFileRepresentation}})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				),
+			},
+			// verify restore from object store
 			{
 				Config: config + compartmentIdVariableStr + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-						representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
+						representationCopyWithNewProperties(keyRestorekeyRepresentationUpdate2, map[string]interface{}{
 							"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectBackupLocationRepresentation}})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -80,16 +110,6 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 							"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectUriBackupLocationRepresentation}})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				),
-			},
-			// verify restore key from file
-			{
-				Config: config + compartmentIdVariableStr + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-						representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
-							"backup_location_file": RepresentationGroup{Required, keyRestoreFromFileRepresentation}})),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "content_length", "10"),
 				),
 			},
 		},
