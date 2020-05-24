@@ -44,6 +44,16 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Required) (Updatable) A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `restore_from_file` - (Optional) (Updatable) Details where vault was backed up.
+    * `content_length` - content length of vault's backup binary file
+    * `content_md5` - (Optional) (Updatable) content md5 hashed value of vault's backup file
+    * `restore_vault_from_file_details` - Vault backup file content
+* `restore_from_object_store` - (Optional) (Updatable) Details where vault was backed up
+    * `bucket` - (Optional) (Updatable) Name of the bucket where vault was backed up
+    * `destination` - (Required) (Updatable) Type of backup to restore from. Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are supported
+    * `namespace` - (Optional) (Updatable) Namespace of the bucket where vault was backed up
+    * `object` - (Optional) (Updatable) Object containing the backup
+    * `uri` - (Optional) (Updatable) Pre-authenticated-request-uri of the backup* `restore_trigger` - (Optional) (Updatable) An optional property when flipped triggers restore from restore option provided in config file. 
 * `vault_type` - (Required) The type of vault to create. Each type of vault stores the key with different degrees of isolation and has different options and pricing. 
 * `time_of_deletion` - (Optional) (Updatable) An optional property for the deletion time of the vault, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z`
 

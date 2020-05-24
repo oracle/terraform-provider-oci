@@ -45,15 +45,20 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the vault.
 * `management_endpoint` - The service endpoint to perform management operations against. Management operations include "Create," "Update," "List," "Get," and "Delete" operations. 
-* `restored_from_vault_id` - The OCID of the vault from which this vault is restored.
-* `state` - The vault's current state.  Example: `DELETED` 
-* `time_created` - The date and time this vault was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
-* `time_of_deletion` - An optional property to indicate when to delete the vault, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
-* `vault_type` - The type of vault. Each type of vault stores the key with different degrees of isolation and has different options and pricing. 
+* `restore_from_file` - Details where vault was backed up.
+    * `content_length` - content length of vault's backup binary file
+    * `content_md5` - content md5 hashed value of vault's backup file
+    * `restore_vault_from_file_details` - Vault backup file content
 * `restore_from_object_store` - Details where vault was backed up
-    * `destination` - Type of backup to restore from. Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are supported
     * `bucket` - Name of the bucket where vault was backed up
+    * `destination` - Type of backup to restore from. Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are supported
     * `namespace` - Namespace of the bucket where vault was backed up
     * `object` - Object containing the backup
     * `uri` - Pre-authenticated-request-uri of the backup
+* `restored_from_vault_id` - The OCID of the vault from which this vault is restored.
 * `restore_trigger` - When flipped, triggers restore if restore options are provided. Values of 0 or 1 are supported
+* `state` - The vault's current state.  Example: `DELETED` 
+* `time_created` - The date and time this vault was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
+* `time_of_deletion` - An optional property to indicate when to delete the vault, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
+* `vault_type` - The type of vault. Each type of vault stores the key with different degrees of isolation and has different options and pricing.
+

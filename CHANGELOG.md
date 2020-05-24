@@ -13,6 +13,7 @@
 - Support resource discovery for `oda` resources
 - Support resource discovery for `datascience` resources
 - Support resource discovery for `oci_objectstorage_object`, `oci_objectstorage_object_lifecycle_policy`, `oci_objectstorage_preauthrequest` resources
+- Support restore from file for `kms` resources
 
 ### Fixed
 - Fixed plan failure in case of missing required attributes in resource discovery. Placeholder values will be added for missing required attributes and the attributes will be added to `lifecycle ignore_changes`
