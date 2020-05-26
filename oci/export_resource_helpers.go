@@ -104,6 +104,8 @@ func init() {
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
 
+	exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
+
 	exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
 }
 
@@ -116,6 +118,18 @@ func processContainerengineNodePool(clients *OracleClients, resources []*OCIReso
 			}
 			if _, ok := nodePool.sourceAttributes["quantity_per_subnet"]; ok {
 				delete(nodePool.sourceAttributes, "quantity_per_subnet")
+			}
+		}
+	}
+	return resources, nil
+}
+
+func processStreamingStream(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, streamingStream := range resources {
+		// compartment_id conflict with stream_pool_id
+		if _, exists := streamingStream.sourceAttributes["compartment_id"]; exists {
+			if _, ok := streamingStream.sourceAttributes["stream_pool_id"]; ok {
+				delete(streamingStream.sourceAttributes, "stream_pool_id")
 			}
 		}
 	}

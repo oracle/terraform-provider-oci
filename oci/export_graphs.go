@@ -28,9 +28,12 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"events":              eventsResourceGraph,
 	"functions":           functionsResourceGraph,
+	"health_checks":       healthChecksResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
+	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
 }
 
@@ -170,6 +173,12 @@ var databaseResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var eventsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportEventsRuleHints},
+	},
+}
+
 var functionsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFunctionsApplicationHints},
@@ -181,6 +190,13 @@ var functionsResourceGraph = TerraformResourceGraph{
 				"application_id": "id",
 			},
 		},
+	},
+}
+
+var healthChecksResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportHealthChecksHttpMonitorHints},
+		{TerraformResourceHints: exportHealthChecksPingMonitorHints},
 	},
 }
 
@@ -326,6 +342,14 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 				"namespace": "namespace",
 			},
 		},
+	},
+}
+
+var streamingResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportStreamingConnectHarnessHints},
+		{TerraformResourceHints: exportStreamingStreamPoolHints},
+		{TerraformResourceHints: exportStreamingStreamHints},
 	},
 }
 
