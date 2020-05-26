@@ -119,6 +119,36 @@ var (
 		"id":   Representation{repType: Optional, create: `${oci_database_backup_destination.test_backup_destination.id}`},
 		"type": Representation{repType: Required, create: `NFS`},
 	}
+	dbHomeRepresentationSourceDatabase = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
+		"database":     RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceDatabase},
+		"source":       Representation{repType: Required, create: `DATABASE`},
+		"display_name": Representation{repType: Optional, create: `createdDbHomeDatabase`},
+	})
+	dbHomeDatabaseRepresentationSourceDatabase = map[string]interface{}{
+		"admin_password":      Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"backup_tde_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"database_id":         Representation{repType: Required, create: `${data.oci_database_databases.db.databases.0.id}`},
+		"db_name":             Representation{repType: Required, create: `dbDb`},
+	}
+
+	dbHomeRepresentationSourceVmClusterDatabase = map[string]interface{}{
+		"database":      RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceVmClusterDatabase},
+		"display_name":  Representation{repType: Optional, create: `createdDbHomeVmClusterDatabase`},
+		"source":        Representation{repType: Required, create: `VM_CLUSTER_DATABASE`},
+		"db_version":    Representation{repType: Required, create: `12.1.0.2`},
+		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+	}
+	dbHomeDatabaseRepresentationSourceVmClusterDatabase = map[string]interface{}{
+		"admin_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"character_set":  Representation{repType: Optional, create: `AL32UTF8`},
+		//"db_backup_config": RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigVmClusterDatabaseRepresentation},
+		"db_name":        Representation{repType: Required, create: `dbVMClusDb`},
+		"db_workload":    Representation{repType: Optional, create: `OLTP`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set": Representation{repType: Optional, create: `AL16UTF16`},
+		"pdb_name":       Representation{repType: Optional, create: `pdbName`},
+	}
 
 	DbHomeResourceDependencies = BackupResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation) +
@@ -156,7 +186,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Required, Create, dbHomeRepresentationSourceDbBackup) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Required, Create, dbHomeRepresentationSourceVmClusterNew),
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Required, Create, dbHomeRepresentationSourceVmClusterNew) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Required, Create, dbHomeRepresentationSourceDatabase),
 
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -178,6 +209,14 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
 					resource.TestMatchResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", regexp.MustCompile(`^12\.1\.0\.2\.[0-9]+$`)),
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
+
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "database.0.database_id"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
 				),
 			},
 
@@ -190,7 +229,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Create, dbHomeRepresentationSourceDbBackup) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Create, dbHomeRepresentationSourceVmClusterNew),
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Create, dbHomeRepresentationSourceVmClusterNew) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Create, dbHomeRepresentationSourceDatabase),
 
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
@@ -249,6 +289,19 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
+
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "database.0.database_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.db_name", "dbDb"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "display_name", "createdDbHomeDatabase"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "state"),
 				),
 			},
 			// verify updates to updatable parameters
@@ -256,7 +309,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Update, dbHomeRepresentationSourceVmClusterNew),
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Update, dbHomeRepresentationSourceVmClusterNew) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -314,6 +368,19 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
 
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "database.0.database_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.db_name", "dbDb"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "display_name", "createdDbHomeDatabase"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "state"),
+
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
@@ -332,7 +399,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_db_homes", "test_db_homes", Optional, Update, dbHomeDataSourceRepresentation) +
 					compartmentIdVariableStr + DbHomeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
@@ -355,7 +423,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DbHomeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),

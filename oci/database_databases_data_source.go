@@ -175,6 +175,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["id"] = *r.Id
 		}
 
+		if r.LastBackupTimestamp != nil {
+			database["last_backup_timestamp"] = r.LastBackupTimestamp.String()
+		}
+
 		if r.LifecycleDetails != nil {
 			database["lifecycle_details"] = *r.LifecycleDetails
 		}
