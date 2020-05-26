@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -138,11 +139,11 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 		backup["state"] = r.LifecycleState
 
 		if r.TimeEnded != nil {
-			backup["time_ended"] = r.TimeEnded.String()
+			backup["time_ended"] = r.TimeEnded.Format(time.RFC3339Nano)
 		}
 
 		if r.TimeStarted != nil {
-			backup["time_started"] = r.TimeStarted.String()
+			backup["time_started"] = r.TimeEnded.Format(time.RFC3339Nano)
 		}
 
 		backup["type"] = r.Type

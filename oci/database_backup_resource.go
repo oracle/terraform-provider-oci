@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -240,11 +241,11 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeEnded != nil {
-		s.D.Set("time_ended", s.Res.TimeEnded.String())
+		s.D.Set("time_ended", s.Res.TimeEnded.Format(time.RFC3339Nano))
 	}
 
 	if s.Res.TimeStarted != nil {
-		s.D.Set("time_started", s.Res.TimeStarted.String())
+		s.D.Set("time_started", s.Res.TimeStarted.Format(time.RFC3339Nano))
 	}
 
 	s.D.Set("type", s.Res.Type)
