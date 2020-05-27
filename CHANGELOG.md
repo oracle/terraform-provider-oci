@@ -1,4 +1,4 @@
-## 3.77.0 (Unreleased)
+## 3.78.0 (Unreleased)
 
 ### Added
 - Support resource discovery for `streaming` resources
@@ -8,6 +8,7 @@
 ### Fixed
 - Fixed DNS outage causing problems for DNS records
 - Fixed string values to escape TF characters in resource discovery
+- Fixed backwards-compatibility issue in multi-provider (i.e. multi-region) scenario with Terraform v0.11 
 
 ## 3.76.0 (May 19, 2020)
 

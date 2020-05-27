@@ -178,7 +178,10 @@ func (args *ExportCommandArgs) validate() error {
 }
 
 func getExportConfig(d *schema.ResourceData) (interface{}, error) {
-	clients := oracleClients
+	clients := &OracleClients{
+		sdkClientMap:  make(map[string]interface{}, len(oracleClientRegistrations.registeredClients)),
+		configuration: make(map[string]string),
+	}
 
 	userAgentString := fmt.Sprintf(exportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, Version)
 	httpClient := buildHttpClient()
