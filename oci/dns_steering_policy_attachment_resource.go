@@ -28,9 +28,10 @@ func DnsSteeringPolicyAttachmentResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"domain_name": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"steering_policy_id": {
 				Type:     schema.TypeString,

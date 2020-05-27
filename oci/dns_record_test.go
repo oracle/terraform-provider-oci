@@ -225,6 +225,7 @@ func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 
 	_, tokenFn := tokenizeWithHttpReplay("dns_diff")
 	resourceName := "oci_dns_record.test_record"
+	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
@@ -244,6 +245,33 @@ resource "oci_dns_record" "test_record" {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
 					resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			{
+				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+resource "oci_dns_record" "test_record" {
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test"
+	rtype = "AAAA"
+	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
+	ttl = "3600"
+}`, nil),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
+					resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
 				),
 			},
 			{

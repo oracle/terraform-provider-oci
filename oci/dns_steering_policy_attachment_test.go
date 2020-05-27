@@ -228,6 +228,27 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
+
+			{
+				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update,
+						getUpdatedRepresentationCopy("domain_name", Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test`}, steeringPolicyAttachmentRepresentation)), nil),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
+					resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceConfig, nil),
