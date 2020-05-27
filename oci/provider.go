@@ -327,7 +327,10 @@ func getCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err
 }
 
 func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
-	clients := oracleClients
+	clients := &OracleClients{
+		sdkClientMap:  make(map[string]interface{}, len(oracleClientRegistrations.registeredClients)),
+		configuration: make(map[string]string),
+	}
 
 	if d.Get(disableAutoRetriesAttrName).(bool) {
 		shortRetryTime = 0

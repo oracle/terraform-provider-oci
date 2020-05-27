@@ -368,7 +368,8 @@ func findItem(rc *[]oci_dns.Record, r *schema.ResourceData) (*oci_dns.Record, er
 		}
 	}
 
-	return nil, fmt.Errorf("target %s record could not be matched against data %s\nfrom set %+v", rType, rData, rc)
+	reason := fmt.Sprintf("Target %s record could not be matched against data %s\nfrom set %+v", rType, rData, rc)
+	return nil, resourceNotFoundErrorMessage("DNS record", reason)
 }
 
 // Match dns service transforms of rdata

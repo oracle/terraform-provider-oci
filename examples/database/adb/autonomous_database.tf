@@ -14,6 +14,11 @@ data "oci_database_autonomous_db_versions" "test_autonomous_db_versions" {
 
   #Optional
   db_workload = "${var.autonomous_database_db_workload}"
+
+  filter {
+    name   = "version"
+    values = ["19c"]
+  }
 }
 
 resource "oci_database_autonomous_database" "autonomous_database" {

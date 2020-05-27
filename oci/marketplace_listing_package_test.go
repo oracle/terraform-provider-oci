@@ -80,7 +80,6 @@ func TestMarketplaceListingPackageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "pricing.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "pricing.0.rate"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "pricing.0.type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "pricing.0.currency"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
