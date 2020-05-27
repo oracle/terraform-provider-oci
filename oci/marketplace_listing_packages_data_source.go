@@ -71,6 +71,48 @@ func MarketplaceListingPackagesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"regions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"code": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"countries": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"code": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -160,6 +202,15 @@ func (s *MarketplaceListingPackagesDataSourceCrud) SetData() error {
 		if r.PackageVersion != nil {
 			listingPackage["package_version"] = *r.PackageVersion
 		}
+
+		regions := []interface{}{}
+		if r.Regions != nil {
+			regions := []interface{}{}
+			for _, item := range r.Regions {
+				regions = append(regions, RegionToMap(item))
+			}
+		}
+		listingPackage["regions"] = regions
 
 		if r.ResourceId != nil {
 			listingPackage["resource_id"] = *r.ResourceId
