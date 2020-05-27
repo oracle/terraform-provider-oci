@@ -117,6 +117,8 @@ func init() {
 	exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
 
 	exportFileStorageMountTargetHints.requireResourceRefresh = true
+
+	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
 }
 
 func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
@@ -164,6 +166,16 @@ func getNosqlIndexId(resource *OCIResource) (string, error) {
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
+
+func getBudgetAlertRuleId(resource *OCIResource) (string, error) {
+	alertRuleId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find alert_rule_id for Alert Rule")
+	}
+	budgetId := resource.parent.id
+
+	return getAlertRuleCompositeId(alertRuleId, budgetId), nil
+}
 
 func processInstances(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}

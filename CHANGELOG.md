@@ -1,6 +1,7 @@
 ## 3.79.0 (Unreleased)
 
 ### Added
+- Support resource discovery for `budget` resources
 - Support resource discovery for `file storage` resources
 - Support resource discovery for `core` resources
 - Support resource discovery for `nosql` resources
