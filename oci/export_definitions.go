@@ -5,6 +5,7 @@ package oci
 
 import (
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
+	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -36,6 +37,26 @@ var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_bds.BdsInstanceLifecycleStateActive),
+	},
+}
+
+var exportBudgetBudgetHints = &TerraformResourceHints{
+	resourceClass:        "oci_budget_budget",
+	datasourceClass:      "oci_budget_budgets",
+	datasourceItemsAttr:  "budgets",
+	resourceAbbreviation: "budget",
+	discoverableLifecycleStates: []string{
+		string(oci_budget.BudgetLifecycleStateActive),
+	},
+}
+
+var exportBudgetAlertRuleHints = &TerraformResourceHints{
+	resourceClass:        "oci_budget_alert_rule",
+	datasourceClass:      "oci_budget_alert_rules",
+	datasourceItemsAttr:  "alert_rules",
+	resourceAbbreviation: "alert_rule",
+	discoverableLifecycleStates: []string{
+		string(oci_budget.AlertRuleLifecycleStateActive),
 	},
 }
 

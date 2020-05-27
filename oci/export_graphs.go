@@ -6,6 +6,7 @@ package oci
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 	"identity": identityResourceGraph,
 	"limits":   limitsResourceGraph,
+	"budget":   budgetResourceGraph,
 }
 
 var availabilityDomainsGraph = TerraformResourceGraph{
@@ -72,6 +73,25 @@ var autoScalingResourceGraph = TerraformResourceGraph{
 var bdsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportBdsBdsInstanceHints},
+	},
+}
+
+var budgetResourceGraph = TerraformResourceGraph{
+	"oci_identity_tenancy": {
+		{
+			TerraformResourceHints: exportBudgetBudgetHints,
+			datasourceQueryParams: map[string]string{
+				"target_type": "'ALL'",
+			},
+		},
+	},
+	"oci_budget_budget": {
+		{
+			TerraformResourceHints: exportBudgetAlertRuleHints,
+			datasourceQueryParams: map[string]string{
+				"budget_id": "id",
+			},
+		},
 	},
 }
 

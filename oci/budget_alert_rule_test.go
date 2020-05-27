@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 
@@ -72,6 +73,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_budget_alert_rule.test_alert_rule"
 
 	var resId, resId2 string
+	var compositeId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -123,8 +125,11 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						budgetId, _ := fromInstanceState(s, resourceName, "budget_id")
+						compositeId = "budgets/" + budgetId + "/alertRules/" + resId
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -216,6 +221,19 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
 				),
 			},
+			// TODO: Currently import in test is not working because ImportStateId param does not work
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			//{
+			//	Config: config + compartmentIdVariableStr + AlertRuleResourceConfig,
+			//},
+			// verify resource import
+			//{
+			//	Config:                  config,
+			//	ImportState:             true,
+			//	ImportStateVerify:       true,
+			//	ImportStateVerifyIgnore: []string{},
+			//	ResourceName:            resourceName,
+			//},
 		},
 	})
 }
