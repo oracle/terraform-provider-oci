@@ -5,10 +5,12 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_events "github.com/oracle/oci-go-sdk/events"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -380,6 +382,17 @@ var exportDatabaseDbSystemHints = &TerraformResourceHints{
 	},
 }
 
+var exportEventsRuleHints = &TerraformResourceHints{
+	resourceClass:          "oci_events_rule",
+	datasourceClass:        "oci_events_rules",
+	datasourceItemsAttr:    "rules",
+	resourceAbbreviation:   "rule",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_events.RuleLifecycleStateActive),
+	},
+}
+
 var exportFunctionsApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_functions_application",
 	datasourceClass:        "oci_functions_applications",
@@ -400,6 +413,22 @@ var exportFunctionsFunctionHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_functions.FunctionLifecycleStateActive),
 	},
+}
+
+var exportHealthChecksHttpMonitorHints = &TerraformResourceHints{
+	resourceClass:          "oci_health_checks_http_monitor",
+	datasourceClass:        "oci_health_checks_http_monitors",
+	datasourceItemsAttr:    "http_monitors",
+	resourceAbbreviation:   "http_monitor",
+	requireResourceRefresh: true,
+}
+
+var exportHealthChecksPingMonitorHints = &TerraformResourceHints{
+	resourceClass:          "oci_health_checks_ping_monitor",
+	datasourceClass:        "oci_health_checks_ping_monitors",
+	datasourceItemsAttr:    "ping_monitors",
+	resourceAbbreviation:   "ping_monitor",
+	requireResourceRefresh: true,
 }
 
 var exportIdentityApiKeyHints = &TerraformResourceHints{
@@ -655,4 +684,36 @@ var exportObjectStorageNamespaceHints = &TerraformResourceHints{
 	resourceClass:        "oci_objectstorage_namespace",
 	datasourceClass:      "oci_objectstorage_namespace",
 	resourceAbbreviation: "namespace",
+}
+
+var exportStreamingConnectHarnessHints = &TerraformResourceHints{
+	resourceClass:        "oci_streaming_connect_harness",
+	datasourceClass:      "oci_streaming_connect_harnesses",
+	datasourceItemsAttr:  "connect_harness",
+	resourceAbbreviation: "connect_harness",
+	discoverableLifecycleStates: []string{
+		string(oci_streaming.ConnectHarnessLifecycleStateActive),
+	},
+}
+
+var exportStreamingStreamPoolHints = &TerraformResourceHints{
+	resourceClass:          "oci_streaming_stream_pool",
+	datasourceClass:        "oci_streaming_stream_pools",
+	datasourceItemsAttr:    "stream_pools",
+	resourceAbbreviation:   "stream_pool",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_streaming.StreamPoolLifecycleStateActive),
+	},
+}
+
+var exportStreamingStreamHints = &TerraformResourceHints{
+	resourceClass:          "oci_streaming_stream",
+	datasourceClass:        "oci_streaming_streams",
+	datasourceItemsAttr:    "streams",
+	resourceAbbreviation:   "stream",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_streaming.StreamLifecycleStateActive),
+	},
 }

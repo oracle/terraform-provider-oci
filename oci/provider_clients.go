@@ -12,34 +12,36 @@ import (
 	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 )
 
-var oracleClients *OracleClients
+var oracleClientRegistrations *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region
 
 func RegisterOracleClient(name string, client *OracleClient) {
-	if oracleClients == nil {
-		oracleClients = &OracleClients{
-			configuration: make(map[string]string),
-			clientMap:     make(map[string]*OracleClient),
+	if oracleClientRegistrations == nil {
+		oracleClientRegistrations = &OracleClientRegistrations{
+			registeredClients: make(map[string]*OracleClient),
 		}
 	}
-	oracleClients.clientMap[name] = client
+	oracleClientRegistrations.registeredClients[name] = client
 }
 
 type InitSdkClientFn func(oci_common.ConfigurationProvider, ConfigureClient) (interface{}, error)
 
+type OracleClientRegistrations struct {
+	registeredClients map[string]*OracleClient
+}
+
 type OracleClient struct {
-	sdkClient    interface{}
 	initClientFn InitSdkClientFn
 }
 
 type OracleClients struct {
 	configuration             map[string]string
-	clientMap                 map[string]*OracleClient
+	sdkClientMap              map[string]interface{}
 	gatewayWorkRequestsClient *oci_apigateway.WorkRequestsClient
 	workRequestClient         *oci_work_requests.WorkRequestClient
 }
 
 func (m *OracleClients) GetClient(name string) interface{} {
-	return m.clientMap[name].sdkClient
+	return m.sdkClientMap[name]
 }
 
 // The following clients require special endpoint information that is only known at Terraform apply time; so they
@@ -79,13 +81,13 @@ func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManage
 }
 
 func createSDKClients(clients *OracleClients, configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (err error) {
-	if clients == nil || len(clients.clientMap) == 0 {
+	if oracleClientRegistrations == nil || len(oracleClientRegistrations.registeredClients) == 0 {
 		return fmt.Errorf("there are no clients to create")
 	}
 
-	for serviceName, client := range clients.clientMap {
-		if client.initClientFn != nil {
-			client.sdkClient, err = client.initClientFn(configProvider, configureClient)
+	for serviceName, clientRegistration := range oracleClientRegistrations.registeredClients {
+		if clientRegistration.initClientFn != nil {
+			clients.sdkClientMap[serviceName], err = clientRegistration.initClientFn(configProvider, configureClient)
 			if err != nil {
 				return err
 			}
