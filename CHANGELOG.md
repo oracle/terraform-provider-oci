@@ -1,4 +1,4 @@
-## 3.78.0 (Unreleased)
+## 3.78.0 (May 27, 2020)
 
 ### Added
 - Support resource discovery for `streaming` resources
