@@ -114,7 +114,7 @@ The following attributes are exported:
 	* `name` - The name of the publisher.
 	* `website_url` - The publisher's website.
 	* `year_founded` - The year the publisher's company or organization was founded.
-* `regions` - The regions where the listing is available.
+* `regions` - The regions where the listing is eligible to be deployed.
 	* `code` - The code of the region.
 	* `countries` - Countries in the region.
 		* `code` - A code assigned to the item.
