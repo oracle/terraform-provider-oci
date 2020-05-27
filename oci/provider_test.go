@@ -4,6 +4,7 @@
 package oci
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"path"
@@ -11,6 +12,8 @@ import (
 	"sort"
 	"strings"
 	"testing"
+
+	oci_budget "github.com/oracle/oci-go-sdk/budget"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -441,6 +444,11 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 		assert.False(t, ok)
 		assert.Equal(t, fmt.Sprintf("user credentials %v should be removed from the configuration", strings.Join(apiKeyConfigVariablesToUnset, ", ")), err.Error())
 		return
+	case authSecurityToken:
+		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+		assert.False(t, ok)
+		assert.Equal(t, fmt.Sprintf("user credentials %v should be removed from the configuration", strings.Join(apiKeyConfigVariablesToUnset, ", ")), err.Error())
+		return
 	default:
 		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting))
 		return
@@ -485,6 +493,12 @@ user=%s
 user=%s
 key_file=%s
 passphrase=%s
+[PROFILE4]
+key_file=%s
+fingerprint=%s
+tenancy=%s
+region=%s
+security_token_file=%s
 `
 	keyPath := path.Join(getHomeFolder(), defaultConfigDirName, "oci_api_key.pem")
 	configPath := path.Join(getHomeFolder(), defaultConfigDirName, defaultConfigFileName)
@@ -794,6 +808,52 @@ func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
+}
+
+func TestUnitSecurityToken_basic(t *testing.T) {
+	t.Skip("Run manual with a valid security token")
+	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
+		apiKeyConfigAttributeEnvValue := getEnvSettingWithBlankDefault(apiKeyConfigAttribute)
+		if apiKeyConfigAttributeEnvValue != "" {
+			t.Skip("apiKeyConfigAttributes are set through environment variables, skip the test")
+		}
+	}
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
+	d.SetId("tenancy_ocid")
+	d.Set("auth", authSecurityToken)
+	d.Set(configFileProfileAttrName, "PROFILE4") // Run CLI command "oci session authenticate" to get token and profile
+	clients := &OracleClients{
+		sdkClientMap:  make(map[string]interface{}, len(oracleClientRegistrations.registeredClients)),
+		configuration: make(map[string]string),
+	}
+	sdkConfigProvider, err := getSdkConfigProvider(d, clients)
+	assert.NoError(t, err)
+	finger, _ := sdkConfigProvider.KeyFingerprint()
+	assert.NotNil(t, finger)
+	keyId, _ := sdkConfigProvider.KeyID()
+	assert.NotNil(t, keyId)
+	// Token format start with ST$
+	assert.True(t, strings.HasPrefix(keyId, "ST$"))
+	region, _ := sdkConfigProvider.Region()
+	assert.NotNil(t, region)
+	privateKey, _ := sdkConfigProvider.PrivateRSAKey()
+	assert.NotNil(t, privateKey)
+	client, err := oci_budget.NewBudgetClientWithConfigurationProvider(sdkConfigProvider)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, client.Host)
+
+	request := oci_budget.ListBudgetsRequest{}
+	compartmentId, ok := d.GetOk("compartment_id")
+	assert.True(t, ok)
+	compartmentIdString := compartmentId.(string)
+
+	request.CompartmentId = &compartmentIdString
+
+	_, err = client.ListBudgets(context.Background(), request)
+	assert.NoError(t, err)
 }
 
 /* This function is used in the test asserts to verify that an element in a set contains certain properties

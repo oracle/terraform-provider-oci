@@ -1,4 +1,8 @@
 ## 3.81.0 (Unreleased)
+
+### Added
+- Support Token base security authentication
+
 ## 3.80.0 (June 10, 2020)
 
 ### Added
