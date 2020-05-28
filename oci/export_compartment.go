@@ -444,7 +444,7 @@ func getDiscoverResourceWithGraphSteps(ctx *resourceDiscoveryContext) ([]resourc
 	return result, nil
 }
 
-func findResources(clients *OracleClients, root *OCIResource, resourceGraph TerraformResourceGraph, exportableResourceIds map[string]bool) ([]*OCIResource, error) {
+func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGraph TerraformResourceGraph) ([]*OCIResource, error) {
 	foundResources := []*OCIResource{}
 
 	childResourceTypes, exists := resourceGraph[root.terraformClass]
@@ -459,13 +459,13 @@ func findResources(clients *OracleClients, root *OCIResource, resourceGraph Terr
 		if childType.findResourcesOverrideFn != nil {
 			findResourceFn = childType.findResourcesOverrideFn
 		}
-		results, err := findResourceFn(clients, &childType, root)
+		results, err := findResourceFn(ctx.clients, &childType, root)
 		if err != nil {
 			return foundResources, err
 		}
 
 		if childType.processDiscoveredResourcesFn != nil {
-			results, err = childType.processDiscoveredResourcesFn(clients, results)
+			results, err = childType.processDiscoveredResourcesFn(ctx.clients, results)
 			if err != nil {
 				return foundResources, err
 			}
@@ -474,16 +474,16 @@ func findResources(clients *OracleClients, root *OCIResource, resourceGraph Terr
 
 		for _, resource := range results {
 			//referenceMap[resource.id] = resource.getHclReferenceIdString()
-			if exportableResourceIds != nil && len(exportableResourceIds) > 0 {
-				if _, shouldExport := exportableResourceIds[resource.id]; shouldExport {
+			if ctx.expectedResourceIds != nil && len(ctx.expectedResourceIds) > 0 {
+				if _, shouldExport := ctx.expectedResourceIds[resource.id]; shouldExport {
 					resource.omitFromExport = false
-					exportableResourceIds[resource.id] = true
+					ctx.expectedResourceIds[resource.id] = true
 				} else {
 					resource.omitFromExport = !childType.alwaysExportable
 				}
 			}
 
-			subResources, err := findResources(clients, resource, resourceGraph, exportableResourceIds)
+			subResources, err := findResources(ctx, resource, resourceGraph)
 			if err != nil {
 				return foundResources, err
 			}

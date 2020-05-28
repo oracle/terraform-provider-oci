@@ -536,7 +536,7 @@ func TestUnitFindResources_basic(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -596,7 +596,11 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 			t.Logf(ocid)
 		}
 
-		results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, restrictedOcids)
+		ctx := &resourceDiscoveryContext{
+			expectedResourceIds: restrictedOcids,
+		}
+
+		results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 		if err != nil {
 			t.Logf("got error from findResources: %v", err)
 			t.Fail()
@@ -627,7 +631,7 @@ func TestUnitFindResources_overrideFn(t *testing.T) {
 	}
 	defer func() { exportChildDefinition.findResourcesOverrideFn = nil }()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -662,7 +666,7 @@ func TestUnitFindResources_processResourceFn(t *testing.T) {
 	}
 	defer func() { exportChildDefinition.processDiscoveredResourcesFn = nil }()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -747,7 +751,7 @@ func TestUnitGetHCLString_basic(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -823,7 +827,7 @@ func TestUnitGetHCLString_missingFields(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -865,7 +869,7 @@ func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -913,7 +917,7 @@ func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()

@@ -193,7 +193,7 @@ type resourceDiscoveryWithGraph struct {
 func (r *resourceDiscoveryWithGraph) discover() error {
 	var err error
 	var ociResources []*OCIResource
-	ociResources, err = findResources(r.ctx.clients, r.root, r.resourceGraph, r.ctx.expectedResourceIds)
+	ociResources, err = findResources(r.ctx, r.root, r.resourceGraph)
 	if err != nil {
 		return err
 	}
