@@ -241,8 +241,8 @@ func ConfigurationProviderFromFileWithProfile(configFilePath, profile, privateKe
 }
 
 type configFileInfo struct {
-	UserOcid, Fingerprint, KeyFilePath, TenancyOcid, Region, Passphrase string
-	PresentConfiguration                                                byte
+	UserOcid, Fingerprint, KeyFilePath, TenancyOcid, Region, Passphrase, SecurityTokenFilePath string
+	PresentConfiguration                                                                       byte
 }
 
 const (
@@ -252,6 +252,7 @@ const (
 	hasRegion
 	hasKeyFile
 	hasPassphrase
+	hasSecurityTokenFile
 	none
 )
 
@@ -310,6 +311,9 @@ func parseConfigAtLine(start int, content []string) (info *configFileInfo, err e
 		case "region":
 			configurationPresent = configurationPresent | hasRegion
 			info.Region = value
+		case "security_token_file":
+			configurationPresent = configurationPresent | hasSecurityTokenFile
+			info.SecurityTokenFilePath = value
 		}
 	}
 	info.PresentConfiguration = configurationPresent
@@ -407,8 +411,14 @@ func (p fileConfigurationProvider) KeyID() (keyID string, err error) {
 		err = fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())
 		return
 	}
-
-	return fmt.Sprintf("%s/%s/%s", info.TenancyOcid, info.UserOcid, info.Fingerprint), nil
+	if info.PresentConfiguration&hasUser == hasUser {
+		return fmt.Sprintf("%s/%s/%s", info.TenancyOcid, info.UserOcid, info.Fingerprint), nil
+	}
+	if filePath, err := presentOrError(info.SecurityTokenFilePath, hasSecurityTokenFile, info.PresentConfiguration, "securityTokenFilePath"); err == nil {
+		return getSecurityToken(filePath)
+	}
+	err = fmt.Errorf("can not read SecurityTokenFilePath from configuration file due to: %s", err.Error())
+	return
 }
 
 func (p fileConfigurationProvider) PrivateRSAKey() (key *rsa.PrivateKey, err error) {
@@ -453,6 +463,16 @@ func (p fileConfigurationProvider) Region() (value string, err error) {
 	}
 
 	return canStringBeRegion(value)
+}
+
+func getSecurityToken(filePath string) (string, error) {
+	expandedPath := expandPath(filePath)
+	tokenFileContent, err := ioutil.ReadFile(expandedPath)
+	if err != nil {
+		err = fmt.Errorf("can not read PrivateKey  from configuration file due to: %s", err.Error())
+		return "", err
+	}
+	return fmt.Sprintf("ST$%s", tokenFileContent), nil
 }
 
 // A configuration provider that look for information in  multiple configuration providers
