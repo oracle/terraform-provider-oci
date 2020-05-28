@@ -119,6 +119,10 @@ func RunExportCommand(args *ExportCommandArgs) error {
 	resourcesMap = ResourcesMap()
 	datasourcesMap = DataSourcesMap()
 
+	if err := args.validate(); err != nil {
+		return err
+	}
+
 	tfHclVersion = *args.TFVersion
 
 	r := &schema.Resource{
