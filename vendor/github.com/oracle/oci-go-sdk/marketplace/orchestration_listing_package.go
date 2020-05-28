@@ -41,6 +41,9 @@ type OrchestrationListingPackage struct {
 
 	// List of variables for the orchestration resource.
 	Variables []OrchestrationVariable `mandatory:"false" json:"variables"`
+
+	// List of regions in which this ListingPackage is available.
+	Regions []Region `mandatory:"false" json:"regions"`
 }
 
 //GetDescription returns Description
