@@ -104,6 +104,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
+    * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
@@ -287,6 +288,11 @@ nosql
 object_storage
     
 * oci\_objectstorage\_bucket
+
+osmanagement
+    
+* oci\_osmanagement\_managed\_instance\_group
+* oci\_osmanagement\_software\_source
 
 streaming
     

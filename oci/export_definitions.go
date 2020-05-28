@@ -14,6 +14,7 @@ import (
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
@@ -710,6 +711,27 @@ var exportObjectStorageNamespaceHints = &TerraformResourceHints{
 	resourceClass:        "oci_objectstorage_namespace",
 	datasourceClass:      "oci_objectstorage_namespace",
 	resourceAbbreviation: "namespace",
+}
+
+var exportOsmanagementManagedInstanceGroupHints = &TerraformResourceHints{
+	resourceClass:        "oci_osmanagement_managed_instance_group",
+	datasourceClass:      "oci_osmanagement_managed_instance_groups",
+	datasourceItemsAttr:  "managed_instance_groups",
+	resourceAbbreviation: "managed_instance_group",
+	discoverableLifecycleStates: []string{
+		string(oci_osmanagement.ListManagedInstanceGroupsLifecycleStateActive),
+	},
+}
+
+var exportOsmanagementSoftwareSourceHints = &TerraformResourceHints{
+	resourceClass:          "oci_osmanagement_software_source",
+	datasourceClass:        "oci_osmanagement_software_sources",
+	datasourceItemsAttr:    "software_sources",
+	resourceAbbreviation:   "software_source",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_osmanagement.ListSoftwareSourcesLifecycleStateActive),
+	},
 }
 
 var exportStreamingConnectHarnessHints = &TerraformResourceHints{

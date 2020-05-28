@@ -2,6 +2,7 @@
 
 ### Added
 - Support resource discovery for `nosql` resources
+- Support resource discovery for `osmanagement` resources
 
 ## 3.78.0 (May 27, 2020)
 

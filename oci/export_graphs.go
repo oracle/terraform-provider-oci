@@ -37,6 +37,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"load_balancer":       loadBalancerResourceGraph,
 	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
+	"osmanagement":        osmanagementResourceGraph,
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
 }
@@ -360,6 +361,13 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 				"namespace": "namespace",
 			},
 		},
+	},
+}
+
+var osmanagementResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportOsmanagementManagedInstanceGroupHints},
+		{TerraformResourceHints: exportOsmanagementSoftwareSourceHints},
 	},
 }
 
