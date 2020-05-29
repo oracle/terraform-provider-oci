@@ -17,6 +17,7 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
@@ -946,6 +947,37 @@ var exportIdentityTagHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_identity.TagLifecycleStateActive),
+	},
+}
+
+var exportKmsKeyHints = &TerraformResourceHints{
+	resourceClass:          "oci_kms_key",
+	datasourceClass:        "oci_kms_keys",
+	datasourceItemsAttr:    "keys",
+	resourceAbbreviation:   "key",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_kms.KeyLifecycleStateEnabled),
+	},
+}
+
+var exportKmsKeyVersionHints = &TerraformResourceHints{
+	resourceClass:        "oci_kms_key_version",
+	datasourceClass:      "oci_kms_key_versions",
+	datasourceItemsAttr:  "key_versions",
+	resourceAbbreviation: "key_version",
+	discoverableLifecycleStates: []string{
+		string(oci_kms.KeyVersionLifecycleStateEnabled),
+	},
+}
+
+var exportKmsVaultHints = &TerraformResourceHints{
+	resourceClass:        "oci_kms_vault",
+	datasourceClass:      "oci_kms_vaults",
+	datasourceItemsAttr:  "vaults",
+	resourceAbbreviation: "vault",
+	discoverableLifecycleStates: []string{
+		string(oci_kms.VaultLifecycleStateActive),
 	},
 }
 

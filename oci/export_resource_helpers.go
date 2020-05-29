@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/hashicorp/terraform/helper/schema"
+
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -132,6 +134,11 @@ func init() {
 	exportIdentitySmtpCredentialHints.getIdFn = getIdentitySmtpCredentialId
 
 	exportIdentitySwiftPasswordHints.getIdFn = getIdentitySwiftPasswordId
+
+	exportKmsKeyHints.getIdFn = getKmsKeyId
+	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
+
+	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
@@ -238,6 +245,47 @@ func getNosqlIndexId(resource *OCIResource) (string, error) {
 	tableNameOrId := resource.parent.id
 
 	return getIndexCompositeId(name, tableNameOrId), nil
+}
+
+func processKmsKey(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		resource.sourceAttributes["management_endpoint"] = resource.parent.sourceAttributes["management_endpoint"].(string)
+		var resourceSchema *schema.ResourceData = resource.rawResource.(*schema.ResourceData)
+		resource.sourceAttributes["id"] = resourceSchema.Id()
+	}
+	return resources, nil
+}
+
+func getKmsKeyId(resource *OCIResource) (string, error) {
+	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find management_endpoint for Index id")
+	}
+	var keyId string
+	// observed that Id is not always available in sourceAttributes - refer export_compartment.go->findResourcesGeneric() to visualize below docs
+	// resource.sourceAttributes has the id in the cases where getKmsKeyId is called with LIST data source response, because list SetData() sets the Id, but this is only done temporarily to populate compositeID
+	// When getKmsKeyId is called for resource, resource.sourceAttributes is not set yet,(so far we used LIST response to get composite Id) but we can get the real ocid after Read because Id was set in the method kms_key_resource.go->readKmsKey()
+	switch resource.rawResource.(type) {
+	case *schema.ResourceData:
+		// 	rawResource from resource read response
+		var resourceSchema *schema.ResourceData = resource.rawResource.(*schema.ResourceData)
+		keyId = resourceSchema.Id()
+	case map[string]interface{}:
+		// 	rawResource from LIST data source read response
+		var resourceMap map[string]interface{} = resource.rawResource.(map[string]interface{})
+		keyId = resourceMap["id"].(string)
+	}
+	return getCompositeKeyId(managementEndpoint, keyId), nil
+}
+
+func getKmsKeyVersionId(resource *OCIResource) (string, error) {
+	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find management_endpoint for Index id")
+	}
+	keyId := resource.parent.sourceAttributes["id"].(string)
+	keyVersionId := resource.sourceAttributes["key_version_id"].(string)
+	return getCompositeKeyVersionId(managementEndpoint, keyId, keyVersionId), nil
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
