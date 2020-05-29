@@ -310,7 +310,7 @@ func (s *CoreNetworkSecurityGroupSecurityRulesDataSourceCrud) SetData() error {
 		networkSecurityGroupSecurityRule["direction"] = r.Direction
 
 		if r.IcmpOptions != nil {
-			networkSecurityGroupSecurityRule["icmp_options"] = []interface{}{IcmpOptionsToMap(r.IcmpOptions)}
+			networkSecurityGroupSecurityRule["icmp_options"] = []interface{}{nsgIcmpOptionsToMap(r.IcmpOptions)}
 		} else {
 			networkSecurityGroupSecurityRule["icmp_options"] = nil
 		}
