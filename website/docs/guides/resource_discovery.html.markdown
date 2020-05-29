@@ -106,6 +106,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `functions` - Discovers functions resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
+    * `kms` - Discovers kms resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `monitoring` - Discovers monitoring resources within the specified compartment
@@ -329,6 +330,12 @@ identity
 * oci\_identity\_user\_group\_membership
 * oci\_identity\_user
 * oci\_identity\_network\_source
+
+kms
+    
+* oci\_kms\_key
+* oci\_kms\_key\_version
+* oci\_kms\_vault
 
 limits
     

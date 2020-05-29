@@ -60,6 +60,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
+	"kms":                 kmsResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
 	"monitoring":          monitoringResourceGraph,
 	"nosql":               nosqlResourceGraph,
@@ -418,6 +419,29 @@ var identityResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportIdentityUserGroupMembershipHints,
 			datasourceQueryParams: map[string]string{
 				"user_id": "id",
+			},
+		},
+	},
+}
+
+var kmsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportKmsVaultHints},
+	},
+	"oci_kms_key": {
+		{
+			TerraformResourceHints: exportKmsKeyVersionHints,
+			datasourceQueryParams: map[string]string{
+				"key_id":              "id",
+				"management_endpoint": "management_endpoint",
+			},
+		},
+	},
+	"oci_kms_vault": {
+		{
+			TerraformResourceHints: exportKmsKeyHints,
+			datasourceQueryParams: map[string]string{
+				"management_endpoint": "management_endpoint",
 			},
 		},
 	},
