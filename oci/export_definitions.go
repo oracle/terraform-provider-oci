@@ -9,6 +9,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_events "github.com/oracle/oci-go-sdk/events"
+	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
@@ -500,6 +501,47 @@ var exportEventsRuleHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_events.RuleLifecycleStateActive),
+	},
+}
+
+var exportFileStorageFileSystemHints = &TerraformResourceHints{
+	resourceClass:        "oci_file_storage_file_system",
+	datasourceClass:      "oci_file_storage_file_systems",
+	datasourceItemsAttr:  "file_systems",
+	resourceAbbreviation: "file_system",
+	discoverableLifecycleStates: []string{
+		string(oci_file_storage.FileSystemLifecycleStateActive),
+	},
+}
+
+var exportFileStorageMountTargetHints = &TerraformResourceHints{
+	resourceClass:        "oci_file_storage_mount_target",
+	datasourceClass:      "oci_file_storage_mount_targets",
+	datasourceItemsAttr:  "mount_targets",
+	resourceAbbreviation: "mount_target",
+	discoverableLifecycleStates: []string{
+		string(oci_file_storage.MountTargetLifecycleStateActive),
+	},
+}
+
+var exportFileStorageExportHints = &TerraformResourceHints{
+	resourceClass:          "oci_file_storage_export",
+	datasourceClass:        "oci_file_storage_exports",
+	datasourceItemsAttr:    "exports",
+	resourceAbbreviation:   "export",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_file_storage.ExportLifecycleStateActive),
+	},
+}
+
+var exportFileStorageSnapshotHints = &TerraformResourceHints{
+	resourceClass:        "oci_file_storage_snapshot",
+	datasourceClass:      "oci_file_storage_snapshots",
+	datasourceItemsAttr:  "snapshots",
+	resourceAbbreviation: "snapshot",
+	discoverableLifecycleStates: []string{
+		string(oci_file_storage.SnapshotLifecycleStateActive),
 	},
 }
 

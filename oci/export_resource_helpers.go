@@ -115,6 +115,8 @@ func init() {
 
 	exportNosqlIndexHints.getIdFn = getNosqlIndexId
 	exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
+
+	exportFileStorageMountTargetHints.requireResourceRefresh = true
 }
 
 func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {

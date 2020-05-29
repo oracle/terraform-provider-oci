@@ -21,6 +21,26 @@ var availabilityDomainsGraph = TerraformResourceGraph{
 				"availability_domain": "name",
 			},
 		},
+		{
+			TerraformResourceHints: exportFileStorageFileSystemHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "name",
+			},
+		},
+		{
+			TerraformResourceHints: exportFileStorageMountTargetHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "name",
+			},
+		},
+	},
+	"oci_file_storage_file_system": {
+		{
+			TerraformResourceHints: exportFileStorageSnapshotHints,
+			datasourceQueryParams: map[string]string{
+				"file_system_id": "id",
+			},
+		},
 	},
 }
 
@@ -32,6 +52,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
 	"events":              eventsResourceGraph,
+	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
@@ -204,6 +225,12 @@ var databaseResourceGraph = TerraformResourceGraph{
 var eventsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEventsRuleHints},
+	},
+}
+
+var fileStorageResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportFileStorageExportHints},
 	},
 }
 

@@ -97,6 +97,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
+    * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
@@ -130,6 +131,12 @@ This may be expected behavior from the service, which may prevent discovery of c
 ```
 
 Run 'terraform plan' against the generated configuration files to get more information about the missing values.
+
+Resources that are dependent on availability domains will be generated under `availability_domain.tf` file. These include:
+* oci\_core\_boot\_volume
+* oci\_file\_storage\_file\_system
+* oci\_file\_storage\_mount\_target
+* oci\_file\_storage\_snapshot
 
 ### Exporting Identity Resources
 
@@ -248,6 +255,13 @@ database
 events
     
 * oci\_events\_rule
+
+file_storage
+    
+* oci\_file\_storage\_file\_system
+* oci\_file\_storage\_mount\_target
+* oci\_file\_storage\_export
+* oci\_file\_storage\_snapshot
 
 functions
     
