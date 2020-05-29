@@ -188,11 +188,11 @@ func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandA
 
 	if *result.CompartmentId == "" {
 		*result.CompartmentId = tenancyOcid
-		vars["tenancy_ocid"] = ""
-		referenceMap[tenancyOcid] = "${var.tenancy_ocid}"
+		vars["tenancy_ocid"] = fmt.Sprintf("\"%s\"", tenancyOcid)
+		referenceMap[tenancyOcid] = tfHclVersion.getVarHclString("tenancy_ocid")
 	} else {
-		vars["compartment_ocid"] = ""
-		referenceMap[*result.CompartmentId] = "${var.compartment_ocid}"
+		vars["compartment_ocid"] = fmt.Sprintf("\"%s\"", *result.CompartmentId)
+		referenceMap[*result.CompartmentId] = tfHclVersion.getVarHclString("compartment_ocid")
 	}
 
 	result.expectedResourceIds = convertStringSliceToSet(args.IDs, true)
@@ -331,7 +331,11 @@ func (r *resourceDiscoveryBaseStep) writeConfiguration() error {
 		return err
 	}
 
-	r.ctx.summaryStatements = append(r.ctx.summaryStatements, fmt.Sprintf("Found %d '%s' resources. Generated under '%s'.", exportedResourceCount, r.name, configOutputFile))
+	if r.ctx.targetSpecificResources {
+		r.ctx.summaryStatements = append(r.ctx.summaryStatements, fmt.Sprintf("Found %d resources. Generated under '%s'", exportedResourceCount, configOutputFile))
+	} else {
+		r.ctx.summaryStatements = append(r.ctx.summaryStatements, fmt.Sprintf("Found %d '%s' resources. Generated under '%s'", exportedResourceCount, r.name, configOutputFile))
+	}
 	return nil
 }
 
@@ -468,8 +472,31 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 		}
 
 		r.discoveredResources = append(r.discoveredResources, ociResource)
+
 		r.ctx.expectedResourceIds[id] = true
-		referenceMap[ociResource.id] = ociResource.getHclReferenceIdString()
+		// expectedResourceIds contains tuples in case of export using ids and for related resources the ids will not be a tuple
+		//delete(r.ctx.expectedResourceIds, id)
+		//r.ctx.expectedResourceIds[ociResource.id] = true
+
+		if _, hasClosure := resourceClosureGraph[resourceHint.resourceClass]; hasClosure && r.ctx.IsExportWithClosure {
+			log.Printf("[INFO] resource discovery: finding related resources for %s\n", resourceHint.resourceClass)
+			ociResources, err := findResources(r.ctx, ociResource, resourceClosureGraph)
+			if err != nil {
+				return err
+			}
+			/*
+				 1. Current closure graph generates only related resources but we may need to filter resources in future as the graph grows
+					Because hints use datasources and if data source does not take parent param then it may generate unrelated resources
+				 2. With current implementation, resource.omitFromExport will be true for child resources but we do not filter resources. If we add filtering to handle #1,
+				 	then logic to set resource.omitFromExport will also need update to handle related resources
+			*/
+			r.discoveredResources = append(r.discoveredResources, ociResources...)
+		}
+		// Add resource reference to referenceMap for discovered resources
+		// If there are more than 1 resources found, this will help generate the possible references if the resources are linked
+		for _, resource := range r.discoveredResources {
+			referenceMap[resource.id] = resource.getHclReferenceIdString()
+		}
 	}
 	return nil
 }
@@ -1416,19 +1443,7 @@ func findIdentityTags(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAs
 
 }
 
-func processTagDefinitions(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
-	for _, resource := range resources {
-		if resource.parent == nil {
-			continue
-		}
-
-		resource.sourceAttributes["tag_namespace_id"] = resource.parent.id
-		resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.parent.id, resource.sourceAttributes["name"].(string))
-	}
-	return resources, nil
-}
-
-func findLoadBalancerListeners(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) ([]*OCIResource, error) {
+func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
 	loadBalancerId := parent.sourceAttributes["load_balancer_id"].(string)
 	backendSetName := parent.sourceAttributes["name"].(string)
 
@@ -1487,6 +1502,20 @@ func findLoadBalancerListeners(clients *OracleClients, tfMeta *TerraformResource
 	}
 
 	return results, nil
+}
+
+func processTagDefinitions(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		if resource.parent == nil {
+			resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.sourceAttributes["tag_namespace_id"], resource.sourceAttributes["name"].(string))
+			continue
+		}
+
+		resource.sourceAttributes["tag_namespace_id"] = resource.parent.id
+		resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.parent.id, resource.sourceAttributes["name"].(string))
+		resource.id = resource.importId
+	}
+	return resources, nil
 }
 
 func processNetworkSecurityGroupRules(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {

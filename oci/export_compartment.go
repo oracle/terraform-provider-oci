@@ -177,15 +177,16 @@ func RunListExportableServicesCommand(listExportServicesPath string) error {
 }
 
 type ExportCommandArgs struct {
-	CompartmentId   *string
-	CompartmentName *string
-	IDs             []string
-	Services        []string
-	OutputDir       *string
-	GenerateState   bool
-	TFVersion       *TfHclVersion
-	RetryTimeout    *string
-	ExcludeServices []string
+	CompartmentId       *string
+	CompartmentName     *string
+	IDs                 []string
+	Services            []string
+	OutputDir           *string
+	GenerateState       bool
+	TFVersion           *TfHclVersion
+	RetryTimeout        *string
+	ExcludeServices     []string
+	IsExportWithClosure bool
 }
 
 func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
