@@ -244,6 +244,23 @@ var exportContainerengineNodePoolHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+var exportCoreAppCatalogSubscriptionHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_app_catalog_subscription",
+	datasourceClass:      "oci_core_app_catalog_subscriptions",
+	datasourceItemsAttr:  "app_catalog_subscriptions",
+	resourceAbbreviation: "app_catalog_subscription",
+}
+
+var exportCoreBootVolumeAttachmentHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_boot_volume_attachment",
+	datasourceClass:      "oci_core_boot_volume_attachments",
+	datasourceItemsAttr:  "boot_volume_attachments",
+	resourceAbbreviation: "oci_core_boot_volume_attachment",
+	discoverableLifecycleStates: []string{
+		string(oci_core.BootVolumeAttachmentLifecycleStateAttached),
+	},
+}
+
 var exportCoreBootVolumeBackupHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_boot_volume_backup",
 	datasourceClass:      "oci_core_boot_volume_backups",
