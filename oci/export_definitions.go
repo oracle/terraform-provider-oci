@@ -4,6 +4,7 @@
 package oci
 
 import (
+	oci_apigateway "github.com/oracle/oci-go-sdk/apigateway"
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
@@ -22,6 +23,28 @@ import (
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportApigatewayGatewayHints = &TerraformResourceHints{
+	resourceClass:          "oci_apigateway_gateway",
+	datasourceClass:        "oci_apigateway_gateways",
+	datasourceItemsAttr:    "gateway_collection",
+	resourceAbbreviation:   "gateway",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_apigateway.GatewayLifecycleStateActive),
+	},
+}
+
+var exportApigatewayDeploymentHints = &TerraformResourceHints{
+	resourceClass:          "oci_apigateway_deployment",
+	datasourceClass:        "oci_apigateway_deployments",
+	datasourceItemsAttr:    "deployment_collection",
+	resourceAbbreviation:   "deployment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_apigateway.DeploymentLifecycleStateActive),
+	},
+}
+
 var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
 	resourceClass:          "oci_autoscaling_auto_scaling_configuration",
 	datasourceClass:        "oci_autoscaling_auto_scaling_configurations",
