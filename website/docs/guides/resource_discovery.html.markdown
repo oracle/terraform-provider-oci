@@ -216,7 +216,6 @@ containerengine
 
 core
     
-* oci\_core\_app\_catalog\_subscription
 * oci\_core\_boot\_volume\_backup
 * oci\_core\_boot\_volume
 * oci\_core\_console\_history
