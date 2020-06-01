@@ -216,11 +216,19 @@ The following arguments are supported:
 
 	**Metadata Example**
 
-	"metadata" : { "quake_bot_level" : "Severe", "ssh_authorized_keys" : "ssh-rsa <your_public_SSH_key>== rsa-key-20160227", "user_data" : "<your_public_SSH_key>==" } **Getting Metadata on the Instance**
+	```
+	"metadata" : { "quake_bot_level" : "Severe", "ssh_authorized_keys" : "ssh-rsa <your_public_SSH_key>== rsa-key-20160227", "user_data" : "<your_public_SSH_key>==" }
+	```
+
+	**Getting Metadata on the Instance**
 
 	To get information about your instance, connect to the instance using SSH and issue any of the following GET requests:
 
-	curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/ curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/ curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/<any-key-name>
+	```
+	curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/
+	curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/
+	curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/<any-key-name>
+	```
 
 	You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
 	
