@@ -9,6 +9,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_events "github.com/oracle/oci-go-sdk/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
@@ -511,6 +512,23 @@ var exportDatabaseDbSystemHints = &TerraformResourceHints{
 	resourceAbbreviation: "db_system",
 	discoverableLifecycleStates: []string{
 		string(oci_database.DbSystemLifecycleStateAvailable),
+	},
+}
+
+var exportEmailSuppressionHints = &TerraformResourceHints{
+	resourceClass:        "oci_email_suppression",
+	datasourceClass:      "oci_email_suppressions",
+	datasourceItemsAttr:  "suppressions",
+	resourceAbbreviation: "suppression",
+}
+
+var exportEmailSenderHints = &TerraformResourceHints{
+	resourceClass:        "oci_email_sender",
+	datasourceClass:      "oci_email_senders",
+	datasourceItemsAttr:  "senders",
+	resourceAbbreviation: "sender",
+	discoverableLifecycleStates: []string{
+		string(oci_email.SenderLifecycleStateActive),
 	},
 }
 
