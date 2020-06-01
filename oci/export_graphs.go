@@ -52,6 +52,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"email":               emailResourceGraph,
 	"events":              eventsResourceGraph,
 	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
@@ -239,6 +240,15 @@ var databaseResourceGraph = TerraformResourceGraph{
 				"db_system_id": "id",
 			},
 		},
+	},
+}
+
+var emailResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportEmailSenderHints},
+	},
+	"oci_identity_tenancy": {
+		{TerraformResourceHints: exportEmailSuppressionHints},
 	},
 }
 
