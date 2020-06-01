@@ -1117,6 +1117,14 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rule_set",
 }
 
+var exportMarketplaceAcceptedAgreementHints = &TerraformResourceHints{
+	resourceClass:          "oci_marketplace_accepted_agreement",
+	datasourceClass:        "oci_marketplace_accepted_agreements",
+	datasourceItemsAttr:    "accepted_agreements",
+	resourceAbbreviation:   "accepted_agreement",
+	requireResourceRefresh: true,
+}
+
 var exportMonitoringAlarmHints = &TerraformResourceHints{
 	resourceClass:          "oci_monitoring_alarm",
 	datasourceClass:        "oci_monitoring_alarms",

@@ -111,6 +111,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `kms` - Discovers kms resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
+    * `marketplace` - Discovers marketplace resources within the specified compartment
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
     * `oce` - Discovers oce resources within the specified compartment
@@ -365,6 +366,10 @@ load_balancer
 * oci\_load\_balancer\_load\_balancer
 * oci\_load\_balancer\_path\_route\_set
 * oci\_load\_balancer\_rule\_set
+
+marketplace
+    
+* oci\_marketplace\_accepted\_agreement
 
 monitoring
     
