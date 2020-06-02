@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 // This example shows how to use Resource Manager data sources with the (local) `terraform_remote_state` data source
 // so that output values from a different Resource Manager Stack can be referenced in this config.

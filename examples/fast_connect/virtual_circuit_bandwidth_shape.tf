@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 data "oci_core_virtual_circuit_bandwidth_shapes" "virtual_circuit_bandwidth_shapes" {
   #Required

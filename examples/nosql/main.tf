@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
@@ -70,6 +71,8 @@ data "oci_nosql_indexes" "test_indexes" {
 }
 
 output "index_name" {
+  depends_on = ["oci_nosql_index.test_index"]
+
   value = [
     "${data.oci_nosql_indexes.test_indexes.index_collection.0.name}",
   ]

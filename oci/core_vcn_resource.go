@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
@@ -342,6 +343,7 @@ func (s *CoreVcnResourceCrud) SetData() error {
 
 	if s.Res.Ipv6CidrBlock != nil {
 		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
+		s.D.Set("is_ipv6enabled", true)
 	}
 
 	if s.Res.Ipv6PublicCidrBlock != nil {

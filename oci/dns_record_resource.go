@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 /*
  A note to maintainers: this resource represents many different record types, indicated by the "rtype" value, the possible
@@ -12,6 +13,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -48,9 +50,10 @@ func DnsRecordResource() *schema.Resource {
 
 			// Optional
 			"domain": {
-				Type:     schema.TypeString,
-				ForceNew: true,
-				Required: true,
+				Type:             schema.TypeString,
+				ForceNew:         true,
+				Required:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"rdata": {
 				Type:     schema.TypeString,
@@ -363,7 +366,7 @@ func findItem(rc *[]oci_dns.Record, r *schema.ResourceData) (*oci_dns.Record, er
 		}
 
 		// accept match by type and data match
-		if *item.Rtype == rType && normalizeRData(rType, *item.Rdata) == rData && *item.Domain == rDomain && *item.Ttl == rTtl {
+		if *item.Rtype == rType && normalizeRData(rType, *item.Rdata) == rData && strings.EqualFold(*item.Domain, rDomain) && *item.Ttl == rTtl {
 			return &item, nil
 		}
 	}

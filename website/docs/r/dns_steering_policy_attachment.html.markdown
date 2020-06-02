@@ -37,7 +37,7 @@ resource "oci_dns_steering_policy_attachment" "test_steering_policy_attachment" 
 The following arguments are supported:
 
 * `display_name` - (Optional) (Updatable) A user-friendly name for the steering policy attachment. Does not have to be unique and can be changed. Avoid entering confidential information. 
-* `domain_name` - (Required) The attached domain within the attached zone.
+* `domain_name` - (Required) The attached domain within the attached zone. `domain_name` is case insensitive.
 * `steering_policy_id` - (Required) The OCID of the attached steering policy.
 * `zone_id` - (Required) The OCID of the attached zone.
 

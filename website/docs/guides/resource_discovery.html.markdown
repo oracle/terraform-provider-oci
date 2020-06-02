@@ -90,19 +90,25 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported.
 * `output_path` - Path to output generated configurations and state files of the exported compartment
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
+    * `apigateway` - Discovers apigateway resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value.
     * `bds` - Discovers big data service resources within the specified compartment
+    * `budget` - Discovers budget resources across the entire tenancy
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
+    * `email` - Discovers email resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
+    * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
+    * `nosql` - Discovers nosql resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
+    * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
@@ -128,6 +134,12 @@ This may be expected behavior from the service, which may prevent discovery of c
 ```
 
 Run 'terraform plan' against the generated configuration files to get more information about the missing values.
+
+Resources that are dependent on availability domains will be generated under `availability_domain.tf` file. These include:
+* oci\_core\_boot\_volume
+* oci\_file\_storage\_file\_system
+* oci\_file\_storage\_mount\_target
+* oci\_file\_storage\_snapshot
 
 ### Exporting Identity Resources
 
@@ -179,6 +191,11 @@ The list of supported resources can also be retrieved by running this command:
 terraform-provider-oci -command=list_export_resources
 ```
 
+apigateway
+    
+* oci\_apigateway\_gateway
+* oci\_apigateway\_deployment
+
 auto_scaling
     
 * oci\_autoscaling\_auto\_scaling\_configuration
@@ -187,6 +204,11 @@ bds
     
 * oci\_bds\_bds\_instance
 
+budget
+    
+* oci\_budget\_budget
+* oci\_budget\_alert\_rule
+
 containerengine
     
 * oci\_containerengine\_cluster
@@ -194,15 +216,20 @@ containerengine
 
 core
     
+* oci\_core\_boot\_volume\_backup
 * oci\_core\_boot\_volume
+* oci\_core\_console\_history
+* oci\_core\_cluster\_network
 * oci\_core\_cpe
 * oci\_core\_cross\_connect\_group
 * oci\_core\_cross\_connect
 * oci\_core\_dhcp\_options
 * oci\_core\_drg\_attachment
 * oci\_core\_drg
+* oci\_core\_dedicated\_vm\_host
 * oci\_core\_image
 * oci\_core\_instance\_configuration
+* oci\_core\_instance\_console\_connection
 * oci\_core\_instance\_pool
 * oci\_core\_instance
 * oci\_core\_internet\_gateway
@@ -211,6 +238,8 @@ core
 * oci\_core\_nat\_gateway
 * oci\_core\_network\_security\_group
 * oci\_core\_network\_security\_group\_security\_rule
+* oci\_core\_private\_ip
+* oci\_core\_public\_ip
 * oci\_core\_remote\_peering\_connection
 * oci\_core\_route\_table
 * oci\_core\_security\_list
@@ -220,8 +249,11 @@ core
 * oci\_core\_virtual\_circuit
 * oci\_core\_vnic\_attachment
 * oci\_core\_volume\_attachment
+* oci\_core\_volume\_backup
+* oci\_core\_volume\_backup\_policy
 * oci\_core\_volume\_backup\_policy\_assignment
 * oci\_core\_volume\_group
+* oci\_core\_volume\_group\_backup
 * oci\_core\_volume
 
 database
@@ -232,9 +264,21 @@ database
 * oci\_database\_db\_home
 * oci\_database\_db\_system
 
+email
+    
+* oci\_email\_suppression
+* oci\_email\_sender
+
 events
     
 * oci\_events\_rule
+
+file_storage
+    
+* oci\_file\_storage\_file\_system
+* oci\_file\_storage\_mount\_target
+* oci\_file\_storage\_export
+* oci\_file\_storage\_snapshot
 
 functions
     
@@ -278,9 +322,19 @@ load_balancer
 * oci\_load\_balancer\_path\_route\_set
 * oci\_load\_balancer\_rule\_set
 
+nosql
+    
+* oci\_nosql\_table
+* oci\_nosql\_index
+
 object_storage
     
 * oci\_objectstorage\_bucket
+
+osmanagement
+    
+* oci\_osmanagement\_managed\_instance\_group
+* oci\_osmanagement\_software\_source
 
 streaming
     

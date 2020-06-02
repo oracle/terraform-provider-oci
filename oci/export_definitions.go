@@ -1,19 +1,50 @@
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
 package oci
 
 import (
+	oci_apigateway "github.com/oracle/oci-go-sdk/apigateway"
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
+	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_events "github.com/oracle/oci-go-sdk/events"
+	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportApigatewayGatewayHints = &TerraformResourceHints{
+	resourceClass:          "oci_apigateway_gateway",
+	datasourceClass:        "oci_apigateway_gateways",
+	datasourceItemsAttr:    "gateway_collection",
+	resourceAbbreviation:   "gateway",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_apigateway.GatewayLifecycleStateActive),
+	},
+}
+
+var exportApigatewayDeploymentHints = &TerraformResourceHints{
+	resourceClass:          "oci_apigateway_deployment",
+	datasourceClass:        "oci_apigateway_deployments",
+	datasourceItemsAttr:    "deployment_collection",
+	resourceAbbreviation:   "deployment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_apigateway.DeploymentLifecycleStateActive),
+	},
+}
+
 var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
 	resourceClass:          "oci_autoscaling_auto_scaling_configuration",
 	datasourceClass:        "oci_autoscaling_auto_scaling_configurations",
@@ -30,6 +61,26 @@ var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_bds.BdsInstanceLifecycleStateActive),
+	},
+}
+
+var exportBudgetBudgetHints = &TerraformResourceHints{
+	resourceClass:        "oci_budget_budget",
+	datasourceClass:      "oci_budget_budgets",
+	datasourceItemsAttr:  "budgets",
+	resourceAbbreviation: "budget",
+	discoverableLifecycleStates: []string{
+		string(oci_budget.BudgetLifecycleStateActive),
+	},
+}
+
+var exportBudgetAlertRuleHints = &TerraformResourceHints{
+	resourceClass:        "oci_budget_alert_rule",
+	datasourceClass:      "oci_budget_alert_rules",
+	datasourceItemsAttr:  "alert_rules",
+	resourceAbbreviation: "alert_rule",
+	discoverableLifecycleStates: []string{
+		string(oci_budget.AlertRuleLifecycleStateActive),
 	},
 }
 
@@ -52,6 +103,16 @@ var exportContainerengineNodePoolHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+var exportCoreBootVolumeBackupHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_boot_volume_backup",
+	datasourceClass:      "oci_core_boot_volume_backups",
+	datasourceItemsAttr:  "boot_volume_backups",
+	resourceAbbreviation: "boot_volume_backup",
+	discoverableLifecycleStates: []string{
+		string(oci_core.BootVolumeBackupLifecycleStateAvailable),
+	},
+}
+
 var exportCoreBootVolumeHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_boot_volume",
 	datasourceClass:      "oci_core_boot_volumes",
@@ -59,6 +120,27 @@ var exportCoreBootVolumeHints = &TerraformResourceHints{
 	resourceAbbreviation: "boot_volume",
 	discoverableLifecycleStates: []string{
 		string(oci_core.BootVolumeLifecycleStateAvailable),
+	},
+}
+
+var exportCoreConsoleHistoryHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_console_history",
+	datasourceClass:      "oci_core_console_histories",
+	datasourceItemsAttr:  "console_histories",
+	resourceAbbreviation: "console_history",
+	discoverableLifecycleStates: []string{
+		string(oci_core.ConsoleHistoryLifecycleStateSucceeded),
+	},
+}
+
+var exportCoreClusterNetworkHints = &TerraformResourceHints{
+	resourceClass:          "oci_core_cluster_network",
+	datasourceClass:        "oci_core_cluster_networks",
+	datasourceItemsAttr:    "cluster_networks",
+	resourceAbbreviation:   "cluster_network",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_core.ClusterNetworkLifecycleStateRunning),
 	},
 }
 
@@ -120,6 +202,17 @@ var exportCoreDrgHints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreDedicatedVmHostHints = &TerraformResourceHints{
+	resourceClass:          "oci_core_dedicated_vm_host",
+	datasourceClass:        "oci_core_dedicated_vm_hosts",
+	datasourceItemsAttr:    "dedicated_vm_hosts",
+	resourceAbbreviation:   "dedicated_vm_host",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_core.DedicatedVmHostLifecycleStateActive),
+	},
+}
+
 var exportCoreImageHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_image",
 	datasourceClass:      "oci_core_images",
@@ -136,6 +229,16 @@ var exportCoreInstanceConfigurationHints = &TerraformResourceHints{
 	datasourceItemsAttr:    "instance_configurations",
 	resourceAbbreviation:   "instance_configuration",
 	requireResourceRefresh: true,
+}
+
+var exportCoreInstanceConsoleConnectionHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_instance_console_connection",
+	datasourceClass:      "oci_core_instance_console_connections",
+	datasourceItemsAttr:  "instance_console_connections",
+	resourceAbbreviation: "instance_console_connection",
+	discoverableLifecycleStates: []string{
+		string(oci_core.InstanceConsoleConnectionLifecycleStateActive),
+	},
 }
 
 var exportCoreInstancePoolHints = &TerraformResourceHints{
@@ -212,6 +315,24 @@ var exportCoreNetworkSecurityGroupHints = &TerraformResourceHints{
 var exportCoreNetworkSecurityGroupSecurityRuleHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_network_security_group_security_rule",
 	resourceAbbreviation: "network_security_group_security_rule",
+}
+
+var exportCorePrivateIpHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_private_ip",
+	datasourceClass:      "oci_core_private_ips",
+	datasourceItemsAttr:  "private_ips",
+	resourceAbbreviation: "private_ip",
+}
+
+var exportCorePublicIpHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_public_ip",
+	datasourceClass:      "oci_core_public_ips",
+	datasourceItemsAttr:  "public_ips",
+	resourceAbbreviation: "public_ip",
+	discoverableLifecycleStates: []string{
+		string(oci_core.PublicIpLifecycleStateAvailable),
+		string(oci_core.PublicIpLifecycleStateAssigned),
+	},
 }
 
 var exportCoreRemotePeeringConnectionHints = &TerraformResourceHints{
@@ -305,6 +426,23 @@ var exportCoreVolumeAttachmentHints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreVolumeBackupHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_volume_backup",
+	datasourceClass:      "oci_core_volume_backups",
+	datasourceItemsAttr:  "volume_backups",
+	resourceAbbreviation: "volume_backup",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VolumeBackupLifecycleStateAvailable),
+	},
+}
+
+var exportCoreVolumeBackupPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_volume_backup_policy",
+	datasourceClass:      "oci_core_volume_backup_policies",
+	datasourceItemsAttr:  "volume_backup_policies",
+	resourceAbbreviation: "volume_backup_policy",
+}
+
 var exportCoreVolumeBackupPolicyAssignmentHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_volume_backup_policy_assignment",
 	datasourceClass:      "oci_core_volume_backup_policy_assignments",
@@ -319,6 +457,17 @@ var exportCoreVolumeGroupHints = &TerraformResourceHints{
 	resourceAbbreviation: "volume_group",
 	discoverableLifecycleStates: []string{
 		string(oci_core.VolumeGroupLifecycleStateAvailable),
+	},
+}
+
+var exportCoreVolumeGroupBackupHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_volume_group_backup",
+	datasourceClass:      "oci_core_volume_group_backups",
+	datasourceItemsAttr:  "volume_group_backups",
+	resourceAbbreviation: "volume_group_backup",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VolumeGroupBackupLifecycleStateCommitted),
+		string(oci_core.VolumeGroupBackupLifecycleStateAvailable),
 	},
 }
 
@@ -382,6 +531,23 @@ var exportDatabaseDbSystemHints = &TerraformResourceHints{
 	},
 }
 
+var exportEmailSuppressionHints = &TerraformResourceHints{
+	resourceClass:        "oci_email_suppression",
+	datasourceClass:      "oci_email_suppressions",
+	datasourceItemsAttr:  "suppressions",
+	resourceAbbreviation: "suppression",
+}
+
+var exportEmailSenderHints = &TerraformResourceHints{
+	resourceClass:        "oci_email_sender",
+	datasourceClass:      "oci_email_senders",
+	datasourceItemsAttr:  "senders",
+	resourceAbbreviation: "sender",
+	discoverableLifecycleStates: []string{
+		string(oci_email.SenderLifecycleStateActive),
+	},
+}
+
 var exportEventsRuleHints = &TerraformResourceHints{
 	resourceClass:          "oci_events_rule",
 	datasourceClass:        "oci_events_rules",
@@ -390,6 +556,47 @@ var exportEventsRuleHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_events.RuleLifecycleStateActive),
+	},
+}
+
+var exportFileStorageFileSystemHints = &TerraformResourceHints{
+	resourceClass:        "oci_file_storage_file_system",
+	datasourceClass:      "oci_file_storage_file_systems",
+	datasourceItemsAttr:  "file_systems",
+	resourceAbbreviation: "file_system",
+	discoverableLifecycleStates: []string{
+		string(oci_file_storage.FileSystemLifecycleStateActive),
+	},
+}
+
+var exportFileStorageMountTargetHints = &TerraformResourceHints{
+	resourceClass:        "oci_file_storage_mount_target",
+	datasourceClass:      "oci_file_storage_mount_targets",
+	datasourceItemsAttr:  "mount_targets",
+	resourceAbbreviation: "mount_target",
+	discoverableLifecycleStates: []string{
+		string(oci_file_storage.MountTargetLifecycleStateActive),
+	},
+}
+
+var exportFileStorageExportHints = &TerraformResourceHints{
+	resourceClass:          "oci_file_storage_export",
+	datasourceClass:        "oci_file_storage_exports",
+	datasourceItemsAttr:    "exports",
+	resourceAbbreviation:   "export",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_file_storage.ExportLifecycleStateActive),
+	},
+}
+
+var exportFileStorageSnapshotHints = &TerraformResourceHints{
+	resourceClass:        "oci_file_storage_snapshot",
+	datasourceClass:      "oci_file_storage_snapshots",
+	datasourceItemsAttr:  "snapshots",
+	resourceAbbreviation: "snapshot",
+	discoverableLifecycleStates: []string{
+		string(oci_file_storage.SnapshotLifecycleStateActive),
 	},
 }
 
@@ -672,6 +879,28 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rule_set",
 }
 
+var exportNosqlTableHints = &TerraformResourceHints{
+	resourceClass:          "oci_nosql_table",
+	datasourceClass:        "oci_nosql_tables",
+	datasourceItemsAttr:    "table_collection",
+	resourceAbbreviation:   "table",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_nosql.TableLifecycleStateActive),
+	},
+}
+
+var exportNosqlIndexHints = &TerraformResourceHints{
+	resourceClass:          "oci_nosql_index",
+	datasourceClass:        "oci_nosql_indexes",
+	datasourceItemsAttr:    "index_collection",
+	resourceAbbreviation:   "index",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_nosql.IndexLifecycleStateActive),
+	},
+}
+
 var exportObjectStorageBucketHints = &TerraformResourceHints{
 	resourceClass:          "oci_objectstorage_bucket",
 	datasourceClass:        "oci_objectstorage_bucket_summaries",
@@ -684,6 +913,27 @@ var exportObjectStorageNamespaceHints = &TerraformResourceHints{
 	resourceClass:        "oci_objectstorage_namespace",
 	datasourceClass:      "oci_objectstorage_namespace",
 	resourceAbbreviation: "namespace",
+}
+
+var exportOsmanagementManagedInstanceGroupHints = &TerraformResourceHints{
+	resourceClass:        "oci_osmanagement_managed_instance_group",
+	datasourceClass:      "oci_osmanagement_managed_instance_groups",
+	datasourceItemsAttr:  "managed_instance_groups",
+	resourceAbbreviation: "managed_instance_group",
+	discoverableLifecycleStates: []string{
+		string(oci_osmanagement.ListManagedInstanceGroupsLifecycleStateActive),
+	},
+}
+
+var exportOsmanagementSoftwareSourceHints = &TerraformResourceHints{
+	resourceClass:          "oci_osmanagement_software_source",
+	datasourceClass:        "oci_osmanagement_software_sources",
+	datasourceItemsAttr:    "software_sources",
+	resourceAbbreviation:   "software_source",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_osmanagement.ListSoftwareSourcesLifecycleStateActive),
+	},
 }
 
 var exportStreamingConnectHarnessHints = &TerraformResourceHints{

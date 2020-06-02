@@ -36,6 +36,9 @@ type ListingSummary struct {
 	// Summary of the pricing types available across all packages in the listing.
 	PricingTypes []ListingSummaryPricingTypesEnum `mandatory:"false" json:"pricingTypes,omitempty"`
 
+	// The regions where the listing is eligible to be deployed.
+	Regions []Region `mandatory:"false" json:"regions"`
+
 	// Indicates whether the listing is featured.
 	IsFeatured *bool `mandatory:"false" json:"isFeatured"`
 

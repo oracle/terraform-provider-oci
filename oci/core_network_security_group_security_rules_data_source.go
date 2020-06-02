@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
@@ -309,7 +310,7 @@ func (s *CoreNetworkSecurityGroupSecurityRulesDataSourceCrud) SetData() error {
 		networkSecurityGroupSecurityRule["direction"] = r.Direction
 
 		if r.IcmpOptions != nil {
-			networkSecurityGroupSecurityRule["icmp_options"] = []interface{}{IcmpOptionsToMap(r.IcmpOptions)}
+			networkSecurityGroupSecurityRule["icmp_options"] = []interface{}{nsgIcmpOptionsToMap(r.IcmpOptions)}
 		} else {
 			networkSecurityGroupSecurityRule["icmp_options"] = nil
 		}

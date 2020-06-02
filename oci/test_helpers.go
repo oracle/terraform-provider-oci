@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
@@ -395,6 +396,10 @@ func testExportCompartmentWithResourceName(id *string, compartmentId *string, re
 		resourceName = strings.Split(resourceName, ".")[0]
 	}
 
+	testKeyValPairs := make(map[string]string)
+	testKeyValPairs["public_key"] = "public_key"
+
+	exportCommandArgs.TestKeyValPairs = testKeyValPairs
 	var err error
 	exportCommandArgs.GenerateState, err = isResourceSupportImport(resourceName)
 	if err != nil {
