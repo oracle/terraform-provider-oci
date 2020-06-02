@@ -1,9 +1,15 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -16,6 +22,9 @@ func init() {
 
 func BudgetAlertRuleResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createBudgetAlertRule,
 		Read:     readBudgetAlertRule,
@@ -234,6 +243,14 @@ func (s *BudgetAlertRuleResourceCrud) Get() error {
 		request.BudgetId = &tmp
 	}
 
+	alertRuleId, budgetId, err := parseAlertRuleCompositeId(s.D.Id())
+	if err == nil {
+		request.AlertRuleId = &alertRuleId
+		request.BudgetId = &budgetId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	response, err := s.Client.GetAlertRule(context.Background(), request)
@@ -330,6 +347,15 @@ func (s *BudgetAlertRuleResourceCrud) Delete() error {
 }
 
 func (s *BudgetAlertRuleResourceCrud) SetData() error {
+
+	alertRuleId, budgetId, err := parseAlertRuleCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("id", &alertRuleId)
+		s.D.Set("budget_id", &budgetId)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	if s.Res.BudgetId != nil {
 		s.D.Set("budget_id", *s.Res.BudgetId)
 	}
@@ -379,4 +405,24 @@ func (s *BudgetAlertRuleResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getAlertRuleCompositeId(alertRuleId string, budgetId string) string {
+	alertRuleId = url.PathEscape(alertRuleId)
+	budgetId = url.PathEscape(budgetId)
+	compositeId := "budgets/" + budgetId + "/alertRules/" + alertRuleId
+	return compositeId
+}
+
+func parseAlertRuleCompositeId(compositeId string) (alertRuleId string, budgetId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("budgets/.*/alertRules/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	budgetId, _ = url.PathUnescape(parts[1])
+	alertRuleId, _ = url.PathUnescape(parts[3])
+
+	return
 }

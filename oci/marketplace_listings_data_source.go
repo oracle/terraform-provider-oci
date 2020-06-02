@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
@@ -84,6 +85,48 @@ func MarketplaceListingsDataSource() *schema.Resource {
 						"tagline": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"regions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"code": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"countries": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"code": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"icon": {
 							Type:     schema.TypeList,
@@ -317,6 +360,14 @@ func (s *MarketplaceListingsDataSourceCrud) SetData() error {
 			listing["publisher"] = []interface{}{PublisherSummaryToMap(r.Publisher)}
 		} else {
 			listing["publisher"] = nil
+		}
+
+		if r.Regions != nil {
+			regions := []interface{}{}
+			for _, item := range r.Regions {
+				regions = append(regions, RegionToMap(item))
+			}
+			listing["regions"] = regions
 		}
 
 		if r.ShortDescription != nil {

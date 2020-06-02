@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
@@ -40,6 +41,10 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"description": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"image_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -236,6 +241,10 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 
 		if v.AppCatalogListingResourceVersion != nil {
 			s.D.Set("app_catalog_listing_resource_version", v.AppCatalogListingResourceVersion)
+		}
+
+		if v.ImageId != nil {
+			s.D.Set("image_id", v.ImageId)
 		}
 
 		if v.Description != nil {

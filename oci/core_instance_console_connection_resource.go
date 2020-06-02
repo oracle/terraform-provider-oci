@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
@@ -204,6 +205,10 @@ func (s *CoreInstanceConsoleConnectionResourceCrud) Delete() error {
 }
 
 func (s *CoreInstanceConsoleConnectionResourceCrud) SetData() error {
+	if publicKey, ok := s.D.GetOkExists("public_key"); ok {
+		s.D.Set("public_key", publicKey.(string))
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

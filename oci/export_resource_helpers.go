@@ -1,3 +1,6 @@
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
 package oci
 
 import (
@@ -77,6 +80,7 @@ func init() {
 	exportCoreInstanceHints.requireResourceRefresh = true
 	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceClass = "oci_core_network_security_group_security_rules"
 	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceItemsAttr = "security_rules"
+	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	exportCoreNetworkSecurityGroupSecurityRuleHints.processDiscoveredResourcesFn = processNetworkSecurityGroupRules
 	exportCoreRouteTableHints.processDiscoveredResourcesFn = processDefaultRouteTables
 	exportCoreSecurityListHints.processDiscoveredResourcesFn = processDefaultSecurityLists
@@ -107,6 +111,13 @@ func init() {
 	exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
 
 	exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
+
+	exportNosqlIndexHints.getIdFn = getNosqlIndexId
+	exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
+
+	exportFileStorageMountTargetHints.requireResourceRefresh = true
+
+	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
 }
 
 func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
@@ -136,7 +147,34 @@ func processStreamingStream(clients *OracleClients, resources []*OCIResource) ([
 	return resources, nil
 }
 
+func processNosqlIndex(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, index := range resources {
+		index.sourceAttributes["table_name_or_id"] = index.parent.id
+	}
+	return resources, nil
+}
+
+func getNosqlIndexId(resource *OCIResource) (string, error) {
+	name, ok := resource.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find name for Index id")
+	}
+	tableNameOrId := resource.parent.id
+
+	return getIndexCompositeId(name, tableNameOrId), nil
+}
+
 // Custom functions to alter behavior of resource discovery and resource HCL representation
+
+func getBudgetAlertRuleId(resource *OCIResource) (string, error) {
+	alertRuleId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find alert_rule_id for Alert Rule")
+	}
+	budgetId := resource.parent.id
+
+	return getAlertRuleCompositeId(alertRuleId, budgetId), nil
+}
 
 func processInstances(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
@@ -618,4 +656,14 @@ func processDefaultDhcpOptions(clients *OracleClients, resources []*OCIResource)
 		}
 	}
 	return resources, nil
+}
+
+func getCoreNetworkSecurityGroupSecurityRuleId(resource *OCIResource) (string, error) {
+	networkSecurityGroupId := resource.parent.id
+	securityRuleId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for CoreNetworkSecurityGroupSecurityRule composite id")
+	}
+
+	return getNetworkSecurityGroupSecurityRuleCompositeId(networkSecurityGroupId, securityRuleId), nil
 }

@@ -1,8 +1,12 @@
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
 package oci
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 	"identity": identityResourceGraph,
 	"limits":   limitsResourceGraph,
+	"budget":   budgetResourceGraph,
 }
 
 var availabilityDomainsGraph = TerraformResourceGraph{
@@ -18,23 +22,55 @@ var availabilityDomainsGraph = TerraformResourceGraph{
 				"availability_domain": "name",
 			},
 		},
+		{
+			TerraformResourceHints: exportFileStorageFileSystemHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "name",
+			},
+		},
+		{
+			TerraformResourceHints: exportFileStorageMountTargetHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "name",
+			},
+		},
+	},
+	"oci_file_storage_file_system": {
+		{
+			TerraformResourceHints: exportFileStorageSnapshotHints,
+			datasourceQueryParams: map[string]string{
+				"file_system_id": "id",
+			},
+		},
 	},
 }
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"availability_domain": availabilityDomainsGraph,
+	"apigateway":          apigatewayResourceGraph,
 	"auto_scaling":        autoScalingResourceGraph,
 	"bds":                 bdsResourceGraph,
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"email":               emailResourceGraph,
 	"events":              eventsResourceGraph,
+	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
+	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
+	"osmanagement":        osmanagementResourceGraph,
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
+}
+
+var apigatewayResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportApigatewayGatewayHints},
+		{TerraformResourceHints: exportApigatewayDeploymentHints},
+	},
 }
 
 var autoScalingResourceGraph = TerraformResourceGraph{
@@ -49,6 +85,25 @@ var bdsResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var budgetResourceGraph = TerraformResourceGraph{
+	"oci_identity_tenancy": {
+		{
+			TerraformResourceHints: exportBudgetBudgetHints,
+			datasourceQueryParams: map[string]string{
+				"target_type": "'ALL'",
+			},
+		},
+	},
+	"oci_budget_budget": {
+		{
+			TerraformResourceHints: exportBudgetAlertRuleHints,
+			datasourceQueryParams: map[string]string{
+				"budget_id": "id",
+			},
+		},
+	},
+}
+
 var containerengineResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportContainerengineClusterHints},
@@ -58,24 +113,38 @@ var containerengineResourceGraph = TerraformResourceGraph{
 
 var coreResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
+		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
+		{TerraformResourceHints: exportCoreConsoleHistoryHints},
+		{TerraformResourceHints: exportCoreClusterNetworkHints},
 		{TerraformResourceHints: exportCoreCpeHints},
 		{TerraformResourceHints: exportCoreCrossConnectGroupHints},
 		{TerraformResourceHints: exportCoreCrossConnectHints},
 		{TerraformResourceHints: exportCoreDrgAttachmentHints},
 		{TerraformResourceHints: exportCoreDrgHints},
+		{TerraformResourceHints: exportCoreDedicatedVmHostHints},
 		{TerraformResourceHints: exportCoreImageHints},
 		{TerraformResourceHints: exportCoreInstanceConfigurationHints},
+		{TerraformResourceHints: exportCoreInstanceConsoleConnectionHints},
 		{TerraformResourceHints: exportCoreInstancePoolHints},
 		{TerraformResourceHints: exportCoreInstanceHints},
 		{TerraformResourceHints: exportCoreIpSecConnectionHints},
 		{TerraformResourceHints: exportCoreNetworkSecurityGroupHints},
+		{
+			TerraformResourceHints: exportCorePublicIpHints,
+			datasourceQueryParams: map[string]string{
+				"scope": "'REGION'",
+			},
+		},
 		{TerraformResourceHints: exportCoreRemotePeeringConnectionHints},
 		{TerraformResourceHints: exportCoreServiceGatewayHints},
 		{TerraformResourceHints: exportCoreVcnHints},
 		{TerraformResourceHints: exportCoreVirtualCircuitHints},
 		{TerraformResourceHints: exportCoreVnicAttachmentHints},
 		{TerraformResourceHints: exportCoreVolumeAttachmentHints},
+		{TerraformResourceHints: exportCoreVolumeBackupHints},
+		{TerraformResourceHints: exportCoreVolumeBackupPolicyHints},
 		{TerraformResourceHints: exportCoreVolumeGroupHints},
+		{TerraformResourceHints: exportCoreVolumeGroupBackupHints},
 		{TerraformResourceHints: exportCoreVolumeHints},
 	},
 	"oci_core_boot_volume": {
@@ -99,6 +168,14 @@ var coreResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportCoreNetworkSecurityGroupSecurityRuleHints,
 			datasourceQueryParams: map[string]string{
 				"network_security_group_id": "id",
+			},
+		},
+	},
+	"oci_core_subnet": {
+		{
+			TerraformResourceHints: exportCorePrivateIpHints,
+			datasourceQueryParams: map[string]string{
+				"subnet_id": "id",
 			},
 		},
 	},
@@ -173,9 +250,24 @@ var databaseResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var emailResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportEmailSenderHints},
+	},
+	"oci_identity_tenancy": {
+		{TerraformResourceHints: exportEmailSuppressionHints},
+	},
+}
+
 var eventsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEventsRuleHints},
+	},
+}
+
+var fileStorageResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportFileStorageExportHints},
 	},
 }
 
@@ -331,6 +423,20 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var nosqlResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportNosqlTableHints},
+	},
+	"oci_nosql_table": {
+		{
+			TerraformResourceHints: exportNosqlIndexHints,
+			datasourceQueryParams: map[string]string{
+				"table_name_or_id": "id",
+			},
+		},
+	},
+}
+
 var objectStorageResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportObjectStorageNamespaceHints},
@@ -342,6 +448,13 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 				"namespace": "namespace",
 			},
 		},
+	},
+}
+
+var osmanagementResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportOsmanagementManagedInstanceGroupHints},
+		{TerraformResourceHints: exportOsmanagementSoftwareSourceHints},
 	},
 }
 

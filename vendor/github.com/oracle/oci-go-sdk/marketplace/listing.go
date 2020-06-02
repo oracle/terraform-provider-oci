@@ -79,7 +79,7 @@ type Listing struct {
 
 	Banner *UploadData `mandatory:"false" json:"banner"`
 
-	// The regions where the listing is available.
+	// The regions where the listing is eligible to be deployed.
 	Regions []Region `mandatory:"false" json:"regions"`
 
 	// The listing's package type.

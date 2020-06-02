@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
@@ -54,7 +55,10 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create,
+						representationCopyWithNewProperties(listingDataSourceRepresentation, map[string]interface{}{
+							"name": Representation{repType: Required, create: []string{`FortiGate Next-Gen Firewall (2 cores)`}},
+						})) +
 					compartmentIdVariableStr + ListingResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 
@@ -64,6 +68,7 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.is_featured"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.name"),
+					resource.TestCheckResourceAttr(datasourceName, "listings.0.regions.#", "2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.package_type"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.publisher.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.short_description"),

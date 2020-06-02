@@ -1,4 +1,19 @@
 ## 3.79.0 (Unreleased)
+
+### Added
+- Support resource discovery for `budget` resources
+- Support resource discovery for `file storage` resources
+- Support resource discovery for `core` resources
+- Support resource discovery for `nosql` resources
+- Support resource discovery for `osmanagement` resources
+- Support Expansion: US customers can launch in all regions
+- Support for Enhance Marketplace Get Package API
+
+### Fixed
+- Fixed the state for NSG rule tcp options, tcp options were not getting written to state
+- case insensitivity for domain in `oci_dns_record` and `oci_dns_steering_policy_attachment`
+- Fixed the documentation in resource `oci_bds_bds_instance`
+
 ## 3.78.0 (May 27, 2020)
 
 ### Added
