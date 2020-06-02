@@ -11,6 +11,8 @@
 
 ### Fixed
 - Fixed the state for NSG rule tcp options, tcp options were not getting written to state
+- case insensitivity for domain in `oci_dns_record` and `oci_dns_steering_policy_attachment`
+- Fixed the documentation in resource `oci_bds_bds_instance`
 
 ## 3.78.0 (May 27, 2020)
 
