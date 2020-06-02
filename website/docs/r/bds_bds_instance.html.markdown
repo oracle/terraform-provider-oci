@@ -30,19 +30,21 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		shape = "${var.bds_instance_nodes_shape}"
 		subnet_id = "${oci_core_subnet.test_subnet.id}"
 		block_volume_size_in_gbs = "${var.bds_instance_nodes_block_volume_size_in_gbs}"
+		number_of_nodes = "{var.bds_instance_number_of_nodes}"
 	}
 	util_node {
 		#Required
 		shape = "${var.bds_instance_nodes_shape}"
 		subnet_id = "${oci_core_subnet.test_subnet.id}"
 		block_volume_size_in_gbs = "${var.bds_instance_nodes_block_volume_size_in_gbs}"
+		number_of_nodes = "{var.bds_instance_number_of_nodes}"
 	}
 	worker_node {
 		#Required
 		shape = "${var.bds_instance_nodes_shape}"
 		subnet_id = "${oci_core_subnet.test_subnet.id}"
 		block_volume_size_in_gbs = "${var.bds_instance_nodes_block_volume_size_in_gbs}"
-		number_of_worker = "{var.bds_instance_number_of_worker}"
+		number_of_nodes = "{var.bds_instance_number_of_nodes}"
 	}
 
 	#Optional
@@ -79,17 +81,19 @@ The following arguments are supported:
 	* `is_nat_gateway_required` - (Required) A boolean flag whether to configure a NAT gateway.
 * `master_node` - (Required) The master node in the BDS instance
 	* `block_volume_size_in_gbs` - (Optional) The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself. 
+	* `number_of_nodes` - (Required) The amount of master nodes should be created.
 	* `shape` - (Required) Shape of the node
 	* `subnet_id` - (Required) The OCID of the subnet in which the node should be created
 * `util_node` - (Required) The utility node in the BDS instance
 	* `block_volume_size_in_gbs` - (Optional) The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself. 
+	* `number_of_nodes` - (Required) The amount of utility nodes should be created.
 	* `shape` - (Required) Shape of the node
 	* `subnet_id` - (Required) The OCID of the subnet in which the node should be created
 * `woker_node` - (Required) The master node in the BDS instance
 	* `block_volume_size_in_gbs` - (Optional) The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself. 
+	* `number_of_nodes` - (Required) The amount of worker nodes should be created, at least be 3.
 	* `shape` - (Required) Shape of the node
 	* `subnet_id` - (Required) The OCID of the subnet in which the node should be created
-	* `number_of_workers` - (Required) The amount of worker nodes should be created, at least be 3. 
 
 
 ** IMPORTANT **
