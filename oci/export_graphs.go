@@ -52,6 +52,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"bds":                 bdsResourceGraph,
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
+	"data_safe":           dataSafeResourceGraph,
 	"database":            databaseResourceGraph,
 	"datacatalog":         datacatalogResourceGraph,
 	"dataflow":            dataflowResourceGraph,
@@ -240,6 +241,12 @@ var coreResourceGraph = TerraformResourceGraph{
 				"asset_id": "id",
 			},
 		},
+	},
+}
+
+var dataSafeResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
 	},
 }
 

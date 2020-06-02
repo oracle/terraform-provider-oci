@@ -97,6 +97,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `budget` - Discovers budget resources across the entire tenancy
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
+    * `data_safe` - Discovers data_safe resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
     * `datacatalog` - Discovers datacatalog resources within the specified compartment
     * `dataflow` - Discovers dataflow resources within the specified compartment
@@ -266,6 +267,10 @@ core
 * oci\_core\_volume\_group
 * oci\_core\_volume\_group\_backup
 * oci\_core\_volume
+
+data_safe
+    
+* oci\_data\_safe\_data\_safe\_private\_endpoint
 
 database
     
