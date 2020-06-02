@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 
@@ -85,6 +86,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datacatalog_connection.test_connection"
 
 	var resId, resId2 string
+	var compositeId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -132,8 +134,12 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						dataAssetKey, _ := fromInstanceState(s, resourceName, "data_asset_key")
+						catalogId, _ := fromInstanceState(s, resourceName, "catalog_id")
+						compositeId = getConnectionCompositeId(catalogId, resId, dataAssetKey)
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -205,8 +211,33 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "uri"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + ConnectionResourceConfig,
+			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: getDataAssetConnectionImportId(resourceName),
+				ImportStateVerifyIgnore: []string{
+					"enc_properties",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
+}
+
+func getDataAssetConnectionImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("catalogs/" + rs.Primary.Attributes["catalog_id"] + "/dataAssets/" + rs.Primary.Attributes["data_asset_key"] + "/connections/" + rs.Primary.Attributes["key"]), nil
+	}
 }
 
 func testAccCheckDatacatalogConnectionDestroy(s *terraform.State) error {

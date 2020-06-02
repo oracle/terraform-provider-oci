@@ -5,6 +5,11 @@ package oci
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -17,6 +22,9 @@ func init() {
 
 func DatacatalogConnectionResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createDatacatalogConnection,
 		Read:     readDatacatalogConnection,
@@ -267,6 +275,15 @@ func (s *DatacatalogConnectionResourceCrud) Get() error {
 		}
 	}
 
+	catalogId, connectionKey, dataAssetKey, err := parseConnectionCompositeId(s.D.Id())
+	if err == nil {
+		request.CatalogId = &catalogId
+		request.ConnectionKey = &connectionKey
+		request.DataAssetKey = &dataAssetKey
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.GetConnection(context.Background(), request)
@@ -364,6 +381,17 @@ func (s *DatacatalogConnectionResourceCrud) Delete() error {
 }
 
 func (s *DatacatalogConnectionResourceCrud) SetData() error {
+
+	catalogId, connectionKey, dataAssetKey, err := parseConnectionCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("catalog_id", &catalogId)
+		s.D.Set("connection_key", &connectionKey)
+		s.D.Set("data_asset_key", &dataAssetKey)
+		s.D.SetId(connectionKey)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	if s.Res.CreatedById != nil {
 		s.D.Set("created_by_id", *s.Res.CreatedById)
 	}
@@ -423,6 +451,28 @@ func (s *DatacatalogConnectionResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getConnectionCompositeId(catalogId string, connectionKey string, dataAssetKey string) string {
+	catalogId = url.PathEscape(catalogId)
+	connectionKey = url.PathEscape(connectionKey)
+	dataAssetKey = url.PathEscape(dataAssetKey)
+	compositeId := "catalogs/" + catalogId + "/dataAssets/" + dataAssetKey + "/connections/" + connectionKey
+	return compositeId
+}
+
+func parseConnectionCompositeId(compositeId string) (catalogId string, connectionKey string, dataAssetKey string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("catalogs/.*/dataAssets/.*/connections/.*", compositeId)
+	if !match || len(parts) != 6 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	catalogId, _ = url.PathUnescape(parts[1])
+	dataAssetKey, _ = url.PathUnescape(parts[3])
+	connectionKey, _ = url.PathUnescape(parts[5])
+
+	return
 }
 
 func ConnectionSummaryToMap(obj oci_datacatalog.ConnectionSummary) map[string]interface{} {

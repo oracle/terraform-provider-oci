@@ -53,6 +53,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"datacatalog":         datacatalogResourceGraph,
 	"dataflow":            dataflowResourceGraph,
 	"dns":                 dnsResourceGraph,
 	"email":               emailResourceGraph,
@@ -295,6 +296,36 @@ var dnsResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDnsSteeringPolicyHints},
 		{TerraformResourceHints: exportDnsSteeringPolicyAttachmentHints},
 		{TerraformResourceHints: exportDnsTsigKeyHints},
+	},
+}
+
+var datacatalogResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDatacatalogCatalogHints},
+	},
+	"oci_datacatalog_catalog": {
+		{
+			TerraformResourceHints: exportDatacatalogConnectionHints,
+			datasourceQueryParams: map[string]string{
+				"catalog_id":     "id",
+				"data_asset_key": "data_asset_key",
+			},
+		},
+		{
+			TerraformResourceHints: exportDatacatalogDataAssetHints,
+			datasourceQueryParams: map[string]string{
+				"catalog_id": "id",
+			},
+		},
+	},
+	"oci_datacatalog_data_asset": {
+		{
+			TerraformResourceHints: exportDatacatalogConnectionHints,
+			datasourceQueryParams: map[string]string{
+				"data_asset_key": "key",
+				"catalog_id":     "catalog_id",
+			},
+		},
 	},
 }
 

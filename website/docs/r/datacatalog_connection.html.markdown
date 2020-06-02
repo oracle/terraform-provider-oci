@@ -69,5 +69,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+Connections can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_datacatalog_connection.test_connection "catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}" 
+```
 

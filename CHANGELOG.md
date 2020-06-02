@@ -5,6 +5,7 @@
 - Support for Scheduled Autoscaling
 - Support for `dbVersion` field in Autonomous databases Container database resources
 - Support for Archive Log Backup and Point in time restore
+- Support resource discovery for `datacatalog` resources
 
 ## 3.80.0 (June 10, 2020)
 

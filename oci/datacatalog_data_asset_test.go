@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 
@@ -74,6 +75,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datacatalog_data_asset.test_data_asset"
 
 	var resId, resId2 string
+	var compositeId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -116,8 +118,11 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						catalogId, _ := fromInstanceState(s, resourceName, "catalog_id")
+						compositeId = getDataAssetCompositeId(catalogId, resId)
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -189,8 +194,27 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataAssetResourceConfig,
 			},
+			// verify resource import
+			{
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateIdFunc:       getDataAssetImportId(resourceName),
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
+			},
 		},
 	})
+}
+
+func getDataAssetImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("catalogs/" + rs.Primary.Attributes["catalog_id"] + "/dataAssets/" + rs.Primary.Attributes["key"]), nil
+	}
 }
 
 func testAccCheckDatacatalogDataAssetDestroy(s *terraform.State) error {

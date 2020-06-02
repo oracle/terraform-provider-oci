@@ -61,5 +61,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+DataAssets can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_datacatalog_data_asset.test_data_asset "catalogs/{catalogId}/dataAssets/{dataAssetKey}" 
+```
 
