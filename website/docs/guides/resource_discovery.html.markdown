@@ -98,6 +98,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
+    * `datacatalog` - Discovers datacatalog resources within the specified compartment
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email resources within the specified compartment
@@ -285,6 +286,12 @@ dns
 * oci\_dns\_steering\_policy
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
+
+datacatalog
+    
+* oci\_datacatalog\_catalog
+* oci\_datacatalog\_data\_asset
+* oci\_datacatalog\_connection
 
 email
     

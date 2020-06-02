@@ -123,6 +123,8 @@ func init() {
 
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
 
+	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
+	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
 
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
@@ -139,6 +141,33 @@ func init() {
 	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
 
 	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
+}
+
+func getDatacatalogDataAssetId(resource *OCIResource) (string, error) {
+	dataAssetKey, ok := resource.sourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find data_asset_key for Data Asset")
+	}
+	catalogId := resource.parent.id
+
+	return getDataAssetCompositeId(catalogId, dataAssetKey), nil
+}
+
+func getDatacatalogConnectionId(resource *OCIResource) (string, error) {
+	connectionKey, ok := resource.sourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find key for Data Asset Connection")
+	}
+	dataAssetKey, ok := resource.sourceAttributes["data_asset_key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find data_asset_key for Data Asset")
+	}
+	catalogId, ok := resource.parent.sourceAttributes["catalog_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find catalog_id for Data Asset")
+	}
+
+	return getConnectionCompositeId(catalogId, connectionKey, dataAssetKey), nil
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation

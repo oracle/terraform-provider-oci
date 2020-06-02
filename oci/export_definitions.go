@@ -10,6 +10,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
@@ -657,6 +658,38 @@ var exportDnsTsigKeyHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_dns.TsigKeyLifecycleStateActive),
+	},
+}
+
+var exportDatacatalogCatalogHints = &TerraformResourceHints{
+	resourceClass:        "oci_datacatalog_catalog",
+	datasourceClass:      "oci_datacatalog_catalogs",
+	datasourceItemsAttr:  "catalogs",
+	resourceAbbreviation: "catalog",
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
+var exportDatacatalogDataAssetHints = &TerraformResourceHints{
+	resourceClass:          "oci_datacatalog_data_asset",
+	datasourceClass:        "oci_datacatalog_data_assets",
+	datasourceItemsAttr:    "data_asset_collection",
+	resourceAbbreviation:   "data_asset",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
+var exportDatacatalogConnectionHints = &TerraformResourceHints{
+	resourceClass:          "oci_datacatalog_connection",
+	datasourceClass:        "oci_datacatalog_connections",
+	datasourceItemsAttr:    "connection_collection",
+	resourceAbbreviation:   "connection",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
 	},
 }
 
