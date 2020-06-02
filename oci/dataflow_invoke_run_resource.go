@@ -137,6 +137,10 @@ func DataflowInvokeRunResource() *schema.Resource {
 			},
 
 			// Computed
+			"archive_uri": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"class_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -479,6 +483,10 @@ func (s *DataflowInvokeRunResourceCrud) Delete() error {
 func (s *DataflowInvokeRunResourceCrud) SetData() error {
 	if s.Res.ApplicationId != nil {
 		s.D.Set("application_id", *s.Res.ApplicationId)
+	}
+
+	if s.Res.ArchiveUri != nil {
+		s.D.Set("archive_uri", *s.Res.ArchiveUri)
 	}
 
 	s.D.Set("arguments", s.Res.Arguments)
