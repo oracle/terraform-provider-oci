@@ -12,6 +12,7 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
+	oci_data_safe "github.com/oracle/oci-go-sdk/datasafe"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_events "github.com/oracle/oci-go-sdk/events"
@@ -1276,5 +1277,16 @@ var exportWaasWaasPolicyHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_waas.WaasPolicyLifecycleStateActive),
+	},
+}
+
+var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_data_safe_private_endpoint",
+	datasourceClass:        "oci_data_safe_data_safe_private_endpoints",
+	datasourceItemsAttr:    "data_safe_private_endpoints",
+	resourceAbbreviation:   "data_safe_private_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.ListDataSafePrivateEndpointsLifecycleStateActive),
 	},
 }

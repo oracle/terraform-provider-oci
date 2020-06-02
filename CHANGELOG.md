@@ -6,6 +6,7 @@
 - Support for `dbVersion` field in Autonomous databases Container database resources
 - Support for Archive Log Backup and Point in time restore
 - Support resource discovery for `datacatalog` resources
+- Support resource discovery for `dataSafe` resources
 - Support resource discovery for `integration` resources
 - Support resource discovery for `marketplace` resources
 - Added resource discovery support for `oce` resources
