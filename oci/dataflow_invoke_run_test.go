@@ -6,14 +6,15 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strconv"
+	"testing"
+	"time"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
-	"strconv"
-	"testing"
-	"time"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
