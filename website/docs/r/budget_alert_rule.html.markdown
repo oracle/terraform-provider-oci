@@ -74,5 +74,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+AlertRules can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_budget_alert_rule.test_alert_rule "budgets/{budgetId}/alertRules/{alertRuleId}" 
+```
 

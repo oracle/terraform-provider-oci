@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Region The model for regions supported by a listing.
+// Region The model for regions supported by a listing and package.
 type Region struct {
 
 	// The name of the region.

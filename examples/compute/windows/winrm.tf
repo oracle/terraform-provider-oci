@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 # Use the setup.ps1 as a template and pass the block volume ipv4 and iqn for ISCSI
 data "template_file" "setup_ps1" {
