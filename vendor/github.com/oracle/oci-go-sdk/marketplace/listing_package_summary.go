@@ -25,6 +25,9 @@ type ListingPackageSummary struct {
 	// The specified package's type.
 	PackageType PackageTypeEnumEnum `mandatory:"false" json:"packageType,omitempty"`
 
+	// The regions where the package is eligible to be deployed.
+	Regions []Region `mandatory:"false" json:"regions"`
+
 	// The unique identifier for the package resource.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 

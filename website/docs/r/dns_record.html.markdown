@@ -38,7 +38,7 @@ resource "oci_dns_record" "test_record" {
 The following arguments are supported:
 
 * `compartment_id` - (Optional) (Updatable) The OCID of the compartment the resource belongs to. If supplied, it must match the Zone's compartment ocid. 
-* `domain` - (Required) The fully qualified domain name where the record can be located.  
+* `domain` - (Required) The fully qualified domain name where the record can be located. Domain value is case insensitive. 
 * `rdata` - (Optional) (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm) 
 * `rtype` - (Required) The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 * `ttl` - (Optional) (Updatable) The Time To Live for the record, in seconds.

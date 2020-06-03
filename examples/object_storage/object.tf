@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 /* This example demonstrates object store object management. It uses Terraforms built-in `file` function to upload a file.
  * It also demonstrates the use of `local-exec` to download the object content using a preauthenticated request.

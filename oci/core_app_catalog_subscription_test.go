@@ -1,10 +1,12 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -52,6 +54,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 	resourceName := "oci_core_app_catalog_subscription.test_app_catalog_subscription"
 	datasourceName := "data.oci_core_app_catalog_subscriptions.test_app_catalog_subscriptions"
 
+	var resId string
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -71,6 +74,15 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "oracle_terms_of_use_link"),
 					resource.TestCheckResourceAttrSet(resourceName, "signature"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_retrieved"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 
