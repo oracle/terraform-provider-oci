@@ -319,9 +319,11 @@ identity
 * oci\_identity\_idp\_group\_mapping
 * oci\_identity\_policy
 * oci\_identity\_smtp\_credential
+* oci\_identity\_swift\_password
 * oci\_identity\_ui\_password
 * oci\_identity\_user\_group\_membership
 * oci\_identity\_user
+* oci\_identity\_network\_source
 
 limits
     

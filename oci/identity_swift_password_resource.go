@@ -6,7 +6,12 @@ package oci
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -19,6 +24,9 @@ func init() {
 
 func IdentitySwiftPasswordResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createIdentitySwiftPassword,
 		Read:     readIdentitySwiftPassword,
@@ -167,6 +175,14 @@ func (s *IdentitySwiftPasswordResourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
+	swiftPasswordId, userId, err := parseSwiftPasswordCompositeId(s.D.Id())
+	if err == nil {
+		s.D.SetId(swiftPasswordId)
+		request.UserId = &userId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.ListSwiftPasswords(context.Background(), request)
@@ -257,4 +273,24 @@ func (s *IdentitySwiftPasswordResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getSwiftPasswordCompositeId(swiftPasswordId string, userId string) string {
+	swiftPasswordId = url.PathEscape(swiftPasswordId)
+	userId = url.PathEscape(userId)
+	compositeId := "users/" + userId + "/swiftPasswords/" + swiftPasswordId
+	return compositeId
+}
+
+func parseSwiftPasswordCompositeId(compositeId string) (swiftPasswordId string, userId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("users/.*/swiftPasswords/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	userId, _ = url.PathUnescape(parts[1])
+	swiftPasswordId, _ = url.PathUnescape(parts[3])
+
+	return
 }

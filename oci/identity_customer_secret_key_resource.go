@@ -6,7 +6,12 @@ package oci
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -19,6 +24,9 @@ func init() {
 
 func IdentityCustomerSecretKeyResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createIdentityCustomerSecretKey,
 		Read:     readIdentityCustomerSecretKey,
@@ -167,6 +175,14 @@ func (s *IdentityCustomerSecretKeyResourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
+	customerSecretKeyId, userId, err := parseCustomerSecretKeyCompositeId(s.D.Id())
+	if err == nil {
+		s.D.SetId(customerSecretKeyId)
+		request.UserId = &userId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.ListCustomerSecretKeys(context.Background(), request)
@@ -259,10 +275,31 @@ func (s *IdentityCustomerSecretKeyResourceCrud) SetData() error {
 	return nil
 }
 
+func getCustomerSecretKeyCompositeId(customerSecretKeyId string, userId string) string {
+	customerSecretKeyId = url.PathEscape(customerSecretKeyId)
+	userId = url.PathEscape(userId)
+	compositeId := "users/" + userId + "/customerSecretKeys/" + customerSecretKeyId
+	return compositeId
+}
+
+func parseCustomerSecretKeyCompositeId(compositeId string) (customerSecretKeyId string, userId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("users/.*/customerSecretKeys/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	userId, _ = url.PathUnescape(parts[1])
+	customerSecretKeyId, _ = url.PathUnescape(parts[3])
+
+	return
+}
+
 func fromCustomerSecretKeySummary(summary oci_identity.CustomerSecretKeySummary) *oci_identity.CustomerSecretKey {
 	s := &oci_identity.CustomerSecretKey{}
 	s.Id = summary.Id
 	s.DisplayName = summary.DisplayName
+	s.UserId = summary.UserId
 	s.TimeExpires = summary.TimeExpires
 	s.TimeCreated = summary.TimeCreated
 	s.LifecycleState = oci_identity.CustomerSecretKeyLifecycleStateEnum(summary.LifecycleState)

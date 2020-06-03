@@ -5,7 +5,12 @@ package oci
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -18,6 +23,9 @@ func init() {
 
 func IdentityIdpGroupMappingResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createIdentityIdpGroupMapping,
 		Read:     readIdentityIdpGroupMapping,
@@ -170,6 +178,14 @@ func (s *IdentityIdpGroupMappingResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.MappingId = &tmp
 
+	identityProviderId, mappingId, err := parseIdpGroupMappingCompositeId(s.D.Id())
+	if err == nil {
+		request.IdentityProviderId = &identityProviderId
+		request.MappingId = &mappingId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetIdpGroupMapping(context.Background(), request)
@@ -231,6 +247,15 @@ func (s *IdentityIdpGroupMappingResourceCrud) Delete() error {
 }
 
 func (s *IdentityIdpGroupMappingResourceCrud) SetData() error {
+
+	identityProviderId, mappingId, err := parseIdpGroupMappingCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("identity_provider_id", identityProviderId)
+		s.D.SetId(mappingId)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -258,4 +283,24 @@ func (s *IdentityIdpGroupMappingResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getIdpGroupMappingCompositeId(identityProviderId string, mappingId string) string {
+	identityProviderId = url.PathEscape(identityProviderId)
+	mappingId = url.PathEscape(mappingId)
+	compositeId := "identityProviders/" + identityProviderId + "/groupMappings/" + mappingId
+	return compositeId
+}
+
+func parseIdpGroupMappingCompositeId(compositeId string) (identityProviderId string, mappingId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("identityProviders/.*/groupMappings/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	identityProviderId, _ = url.PathUnescape(parts[1])
+	mappingId, _ = url.PathUnescape(parts[3])
+
+	return
 }

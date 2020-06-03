@@ -59,5 +59,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+CustomerSecretKeys can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_identity_customer_secret_key.test_customer_secret_key "users/{userId}/customerSecretKeys/{customerSecretKeyId}" 
+```
 

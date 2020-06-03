@@ -120,9 +120,81 @@ func init() {
 	exportFileStorageMountTargetHints.requireResourceRefresh = true
 
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
+
+	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
+
+	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
+
+	exportIdentityCustomerSecretKeyHints.getIdFn = getIdentityCustomerSecretKeyId
+
+	exportIdentityIdpGroupMappingHints.getIdFn = getIdentityIdpGroupMappingId
+
+	exportIdentitySmtpCredentialHints.getIdFn = getIdentitySmtpCredentialId
+
+	exportIdentitySwiftPasswordHints.getIdFn = getIdentitySwiftPasswordId
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
+
+func getIdentityApiKeyId(resource *OCIResource) (string, error) {
+	fingerPrint, ok := resource.sourceAttributes["fingerprint"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find fingerprint for Api Key")
+	}
+	userId := resource.parent.id
+
+	return getApiKeyCompositeId(fingerPrint, userId), nil
+}
+
+func getIdentityAuthTokenId(resource *OCIResource) (string, error) {
+	authTokenId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Auth Token")
+	}
+	userId := resource.parent.id
+
+	return getAuthTokenCompositeId(authTokenId, userId), nil
+}
+
+func getIdentityCustomerSecretKeyId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Customer Secrest Key")
+	}
+	userId := resource.parent.id
+
+	return getCustomerSecretKeyCompositeId(id, userId), nil
+}
+
+func getIdentityIdpGroupMappingId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Customer Secrest Key")
+	}
+	providerId := resource.parent.id
+
+	return getIdpGroupMappingCompositeId(providerId, id), nil
+}
+
+func getIdentitySmtpCredentialId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Smtp Credential")
+	}
+	userId := resource.parent.id
+
+	return getSmtpCredentialCompositeId(id, userId), nil
+}
+
+func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Swift Password")
+	}
+	userId := resource.parent.id
+
+	return getSwiftPasswordCompositeId(id, userId), nil
+}
 
 func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, nodePool := range resources {

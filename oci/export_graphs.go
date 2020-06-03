@@ -350,6 +350,7 @@ var identityResourceGraph = TerraformResourceGraph{
 			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
 		},
 		{TerraformResourceHints: exportIdentityUserHints},
+		{TerraformResourceHints: exportIdentityNetworkSourceHints},
 	},
 	"oci_identity_compartment": {
 		{
@@ -390,6 +391,12 @@ var identityResourceGraph = TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportIdentitySmtpCredentialHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentitySwiftPasswordHints,
 			datasourceQueryParams: map[string]string{
 				"user_id": "id",
 			},
