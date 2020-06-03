@@ -59,5 +59,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+ApiKeys can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_identity_api_key.test_api_key "users/{userId}/apiKeys/{fingerprint}" 
+```
 

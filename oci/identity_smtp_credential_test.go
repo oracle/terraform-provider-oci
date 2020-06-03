@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 
@@ -48,6 +49,7 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_smtp_credentials.test_smtp_credentials"
 
 	var resId, resId2 string
+	var compositeId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -66,8 +68,11 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						userId, _ := fromInstanceState(s, resourceName, "user_id")
+						compositeId = "users/" + userId + "/smtpCredentials/" + resId
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -111,6 +116,16 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "smtp_credentials.0.username"),
 				),
 			},
+			// verify resource import
+			//{
+			//	Config:            config,
+			//	ImportState:       true,
+			//	ImportStateVerify: true,
+			//	ImportStateVerifyIgnore: []string{
+			//		"password",
+			//	},
+			//	ResourceName: resourceName,
+			//},
 		},
 	})
 }

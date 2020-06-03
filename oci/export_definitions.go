@@ -867,6 +867,16 @@ var exportIdentitySmtpCredentialHints = &TerraformResourceHints{
 	},
 }
 
+var exportIdentitySwiftPasswordHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_swift_password",
+	datasourceClass:      "oci_identity_swift_passwords",
+	datasourceItemsAttr:  "passwords",
+	resourceAbbreviation: "swift_password",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.SwiftPasswordLifecycleStateActive),
+	},
+}
+
 var exportIdentityUiPasswordHints = &TerraformResourceHints{
 	resourceClass:        "oci_identity_ui_password",
 	datasourceClass:      "oci_identity_ui_password",
@@ -924,6 +934,17 @@ var exportIdentityTagHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_identity.TagLifecycleStateActive),
+	},
+}
+
+var exportIdentityNetworkSourceHints = &TerraformResourceHints{
+	resourceClass:          "oci_identity_network_source",
+	datasourceClass:        "oci_identity_network_sources",
+	datasourceItemsAttr:    "network_sources",
+	resourceAbbreviation:   "network_source",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_identity.NetworkSourcesLifecycleStateActive),
 	},
 }
 

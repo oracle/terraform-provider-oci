@@ -60,5 +60,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+SwiftPasswords can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_identity_swift_password.test_swift_password "users/{userId}/swiftPasswords/{swiftPasswordId}" 
+```
 
