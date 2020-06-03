@@ -1,4 +1,4 @@
-## 3.79.0 (Unreleased)
+## 3.79.0 (June 03, 2020)
 
 ### Added
 - Support resource discovery for `budget` resources
