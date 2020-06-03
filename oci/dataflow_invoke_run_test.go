@@ -6,15 +6,14 @@ package oci
 import (
 	"context"
 	"fmt"
-	"strconv"
-	"testing"
-	"time"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
+	"strconv"
+	"testing"
+	"time"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -66,7 +65,6 @@ var (
 func TestDataflowInvokeRunResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataflowInvokeRunResource_basic")
 	defer httpreplay.SaveScenario()
-	const DataFlowWaitConditionDuration = time.Duration(20 * time.Minute)
 
 	provider := testAccProvider
 	config := testProviderConfig()
@@ -157,7 +155,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				PreConfig: waitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, DataFlowWaitConditionDuration,
+				PreConfig: waitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(3*time.Minute),
 					dataFlowInvokeRunFetchOperation, "dataflow", false),
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InvokeRunResourceDependencies + warehouseBucketUriVariableStr + fileUriVariableStr + logsBucketUriVariableStr +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Create,
