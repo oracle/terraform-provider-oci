@@ -10,6 +10,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_events "github.com/oracle/oci-go-sdk/events"
@@ -594,6 +595,17 @@ var exportDatabaseVmClusterHints = &TerraformResourceHints{
 	resourceAbbreviation: "vm_cluster",
 	discoverableLifecycleStates: []string{
 		string(oci_database.VmClusterLifecycleStateAvailable),
+	},
+}
+
+var exportDataflowApplicationHints = &TerraformResourceHints{
+	resourceClass:          "oci_dataflow_application",
+	datasourceClass:        "oci_dataflow_applications",
+	datasourceItemsAttr:    "applications",
+	resourceAbbreviation:   "application",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dataflow.ApplicationLifecycleStateActive),
 	},
 }
 
