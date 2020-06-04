@@ -107,6 +107,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `identity` - Discovers identity resources across the entire tenancy
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
+    * `monitoring` - Discovers monitoring resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
@@ -336,6 +337,10 @@ load_balancer
 * oci\_load\_balancer\_load\_balancer
 * oci\_load\_balancer\_path\_route\_set
 * oci\_load\_balancer\_rule\_set
+
+monitoring
+    
+* oci\_monitoring\_alarm
 
 nosql
     

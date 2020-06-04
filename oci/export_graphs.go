@@ -60,6 +60,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"functions":           functionsResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
+	"monitoring":          monitoringResourceGraph,
 	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"osmanagement":        osmanagementResourceGraph,
@@ -459,6 +460,12 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 				"load_balancer_id": "id",
 			},
 		},
+	},
+}
+
+var monitoringResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportMonitoringAlarmHints},
 	},
 }
 

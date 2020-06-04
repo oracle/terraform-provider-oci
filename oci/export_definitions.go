@@ -18,6 +18,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
@@ -992,6 +993,17 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	datasourceClass:      "oci_load_balancer_rule_sets",
 	datasourceItemsAttr:  "rule_sets",
 	resourceAbbreviation: "rule_set",
+}
+
+var exportMonitoringAlarmHints = &TerraformResourceHints{
+	resourceClass:          "oci_monitoring_alarm",
+	datasourceClass:        "oci_monitoring_alarms",
+	datasourceItemsAttr:    "alarms",
+	resourceAbbreviation:   "alarm",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_monitoring.AlarmLifecycleStateActive),
+	},
 }
 
 var exportNosqlTableHints = &TerraformResourceHints{
