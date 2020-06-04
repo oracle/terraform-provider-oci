@@ -53,6 +53,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"dataflow":            dataflowResourceGraph,
 	"dns":                 dnsResourceGraph,
 	"email":               emailResourceGraph,
 	"events":              eventsResourceGraph,
@@ -278,6 +279,12 @@ var databaseResourceGraph = TerraformResourceGraph{
 				"vm_cluster_id": "id",
 			},
 		},
+	},
+}
+
+var dataflowResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDataflowApplicationHints},
 	},
 }
 

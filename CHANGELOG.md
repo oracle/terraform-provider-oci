@@ -10,6 +10,7 @@
 - Support for patch and patch history in `database_vm_cluster`
 - Support resource discovery for `monitoring` resources
 - Support resource discovery for `identity` resources
+- Support resource discovery for `dataflow` resources
 
 ## 3.79.0 (June 03, 2020)
 
