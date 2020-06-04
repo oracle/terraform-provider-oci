@@ -335,6 +335,7 @@ var dnsResourceGraph = TerraformResourceGraph{
 var datacatalogResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatacatalogCatalogHints},
+		{TerraformResourceHints: exportDatacatalogCatalogPrivateEndpointHints},
 	},
 	"oci_datacatalog_catalog": {
 		{

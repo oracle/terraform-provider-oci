@@ -295,6 +295,13 @@ database
 * oci\_database\_vm\_cluster\_network
 * oci\_database\_vm\_cluster
 
+datacatalog
+    
+* oci\_datacatalog\_catalog
+* oci\_datacatalog\_data\_asset
+* oci\_datacatalog\_connection
+* oci\_datacatalog\_catalog\_private\_endpoint
+
 dataflow
     
 * oci\_dataflow\_application
@@ -312,12 +319,6 @@ dns
 * oci\_dns\_steering\_policy
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
-
-datacatalog
-    
-* oci\_datacatalog\_catalog
-* oci\_datacatalog\_data\_asset
-* oci\_datacatalog\_connection
 
 email
     

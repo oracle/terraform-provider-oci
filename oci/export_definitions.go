@@ -746,6 +746,16 @@ var exportDatacatalogConnectionHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatacatalogCatalogPrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:        "oci_datacatalog_catalog_private_endpoint",
+	datasourceClass:      "oci_datacatalog_catalog_private_endpoints",
+	datasourceItemsAttr:  "catalog_private_endpoints",
+	resourceAbbreviation: "catalog_private_endpoint",
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
 var exportEmailSuppressionHints = &TerraformResourceHints{
 	resourceClass:        "oci_email_suppression",
 	datasourceClass:      "oci_email_suppressions",

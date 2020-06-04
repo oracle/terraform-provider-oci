@@ -38,6 +38,15 @@ func DatacatalogCatalogResource() *schema.Resource {
 			},
 
 			// Optional
+			"attached_catalog_private_endpoints": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -191,7 +200,33 @@ func (s *DatacatalogCatalogResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCatalogFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getCatalogFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	if err != nil {
+		return err
+	}
+
+	if attachedCatalogPrivateEndpoints, ok := s.D.GetOkExists("attached_catalog_private_endpoints"); ok {
+		set := attachedCatalogPrivateEndpoints.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("attached_catalog_private_endpoints") {
+			err := s.attachCatalogPrivateEndpoints(tmp)
+			if err != nil {
+				// store the state when datacatalog is created but attach fail
+				if setDataErr := s.SetData(); setDataErr != nil {
+					return setDataErr
+				}
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 func (s *DatacatalogCatalogResourceCrud) getCatalogFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -336,6 +371,48 @@ func (s *DatacatalogCatalogResourceCrud) Update() error {
 			}
 		}
 	}
+	if _, ok := s.D.GetOkExists("attached_catalog_private_endpoints"); ok && s.D.HasChange("attached_catalog_private_endpoints") {
+		o, n := s.D.GetChange("attached_catalog_private_endpoints")
+		if o == nil {
+			o = new(schema.Set)
+		}
+		if n == nil {
+			n = new(schema.Set)
+		}
+
+		os := o.(*schema.Set)
+		ns := n.(*schema.Set)
+
+		newPrivateEndpointsToAttach := ns.Difference(os).List()
+		oldPrivateEndpointsToDetach := os.Difference(ns).List()
+
+		if len(newPrivateEndpointsToAttach) > 0 {
+			tmp := make([]string, len(newPrivateEndpointsToAttach))
+			for i := range newPrivateEndpointsToAttach {
+				if newPrivateEndpointsToAttach[i] != nil {
+					tmp[i] = newPrivateEndpointsToAttach[i].(string)
+				}
+			}
+			err := s.attachCatalogPrivateEndpoints(tmp)
+			if err != nil {
+				return err
+			}
+		}
+
+		if len(oldPrivateEndpointsToDetach) > 0 {
+			tmp := make([]string, len(oldPrivateEndpointsToDetach))
+			for i := range oldPrivateEndpointsToDetach {
+				if oldPrivateEndpointsToDetach[i] != nil {
+					tmp[i] = oldPrivateEndpointsToDetach[i].(string)
+				}
+			}
+			err := s.detachCatalogPrivateEndpoints(tmp)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	request := oci_datacatalog.UpdateCatalogRequest{}
 
 	tmp := s.D.Id()
@@ -366,6 +443,7 @@ func (s *DatacatalogCatalogResourceCrud) Update() error {
 	}
 
 	s.Res = &response.Catalog
+
 	return nil
 }
 
@@ -376,6 +454,24 @@ func (s *DatacatalogCatalogResourceCrud) Delete() error {
 	request.CatalogId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+
+	// Need to detach all Private Endpoints before delete Catalog
+	if attachedCatalogPrivateEndpoints, ok := s.D.GetOkExists("attached_catalog_private_endpoints"); ok {
+		set := attachedCatalogPrivateEndpoints.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 {
+			err := s.detachCatalogPrivateEndpoints(tmp)
+			if err != nil {
+				return err
+			}
+		}
+	}
 
 	response, err := s.Client.DeleteCatalog(context.Background(), request)
 	if err != nil {
@@ -390,6 +486,12 @@ func (s *DatacatalogCatalogResourceCrud) Delete() error {
 }
 
 func (s *DatacatalogCatalogResourceCrud) SetData() error {
+	attachedCatalogPrivateEndpoints := []interface{}{}
+	for _, item := range s.Res.AttachedCatalogPrivateEndpoints {
+		attachedCatalogPrivateEndpoints = append(attachedCatalogPrivateEndpoints, item)
+	}
+	s.D.Set("attached_catalog_private_endpoints", schema.NewSet(literalTypeHashCodeForSets, attachedCatalogPrivateEndpoints))
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -430,6 +532,48 @@ func (s *DatacatalogCatalogResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	return nil
+}
+
+func (s *DatacatalogCatalogResourceCrud) attachCatalogPrivateEndpoints(attachCatalogPrivateEndpoints []string) error {
+	for _, attachCatalogPrivateEndpoint := range attachCatalogPrivateEndpoints {
+		catalogId := s.D.Id()
+		request := oci_datacatalog.AttachCatalogPrivateEndpointRequest{}
+		request.CatalogPrivateEndpointId = &attachCatalogPrivateEndpoint
+		request.CatalogId = &catalogId
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+
+		response, err := s.Client.AttachCatalogPrivateEndpoint(context.Background(), request)
+		if err != nil {
+			return err
+		}
+		workId := response.OpcWorkRequestId
+
+		// Wait until update finishes
+		_, err = catalogWaitForWorkRequest(workId, "catalog",
+			oci_datacatalog.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	}
+	return nil
+}
+
+func (s *DatacatalogCatalogResourceCrud) detachCatalogPrivateEndpoints(detachCatalogPrivateEndpoints []string) error {
+	for _, detachCatalogPrivateEndpoint := range detachCatalogPrivateEndpoints {
+		catalogId := s.D.Id()
+		request := oci_datacatalog.DetachCatalogPrivateEndpointRequest{}
+		request.CatalogPrivateEndpointId = &detachCatalogPrivateEndpoint
+		request.CatalogId = &catalogId
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+
+		response, err := s.Client.DetachCatalogPrivateEndpoint(context.Background(), request)
+		if err != nil {
+			return err
+		}
+		workId := response.OpcWorkRequestId
+
+		// Wait until it finishes
+		_, err = catalogWaitForWorkRequest(workId, "catalog",
+			oci_datacatalog.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	}
 	return nil
 }
 

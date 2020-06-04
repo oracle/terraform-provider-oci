@@ -1,4 +1,8 @@
 ## 3.82.0 (Unreleased)
+
+### Added
+- Support harvesting sources with Private IPs for resource `datacatalog`
+
 ## 3.81.0 (June 17, 2020)
 
 ### Added

@@ -109,6 +109,7 @@ func initDependencyGraph() {
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "DataSafeDataSafePrivateEndpoint")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "DatabaseAutonomousDatabase")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "DatabaseAutonomousExadataInfrastructure")
+	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "DatacatalogCatalogPrivateEndpoint")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "FileStorageMountTarget")
 	DependencyGraph["tableNameOr"] = append(DependencyGraph["tableNameOr"], "NosqlIndex")
 	DependencyGraph["tagDefinition"] = append(DependencyGraph["tagDefinition"], "IdentityTagDefault")
