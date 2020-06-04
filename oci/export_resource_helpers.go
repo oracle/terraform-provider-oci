@@ -507,10 +507,13 @@ func findIdentityTags(clients *OracleClients, tfMeta *TerraformResourceAssociati
 			TerraformResource: TerraformResource{
 				id:             d.Id(),
 				terraformClass: tfMeta.resourceClass,
-				terraformName:  fmt.Sprintf("%s_%s", parent.parent.terraformName, *tag.Name),
 			},
 			getHclStringFn: getHclStringFromGenericMap,
 			parent:         parent,
+		}
+
+		if resource.terraformName, err = generateTerraformNameFromResource(resource.sourceAttributes, tagResource.Schema); err != nil {
+			resource.terraformName = fmt.Sprintf("%s_%s", parent.parent.terraformName, *tag.Name)
 		}
 
 		results = append(results, resource)
