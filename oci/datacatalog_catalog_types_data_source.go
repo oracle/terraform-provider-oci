@@ -165,7 +165,7 @@ func (s *DatacatalogCatalogTypesDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_datacatalog.LifecycleStateEnum(state.(string))
+		request.LifecycleState = oci_datacatalog.ListTypesLifecycleStateEnum(state.(string))
 	}
 
 	if typeCategory, ok := s.D.GetOkExists("type_category"); ok {
