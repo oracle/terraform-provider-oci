@@ -133,13 +133,14 @@ By default, the Terraform names of the discovered resources will share the same 
 The attributes of the resources will be populated with the values that are returned by the Oracle Cloud Infrastructure services.
 
 In some cases, a required or optional attribute may not be discoverable from the Oracle Cloud Infrastructure services and may be omitted from the generated Terraform configuration.
-This may be expected behavior from the service, which may prevent discovery of certain sensitive attributes or secrets. In such cases, the generated Terraform configuration will contain a commented line like this:
+This may be expected behavior from the service, which may prevent discovery of certain sensitive attributes or secrets. In such cases, placeholder value will be set along with a comment like this:
 
 ```
-#admin_password = <<Required attribute not found in discovery>>
+admin_password = "<placeholder for missing required attribute>" #Required attribute not found in discovery, placeholder value set to avoid plan failure
 ```
 
-Run 'terraform plan' against the generated configuration files to get more information about the missing values.
+The missing required attributes will also be added to lifecycle ignore_changes. This is done to avoid terraform plan failure when moving manually-managed infrastructure to Terraform-managed infrastructure.
+Any changes made to such fields will not reflect in terraform plan. If you want to update these fields, remove them from `ignore_changes`.
 
 Resources that are dependent on availability domains will be generated under `availability_domain.tf` file. These include:
 * oci\_core\_boot\_volume

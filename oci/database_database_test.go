@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"strings"
 	"testing"
 	"time"
 
@@ -237,11 +236,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								// service does not return `admin_password` causing the plan to show diff. we set the `admin_password` in config using TestKeyValPairs in ExportCommandArgs
-								// but since it is missing in state the plan will show diff
-								if !strings.Contains(errExport.Error(), "terraform plan command return non-empty diff") {
-									return errExport
-								}
+								return errExport
 							}
 						}
 						return err
