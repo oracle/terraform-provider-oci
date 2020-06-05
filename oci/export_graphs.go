@@ -69,6 +69,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"oce":                 oceResourceGraph,
+	"oda":                 odaResourceGraph,
 	"osmanagement":        osmanagementResourceGraph,
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
@@ -584,6 +585,12 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 var oceResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOceOceInstanceHints},
+	},
+}
+
+var odaResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportOdaOdaInstanceHints},
 	},
 }
 

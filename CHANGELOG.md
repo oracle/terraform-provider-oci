@@ -9,6 +9,7 @@
 - Support resource discovery for `integration` resources
 - Support resource discovery for `marketplace` resources
 - Added resource discovery support for `oce` resources
+- Support resource discovery for `oda` resources
 
 ### Fixed
 - Fixed plan failure in case of missing required attributes in resource discovery. Placeholder values will be added for missing required attributes and the attributes will be added to `lifecycle ignore_changes`
