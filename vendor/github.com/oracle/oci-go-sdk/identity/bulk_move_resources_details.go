@@ -13,15 +13,17 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateRegionSubscriptionDetails The representation of CreateRegionSubscriptionDetails
-type CreateRegionSubscriptionDetails struct {
+// BulkMoveResourcesDetails The representation of BulkMoveResourcesDetails
+type BulkMoveResourcesDetails struct {
 
-	// The regions's key. See Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm) for
-	// the full list of supported 3-letter region codes.
-	// Example: `PHX`
-	RegionKey *string `mandatory:"true" json:"regionKey"`
+	// The resources to be moved.
+	Resources []BulkActionResource `mandatory:"true" json:"resources"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the destination compartment
+	// into which to move the resources.
+	TargetCompartmentId *string `mandatory:"true" json:"targetCompartmentId"`
 }
 
-func (m CreateRegionSubscriptionDetails) String() string {
+func (m BulkMoveResourcesDetails) String() string {
 	return common.PointerString(m)
 }

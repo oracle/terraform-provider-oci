@@ -23,7 +23,8 @@ type UpdateAutonomousDatabaseDetails struct {
 	// The size, in terabytes, of the data volume that will be attached to the database.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
 
-	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
+	// The user-friendly name for the Autonomous Database. The name does not have to be unique. Can only be updated for Autonomous Databases
+	// using dedicated Exadata infrastructure.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
@@ -46,11 +47,6 @@ type UpdateAutonomousDatabaseDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
-	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
-	NsgIds []string `mandatory:"false" json:"nsgIds"`
-
 	// The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
 	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel UpdateAutonomousDatabaseDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
@@ -66,6 +62,11 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// A valid Oracle Database version for Autonomous Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
+
+	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	// **NsgIds restrictions:**
+	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {

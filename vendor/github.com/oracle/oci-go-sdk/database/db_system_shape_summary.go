@@ -38,6 +38,27 @@ type DbSystemShapeSummary struct {
 	// The discrete number by which the CPU core count for this shape can be increased or decreased.
 	CoreCountIncrement *int `mandatory:"false" json:"coreCountIncrement"`
 
+	// The minimum number of CPU cores that can be enabled per node for this shape.
+	MinCoreCountPerNode *int `mandatory:"false" json:"minCoreCountPerNode"`
+
+	// The maximum memory that can be enabled for this shape.
+	AvailableMemoryInGBs *int `mandatory:"false" json:"availableMemoryInGBs"`
+
+	// The minimum memory that need be allocated per node for this shape.
+	MinMemoryPerNodeInGBs *int `mandatory:"false" json:"minMemoryPerNodeInGBs"`
+
+	// The maximum Db Node storage that can be enabled for this shape.
+	AvailableDbNodeStorageInGBs *int `mandatory:"false" json:"availableDbNodeStorageInGBs"`
+
+	// The minimum Db Node storage that need be allocated per node for this shape.
+	MinDbNodeStoragePerNodeInGBs *int `mandatory:"false" json:"minDbNodeStoragePerNodeInGBs"`
+
+	// The maximum DATA storage that can be enabled for this shape.
+	AvailableDataStorageInTBs *int `mandatory:"false" json:"availableDataStorageInTBs"`
+
+	// The minimum data storage that need be allocated for this shape.
+	MinDataStorageInTBs *int `mandatory:"false" json:"minDataStorageInTBs"`
+
 	// The minimum number of database nodes available for this shape.
 	MinimumNodeCount *int `mandatory:"false" json:"minimumNodeCount"`
 
