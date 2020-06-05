@@ -44,7 +44,7 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cpu_core_count` - (Required) (Updatable) The number of CPU cores to enable for the VM cluster.
+* `cpu_core_count` - (Required) (Updatable) The number of CPU cores to enable for the VM cluster. *Note:* If `cpu_core_count` is modified in `DISCONNECTED` state, the provider could experience a drift in Terraform state. To remediate this, refresh your Terraform state and update the configuration file when the Oracle Cloud Infrastructure connection is established.
 * `data_storage_size_in_tbs` - (Optional) (Updatable) The data disk group size to be allocated in TBs.
 * `db_node_storage_size_in_gbs` - (Optional) (Updatable) The local node storage to be allocated in GBs.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
