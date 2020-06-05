@@ -25,6 +25,7 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
+	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
@@ -1170,6 +1171,16 @@ var exportObjectStorageNamespaceHints = &TerraformResourceHints{
 	resourceClass:        "oci_objectstorage_namespace",
 	datasourceClass:      "oci_objectstorage_namespace",
 	resourceAbbreviation: "namespace",
+}
+
+var exportOdaOdaInstanceHints = &TerraformResourceHints{
+	resourceClass:        "oci_oda_oda_instance",
+	datasourceClass:      "oci_oda_oda_instances",
+	datasourceItemsAttr:  "oda_instances",
+	resourceAbbreviation: "oda_instance",
+	discoverableLifecycleStates: []string{
+		string(oci_oda.OdaInstanceLifecycleStateActive),
+	},
 }
 
 var exportOsmanagementManagedInstanceGroupHints = &TerraformResourceHints{
