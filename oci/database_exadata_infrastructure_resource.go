@@ -219,7 +219,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) UpdatedTarget() []string {
 		string(oci_database.ExadataInfrastructureLifecycleStateRequiresActivation),
 		string(oci_database.ExadataInfrastructureLifecycleStateActive),
 		string(oci_database.ExadataInfrastructureLifecycleStateActivationFailed),
-		string(oci_database.ExadataInfrastructureLifecycleStateOffline),
+		string(oci_database.ExadataInfrastructureLifecycleStateDisconnected),
 	}
 }
 
