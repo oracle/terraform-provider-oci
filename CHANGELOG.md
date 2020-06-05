@@ -11,6 +11,7 @@
 - Support resource discovery for `monitoring` resources
 - Support resource discovery for `identity` resources
 - Support resource discovery for `dataflow` resources
+- Added `oci_dns_rrset` resource to support DNS RRSet
 
 ## 3.79.0 (June 03, 2020)
 

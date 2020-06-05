@@ -17,6 +17,12 @@ resource "oci_dns_zone" "zone1" {
   zone_type      = "PRIMARY"
 }
 
+resource "oci_dns_zone" "zone3" {
+  compartment_id = "${var.compartment_ocid}"
+  name           = "${data.oci_identity_tenancy.tenancy.name}-${random_string.random_prefix.result}-tf-example3-primary.oci-dns1"
+  zone_type      = "PRIMARY"
+}
+
 resource "oci_dns_tsig_key" "test_tsig_key" {
   algorithm      = "hmac-sha1"
   compartment_id = "${var.compartment_ocid}"
