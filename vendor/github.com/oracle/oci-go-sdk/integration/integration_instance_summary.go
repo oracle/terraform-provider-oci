@@ -48,6 +48,9 @@ type IntegrationInstanceSummary struct {
 
 	// An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
+
+	// The file server is enabled or not.
+	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 }
 
 func (m IntegrationInstanceSummary) String() string {

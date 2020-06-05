@@ -391,7 +391,13 @@ func (p fileConfigurationProvider) UserOCID() (value string, err error) {
 		return
 	}
 
-	value, err = presentOrError(info.UserOcid, hasUser, info.PresentConfiguration, "user")
+	if value, err = presentOrError(info.UserOcid, hasUser, info.PresentConfiguration, "user"); err != nil {
+		// need to check if securityTokenPath is provided, if security token is provided, userOCID can be "".
+		if _, stErr := presentOrError(info.SecurityTokenFilePath, hasSecurityTokenFile, info.PresentConfiguration,
+			"securityTokenPath"); stErr == nil {
+			err = nil
+		}
+	}
 	return
 }
 

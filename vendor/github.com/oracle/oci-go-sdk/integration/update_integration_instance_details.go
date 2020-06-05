@@ -37,6 +37,9 @@ type UpdateIntegrationInstanceDetails struct {
 
 	// The number of configured message packs
 	MessagePacks *int `mandatory:"false" json:"messagePacks"`
+
+	// The file server is enabled or not.
+	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 }
 
 func (m UpdateIntegrationInstanceDetails) String() string {

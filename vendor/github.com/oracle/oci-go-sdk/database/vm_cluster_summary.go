@@ -22,6 +22,9 @@ type VmClusterSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation starts.
+	LastPatchHistoryEntryId *string `mandatory:"false" json:"lastPatchHistoryEntryId"`
+
 	// The current state of the VM cluster.
 	LifecycleState VmClusterSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
@@ -52,8 +55,14 @@ type VmClusterSummary struct {
 	// The number of enabled CPU cores.
 	CpusEnabled *int `mandatory:"false" json:"cpusEnabled"`
 
+	// The memory allocated in GBs.
+	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
+
+	// The local node storage allocated in GBs.
+	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
+
 	// Size, in terabytes, of the DATA disk group.
-	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
+	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
 
 	// The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance.
 	Shape *string `mandatory:"false" json:"shape"`
