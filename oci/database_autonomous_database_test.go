@@ -388,7 +388,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "available_upgrade_versions.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.0.all_connection_strings.%", "4"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.all_connection_strings.%"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_urls.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.apex_url"),

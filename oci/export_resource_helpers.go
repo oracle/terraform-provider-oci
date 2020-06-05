@@ -35,6 +35,14 @@ type TerraformResourceHints struct {
 
 	// Hints to help with generating HCL representation from this resource
 	getHCLStringOverrideFn func(*strings.Builder, *OCIResource, map[string]string) error // Custom function for generating HCL syntax for the resource
+
+	// Hints for adding default value to HCL representation for attributes not found in resource discovery
+	defaultValuesForMissingAttributes map[string]string
+
+	// Hints for adding resource attributes to `ignore_changes` in HCL representation
+	// This is added to avoid plan failure/diff for attributes that service does not return in read response
+	// The attributes references are interpolated in case of nested attributes
+	ignorableRequiredMissingAttributes map[string]bool
 }
 
 type TerraformResourceAssociation struct {
@@ -77,6 +85,7 @@ func init() {
 	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
 	exportCoreImageHints.processDiscoveredResourcesFn = filterCustomImages
+
 	exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
 	exportCoreInstanceHints.processDiscoveredResourcesFn = processInstances
 	exportCoreInstanceHints.requireResourceRefresh = true
@@ -91,11 +100,20 @@ func init() {
 
 	exportDatabaseAutonomousContainerDatabaseHints.requireResourceRefresh = true
 	exportDatabaseAutonomousDatabaseHints.requireResourceRefresh = true
+
 	exportDatabaseAutonomousExadataInfrastructureHints.requireResourceRefresh = true
+
 	exportDatabaseDbSystemHints.requireResourceRefresh = true
-	exportDatabaseDbHomeHints.processDiscoveredResourcesFn = filterPrimaryDbHomes
+
 	exportDatabaseDbHomeHints.requireResourceRefresh = true
+	exportDatabaseDbHomeHints.processDiscoveredResourcesFn = filterPrimaryDbHomes
+
 	exportDatabaseDatabaseHints.requireResourceRefresh = true
+	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = filterPrimaryDatabases
+
+	exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]string{
+		"source": "NONE",
+	}
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 
 	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
@@ -753,6 +771,21 @@ func filterPrimaryDbHomes(clients *OracleClients, resources []*OCIResource) ([]*
 		if dbHomes, ok := resource.parent.sourceAttributes["db_home"].([]interface{}); ok && len(dbHomes) > 0 {
 			if primaryDbHome, ok := dbHomes[0].(map[string]interface{}); ok {
 				if primaryDbHomeId, ok := primaryDbHome["id"]; ok && primaryDbHomeId.(string) != resource.id {
+					results = append(results, resource)
+				}
+			}
+		}
+	}
+	return results, nil
+}
+
+func filterPrimaryDatabases(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	results := []*OCIResource{}
+	for _, resource := range resources {
+		// Only return database resources that don't match the database ID of the dbHome resource.
+		if databases, ok := resource.parent.sourceAttributes["database"].([]interface{}); ok && len(databases) > 0 {
+			if primaryDatabase, ok := databases[0].(map[string]interface{}); ok {
+				if primaryDatabaseId, ok := primaryDatabase["id"]; ok && primaryDatabaseId.(string) != resource.id {
 					results = append(results, resource)
 				}
 			}

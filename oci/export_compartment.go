@@ -31,7 +31,9 @@ const (
 	providerFile                    = "provider.tf"
 	missingRequiredAttributeWarning = `Warning: There are one or more 'Required' attributes for which a value could not be discovered.
 This may be expected behavior from the service, which may prevent discovery of certain sensitive attributes or secrets.
-Run 'terraform plan' against the generated configuration files to get more information about the missing values.`
+Placeholder values have been added for such attributes with a comment "Required attribute not found in discovery, placeholder value set to avoid plan failure".
+These missing attributes are also added to the lifecycle ignore_changes.`
+	placeholderValueForMissingAttribute = `<placeholder for missing required attribute>`
 )
 
 var referenceMap map[string]string
@@ -43,7 +45,6 @@ var compartmentScopeServices []string
 var isMissingRequiredAttributes bool
 var exportConfigProvider oci_common.ConfigurationProvider
 var tfHclVersion TfHclVersion
-var keyValuePairsForTests map[string]string
 
 func init() {
 	resourceNameCount = map[string]int{}
@@ -116,7 +117,6 @@ type ExportCommandArgs struct {
 	OutputDir       *string
 	GenerateState   bool
 	TFVersion       *TfHclVersion
-	TestKeyValPairs map[string]string
 }
 
 func RunExportCommand(args *ExportCommandArgs) error {
@@ -151,7 +151,6 @@ func RunExportCommand(args *ExportCommandArgs) error {
 			return err
 		}
 	}
-	keyValuePairsForTests = args.TestKeyValPairs
 
 	return runExportCommand(clients.(*OracleClients), args)
 }
@@ -291,6 +290,7 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 		}
 	}()
 
+	missingAttributesPerResource := make(map[string][]string)
 	for _, step := range generateConfigSteps {
 		configOutputFile := fmt.Sprintf("%s%s%s.tf", *args.OutputDir, string(os.PathSeparator), step.stepName)
 		tmpConfigOutputFile := fmt.Sprintf("%s%s%s.tf.tmp", *args.OutputDir, string(os.PathSeparator), step.stepName)
@@ -312,6 +312,14 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 			if err := resource.getHCLString(builder, referenceMap); err != nil {
 				_ = file.Close()
 				return err
+			}
+
+			if len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
+				attributes := make([]string, 0, len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes))
+				for attribute := range resource.terraformTypeInfo.ignorableRequiredMissingAttributes {
+					attributes = append(attributes, attribute)
+				}
+				missingAttributesPerResource[resource.getTerraformReference()] = attributes
 			}
 			allDiscoveredResources = append(allDiscoveredResources, resource)
 		}
@@ -339,6 +347,11 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	if isMissingRequiredAttributes {
 		summaryStatements = append(summaryStatements, "")
 		summaryStatements = append(summaryStatements, missingRequiredAttributeWarning)
+		summaryStatements = append(summaryStatements, "\nMissing required attributes:\n")
+		for key, value := range missingAttributesPerResource {
+			summaryStatements = append(summaryStatements, fmt.Sprintf("%s: %s", key, strings.Join(value, ",")))
+		}
+
 	}
 	region, err := exportConfigProvider.Region()
 	if err != nil {
@@ -636,7 +649,7 @@ func (tr *TerraformResource) getTerraformReference() string {
 	return fmt.Sprintf("%s.%s", tr.terraformClass, tr.terraformName)
 }
 
-func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]interface{}, resourceSchema *schema.Resource, interpolationMap map[string]string) error {
+func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]interface{}, resourceSchema *schema.Resource, interpolationMap map[string]string, terraformResourceHints *TerraformResourceHints, attributePrefix string) error {
 	sortedKeys := make([]string, len(resourceSchema.Schema))
 	cnt := 0
 	for k := range resourceSchema.Schema {
@@ -672,10 +685,15 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 				case schema.TypeList, schema.TypeSet:
 					switch elem := tfSchema.Elem.(type) {
 					case *schema.Resource:
-						for _, item := range v {
+						for i, item := range v {
 							if val := item.(map[string]interface{}); val != nil {
 								builder.WriteString(fmt.Sprintf("%s {\n", tfAttribute))
-								if err := getHCLStringFromMap(builder, val, elem, interpolationMap); err != nil {
+								if attributePrefix == "" {
+									attributePrefix = fmt.Sprintf("%s[%d]", tfAttribute, i)
+								} else {
+									attributePrefix = fmt.Sprintf("%s.%s[%d]", attributePrefix, tfAttribute, i)
+								}
+								if err := getHCLStringFromMap(builder, val, elem, interpolationMap, terraformResourceHints, attributePrefix); err != nil {
 									return err
 								}
 								builder.WriteString("}\n")
@@ -712,7 +730,12 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 				case schema.TypeList:
 					if nestedResource := tfSchema.Elem.(*schema.Resource); nestedResource != nil {
 						builder.WriteString(fmt.Sprintf("%s {\n", tfAttribute))
-						if err := getHCLStringFromMap(builder, v, nestedResource, interpolationMap); err != nil {
+						if attributePrefix == "" {
+							attributePrefix = tfAttribute
+						} else {
+							attributePrefix = attributePrefix + "." + tfAttribute
+						}
+						if err := getHCLStringFromMap(builder, v, nestedResource, interpolationMap, terraformResourceHints, attributePrefix); err != nil {
 							return err
 						}
 						builder.WriteString("}\n")
@@ -757,13 +780,29 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 
 		if tfSchema.Required {
 			log.Printf("[WARN] Required TF attribute '%s' not found in source\n", tfAttribute)
-			// For testing only: keyValuePairsForTests map contains key value pairs for missing required attributes
-			if attributeVal, exists := keyValuePairsForTests[tfAttribute]; exists {
-				builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, attributeVal))
+			/* Set missing value if specified in resource hints. This is to avoid plan failure for existing infrastructure.
+			This is only done for required attributes as the Optional attributes will not cause plan failure
+			We can extend this in future to provide this option to customer to add default values for attributes
+			and add this logic to Optional attributes too */
+
+			if tfAttributeVal, exists := terraformResourceHints.defaultValuesForMissingAttributes[tfAttribute]; exists {
+				builder.WriteString(fmt.Sprintf("%s = %q", tfAttribute, tfAttributeVal))
 			} else {
-				builder.WriteString(fmt.Sprintf("#%s = <<Required attribute not found in discovery>>\n", tfAttribute))
-				isMissingRequiredAttributes = true
+				builder.WriteString(fmt.Sprintf("%s = %q", tfAttribute, placeholderValueForMissingAttribute))
 			}
+			builder.WriteString("\t#Required attribute not found in discovery, placeholder value set to avoid plan failure\n")
+			isMissingRequiredAttributes = true
+
+			/* Add missing required attribute to ignorableRequiredMissingAttributes to be generated in lifecycle ignore_changes */
+			if terraformResourceHints.ignorableRequiredMissingAttributes == nil {
+				terraformResourceHints.ignorableRequiredMissingAttributes = make(map[string]bool)
+			}
+			if attributePrefix == "" {
+				terraformResourceHints.ignorableRequiredMissingAttributes[tfAttribute] = true
+			} else {
+				terraformResourceHints.ignorableRequiredMissingAttributes[attributePrefix+"."+tfAttribute] = true
+			}
+
 		} else if tfSchema.Optional {
 			log.Printf("[INFO] Optional TF attribute '%s' not found in source\n", tfAttribute)
 			builder.WriteString(fmt.Sprintf("#%s = <<Optional value not found in discovery>>\n", tfAttribute))
@@ -792,8 +831,26 @@ func getHclStringFromGenericMap(builder *strings.Builder, ociRes *OCIResource, i
 	resourceSchema := resourcesMap[ociRes.terraformClass]
 
 	builder.WriteString(fmt.Sprintf("resource %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
-	if err := getHCLStringFromMap(builder, ociRes.sourceAttributes, resourceSchema, interpolationMap); err != nil {
+	if err := getHCLStringFromMap(builder, ociRes.sourceAttributes, resourceSchema, interpolationMap, ociRes.terraformTypeInfo, ""); err != nil {
 		return err
+	}
+
+	if len(ociRes.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
+		builder.WriteString("\n# Required attributes that were not found in discovery have been added to " +
+			"lifecycle ignore_changes")
+		builder.WriteString("\n# This is done to avoid terraform plan failure for the existing infrastructure")
+		builder.WriteString("\nlifecycle {\n" +
+			"ignore_changes = [")
+
+		missingAttributes := make([]string, 0, len(ociRes.terraformTypeInfo.ignorableRequiredMissingAttributes))
+
+		for attribute := range ociRes.terraformTypeInfo.ignorableRequiredMissingAttributes {
+			missingAttributes = append(missingAttributes, tfHclVersion.getReference(attribute))
+		}
+		builder.WriteString(strings.Join(missingAttributes, ","))
+
+		builder.WriteString("]\n" +
+			"}\n")
 	}
 	builder.WriteString("}\n")
 
