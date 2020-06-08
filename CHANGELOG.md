@@ -13,6 +13,9 @@
 - Support resource discovery for `dataflow` resources
 - Added `oci_dns_rrset` resource to support DNS RRSet
 
+### Fixed
+- updated `static_routes` attribute to be empty in `oci_core_ipsec` resource
+
 ## 3.79.0 (June 03, 2020)
 
 ### Added
