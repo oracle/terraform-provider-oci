@@ -13,6 +13,7 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/dataintegration"
 	oci_data_safe "github.com/oracle/oci-go-sdk/datasafe"
 	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
@@ -685,6 +686,17 @@ var exportDatascienceModelProvenanceHints = &TerraformResourceHints{
 	resourceClass:        "oci_datascience_model_provenance",
 	datasourceClass:      "oci_datascience_model_provenance",
 	resourceAbbreviation: "model_provenance",
+}
+
+var exportDataintegrationWorkspaceHints = &TerraformResourceHints{
+	resourceClass:          "oci_dataintegration_workspace",
+	datasourceClass:        "oci_dataintegration_workspaces",
+	datasourceItemsAttr:    "workspaces",
+	resourceAbbreviation:   "workspace",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dataintegration.WorkspaceLifecycleStateActive),
+	},
 }
 
 var exportDnsRecordHints = &TerraformResourceHints{

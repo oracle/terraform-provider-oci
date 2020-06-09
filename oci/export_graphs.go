@@ -58,6 +58,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"datacatalog":         datacatalogResourceGraph,
 	"dataflow":            dataflowResourceGraph,
 	"datascience":         datascienceResourceGraph,
+	"dataintegration":     dataintegrationResourceGraph,
 	"dns":                 dnsResourceGraph,
 	"email":               emailResourceGraph,
 	"events":              eventsResourceGraph,
@@ -329,6 +330,12 @@ var datascienceResourceGraph = TerraformResourceGraph{
 				"model_id": "id",
 			},
 		},
+	},
+}
+
+var dataintegrationResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDataintegrationWorkspaceHints},
 	},
 }
 
