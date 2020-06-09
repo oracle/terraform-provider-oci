@@ -12,6 +12,7 @@
 - Support resource discovery for `analytics` resources
 - Support resource discovery for `dns` resources
 - Support datasource for `oci_dns_rrset`
+- Support resource discovery for `oci_dataintegration_workspace` resources
 
 ### Fixed
 - Fix issue where discovering object storage buckets without lifecycle policies, results in an error
