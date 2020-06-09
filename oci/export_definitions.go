@@ -13,6 +13,7 @@ import (
 	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
 	oci_data_safe "github.com/oracle/oci-go-sdk/datasafe"
+	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_events "github.com/oracle/oci-go-sdk/events"
@@ -624,6 +625,43 @@ var exportDataflowApplicationHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_dataflow.ApplicationLifecycleStateActive),
 	},
+}
+
+var exportDatascienceProjectHints = &TerraformResourceHints{
+	resourceClass:        "oci_datascience_project",
+	datasourceClass:      "oci_datascience_projects",
+	datasourceItemsAttr:  "projects",
+	resourceAbbreviation: "project",
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.ProjectLifecycleStateActive),
+	},
+}
+
+var exportDatascienceNotebookSessionHints = &TerraformResourceHints{
+	resourceClass:        "oci_datascience_notebook_session",
+	datasourceClass:      "oci_datascience_notebook_sessions",
+	datasourceItemsAttr:  "notebook_sessions",
+	resourceAbbreviation: "notebook_session",
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.NotebookSessionLifecycleStateActive),
+	},
+}
+
+var exportDatascienceModelHints = &TerraformResourceHints{
+	resourceClass:          "oci_datascience_model",
+	datasourceClass:        "oci_datascience_models",
+	datasourceItemsAttr:    "models",
+	resourceAbbreviation:   "model",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.ModelLifecycleStateActive),
+	},
+}
+
+var exportDatascienceModelProvenanceHints = &TerraformResourceHints{
+	resourceClass:        "oci_datascience_model_provenance",
+	datasourceClass:      "oci_datascience_model_provenance",
+	resourceAbbreviation: "model_provenance",
 }
 
 var exportDnsRecordHints = &TerraformResourceHints{

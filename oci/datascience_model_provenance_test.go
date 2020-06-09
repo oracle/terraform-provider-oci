@@ -157,6 +157,6 @@ func getDatascienceModelProvenanceCompositeIdForImport(resourceName string) reso
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
 
-		return fmt.Sprintf("modelProvenances/%s", rs.Primary.Attributes["model_id"]), nil
+		return fmt.Sprintf("models/%s/provenance", rs.Primary.Attributes["model_id"]), nil
 	}
 }

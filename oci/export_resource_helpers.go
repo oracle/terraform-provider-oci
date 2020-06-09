@@ -119,6 +119,8 @@ func init() {
 
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 
+	exportDatascienceModelProvenanceHints.getIdFn = getModelProvenanceId
+
 	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
 	exportIdentityAvailabilityDomainHints.alwaysExportable = true
 	exportIdentityAvailabilityDomainHints.processDiscoveredResourcesFn = processAvailabilityDomains
@@ -201,6 +203,12 @@ func getIdentityApiKeyId(resource *OCIResource) (string, error) {
 	userId := resource.parent.id
 
 	return getApiKeyCompositeId(fingerPrint, userId), nil
+}
+
+func getModelProvenanceId(resource *OCIResource) (string, error) {
+	modelId := resource.parent.id
+
+	return getModelProvenanceCompositeId(modelId), nil
 }
 
 func getIdentityAuthTokenId(resource *OCIResource) (string, error) {
