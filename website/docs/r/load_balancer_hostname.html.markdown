@@ -13,6 +13,10 @@ This resource provides the Hostname resource in Oracle Cloud Infrastructure Load
 Adds a hostname resource to the specified load balancer. For more information, see
 [Managing Request Routing](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm).
 
+Set the terraform flag `lifecycle { create_before_destroy = true }` in your hostname to facilitate rotating hostnames. 
+A hostname cannot be deleted if it is attached to another resource (a listener for example).
+Because hostname_names in the listener is an updatable parameter, terraform will attempt to recreate the hostname first and then update the listener but the hostname cannot be deleted while it is attached to a listener so it will fail.
+Setting the flag makes it so that when a hostname is recreated, the new hostname will be created first before the old one gets deleted.
 
 ## Example Usage
 
@@ -22,6 +26,11 @@ resource "oci_load_balancer_hostname" "test_hostname" {
 	hostname = "${var.hostname_hostname}"
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 	name = "${var.hostname_name}"
+
+    #Optional
+    lifecycle {
+	    create_before_destroy = true
+	}
 }
 ```
 
