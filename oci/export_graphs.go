@@ -596,6 +596,29 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportObjectStorageNamespaceHints},
 	},
+	"oci_objectstorage_bucket": {
+		{
+			TerraformResourceHints: exportObjectStorageObjectHints,
+			datasourceQueryParams: map[string]string{
+				"bucket":    "name",
+				"namespace": "namespace",
+			},
+		},
+		{
+			TerraformResourceHints: exportObjectStorageObjectLifecyclePolicyHints,
+			datasourceQueryParams: map[string]string{
+				"namespace": "namespace",
+				"bucket":    "name",
+			},
+		},
+		{
+			TerraformResourceHints: exportObjectStoragePreauthenticatedRequestHints,
+			datasourceQueryParams: map[string]string{
+				"namespace": "namespace",
+				"bucket":    "name",
+			},
+		},
+	},
 	"oci_objectstorage_namespace": {
 		{
 			TerraformResourceHints: exportObjectStorageBucketHints,

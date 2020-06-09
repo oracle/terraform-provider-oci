@@ -397,6 +397,9 @@ nosql
 object_storage
     
 * oci\_objectstorage\_bucket
+* oci\_objectstorage\_object\_lifecycle\_policy
+* oci\_objectstorage\_object
+* oci\_objectstorage\_preauthrequest
 
 oce
     
