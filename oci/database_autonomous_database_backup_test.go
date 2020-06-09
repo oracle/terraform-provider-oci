@@ -5,6 +5,7 @@ package oci
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -56,6 +57,8 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_autonomous_database_backups.test_autonomous_database_backups"
 	singularDatasourceName := "data.oci_database_autonomous_database_backup.test_autonomous_database_backup"
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -69,6 +72,16 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 

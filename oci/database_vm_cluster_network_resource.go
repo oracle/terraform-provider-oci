@@ -8,6 +8,9 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/url"
+	"regexp"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -21,6 +24,9 @@ func init() {
 
 func DatabaseVmClusterNetworkResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createDatabaseVmClusterNetwork,
 		Read:     readDatabaseVmClusterNetwork,
@@ -416,6 +422,14 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VmClusterNetworkId = &tmp
 
+	exadataInfrastructureId, vmClusterNetworkId, err := parseVmClusterNetworkCompositeId(s.D.Id())
+	if err == nil {
+		request.ExadataInfrastructureId = &exadataInfrastructureId
+		request.VmClusterNetworkId = &vmClusterNetworkId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetVmClusterNetwork(context.Background(), request)
@@ -572,6 +586,14 @@ func (s *DatabaseVmClusterNetworkResourceCrud) SetData() error {
 		s.D.Set("validate_vm_cluster_network", false)
 	}
 
+	exadataInfrastructureId, vmClusterNetworkId, err := parseVmClusterNetworkCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("exadata_infrastructure_id", exadataInfrastructureId)
+		s.D.SetId(vmClusterNetworkId)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -621,6 +643,26 @@ func (s *DatabaseVmClusterNetworkResourceCrud) SetData() error {
 	s.D.Set("vm_networks", schema.NewSet(vmNetworksHashCodeForSets, vmNetworks))
 
 	return nil
+}
+
+func getVmClusterNetworkCompositeId(exadataInfrastructureId string, vmClusterNetworkId string) string {
+	exadataInfrastructureId = url.PathEscape(exadataInfrastructureId)
+	vmClusterNetworkId = url.PathEscape(vmClusterNetworkId)
+	compositeId := "exadataInfrastructures/" + exadataInfrastructureId + "/vmClusterNetworks/" + vmClusterNetworkId
+	return compositeId
+}
+
+func parseVmClusterNetworkCompositeId(compositeId string) (exadataInfrastructureId string, vmClusterNetworkId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("exadataInfrastructures/.*/vmClusterNetworks/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	exadataInfrastructureId, _ = url.PathUnescape(parts[1])
+	vmClusterNetworkId, _ = url.PathUnescape(parts[3])
+
+	return
 }
 
 func (s *DatabaseVmClusterNetworkResourceCrud) mapToNodeDetails(fieldKeyFormat string) (oci_database.NodeDetails, error) {

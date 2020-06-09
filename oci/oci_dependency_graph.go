@@ -146,4 +146,5 @@ func initDependencyGraph() {
 	DependencyGraph["volumeGroup"] = append(DependencyGraph["volumeGroup"], "CoreVolumeGroupBackup")
 	DependencyGraph["waasPolicy"] = append(DependencyGraph["waasPolicy"], "WaasPurgeCache")
 	DependencyGraph["zone"] = append(DependencyGraph["zone"], "DnsSteeringPolicyAttachment")
+	DependencyGraph["zoneNameOr"] = append(DependencyGraph["zoneNameOr"], "DnsRrset")
 }

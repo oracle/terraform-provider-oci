@@ -148,6 +148,15 @@ func deleteKmsKeyVersion(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
+// existing ID() returned by getKeyVersionCompositeId method is of format keys/(.*)/keyVersions/(.*) and
+// that is not the format that readKmsKeyVersion expects managementEndpoint/{managementEndpoint}/keys/{keyId}/keyVersions/{keyVersionId}
+// getCompositeKeyVersionId is only used for resource discovery and it returns the Id as expected by readKmsKeyVersion
+// terraform import oci_kms_key_version.test_key_version "managementEndpoint/{managementEndpoint}/keys/{keyId}/keyVersions/{keyVersionId}"
+func getCompositeKeyVersionId(managementEndpoint string, keyId string, keyVersionId string) string {
+	compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + keyId + "/keyVersions/" + keyVersionId
+	return compositeId
+}
+
 type KmsKeyVersionResourceCrud struct {
 	BaseCrud
 	Client                 *oci_kms.KmsManagementClient

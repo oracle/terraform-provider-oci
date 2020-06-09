@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"regexp"
 
 	"fmt"
 
@@ -67,10 +68,7 @@ func (s *KmsKeyVersionsDataSourceCrud) VoidState() {
 func (s *KmsKeyVersionsDataSourceCrud) Get() error {
 	request := oci_kms.ListKeyVersionsRequest{}
 
-	if keyId, ok := s.D.GetOkExists("key_id"); ok {
-		tmp := keyId.(string)
-		request.KeyId = &tmp
-	}
+	request.KeyId = getKeyID(s)
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "kms")
 
@@ -93,6 +91,24 @@ func (s *KmsKeyVersionsDataSourceCrud) Get() error {
 	}
 
 	return nil
+}
+
+// with resource discovery s.D.GetOkExists("key_id") can return one of the two things
+// 1) keyId (key ocid) (or)
+// 2) managementEndpoint/{managementEndpoint}/keys/{keyId}
+// getKeyID method handles both and will return the key OCID
+func getKeyID(s *KmsKeyVersionsDataSourceCrud) *string {
+	var finalKeyId string
+	if keyId, ok := s.D.GetOkExists("key_id"); ok {
+		regex, _ := regexp.Compile("^managementEndpoint/(.*)/keys/(.*)$")
+		tokens := regex.FindStringSubmatch(keyId.(string))
+		if len(tokens) == 3 {
+			finalKeyId = tokens[2]
+		} else {
+			finalKeyId = keyId.(string)
+		}
+	}
+	return &finalKeyId
 }
 
 func (s *KmsKeyVersionsDataSourceCrud) SetData() error {

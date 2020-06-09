@@ -43,8 +43,15 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `available_core_count` - The maximum number of CPU cores that can be enabled on the DB system for this shape.
+* `available_data_storage_in_tbs` - The maximum DATA storage that can be enabled for this shape.
+* `available_db_node_storage_in_gbs` - The maximum Db Node storage that can be enabled for this shape.
+* `available_memory_in_gbs` - The maximum memory that can be enabled for this shape.
 * `core_count_increment` - The discrete number by which the CPU core count for this shape can be increased or decreased.
 * `maximum_node_count` - The maximum number of database nodes available for this shape.
+* `min_core_count_per_node` - The minimum number of CPU cores that can be enabled per node for this shape.
+* `min_data_storage_in_tbs` - The minimum data storage that need be allocated for this shape.
+* `min_db_node_storage_per_node_in_gbs` - The minimum Db Node storage that need be allocated per node for this shape.
+* `min_memory_per_node_in_gbs` - The minimum memory that need be allocated per node for this shape.
 * `minimum_core_count` - The minimum number of CPU cores that can be enabled on the DB system for this shape.
 * `minimum_node_count` - The minimum number of database nodes available for this shape.
 * `name` - The name of the shape used for the DB system.

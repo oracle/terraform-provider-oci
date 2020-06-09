@@ -16,7 +16,7 @@ import (
 // CreateNetworkSourceDetails Properties for creating a network source object.
 type CreateNetworkSourceDetails struct {
 
-	// The OCID of the tenancy containing the network source object.
+	// The OCID of the tenancy (root compartment) containing the network source object.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name you assign to the network source during creation. The name must be unique across all groups
@@ -26,14 +26,16 @@ type CreateNetworkSourceDetails struct {
 	// The description you assign to the network source during creation. Does not have to be unique, and it's changeable.
 	Description *string `mandatory:"true" json:"description"`
 
-	// A list of allowed public IPs and CIDR ranges
+	// A list of allowed public IP addresses and CIDR ranges.
 	PublicSourceList []string `mandatory:"false" json:"publicSourceList"`
 
-	// A list of allowed VCN ocid/IP range pairs
+	// A list of allowed VCN OCID and IP range pairs.
+	// Example:`"vcnId": "ocid1.vcn.oc1.iad.aaaaaaaaexampleuniqueID", "ipRanges": [ "129.213.39.0/24" ]`
 	VirtualSourceList []NetworkSourcesVirtualSourceList `mandatory:"false" json:"virtualSourceList"`
 
-	// A list of OCIservices allowed to make on behalf of requests which may have different source ips.
-	// At this time only the values of all or none are supported.
+	// A list of services allowed to make on-behalf-of requests. These requests can have different source IP addresses
+	// than those listed in the network source.
+	// Currently, only `all` and `none` are supported. The default is `all`.
 	Services []string `mandatory:"false" json:"services"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

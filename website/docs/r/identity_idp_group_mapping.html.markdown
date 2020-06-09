@@ -52,5 +52,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+IdpGroupMappings can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_identity_idp_group_mapping.test_idp_group_mapping "identityProviders/{identityProviderId}/groupMappings/{mappingId}" 
+```
 

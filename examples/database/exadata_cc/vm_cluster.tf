@@ -92,6 +92,9 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
   is_local_backup_enabled     = "false"
   is_sparse_diskgroup_enabled = "false"
   license_model               = "LICENSE_INCLUDED"
+  data_storage_size_in_tbs    = "84"
+  db_node_storage_size_in_gbs = "120"
+  memory_size_in_gbs          = "60"
 }
 
 data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_network" {

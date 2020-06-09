@@ -91,6 +91,10 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 		s.D.Set("is_byol", *s.Res.IsByol)
 	}
 
+	if s.Res.IsFileServerEnabled != nil {
+		s.D.Set("is_file_server_enabled", *s.Res.IsFileServerEnabled)
+	}
+
 	if s.Res.MessagePacks != nil {
 		s.D.Set("message_packs", *s.Res.MessagePacks)
 	}

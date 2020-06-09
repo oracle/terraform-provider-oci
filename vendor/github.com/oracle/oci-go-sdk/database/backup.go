@@ -54,6 +54,9 @@ type Backup struct {
 
 	// Shape of the backup's source database.
 	Shape *string `mandatory:"false" json:"shape"`
+
+	// Version of the backup's source database
+	Version *string `mandatory:"false" json:"version"`
 }
 
 func (m Backup) String() string {

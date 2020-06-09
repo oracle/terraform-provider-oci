@@ -53,5 +53,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+SmtpCredentials can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_identity_smtp_credential.test_smtp_credential "users/{userId}/smtpCredentials/{smtpCredentialId}" 
+```
 

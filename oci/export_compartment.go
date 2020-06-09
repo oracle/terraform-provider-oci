@@ -105,7 +105,6 @@ func RunListExportableResourcesCommand() error {
 	if err := printResourceGraphResources(compartmentResourceGraphs, "compartment"); err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -201,20 +200,21 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 		return nil, err
 	}
 	exportConfigProvider = sdkConfigProvider
-	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
-	configureClient, err := buildConfigureClientFn(sdkConfigProvider, httpClient)
+
+	configureClientLocal, err := buildConfigureClientFn(sdkConfigProvider, httpClient)
 	if err != nil {
 		return nil, err
 	}
 
 	configureClientWithUserAgent := func(client *oci_common.BaseClient) error {
-		if err := configureClient(client); err != nil {
+		if err := configureClientLocal(client); err != nil {
 			return err
 		}
 		client.UserAgent = userAgentString
 		return nil
 	}
-
+	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
+	configureClient = configureClientWithUserAgent
 	err = createSDKClients(clients, sdkConfigProvider, configureClientWithUserAgent)
 	if err != nil {
 		return nil, err

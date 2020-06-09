@@ -58,5 +58,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+AuthTokens can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_identity_auth_token.test_auth_token "users/{userId}/authTokens/{authTokenId}" 
+```
 
