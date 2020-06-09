@@ -6,6 +6,8 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -68,6 +70,8 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	resourceName := "oci_identity_api_key.test_api_key"
 	datasourceName := "data.oci_identity_api_keys.test_api_keys"
 
+	var compositeId, fingerprint string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -82,6 +86,32 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
+				),
+			},
+			// delete before next create
+			{
+				Config: config + apiKeyVarStr + compartmentIdVariableStr + ApiKeyResourceDependencies,
+			},
+			// verify create with export
+			{
+				Config: config + apiKeyVarStr + compartmentIdVariableStr + ApiKeyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey),
+					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
+
+					func(s *terraform.State) (err error) {
+						fingerprint, _ = fromInstanceState(s, resourceName, "fingerprint")
+						userId, _ := fromInstanceState(s, resourceName, "user_id")
+						compositeId = "users/" + userId + "/apiKeys/" + fingerprint
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 
@@ -103,6 +133,14 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.user_id"),
 				),
 			},
+			// verify resource import
+			//{
+			//	Config:                  config,
+			//	ImportState:             true,
+			//	ImportStateVerify:       true,
+			//	ImportStateVerifyIgnore: []string{},
+			//	ResourceName:            resourceName,
+			//},
 		},
 	})
 }

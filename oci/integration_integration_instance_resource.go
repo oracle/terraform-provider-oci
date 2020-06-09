@@ -75,6 +75,11 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				StateFunc: getMd5Hash,
 				Sensitive: true,
 			},
+			"is_file_server_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"instance_url": {
@@ -273,6 +278,11 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 		request.IsByol = &tmp
 	}
 
+	if isFileServerEnabled, ok := s.D.GetOkExists("is_file_server_enabled"); ok {
+		tmp := isFileServerEnabled.(bool)
+		request.IsFileServerEnabled = &tmp
+	}
+
 	if messagePacks, ok := s.D.GetOkExists("message_packs"); ok {
 		tmp := messagePacks.(int)
 		request.MessagePacks = &tmp
@@ -463,6 +473,11 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 		request.IsByol = &tmp
 	}
 
+	if isFileServerEnabled, ok := s.D.GetOkExists("is_file_server_enabled"); ok {
+		tmp := isFileServerEnabled.(bool)
+		request.IsFileServerEnabled = &tmp
+	}
+
 	if messagePacks, ok := s.D.GetOkExists("message_packs"); ok {
 		tmp := messagePacks.(int)
 		request.MessagePacks = &tmp
@@ -522,6 +537,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 
 	if s.Res.IsByol != nil {
 		s.D.Set("is_byol", *s.Res.IsByol)
+	}
+
+	if s.Res.IsFileServerEnabled != nil {
+		s.D.Set("is_file_server_enabled", *s.Res.IsFileServerEnabled)
 	}
 
 	if s.Res.MessagePacks != nil {

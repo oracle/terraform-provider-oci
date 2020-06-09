@@ -6,7 +6,12 @@ package oci
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -19,6 +24,9 @@ func init() {
 
 func IdentityAuthTokenResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createIdentityAuthToken,
 		Read:     readIdentityAuthToken,
@@ -167,6 +175,14 @@ func (s *IdentityAuthTokenResourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
+	authTokenId, userId, err := parseAuthTokenCompositeId(s.D.Id())
+	if err == nil {
+		s.D.SetId(authTokenId)
+		request.UserId = &userId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.ListAuthTokens(context.Background(), request)
@@ -257,4 +273,24 @@ func (s *IdentityAuthTokenResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getAuthTokenCompositeId(authTokenId string, userId string) string {
+	authTokenId = url.PathEscape(authTokenId)
+	userId = url.PathEscape(userId)
+	compositeId := "users/" + userId + "/authTokens/" + authTokenId
+	return compositeId
+}
+
+func parseAuthTokenCompositeId(compositeId string) (authTokenId string, userId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("users/.*/authTokens/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	userId, _ = url.PathUnescape(parts[1])
+	authTokenId, _ = url.PathUnescape(parts[3])
+
+	return
 }

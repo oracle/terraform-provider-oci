@@ -136,7 +136,6 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		dbHome := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
-			"db_system_id":   *r.DbSystemId,
 		}
 
 		if r.DbHomeLocation != nil {

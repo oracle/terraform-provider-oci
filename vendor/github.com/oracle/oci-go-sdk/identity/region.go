@@ -21,26 +21,14 @@ import (
 // see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type Region struct {
 
-	// The key of the region.
-	// Allowed values are:
-	// - `PHX`
-	// - `IAD`
-	// - `FRA`
-	// - `LHR`
-	// - `YYZ`
-	// - `NRT`
-	// - `ICN`
+	// The key of the region. See Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm) for
+	// the full list of supported 3-letter region codes.
+	// Example: `PHX`
 	Key *string `mandatory:"false" json:"key"`
 
-	// The name of the region.
-	// Allowed values are:
-	// - `ap-seoul-1`
-	// - `ap-tokyo-1`
-	// - `ca-toronto-1`
-	// - `eu-frankurt-1`
-	// - `uk-london-1`
-	// - `us-ashburn-1`
-	// - `us-phoenix-1`
+	// The name of the region. See Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm)
+	// for the full list of supported region names.
+	// Example: `us-phoenix-1`
 	Name *string `mandatory:"false" json:"name"`
 }
 

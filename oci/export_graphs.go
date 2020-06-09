@@ -53,17 +53,22 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"database":            databaseResourceGraph,
+	"dataflow":            dataflowResourceGraph,
+	"dns":                 dnsResourceGraph,
 	"email":               emailResourceGraph,
 	"events":              eventsResourceGraph,
 	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
+	"kms":                 kmsResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
+	"monitoring":          monitoringResourceGraph,
 	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"osmanagement":        osmanagementResourceGraph,
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
+	"waas":                waasResourceGraph,
 }
 
 var apigatewayResourceGraph = TerraformResourceGraph{
@@ -238,7 +243,19 @@ var databaseResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
 		{TerraformResourceHints: exportDatabaseAutonomousDatabaseHints},
 		{TerraformResourceHints: exportDatabaseAutonomousExadataInfrastructureHints},
+		{TerraformResourceHints: exportDatabaseBackupDestinationHints},
+		{TerraformResourceHints: exportDatabaseBackupHints},
 		{TerraformResourceHints: exportDatabaseDbSystemHints},
+		{TerraformResourceHints: exportDatabaseExadataInfrastructureHints},
+		{TerraformResourceHints: exportDatabaseVmClusterHints},
+	},
+	"oci_database_db_home": {
+		{
+			TerraformResourceHints: exportDatabaseDatabaseHints,
+			datasourceQueryParams: map[string]string{
+				"db_home_id": "id",
+			},
+		},
 	},
 	"oci_database_db_system": {
 		{
@@ -247,6 +264,37 @@ var databaseResourceGraph = TerraformResourceGraph{
 				"db_system_id": "id",
 			},
 		},
+	},
+	"oci_database_exadata_infrastructure": {
+		{
+			TerraformResourceHints: exportDatabaseVmClusterNetworkHints,
+			datasourceQueryParams: map[string]string{
+				"exadata_infrastructure_id": "id",
+			},
+		},
+	},
+	"oci_database_vm_cluster": {
+		{
+			TerraformResourceHints: exportDatabaseDbHomeHints,
+			datasourceQueryParams: map[string]string{
+				"vm_cluster_id": "id",
+			},
+		},
+	},
+}
+
+var dataflowResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDataflowApplicationHints},
+	},
+}
+
+var dnsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDnsZoneHints},
+		{TerraformResourceHints: exportDnsSteeringPolicyHints},
+		{TerraformResourceHints: exportDnsSteeringPolicyAttachmentHints},
+		{TerraformResourceHints: exportDnsTsigKeyHints},
 	},
 }
 
@@ -310,6 +358,7 @@ var identityResourceGraph = TerraformResourceGraph{
 			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
 		},
 		{TerraformResourceHints: exportIdentityUserHints},
+		{TerraformResourceHints: exportIdentityNetworkSourceHints},
 	},
 	"oci_identity_compartment": {
 		{
@@ -355,6 +404,12 @@ var identityResourceGraph = TerraformResourceGraph{
 			},
 		},
 		{
+			TerraformResourceHints: exportIdentitySwiftPasswordHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
 			TerraformResourceHints: exportIdentityUiPasswordHints,
 			datasourceQueryParams: map[string]string{
 				"user_id": "id",
@@ -364,6 +419,29 @@ var identityResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportIdentityUserGroupMembershipHints,
 			datasourceQueryParams: map[string]string{
 				"user_id": "id",
+			},
+		},
+	},
+}
+
+var kmsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportKmsVaultHints},
+	},
+	"oci_kms_key": {
+		{
+			TerraformResourceHints: exportKmsKeyVersionHints,
+			datasourceQueryParams: map[string]string{
+				"key_id":              "id",
+				"management_endpoint": "management_endpoint",
+			},
+		},
+	},
+	"oci_kms_vault": {
+		{
+			TerraformResourceHints: exportKmsKeyHints,
+			datasourceQueryParams: map[string]string{
+				"management_endpoint": "management_endpoint",
 			},
 		},
 	},
@@ -423,6 +501,12 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var monitoringResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportMonitoringAlarmHints},
+	},
+}
+
 var nosqlResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportNosqlTableHints},
@@ -463,6 +547,15 @@ var streamingResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportStreamingConnectHarnessHints},
 		{TerraformResourceHints: exportStreamingStreamPoolHints},
 		{TerraformResourceHints: exportStreamingStreamHints},
+	},
+}
+
+var waasResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportWaasAddressListHints},
+		{TerraformResourceHints: exportWaasCustomProtectionRuleHints},
+		{TerraformResourceHints: exportWaasHttpRedirectHints},
+		{TerraformResourceHints: exportWaasWaasPolicyHints},
 	},
 }
 

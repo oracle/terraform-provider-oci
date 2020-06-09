@@ -58,6 +58,9 @@ type IntegrationInstance struct {
 	// namespaces.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The file server is enabled or not.
+	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 }
 
 func (m IntegrationInstance) String() string {

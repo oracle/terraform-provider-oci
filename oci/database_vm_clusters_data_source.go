@@ -122,10 +122,15 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		if r.CpusEnabled != nil {
 			vmCluster["cpus_enabled"] = *r.CpusEnabled
+			vmCluster["cpu_core_count"] = *r.CpusEnabled
 		}
 
 		if r.DataStorageSizeInTBs != nil {
 			vmCluster["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
+		}
+
+		if r.DbNodeStorageSizeInGBs != nil {
+			vmCluster["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
 		}
 
 		if r.DefinedTags != nil {
@@ -158,10 +163,18 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["is_sparse_diskgroup_enabled"] = *r.IsSparseDiskgroupEnabled
 		}
 
+		if r.LastPatchHistoryEntryId != nil {
+			vmCluster["last_patch_history_entry_id"] = *r.LastPatchHistoryEntryId
+		}
+
 		vmCluster["license_model"] = r.LicenseModel
 
 		if r.LifecycleDetails != nil {
 			vmCluster["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.MemorySizeInGBs != nil {
+			vmCluster["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
 
 		if r.Shape != nil {

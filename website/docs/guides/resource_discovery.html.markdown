@@ -98,19 +98,24 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
+    * `dataflow` - Discovers dataflow resources within the specified compartment
+    * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
+    * `kms` - Discovers kms resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
+    * `monitoring` - Discovers monitoring resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
+    * `waas` - Discovers waas resources within the specified compartment
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
     * 0.11
@@ -261,8 +266,25 @@ database
 * oci\_database\_autonomous\_container\_database
 * oci\_database\_autonomous\_database
 * oci\_database\_autonomous\_exadata\_infrastructure
+* oci\_database\_backup\_destination
+* oci\_database\_backup
+* oci\_database\_database
 * oci\_database\_db\_home
 * oci\_database\_db\_system
+* oci\_database\_exadata\_infrastructure
+* oci\_database\_vm\_cluster\_network
+* oci\_database\_vm\_cluster
+
+dataflow
+    
+* oci\_dataflow\_application
+
+dns
+    
+* oci\_dns\_zone
+* oci\_dns\_steering\_policy
+* oci\_dns\_steering\_policy\_attachment
+* oci\_dns\_tsig\_key
 
 email
     
@@ -303,9 +325,17 @@ identity
 * oci\_identity\_idp\_group\_mapping
 * oci\_identity\_policy
 * oci\_identity\_smtp\_credential
+* oci\_identity\_swift\_password
 * oci\_identity\_ui\_password
 * oci\_identity\_user\_group\_membership
 * oci\_identity\_user
+* oci\_identity\_network\_source
+
+kms
+    
+* oci\_kms\_key
+* oci\_kms\_key\_version
+* oci\_kms\_vault
 
 limits
     
@@ -321,6 +351,10 @@ load_balancer
 * oci\_load\_balancer\_load\_balancer
 * oci\_load\_balancer\_path\_route\_set
 * oci\_load\_balancer\_rule\_set
+
+monitoring
+    
+* oci\_monitoring\_alarm
 
 nosql
     
@@ -347,3 +381,10 @@ tagging
 * oci\_identity\_tag\_default
 * oci\_identity\_tag\_namespace
 * oci\_identity\_tag
+
+waas
+    
+* oci\_waas\_address\_list
+* oci\_waas\_custom\_protection\_rule
+* oci\_waas\_http\_redirect
+* oci\_waas\_waas\_policy

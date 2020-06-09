@@ -33,8 +33,9 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
     "bar-key" = "value"
   }
 
-  idcs_at = "${var.integration_instance_idcs_access_token}"
-  state   = "ACTIVE"
+  idcs_at                = "${var.integration_instance_idcs_access_token}"
+  is_file_server_enabled = true
+  state                  = "ACTIVE"
 }
 
 data "oci_integration_integration_instances" "test_integration_instances" {

@@ -34,7 +34,7 @@ var (
 	integrationInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `Active`},
+		"state":          Representation{repType: Optional, create: `InActive`},
 		"filter":         RepresentationGroup{Required, integrationInstanceDataSourceFilterRepresentation}}
 	integrationInstanceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -50,7 +50,8 @@ var (
 		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		"idcs_at":                   Representation{repType: Required, create: `${var.idcs_access_token}`},
-		"state":                     Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`},
+		"is_file_server_enabled":    Representation{repType: Optional, create: `false`, update: `true`},
+		"state":                     Representation{repType: Optional, create: `ACTIVE`, update: `INACTIVE`},
 	}
 
 	IntegrationInstanceResourceDependencies = DefinedTagsDependencies
@@ -125,8 +126,9 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
 					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
 					resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "message_packs", "10"),
-					resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -157,6 +159,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
 					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
 					resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "message_packs", "10"),
 
 					func(s *terraform.State) (err error) {
@@ -183,8 +186,9 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
 					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "ENTERPRISE"),
 					resource.TestCheckResourceAttr(resourceName, "is_byol", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "message_packs", "11"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -204,7 +208,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "InActive"),
 
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.compartment_id", compartmentId),
@@ -213,6 +217,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.instance_url"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.integration_instance_type", "ENTERPRISE"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_byol", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_file_server_enabled", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.message_packs", "11"),
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_created"),
@@ -235,6 +240,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_url"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "integration_instance_type", "ENTERPRISE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_file_server_enabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "message_packs", "11"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

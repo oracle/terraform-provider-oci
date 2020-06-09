@@ -122,5 +122,9 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+Databases can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_database_database.test_database "id"
+```
 

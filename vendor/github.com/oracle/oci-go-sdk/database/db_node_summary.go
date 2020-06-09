@@ -45,7 +45,7 @@ type DbNodeSummary struct {
 	// The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.
 	SoftwareStorageSizeInGB *int `mandatory:"false" json:"softwareStorageSizeInGB"`
 
-	// The type of maintenance of dbNode.
+	// The type of database node maintenance.
 	MaintenanceType DbNodeSummaryMaintenanceTypeEnum `mandatory:"false" json:"maintenanceType,omitempty"`
 
 	// Start date and time of maintenance window.
@@ -54,7 +54,7 @@ type DbNodeSummary struct {
 	// End date and time of maintenance window.
 	TimeMaintenanceWindowEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceWindowEnd"`
 
-	// Additional information like a message to customer about the maintenance.
+	// Additional information about the planned maintenance.
 	AdditionalDetails *string `mandatory:"false" json:"additionalDetails"`
 }
 

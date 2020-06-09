@@ -31,16 +31,9 @@ type Tenancy struct {
 	// The description of the tenancy.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The region key for the tenancy's home region. For more information about regions, see
+	// The region key for the tenancy's home region. For the full list of supported regions, see
 	// Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
-	// Allowed values are:
-	// - `IAD`
-	// - `PHX`
-	// - `FRA`
-	// - `LHR`
-	// - `ICN`
-	// - `YYZ`
-	// - `NRT`
+	// Example: `PHX`
 	HomeRegionKey *string `mandatory:"false" json:"homeRegionKey"`
 
 	// Url which refers to the UPI IDCS compatibility layer endpoint configured for this Tenant's home region.

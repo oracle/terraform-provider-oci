@@ -129,6 +129,10 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["is_byol"] = *r.IsByol
 		}
 
+		if r.IsFileServerEnabled != nil {
+			integrationInstance["is_file_server_enabled"] = *r.IsFileServerEnabled
+		}
+
 		if r.MessagePacks != nil {
 			integrationInstance["message_packs"] = *r.MessagePacks
 		}

@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Digital Assistant Control Plane API
+// Digital Assistant Service Instance API
 //
 // API to create and maintain Oracle Digital Assistant service instances.
 //
@@ -121,15 +121,27 @@ type OdaInstanceSummaryLifecycleSubStateEnum string
 
 // Set of constants representing the allowable values for OdaInstanceSummaryLifecycleSubStateEnum
 const (
-	OdaInstanceSummaryLifecycleSubStateDeletePending OdaInstanceSummaryLifecycleSubStateEnum = "DELETE_PENDING"
-	OdaInstanceSummaryLifecycleSubStatePurging       OdaInstanceSummaryLifecycleSubStateEnum = "PURGING"
-	OdaInstanceSummaryLifecycleSubStateQueued        OdaInstanceSummaryLifecycleSubStateEnum = "QUEUED"
+	OdaInstanceSummaryLifecycleSubStateCreating            OdaInstanceSummaryLifecycleSubStateEnum = "CREATING"
+	OdaInstanceSummaryLifecycleSubStateStarting            OdaInstanceSummaryLifecycleSubStateEnum = "STARTING"
+	OdaInstanceSummaryLifecycleSubStateStopping            OdaInstanceSummaryLifecycleSubStateEnum = "STOPPING"
+	OdaInstanceSummaryLifecycleSubStateChangingCompartment OdaInstanceSummaryLifecycleSubStateEnum = "CHANGING_COMPARTMENT"
+	OdaInstanceSummaryLifecycleSubStateDeleting            OdaInstanceSummaryLifecycleSubStateEnum = "DELETING"
+	OdaInstanceSummaryLifecycleSubStateDeletePending       OdaInstanceSummaryLifecycleSubStateEnum = "DELETE_PENDING"
+	OdaInstanceSummaryLifecycleSubStateRecovering          OdaInstanceSummaryLifecycleSubStateEnum = "RECOVERING"
+	OdaInstanceSummaryLifecycleSubStatePurging             OdaInstanceSummaryLifecycleSubStateEnum = "PURGING"
+	OdaInstanceSummaryLifecycleSubStateQueued              OdaInstanceSummaryLifecycleSubStateEnum = "QUEUED"
 )
 
 var mappingOdaInstanceSummaryLifecycleSubState = map[string]OdaInstanceSummaryLifecycleSubStateEnum{
-	"DELETE_PENDING": OdaInstanceSummaryLifecycleSubStateDeletePending,
-	"PURGING":        OdaInstanceSummaryLifecycleSubStatePurging,
-	"QUEUED":         OdaInstanceSummaryLifecycleSubStateQueued,
+	"CREATING":             OdaInstanceSummaryLifecycleSubStateCreating,
+	"STARTING":             OdaInstanceSummaryLifecycleSubStateStarting,
+	"STOPPING":             OdaInstanceSummaryLifecycleSubStateStopping,
+	"CHANGING_COMPARTMENT": OdaInstanceSummaryLifecycleSubStateChangingCompartment,
+	"DELETING":             OdaInstanceSummaryLifecycleSubStateDeleting,
+	"DELETE_PENDING":       OdaInstanceSummaryLifecycleSubStateDeletePending,
+	"RECOVERING":           OdaInstanceSummaryLifecycleSubStateRecovering,
+	"PURGING":              OdaInstanceSummaryLifecycleSubStatePurging,
+	"QUEUED":               OdaInstanceSummaryLifecycleSubStateQueued,
 }
 
 // GetOdaInstanceSummaryLifecycleSubStateEnumValues Enumerates the set of values for OdaInstanceSummaryLifecycleSubStateEnum
