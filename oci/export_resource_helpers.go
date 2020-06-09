@@ -134,6 +134,11 @@ func init() {
 	exportObjectStorageNamespaceHints.alwaysExportable = true
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
+	exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
+	exportObjectStorageObjectHints.requireResourceRefresh = true
+	exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
+	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStorageObjectPreauthenticatedRequestId
+	exportObjectStoragePreauthenticatedRequestHints.processDiscoveredResourcesFn = processObjectStoragePreauthenticatedRequest
 
 	exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
 
@@ -636,6 +641,93 @@ func getObjectStorageBucketId(resource *OCIResource) (string, error) {
 	}
 
 	return getBucketCompositeId(name, namespace), nil
+}
+
+func getObjectStorageObjectId(resource *OCIResource) (string, error) {
+	name, ok := resource.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find name for object id")
+	}
+
+	bucket, ok := resource.parent.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for object id")
+	}
+
+	namespace, ok := resource.parent.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for object id")
+	}
+
+	return getObjectCompositeId(bucket, namespace, name), nil
+}
+
+func getObjectStorageObjectLifecyclePolicyId(resource *OCIResource) (string, error) {
+	bucket, ok := resource.sourceAttributes["bucket"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for object Lifecycle Policy id")
+	}
+
+	namespace, ok := resource.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for object Lifecycle Policy id")
+	}
+
+	return getObjectLifecyclePolicyCompositeId(bucket, namespace), nil
+}
+
+func getObjectStorageObjectPreauthenticatedRequestId(resource *OCIResource) (string, error) {
+	parId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find parId for PreauthenticatedRequest id")
+	}
+
+	bucket, ok := resource.parent.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for PreauthenticatedRequest id")
+	}
+
+	namespace, ok := resource.parent.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for PreauthenticatedRequest id")
+	}
+
+	return getPreauthenticatedRequestCompositeId(bucket, namespace, parId), nil
+}
+
+func processObjectStoragePreauthenticatedRequest(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, index := range resources {
+		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
+		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
+	}
+	return resources, nil
+}
+
+func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) {
+	replicationId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find replicationId for replication id")
+	}
+
+	bucket, ok := resource.parent.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for replication id")
+	}
+
+	namespace, ok := resource.parent.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for replication id")
+	}
+
+	return getReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
+}
+
+func processObjectStorageReplicationPolicy(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, index := range resources {
+		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
+		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
+	}
+	return resources, nil
 }
 
 func findIdentityTags(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) ([]*OCIResource, error) {

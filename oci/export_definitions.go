@@ -1206,6 +1206,12 @@ var exportObjectStorageBucketHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+var exportObjectStorageObjectLifecyclePolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_objectstorage_object_lifecycle_policy",
+	datasourceClass:      "oci_objectstorage_object_lifecycle_policy",
+	resourceAbbreviation: "object_lifecycle_policy",
+}
+
 var exportObjectStorageNamespaceHints = &TerraformResourceHints{
 	resourceClass:        "oci_objectstorage_namespace",
 	datasourceClass:      "oci_objectstorage_namespace",
@@ -1220,6 +1226,20 @@ var exportOdaOdaInstanceHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_oda.OdaInstanceLifecycleStateActive),
 	},
+}
+
+var exportObjectStorageObjectHints = &TerraformResourceHints{
+	resourceClass:        "oci_objectstorage_object",
+	datasourceClass:      "oci_objectstorage_objects",
+	datasourceItemsAttr:  "objects",
+	resourceAbbreviation: "object",
+}
+
+var exportObjectStoragePreauthenticatedRequestHints = &TerraformResourceHints{
+	resourceClass:        "oci_objectstorage_preauthrequest",
+	datasourceClass:      "oci_objectstorage_preauthrequests",
+	datasourceItemsAttr:  "preauthenticated_requests",
+	resourceAbbreviation: "preauthenticated_request",
 }
 
 var exportOsmanagementManagedInstanceGroupHints = &TerraformResourceHints{
