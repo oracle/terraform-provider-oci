@@ -36,6 +36,12 @@ The following attributes are exported:
 * `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
 * `availability_domain` - The availability domain of the Autonomous Container Database.
 * `backup_config` - 
+	* `backup_destination_details` - Backup destination details.
+		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+		* `internet_proxy` - Proxy URL to connect to object store.
+		* `type` - Type of the database backup destination.
+		* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
+		* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 	* `recovery_window_in_days` - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 * `compartment_id` - The OCID of the compartment.
 * `db_unique_name` - The `DB_UNIQUE_NAME` of the Oracle Database being backed up.

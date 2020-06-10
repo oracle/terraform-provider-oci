@@ -159,7 +159,7 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 		}
 
 		if r.BackupConfig != nil {
-			autonomousContainerDatabase["backup_config"] = []interface{}{AutonomousContainerDatabaseBackupConfigToMap(r.BackupConfig)}
+			autonomousContainerDatabase["backup_config"] = []interface{}{AutonomousContainerDatabaseBackupConfigToMap(r.BackupConfig, nil, true)}
 		} else {
 			autonomousContainerDatabase["backup_config"] = nil
 		}

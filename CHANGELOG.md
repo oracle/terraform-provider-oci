@@ -5,6 +5,11 @@
 - Support `dataflow_archive_uri` for service `dataflow`
 - Support for Data Integration Service
 - Support for Tags in Shared DB Home resource
+- Support `oci_database_autonomous_vm_cluster` for service `database`
+- Support for `mount_type_details`, `mount_type`, `nfs_server` and `nfs_server_export` attributes in `oci_database_backup_destination` resource
+
+### Notes
+- `mount_type_details` attribute needs to be set when `type` attribute is set to `NFS` in `oci_database_backup_destination` resource
 
 ## 3.81.0 (June 17, 2020)
 
