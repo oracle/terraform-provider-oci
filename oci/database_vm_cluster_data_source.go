@@ -79,6 +79,10 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
 	}
 
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -105,10 +109,18 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("is_sparse_diskgroup_enabled", *s.Res.IsSparseDiskgroupEnabled)
 	}
 
+	if s.Res.LastPatchHistoryEntryId != nil {
+		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
 	if s.Res.Shape != nil {

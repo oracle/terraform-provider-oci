@@ -51,6 +51,7 @@ The following attributes are exported:
 * `time_ended` - The date and time the backup was completed.
 * `time_started` - The date and time the backup started.
 * `type` - The type of backup.
+* `version` - Version of the backup's source database
 
 ## Import
 

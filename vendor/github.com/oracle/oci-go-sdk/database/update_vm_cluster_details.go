@@ -19,11 +19,22 @@ type UpdateVmClusterDetails struct {
 	// The number of CPU cores to enable for the VM cluster.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	// The memory to be allocated in GBs.
+	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
+
+	// The local node storage to be allocated in GBs.
+	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
+
+	// The data disk group size to be allocated in TBs.
+	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
+
 	// The Oracle license model that applies to the VM cluster. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel UpdateVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The public key portion of one or more key pairs used for SSH access to the VM cluster.
 	SshPublicKeys []string `mandatory:"false" json:"sshPublicKeys"`
+
+	Version *PatchDetails `mandatory:"false" json:"version"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

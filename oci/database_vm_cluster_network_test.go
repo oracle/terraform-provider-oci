@@ -116,7 +116,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_vm_cluster_networks.test_vm_cluster_networks"
 	singularDatasourceName := "data.oci_database_vm_cluster_network.test_vm_cluster_network"
 
-	var resId, resId2 string
+	var resId, resId2, compositeId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -196,8 +196,10 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						exadataInfrastructureId, _ := fromInstanceState(s, resourceName, "exadata_infrastructure_id")
+						compositeId = "exadataInfrastructures/" + exadataInfrastructureId + "/vmClusterNetworks/" + resId
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -325,6 +327,22 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 						[]string{}),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceConfig,
+			},
+			// TODO Import is not working because ImportStateId param does not work. The Import step still picks id from state.
+			// verify resource import
+			//{
+			//	Config:            config,
+			//	ImportState:       true,
+			//	ImportStateId:     compositeId,
+			//	ImportStateVerify: true,
+			//	ImportStateVerifyIgnore: []string{
+			//		"validate_vm_cluster_network",
+			//	},
+			//	ResourceName: resourceName,
+			//},
 		},
 	})
 }

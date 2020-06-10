@@ -53,6 +53,7 @@ The following attributes are exported:
 * `instance_url` - The Integration Instance URL.
 * `integration_instance_type` - Standard or Enterprise type
 * `is_byol` - Bring your own license.
+* `is_file_server_enabled` - The file server is enabled or not.
 * `message_packs` - The number of configured message packs (if any)
 * `state` - The current state of the integration instance.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

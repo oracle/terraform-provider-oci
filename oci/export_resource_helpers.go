@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/hashicorp/terraform/helper/schema"
+
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -93,6 +95,8 @@ func init() {
 	exportDatabaseDbSystemHints.requireResourceRefresh = true
 	exportDatabaseDbHomeHints.processDiscoveredResourcesFn = filterPrimaryDbHomes
 	exportDatabaseDbHomeHints.requireResourceRefresh = true
+	exportDatabaseDatabaseHints.requireResourceRefresh = true
+	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 
 	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
 	exportIdentityAvailabilityDomainHints.alwaysExportable = true
@@ -118,6 +122,85 @@ func init() {
 	exportFileStorageMountTargetHints.requireResourceRefresh = true
 
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
+
+	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
+
+	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
+
+	exportIdentityCustomerSecretKeyHints.getIdFn = getIdentityCustomerSecretKeyId
+
+	exportIdentityIdpGroupMappingHints.getIdFn = getIdentityIdpGroupMappingId
+
+	exportIdentitySmtpCredentialHints.getIdFn = getIdentitySmtpCredentialId
+
+	exportIdentitySwiftPasswordHints.getIdFn = getIdentitySwiftPasswordId
+
+	exportKmsKeyHints.getIdFn = getKmsKeyId
+	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
+
+	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
+}
+
+// Custom functions to alter behavior of resource discovery and resource HCL representation
+
+func getIdentityApiKeyId(resource *OCIResource) (string, error) {
+	fingerPrint, ok := resource.sourceAttributes["fingerprint"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find fingerprint for Api Key")
+	}
+	userId := resource.parent.id
+
+	return getApiKeyCompositeId(fingerPrint, userId), nil
+}
+
+func getIdentityAuthTokenId(resource *OCIResource) (string, error) {
+	authTokenId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Auth Token")
+	}
+	userId := resource.parent.id
+
+	return getAuthTokenCompositeId(authTokenId, userId), nil
+}
+
+func getIdentityCustomerSecretKeyId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Customer Secrest Key")
+	}
+	userId := resource.parent.id
+
+	return getCustomerSecretKeyCompositeId(id, userId), nil
+}
+
+func getIdentityIdpGroupMappingId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Customer Secrest Key")
+	}
+	providerId := resource.parent.id
+
+	return getIdpGroupMappingCompositeId(providerId, id), nil
+}
+
+func getIdentitySmtpCredentialId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Smtp Credential")
+	}
+	userId := resource.parent.id
+
+	return getSmtpCredentialCompositeId(id, userId), nil
+}
+
+func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Swift Password")
+	}
+	userId := resource.parent.id
+
+	return getSwiftPasswordCompositeId(id, userId), nil
 }
 
 func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
@@ -162,6 +245,47 @@ func getNosqlIndexId(resource *OCIResource) (string, error) {
 	tableNameOrId := resource.parent.id
 
 	return getIndexCompositeId(name, tableNameOrId), nil
+}
+
+func processKmsKey(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		resource.sourceAttributes["management_endpoint"] = resource.parent.sourceAttributes["management_endpoint"].(string)
+		var resourceSchema *schema.ResourceData = resource.rawResource.(*schema.ResourceData)
+		resource.sourceAttributes["id"] = resourceSchema.Id()
+	}
+	return resources, nil
+}
+
+func getKmsKeyId(resource *OCIResource) (string, error) {
+	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find management_endpoint for Index id")
+	}
+	var keyId string
+	// observed that Id is not always available in sourceAttributes - refer export_compartment.go->findResourcesGeneric() to visualize below docs
+	// resource.sourceAttributes has the id in the cases where getKmsKeyId is called with LIST data source response, because list SetData() sets the Id, but this is only done temporarily to populate compositeID
+	// When getKmsKeyId is called for resource, resource.sourceAttributes is not set yet,(so far we used LIST response to get composite Id) but we can get the real ocid after Read because Id was set in the method kms_key_resource.go->readKmsKey()
+	switch resource.rawResource.(type) {
+	case *schema.ResourceData:
+		// 	rawResource from resource read response
+		var resourceSchema *schema.ResourceData = resource.rawResource.(*schema.ResourceData)
+		keyId = resourceSchema.Id()
+	case map[string]interface{}:
+		// 	rawResource from LIST data source read response
+		var resourceMap map[string]interface{} = resource.rawResource.(map[string]interface{})
+		keyId = resourceMap["id"].(string)
+	}
+	return getCompositeKeyId(managementEndpoint, keyId), nil
+}
+
+func getKmsKeyVersionId(resource *OCIResource) (string, error) {
+	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find management_endpoint for Index id")
+	}
+	keyId := resource.parent.sourceAttributes["id"].(string)
+	keyVersionId := resource.sourceAttributes["key_version_id"].(string)
+	return getCompositeKeyVersionId(managementEndpoint, keyId, keyVersionId), nil
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
@@ -503,10 +627,13 @@ func findIdentityTags(clients *OracleClients, tfMeta *TerraformResourceAssociati
 			TerraformResource: TerraformResource{
 				id:             d.Id(),
 				terraformClass: tfMeta.resourceClass,
-				terraformName:  fmt.Sprintf("%s_%s", parent.parent.terraformName, *tag.Name),
 			},
 			getHclStringFn: getHclStringFromGenericMap,
 			parent:         parent,
+		}
+
+		if resource.terraformName, err = generateTerraformNameFromResource(resource.sourceAttributes, tagResource.Schema); err != nil {
+			resource.terraformName = fmt.Sprintf("%s_%s", parent.parent.terraformName, *tag.Name)
 		}
 
 		results = append(results, resource)
@@ -587,6 +714,10 @@ func processNetworkSecurityGroupRules(clients *OracleClients, resources []*OCIRe
 }
 
 func filterPrimaryDbHomes(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	// No need to filter if db homes are in vm cluster
+	if len(resources) > 0 && resources[0].parent.terraformClass == "oci_database_vm_cluster" {
+		return resources, nil
+	}
 	results := []*OCIResource{}
 	for _, resource := range resources {
 		// Only return dbHome resources that don't match the db home ID of the db system resource.
@@ -666,4 +797,18 @@ func getCoreNetworkSecurityGroupSecurityRuleId(resource *OCIResource) (string, e
 	}
 
 	return getNetworkSecurityGroupSecurityRuleCompositeId(networkSecurityGroupId, securityRuleId), nil
+}
+
+func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
+	exadataInfrastructureId, ok := resource.sourceAttributes["exadata_infrastructure_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find exadata_infrastructure_id for VmCluster network id")
+	}
+
+	id, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for VmCluster network id")
+	}
+
+	return getVmClusterNetworkCompositeId(exadataInfrastructureId, id), nil
 }

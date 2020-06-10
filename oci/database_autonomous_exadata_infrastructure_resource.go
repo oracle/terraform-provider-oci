@@ -588,12 +588,13 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
 
-	nsgIds := []interface{}{}
-	for _, item := range s.Res.NsgIds {
-		nsgIds = append(nsgIds, item)
+	if s.Res.NsgIds != nil {
+		nsgIds := []interface{}{}
+		for _, item := range s.Res.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
-
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}

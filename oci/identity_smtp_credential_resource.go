@@ -6,7 +6,12 @@ package oci
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -19,6 +24,9 @@ func init() {
 
 func IdentitySmtpCredentialResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createIdentitySmtpCredential,
 		Read:     readIdentitySmtpCredential,
@@ -182,6 +190,14 @@ func (s *IdentitySmtpCredentialResourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
+	smtpCredentialId, userId, err := parseSmtpCredentialCompositeId(s.D.Id())
+	if err == nil {
+		s.D.SetId(smtpCredentialId)
+		request.UserId = &userId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.ListSmtpCredentials(context.Background(), request)
@@ -276,4 +292,24 @@ func (s *IdentitySmtpCredentialResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getSmtpCredentialCompositeId(smtpCredentialId string, userId string) string {
+	smtpCredentialId = url.PathEscape(smtpCredentialId)
+	userId = url.PathEscape(userId)
+	compositeId := "users/" + userId + "/smtpCredentials/" + smtpCredentialId
+	return compositeId
+}
+
+func parseSmtpCredentialCompositeId(compositeId string) (smtpCredentialId string, userId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("users/.*/smtpCredentials/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	userId, _ = url.PathUnescape(parts[1])
+	smtpCredentialId, _ = url.PathUnescape(parts[3])
+
+	return
 }

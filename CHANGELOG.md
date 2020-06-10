@@ -1,4 +1,21 @@
 ## 3.80.0 (Unreleased)
+
+### Added
+- Support resource discovery for `waas` resources
+- Support resource discovery for `database` resources: exadata infrastructures, vm clusters, backup destinations, databases, database backups
+- Support resource discovery for `dns` resources
+- Support addition of File Server capability to `oci_integration_integration_instance`
+- Support for MultiVM-Gen 2 Exadata Cloud at Customer
+- Support for `dbVersion` field added to Autonomous Database back resource
+- Support for patch and patch history in `database_vm_cluster`
+- Support resource discovery for `monitoring` resources
+- Support resource discovery for `identity` resources
+- Support resource discovery for `dataflow` resources
+- Added `oci_dns_rrset` resource to support DNS RRSet
+
+### Fixed
+- updated `static_routes` attribute to be empty in `oci_core_ipsec` resource
+
 ## 3.79.0 (June 03, 2020)
 
 ### Added

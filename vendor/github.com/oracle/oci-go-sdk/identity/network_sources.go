@@ -13,14 +13,15 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// NetworkSources A network source defines a list of source IPs that are allowed to make auth requests
-// More info needed here
+// NetworkSources A network source specifies a list of source IP addresses that are allowed to make authorization requests.
+// Use the network source in policy statements to restrict access to only requests that come from the specified IPs.
+// For more information, see Managing Network Sources (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingnetworksources.htm).
 type NetworkSources struct {
 
 	// The OCID of the network source.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the network source.
+	// The OCID of the tenancy containing the network source. The tenancy is the root compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name you assign to the network source during creation. The name must be unique across
@@ -38,14 +39,16 @@ type NetworkSources struct {
 	// ACTIVE before using it.
 	LifecycleState NetworkSourcesLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// A list of allowed public IPs and CIDR ranges
+	// A list of allowed public IPs and CIDR ranges.
 	PublicSourceList []string `mandatory:"false" json:"publicSourceList"`
 
-	// A list of allowed VCN ocid/IP range pairs
+	// A list of allowed VCN OCID and IP range pairs.
+	// Example:`"vcnId": "ocid1.vcn.oc1.iad.aaaaaaaaexampleuniqueID", "ipRanges": [ "129.213.39.0/24" ]`
 	VirtualSourceList []NetworkSourcesVirtualSourceList `mandatory:"false" json:"virtualSourceList"`
 
-	// A list of OCIservices allowed to make on behalf of requests which may have different source ips.
-	// At this time only the values of all or none are supported.
+	// A list of services allowed to make on-behalf-of requests. These requests can have different source IPs than
+	// those specified in the network source.
+	// Currently, only `all` and `none` are supported. The default is `all`.
 	Services []string `mandatory:"false" json:"services"`
 
 	// The detailed status of INACTIVE lifecycleState.

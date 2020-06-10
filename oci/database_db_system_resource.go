@@ -1018,11 +1018,13 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
-	backupNetworkNsgIds := []interface{}{}
-	for _, item := range s.Res.BackupNetworkNsgIds {
-		backupNetworkNsgIds = append(backupNetworkNsgIds, item)
+	if s.Res.BackupNetworkNsgIds != nil {
+		backupNetworkNsgIds := []interface{}{}
+		for _, item := range s.Res.BackupNetworkNsgIds {
+			backupNetworkNsgIds = append(backupNetworkNsgIds, item)
+		}
+		s.D.Set("backup_network_nsg_ids", schema.NewSet(literalTypeHashCodeForSets, backupNetworkNsgIds))
 	}
-	s.D.Set("backup_network_nsg_ids", schema.NewSet(literalTypeHashCodeForSets, backupNetworkNsgIds))
 
 	if s.Res.BackupSubnetId != nil {
 		s.D.Set("backup_subnet_id", *s.Res.BackupSubnetId)
@@ -1110,12 +1112,13 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
 
-	nsgIds := []interface{}{}
-	for _, item := range s.Res.NsgIds {
-		nsgIds = append(nsgIds, item)
+	if s.Res.NsgIds != nil {
+		nsgIds := []interface{}{}
+		for _, item := range s.Res.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
-
 	if s.Res.RecoStorageSizeInGB != nil {
 		s.D.Set("reco_storage_size_in_gb", *s.Res.RecoStorageSizeInGB)
 	}

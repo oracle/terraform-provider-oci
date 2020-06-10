@@ -35,6 +35,7 @@ The following attributes are exported:
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
+* `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
@@ -43,8 +44,10 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 * `is_local_backup_enabled` - If true, database backup on local Exadata storage is configured for the VM cluster. If false, database backup on local Exadata storage is not available in the VM cluster. 
 * `is_sparse_diskgroup_enabled` - If true, sparse disk group is configured for the VM cluster. If false, sparse disk group is not created. 
+* `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation starts.
 * `license_model` - The Oracle license model that applies to the VM cluster. The default is LICENSE_INCLUDED. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `memory_size_in_gbs` - The memory allocated in GBs.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the VM cluster.
 * `state` - The current state of the VM cluster.
