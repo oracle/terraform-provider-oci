@@ -43,6 +43,9 @@ type CreateIntegrationInstanceDetails struct {
 
 	// IDCS Authentication token. This is is required for pre-UCPIS cloud accounts, but not UCPIS, hence not a required parameter
 	IdcsAt *string `mandatory:"false" json:"idcsAt"`
+
+	// The file server is enabled or not.
+	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 }
 
 func (m CreateIntegrationInstanceDetails) String() string {

@@ -250,6 +250,14 @@ func deleteKmsKey(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
+// existing Id is key OCID and it is not the format that readKmsKey expects managementEndpoint/{managementEndpoint}/keys/{keyId}
+// getCompositeKeyId is only used for resource discovery and it returns the Id as expected by readKmsKey method
+// terraform import oci_kms_key.test_key "managementEndpoint/{managementEndpoint}/keys/{keyId}"
+func getCompositeKeyId(managementEndpoint string, keyId string) string {
+	compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + keyId
+	return compositeId
+}
+
 type KmsKeyResourceCrud struct {
 	BaseCrud
 	Client                 *oci_kms.KmsManagementClient

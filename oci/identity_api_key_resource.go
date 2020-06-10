@@ -6,8 +6,12 @@ package oci
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
+	"net/url"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -20,6 +24,9 @@ func init() {
 
 func IdentityApiKeyResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createIdentityApiKey,
 		Read:     readIdentityApiKey,
@@ -162,6 +169,14 @@ func (s *IdentityApiKeyResourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
+	fingerprintFromCompositeId, userId, err := parseApiKeyCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("fingerprint", fingerprintFromCompositeId)
+		request.UserId = &userId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.ListApiKeys(context.Background(), request)
@@ -223,4 +238,24 @@ func (s *IdentityApiKeyResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getApiKeyCompositeId(fingerprint string, userId string) string {
+	fingerprint = url.PathEscape(fingerprint)
+	userId = url.PathEscape(userId)
+	compositeId := "users/" + userId + "/apiKeys/" + fingerprint
+	return compositeId
+}
+
+func parseApiKeyCompositeId(compositeId string) (fingerprint string, userId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("users/.*/apiKeys/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	userId, _ = url.PathUnescape(parts[1])
+	fingerprint, _ = url.PathUnescape(parts[3])
+
+	return
 }

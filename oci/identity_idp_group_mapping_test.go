@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 
@@ -56,6 +57,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_idp_group_mappings.test_idp_group_mappings"
 
 	var resId, resId2 string
+	var compositeId string
 
 	_, tokenFn := tokenizeWithHttpReplay("idp_group_mapping")
 	IdpGroupMappingResourceDependencies = tokenFn(IdpGroupMappingResourceDependencies, map[string]string{"metadata_file": metadataFile})
@@ -78,8 +80,11 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						identityProviderId, _ := fromInstanceState(s, resourceName, "identity_provider_id")
+						compositeId = "identityProviders/" + identityProviderId + "/groupMappings/" + resId
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -129,6 +134,14 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.time_created"),
 				),
 			},
+			// verify resource import
+			//{
+			//	Config:                  config,
+			//	ImportState:             true,
+			//	ImportStateVerify:       true,
+			//	ImportStateVerifyIgnore: []string{},
+			//	ResourceName:            resourceName,
+			//},
 		},
 	})
 }

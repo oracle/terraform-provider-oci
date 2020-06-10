@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"regexp"
+	"strconv"
 	"testing"
 	"time"
 
@@ -140,6 +141,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 	resourceName := "oci_database_db_home.test_db_home"
 	datasourceName := "data.oci_database_db_homes.test_db_homes"
 	singularDatasourceName := "data.oci_database_db_home.test_db_home"
+
+	var resId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -310,6 +313,16 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 

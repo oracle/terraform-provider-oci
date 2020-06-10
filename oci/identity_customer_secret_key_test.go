@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 
@@ -48,6 +49,7 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_customer_secret_keys.test_customer_secret_keys"
 
 	var resId, resId2 string
+	var compositeId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -70,8 +72,11 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						userId, _ := fromInstanceState(s, resourceName, "user_id")
+						compositeId = "users/" + userId + "/customerSecretKeys/" + resId
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -114,6 +119,16 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.user_id"),
 				),
 			},
+			// verify resource import
+			//{
+			//	Config:            config,
+			//	ImportState:       true,
+			//	ImportStateVerify: true,
+			//	ImportStateVerifyIgnore: []string{
+			//		"key",
+			//	},
+			//	ResourceName: resourceName,
+			//},
 		},
 	})
 }

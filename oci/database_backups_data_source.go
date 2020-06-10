@@ -147,6 +147,10 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 
 		backup["type"] = r.Type
 
+		if r.Version != nil {
+			backup["version"] = *r.Version
+		}
+
 		resources = append(resources, backup)
 	}
 

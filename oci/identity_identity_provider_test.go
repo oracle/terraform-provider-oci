@@ -212,7 +212,6 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"metadata",
-					"metadata_url",
 				},
 				ResourceName: resourceName,
 			},

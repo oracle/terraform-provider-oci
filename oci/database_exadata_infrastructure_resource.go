@@ -116,11 +116,35 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Computed: true,
 			},
 			"data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"db_node_storage_size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"max_cpu_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"max_data_storage_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"max_db_node_storage_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"max_memory_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"memory_size_in_gbs": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"state": {
@@ -219,7 +243,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) UpdatedTarget() []string {
 		string(oci_database.ExadataInfrastructureLifecycleStateRequiresActivation),
 		string(oci_database.ExadataInfrastructureLifecycleStateActive),
 		string(oci_database.ExadataInfrastructureLifecycleStateActivationFailed),
-		string(oci_database.ExadataInfrastructureLifecycleStateOffline),
+		string(oci_database.ExadataInfrastructureLifecycleStateDisconnected),
 	}
 }
 
@@ -529,6 +553,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
 	}
 
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -551,6 +579,26 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.MaxCpuCount != nil {
+		s.D.Set("max_cpu_count", *s.Res.MaxCpuCount)
+	}
+
+	if s.Res.MaxDataStorageInTBs != nil {
+		s.D.Set("max_data_storage_in_tbs", *s.Res.MaxDataStorageInTBs)
+	}
+
+	if s.Res.MaxDbNodeStorageInGBs != nil {
+		s.D.Set("max_db_node_storage_in_gbs", *s.Res.MaxDbNodeStorageInGBs)
+	}
+
+	if s.Res.MaxMemoryInGBs != nil {
+		s.D.Set("max_memory_in_gbs", *s.Res.MaxMemoryInGBs)
+	}
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
 	if s.Res.Netmask != nil {

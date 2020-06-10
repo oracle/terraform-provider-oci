@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
@@ -52,6 +53,8 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	resourceName := "oci_database_backup.test_backup"
 	datasourceName := "data.oci_database_backups.test_backups"
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -66,6 +69,16 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 
@@ -91,6 +104,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_started"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.type"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.version"),
 				),
 			},
 			// verify resource import
