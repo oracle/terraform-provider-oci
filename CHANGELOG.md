@@ -1,4 +1,4 @@
-## 3.80.0 (Unreleased)
+## 3.80.0 (June 10, 2020)
 
 ### Added
 - Support resource discovery for `waas` resources
