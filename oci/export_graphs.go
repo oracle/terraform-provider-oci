@@ -61,6 +61,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
+	"integration":         integrationResourceGraph,
 	"kms":                 kmsResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
 	"monitoring":          monitoringResourceGraph,
@@ -452,6 +453,12 @@ var identityResourceGraph = TerraformResourceGraph{
 				"user_id": "id",
 			},
 		},
+	},
+}
+
+var integrationResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportIntegrationIntegrationInstanceHints},
 	},
 }
 
