@@ -18,6 +18,7 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/integration"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -980,6 +981,17 @@ var exportIdentityTagHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_identity.TagLifecycleStateActive),
+	},
+}
+
+var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
+	resourceClass:          "oci_integration_integration_instance",
+	datasourceClass:        "oci_integration_integration_instances",
+	datasourceItemsAttr:    "integration_instances",
+	resourceAbbreviation:   "integration_instance",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_integration.IntegrationInstanceLifecycleStateActive),
 	},
 }
 
