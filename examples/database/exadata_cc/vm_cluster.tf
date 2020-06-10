@@ -174,7 +174,10 @@ resource "oci_database_backup_destination" "test_backup_destination_nfs" {
   freeform_tags = {
     "Department" = "Finance"
   }
-  local_mount_point_path = "local_mount_point_path"
+  mount_type_details {
+    local_mount_point_path = "localMountPointPath"
+    mount_type             = "SELF_MOUNT"
+  }
 }
 
 data "oci_database_vm_cluster_network_download_config_file" "test_vm_cluster_network_download_config_file" {

@@ -99,6 +99,14 @@ func (s *DatabaseBackupDestinationDataSourceCrud) SetData() error {
 		s.D.Set("local_mount_point_path", *s.Res.LocalMountPointPath)
 	}
 
+	s.D.Set("nfs_mount_type", s.Res.NfsMountType)
+
+	s.D.Set("nfs_server", s.Res.NfsServer)
+
+	if s.Res.NfsServerExport != nil {
+		s.D.Set("nfs_server_export", *s.Res.NfsServerExport)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

@@ -80,7 +80,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.BackupConfig != nil {
-		s.D.Set("backup_config", []interface{}{AutonomousContainerDatabaseBackupConfigToMap(s.Res.BackupConfig)})
+		s.D.Set("backup_config", []interface{}{AutonomousContainerDatabaseBackupConfigToMap(s.Res.BackupConfig, nil, true)})
 	} else {
 		s.D.Set("backup_config", nil)
 	}

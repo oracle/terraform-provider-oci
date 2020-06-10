@@ -27,6 +27,15 @@ resource "oci_database_backup_destination" "test_backup_destination" {
 	defined_tags = "${var.backup_destination_defined_tags}"
 	freeform_tags = {"Department"= "Finance"}
 	local_mount_point_path = "${var.backup_destination_local_mount_point_path}"
+	mount_type_details {
+		#Required
+		mount_type = "${var.backup_destination_mount_type_details_mount_type}"
+
+		#Optional
+		local_mount_point_path = "${var.backup_destination_mount_type_details_local_mount_point_path}"
+		nfs_server = "${var.backup_destination_mount_type_details_nfs_server}"
+		nfs_server_export = "${var.backup_destination_mount_type_details_nfs_server_export}"
+	}
 	vpc_users = "${var.backup_destination_vpc_users}"
 }
 ```
@@ -40,7 +49,12 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-provided name of the backup destination.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `local_mount_point_path` - (Required when type=NFS) (Updatable) The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes. 
+* `local_mount_point_path` - (Applicable when type=NFS) (Updatable) **Deprecated.** The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes. This field is deprecated. Use the mountTypeDetails field instead to specify the mount type for NFS. 
+* `mount_type_details` - (Applicable when type=NFS) 
+	* `local_mount_point_path` - (Required when mount_type=SELF_MOUNT) The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes. 
+	* `mount_type` - (Required) Mount type for backup destination.
+	* `nfs_server` - (Required when mount_type=AUTOMATED_MOUNT) IP addresses for NFS Auto mount.
+	* `nfs_server_export` - (Required when mount_type=AUTOMATED_MOUNT) Specifies the directory on which to mount the file system
 * `type` - (Required) Type of the backup destination.
 * `vpc_users` - (Required when type=RECOVERY_APPLIANCE) (Updatable) The Virtual Private Catalog (VPC) users that are used to access the Recovery Appliance.
 
@@ -63,6 +77,9 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically contains additional displayable text 
 * `local_mount_point_path` - The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes. 
+* `nfs_mount_type` - NFS Mount type for backup destination.
+* `nfs_server` - Host names or IP addresses for NFS Auto mount.
+* `nfs_server_export` - Specifies the directory on which to mount the file system
 * `state` - The current lifecycle state of the backup destination.
 * `time_created` - The date and time the backup destination was created.
 * `type` - Type of the backup destination.

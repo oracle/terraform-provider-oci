@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -69,8 +70,55 @@ func DatabaseBackupDestinationResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"local_mount_point_path": {
-				Type:     schema.TypeString,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				Deprecated: FieldDeprecatedForAnother("local_mount_point_path", "local_mount_point_path under mount_type_details"),
+			},
+			"mount_type_details": {
+				Type:     schema.TypeList,
 				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"mount_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"AUTOMATED_MOUNT",
+								"SELF_MOUNT",
+							}, true),
+						},
+
+						// Optional
+						"local_mount_point_path": {
+							Type:          schema.TypeString,
+							Optional:      true,
+							Computed:      true,
+							ConflictsWith: []string{"local_mount_point_path"},
+						},
+						"nfs_server": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"nfs_server_export": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"vpc_users": {
 				Type:     schema.TypeList,
@@ -103,6 +151,21 @@ func DatabaseBackupDestinationResource() *schema.Resource {
 				},
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"nfs_mount_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"nfs_server": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"nfs_server_export": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -266,6 +329,12 @@ func (s *DatabaseBackupDestinationResourceCrud) Update() error {
 		request.VpcUsers = tmp
 	}
 
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mount_type_details", 0)
+	err := s.mapMountTypeDetailsForUpdate(fieldKeyFormat, &request)
+	if err != nil {
+		return err
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateBackupDestination(context.Background(), request)
@@ -312,6 +381,11 @@ func (s *DatabaseBackupDestinationResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	mountTypeDetails := []interface{}{}
+	mountTypeDetails = append(mountTypeDetails, MountTypeDetailsToMap(s.Res))
+
+	s.D.Set("mount_type_details", mountTypeDetails)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {
@@ -320,6 +394,14 @@ func (s *DatabaseBackupDestinationResourceCrud) SetData() error {
 
 	if s.Res.LocalMountPointPath != nil {
 		s.D.Set("local_mount_point_path", *s.Res.LocalMountPointPath)
+	}
+
+	s.D.Set("nfs_mount_type", s.Res.NfsMountType)
+
+	s.D.Set("nfs_server", s.Res.NfsServer)
+
+	if s.Res.NfsServerExport != nil {
+		s.D.Set("nfs_server_export", *s.Res.NfsServerExport)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -351,6 +433,118 @@ func AssociatedDatabaseDetailsToMap(obj oci_database.AssociatedDatabaseDetails) 
 	return result
 }
 
+func (s *DatabaseBackupDestinationResourceCrud) mapToMountTypeDetails(fieldKeyFormat string) (oci_database.MountTypeDetails, error) {
+	var baseObject oci_database.MountTypeDetails
+	//discriminator
+	mountTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_type"))
+	var mountType string
+	if ok {
+		mountType = mountTypeRaw.(string)
+	} else {
+		mountType = "SELF_MOUNT" // default value
+	}
+	switch strings.ToLower(mountType) {
+	case strings.ToLower("AUTOMATED_MOUNT"):
+		details := oci_database.AutomatedMountDetails{}
+		if nfsServer, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nfs_server")); ok {
+			interfaces := nfsServer.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nfs_server")) {
+				details.NfsServer = tmp
+			}
+		}
+		if nfsServerExport, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nfs_server_export")); ok {
+			tmp := nfsServerExport.(string)
+			details.NfsServerExport = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SELF_MOUNT"):
+		details := oci_database.SelfMountDetails{}
+		if localMountPointPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "local_mount_point_path")); ok {
+			tmp := localMountPointPath.(string)
+			details.LocalMountPointPath = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown mount_type '%v' was specified", mountType)
+	}
+	return baseObject, nil
+}
+
+func MountTypeDetailsToMap(obj *oci_database.BackupDestination) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	switch obj.NfsMountType {
+	case oci_database.BackupDestinationNfsMountTypeAutomatedMount:
+		result["mount_type"] = "AUTOMATED_MOUNT"
+
+		if obj.NfsServer != nil {
+			result["nfs_server"] = obj.NfsServer
+		}
+
+		if obj.NfsServerExport != nil {
+			result["nfs_server_export"] = *obj.NfsServerExport
+		}
+	case oci_database.BackupDestinationNfsMountTypeSelfMount:
+		result["mount_type"] = "SELF_MOUNT"
+
+		if obj.LocalMountPointPath != nil {
+			result["local_mount_point_path"] = *obj.LocalMountPointPath
+		}
+	default:
+		log.Printf("[WARN] Received 'mount_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DatabaseBackupDestinationResourceCrud) mapMountTypeDetailsForUpdate(fieldKeyFormat string, request *oci_database.UpdateBackupDestinationRequest) error {
+	mountTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_type"))
+	var mountType string
+	if ok {
+		mountType = mountTypeRaw.(string)
+	} else {
+		mountType = "SELF_MOUNT" // default value
+	}
+
+	request.NfsMountType = oci_database.UpdateBackupDestinationDetailsNfsMountTypeEnum(mountType)
+
+	switch strings.ToLower(mountType) {
+	case strings.ToLower("AUTOMATED_MOUNT"):
+		if nfsServer, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nfs_server")); ok {
+			interfaces := nfsServer.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nfs_server")) {
+				request.NfsServer = tmp
+			}
+		}
+
+		if nfsServerExport, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nfs_server_export")); ok {
+			tmp := nfsServerExport.(string)
+			request.NfsServerExport = &tmp
+		}
+	case strings.ToLower("SELF_MOUNT"):
+		if localMountPointPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "local_mount_point_path")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "local_mount_point_path")) {
+			tmp := localMountPointPath.(string)
+			request.LocalMountPointPath = &tmp
+		}
+	default:
+		return fmt.Errorf("unknown mount_type '%v' was specified", mountType)
+	}
+	return nil
+}
+
 func (s *DatabaseBackupDestinationResourceCrud) populateTopLevelPolymorphicCreateBackupDestinationRequest(request *oci_database.CreateBackupDestinationRequest) error {
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists("type")
@@ -366,6 +560,16 @@ func (s *DatabaseBackupDestinationResourceCrud) populateTopLevelPolymorphicCreat
 		if localMountPointPath, ok := s.D.GetOkExists("local_mount_point_path"); ok {
 			tmp := localMountPointPath.(string)
 			details.LocalMountPointPath = &tmp
+		}
+		if mountTypeDetails, ok := s.D.GetOkExists("mount_type_details"); ok {
+			if tmpList := mountTypeDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mount_type_details", 0)
+				tmp, err := s.mapToMountTypeDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.MountTypeDetails = tmp
+			}
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
