@@ -1,4 +1,8 @@
 ## 3.83.0 (Unreleased)
+
+### Added
+- Support for HTTP Header in load balancer rule set
+
 ## 3.82.0 (June 24, 2020)
 
 ### Added
