@@ -18,8 +18,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ThresholdPolicy An autoscaling policy that defines threshold-based rules for an autoscaling configuration.
-type ThresholdPolicy struct {
+// ScheduledPolicy An autoscaling policy that defines execution schedules for an autoscaling configuration.
+type ScheduledPolicy struct {
 
 	// The capacity requirements of the autoscaling policy.
 	Capacity *Capacity `mandatory:"true" json:"capacity"`
@@ -28,7 +28,7 @@ type ThresholdPolicy struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	Rules []Condition `mandatory:"true" json:"rules"`
+	ExecutionSchedule ExecutionSchedule `mandatory:"true" json:"executionSchedule"`
 
 	// The ID of the autoscaling policy that is assigned after creation.
 	Id *string `mandatory:"false" json:"id"`
@@ -41,44 +41,82 @@ type ThresholdPolicy struct {
 }
 
 //GetCapacity returns Capacity
-func (m ThresholdPolicy) GetCapacity() *Capacity {
+func (m ScheduledPolicy) GetCapacity() *Capacity {
 	return m.Capacity
 }
 
 //GetId returns Id
-func (m ThresholdPolicy) GetId() *string {
+func (m ScheduledPolicy) GetId() *string {
 	return m.Id
 }
 
 //GetDisplayName returns DisplayName
-func (m ThresholdPolicy) GetDisplayName() *string {
+func (m ScheduledPolicy) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 //GetTimeCreated returns TimeCreated
-func (m ThresholdPolicy) GetTimeCreated() *common.SDKTime {
+func (m ScheduledPolicy) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
 //GetIsEnabled returns IsEnabled
-func (m ThresholdPolicy) GetIsEnabled() *bool {
+func (m ScheduledPolicy) GetIsEnabled() *bool {
 	return m.IsEnabled
 }
 
-func (m ThresholdPolicy) String() string {
+func (m ScheduledPolicy) String() string {
 	return common.PointerString(m)
 }
 
 // MarshalJSON marshals to json representation
-func (m ThresholdPolicy) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeThresholdPolicy ThresholdPolicy
+func (m ScheduledPolicy) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeScheduledPolicy ScheduledPolicy
 	s := struct {
 		DiscriminatorParam string `json:"policyType"`
-		MarshalTypeThresholdPolicy
+		MarshalTypeScheduledPolicy
 	}{
-		"threshold",
-		(MarshalTypeThresholdPolicy)(m),
+		"scheduled",
+		(MarshalTypeScheduledPolicy)(m),
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ScheduledPolicy) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Id                *string           `json:"id"`
+		DisplayName       *string           `json:"displayName"`
+		IsEnabled         *bool             `json:"isEnabled"`
+		Capacity          *Capacity         `json:"capacity"`
+		TimeCreated       *common.SDKTime   `json:"timeCreated"`
+		ExecutionSchedule executionschedule `json:"executionSchedule"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.IsEnabled = model.IsEnabled
+
+	m.Capacity = model.Capacity
+
+	m.TimeCreated = model.TimeCreated
+
+	nn, e = model.ExecutionSchedule.UnmarshalPolymorphicJSON(model.ExecutionSchedule.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ExecutionSchedule = nn.(ExecutionSchedule)
+	} else {
+		m.ExecutionSchedule = nil
+	}
+	return
 }

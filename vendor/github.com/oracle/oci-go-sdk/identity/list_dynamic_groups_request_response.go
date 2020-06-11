@@ -21,6 +21,25 @@ type ListDynamicGroupsRequest struct {
 	// The maximum number of items to return in a paginated "List" call.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// A filter to only return resources that match the given name exactly.
+	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+
+	// The field to sort by. You can provide one sort order (`sortOrder`). Default order for
+	// TIMECREATED is descending. Default order for NAME is ascending. The NAME
+	// sort order is case sensitive.
+	// **Note:** In general, some "List" operations (for example, `ListInstances`) let you
+	// optionally filter by Availability Domain if the scope of the resource type is within a
+	// single Availability Domain. If you call one of these "List" operations without specifying
+	// an Availability Domain, the resources are grouped by Availability Domain, then sorted.
+	SortBy ListDynamicGroupsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). The NAME sort order
+	// is case sensitive.
+	SortOrder ListDynamicGroupsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
+	LifecycleState DynamicGroupLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -70,4 +89,50 @@ func (response ListDynamicGroupsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDynamicGroupsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListDynamicGroupsSortByEnum Enum with underlying type: string
+type ListDynamicGroupsSortByEnum string
+
+// Set of constants representing the allowable values for ListDynamicGroupsSortByEnum
+const (
+	ListDynamicGroupsSortByTimecreated ListDynamicGroupsSortByEnum = "TIMECREATED"
+	ListDynamicGroupsSortByName        ListDynamicGroupsSortByEnum = "NAME"
+)
+
+var mappingListDynamicGroupsSortBy = map[string]ListDynamicGroupsSortByEnum{
+	"TIMECREATED": ListDynamicGroupsSortByTimecreated,
+	"NAME":        ListDynamicGroupsSortByName,
+}
+
+// GetListDynamicGroupsSortByEnumValues Enumerates the set of values for ListDynamicGroupsSortByEnum
+func GetListDynamicGroupsSortByEnumValues() []ListDynamicGroupsSortByEnum {
+	values := make([]ListDynamicGroupsSortByEnum, 0)
+	for _, v := range mappingListDynamicGroupsSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListDynamicGroupsSortOrderEnum Enum with underlying type: string
+type ListDynamicGroupsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListDynamicGroupsSortOrderEnum
+const (
+	ListDynamicGroupsSortOrderAsc  ListDynamicGroupsSortOrderEnum = "ASC"
+	ListDynamicGroupsSortOrderDesc ListDynamicGroupsSortOrderEnum = "DESC"
+)
+
+var mappingListDynamicGroupsSortOrder = map[string]ListDynamicGroupsSortOrderEnum{
+	"ASC":  ListDynamicGroupsSortOrderAsc,
+	"DESC": ListDynamicGroupsSortOrderDesc,
+}
+
+// GetListDynamicGroupsSortOrderEnumValues Enumerates the set of values for ListDynamicGroupsSortOrderEnum
+func GetListDynamicGroupsSortOrderEnumValues() []ListDynamicGroupsSortOrderEnum {
+	values := make([]ListDynamicGroupsSortOrderEnum, 0)
+	for _, v := range mappingListDynamicGroupsSortOrder {
+		values = append(values, v)
+	}
+	return values
 }
