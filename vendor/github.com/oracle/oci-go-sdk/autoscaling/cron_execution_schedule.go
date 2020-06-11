@@ -18,31 +18,34 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// InstancePoolResource A Compute instance pool.
-type InstancePoolResource struct {
+// CronExecutionSchedule Specifies the execution schedule of CRON type.
+type CronExecutionSchedule struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that is managed by the autoscaling configuration.
-	Id *string `mandatory:"true" json:"id"`
+	// The value representing the execution schedule, as defined by cron format.
+	Expression *string `mandatory:"true" json:"expression"`
+
+	// Specifies the time zone the schedule is in.
+	Timezone ExecutionScheduleTimezoneEnum `mandatory:"true" json:"timezone"`
 }
 
-//GetId returns Id
-func (m InstancePoolResource) GetId() *string {
-	return m.Id
+//GetTimezone returns Timezone
+func (m CronExecutionSchedule) GetTimezone() ExecutionScheduleTimezoneEnum {
+	return m.Timezone
 }
 
-func (m InstancePoolResource) String() string {
+func (m CronExecutionSchedule) String() string {
 	return common.PointerString(m)
 }
 
 // MarshalJSON marshals to json representation
-func (m InstancePoolResource) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeInstancePoolResource InstancePoolResource
+func (m CronExecutionSchedule) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCronExecutionSchedule CronExecutionSchedule
 	s := struct {
 		DiscriminatorParam string `json:"type"`
-		MarshalTypeInstancePoolResource
+		MarshalTypeCronExecutionSchedule
 	}{
-		"instancePool",
-		(MarshalTypeInstancePoolResource)(m),
+		"cron",
+		(MarshalTypeCronExecutionSchedule)(m),
 	}
 
 	return json.Marshal(&s)

@@ -63,6 +63,9 @@ type AutonomousContainerDatabaseSummary struct {
 	// The availability domain of the Autonomous Container Database.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
+	// Oracle Database version of the Autonomous Container Database
+	DbVersion *string `mandatory:"false" json:"dbVersion"`
+
 	BackupConfig *AutonomousContainerDatabaseBackupConfig `mandatory:"false" json:"backupConfig"`
 }
 

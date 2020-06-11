@@ -21,6 +21,12 @@ type ListIdentityProviderGroupsRequest struct {
 	// The maximum number of items to return in a paginated "List" call.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// A filter to only return resources that match the given name exactly.
+	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+
+	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
+	LifecycleState IdentityProviderLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
