@@ -130,6 +130,14 @@ The generated `.tf` files contain the Terraform configuration with the resources
 
 > **Note**: The compartment export functionality currently supports discovery of the target compartment. The ability to discover resources in child compartments is not yet supported.
 
+### Exit status
+
+While discovering resources if there is any error related to the APIs or service unavailability, the tool will move on to find next resource. All the errors encountered will be displayed after the discovery is complete.
+
+* Exit code 0 - Success
+* Exit code 1 - Failure due to errors such as incorrect environment variables, arguments or configuration
+* Exit code 2 - Partial Success when resource discovery was not able to find all the resources because of the service failures
+
 ### Generated Terraform Configuration Contents
 
 The command will discover resources that are in an active or usable state. Resources that have been terminated or otherwise made inactive are generally excluded from the generated configuration.
