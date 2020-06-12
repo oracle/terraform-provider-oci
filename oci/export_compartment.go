@@ -119,12 +119,12 @@ type ExportCommandArgs struct {
 	TFVersion       *TfHclVersion
 }
 
-func RunExportCommand(args *ExportCommandArgs) error {
+func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 	resourcesMap = ResourcesMap()
 	datasourcesMap = DataSourcesMap()
 
 	if err := args.validate(); err != nil {
-		return err
+		return err, StatusFail
 	}
 
 	tfHclVersion = *args.TFVersion
@@ -136,19 +136,19 @@ func RunExportCommand(args *ExportCommandArgs) error {
 
 	err := readEnvironmentVars(d)
 	if err != nil {
-		return err
+		return err, StatusFail
 	}
 
 	clients, err := getExportConfig(d)
 	if err != nil {
-		return err
+		return err, StatusFail
 	}
 
 	if args.CompartmentName != nil && *args.CompartmentName != "" {
 		var err error
 		args.CompartmentId, err = resolveCompartmentId(clients.(*OracleClients), args.CompartmentName)
 		if err != nil {
-			return err
+			return err, StatusFail
 		}
 	}
 
@@ -156,11 +156,20 @@ func RunExportCommand(args *ExportCommandArgs) error {
 
 	tenancyOcid, exists := clients.(*OracleClients).configuration["tenancy_ocid"]
 	if !exists {
-		return fmt.Errorf("[ERROR] could not get a tenancy OCID during initialization")
+		return fmt.Errorf("[ERROR] could not get a tenancy OCID during initialization"), StatusFail
 	}
 
 	ctx := createResourceDiscoveryContext(clients.(*OracleClients), args, tenancyOcid)
-	return runExportCommand(ctx)
+
+	if err := runExportCommand(ctx); err != nil {
+		return err, StatusFail
+	}
+	if len(ctx.errorList) > 0 {
+		// If the errors were from discovery of resources return partial success status
+		ctx.printErrors()
+		return nil, StatusPartialSuccess
+	}
+	return nil, StatusSuccess
 }
 
 func convertStringSliceToSet(slice []string, omitEmptyStrings bool) map[string]bool {
@@ -370,7 +379,9 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 				importId,
 			}
 			if errCode := importCmd.Run(importArgs); errCode != 0 {
-				return fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
+				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, resource.parent.terraformName,
+					fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId), nil})
+				continue
 			}
 		}
 
@@ -445,6 +456,9 @@ func getDiscoverResourceWithGraphSteps(ctx *resourceDiscoveryContext) ([]resourc
 }
 
 func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGraph TerraformResourceGraph) ([]*OCIResource, error) {
+	// findResources will never return error, it will add the errors encountered to the errorList and print those after the discovery finishes
+	// If find resources needs to fail in some scenario, this func needs to be modified to return error instead of continuing discovery
+	// Errors so far are API errors or the errors when service/feature is not available
 	foundResources := []*OCIResource{}
 
 	childResourceTypes, exists := resourceGraph[root.terraformClass]
@@ -461,13 +475,17 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 		}
 		results, err := findResourceFn(ctx.clients, &childType, root)
 		if err != nil {
-			return foundResources, err
+			// add error to the errorList and continue discovering rest of the resources
+			ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{childType.resourceClass, root.terraformName, err, &resourceGraph})
+			continue
 		}
 
 		if childType.processDiscoveredResourcesFn != nil {
 			results, err = childType.processDiscoveredResourcesFn(ctx.clients, results)
 			if err != nil {
-				return foundResources, err
+				// add error to the errorList and continue discovering rest of the resources
+				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{childType.resourceClass, root.terraformName, err, &resourceGraph})
+				continue
 			}
 		}
 		foundResources = append(foundResources, results...)
@@ -485,7 +503,7 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 
 			subResources, err := findResources(ctx, resource, resourceGraph)
 			if err != nil {
-				return foundResources, err
+				continue
 			}
 			foundResources = append(foundResources, subResources...)
 		}

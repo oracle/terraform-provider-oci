@@ -61,6 +61,15 @@ type InterpolationString struct {
 	value string
 }
 
+type ResourceDiscoveryError struct {
+	resourceType   string
+	parentResource string
+	error          error
+	resourceGraph  *TerraformResourceGraph
+}
+
+type ErrorList = []*ResourceDiscoveryError
+
 type resourceDiscoveryContext struct {
 	clients             *OracleClients
 	expectedResourceIds map[string]bool
@@ -68,8 +77,19 @@ type resourceDiscoveryContext struct {
 	discoveredResources []*OCIResource
 	summaryStatements   []string
 	*ExportCommandArgs
+	errorList                    ErrorList
 	missingAttributesPerResource map[string][]string
 }
+
+// Resource discovery Exit status
+type Status int
+
+// Exit statuses
+const (
+	StatusSuccess Status = iota
+	StatusFail
+	StatusPartialSuccess
+)
 
 func (ctx *resourceDiscoveryContext) postValidate() error {
 	// Check that all expected resource IDs were found, if any were given
@@ -100,6 +120,33 @@ func (ctx *resourceDiscoveryContext) printSummary() {
 	}
 }
 
+func (ctx *resourceDiscoveryContext) printErrors() {
+	color.Yellow("\n[WARN] Resource discovery finished with errors listed below:\n")
+	for _, resourceDiscoveryError := range ctx.errorList {
+		if resourceDiscoveryError.parentResource == "export" {
+			color.Red(fmt.Sprintf("Error discovering `%s` resources error: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.error.Error()))
+		} else {
+			color.Red(fmt.Sprintf("Error discovering `%s` resources for %s error: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.parentResource, resourceDiscoveryError.error.Error()))
+		}
+		/* log child resources if exist and were not discovered because of error in parent resource discovery*/
+		if resourceDiscoveryError.resourceGraph != nil {
+			var notFoundChildren []string
+			getNotFoundChildren(resourceDiscoveryError.resourceType, resourceDiscoveryError.resourceGraph, &notFoundChildren)
+			color.Red(fmt.Sprintf("\tFollowing child resources were not discovered due to parent error: %v", strings.Join(notFoundChildren, ", ")))
+		}
+	}
+}
+
+func getNotFoundChildren(parent string, resourceGraph *TerraformResourceGraph, children *[]string) {
+	childResources, exists := (*resourceGraph)[parent]
+	if exists {
+		for _, child := range childResources {
+			*children = append(*children, child.resourceClass)
+			getNotFoundChildren(child.resourceClass, resourceGraph, children)
+		}
+	}
+}
+
 func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandArgs, tenancyOcid string) *resourceDiscoveryContext {
 	result := &resourceDiscoveryContext{
 		clients:             clients,
@@ -107,6 +154,7 @@ func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandA
 		tenancyOcid:         tenancyOcid,
 		discoveredResources: []*OCIResource{},
 		summaryStatements:   []string{},
+		errorList:           ErrorList{},
 	}
 	result.expectedResourceIds = convertStringSliceToSet(args.IDs, true)
 	return result
@@ -148,10 +196,13 @@ func (r *resourceDiscoveryBaseStep) writeConfiguration() error {
 			return err
 		}
 
-		if len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
+		if resource.terraformTypeInfo != nil && len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
 			attributes := make([]string, 0, len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes))
 			for attribute := range resource.terraformTypeInfo.ignorableRequiredMissingAttributes {
 				attributes = append(attributes, attribute)
+			}
+			if r.ctx.missingAttributesPerResource == nil {
+				r.ctx.missingAttributesPerResource = make(map[string][]string)
 			}
 			r.ctx.missingAttributesPerResource[resource.getTerraformReference()] = attributes
 		}

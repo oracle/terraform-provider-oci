@@ -151,7 +151,6 @@ var coreResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreServiceGatewayHints},
 		{TerraformResourceHints: exportCoreVcnHints},
 		{TerraformResourceHints: exportCoreVirtualCircuitHints},
-		{TerraformResourceHints: exportCoreVnicAttachmentHints},
 		{TerraformResourceHints: exportCoreVolumeAttachmentHints},
 		{TerraformResourceHints: exportCoreVolumeBackupHints},
 		{TerraformResourceHints: exportCoreVolumeBackupPolicyHints},
@@ -169,14 +168,16 @@ var coreResourceGraph = TerraformResourceGraph{
 	},
 	"oci_core_instance": {
 		{
+			TerraformResourceHints: exportCoreVnicAttachmentHints,
+			datasourceQueryParams: map[string]string{
+				"instance_id": "id",
+			},
+		},
+		{
 			TerraformResourceHints: exportCoreVolumeBackupPolicyAssignmentHints,
 			datasourceQueryParams: map[string]string{
 				"asset_id": "boot_volume_id",
 			},
-		},
-		{
-			TerraformResourceHints: exportCoreVnicAttachmentHints,
-			datasourceQueryParams:  map[string]string{"instance_id": "id"},
 		},
 	},
 	"oci_core_network_security_group": {
