@@ -24,6 +24,7 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
+	oci_oce "github.com/oracle/oci-go-sdk/oce"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
@@ -88,6 +89,17 @@ var exportBudgetAlertRuleHints = &TerraformResourceHints{
 	resourceAbbreviation: "alert_rule",
 	discoverableLifecycleStates: []string{
 		string(oci_budget.AlertRuleLifecycleStateActive),
+	},
+}
+
+var exportOceOceInstanceHints = &TerraformResourceHints{
+	resourceClass:          "oci_oce_oce_instance",
+	datasourceClass:        "oci_oce_oce_instances",
+	datasourceItemsAttr:    "oce_instances",
+	resourceAbbreviation:   "oce_instance",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_oce.OceInstanceLifecycleStateActive),
 	},
 }
 

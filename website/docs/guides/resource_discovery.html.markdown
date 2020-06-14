@@ -113,6 +113,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
+    * `oce` - Discovers oce resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
@@ -377,6 +378,10 @@ nosql
 object_storage
     
 * oci\_objectstorage\_bucket
+
+oce
+    
+* oci\_oce\_oce\_instance
 
 osmanagement
     
