@@ -7,7 +7,7 @@
 - Support for Archive Log Backup and Point in time restore
 - Support resource discovery for `datacatalog` resources
 - Support resource discovery for `integration` resources
-
+- Added resource discovery support for `oce` resources
 
 ### Fixed
 - Fixed plan failure in case of missing required attributes in resource discovery. Placeholder values will be added for missing required attributes and the attributes will be added to `lifecycle ignore_changes`
