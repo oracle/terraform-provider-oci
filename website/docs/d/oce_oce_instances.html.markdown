@@ -54,6 +54,7 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation
 * `idcs_tenancy` - IDCS Tenancy Identifier
 * `instance_access_type` - Flag indicating whether the instance access is private or public
+* `instance_license_type` - Flag indicating whether the instance license is new cloud or bring your own license
 * `instance_usage_type` - Instance type based on its usage
 * `name` - OceInstance Name
 * `object_storage_namespace` - Object Storage Namespace of tenancy
