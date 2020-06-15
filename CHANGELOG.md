@@ -7,6 +7,7 @@
 - Support for Tags in Shared DB Home resource
 - Support `oci_database_autonomous_vm_cluster` for service `database`
 - Support for `mount_type_details`, `mount_type`, `nfs_server` and `nfs_server_export` attributes in `oci_database_backup_destination` resource
+- Support resource discovery for `ons` resources
 
 ### Notes
 - `mount_type_details` attribute needs to be set when `type` attribute is set to `NFS` in `oci_database_backup_destination` resource

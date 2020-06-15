@@ -28,6 +28,7 @@ import (
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
+	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
@@ -1260,6 +1261,16 @@ var exportObjectStoragePreauthenticatedRequestHints = &TerraformResourceHints{
 	datasourceClass:      "oci_objectstorage_preauthrequests",
 	datasourceItemsAttr:  "preauthenticated_requests",
 	resourceAbbreviation: "preauthenticated_request",
+}
+
+var exportOnsNotificationTopicHints = &TerraformResourceHints{
+	resourceClass:        "oci_ons_notification_topic",
+	datasourceClass:      "oci_ons_notification_topics",
+	datasourceItemsAttr:  "notification_topics",
+	resourceAbbreviation: "notification_topic",
+	discoverableLifecycleStates: []string{
+		string(oci_ons.NotificationTopicLifecycleStateActive),
+	},
 }
 
 var exportOsmanagementManagedInstanceGroupHints = &TerraformResourceHints{
