@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_core_image_shapes
 This data source provides the list of Image Shapes in Oracle Cloud Infrastructure Core service.
 
-Lists the shape compatibilities for the image.
+Lists the compatible shapes for the specified image.
 
 ## Example Usage
 
@@ -38,7 +38,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `image_id` - The image OCID.
+* `image_id` - The image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `ocpu_constraints` - 
 	* `max` - The maximum number of OCPUs supported for this image and shape.
 	* `min` - The minimum number of OCPUs supported for this image and shape.

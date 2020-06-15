@@ -42,6 +42,14 @@ operation to get the VNIC ID for the instance, and then call
 You can later add secondary VNICs to an instance. For more information, see
 [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 
+To launch an instance from a Marketplace image listing, you must provide the image ID of the 
+listing resource version that you want, but you also must subscribe to the listing before you try 
+to launch the instance. To subscribe to the listing, use the [GetAppCatalogListingAgreements](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements) 
+operation to get the signature for the terms of use agreement for the desired listing resource version.  
+Then, call [CreateAppCatalogSubscription](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) 
+with the signature. To get the image ID for the LaunchInstance operation, call 
+[GetAppCatalogListingResourceVersion](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion).
+
 
 ## Example Usage
 
@@ -148,7 +156,7 @@ The following arguments are supported:
 	* `private_ip` - (Optional) A private IP address of your choice to assign to the VNIC. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This is the VNIC's *primary* private IP address. The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp).   Example: `10.0.3.3` 
 	* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).   Example: `true` 
 	* `subnet_id` - (Required) The OCID of the subnet to create the VNIC in. When launching an instance, use this `subnetId` instead of the deprecated `subnetId` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/requests/LaunchInstanceDetails). At least one of them is required; if you provide both, the values must match. 
-* `dedicated_vm_host_id` - (Optional) The OCID of dedicated VM host. 
+* `dedicated_vm_host_id` - (Optional) The OCID of the dedicated VM host. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
 * `extended_metadata` - (Optional) (Updatable) Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
@@ -178,28 +186,28 @@ The following arguments are supported:
 
 	For more information about iPXE, see http://ipxe.org. 
 * `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
-* `launch_options` - (Optional) 
+* `launch_options` - (Optional) Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
 	* `boot_volume_type` - (Optional) Emulation type for volume.
-		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
 	* `firmware` - (Optional) Firmware used to boot VM.  Select the option that matches your operating system.
 		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
 	* `is_consistent_volume_naming_enabled` - (Optional) Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the boot volume's paravirtualized attachment. The default value is false.
+	* `is_pv_encryption_in_transit_enabled` - (Optional) Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails). 
 	* `network_type` - (Optional) Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
 		* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
 	* `remote_data_volume_type` - (Optional) Emulation type for volume.
-		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk.This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
 * `metadata` - (Optional) (Updatable) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 	A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -285,28 +293,28 @@ The following attributes are exported:
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
 	* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
-* `launch_options` - 
+* `launch_options` - Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
 	* `boot_volume_type` - Emulation type for volume.
-		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
 	* `firmware` - Firmware used to boot VM.  Select the option that matches your operating system.
 		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the boot volume's paravirtualized attachment. The default value is false.
+	* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails). 
 	* `network_type` - Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
 		* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
 	* `remote_data_volume_type` - Emulation type for volume.
-		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk.This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
 * `metadata` - Custom metadata that you provide.
 * `preserve_boot_volume` - Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
 * `private_ip` - The private IP address of instance VNIC. To set the private IP address, use the `private_ip` argument in create_vnic_details.
@@ -318,16 +326,22 @@ The following attributes are exported:
 	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `shape_config` - 
-	* `gpu_description` - A short description of the GPUs available to this instance. This field is `null` if `gpus` is `0`. 
-	* `gpus` - The number of GPUs available to this instance. 
-	* `local_disk_description` - A short description of the local disks available to this instance. This field is `null` if `localDisks` is equal to `0`. 
+	* `gpu_description` - A short description of the instance's graphics processing unit (GPU).
+
+		If the instance does not have any GPUs, this field is `null`. 
+	* `gpus` - The number of GPUs available to the instance. 
+	* `local_disk_description` - A short description of the local disks available to this instance.
+
+		If the instance does not have any local disks, this field is `null`. 
 	* `local_disks` - The number of local disks available to the instance. 
-	* `local_disks_total_size_in_gbs` - The size of the local disks, aggregated, in gigabytes. This field is `null` if `localDisks` is equal to `0`. 
+	* `local_disks_total_size_in_gbs` - The aggregate size of all local disks, in gigabytes.
+
+		If the instance does not have any local disks, this field is `null`. 
 	* `max_vnic_attachments` - The maximum number of VNIC attachments for the instance. 
-	* `memory_in_gbs` - The total amount of memory, in gigabytes, available to the instance. 
-	* `networking_bandwidth_in_gbps` - The networking bandwidth, in gigabits per second, available to the instance. 
+	* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
+	* `networking_bandwidth_in_gbps` - The networking bandwidth available to the instance, in gigabits per second. 
 	* `ocpus` - The total number of OCPUs available to the instance. 
-	* `processor_description` - A short description of the processors available to the instance. 
+	* `processor_description` - A short description of the instance's processor (CPU). 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.

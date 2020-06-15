@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Subnets in Oracle Cloud Infrastructure Core service.
 
 Lists the subnets in the specified VCN and the specified compartment.
+If Vcn ID is not provided, then it will list all of the subnets in all the VCNs that are in the specified compartment.
 
 
 ## Example Usage
