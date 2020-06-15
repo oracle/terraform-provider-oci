@@ -688,12 +688,13 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 						for i, item := range v {
 							if val := item.(map[string]interface{}); val != nil {
 								builder.WriteString(fmt.Sprintf("%s {\n", tfAttribute))
+								attributePrefixForRecursiveCall := attributePrefix
 								if attributePrefix == "" {
-									attributePrefix = fmt.Sprintf("%s[%d]", tfAttribute, i)
+									attributePrefixForRecursiveCall = fmt.Sprintf("%s[%d]", tfAttribute, i)
 								} else {
-									attributePrefix = fmt.Sprintf("%s.%s[%d]", attributePrefix, tfAttribute, i)
+									attributePrefixForRecursiveCall = fmt.Sprintf("%s.%s[%d]", attributePrefix, tfAttribute, i)
 								}
-								if err := getHCLStringFromMap(builder, val, elem, interpolationMap, terraformResourceHints, attributePrefix); err != nil {
+								if err := getHCLStringFromMap(builder, val, elem, interpolationMap, terraformResourceHints, attributePrefixForRecursiveCall); err != nil {
 									return err
 								}
 								builder.WriteString("}\n")
@@ -730,12 +731,13 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 				case schema.TypeList:
 					if nestedResource := tfSchema.Elem.(*schema.Resource); nestedResource != nil {
 						builder.WriteString(fmt.Sprintf("%s {\n", tfAttribute))
+						attributePrefixForRecursiveCall := attributePrefix
 						if attributePrefix == "" {
-							attributePrefix = tfAttribute
+							attributePrefixForRecursiveCall = tfAttribute
 						} else {
-							attributePrefix = attributePrefix + "." + tfAttribute
+							attributePrefixForRecursiveCall = attributePrefix + "." + tfAttribute
 						}
-						if err := getHCLStringFromMap(builder, v, nestedResource, interpolationMap, terraformResourceHints, attributePrefix); err != nil {
+						if err := getHCLStringFromMap(builder, v, nestedResource, interpolationMap, terraformResourceHints, attributePrefixForRecursiveCall); err != nil {
 							return err
 						}
 						builder.WriteString("}\n")
