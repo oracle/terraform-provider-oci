@@ -10,8 +10,8 @@ description: |-
 # Data Source: oci_core_local_peering_gateways
 This data source provides the list of Local Peering Gateways in Oracle Cloud Infrastructure Core service.
 
-Lists the local peering gateways (LPGs) for the specified VCN and compartment
-(the LPG's compartment).
+Lists the local peering gateways (LPGs) for the specified VCN and specified compartment.
+If Vcn ID is not provided, then it will list all of the local peering gateways (LPGs) in all the VCNs that are in the specified compartment.
 
 
 ## Example Usage

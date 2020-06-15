@@ -34,7 +34,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `image_id` - The image OCID.
+* `image_id` - The image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `ocpu_constraints` - 
 	* `max` - The maximum number of OCPUs supported for this image and shape.
 	* `min` - The minimum number of OCPUs supported for this image and shape.

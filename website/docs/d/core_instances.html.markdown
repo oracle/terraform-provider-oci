@@ -87,28 +87,28 @@ The following attributes are exported:
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
 	* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
-* `launch_options` - 
+* `launch_options` - Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
 	* `boot_volume_type` - Emulation type for volume.
-		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
 	* `firmware` - Firmware used to boot VM.  Select the option that matches your operating system.
 		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the boot volume's paravirtualized attachment. The default value is false.
+	* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails). 
 	* `network_type` - Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
 		* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
 	* `remote_data_volume_type` - Emulation type for volume.
-		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk.This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
 * `metadata` - Custom metadata that you provide.
 * `region` - The region that contains the availability domain the instance is running in.
 
@@ -117,16 +117,22 @@ The following attributes are exported:
 	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `shape_config` - 
-	* `gpu_description` - A short description of the GPUs available to this instance. This field is `null` if `gpus` is `0`. 
-	* `gpus` - The number of GPUs available to this instance. 
-	* `local_disk_description` - A short description of the local disks available to this instance. This field is `null` if `localDisks` is equal to `0`. 
+	* `gpu_description` - A short description of the instance's graphics processing unit (GPU).
+
+		If the instance does not have any GPUs, this field is `null`. 
+	* `gpus` - The number of GPUs available to the instance. 
+	* `local_disk_description` - A short description of the local disks available to this instance.
+
+		If the instance does not have any local disks, this field is `null`. 
 	* `local_disks` - The number of local disks available to the instance. 
-	* `local_disks_total_size_in_gbs` - The size of the local disks, aggregated, in gigabytes. This field is `null` if `localDisks` is equal to `0`. 
+	* `local_disks_total_size_in_gbs` - The aggregate size of all local disks, in gigabytes.
+
+		If the instance does not have any local disks, this field is `null`. 
 	* `max_vnic_attachments` - The maximum number of VNIC attachments for the instance. 
-	* `memory_in_gbs` - The total amount of memory, in gigabytes, available to the instance. 
-	* `networking_bandwidth_in_gbps` - The networking bandwidth, in gigabits per second, available to the instance. 
+	* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
+	* `networking_bandwidth_in_gbps` - The networking bandwidth available to the instance, in gigabits per second. 
 	* `ocpus` - The total number of OCPUs available to the instance. 
-	* `processor_description` - A short description of the processors available to the instance. 
+	* `processor_description` - A short description of the instance's processor (CPU). 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.
 	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
