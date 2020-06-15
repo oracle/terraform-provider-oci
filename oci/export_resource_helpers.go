@@ -338,6 +338,8 @@ func init() {
 	exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
 	exportObjectStorageNamespaceHints.alwaysExportable = true
 
+	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
+
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
 	exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
 	exportObjectStorageObjectHints.requireResourceRefresh = true
@@ -821,6 +823,14 @@ func processLoadBalancerCertificates(clients *OracleClients, resources []*OCIRes
 	}
 
 	return resources, nil
+}
+
+func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["topic_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find topic id for ons notification topic")
+	}
+	return id, nil
 }
 
 func getObjectStorageBucketId(resource *OCIResource) (string, error) {
