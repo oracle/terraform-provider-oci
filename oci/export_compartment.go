@@ -314,7 +314,7 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 				return err
 			}
 
-			if len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
+			if resource.terraformTypeInfo != nil && len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
 				attributes := make([]string, 0, len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes))
 				for attribute := range resource.terraformTypeInfo.ignorableRequiredMissingAttributes {
 					attributes = append(attributes, attribute)
@@ -649,7 +649,7 @@ func (tr *TerraformResource) getTerraformReference() string {
 	return fmt.Sprintf("%s.%s", tr.terraformClass, tr.terraformName)
 }
 
-func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]interface{}, resourceSchema *schema.Resource, interpolationMap map[string]string, terraformResourceHints *TerraformResourceHints, attributePrefix string) error {
+func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]interface{}, resourceSchema *schema.Resource, interpolationMap map[string]string, ociRes *OCIResource, attributePrefix string) error {
 	sortedKeys := make([]string, len(resourceSchema.Schema))
 	cnt := 0
 	for k := range resourceSchema.Schema {
@@ -694,7 +694,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 								} else {
 									attributePrefixForRecursiveCall = fmt.Sprintf("%s.%s[%d]", attributePrefix, tfAttribute, i)
 								}
-								if err := getHCLStringFromMap(builder, val, elem, interpolationMap, terraformResourceHints, attributePrefixForRecursiveCall); err != nil {
+								if err := getHCLStringFromMap(builder, val, elem, interpolationMap, ociRes, attributePrefixForRecursiveCall); err != nil {
 									return err
 								}
 								builder.WriteString("}\n")
@@ -737,7 +737,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 						} else {
 							attributePrefixForRecursiveCall = attributePrefix + "." + tfAttribute
 						}
-						if err := getHCLStringFromMap(builder, v, nestedResource, interpolationMap, terraformResourceHints, attributePrefixForRecursiveCall); err != nil {
+						if err := getHCLStringFromMap(builder, v, nestedResource, interpolationMap, ociRes, attributePrefixForRecursiveCall); err != nil {
 							return err
 						}
 						builder.WriteString("}\n")
@@ -787,7 +787,14 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 			We can extend this in future to provide this option to customer to add default values for attributes
 			and add this logic to Optional attributes too */
 
-			if tfAttributeVal, exists := terraformResourceHints.defaultValuesForMissingAttributes[tfAttribute]; exists {
+			if ociRes.terraformTypeInfo == nil {
+				ociRes.terraformTypeInfo = &TerraformResourceHints{}
+			}
+
+			if ociRes.terraformTypeInfo.defaultValuesForMissingAttributes == nil {
+				ociRes.terraformTypeInfo.defaultValuesForMissingAttributes = make(map[string]string)
+			}
+			if tfAttributeVal, exists := ociRes.terraformTypeInfo.defaultValuesForMissingAttributes[tfAttribute]; exists {
 				builder.WriteString(fmt.Sprintf("%s = %q", tfAttribute, tfAttributeVal))
 			} else {
 				builder.WriteString(fmt.Sprintf("%s = %q", tfAttribute, placeholderValueForMissingAttribute))
@@ -796,13 +803,13 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 			isMissingRequiredAttributes = true
 
 			/* Add missing required attribute to ignorableRequiredMissingAttributes to be generated in lifecycle ignore_changes */
-			if terraformResourceHints.ignorableRequiredMissingAttributes == nil {
-				terraformResourceHints.ignorableRequiredMissingAttributes = make(map[string]bool)
+			if ociRes.terraformTypeInfo.ignorableRequiredMissingAttributes == nil {
+				ociRes.terraformTypeInfo.ignorableRequiredMissingAttributes = make(map[string]bool)
 			}
 			if attributePrefix == "" {
-				terraformResourceHints.ignorableRequiredMissingAttributes[tfAttribute] = true
+				ociRes.terraformTypeInfo.ignorableRequiredMissingAttributes[tfAttribute] = true
 			} else {
-				terraformResourceHints.ignorableRequiredMissingAttributes[attributePrefix+"."+tfAttribute] = true
+				ociRes.terraformTypeInfo.ignorableRequiredMissingAttributes[attributePrefix+"."+tfAttribute] = true
 			}
 
 		} else if tfSchema.Optional {
@@ -833,11 +840,11 @@ func getHclStringFromGenericMap(builder *strings.Builder, ociRes *OCIResource, i
 	resourceSchema := resourcesMap[ociRes.terraformClass]
 
 	builder.WriteString(fmt.Sprintf("resource %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
-	if err := getHCLStringFromMap(builder, ociRes.sourceAttributes, resourceSchema, interpolationMap, ociRes.terraformTypeInfo, ""); err != nil {
+	if err := getHCLStringFromMap(builder, ociRes.sourceAttributes, resourceSchema, interpolationMap, ociRes, ""); err != nil {
 		return err
 	}
 
-	if len(ociRes.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
+	if ociRes.terraformTypeInfo != nil && len(ociRes.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
 		builder.WriteString("\n# Required attributes that were not found in discovery have been added to " +
 			"lifecycle ignore_changes")
 		builder.WriteString("\n# This is done to avoid terraform plan failure for the existing infrastructure")
