@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Local Peering Gateways in Oracle Cloud Infrastructure Core service.
 
 Lists the local peering gateways (LPGs) for the specified VCN and specified compartment.
+If the VCN ID is not provided, then the list includes the LPGs from all VCNs in the specified compartment.
 
 
 ## Example Usage
@@ -19,6 +20,8 @@ Lists the local peering gateways (LPGs) for the specified VCN and specified comp
 data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 	#Required
 	compartment_id = "${var.compartment_id}"
+
+	#Optional
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 }
 ```
@@ -28,7 +31,7 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `vcn_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+* `vcn_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 
 
 ## Attributes Reference

@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Subnets in Oracle Cloud Infrastructure Core service.
 
 Lists the subnets in the specified VCN and the specified compartment.
+If the VCN ID is not provided, then the list includes the subnets from all VCNs in the specified compartment.
 
 
 ## Example Usage
@@ -19,11 +20,11 @@ Lists the subnets in the specified VCN and the specified compartment.
 data "oci_core_subnets" "test_subnets" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
 	display_name = "${var.subnet_display_name}"
 	state = "${var.subnet_state}"
+	vcn_id = "${oci_core_vcn.test_vcn.id}"
 }
 ```
 
@@ -34,7 +35,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
-* `vcn_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+* `vcn_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 
 
 ## Attributes Reference
