@@ -124,6 +124,7 @@ func initDependencyGraph() {
 	DependencyGraph["targetCompartment"] = append(DependencyGraph["targetCompartment"], "BudgetBudget")
 	DependencyGraph["tenancy"] = append(DependencyGraph["tenancy"], "IdentityRegionSubscription")
 	DependencyGraph["tenancy"] = append(DependencyGraph["tenancy"], "OceOceInstance")
+	DependencyGraph["tenant"] = append(DependencyGraph["tenant"], "MeteringComputationUsage")
 	DependencyGraph["topic"] = append(DependencyGraph["topic"], "OnsSubscription")
 	DependencyGraph["user"] = append(DependencyGraph["user"], "IdentityApiKey")
 	DependencyGraph["user"] = append(DependencyGraph["user"], "IdentityAuthToken")
