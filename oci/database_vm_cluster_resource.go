@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 )
 
 func init() {
@@ -182,6 +183,7 @@ func deleteDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 type DatabaseVmClusterResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.VmCluster
 	DisableNotFoundRetries bool
 }
@@ -531,9 +533,16 @@ func (s *DatabaseVmClusterResourceCrud) updateCompartment(compartment interface{
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeVmClusterCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeVmClusterCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
+
+	workId := response.OpcWorkRequestId
+	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
