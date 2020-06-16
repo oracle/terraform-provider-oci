@@ -143,6 +143,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["backup_config"] = nil
 		}
 
+		if r.DbVersion != nil {
+			autonomousContainerDatabase["db_version"] = *r.DbVersion
+		}
+
 		if r.DefinedTags != nil {
 			autonomousContainerDatabase["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

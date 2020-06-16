@@ -97,21 +97,28 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `budget` - Discovers budget resources across the entire tenancy
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
+    * `data_safe` - Discovers data_safe resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
+    * `datacatalog` - Discovers datacatalog resources within the specified compartment
     * `dataflow` - Discovers dataflow resources within the specified compartment
+    * `datascience` - Discovers datascience resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
+    * `integration` - Discovers integration resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
     * `kms` - Discovers kms resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
+    * `marketplace` - Discovers marketplace resources within the specified compartment
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
+    * `oce` - Discovers oce resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
+    * `oda` - Discovers oda resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
@@ -132,13 +139,14 @@ By default, the Terraform names of the discovered resources will share the same 
 The attributes of the resources will be populated with the values that are returned by the Oracle Cloud Infrastructure services.
 
 In some cases, a required or optional attribute may not be discoverable from the Oracle Cloud Infrastructure services and may be omitted from the generated Terraform configuration.
-This may be expected behavior from the service, which may prevent discovery of certain sensitive attributes or secrets. In such cases, the generated Terraform configuration will contain a commented line like this:
+This may be expected behavior from the service, which may prevent discovery of certain sensitive attributes or secrets. In such cases, placeholder value will be set along with a comment like this:
 
 ```
-#admin_password = <<Required attribute not found in discovery>>
+admin_password = "<placeholder for missing required attribute>" #Required attribute not found in discovery, placeholder value set to avoid plan failure
 ```
 
-Run 'terraform plan' against the generated configuration files to get more information about the missing values.
+The missing required attributes will also be added to lifecycle ignore_changes. This is done to avoid terraform plan failure when moving manually-managed infrastructure to Terraform-managed infrastructure.
+Any changes made to such fields will not reflect in terraform plan. If you want to update these fields, remove them from `ignore_changes`.
 
 Resources that are dependent on availability domains will be generated under `availability_domain.tf` file. These include:
 * oci\_core\_boot\_volume
@@ -261,6 +269,10 @@ core
 * oci\_core\_volume\_group\_backup
 * oci\_core\_volume
 
+data_safe
+    
+* oci\_data\_safe\_data\_safe\_private\_endpoint
+
 database
     
 * oci\_database\_autonomous\_container\_database
@@ -279,12 +291,25 @@ dataflow
     
 * oci\_dataflow\_application
 
+datascience
+    
+* oci\_datascience\_project
+* oci\_datascience\_notebook\_session
+* oci\_datascience\_model
+* oci\_datascience\_model\_provenance
+
 dns
     
 * oci\_dns\_zone
 * oci\_dns\_steering\_policy
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
+
+datacatalog
+    
+* oci\_datacatalog\_catalog
+* oci\_datacatalog\_data\_asset
+* oci\_datacatalog\_connection
 
 email
     
@@ -331,6 +356,10 @@ identity
 * oci\_identity\_user
 * oci\_identity\_network\_source
 
+integration
+    
+* oci\_integration\_integration\_instance
+
 kms
     
 * oci\_kms\_key
@@ -352,6 +381,10 @@ load_balancer
 * oci\_load\_balancer\_path\_route\_set
 * oci\_load\_balancer\_rule\_set
 
+marketplace
+    
+* oci\_marketplace\_accepted\_agreement
+
 monitoring
     
 * oci\_monitoring\_alarm
@@ -364,6 +397,17 @@ nosql
 object_storage
     
 * oci\_objectstorage\_bucket
+* oci\_objectstorage\_object\_lifecycle\_policy
+* oci\_objectstorage\_object
+* oci\_objectstorage\_preauthrequest
+
+oce
+    
+* oci\_oce\_oce\_instance
+
+oda
+    
+* oci\_oda\_oda\_instance
 
 osmanagement
     

@@ -969,3 +969,11 @@ func getTimeoutDuration(timeout string) *time.Duration {
 	}
 	return &timeoutDuration
 }
+
+func convertObjectToJsonString(object interface{}) (string, error) {
+	bytes, err := json.Marshal(object)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
+}

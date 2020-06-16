@@ -4,9 +4,13 @@
 package oci
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -66,33 +70,12 @@ func KmsVaultResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
-			// Computed
-			"crypto_endpoint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"management_endpoint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"restored_from_vault_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"restore_from_object_store": {
-				Type:     schema.TypeList,
-				Optional: true,
-				MaxItems: 1,
-				MinItems: 1,
+				Type:          schema.TypeList,
+				Optional:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"restore_from_file"},
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -128,9 +111,61 @@ func KmsVaultResource() *schema.Resource {
 					},
 				},
 			},
+			"restore_from_file": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"restore_from_object_store"},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"restore_vault_from_file_details": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"content_length": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ValidateFunc:     validateInt64TypeString,
+							DiffSuppressFunc: int64StringDiffSuppressFunction,
+						},
+
+						// Optional
+						"content_md5": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"restore_trigger": {
 				Type:     schema.TypeBool,
 				Optional: true,
+			},
+
+			// Computed
+			"crypto_endpoint": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"management_endpoint": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"restored_from_vault_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 		},
 	}
@@ -207,13 +242,20 @@ func (s *KmsVaultResourceCrud) DeletedTarget() []string {
 }
 
 func (s *KmsVaultResourceCrud) Create() error {
+	if _, ok := s.D.GetOkExists("restore_from_file"); ok {
+		err := s.RestoreVaultFromFile()
+		if err != nil {
+			return err
+		}
+		s.D.SetId(s.ID())
+		return s.UpdateVaultDetails()
+	}
 	if _, ok := s.D.GetOkExists("restore_from_object_store"); ok {
 		err := s.RestoreVaultFromObjectStore()
 		if err != nil {
 			return err
 		}
 		s.D.SetId(s.ID())
-
 		return s.UpdateVaultDetails()
 	}
 
@@ -274,7 +316,14 @@ func (s *KmsVaultResourceCrud) Get() error {
 }
 
 func (s *KmsVaultResourceCrud) Update() error {
-	if _, ok := s.D.GetOkExists("restore_from_object_store"); ok && s.D.HasChange("restore_trigger") {
+	if _, ok := s.D.GetOk("restore_from_file"); ok && s.D.HasChange("restore_trigger") {
+		err := s.RestoreVaultFromFile()
+		if err != nil {
+			return err
+		}
+		s.D.SetId(s.ID())
+	}
+	if _, ok := s.D.GetOk("restore_from_object_store"); ok && s.D.HasChange("restore_trigger") {
 		err := s.RestoreVaultFromObjectStore()
 		if err != nil {
 			return err
@@ -429,7 +478,46 @@ func (s *KmsVaultResourceCrud) RestoreVaultFromObjectStore() error {
 	}
 
 	s.Res = &response.Vault
-	//call set data explicitly or check it is called.
+	return nil
+}
+
+func (s *KmsVaultResourceCrud) RestoreVaultFromFile() error {
+	request := oci_kms.RestoreVaultFromFileRequest{}
+
+	if compartmentId, ok := s.D.GetOk("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if restoreVaultFromFileDetails, ok := s.D.GetOk("restore_from_file.0.restore_vault_from_file_details"); ok {
+		decodedFileContent, _ := base64.StdEncoding.DecodeString(restoreVaultFromFileDetails.(string))
+		request.RestoreVaultFromFileDetails = ioutil.NopCloser(bytes.NewBuffer(decodedFileContent))
+	} else {
+		request.RestoreVaultFromFileDetails = ioutil.NopCloser(bytes.NewBuffer([]byte{}))
+	}
+
+	if contentLength, ok := s.D.GetOk("restore_from_file.0.content_length"); ok {
+		tmp := contentLength.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert content-length string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.ContentLength = &tmpInt64
+	}
+
+	if contentMd5, ok := s.D.GetOk("restore_from_file.0.content_md5"); ok {
+		tmp := contentMd5.(string)
+		request.ContentMd5 = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+
+	response, err := s.Client.RestoreVaultFromFile(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Vault
 	return nil
 }
 

@@ -26,6 +26,9 @@ func init() {
 
 func DatascienceModelResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createDatascienceModel,
 		Read:     readDatascienceModel,

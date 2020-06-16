@@ -4,8 +4,11 @@
 
 // Autoscaling API
 //
-// APIs for dynamically scaling Compute resources to meet application requirements.
-// For information about the Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// APIs for dynamically scaling Compute resources to meet application requirements. For more information about
+// autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
+// Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// **Note:** Autoscaling is not available in US Government Cloud tenancies. For more information, see
+// Oracle Cloud Infrastructure US Government Cloud (https://docs.cloud.oracle.com/Content/General/Concepts/govoverview.htm).
 //
 
 package autoscaling
@@ -32,6 +35,9 @@ type AutoScalingPolicy interface {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
+
+	// Boolean field indicating whether this policy is enabled or not.
+	GetIsEnabled() *bool
 }
 
 type autoscalingpolicy struct {
@@ -40,6 +46,7 @@ type autoscalingpolicy struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 	Id          *string         `mandatory:"false" json:"id"`
 	DisplayName *string         `mandatory:"false" json:"displayName"`
+	IsEnabled   *bool           `mandatory:"false" json:"isEnabled"`
 	PolicyType  string          `json:"policyType"`
 }
 
@@ -58,6 +65,7 @@ func (m *autoscalingpolicy) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.Id = s.Model.Id
 	m.DisplayName = s.Model.DisplayName
+	m.IsEnabled = s.Model.IsEnabled
 	m.PolicyType = s.Model.PolicyType
 
 	return err
@@ -72,6 +80,10 @@ func (m *autoscalingpolicy) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.PolicyType {
+	case "scheduled":
+		mm := ScheduledPolicy{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "threshold":
 		mm := ThresholdPolicy{}
 		err = json.Unmarshal(data, &mm)
@@ -99,6 +111,11 @@ func (m autoscalingpolicy) GetId() *string {
 //GetDisplayName returns DisplayName
 func (m autoscalingpolicy) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+//GetIsEnabled returns IsEnabled
+func (m autoscalingpolicy) GetIsEnabled() *bool {
+	return m.IsEnabled
 }
 
 func (m autoscalingpolicy) String() string {

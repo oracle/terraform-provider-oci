@@ -257,14 +257,14 @@ func (s *DatascienceModelProvenanceResourceCrud) SetData() error {
 
 func getModelProvenanceCompositeId(modelId string) string {
 	modelId = url.PathEscape(modelId)
-	compositeId := "modelProvenances/" + modelId
+	compositeId := "models/" + modelId + "/provenance"
 	return compositeId
 }
 
 func parseModelProvenanceCompositeId(compositeId string) (modelId string, err error) {
 	parts := strings.Split(compositeId, "/")
-	match, _ := regexp.MatchString("modelProvenances/.*", compositeId)
-	if !match || len(parts) != 2 {
+	match, _ := regexp.MatchString("models/.*/provenance", compositeId)
+	if !match || len(parts) != 3 {
 		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
 		return
 	}

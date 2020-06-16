@@ -70,7 +70,7 @@ resource "oci_core_vcn" "test_vcn" {
 
 The following arguments are supported:
 
-* `cidr_block` - (Required) The CIDR IP address block of the VCN.  Example: `10.0.0.0/16` 
+* `cidr_block` - (Required) The CIDR IP address block of the VCN. Example: `10.0.0.0/16` 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the VCN.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

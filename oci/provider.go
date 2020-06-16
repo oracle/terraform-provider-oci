@@ -52,6 +52,7 @@ const (
 	authAPIKeySetting                     = "ApiKey"
 	authInstancePrincipalSetting          = "InstancePrincipal"
 	authInstancePrincipalWithCertsSetting = "InstancePrincipalWithCerts"
+	authSecurityToken                     = "SecurityToken"
 	requestHeaderOpcOboToken              = "opc-obo-token"
 	requestHeaderOpcHostSerial            = "opc-host-serial"
 	defaultRequestTimeout                 = 0
@@ -115,7 +116,7 @@ func ociVarName(attrName string) string {
 
 func init() {
 	descriptions = map[string]string{
-		authAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s' and '%s'. By default, '%s' will be used.", authAPIKeySetting, authInstancePrincipalSetting, authAPIKeySetting),
+		authAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s', '%s' and '%s'. By default, '%s' will be used.", authAPIKeySetting, authSecurityToken, authInstancePrincipalSetting, authAPIKeySetting),
 		tenancyOcidAttrName: fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
 		userOcidAttrName:    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
 		fingerprintAttrName: fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
@@ -150,7 +151,7 @@ func schemaMap() map[string]*schema.Schema {
 			Optional:     true,
 			Description:  descriptions[authAttrName],
 			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{tfVarName(authAttrName), ociVarName(authAttrName)}, authAPIKeySetting),
-			ValidateFunc: validation.StringInSlice([]string{authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting}, true),
+			ValidateFunc: validation.StringInSlice([]string{authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting, authSecurityToken}, true),
 		},
 		tenancyOcidAttrName: {
 			Type:        schema.TypeString,
@@ -493,8 +494,30 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		log.Printf("[DEBUG] Configuration provided by: %s", cfg)
 
 		configProviders = append(configProviders, cfg)
+
+	case strings.ToLower(authSecurityToken):
+		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+		if !ok {
+			return nil, fmt.Errorf(`user credentials %v should be removed from the configuration`, strings.Join(apiKeyConfigVariablesToUnset, ", "))
+		}
+		profile, ok := d.GetOk(configFileProfileAttrName)
+		if !ok {
+			return nil, fmt.Errorf("missing profile in provider block %v", configFileProfileAttrName)
+		}
+		profileString := profile.(string)
+		defaultPath := path.Join(getHomeFolder(), defaultConfigDirName, defaultConfigFileName)
+		if err := checkProfile(profileString, defaultPath); err != nil {
+			return nil, err
+		}
+		securityTokenBasedAuthConfigProvider := oci_common.CustomProfileConfigProvider(defaultPath, profileString)
+
+		keyId, err := securityTokenBasedAuthConfigProvider.KeyID()
+		if err != nil || !strings.HasPrefix(keyId, "ST$") {
+			return nil, fmt.Errorf("Security token is invalid ")
+		}
+		configProviders = append(configProviders, securityTokenBasedAuthConfigProvider)
 	default:
-		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting)
+		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting, authSecurityToken)
 	}
 
 	return configProviders, nil

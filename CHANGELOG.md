@@ -1,4 +1,23 @@
 ## 3.81.0 (Unreleased)
+
+### Added
+- Support Token base security authentication
+- Support for Scheduled Autoscaling
+- Support for `dbVersion` field in Autonomous databases Container database resources
+- Support for Archive Log Backup and Point in time restore
+- Support resource discovery for `datacatalog` resources
+- Support resource discovery for `dataSafe` resources
+- Support resource discovery for `integration` resources
+- Support resource discovery for `marketplace` resources
+- Added resource discovery support for `oce` resources
+- Support resource discovery for `oda` resources
+- Support resource discovery for `datascience` resources
+- Support resource discovery for `oci_objectstorage_object`, `oci_objectstorage_object_lifecycle_policy`, `oci_objectstorage_preauthrequest` resources
+- Support restore from file for `kms` resources
+
+### Fixed
+- Fixed plan failure in case of missing required attributes in resource discovery. Placeholder values will be added for missing required attributes and the attributes will be added to `lifecycle ignore_changes`
+ 
 ## 3.80.0 (June 10, 2020)
 
 ### Added

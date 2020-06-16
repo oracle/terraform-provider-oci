@@ -70,5 +70,8 @@ The following attributes are exported:
 
 ## Import
 
-Import is not supported for this resource.
+Model can be imported using the `id`, e.g.
 
+```
+$ terraform import oci_datascience_model.test_model "id" 
+```

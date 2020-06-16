@@ -49,16 +49,20 @@ The following attributes are exported:
 * `key_shape` - 
 	* `algorithm` - The algorithm used by a key's key versions to encrypt or decrypt.
 	* `length` - The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
+* `restore_from_file` - Details where key was backed up.
+    * `content_length` - content length of key's backup binary file
+    * `content_md5` - content md5 hashed value of key's backup file
+    * `restore_key_from_file_details` - Key backup file content
+* `restore_from_object_store` - Details where key was backed up
+    * `bucket` - Name of the bucket where key was backed up
+    * `destination` - Type of backup to restore from. Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are supported
+    * `namespace` - Namespace of the bucket where key was backed up
+    * `object` - Object containing the backup
+    * `uri` - Pre-authenticated-request-uri of the backup
 * `restored_from_key_id` - The OCID of the key from which this key was restored.
+* `restore_trigger` - When flipped, triggers restore if restore options are provided. Values of 0 or 1 are supported. 
 * `state` - The key's current lifecycle state.  Example: `ENABLED` 
 * `time_created` - The date and time the key was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
 * `time_of_deletion` - An optional property indicating when to delete the key, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 * `vault_id` - The OCID of the vault that contains this key.
-* `restore_from_object_store` - Details where key was backed up
-    * `destination` - Type of backup to restore from. Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are supported
-    * `bucket` - Name of the bucket where key was backed up
-    * `namespace` - Namespace of the bucket where key was backed up
-    * `object` - Object containing the backup
-    * `uri` - Pre-authenticated-request-uri of the backup
-* `restore_trigger` - When flipped, triggers restore if restore options are provided. Values of 0 or 1 are supported. 
 

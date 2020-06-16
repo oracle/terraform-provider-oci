@@ -45,6 +45,10 @@ data "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationDat
   auto_scaling_configuration_id = "${oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfiguration.id}"
 }
 
+data "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationScheduledPolicyDatasource" {
+  auto_scaling_configuration_id = "${oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfigurationScheduledPolicy.id}"
+}
+
 data "oci_autoscaling_auto_scaling_configurations" "TFAutoScalingConfigurationDatasources" {
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFAutoScalingConfiguration"
@@ -61,14 +65,14 @@ data "oci_core_instance" "TFInstancePoolInstanceSingularDatasources" {
   instance_id = "${lookup(data.oci_core_instance_pool_instances.TFInstancePoolInstanceDatasources.instances[count.index], "id")}"
 }
 
-output "Pooled instances private IPs" {
+output "Pooled_instances_private_IPs" {
   value = ["${data.oci_core_instance.TFInstancePoolInstanceSingularDatasources.*.private_ip}"]
 }
 
-output "Pooled instances public IPs" {
+output "Pooled_instances_public_IPs" {
   value = ["${data.oci_core_instance.TFInstancePoolInstanceSingularDatasources.*.public_ip}"]
 }
 
-output "Pooled instances hostname labels" {
+output "Pooled_instances_hostname_labels" {
   value = ["${data.oci_core_instance.TFInstancePoolInstanceSingularDatasources.*.hostname_label}"]
 }

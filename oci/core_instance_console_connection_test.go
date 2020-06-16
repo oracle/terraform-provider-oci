@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"strings"
 	"testing"
 	"time"
 
@@ -97,11 +96,7 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								// service does not return `public_key` causing the plan to show diff. we set the `public_key` in config using TestKeyValPairs in ExportCommandArgs
-								// We are setting `public_key` in set data from config but in export flow, it seems to be not setting it in state
-								if !strings.Contains(errExport.Error(), "terraform plan command return non-empty diff") {
-									return errExport
-								}
+								return errExport
 							}
 						}
 						return err

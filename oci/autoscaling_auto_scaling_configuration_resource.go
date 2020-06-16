@@ -79,23 +79,26 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
+
+									// Optional
 									"initial": {
 										Type:     schema.TypeInt,
-										Required: true,
+										Optional: true,
+										Computed: true,
 										ForceNew: true,
 									},
 									"max": {
 										Type:     schema.TypeInt,
-										Required: true,
+										Optional: true,
+										Computed: true,
 										ForceNew: true,
 									},
 									"min": {
 										Type:     schema.TypeInt,
-										Required: true,
+										Optional: true,
+										Computed: true,
 										ForceNew: true,
 									},
-
-									// Optional
 
 									// Computed
 								},
@@ -107,105 +110,9 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 							ForceNew:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"scheduled",
 								"threshold",
 							}, true),
-						},
-						"rules": {
-							Type:     schema.TypeSet,
-							Required: true,
-							ForceNew: true,
-							Set:      autoScalingConfigurationPolicyRulesHashCodeForSets,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-									"action": {
-										Type:     schema.TypeList,
-										Required: true,
-										ForceNew: true,
-										MaxItems: 1,
-										MinItems: 1,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												// Required
-												"type": {
-													Type:     schema.TypeString,
-													Required: true,
-													ForceNew: true,
-												},
-												"value": {
-													Type:     schema.TypeInt,
-													Required: true,
-													ForceNew: true,
-												},
-
-												// Optional
-
-												// Computed
-											},
-										},
-									},
-									"display_name": {
-										Type:     schema.TypeString,
-										Required: true,
-										ForceNew: true,
-									},
-									"metric": {
-										Type:     schema.TypeList,
-										Required: true,
-										ForceNew: true,
-										MaxItems: 1,
-										MinItems: 1,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												// Required
-												"metric_type": {
-													Type:     schema.TypeString,
-													Required: true,
-													ForceNew: true,
-												},
-												"threshold": {
-													Type:     schema.TypeList,
-													Required: true,
-													ForceNew: true,
-													MaxItems: 1,
-													MinItems: 1,
-													Elem: &schema.Resource{
-														Schema: map[string]*schema.Schema{
-															// Required
-															"operator": {
-																Type:     schema.TypeString,
-																Required: true,
-																ForceNew: true,
-															},
-															"value": {
-																Type:     schema.TypeInt,
-																Required: true,
-																ForceNew: true,
-															},
-
-															// Optional
-
-															// Computed
-														},
-													},
-												},
-
-												// Optional
-
-												// Computed
-											},
-										},
-									},
-
-									// Optional
-
-									// Computed
-									"id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
 						},
 
 						// Optional
@@ -214,6 +121,154 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"execution_schedule": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"expression": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"timezone": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"cron",
+										}, true),
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"rules": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Set:      autoScalingConfigurationPolicyRulesHashCodeForSets,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"display_name": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"action": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"value": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"metric": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"metric_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"threshold": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"operator": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"value": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 
 						// Computed
@@ -260,6 +315,14 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 			},
 
 			// Computed
+			"max_resource_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"min_resource_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -501,6 +564,14 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) SetData() error {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
 
+	if s.Res.MaxResourceCount != nil {
+		s.D.Set("max_resource_count", *s.Res.MaxResourceCount)
+	}
+
+	if s.Res.MinResourceCount != nil {
+		s.D.Set("min_resource_count", *s.Res.MinResourceCount)
+	}
+
 	policies := []interface{}{}
 	for _, item := range s.Res.Policies {
 		policies = append(policies, AutoScalingPolicyToMap(item, false))
@@ -591,6 +662,37 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 		policyType = "" // default value
 	}
 	switch strings.ToLower(policyType) {
+	case strings.ToLower("scheduled"):
+		details := oci_auto_scaling.CreateScheduledPolicyDetails{}
+		if executionSchedule, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "execution_schedule")); ok {
+			if tmpList := executionSchedule.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "execution_schedule"), 0)
+				tmp, err := s.mapToExecutionSchedule(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert execution_schedule, encountered error: %v", err)
+				}
+				details.ExecutionSchedule = tmp
+			}
+		}
+		if capacity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity")); ok {
+			if tmpList := capacity.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "capacity"), 0)
+				tmp, err := s.mapToCapacity(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert capacity, encountered error: %v", err)
+				}
+				details.Capacity = &tmp
+			}
+		}
+		if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("threshold"):
 		details := oci_auto_scaling.CreateThresholdPolicyDetails{}
 		if rules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rules")); ok {
@@ -624,6 +726,10 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
 		}
+		if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown policy_type '%v' was specified", policyType)
@@ -634,6 +740,36 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 func AutoScalingPolicyToMap(obj oci_auto_scaling.AutoScalingPolicy, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_auto_scaling.ScheduledPolicy:
+		result["policy_type"] = "scheduled"
+
+		if v.ExecutionSchedule != nil {
+			executionScheduleArray := []interface{}{}
+			if executionScheduleMap := ExecutionScheduleToMap(&v.ExecutionSchedule); executionScheduleMap != nil {
+				executionScheduleArray = append(executionScheduleArray, executionScheduleMap)
+			}
+			result["execution_schedule"] = executionScheduleArray
+		}
+
+		if v.Capacity != nil {
+			result["capacity"] = []interface{}{CapacityToMap(v.Capacity)}
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = string(*v.DisplayName)
+		}
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
+		}
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
 	case oci_auto_scaling.ThresholdPolicy:
 		result["policy_type"] = "threshold"
 
@@ -659,6 +795,10 @@ func AutoScalingPolicyToMap(obj oci_auto_scaling.AutoScalingPolicy, datasource b
 
 		if v.Id != nil {
 			result["id"] = string(*v.Id)
+		}
+
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
 		}
 
 		if v.TimeCreated != nil {
@@ -722,6 +862,52 @@ func CreateConditionDetailsToMap(obj oci_auto_scaling.Condition) map[string]inte
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	return result
+}
+
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToExecutionSchedule(fieldKeyFormat string) (oci_auto_scaling.ExecutionSchedule, error) {
+	var baseObject oci_auto_scaling.ExecutionSchedule
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("cron"):
+		details := oci_auto_scaling.CronExecutionSchedule{}
+		if expression, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "expression")); ok {
+			tmp := expression.(string)
+			details.Expression = &tmp
+		}
+		if timezone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timezone")); ok {
+			details.Timezone = oci_auto_scaling.ExecutionScheduleTimezoneEnum(timezone.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func ExecutionScheduleToMap(obj *oci_auto_scaling.ExecutionSchedule) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_auto_scaling.CronExecutionSchedule:
+		result["type"] = "cron"
+
+		result["timezone"] = oci_auto_scaling.ExecutionScheduleTimezoneEnum(v.Timezone)
+
+		if v.Expression != nil {
+			result["expression"] = string(*v.Expression)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

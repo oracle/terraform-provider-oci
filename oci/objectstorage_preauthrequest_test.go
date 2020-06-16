@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"testing"
 	"time"
 
@@ -72,6 +73,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 	datasourceName := "data.oci_objectstorage_preauthrequests.test_preauthenticated_requests"
 	singularDatasourceName := "data.oci_objectstorage_preauthrequest.test_preauthenticated_request"
 
+	var resId string
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -110,6 +112,16 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 

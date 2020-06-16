@@ -69,6 +69,19 @@ resource "oci_core_instance_pool" "TFInstancePool" {
   }
 }
 
+resource "oci_core_instance_pool" "TFInstancePoolForScheduledPolicy" {
+  compartment_id            = "${var.compartment_ocid}"
+  instance_configuration_id = "${oci_core_instance_configuration.TFInstanceConfiguration.id}"
+  size                      = 2
+  state                     = "RUNNING"
+  display_name              = "TFInstancePoolForScheduledPolicy"
+
+  placement_configurations {
+    availability_domain = "${data.oci_identity_availability_domain.AD.name}"
+    primary_subnet_id   = "${oci_core_subnet.ExampleSubnet.id}"
+  }
+}
+
 resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguration" {
   compartment_id       = "${var.compartment_ocid}"
   cool_down_in_seconds = "300"
@@ -124,6 +137,35 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
 
   auto_scaling_resources {
     id   = "${oci_core_instance_pool.TFInstancePool.id}"
+    type = "instancePool"
+  }
+}
+
+resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationScheduledPolicy" {
+  compartment_id       = "${var.compartment_ocid}"
+  cool_down_in_seconds = "300"
+  display_name         = "TFAutoScalingConfigurationScheduledPolicy"
+  is_enabled           = "true"
+
+  policies {
+    capacity {
+      initial = "4"
+      max     = "4"
+      min     = "2"
+    }
+
+    display_name = "TFScheduledPolicy"
+    policy_type  = "scheduled"
+
+    execution_schedule {
+      expression = "0 15 10 ? * *"
+      timezone   = "UTC"
+      type       = "cron"
+    }
+  }
+
+  auto_scaling_resources {
+    id   = "${oci_core_instance_pool.TFInstancePoolForScheduledPolicy.id}"
     type = "instancePool"
   }
 }

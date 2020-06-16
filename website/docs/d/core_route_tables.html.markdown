@@ -10,9 +10,10 @@ description: |-
 # Data Source: oci_core_route_tables
 This data source provides the list of Route Tables in Oracle Cloud Infrastructure Core service.
 
-Lists the route tables in the specified VCN and specified compartment. The response
-includes the default route table that automatically comes with each VCN, plus any route tables
-you've created.
+Lists the route tables in the specified VCN and specified compartment.
+If Vcn ID is not provided, then it will list all of the route tables in all the VCNs that are in the specified compartment.
+The response includes the default route table that automatically comes with
+each VCN in the specified compartment, plus any route tables you've created.
 
 
 ## Example Usage

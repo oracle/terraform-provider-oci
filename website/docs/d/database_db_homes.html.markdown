@@ -35,7 +35,7 @@ The following arguments are supported:
 
 * `backup_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup. Specify a backupId to list only the DB systems or DB homes that support creating a database using this backup in this compartment.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `db_system_id` - (Applicable when source=DB_BACKUP | NONE) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
+* `db_system_id` - (Applicable when source=DATABASE | DB_BACKUP | NONE) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 * `vm_cluster_id` - (Applicable when source=VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
