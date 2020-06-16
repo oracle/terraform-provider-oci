@@ -360,6 +360,8 @@ func init() {
 	exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
 	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStorageObjectPreauthenticatedRequestId
 	exportObjectStoragePreauthenticatedRequestHints.processDiscoveredResourcesFn = processObjectStoragePreauthenticatedRequest
+	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
+	exportObjectStorageReplicationPolicyHints.processDiscoveredResourcesFn = processObjectStorageReplicationPolicy
 
 	exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
 
@@ -1037,6 +1039,7 @@ func processObjectStorageReplicationPolicy(clients *OracleClients, resources []*
 	for _, index := range resources {
 		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
 		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
+		index.sourceAttributes["delete_object_in_destination_bucket"] = false
 	}
 	return resources, nil
 }

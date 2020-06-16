@@ -648,6 +648,13 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 				"bucket":    "name",
 			},
 		},
+		{
+			TerraformResourceHints: exportObjectStorageReplicationPolicyHints,
+			datasourceQueryParams: map[string]string{
+				"namespace": "namespace",
+				"bucket":    "name",
+			},
+		},
 	},
 	"oci_objectstorage_namespace": {
 		{
