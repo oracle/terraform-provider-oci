@@ -1293,6 +1293,13 @@ var exportObjectStoragePreauthenticatedRequestHints = &TerraformResourceHints{
 	resourceAbbreviation: "preauthenticated_request",
 }
 
+var exportObjectStorageReplicationPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_objectstorage_replication_policy",
+	datasourceClass:      "oci_objectstorage_replication_policies",
+	datasourceItemsAttr:  "replication_policies",
+	resourceAbbreviation: "replication_policy",
+}
+
 var exportOnsNotificationTopicHints = &TerraformResourceHints{
 	resourceClass:        "oci_ons_notification_topic",
 	datasourceClass:      "oci_ons_notification_topics",

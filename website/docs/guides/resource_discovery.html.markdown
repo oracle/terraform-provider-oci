@@ -422,6 +422,7 @@ object_storage
 * oci\_objectstorage\_object\_lifecycle\_policy
 * oci\_objectstorage\_object
 * oci\_objectstorage\_preauthrequest
+* oci\_objectstorage\_replication\_policy
 
 oce
     
