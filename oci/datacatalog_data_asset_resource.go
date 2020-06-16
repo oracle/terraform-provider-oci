@@ -6,6 +6,9 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/url"
+	"regexp"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -19,6 +22,9 @@ func init() {
 
 func DatacatalogDataAssetResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createDatacatalogDataAsset,
 		Read:     readDatacatalogDataAsset,
@@ -227,6 +233,14 @@ func (s *DatacatalogDataAssetResourceCrud) Get() error {
 		}
 	}
 
+	catalogId, dataAssetKey, err := parseDataAssetCompositeId(s.D.Id())
+	if err == nil {
+		request.CatalogId = &catalogId
+		request.DataAssetKey = &dataAssetKey
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.GetDataAsset(context.Background(), request)
@@ -298,6 +312,16 @@ func (s *DatacatalogDataAssetResourceCrud) Delete() error {
 }
 
 func (s *DatacatalogDataAssetResourceCrud) SetData() error {
+
+	catalogId, dataAssetKey, err := parseDataAssetCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("catalog_id", &catalogId)
+		s.D.Set("data_asset_key", &dataAssetKey)
+		s.D.SetId(dataAssetKey)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	if s.Res.CatalogId != nil {
 		s.D.Set("catalog_id", *s.Res.CatalogId)
 	}
@@ -349,6 +373,26 @@ func (s *DatacatalogDataAssetResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getDataAssetCompositeId(catalogId string, dataAssetKey string) string {
+	catalogId = url.PathEscape(catalogId)
+	dataAssetKey = url.PathEscape(dataAssetKey)
+	compositeId := "catalogs/" + catalogId + "/dataAssets/" + dataAssetKey
+	return compositeId
+}
+
+func parseDataAssetCompositeId(compositeId string) (catalogId string, dataAssetKey string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("catalogs/.*/dataAssets/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	catalogId, _ = url.PathUnescape(parts[1])
+	dataAssetKey, _ = url.PathUnescape(parts[3])
+
+	return
 }
 
 func DataAssetSummaryToMap(obj oci_datacatalog.DataAssetSummary) map[string]interface{} {
@@ -420,3 +464,24 @@ func mapToProperties(rawMap map[string]interface{}) (map[string]map[string]strin
 	}
 	return properties, nil
 }
+
+//
+//func getDataAssetCompositeId(dataAssetKey string, catalogId string) string {
+//	dataAssetKey = url.PathEscape(dataAssetKey)
+//	catalogId = url.PathEscape(catalogId)
+//	compositeId := "catalogs/" + catalogId + "/dataAssets/" + dataAssetKey
+//	return compositeId
+//}
+//
+//func parseDataAssetCompositeId(compositeId string) (dataAssetKey string, catalogId string, err error) {
+//	parts := strings.Split(compositeId, "/")
+//	match, _ := regexp.MatchString("catalogs/.*/dataAssets/.*", compositeId)
+//	if !match || len(parts) != 4 {
+//		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+//		return
+//	}
+//	catalogId, _ = url.PathUnescape(parts[1])
+//	dataAssetKey, _ = url.PathUnescape(parts[3])
+//
+//	return
+//}

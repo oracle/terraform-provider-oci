@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -65,6 +66,7 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 	datasourceName := "data.oci_objectstorage_replication_policies.test_replication_policies"
 	singularDatasourceName := "data.oci_objectstorage_replication_policy.test_replication_policy"
 
+	var resId string
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -102,6 +104,16 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.status"),
 					resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.status_message"),
 					resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 

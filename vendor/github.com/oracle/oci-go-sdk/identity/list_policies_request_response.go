@@ -21,6 +21,25 @@ type ListPoliciesRequest struct {
 	// The maximum number of items to return in a paginated "List" call.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// A filter to only return resources that match the given name exactly.
+	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+
+	// The field to sort by. You can provide one sort order (`sortOrder`). Default order for
+	// TIMECREATED is descending. Default order for NAME is ascending. The NAME
+	// sort order is case sensitive.
+	// **Note:** In general, some "List" operations (for example, `ListInstances`) let you
+	// optionally filter by Availability Domain if the scope of the resource type is within a
+	// single Availability Domain. If you call one of these "List" operations without specifying
+	// an Availability Domain, the resources are grouped by Availability Domain, then sorted.
+	SortBy ListPoliciesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). The NAME sort order
+	// is case sensitive.
+	SortOrder ListPoliciesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
+	LifecycleState PolicyLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -70,4 +89,50 @@ func (response ListPoliciesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListPoliciesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListPoliciesSortByEnum Enum with underlying type: string
+type ListPoliciesSortByEnum string
+
+// Set of constants representing the allowable values for ListPoliciesSortByEnum
+const (
+	ListPoliciesSortByTimecreated ListPoliciesSortByEnum = "TIMECREATED"
+	ListPoliciesSortByName        ListPoliciesSortByEnum = "NAME"
+)
+
+var mappingListPoliciesSortBy = map[string]ListPoliciesSortByEnum{
+	"TIMECREATED": ListPoliciesSortByTimecreated,
+	"NAME":        ListPoliciesSortByName,
+}
+
+// GetListPoliciesSortByEnumValues Enumerates the set of values for ListPoliciesSortByEnum
+func GetListPoliciesSortByEnumValues() []ListPoliciesSortByEnum {
+	values := make([]ListPoliciesSortByEnum, 0)
+	for _, v := range mappingListPoliciesSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListPoliciesSortOrderEnum Enum with underlying type: string
+type ListPoliciesSortOrderEnum string
+
+// Set of constants representing the allowable values for ListPoliciesSortOrderEnum
+const (
+	ListPoliciesSortOrderAsc  ListPoliciesSortOrderEnum = "ASC"
+	ListPoliciesSortOrderDesc ListPoliciesSortOrderEnum = "DESC"
+)
+
+var mappingListPoliciesSortOrder = map[string]ListPoliciesSortOrderEnum{
+	"ASC":  ListPoliciesSortOrderAsc,
+	"DESC": ListPoliciesSortOrderDesc,
+}
+
+// GetListPoliciesSortOrderEnumValues Enumerates the set of values for ListPoliciesSortOrderEnum
+func GetListPoliciesSortOrderEnumValues() []ListPoliciesSortOrderEnum {
+	values := make([]ListPoliciesSortOrderEnum, 0)
+	for _, v := range mappingListPoliciesSortOrder {
+		values = append(values, v)
+	}
+	return values
 }

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -155,6 +156,8 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
+				PreConfig: waitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(3*time.Minute),
+					dataFlowInvokeRunFetchOperation, "dataflow", false),
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InvokeRunResourceDependencies + warehouseBucketUriVariableStr + fileUriVariableStr + logsBucketUriVariableStr +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Create,
 						representationCopyWithNewProperties(invokeRunRepresentation, map[string]interface{}{
@@ -390,4 +393,22 @@ func getInvokeRunIds(compartment string) ([]string, error) {
 		addResourceIdToSweeperResourceIdMap(compartmentId, "InvokeRunId", id)
 	}
 	return resourceIds, nil
+}
+
+func dataflowRunAvailableShouldWaitCondition(response common.OCIOperationResponse) bool {
+	if runResponse, ok := response.Response.(oci_dataflow.GetRunResponse); ok {
+		return runResponse.LifecycleState != oci_dataflow.RunLifecycleStateCanceled && runResponse.LifecycleState != oci_dataflow.RunLifecycleStateFailed &&
+			runResponse.LifecycleState != oci_dataflow.RunLifecycleStateSucceeded
+	}
+	return false
+}
+
+func dataFlowInvokeRunFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.dataFlowClient().GetRun(context.Background(), oci_dataflow.GetRunRequest{
+		RunId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

@@ -39,7 +39,7 @@ More Oracle Cloud Infrastructure provider examples can be found [here](https://g
 
 ## Authentication
 
-The OCI provider supports API Key based authentication and Instance Principal based authentication.
+The OCI provider supports API Key based authentication, Instance Principal based authentication and Security Token authentication.
 
 ### API Key based authentication  
 Calls to OCI using API Key authentication requires that you provide the following credentials:
@@ -127,6 +127,21 @@ provider "oci" {
 
 _Note: this configuration will only work when run from an OCI instance. For more information on using Instance 
 Principals, see [this document](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm)._
+
+### Security Token Authentication
+Security Token authentication allows you to run Terraform using a token generated with [Token-based Authentication for the CLI](https://docs.cloud.oracle.com/en-us/iaas/Content/API/SDKDocs/clitoken.htm).
+To enable Security Token authentication, set the `auth` attribute to "SecurityToken" and provide a value for `config_file_profile` in the provider definition. For example:
+
+```
+# Configure the Oracle Cloud Infrastructure provider to use Security Token authentication
+provider "oci" {
+  auth                = "SecurityToken"
+  config_file_profile = "PROFILE"
+}
+```
+
+_Note: This token expires after 1 hour. Avoid using this authentication when provisioning of resources takes longer than 1 hour. 
+To refresh the security token, see [this document](https://docs.cloud.oracle.com/en-us/iaas/Content/API/SDKDocs/clitoken.htm#RefreshingaToken)._
 
 ## Configuring Automatic Retries
 While applying, refreshing, or destroying a plan, Terraform may encounter some intermittent OCI errors (such as 429 or 500 errors) that could succeed on retry. 

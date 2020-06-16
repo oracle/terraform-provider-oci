@@ -208,6 +208,10 @@ func (m *launchdbsystembase) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := LaunchDbSystemDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATABASE":
+		mm := LaunchDbSystemFromDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DB_BACKUP":
 		mm := LaunchDbSystemFromBackupDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -338,11 +342,13 @@ type LaunchDbSystemBaseSourceEnum string
 const (
 	LaunchDbSystemBaseSourceNone     LaunchDbSystemBaseSourceEnum = "NONE"
 	LaunchDbSystemBaseSourceDbBackup LaunchDbSystemBaseSourceEnum = "DB_BACKUP"
+	LaunchDbSystemBaseSourceDatabase LaunchDbSystemBaseSourceEnum = "DATABASE"
 )
 
 var mappingLaunchDbSystemBaseSource = map[string]LaunchDbSystemBaseSourceEnum{
 	"NONE":      LaunchDbSystemBaseSourceNone,
 	"DB_BACKUP": LaunchDbSystemBaseSourceDbBackup,
+	"DATABASE":  LaunchDbSystemBaseSourceDatabase,
 }
 
 // GetLaunchDbSystemBaseSourceEnumValues Enumerates the set of values for LaunchDbSystemBaseSourceEnum

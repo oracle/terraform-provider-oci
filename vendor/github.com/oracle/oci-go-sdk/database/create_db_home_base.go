@@ -54,6 +54,10 @@ func (m *createdbhomebase) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 
 	var err error
 	switch m.Source {
+	case "DATABASE":
+		mm := CreateDbHomeWithDbSystemIdFromDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DB_BACKUP":
 		mm := CreateDbHomeWithDbSystemIdFromBackupDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -87,12 +91,14 @@ type CreateDbHomeBaseSourceEnum string
 const (
 	CreateDbHomeBaseSourceNone         CreateDbHomeBaseSourceEnum = "NONE"
 	CreateDbHomeBaseSourceDbBackup     CreateDbHomeBaseSourceEnum = "DB_BACKUP"
+	CreateDbHomeBaseSourceDatabase     CreateDbHomeBaseSourceEnum = "DATABASE"
 	CreateDbHomeBaseSourceVmClusterNew CreateDbHomeBaseSourceEnum = "VM_CLUSTER_NEW"
 )
 
 var mappingCreateDbHomeBaseSource = map[string]CreateDbHomeBaseSourceEnum{
 	"NONE":           CreateDbHomeBaseSourceNone,
 	"DB_BACKUP":      CreateDbHomeBaseSourceDbBackup,
+	"DATABASE":       CreateDbHomeBaseSourceDatabase,
 	"VM_CLUSTER_NEW": CreateDbHomeBaseSourceVmClusterNew,
 }
 

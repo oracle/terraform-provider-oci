@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform/helper/validation"
 
 	"github.com/oracle/oci-go-sdk/common"
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
@@ -67,6 +68,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Sensitive: true,
 						},
 						"character_set": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"database_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -167,6 +174,13 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"time_stamp_for_point_in_time_recovery": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: timeDiffSuppressFunction,
+						},
 
 						// Computed
 						"connection_strings": {
@@ -246,6 +260,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"DATABASE",
 					"DB_BACKUP",
 					"NONE",
 					"VM_CLUSTER_NEW",
@@ -606,6 +621,45 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 	return result, nil
 }
 
+func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromAnotherDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromAnotherDatabaseDetails, error) {
+	result := oci_database.CreateDatabaseFromAnotherDatabaseDetails{}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if backupTDEPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_tde_password")); ok {
+		tmp := backupTDEPassword.(string)
+		result.BackupTDEPassword = &tmp
+	}
+
+	if databaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_id")); ok {
+		tmp := databaseId.(string)
+		result.DatabaseId = &tmp
+	}
+
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
+	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_stamp_for_point_in_time_recovery")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeStampForPointInTimeRecovery.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeStampForPointInTimeRecovery = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
+
 func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
 	result := oci_database.CreateDatabaseFromBackupDetails{}
 
@@ -682,6 +736,27 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		source = "NONE" // default value
 	}
 	switch strings.ToLower(source) {
+	case strings.ToLower("DATABASE"):
+		details := oci_database.CreateDbHomeWithDbSystemIdFromDatabaseDetails{}
+		if database, ok := s.D.GetOkExists("database"); ok {
+			if tmpList := database.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateDatabaseFromAnotherDatabaseDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Database = &tmp
+			}
+		}
+		if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
+			tmp := dbSystemId.(string)
+			details.DbSystemId = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		request.CreateDbHomeWithDbSystemIdDetails = details
 	case strings.ToLower("DB_BACKUP"):
 		details := oci_database.CreateDbHomeWithDbSystemIdFromBackupDetails{}
 		if database, ok := s.D.GetOkExists("database"); ok {
@@ -926,6 +1001,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 		result["connection_strings"] = []interface{}{DatabaseConnectionStringsToMap(obj.ConnectionStrings)}
 	}
 
+	if databaseId, ok := s.D.GetOkExists("database.0.database_id"); ok && databaseId != nil {
+		result["database_id"] = databaseId.(string)
+	}
+
 	if obj.DbBackupConfig != nil {
 		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
 	}
@@ -968,6 +1047,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf("database.0.time_stamp_for_point_in_time_recovery")); ok {
+		result["time_stamp_for_point_in_time_recovery"] = timeStampForPointInTimeRecovery
 	}
 
 	return result

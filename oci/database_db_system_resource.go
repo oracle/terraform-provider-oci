@@ -95,6 +95,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"database_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"db_backup_config": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -188,6 +194,13 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
+									},
+									"time_stamp_for_point_in_time_recovery": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: timeDiffSuppressFunction,
 									},
 
 									// Computed
@@ -521,6 +534,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"DATABASE",
 					"DB_BACKUP",
 					"NONE",
 				}, true),
@@ -1271,6 +1285,75 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 	return result
 }
 
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseFromAnotherDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromAnotherDatabaseDetails, error) {
+	result := oci_database.CreateDatabaseFromAnotherDatabaseDetails{}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if backupTDEPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_tde_password")); ok {
+		tmp := backupTDEPassword.(string)
+		result.BackupTDEPassword = &tmp
+	}
+
+	if databaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_id")); ok {
+		tmp := databaseId.(string)
+		result.DatabaseId = &tmp
+	}
+
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
+	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_stamp_for_point_in_time_recovery")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeStampForPointInTimeRecovery.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeStampForPointInTimeRecovery = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
+
+func CreateDatabaseFromAnotherDatabaseDetailsToMap(obj *oci_database.CreateDatabaseFromAnotherDatabaseDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdminPassword != nil {
+		result["admin_password"] = string(*obj.AdminPassword)
+	}
+
+	if obj.BackupTDEPassword != nil {
+		result["backup_tde_password"] = string(*obj.BackupTDEPassword)
+	}
+
+	if obj.DatabaseId != nil {
+		result["database_id"] = string(*obj.DatabaseId)
+	}
+
+	if obj.DbName != nil {
+		result["db_name"] = string(*obj.DbName)
+	}
+
+	if obj.DbUniqueName != nil {
+		result["db_unique_name"] = string(*obj.DbUniqueName)
+	}
+
+	if obj.TimeStampForPointInTimeRecovery != nil {
+		result["time_stamp_for_point_in_time_recovery"] = obj.TimeStampForPointInTimeRecovery.Format(time.RFC3339Nano)
+	}
+
+	return result
+}
+
 func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
 	result := oci_database.CreateDatabaseFromBackupDetails{}
 
@@ -1391,6 +1474,42 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 
 	if obj.Database != nil {
 		result["database"] = []interface{}{CreateDatabaseFromBackupDetailsToMap(obj.Database)}
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	return result
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeFromDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDbHomeFromDatabaseDetails, error) {
+	result := oci_database.CreateDbHomeFromDatabaseDetails{}
+
+	if database, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database")); ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database"), 0)
+			tmp, err := s.mapToCreateDatabaseFromAnotherDatabaseDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert database, encountered error: %v", err)
+			}
+			result.Database = &tmp
+		}
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	return result, nil
+}
+
+func CreateDbHomeFromDatabaseDetailsToMap(obj *oci_database.CreateDbHomeFromDatabaseDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Database != nil {
+		result["database"] = []interface{}{CreateDatabaseFromAnotherDatabaseDetailsToMap(obj.Database)}
 	}
 
 	if obj.DisplayName != nil {
@@ -1588,6 +1707,162 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		source = "NONE" // default value
 	}
 	switch strings.ToLower(source) {
+	case strings.ToLower("DATABASE"):
+		details := oci_database.LaunchDbSystemFromDatabaseDetails{}
+		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+			details.DatabaseEdition = oci_database.LaunchDbSystemFromDatabaseDetailsDatabaseEditionEnum(databaseEdition.(string))
+		}
+		if dbHome, ok := s.D.GetOkExists("db_home"); ok {
+			if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_home", 0)
+				tmp, err := s.mapToCreateDbHomeFromDatabaseDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DbHome = &tmp
+			}
+		}
+		if diskRedundancy, ok := s.D.GetOkExists("disk_redundancy"); ok {
+			details.DiskRedundancy = oci_database.LaunchDbSystemFromDatabaseDetailsDiskRedundancyEnum(diskRedundancy.(string))
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchDbSystemFromDatabaseDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
+		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+			set := backupNetworkNsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("backup_network_nsg_ids") {
+				details.BackupNetworkNsgIds = tmp
+			}
+		}
+		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
+			tmp := backupSubnetId.(string)
+			details.BackupSubnetId = &tmp
+		}
+		if clusterName, ok := s.D.GetOkExists("cluster_name"); ok {
+			tmp := clusterName.(string)
+			details.ClusterName = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
+			tmp := dataStoragePercentage.(int)
+			details.DataStoragePercentage = &tmp
+		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.InitialDataStorageSizeInGB = &tmp
+		}
+		if dbSystemOptions, ok := s.D.GetOkExists("db_system_options"); ok {
+			if tmpList := dbSystemOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_system_options", 0)
+				tmp, err := s.mapToDbSystemOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DbSystemOptions = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if domain, ok := s.D.GetOkExists("domain"); ok {
+			tmp := domain.(string)
+			details.Domain = &tmp
+		}
+		if faultDomains, ok := s.D.GetOkExists("fault_domains"); ok {
+			interfaces := faultDomains.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("fault_domains") {
+				details.FaultDomains = tmp
+			}
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if hostname, ok := s.D.GetOkExists("hostname"); ok {
+			tmp := hostname.(string)
+			details.Hostname = &tmp
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchDbSystemFromDatabaseDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+			tmp := nodeCount.(int)
+			details.NodeCount = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if shape, ok := s.D.GetOkExists("shape"); ok {
+			tmp := shape.(string)
+			details.Shape = &tmp
+		}
+		if sparseDiskgroup, ok := s.D.GetOkExists("sparse_diskgroup"); ok {
+			tmp := sparseDiskgroup.(bool)
+			details.SparseDiskgroup = &tmp
+		}
+		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
+			set := sshPublicKeys.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("ssh_public_keys") {
+				details.SshPublicKeys = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
+			tmp := timeZone.(string)
+			details.TimeZone = &tmp
+		}
+		request.LaunchDbSystemDetails = details
 	case strings.ToLower("DB_BACKUP"):
 		details := oci_database.LaunchDbSystemFromBackupDetails{}
 		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
@@ -1850,6 +2125,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := hostname.(string)
 			details.Hostname = &tmp
 		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchDbSystemDetailsLicenseModelEnum(licenseModel.(string))
+		}
 		if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
 			if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
@@ -1859,9 +2137,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 				}
 				details.MaintenanceWindowDetails = &tmp
 			}
-		}
-		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
-			details.LicenseModel = oci_database.LaunchDbSystemDetailsLicenseModelEnum(licenseModel.(string))
 		}
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 			tmp := nodeCount.(int)
@@ -2318,6 +2593,10 @@ func (s *DatabaseDbSystemResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf("db_home.0.database.0.time_stamp_for_point_in_time_recovery")); ok {
+		result["time_stamp_for_point_in_time_recovery"] = timeStampForPointInTimeRecovery
 	}
 
 	return result

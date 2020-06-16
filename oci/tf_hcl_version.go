@@ -15,6 +15,7 @@ const (
 
 type TfHclVersion interface {
 	toString() string
+	getReference(reference string) string
 	getVarHclString(string) string
 	getDataSourceHclString(string, string) string
 	getSingleExpHclString(string) string
@@ -23,6 +24,10 @@ type TfHclVersion interface {
 
 type TfHclVersion11 struct {
 	Value TfVersionEnum
+}
+
+func (tfversion *TfHclVersion11) getReference(reference string) string {
+	return fmt.Sprintf("\"%s\"", reference)
 }
 
 func (tfversion *TfHclVersion11) toString() string {
@@ -47,6 +52,10 @@ func (tfversion *TfHclVersion11) getDoubleExpHclString(expString1 string, expStr
 
 type TfHclVersion12 struct {
 	Value TfVersionEnum
+}
+
+func (tfversion *TfHclVersion12) getReference(reference string) string {
+	return reference
 }
 
 func (tfversion *TfHclVersion12) toString() string {

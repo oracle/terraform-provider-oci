@@ -35,6 +35,14 @@ type TerraformResourceHints struct {
 
 	// Hints to help with generating HCL representation from this resource
 	getHCLStringOverrideFn func(*strings.Builder, *OCIResource, map[string]string) error // Custom function for generating HCL syntax for the resource
+
+	// Hints for adding default value to HCL representation for attributes not found in resource discovery
+	defaultValuesForMissingAttributes map[string]string
+
+	// Hints for adding resource attributes to `ignore_changes` in HCL representation
+	// This is added to avoid plan failure/diff for attributes that service does not return in read response
+	// The attributes references are interpolated in case of nested attributes
+	ignorableRequiredMissingAttributes map[string]bool
 }
 
 type TerraformResourceAssociation struct {
@@ -77,6 +85,7 @@ func init() {
 	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
 	exportCoreImageHints.processDiscoveredResourcesFn = filterCustomImages
+
 	exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
 	exportCoreInstanceHints.processDiscoveredResourcesFn = processInstances
 	exportCoreInstanceHints.requireResourceRefresh = true
@@ -91,12 +100,26 @@ func init() {
 
 	exportDatabaseAutonomousContainerDatabaseHints.requireResourceRefresh = true
 	exportDatabaseAutonomousDatabaseHints.requireResourceRefresh = true
+
 	exportDatabaseAutonomousExadataInfrastructureHints.requireResourceRefresh = true
+
 	exportDatabaseDbSystemHints.requireResourceRefresh = true
+	exportDatabaseDbSystemHints.processDiscoveredResourcesFn = processDbSystems
+
 	exportDatabaseDbHomeHints.processDiscoveredResourcesFn = filterPrimaryDbHomes
 	exportDatabaseDbHomeHints.requireResourceRefresh = true
+
 	exportDatabaseDatabaseHints.requireResourceRefresh = true
+	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = filterPrimaryDatabases
+
+	exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]string{
+		"source": "NONE",
+	}
+	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = processDatabases
+
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
+
+	exportDatascienceModelProvenanceHints.getIdFn = getModelProvenanceId
 
 	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
 	exportIdentityAvailabilityDomainHints.alwaysExportable = true
@@ -111,6 +134,11 @@ func init() {
 	exportObjectStorageNamespaceHints.alwaysExportable = true
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
+	exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
+	exportObjectStorageObjectHints.requireResourceRefresh = true
+	exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
+	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStorageObjectPreauthenticatedRequestId
+	exportObjectStoragePreauthenticatedRequestHints.processDiscoveredResourcesFn = processObjectStoragePreauthenticatedRequest
 
 	exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
 
@@ -123,6 +151,8 @@ func init() {
 
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
 
+	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
+	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
 
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
@@ -141,6 +171,33 @@ func init() {
 	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
 }
 
+func getDatacatalogDataAssetId(resource *OCIResource) (string, error) {
+	dataAssetKey, ok := resource.sourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find data_asset_key for Data Asset")
+	}
+	catalogId := resource.parent.id
+
+	return getDataAssetCompositeId(catalogId, dataAssetKey), nil
+}
+
+func getDatacatalogConnectionId(resource *OCIResource) (string, error) {
+	connectionKey, ok := resource.sourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find key for Data Asset Connection")
+	}
+	dataAssetKey, ok := resource.sourceAttributes["data_asset_key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find data_asset_key for Data Asset")
+	}
+	catalogId, ok := resource.parent.sourceAttributes["catalog_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find catalog_id for Data Asset")
+	}
+
+	return getConnectionCompositeId(catalogId, connectionKey, dataAssetKey), nil
+}
+
 // Custom functions to alter behavior of resource discovery and resource HCL representation
 
 func getIdentityApiKeyId(resource *OCIResource) (string, error) {
@@ -151,6 +208,12 @@ func getIdentityApiKeyId(resource *OCIResource) (string, error) {
 	userId := resource.parent.id
 
 	return getApiKeyCompositeId(fingerPrint, userId), nil
+}
+
+func getModelProvenanceId(resource *OCIResource) (string, error) {
+	modelId := resource.parent.id
+
+	return getModelProvenanceCompositeId(modelId), nil
 }
 
 func getIdentityAuthTokenId(resource *OCIResource) (string, error) {
@@ -580,6 +643,93 @@ func getObjectStorageBucketId(resource *OCIResource) (string, error) {
 	return getBucketCompositeId(name, namespace), nil
 }
 
+func getObjectStorageObjectId(resource *OCIResource) (string, error) {
+	name, ok := resource.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find name for object id")
+	}
+
+	bucket, ok := resource.parent.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for object id")
+	}
+
+	namespace, ok := resource.parent.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for object id")
+	}
+
+	return getObjectCompositeId(bucket, namespace, name), nil
+}
+
+func getObjectStorageObjectLifecyclePolicyId(resource *OCIResource) (string, error) {
+	bucket, ok := resource.sourceAttributes["bucket"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for object Lifecycle Policy id")
+	}
+
+	namespace, ok := resource.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for object Lifecycle Policy id")
+	}
+
+	return getObjectLifecyclePolicyCompositeId(bucket, namespace), nil
+}
+
+func getObjectStorageObjectPreauthenticatedRequestId(resource *OCIResource) (string, error) {
+	parId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find parId for PreauthenticatedRequest id")
+	}
+
+	bucket, ok := resource.parent.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for PreauthenticatedRequest id")
+	}
+
+	namespace, ok := resource.parent.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for PreauthenticatedRequest id")
+	}
+
+	return getPreauthenticatedRequestCompositeId(bucket, namespace, parId), nil
+}
+
+func processObjectStoragePreauthenticatedRequest(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, index := range resources {
+		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
+		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
+	}
+	return resources, nil
+}
+
+func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) {
+	replicationId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find replicationId for replication id")
+	}
+
+	bucket, ok := resource.parent.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for replication id")
+	}
+
+	namespace, ok := resource.parent.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for replication id")
+	}
+
+	return getReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
+}
+
+func processObjectStorageReplicationPolicy(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, index := range resources {
+		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
+		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
+	}
+	return resources, nil
+}
+
 func findIdentityTags(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) ([]*OCIResource, error) {
 	// List on Tags does not return validator, and resource Read requires tagNamespaceId
 	// which is also not returned in Summary response. Tags also do not have composite id in state.
@@ -728,6 +878,25 @@ func filterPrimaryDbHomes(clients *OracleClients, resources []*OCIResource) ([]*
 				}
 			}
 		}
+		// Fix db version to remove the PSU date from versions with 18+ major version
+		if dbVersion, ok := resource.sourceAttributes["db_version"].(string); ok {
+			resource.sourceAttributes["db_version"] = getValidDbVersion(dbVersion)
+		}
+	}
+	return results, nil
+}
+
+func filterPrimaryDatabases(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	results := []*OCIResource{}
+	for _, resource := range resources {
+		// Only return database resources that don't match the database ID of the dbHome resource.
+		if databases, ok := resource.parent.sourceAttributes["database"].([]interface{}); ok && len(databases) > 0 {
+			if primaryDatabase, ok := databases[0].(map[string]interface{}); ok {
+				if primaryDatabaseId, ok := primaryDatabase["id"]; ok && primaryDatabaseId.(string) != resource.id {
+					results = append(results, resource)
+				}
+			}
+		}
 	}
 	return results, nil
 }
@@ -811,4 +980,49 @@ func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
 	}
 
 	return getVmClusterNetworkCompositeId(exadataInfrastructureId, id), nil
+}
+
+func processDbSystems(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	// Fix db version to remove the PSU date from versions with 18+ major version
+	for _, resource := range resources {
+		if dbHomes, ok := resource.sourceAttributes["db_home"].([]interface{}); ok {
+			if dbHome, ok := dbHomes[0].(map[string]interface{}); ok {
+				if dbVersion, ok := dbHome["db_version"].(string); ok {
+					dbHome["db_version"] = getValidDbVersion(dbVersion)
+				}
+			}
+		}
+	}
+	return resources, nil
+}
+
+func processDatabases(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	// Fix database db version to remove the PSU date from versions with 18+ major version
+	for _, resource := range resources {
+		if databases, ok := resource.sourceAttributes["database"].([]interface{}); ok {
+			if database, ok := databases[0].(map[string]interface{}); ok {
+				if dbVersion, ok := database["db_version"].(string); ok {
+					database["db_version"] = getValidDbVersion(dbVersion)
+				}
+			}
+		}
+	}
+	return resources, nil
+}
+
+func getValidDbVersion(dbVersion string) string {
+	/*
+		For 11.2.0.4, 12.1.0.2 and 12.2.0.1, the PSU is added as the 5th digit. So when the customer specifies either of these,
+		service will be returning 11.2.0.4.xxxxxx where the last part is the PSU version.
+		For 18.0.0.0 and 19.0.0.0 onwards, the second digit specifies the PSU version and the fifth digit specifies the date for that PSU.
+		(The PSU-date pair change hand in hand)
+		* For pre 18 versions, service returns 5th digit in response and 5 digit version is valid for create
+		* For 18+ versions, service will return PSU date but only 4 digit version is valid for create.
+		* Resource discovery will keep only 4 digits in config and dbVersionDiffSuppress will handle the diff
+	*/
+	parts := strings.Split(dbVersion, ".")
+	if strings.Compare(parts[0], "18") == 1 {
+		return strings.Join(parts[0:4], ".")
+	}
+	return dbVersion
 }

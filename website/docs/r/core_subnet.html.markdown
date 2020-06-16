@@ -77,7 +77,11 @@ The following arguments are supported:
 	To instead create an AD-specific subnet, set this attribute to the availability domain you want this subnet to be in. Then any resources later created in this subnet can only be created in that availability domain.
 
 	Example: `Uocm:PHX-AD-1` 
-* `cidr_block` - (Required) The CIDR IP address range of the subnet.  Example: `10.0.1.0/24` 
+* `cidr_block` - (Required) The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
+
+	a. The CIDR block is valid and correctly formatted. b. The new range is within one of the parent VCN ranges.
+
+	Example: `10.0.1.0/24` 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the subnet.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `dhcp_options_id` - (Optional) (Updatable) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet uses the VCN's default set of DHCP options. 

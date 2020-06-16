@@ -337,6 +337,7 @@ func initResourceDiscoveryTests() {
 	resourceNameCount = map[string]int{}
 	resourcesMap = ResourcesMap()
 	datasourcesMap = DataSourcesMap()
+	tfHclVersion = &TfHclVersion12{}
 
 	resourcesMap["oci_test_parent"] = testParentResource()
 	resourcesMap["oci_test_child"] = testChildResource()
@@ -847,8 +848,8 @@ func TestUnitGetHCLString_missingFields(t *testing.T) {
 	}
 	resultHcl := testStringBuilder.String()
 
-	if !strings.Contains(resultHcl, "#compartment_id = <<Required") || !strings.Contains(resultHcl, "#a_string = <<Optional") {
-		t.Logf("expected 'Required' compartment_id and 'Optional' a_string field to be commented out, but they weren't")
+	if !strings.Contains(resultHcl, "compartment_id = \"<placeholder for missing required attribute>\"\t#Required") || !strings.Contains(resultHcl, "#a_string = <<Optional") {
+		t.Logf("expected 'Required' compartment_id to have a placeholder value with comment and 'Optional' a_string field to be commented out, but they weren't")
 		t.Fail()
 	}
 

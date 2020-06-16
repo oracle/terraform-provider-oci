@@ -51,8 +51,18 @@ The following arguments are supported:
 	* `algorithm` - (Required) The algorithm used by a key's key versions to encrypt or decrypt.
 	* `length` - (Required) The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
 * `management_endpoint` - (Required) The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
+* `restore_from_file` - (Optional) (Updatable) Details where key was backed up.
+    * `content_length` - (Required) (Updatable) content length of key's backup binary file
+    * `content_md5` - (Optional) (Updatable) content md5 hashed value of key's backup file
+    * `restore_key_from_file_details` - (Required) Key backup file content.
+* `restore_from_object_store` - (Optional) (Updatable) Details where key was backed up
+    * `bucket` - (Optional) (Updatable) Name of the bucket where key was backed up
+    * `destination` - (Required) (Updatable) Type of backup to restore from. Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are supported
+    * `namespace` - (Optional) (Updatable) Namespace of the bucket where key was backed up
+    * `object` - (Optional) (Updatable) Object containing the backup
+    * `uri` - (Optional) (Updatable) Pre-authenticated-request-uri of the backup
+* `restore_trigger` - (Optional) (Updatable) An optional property when flipped triggers restore from restore option provided in config file. 
 * `time_of_deletion` - (Optional) (Updatable) An optional property for the deletion time of the key, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z`
-
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values

@@ -4,8 +4,11 @@
 
 // Autoscaling API
 //
-// APIs for dynamically scaling Compute resources to meet application requirements.
-// For information about the Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// APIs for dynamically scaling Compute resources to meet application requirements. For more information about
+// autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
+// Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// **Note:** Autoscaling is not available in US Government Cloud tenancies. For more information, see
+// Oracle Cloud Infrastructure US Government Cloud (https://docs.cloud.oracle.com/Content/General/Concepts/govoverview.htm).
 //
 
 package autoscaling
@@ -55,6 +58,12 @@ type AutoScalingConfiguration struct {
 
 	// Whether the autoscaling configuration is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+
+	// The maximum number of resources to scale out to.
+	MaxResourceCount *int `mandatory:"false" json:"maxResourceCount"`
+
+	// The minimum number of resources to scale in to.
+	MinResourceCount *int `mandatory:"false" json:"minResourceCount"`
 }
 
 func (m AutoScalingConfiguration) String() string {
@@ -69,6 +78,8 @@ func (m *AutoScalingConfiguration) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags      map[string]string                 `json:"freeformTags"`
 		CoolDownInSeconds *int                              `json:"coolDownInSeconds"`
 		IsEnabled         *bool                             `json:"isEnabled"`
+		MaxResourceCount  *int                              `json:"maxResourceCount"`
+		MinResourceCount  *int                              `json:"minResourceCount"`
 		CompartmentId     *string                           `json:"compartmentId"`
 		Id                *string                           `json:"id"`
 		Resource          resource                          `json:"resource"`
@@ -90,6 +101,10 @@ func (m *AutoScalingConfiguration) UnmarshalJSON(data []byte) (e error) {
 	m.CoolDownInSeconds = model.CoolDownInSeconds
 
 	m.IsEnabled = model.IsEnabled
+
+	m.MaxResourceCount = model.MaxResourceCount
+
+	m.MinResourceCount = model.MinResourceCount
 
 	m.CompartmentId = model.CompartmentId
 

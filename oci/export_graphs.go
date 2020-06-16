@@ -52,19 +52,26 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"bds":                 bdsResourceGraph,
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
+	"data_safe":           dataSafeResourceGraph,
 	"database":            databaseResourceGraph,
+	"datacatalog":         datacatalogResourceGraph,
 	"dataflow":            dataflowResourceGraph,
+	"datascience":         datascienceResourceGraph,
 	"dns":                 dnsResourceGraph,
 	"email":               emailResourceGraph,
 	"events":              eventsResourceGraph,
 	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
+	"integration":         integrationResourceGraph,
 	"kms":                 kmsResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
+	"marketplace":         marketplaceResourceGraph,
 	"monitoring":          monitoringResourceGraph,
 	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
+	"oce":                 oceResourceGraph,
+	"oda":                 odaResourceGraph,
 	"osmanagement":        osmanagementResourceGraph,
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
@@ -238,6 +245,12 @@ var coreResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var dataSafeResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
+	},
+}
+
 var databaseResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
@@ -289,12 +302,58 @@ var dataflowResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var datascienceResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDatascienceProjectHints},
+		{TerraformResourceHints: exportDatascienceNotebookSessionHints},
+		{TerraformResourceHints: exportDatascienceModelHints},
+	},
+	"oci_datascience_model": {
+		{
+			TerraformResourceHints: exportDatascienceModelProvenanceHints,
+			datasourceQueryParams: map[string]string{
+				"model_id": "id",
+			},
+		},
+	},
+}
+
 var dnsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDnsZoneHints},
 		{TerraformResourceHints: exportDnsSteeringPolicyHints},
 		{TerraformResourceHints: exportDnsSteeringPolicyAttachmentHints},
 		{TerraformResourceHints: exportDnsTsigKeyHints},
+	},
+}
+
+var datacatalogResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDatacatalogCatalogHints},
+	},
+	"oci_datacatalog_catalog": {
+		{
+			TerraformResourceHints: exportDatacatalogConnectionHints,
+			datasourceQueryParams: map[string]string{
+				"catalog_id":     "id",
+				"data_asset_key": "data_asset_key",
+			},
+		},
+		{
+			TerraformResourceHints: exportDatacatalogDataAssetHints,
+			datasourceQueryParams: map[string]string{
+				"catalog_id": "id",
+			},
+		},
+	},
+	"oci_datacatalog_data_asset": {
+		{
+			TerraformResourceHints: exportDatacatalogConnectionHints,
+			datasourceQueryParams: map[string]string{
+				"data_asset_key": "key",
+				"catalog_id":     "catalog_id",
+			},
+		},
 	},
 }
 
@@ -424,6 +483,12 @@ var identityResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var integrationResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportIntegrationIntegrationInstanceHints},
+	},
+}
+
 var kmsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportKmsVaultHints},
@@ -501,6 +566,12 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var marketplaceResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportMarketplaceAcceptedAgreementHints},
+	},
+}
+
 var monitoringResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMonitoringAlarmHints},
@@ -525,6 +596,29 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportObjectStorageNamespaceHints},
 	},
+	"oci_objectstorage_bucket": {
+		{
+			TerraformResourceHints: exportObjectStorageObjectHints,
+			datasourceQueryParams: map[string]string{
+				"bucket":    "name",
+				"namespace": "namespace",
+			},
+		},
+		{
+			TerraformResourceHints: exportObjectStorageObjectLifecyclePolicyHints,
+			datasourceQueryParams: map[string]string{
+				"namespace": "namespace",
+				"bucket":    "name",
+			},
+		},
+		{
+			TerraformResourceHints: exportObjectStoragePreauthenticatedRequestHints,
+			datasourceQueryParams: map[string]string{
+				"namespace": "namespace",
+				"bucket":    "name",
+			},
+		},
+	},
 	"oci_objectstorage_namespace": {
 		{
 			TerraformResourceHints: exportObjectStorageBucketHints,
@@ -532,6 +626,18 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 				"namespace": "namespace",
 			},
 		},
+	},
+}
+
+var oceResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportOceOceInstanceHints},
+	},
+}
+
+var odaResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportOdaOdaInstanceHints},
 	},
 }
 

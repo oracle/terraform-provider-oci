@@ -10,18 +10,24 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
+	oci_data_safe "github.com/oracle/oci-go-sdk/datasafe"
+	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_events "github.com/oracle/oci-go-sdk/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/integration"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
+	oci_oce "github.com/oracle/oci-go-sdk/oce"
+	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
@@ -86,6 +92,17 @@ var exportBudgetAlertRuleHints = &TerraformResourceHints{
 	resourceAbbreviation: "alert_rule",
 	discoverableLifecycleStates: []string{
 		string(oci_budget.AlertRuleLifecycleStateActive),
+	},
+}
+
+var exportOceOceInstanceHints = &TerraformResourceHints{
+	resourceClass:          "oci_oce_oce_instance",
+	datasourceClass:        "oci_oce_oce_instances",
+	datasourceItemsAttr:    "oce_instances",
+	resourceAbbreviation:   "oce_instance",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_oce.OceInstanceLifecycleStateActive),
 	},
 }
 
@@ -610,6 +627,43 @@ var exportDataflowApplicationHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatascienceProjectHints = &TerraformResourceHints{
+	resourceClass:        "oci_datascience_project",
+	datasourceClass:      "oci_datascience_projects",
+	datasourceItemsAttr:  "projects",
+	resourceAbbreviation: "project",
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.ProjectLifecycleStateActive),
+	},
+}
+
+var exportDatascienceNotebookSessionHints = &TerraformResourceHints{
+	resourceClass:        "oci_datascience_notebook_session",
+	datasourceClass:      "oci_datascience_notebook_sessions",
+	datasourceItemsAttr:  "notebook_sessions",
+	resourceAbbreviation: "notebook_session",
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.NotebookSessionLifecycleStateActive),
+	},
+}
+
+var exportDatascienceModelHints = &TerraformResourceHints{
+	resourceClass:          "oci_datascience_model",
+	datasourceClass:        "oci_datascience_models",
+	datasourceItemsAttr:    "models",
+	resourceAbbreviation:   "model",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.ModelLifecycleStateActive),
+	},
+}
+
+var exportDatascienceModelProvenanceHints = &TerraformResourceHints{
+	resourceClass:        "oci_datascience_model_provenance",
+	datasourceClass:      "oci_datascience_model_provenance",
+	resourceAbbreviation: "model_provenance",
+}
+
 var exportDnsRecordHints = &TerraformResourceHints{
 	resourceClass:        "oci_dns_record",
 	datasourceClass:      "oci_dns_records",
@@ -657,6 +711,38 @@ var exportDnsTsigKeyHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_dns.TsigKeyLifecycleStateActive),
+	},
+}
+
+var exportDatacatalogCatalogHints = &TerraformResourceHints{
+	resourceClass:        "oci_datacatalog_catalog",
+	datasourceClass:      "oci_datacatalog_catalogs",
+	datasourceItemsAttr:  "catalogs",
+	resourceAbbreviation: "catalog",
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
+var exportDatacatalogDataAssetHints = &TerraformResourceHints{
+	resourceClass:          "oci_datacatalog_data_asset",
+	datasourceClass:        "oci_datacatalog_data_assets",
+	datasourceItemsAttr:    "data_asset_collection",
+	resourceAbbreviation:   "data_asset",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
+var exportDatacatalogConnectionHints = &TerraformResourceHints{
+	resourceClass:          "oci_datacatalog_connection",
+	datasourceClass:        "oci_datacatalog_connections",
+	datasourceItemsAttr:    "connection_collection",
+	resourceAbbreviation:   "connection",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
 	},
 }
 
@@ -950,6 +1036,17 @@ var exportIdentityTagHints = &TerraformResourceHints{
 	},
 }
 
+var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
+	resourceClass:          "oci_integration_integration_instance",
+	datasourceClass:        "oci_integration_integration_instances",
+	datasourceItemsAttr:    "integration_instances",
+	resourceAbbreviation:   "integration_instance",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_integration.IntegrationInstanceLifecycleStateActive),
+	},
+}
+
 var exportKmsKeyHints = &TerraformResourceHints{
 	resourceClass:          "oci_kms_key",
 	datasourceClass:        "oci_kms_keys",
@@ -1060,6 +1157,14 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rule_set",
 }
 
+var exportMarketplaceAcceptedAgreementHints = &TerraformResourceHints{
+	resourceClass:          "oci_marketplace_accepted_agreement",
+	datasourceClass:        "oci_marketplace_accepted_agreements",
+	datasourceItemsAttr:    "accepted_agreements",
+	resourceAbbreviation:   "accepted_agreement",
+	requireResourceRefresh: true,
+}
+
 var exportMonitoringAlarmHints = &TerraformResourceHints{
 	resourceClass:          "oci_monitoring_alarm",
 	datasourceClass:        "oci_monitoring_alarms",
@@ -1101,10 +1206,40 @@ var exportObjectStorageBucketHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+var exportObjectStorageObjectLifecyclePolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_objectstorage_object_lifecycle_policy",
+	datasourceClass:      "oci_objectstorage_object_lifecycle_policy",
+	resourceAbbreviation: "object_lifecycle_policy",
+}
+
 var exportObjectStorageNamespaceHints = &TerraformResourceHints{
 	resourceClass:        "oci_objectstorage_namespace",
 	datasourceClass:      "oci_objectstorage_namespace",
 	resourceAbbreviation: "namespace",
+}
+
+var exportOdaOdaInstanceHints = &TerraformResourceHints{
+	resourceClass:        "oci_oda_oda_instance",
+	datasourceClass:      "oci_oda_oda_instances",
+	datasourceItemsAttr:  "oda_instances",
+	resourceAbbreviation: "oda_instance",
+	discoverableLifecycleStates: []string{
+		string(oci_oda.OdaInstanceLifecycleStateActive),
+	},
+}
+
+var exportObjectStorageObjectHints = &TerraformResourceHints{
+	resourceClass:        "oci_objectstorage_object",
+	datasourceClass:      "oci_objectstorage_objects",
+	datasourceItemsAttr:  "objects",
+	resourceAbbreviation: "object",
+}
+
+var exportObjectStoragePreauthenticatedRequestHints = &TerraformResourceHints{
+	resourceClass:        "oci_objectstorage_preauthrequest",
+	datasourceClass:      "oci_objectstorage_preauthrequests",
+	datasourceItemsAttr:  "preauthenticated_requests",
+	resourceAbbreviation: "preauthenticated_request",
 }
 
 var exportOsmanagementManagedInstanceGroupHints = &TerraformResourceHints{
@@ -1200,5 +1335,16 @@ var exportWaasWaasPolicyHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_waas.WaasPolicyLifecycleStateActive),
+	},
+}
+
+var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_data_safe_private_endpoint",
+	datasourceClass:        "oci_data_safe_data_safe_private_endpoints",
+	datasourceItemsAttr:    "data_safe_private_endpoints",
+	resourceAbbreviation:   "data_safe_private_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.ListDataSafePrivateEndpointsLifecycleStateActive),
 	},
 }
