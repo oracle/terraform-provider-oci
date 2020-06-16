@@ -333,6 +333,7 @@ github.com/hashicorp/terraform/helper/customdiff
 github.com/hashicorp/terraform/helper/hashcode
 github.com/hashicorp/terraform/helper/resource
 github.com/hashicorp/terraform/helper/schema
+github.com/hashicorp/terraform/helper/structure
 github.com/hashicorp/terraform/helper/validation
 github.com/hashicorp/terraform/configs/configschema
 github.com/hashicorp/terraform/helper/plugin
@@ -388,7 +389,6 @@ github.com/hashicorp/terraform/state
 github.com/hashicorp/terraform/svchost/disco
 github.com/hashicorp/terraform/helper/config
 github.com/hashicorp/terraform/helper/logging
-github.com/hashicorp/terraform/helper/structure
 github.com/hashicorp/terraform/registry/regsrc
 github.com/hashicorp/terraform/registry/response
 github.com/hashicorp/terraform/helper/hilmapstructure
@@ -525,6 +525,7 @@ github.com/oracle/oci-go-sdk/ons
 github.com/oracle/oci-go-sdk/osmanagement
 github.com/oracle/oci-go-sdk/resourcemanager
 github.com/oracle/oci-go-sdk/streaming
+github.com/oracle/oci-go-sdk/usageapi
 github.com/oracle/oci-go-sdk/vault
 github.com/oracle/oci-go-sdk/waas
 github.com/oracle/oci-go-sdk/workrequests
