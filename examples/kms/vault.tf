@@ -16,6 +16,7 @@ resource "oci_kms_vault" "private-vault-kms" {
         }*/
 
   //If restoring using object in object storage use the config below
+
   /*restore_from_file {
     restore_vault_from_file_details = "${data.oci_objectstorage_object.vault_backup_object.content}"
     content_length                = "${data.oci_objectstorage_object.vault_backup_object.content_length}"
@@ -23,7 +24,7 @@ resource "oci_kms_vault" "private-vault-kms" {
     //Optional
     content_md5                   = "${data.oci_objectstorage_object.vault_backup_object.content_md5}"
   }*/
-  
+
   compartment_id = "${var.compartment_id}"
 
   display_name = "${var.vault_display_name}"
