@@ -33,7 +33,7 @@ func CoreDhcpOptionsDataSource() *schema.Resource {
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"options": {
 				Type:     schema.TypeList,
@@ -118,7 +118,6 @@ func (s *CoreDhcpOptionsDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		dhcpOptions := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
-			"vcn_id":         *r.VcnId,
 		}
 
 		if r.DefinedTags != nil {
@@ -145,6 +144,10 @@ func (s *CoreDhcpOptionsDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			dhcpOptions["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VcnId != nil {
+			dhcpOptions["vcn_id"] = *r.VcnId
 		}
 
 		resources = append(resources, dhcpOptions)

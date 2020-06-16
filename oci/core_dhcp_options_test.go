@@ -24,9 +24,9 @@ var (
 
 	dhcpOptionsDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"display_name":   Representation{repType: Optional, create: `MyDhcpOptions`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, dhcpOptionsDataSourceFilterRepresentation}}
 	dhcpOptionsDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -344,26 +344,16 @@ func getDhcpOptionsIds(compartment string) ([]string, error) {
 
 	listDhcpOptionsRequest := oci_core.ListDhcpOptionsRequest{}
 	listDhcpOptionsRequest.CompartmentId = &compartmentId
+	listDhcpOptionsRequest.LifecycleState = oci_core.DhcpOptionsLifecycleStateAvailable
+	listDhcpOptionsResponse, err := virtualNetworkClient.ListDhcpOptions(context.Background(), listDhcpOptionsRequest)
 
-	vcnIds, error := getVcnIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting vcnId required for DhcpOptions resource requests \n")
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting DhcpOptions list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, vcnId := range vcnIds {
-		listDhcpOptionsRequest.VcnId = &vcnId
-
-		listDhcpOptionsRequest.LifecycleState = oci_core.DhcpOptionsLifecycleStateAvailable
-		listDhcpOptionsResponse, err := virtualNetworkClient.ListDhcpOptions(context.Background(), listDhcpOptionsRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting DhcpOptions list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, dhcpOptions := range listDhcpOptionsResponse.Items {
-			id := *dhcpOptions.Id
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "DhcpOptionsId", id)
-		}
-
+	for _, dhcpOptions := range listDhcpOptionsResponse.Items {
+		id := *dhcpOptions.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "DhcpOptionsId", id)
 	}
 	return resourceIds, nil
 }

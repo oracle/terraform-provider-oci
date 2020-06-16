@@ -28,9 +28,9 @@ var (
 
 	routeTableDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"display_name":   Representation{repType: Optional, create: `MyRouteTable`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, routeTableDataSourceFilterRepresentation}}
 	routeTableDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -333,26 +333,16 @@ func getRouteTableIds(compartment string) ([]string, error) {
 
 	listRouteTablesRequest := oci_core.ListRouteTablesRequest{}
 	listRouteTablesRequest.CompartmentId = &compartmentId
+	listRouteTablesRequest.LifecycleState = oci_core.RouteTableLifecycleStateAvailable
+	listRouteTablesResponse, err := virtualNetworkClient.ListRouteTables(context.Background(), listRouteTablesRequest)
 
-	vcnIds, error := getVcnIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting vcnId required for RouteTable resource requests \n")
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting RouteTable list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, vcnId := range vcnIds {
-		listRouteTablesRequest.VcnId = &vcnId
-
-		listRouteTablesRequest.LifecycleState = oci_core.RouteTableLifecycleStateAvailable
-		listRouteTablesResponse, err := virtualNetworkClient.ListRouteTables(context.Background(), listRouteTablesRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting RouteTable list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, routeTable := range listRouteTablesResponse.Items {
-			id := *routeTable.Id
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "RouteTableId", id)
-		}
-
+	for _, routeTable := range listRouteTablesResponse.Items {
+		id := *routeTable.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "RouteTableId", id)
 	}
 	return resourceIds, nil
 }
