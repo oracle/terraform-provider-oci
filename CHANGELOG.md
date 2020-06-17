@@ -1,4 +1,6 @@
 ## 3.85.0 (Unreleased)
+### Added
+- Support for DBaaS -  ADB - Serverless Extreme Availibility
 ## 3.84.0 (July 08, 2020)
 
 ### Added
