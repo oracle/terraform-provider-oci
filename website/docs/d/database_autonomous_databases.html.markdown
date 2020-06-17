@@ -26,6 +26,7 @@ data "oci_database_autonomous_databases" "test_autonomous_databases" {
 	db_workload = "${var.autonomous_database_db_workload}"
 	display_name = "${var.autonomous_database_display_name}"
 	infrastructure_type = "${var.autonomous_database_infrastructure_type}"
+	is_data_guard_enabled = "${var.autonomous_database_is_data_guard_enabled}"
 	is_free_tier = "${var.autonomous_database_is_free_tier}"
 	state = "${var.autonomous_database_state}"
 }
@@ -41,6 +42,7 @@ The following arguments are supported:
 * `db_workload` - (Optional) A filter to return only autonomous database resources that match the specified workload type.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `infrastructure_type` - (Optional) A filter to return only resources that match the given Infrastructure Type.
+* `is_data_guard_enabled` - (Optional) A filter to return only resources that have Data Guard enabled.
 * `is_free_tier` - (Optional) Filter on the value of the resource's 'isFreeTier' property. A value of `true` returns only Always Free resources. A value of `false` excludes Always Free resources from the returned results. Omitting this parameter returns both Always Free and paid resources. 
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
@@ -78,10 +80,12 @@ The following attributes are exported:
 	* DW - indicates an Autonomous Data Warehouse database 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
+* `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 * `infrastructure_type` - The infrastructure type this resource belongs to.
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. Note that auto scaling is available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only. 
+* `is_data_guard_enabled` - Indicates whether the Autonomous Database has Data Guard enabled.
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
 * `is_free_tier` - Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. 
 * `is_preview` - Indicates if the Autonomous Database version is a preview version.
@@ -93,6 +97,9 @@ The following attributes are exported:
 * `private_endpoint_ip` - The private endpoint Ip address for the resource.
 * `private_endpoint_label` - The private endpoint label for the resource.
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
+* `standby_db` - 
+	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
+	* `state` - The current state of the Autonomous Database.
 * `state` - The current state of the Autonomous Database.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 

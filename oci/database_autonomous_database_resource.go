@@ -130,6 +130,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_data_guard_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_dedicated": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -277,6 +282,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"failed_data_recovery_in_seconds": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"infrastructure_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -300,6 +309,29 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"service_console_url": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"standby_db": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"lag_time_in_seconds": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -551,6 +583,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsAutoScalingEnabled = &tmp
 	}
 
+	if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok && s.D.HasChange("is_data_guard_enabled") {
+		tmp := isDataGuardEnabled.(bool)
+		request.IsDataGuardEnabled = &tmp
+	}
+
 	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok && s.D.HasChange("is_free_tier") {
 		tmp := isFreeTier.(bool)
 		request.IsFreeTier = &tmp
@@ -598,6 +635,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.AutonomousDatabase
@@ -667,12 +712,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.FailedDataRecoveryInSeconds != nil {
+		s.D.Set("failed_data_recovery_in_seconds", *s.Res.FailedDataRecoveryInSeconds)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
+	}
+
+	if s.Res.IsDataGuardEnabled != nil {
+		s.D.Set("is_data_guard_enabled", *s.Res.IsDataGuardEnabled)
 	}
 
 	if s.Res.IsDedicated != nil {
@@ -713,6 +766,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
+	}
+
+	if s.Res.StandbyDb != nil {
+		s.D.Set("standby_db", []interface{}{AutonomousDatabaseStandbySummaryToMap(s.Res.StandbyDb)})
+	} else {
+		s.D.Set("standby_db", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -800,6 +859,18 @@ func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseC
 	return result
 }
 
+func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseStandbySummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LagTimeInSeconds != nil {
+		result["lag_time_in_seconds"] = int(*obj.LagTimeInSeconds)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	return result
+}
+
 func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCreateAutonomousDatabaseRequest(request *oci_database.CreateAutonomousDatabaseRequest) error {
 	//discriminator
 	sourceRaw, ok := s.D.GetOkExists("source")
@@ -867,6 +938,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
+		}
+		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			tmp := isDataGuardEnabled.(bool)
+			details.IsDataGuardEnabled = &tmp
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -983,6 +1058,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
 		}
+		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			tmp := isDataGuardEnabled.(bool)
+			details.IsDataGuardEnabled = &tmp
+		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
@@ -1091,6 +1170,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
 		}
+		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			tmp := isDataGuardEnabled.(bool)
+			details.IsDataGuardEnabled = &tmp
+		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
@@ -1189,6 +1272,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
+		}
+		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			tmp := isDataGuardEnabled.(bool)
+			details.IsDataGuardEnabled = &tmp
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
