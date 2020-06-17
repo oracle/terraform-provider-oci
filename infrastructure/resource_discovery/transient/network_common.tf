@@ -22,6 +22,13 @@ resource "oci_core_vcn" "vcn3_rd" {
   display_name   = "vcn3RD"
 }
 
+resource "oci_core_vcn" "vcn4_rd" {
+  cidr_block     = "10.0.1.0/24"
+  dns_label      = "vcn3rd"
+  compartment_id = "${var.compartment_ocid}"
+  display_name   = "vcn4RD"
+}
+
 resource "oci_core_internet_gateway" "internetgateway_rd" {
   compartment_id = "${var.compartment_ocid}"
   display_name   = "internetgatewayRD"
