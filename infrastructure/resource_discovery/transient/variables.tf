@@ -346,3 +346,16 @@ variable "datascience_model_artifact_content_length" {
 variable "datascience_model_artifact" {
   default = "./resources/model_artifact.xml"
 }
+
+/* Core */
+variable "freeform_tags" {
+  type = "map"
+
+  default = {
+    Department = "Finance"
+  }
+}
+
+variable "volume_backup_type" {
+  default = "FULL"
+}
