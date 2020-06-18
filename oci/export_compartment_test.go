@@ -4,7 +4,13 @@
 package oci
 
 import (
+	"archive/zip"
+	"bytes"
+	"context"
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
 	"regexp"
 	"strconv"
@@ -12,6 +18,8 @@ import (
 	"testing"
 	"time"
 
+	oci_common "github.com/oracle/oci-go-sdk/common"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -1153,4 +1161,141 @@ func TestUnitGetExportConfig(t *testing.T) {
 	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", getExportConfig)           // correct profileName with mix and match & env
 	defer removeFile(configFile)
 	defer removeFile(keyFile)
+}
+
+/*
+This test is used to destroy and re-create resources in a compartment using ORM stack
+DO NOT RUN THIS TEST LOCALLY AS IT WILL DESTROY INFRASTRUCTURE
+*/
+func TestResourceDiscoveryCreateResourcesUsingStack(t *testing.T) {
+	// env var check so as to prevent local run of this test.
+	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(getEnvSettingWithDefault("recreate_rd_resources", "false")); !reCreateResourceDiscoveryResources {
+		return
+	}
+	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
+	stackId := getEnvSettingWithBlankDefault("stack_id")
+
+	// Destroy resources using stack destroy job
+	isAutoApproved := true
+	destroyJobRequest := oci_resourcemanager.CreateJobRequest{
+		CreateJobDetails: oci_resourcemanager.CreateJobDetails{
+			StackId:   &stackId,
+			Operation: oci_resourcemanager.JobOperationDestroy,
+			ApplyJobPlanResolution: &oci_resourcemanager.ApplyJobPlanResolution{
+				IsAutoApproved: &isAutoApproved,
+			},
+		},
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: getRetryPolicy(false, "resourcemanager"),
+		},
+	}
+	destroyJobRequest.RequestMetadata.RetryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
+
+	destroyJobResponse, err := resourceManagerClient.CreateJob(context.Background(), destroyJobRequest)
+
+	if err != nil {
+		log.Fatalf("[ERROR] error in destroy job for stack: %v", err)
+	}
+
+	retryPolicy := getRetryPolicy(false, "resourcemanager")
+	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
+
+	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
+		JobId: destroyJobResponse.Id,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	if err != nil {
+		log.Fatalf("[WARN] wait for jobSuccessWaitCondition failed for %s resource with error %v", *destroyJobResponse.Id, err)
+	} else {
+		log.Printf("[INFO] end of jobSuccessWaitCondition for resource %s ", *destroyJobResponse.Id)
+	}
+
+	// Update zip file in stack to use the latest `examples/resource_discovery/*`
+
+	buf := new(bytes.Buffer)
+	zipWriter := zip.NewWriter(buf)
+	basePath := "../examples/resource_discovery/"
+	files, err := ioutil.ReadDir(basePath)
+	if err != nil {
+		log.Fatalf("[ERROR] unable to read files from resource manager example (%s): %v", basePath, err)
+	}
+
+	//Add files to zip
+	for _, file := range files {
+		data, err := ioutil.ReadFile(basePath + file.Name())
+		if err != nil {
+			log.Fatalf("[ERROR] read config file: %v", err)
+		}
+
+		f, err := zipWriter.Create(file.Name())
+		if err != nil {
+			log.Fatalf("[ERROR] cannot create file for zip configuration: %v", err)
+		}
+		_, err = f.Write(data)
+		if err != nil {
+			log.Fatalf("[ERROR] cannot write tf configuration to zip archive: %v", err)
+		}
+	}
+	// close zip writer
+	err = zipWriter.Close()
+	if err != nil {
+		log.Fatalf("[ERROR] cannot close zip writer: %v", err)
+	}
+
+	encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
+	log.Printf(encoded)
+
+	updateStackRequest := oci_resourcemanager.UpdateStackRequest{
+		StackId: &stackId,
+		UpdateStackDetails: oci_resourcemanager.UpdateStackDetails{
+			ConfigSource: oci_resourcemanager.UpdateZipUploadConfigSourceDetails{
+				ZipFileBase64Encoded: &encoded,
+			},
+		},
+	}
+	_, err = resourceManagerClient.UpdateStack(context.Background(), updateStackRequest)
+
+	if err != nil {
+		log.Fatalf("[ERROR] cannot update configuration for resource discovery example in stack: %v", err)
+	}
+
+	// recreate resources using stack apply Job
+	applyJobRequest := oci_resourcemanager.CreateJobRequest{
+		CreateJobDetails: oci_resourcemanager.CreateJobDetails{
+			StackId:   &stackId,
+			Operation: oci_resourcemanager.JobOperationApply,
+			ApplyJobPlanResolution: &oci_resourcemanager.ApplyJobPlanResolution{
+				IsAutoApproved: &isAutoApproved,
+			},
+		},
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: getRetryPolicy(false, "resourcemanager"),
+		},
+	}
+	applyJobResponse, err := resourceManagerClient.CreateJob(context.Background(), applyJobRequest)
+
+	if err != nil {
+		log.Fatalf("[ERROR] error in apply job for stack: %s", err.Error())
+	}
+
+	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
+		JobId: applyJobResponse.Id,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	if err != nil {
+		log.Fatalf("[WARN] wait for jobSuccessWaitCondition failed for %s resource with error %v", *applyJobResponse.Id, err)
+	} else {
+		log.Printf("[INFO] end of jobSuccessWaitCondition for resource %s ", *applyJobResponse.Id)
+	}
+}
+
+func jobSuccessWaitCondition(response oci_common.OCIOperationResponse) bool {
+	if jobResponse, ok := response.Response.(oci_resourcemanager.GetJobResponse); ok {
+		return jobResponse.LifecycleState != oci_resourcemanager.JobLifecycleStateSucceeded
+	}
+	return false
 }
