@@ -737,6 +737,12 @@ var exportDnsTsigKeyHints = &TerraformResourceHints{
 	},
 }
 
+var exportDnsRrsetHints = &TerraformResourceHints{
+	resourceClass:        "oci_dns_rrset",
+	datasourceClass:      "oci_dns_rrset",
+	resourceAbbreviation: "rrset",
+}
+
 var exportDatacatalogCatalogHints = &TerraformResourceHints{
 	resourceClass:        "oci_datacatalog_catalog",
 	datasourceClass:      "oci_datacatalog_catalogs",

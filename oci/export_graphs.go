@@ -339,6 +339,14 @@ var dnsResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDnsSteeringPolicyAttachmentHints},
 		{TerraformResourceHints: exportDnsTsigKeyHints},
 	},
+	"oci_dns_zone": {
+		{
+			TerraformResourceHints: exportDnsRrsetHints,
+			datasourceQueryParams: map[string]string{
+				"zone_name_or_id": "id",
+			},
+		},
+	},
 }
 
 var datacatalogResourceGraph = TerraformResourceGraph{

@@ -326,6 +326,7 @@ dns
 * oci\_dns\_steering\_policy
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
+* oci\_dns\_rrset
 
 email
     
