@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ChangeCatalogCompartmentDetails The representation of ChangeCatalogCompartmentDetails
+// ChangeCatalogCompartmentDetails Information about the change compartment
 type ChangeCatalogCompartmentDetails struct {
 
 	// The identifier of the compartment where the resource should be moved.

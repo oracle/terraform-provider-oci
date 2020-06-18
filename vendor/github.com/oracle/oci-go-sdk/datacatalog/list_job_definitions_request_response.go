@@ -19,10 +19,10 @@ type ListJobDefinitionsRequest struct {
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListJobDefinitionsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Job type.
-	JobType JobTypeEnum `mandatory:"false" contributesTo:"query" name:"jobType" omitEmpty:"true"`
+	JobType ListJobDefinitionsJobTypeEnum `mandatory:"false" contributesTo:"query" name:"jobType" omitEmpty:"true"`
 
 	// Whether job definition is an incremental harvest (true) or a full harvest (false).
 	IsIncremental *bool `mandatory:"false" contributesTo:"query" name:"isIncremental"`
@@ -109,6 +109,86 @@ func (response ListJobDefinitionsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListJobDefinitionsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListJobDefinitionsLifecycleStateEnum Enum with underlying type: string
+type ListJobDefinitionsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListJobDefinitionsLifecycleStateEnum
+const (
+	ListJobDefinitionsLifecycleStateCreating ListJobDefinitionsLifecycleStateEnum = "CREATING"
+	ListJobDefinitionsLifecycleStateActive   ListJobDefinitionsLifecycleStateEnum = "ACTIVE"
+	ListJobDefinitionsLifecycleStateInactive ListJobDefinitionsLifecycleStateEnum = "INACTIVE"
+	ListJobDefinitionsLifecycleStateUpdating ListJobDefinitionsLifecycleStateEnum = "UPDATING"
+	ListJobDefinitionsLifecycleStateDeleting ListJobDefinitionsLifecycleStateEnum = "DELETING"
+	ListJobDefinitionsLifecycleStateDeleted  ListJobDefinitionsLifecycleStateEnum = "DELETED"
+	ListJobDefinitionsLifecycleStateFailed   ListJobDefinitionsLifecycleStateEnum = "FAILED"
+	ListJobDefinitionsLifecycleStateMoving   ListJobDefinitionsLifecycleStateEnum = "MOVING"
+)
+
+var mappingListJobDefinitionsLifecycleState = map[string]ListJobDefinitionsLifecycleStateEnum{
+	"CREATING": ListJobDefinitionsLifecycleStateCreating,
+	"ACTIVE":   ListJobDefinitionsLifecycleStateActive,
+	"INACTIVE": ListJobDefinitionsLifecycleStateInactive,
+	"UPDATING": ListJobDefinitionsLifecycleStateUpdating,
+	"DELETING": ListJobDefinitionsLifecycleStateDeleting,
+	"DELETED":  ListJobDefinitionsLifecycleStateDeleted,
+	"FAILED":   ListJobDefinitionsLifecycleStateFailed,
+	"MOVING":   ListJobDefinitionsLifecycleStateMoving,
+}
+
+// GetListJobDefinitionsLifecycleStateEnumValues Enumerates the set of values for ListJobDefinitionsLifecycleStateEnum
+func GetListJobDefinitionsLifecycleStateEnumValues() []ListJobDefinitionsLifecycleStateEnum {
+	values := make([]ListJobDefinitionsLifecycleStateEnum, 0)
+	for _, v := range mappingListJobDefinitionsLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListJobDefinitionsJobTypeEnum Enum with underlying type: string
+type ListJobDefinitionsJobTypeEnum string
+
+// Set of constants representing the allowable values for ListJobDefinitionsJobTypeEnum
+const (
+	ListJobDefinitionsJobTypeHarvest                    ListJobDefinitionsJobTypeEnum = "HARVEST"
+	ListJobDefinitionsJobTypeProfiling                  ListJobDefinitionsJobTypeEnum = "PROFILING"
+	ListJobDefinitionsJobTypeSampling                   ListJobDefinitionsJobTypeEnum = "SAMPLING"
+	ListJobDefinitionsJobTypePreview                    ListJobDefinitionsJobTypeEnum = "PREVIEW"
+	ListJobDefinitionsJobTypeImport                     ListJobDefinitionsJobTypeEnum = "IMPORT"
+	ListJobDefinitionsJobTypeExport                     ListJobDefinitionsJobTypeEnum = "EXPORT"
+	ListJobDefinitionsJobTypeInternal                   ListJobDefinitionsJobTypeEnum = "INTERNAL"
+	ListJobDefinitionsJobTypePurge                      ListJobDefinitionsJobTypeEnum = "PURGE"
+	ListJobDefinitionsJobTypeImmediate                  ListJobDefinitionsJobTypeEnum = "IMMEDIATE"
+	ListJobDefinitionsJobTypeScheduled                  ListJobDefinitionsJobTypeEnum = "SCHEDULED"
+	ListJobDefinitionsJobTypeImmediateExecution         ListJobDefinitionsJobTypeEnum = "IMMEDIATE_EXECUTION"
+	ListJobDefinitionsJobTypeScheduledExecution         ListJobDefinitionsJobTypeEnum = "SCHEDULED_EXECUTION"
+	ListJobDefinitionsJobTypeScheduledExecutionInstance ListJobDefinitionsJobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
+)
+
+var mappingListJobDefinitionsJobType = map[string]ListJobDefinitionsJobTypeEnum{
+	"HARVEST":                      ListJobDefinitionsJobTypeHarvest,
+	"PROFILING":                    ListJobDefinitionsJobTypeProfiling,
+	"SAMPLING":                     ListJobDefinitionsJobTypeSampling,
+	"PREVIEW":                      ListJobDefinitionsJobTypePreview,
+	"IMPORT":                       ListJobDefinitionsJobTypeImport,
+	"EXPORT":                       ListJobDefinitionsJobTypeExport,
+	"INTERNAL":                     ListJobDefinitionsJobTypeInternal,
+	"PURGE":                        ListJobDefinitionsJobTypePurge,
+	"IMMEDIATE":                    ListJobDefinitionsJobTypeImmediate,
+	"SCHEDULED":                    ListJobDefinitionsJobTypeScheduled,
+	"IMMEDIATE_EXECUTION":          ListJobDefinitionsJobTypeImmediateExecution,
+	"SCHEDULED_EXECUTION":          ListJobDefinitionsJobTypeScheduledExecution,
+	"SCHEDULED_EXECUTION_INSTANCE": ListJobDefinitionsJobTypeScheduledExecutionInstance,
+}
+
+// GetListJobDefinitionsJobTypeEnumValues Enumerates the set of values for ListJobDefinitionsJobTypeEnum
+func GetListJobDefinitionsJobTypeEnumValues() []ListJobDefinitionsJobTypeEnum {
+	values := make([]ListJobDefinitionsJobTypeEnum, 0)
+	for _, v := range mappingListJobDefinitionsJobType {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListJobDefinitionsFieldsEnum Enum with underlying type: string

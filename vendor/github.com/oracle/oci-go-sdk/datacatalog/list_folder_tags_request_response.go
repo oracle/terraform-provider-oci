@@ -25,7 +25,7 @@ type ListFolderTagsRequest struct {
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListFolderTagsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique key of the related term.
 	TermKey *string `mandatory:"false" contributesTo:"query" name:"termKey"`
@@ -100,6 +100,41 @@ func (response ListFolderTagsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListFolderTagsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListFolderTagsLifecycleStateEnum Enum with underlying type: string
+type ListFolderTagsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListFolderTagsLifecycleStateEnum
+const (
+	ListFolderTagsLifecycleStateCreating ListFolderTagsLifecycleStateEnum = "CREATING"
+	ListFolderTagsLifecycleStateActive   ListFolderTagsLifecycleStateEnum = "ACTIVE"
+	ListFolderTagsLifecycleStateInactive ListFolderTagsLifecycleStateEnum = "INACTIVE"
+	ListFolderTagsLifecycleStateUpdating ListFolderTagsLifecycleStateEnum = "UPDATING"
+	ListFolderTagsLifecycleStateDeleting ListFolderTagsLifecycleStateEnum = "DELETING"
+	ListFolderTagsLifecycleStateDeleted  ListFolderTagsLifecycleStateEnum = "DELETED"
+	ListFolderTagsLifecycleStateFailed   ListFolderTagsLifecycleStateEnum = "FAILED"
+	ListFolderTagsLifecycleStateMoving   ListFolderTagsLifecycleStateEnum = "MOVING"
+)
+
+var mappingListFolderTagsLifecycleState = map[string]ListFolderTagsLifecycleStateEnum{
+	"CREATING": ListFolderTagsLifecycleStateCreating,
+	"ACTIVE":   ListFolderTagsLifecycleStateActive,
+	"INACTIVE": ListFolderTagsLifecycleStateInactive,
+	"UPDATING": ListFolderTagsLifecycleStateUpdating,
+	"DELETING": ListFolderTagsLifecycleStateDeleting,
+	"DELETED":  ListFolderTagsLifecycleStateDeleted,
+	"FAILED":   ListFolderTagsLifecycleStateFailed,
+	"MOVING":   ListFolderTagsLifecycleStateMoving,
+}
+
+// GetListFolderTagsLifecycleStateEnumValues Enumerates the set of values for ListFolderTagsLifecycleStateEnum
+func GetListFolderTagsLifecycleStateEnumValues() []ListFolderTagsLifecycleStateEnum {
+	values := make([]ListFolderTagsLifecycleStateEnum, 0)
+	for _, v := range mappingListFolderTagsLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListFolderTagsFieldsEnum Enum with underlying type: string

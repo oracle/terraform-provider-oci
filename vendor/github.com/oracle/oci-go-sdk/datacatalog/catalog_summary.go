@@ -47,6 +47,9 @@ type CatalogSummary struct {
 	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The list of private reverse connection endpoints attached to the catalog
+	AttachedCatalogPrivateEndpoints []string `mandatory:"false" json:"attachedCatalogPrivateEndpoints"`
 }
 
 func (m CatalogSummary) String() string {

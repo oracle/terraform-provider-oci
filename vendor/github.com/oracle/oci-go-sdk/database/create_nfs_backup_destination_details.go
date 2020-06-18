@@ -23,9 +23,6 @@ type CreateNfsBackupDestinationDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes.
-	LocalMountPointPath *string `mandatory:"true" json:"localMountPointPath"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -34,6 +31,12 @@ type CreateNfsBackupDestinationDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// **Deprecated.** The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes.
+	// This field is deprecated. Use the mountTypeDetails field instead to specify the mount type for NFS.
+	LocalMountPointPath *string `mandatory:"false" json:"localMountPointPath"`
+
+	MountTypeDetails MountTypeDetails `mandatory:"false" json:"mountTypeDetails"`
 }
 
 //GetDisplayName returns DisplayName
@@ -72,4 +75,42 @@ func (m CreateNfsBackupDestinationDetails) MarshalJSON() (buff []byte, e error) 
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateNfsBackupDestinationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		FreeformTags        map[string]string                 `json:"freeformTags"`
+		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
+		LocalMountPointPath *string                           `json:"localMountPointPath"`
+		MountTypeDetails    mounttypedetails                  `json:"mountTypeDetails"`
+		DisplayName         *string                           `json:"displayName"`
+		CompartmentId       *string                           `json:"compartmentId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.LocalMountPointPath = model.LocalMountPointPath
+
+	nn, e = model.MountTypeDetails.UnmarshalPolymorphicJSON(model.MountTypeDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.MountTypeDetails = nn.(MountTypeDetails)
+	} else {
+		m.MountTypeDetails = nil
+	}
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+	return
 }
