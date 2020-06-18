@@ -61,6 +61,14 @@ The following attributes are exported:
 * `id` - The resource OCID. 
 * `license_type` - The license used for the service. 
 * `name` - The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed. 
+* `network_endpoint_details` - 
+	* `network_endpoint_type` - The type of network endpoint. 
+	* `subnet_id` - The subnet OCID for the private endpoint. 
+	* `vcn_id` - The VCN OCID for the private endpoint. 
+	* `whitelisted_ips` - Source IP addresses or IP address ranges igress rules. 
+	* `whitelisted_vcns` - Virtual Cloud Networks allowed to access this network endpoint. 
+		* `id` - The Virtual Cloud Network OCID. 
+		* `whitelisted_ips` - Source IP addresses or IP address ranges igress rules. 
 * `service_url` - URL of the Analytics service. 
 * `state` - The current state of an instance. 
 * `time_created` - The date and time the instance was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
