@@ -11,6 +11,8 @@ import (
 	"strconv"
 	"strings"
 
+	oci_dns "github.com/oracle/oci-go-sdk/dns"
+
 	"github.com/hashicorp/hcl2/hclwrite"
 
 	"github.com/fatih/color"
@@ -382,6 +384,78 @@ func init() {
 	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
 
 	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
+
+	exportDnsRrsetHints.getIdFn = getDnsRrsetId
+	exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
+	exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
+}
+
+func processDnsRrset(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+
+	for _, record := range resources {
+		// Populate config file from compositeId
+		record.compartmentId = record.parent.compartmentId
+		domain, rtype, zoneNameOrId, err := parseRrsetCompositeId(record.id)
+		if err == nil {
+			record.sourceAttributes["domain"] = domain
+			record.sourceAttributes["rtype"] = rtype
+			record.sourceAttributes["zone_name_or_id"] = zoneNameOrId
+		}
+	}
+	return resources, nil
+}
+
+func findDnsRrset(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) (resources []*OCIResource, err error) {
+	// Rrset is singular datasource only
+	// and need to use GetZoneRecordsRequest to list all records
+	zoneId := parent.id
+	request := oci_dns.GetZoneRecordsRequest{}
+	request.ZoneNameOrId = &zoneId
+	response, err := clients.dnsClient().GetZoneRecords(context.Background(), request)
+
+	if err != nil {
+		return resources, err
+	}
+
+	for _, record := range response.Items {
+		recordResource := resourcesMap[tfMeta.resourceClass]
+		d := recordResource.TestResourceData()
+		zoneId := parent.id
+		domain := record.Domain
+		rtype := record.Rtype
+		d.SetId(getRrsetCompositeId(*domain, *rtype, zoneId))
+		if err := recordResource.Read(d, clients); err != nil {
+			return resources, err
+		}
+		resource := &OCIResource{
+			compartmentId:    parent.compartmentId,
+			sourceAttributes: convertResourceDataToMap(recordResource.Schema, d),
+			rawResource:      record,
+			TerraformResource: TerraformResource{
+				id:             d.Id(),
+				terraformClass: tfMeta.resourceClass,
+				terraformName:  fmt.Sprintf("%s_%s", parent.parent.terraformName, *record.RecordHash),
+			},
+			getHclStringFn: getHclStringFromGenericMap,
+			parent:         parent,
+		}
+		resources = append(resources, resource)
+	}
+
+	return resources, err
+}
+
+func getDnsRrsetId(resource *OCIResource) (string, error) {
+	domain, ok := resource.sourceAttributes["domain"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find domain for DnsRrset")
+	}
+	rtype, ok := resource.sourceAttributes["rtype"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find rtype for DnsRrset")
+	}
+	zoneId := resource.parent.id
+	return getRrsetCompositeId(domain, rtype, zoneId), nil
 }
 
 func getDatacatalogDataAssetId(resource *OCIResource) (string, error) {
