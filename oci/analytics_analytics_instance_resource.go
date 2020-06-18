@@ -121,6 +121,84 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 					string(oci_analytics.AnalyticsInstanceLifecycleStateActive),
 				}, true),
 			},
+			"network_endpoint_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"network_endpoint_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"PRIVATE",
+								"PUBLIC",
+							}, true),
+						},
+
+						// Optional
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"vcn_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"whitelisted_ips": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"whitelisted_vcns": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"whitelisted_ips": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"service_url": {
@@ -346,6 +424,17 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if networkEndpointDetails, ok := s.D.GetOkExists("network_endpoint_details"); ok {
+		if tmpList := networkEndpointDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_endpoint_details", 0)
+			tmp, err := s.mapToNetworkEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkEndpointDetails = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
@@ -631,6 +720,16 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	if s.Res.NetworkEndpointDetails != nil {
+		networkEndpointDetailsArray := []interface{}{}
+		if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&s.Res.NetworkEndpointDetails); networkEndpointDetailsMap != nil {
+			networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
+		}
+		s.D.Set("network_endpoint_details", networkEndpointDetailsArray)
+	} else {
+		s.D.Set("network_endpoint_details", nil)
+	}
+
 	if s.Res.ServiceUrl != nil {
 		s.D.Set("service_url", *s.Res.ServiceUrl)
 	}
@@ -671,6 +770,132 @@ func AnalyticsCapacityToMap(obj *oci_analytics.Capacity) map[string]interface{} 
 	if obj.CapacityValue != nil {
 		result["capacity_value"] = int(*obj.CapacityValue)
 	}
+
+	return result
+}
+
+func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToNetworkEndpointDetails(fieldKeyFormat string) (oci_analytics.NetworkEndpointDetails, error) {
+	var baseObject oci_analytics.NetworkEndpointDetails
+	//discriminator
+	networkEndpointTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_endpoint_type"))
+	var networkEndpointType string
+	if ok {
+		networkEndpointType = networkEndpointTypeRaw.(string)
+	} else {
+		networkEndpointType = "" // default value
+	}
+	switch strings.ToLower(networkEndpointType) {
+	case strings.ToLower("PRIVATE"):
+		details := oci_analytics.PrivateEndpointDetails{}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vcnId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcn_id")); ok {
+			tmp := vcnId.(string)
+			details.VcnId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PUBLIC"):
+		details := oci_analytics.PublicEndpointDetails{}
+		if whitelistedIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "whitelisted_ips")); ok {
+			interfaces := whitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_ips")) {
+				details.WhitelistedIps = tmp
+			}
+		}
+		if whitelistedVcns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "whitelisted_vcns")); ok {
+			interfaces := whitelistedVcns.([]interface{})
+			tmp := make([]oci_analytics.VirtualCloudNetwork, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "whitelisted_vcns"), stateDataIndex)
+				converted, err := s.mapToVirtualCloudNetwork(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_vcns")) {
+				details.WhitelistedVcns = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_endpoint_type '%v' was specified", networkEndpointType)
+	}
+	return baseObject, nil
+}
+
+func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_analytics.PrivateEndpointDetails:
+		result["network_endpoint_type"] = "PRIVATE"
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+
+		if v.VcnId != nil {
+			result["vcn_id"] = string(*v.VcnId)
+		}
+	case oci_analytics.PublicEndpointDetails:
+		result["network_endpoint_type"] = "PUBLIC"
+
+		result["whitelisted_ips"] = v.WhitelistedIps
+
+		whitelistedVcns := []interface{}{}
+		for _, item := range v.WhitelistedVcns {
+			whitelistedVcns = append(whitelistedVcns, VirtualCloudNetworkToMap(item))
+		}
+		result["whitelisted_vcns"] = whitelistedVcns
+	default:
+		log.Printf("[WARN] Received 'network_endpoint_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToVirtualCloudNetwork(fieldKeyFormat string) (oci_analytics.VirtualCloudNetwork, error) {
+	result := oci_analytics.VirtualCloudNetwork{}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if whitelistedIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "whitelisted_ips")); ok {
+		interfaces := whitelistedIps.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_ips")) {
+			result.WhitelistedIps = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func VirtualCloudNetworkToMap(obj oci_analytics.VirtualCloudNetwork) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	result["whitelisted_ips"] = obj.WhitelistedIps
 
 	return result
 }

@@ -22,7 +22,7 @@ provider "oci" {
   private_key_path = "${var.private_key_path}"
 }
 
-resource "oci_analytics_analytics_instance" "test_oce_instance" {
+resource "oci_analytics_analytics_instance" "test_oce_instance_public" {
   compartment_id     = "${var.compartment_ocid}"
   description        = "OAC instance"
   email_notification = "${var.email_notification}"
@@ -34,10 +34,53 @@ resource "oci_analytics_analytics_instance" "test_oce_instance" {
     capacity_value = 2
   }
 
-  name              = "testoacinstance"
+  name              = "testoacinstance1"
   freeform_tags     = "${map("freeformkey", "freeformvalue")}"
   state             = "ACTIVE"
   idcs_access_token = "${var.idcs_access_token}"
+
+  # Optional
+  network_endpoint_details {
+    #Required
+    network_endpoint_type = "PUBLIC"
+
+    #Optional
+    whitelisted_ips = ["${oci_core_vcn.test_vcn.cidr_block}"]
+
+    whitelisted_vcns = [{
+      #Optional
+      id              = "${oci_core_vcn.test_vcn.id}"
+      whitelisted_ips = ["${oci_core_vcn.test_vcn.cidr_block}"]
+    }]
+  }
+}
+
+resource "oci_analytics_analytics_instance" "test_oce_instance_private" {
+  compartment_id     = "${var.compartment_ocid}"
+  description        = "OAC instance"
+  email_notification = "${var.email_notification}"
+  feature_set        = "ENTERPRISE_ANALYTICS"
+  license_type       = "LICENSE_INCLUDED"
+
+  capacity {
+    capacity_type  = "OLPU_COUNT"
+    capacity_value = 2
+  }
+
+  name              = "testoacinstance2"
+  freeform_tags     = "${map("freeformkey", "freeformvalue")}"
+  state             = "ACTIVE"
+  idcs_access_token = "${var.idcs_access_token}"
+
+  # Optional
+  network_endpoint_details {
+    #Required
+    network_endpoint_type = "PRIVATE"
+
+    #Optional
+    subnet_id = "${oci_core_subnet.test_subnet.id}"
+    vcn_id    = "${oci_core_vcn.test_vcn.id}"
+  }
 }
 
 data "oci_analytics_analytics_instances" "test_instance" {
@@ -45,5 +88,5 @@ data "oci_analytics_analytics_instances" "test_instance" {
 }
 
 output "test" {
-  value = "${data.oci_analytics_analytics_instances.test_instance.analytics_instances.*.id}"
+  value = "${data.oci_analytics_analytics_instances.test_instance.id}"
 }
