@@ -12,6 +12,7 @@ import (
 	"runtime"
 	"sort"
 	"strings"
+	"syscall"
 
 	"github.com/hashicorp/terraform/backend/local"
 
@@ -33,6 +34,7 @@ This may be expected behavior from the service, which may prevent discovery of c
 Placeholder values have been added for such attributes with a comment "Required attribute not found in discovery, placeholder value set to avoid plan failure".
 These missing attributes are also added to the lifecycle ignore_changes.`
 	placeholderValueForMissingAttribute = `<placeholder for missing required attribute>`
+	EnvLogFile                          = "TF_LOG_PATH"
 )
 
 var referenceMap map[string]string
@@ -271,6 +273,17 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		return err
 	}
 
+	logOutput := os.Stderr
+	if logPath := os.Getenv(EnvLogFile); logPath != "" {
+		var err error
+		logOutput, err = os.OpenFile(logPath, syscall.O_CREAT|syscall.O_RDWR|syscall.O_APPEND, 0666)
+		if err == nil {
+			// go-plugin/client users go-hclog/log with os.Stderr as DefaultOutput
+			os.Stderr = logOutput
+			log.SetOutput(logOutput)
+		}
+	}
+
 	// Discover and build a model of all targeted resources
 	for _, step := range steps {
 		err := step.discover()
@@ -329,7 +342,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 			Ui: &cli.BasicUi{
 				Reader:      os.Stdin,
 				Writer:      os.Stdout,
-				ErrorWriter: os.Stderr,
+				ErrorWriter: logOutput,
 			},
 			RunningInAutomation: true,
 		}
