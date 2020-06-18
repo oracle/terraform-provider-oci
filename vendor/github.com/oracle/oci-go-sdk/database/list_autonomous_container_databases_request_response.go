@@ -18,6 +18,12 @@ type ListAutonomousContainerDatabasesRequest struct {
 	// The Autonomous Exadata Infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousExadataInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"autonomousExadataInfrastructureId"`
 
+	// The Autonomous VM Cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	AutonomousVmClusterId *string `mandatory:"false" contributesTo:"query" name:"autonomousVmClusterId"`
+
+	// A filter to return only resources that match the given Infrastructure Type.
+	InfrastructureType AutonomousContainerDatabaseSummaryInfrastructureTypeEnum `mandatory:"false" contributesTo:"query" name:"infrastructureType" omitEmpty:"true"`
+
 	// The maximum number of items to return per page.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

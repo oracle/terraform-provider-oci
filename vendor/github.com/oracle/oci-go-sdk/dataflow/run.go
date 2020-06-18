@@ -55,6 +55,10 @@ type Run struct {
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// An Oracle Cloud Infrastructure URI of an archive (zip) file that may used to support the execution of the application.
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat
+	ArchiveUri *string `mandatory:"false" json:"archiveUri"`
+
 	// The arguments passed to the running application as command line arguments.  An argument is
 	// either a plain text or a placeholder. Placeholders are replaced using values from the parameters
 	// map.  Each placeholder specified must be represented in the parameters map else the request

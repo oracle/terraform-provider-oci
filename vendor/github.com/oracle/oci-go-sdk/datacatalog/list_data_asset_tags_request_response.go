@@ -22,7 +22,7 @@ type ListDataAssetTagsRequest struct {
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListDataAssetTagsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique key of the related term.
 	TermKey *string `mandatory:"false" contributesTo:"query" name:"termKey"`
@@ -97,6 +97,41 @@ func (response ListDataAssetTagsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDataAssetTagsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListDataAssetTagsLifecycleStateEnum Enum with underlying type: string
+type ListDataAssetTagsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListDataAssetTagsLifecycleStateEnum
+const (
+	ListDataAssetTagsLifecycleStateCreating ListDataAssetTagsLifecycleStateEnum = "CREATING"
+	ListDataAssetTagsLifecycleStateActive   ListDataAssetTagsLifecycleStateEnum = "ACTIVE"
+	ListDataAssetTagsLifecycleStateInactive ListDataAssetTagsLifecycleStateEnum = "INACTIVE"
+	ListDataAssetTagsLifecycleStateUpdating ListDataAssetTagsLifecycleStateEnum = "UPDATING"
+	ListDataAssetTagsLifecycleStateDeleting ListDataAssetTagsLifecycleStateEnum = "DELETING"
+	ListDataAssetTagsLifecycleStateDeleted  ListDataAssetTagsLifecycleStateEnum = "DELETED"
+	ListDataAssetTagsLifecycleStateFailed   ListDataAssetTagsLifecycleStateEnum = "FAILED"
+	ListDataAssetTagsLifecycleStateMoving   ListDataAssetTagsLifecycleStateEnum = "MOVING"
+)
+
+var mappingListDataAssetTagsLifecycleState = map[string]ListDataAssetTagsLifecycleStateEnum{
+	"CREATING": ListDataAssetTagsLifecycleStateCreating,
+	"ACTIVE":   ListDataAssetTagsLifecycleStateActive,
+	"INACTIVE": ListDataAssetTagsLifecycleStateInactive,
+	"UPDATING": ListDataAssetTagsLifecycleStateUpdating,
+	"DELETING": ListDataAssetTagsLifecycleStateDeleting,
+	"DELETED":  ListDataAssetTagsLifecycleStateDeleted,
+	"FAILED":   ListDataAssetTagsLifecycleStateFailed,
+	"MOVING":   ListDataAssetTagsLifecycleStateMoving,
+}
+
+// GetListDataAssetTagsLifecycleStateEnumValues Enumerates the set of values for ListDataAssetTagsLifecycleStateEnum
+func GetListDataAssetTagsLifecycleStateEnumValues() []ListDataAssetTagsLifecycleStateEnum {
+	values := make([]ListDataAssetTagsLifecycleStateEnum, 0)
+	for _, v := range mappingListDataAssetTagsLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListDataAssetTagsFieldsEnum Enum with underlying type: string

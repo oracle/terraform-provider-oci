@@ -19,7 +19,7 @@ type ListTypesRequest struct {
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListTypesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Indicates whether the type is internal, making it unavailable for use by metadata elements.
 	IsInternal *string `mandatory:"false" contributesTo:"query" name:"isInternal"`
@@ -97,6 +97,41 @@ func (response ListTypesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListTypesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListTypesLifecycleStateEnum Enum with underlying type: string
+type ListTypesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListTypesLifecycleStateEnum
+const (
+	ListTypesLifecycleStateCreating ListTypesLifecycleStateEnum = "CREATING"
+	ListTypesLifecycleStateActive   ListTypesLifecycleStateEnum = "ACTIVE"
+	ListTypesLifecycleStateInactive ListTypesLifecycleStateEnum = "INACTIVE"
+	ListTypesLifecycleStateUpdating ListTypesLifecycleStateEnum = "UPDATING"
+	ListTypesLifecycleStateDeleting ListTypesLifecycleStateEnum = "DELETING"
+	ListTypesLifecycleStateDeleted  ListTypesLifecycleStateEnum = "DELETED"
+	ListTypesLifecycleStateFailed   ListTypesLifecycleStateEnum = "FAILED"
+	ListTypesLifecycleStateMoving   ListTypesLifecycleStateEnum = "MOVING"
+)
+
+var mappingListTypesLifecycleState = map[string]ListTypesLifecycleStateEnum{
+	"CREATING": ListTypesLifecycleStateCreating,
+	"ACTIVE":   ListTypesLifecycleStateActive,
+	"INACTIVE": ListTypesLifecycleStateInactive,
+	"UPDATING": ListTypesLifecycleStateUpdating,
+	"DELETING": ListTypesLifecycleStateDeleting,
+	"DELETED":  ListTypesLifecycleStateDeleted,
+	"FAILED":   ListTypesLifecycleStateFailed,
+	"MOVING":   ListTypesLifecycleStateMoving,
+}
+
+// GetListTypesLifecycleStateEnumValues Enumerates the set of values for ListTypesLifecycleStateEnum
+func GetListTypesLifecycleStateEnumValues() []ListTypesLifecycleStateEnum {
+	values := make([]ListTypesLifecycleStateEnum, 0)
+	for _, v := range mappingListTypesLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListTypesFieldsEnum Enum with underlying type: string

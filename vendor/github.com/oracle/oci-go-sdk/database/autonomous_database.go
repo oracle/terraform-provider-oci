@@ -50,6 +50,9 @@ type AutonomousDatabase struct {
 	// The date and time the Always Free database will be automatically deleted because of inactivity. If the database is in the STOPPED state and without activity until this time, it will be deleted.
 	TimeDeletionOfFreeAutonomousDatabase *common.SDKTime `mandatory:"false" json:"timeDeletionOfFreeAutonomousDatabase"`
 
+	// The infrastructure type this resource belongs to.
+	InfrastructureType AutonomousDatabaseInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
+
 	// True if the database uses dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).
 	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
@@ -195,6 +198,29 @@ var mappingAutonomousDatabaseLifecycleState = map[string]AutonomousDatabaseLifec
 func GetAutonomousDatabaseLifecycleStateEnumValues() []AutonomousDatabaseLifecycleStateEnum {
 	values := make([]AutonomousDatabaseLifecycleStateEnum, 0)
 	for _, v := range mappingAutonomousDatabaseLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseInfrastructureTypeEnum Enum with underlying type: string
+type AutonomousDatabaseInfrastructureTypeEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseInfrastructureTypeEnum
+const (
+	AutonomousDatabaseInfrastructureTypeCloud           AutonomousDatabaseInfrastructureTypeEnum = "CLOUD"
+	AutonomousDatabaseInfrastructureTypeCloudAtCustomer AutonomousDatabaseInfrastructureTypeEnum = "CLOUD_AT_CUSTOMER"
+)
+
+var mappingAutonomousDatabaseInfrastructureType = map[string]AutonomousDatabaseInfrastructureTypeEnum{
+	"CLOUD":             AutonomousDatabaseInfrastructureTypeCloud,
+	"CLOUD_AT_CUSTOMER": AutonomousDatabaseInfrastructureTypeCloudAtCustomer,
+}
+
+// GetAutonomousDatabaseInfrastructureTypeEnumValues Enumerates the set of values for AutonomousDatabaseInfrastructureTypeEnum
+func GetAutonomousDatabaseInfrastructureTypeEnumValues() []AutonomousDatabaseInfrastructureTypeEnum {
+	values := make([]AutonomousDatabaseInfrastructureTypeEnum, 0)
+	for _, v := range mappingAutonomousDatabaseInfrastructureType {
 		values = append(values, v)
 	}
 	return values
