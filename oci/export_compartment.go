@@ -916,7 +916,7 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 		return results, err
 	}
 
-	if tfMeta.datasourceItemsAttr != "" {
+	if !tfMeta.DiscoversWithSingularDatasource() {
 		// Results are from a plural datasource
 		itemSchema := datasource.Schema[tfMeta.datasourceItemsAttr]
 		elemResource, ok := itemSchema.Elem.(*schema.Resource)
@@ -986,8 +986,8 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 
 			results = append(results, resource)
 		}
-	} else {
-		// Result is from a singular datasource
+	} else if d.Id() != "" {
+		// Result is from a singular datasource that hasn't had its state voided (hence d.Id() is non-empty)
 		resource, err := generateOciResourceFromResourceData(d, d, datasource.Schema, "", tfMeta, parent)
 		if err != nil {
 			return results, err
@@ -1011,6 +1011,8 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 		if discoverable {
 			results = append(results, resource)
 		}
+	} else {
+		log.Printf("[DEBUG] singular data source not able to find resource")
 	}
 
 	return results, nil
