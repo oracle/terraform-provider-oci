@@ -1174,7 +1174,9 @@ func TestResourceDiscoveryCreateResourcesUsingStack(t *testing.T) {
 	}
 	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
 	stackId := getEnvSettingWithBlankDefault("stack_id")
-
+	if stackId == "" {
+		t.Skip("Dependency stack_id not defined for test")
+	}
 	// Destroy resources using stack destroy job
 	isAutoApproved := true
 	destroyJobRequest := oci_resourcemanager.CreateJobRequest{
@@ -1198,7 +1200,7 @@ func TestResourceDiscoveryCreateResourcesUsingStack(t *testing.T) {
 	}
 
 	retryPolicy := getRetryPolicy(false, "resourcemanager")
-	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
+	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(15*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
 
 	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
 		JobId: destroyJobResponse.Id,
@@ -1224,6 +1226,9 @@ func TestResourceDiscoveryCreateResourcesUsingStack(t *testing.T) {
 
 	//Add files to zip
 	for _, file := range files {
+		if !strings.HasSuffix(file.Name(), ".tf") {
+			continue
+		}
 		data, err := ioutil.ReadFile(basePath + file.Name())
 		if err != nil {
 			log.Fatalf("[ERROR] read config file: %v", err)
