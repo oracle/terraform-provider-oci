@@ -19,6 +19,8 @@ variable "instance_image_ocid" {
 variable "instance_shape" {
   default = "VM.Standard2.1"
 }
+
+/* DB SYSTEMS */
 variable "db_system_shape" {
   default = "VM.Standard2.1"
 }
@@ -73,4 +75,36 @@ variable "data_storage_size_in_gb" {
 
 variable "license_model" {
   default = "LICENSE_INCLUDED"
+}
+
+/* ADB */
+
+variable "autonomous_database_backup_display_name" {
+  default = "Monthly Backup"
+}
+
+variable "autonomous_database_db_workload" {
+  default = "OLTP"
+}
+
+variable "autonomous_data_warehouse_db_workload" {
+  default = "DW"
+}
+
+variable "autonomous_database_defined_tags_value" {
+  default = "value"
+}
+
+variable "autonomous_database_freeform_tags" {
+  default = {
+    "Department" = "Finance"
+  }
+}
+
+variable "autonomous_database_license_model" {
+  default = "LICENSE_INCLUDED"
+}
+
+variable "autonomous_database_is_dedicated" {
+  default = false
 }
