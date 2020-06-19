@@ -19,9 +19,12 @@ variable "instance_image_ocid" {
 variable "instance_shape" {
   default = "VM.Standard2.1"
 }
+variable "db_system_shape" {
+  default = "VM.Standard2.1"
+}
 
 variable "db_edition" {
-  default = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+  default = "ENTERPRISE_EDITION"
 }
 
 variable "db_admin_password" {
@@ -29,11 +32,23 @@ variable "db_admin_password" {
 }
 
 variable "db_version" {
-  default = "12.1.0.2"
+  default = "19.0.0.0"
 }
 
-variable "db_system_shape" {
-  default = "Exadata.Quarter1.84"
+variable "db_disk_redundancy" {
+  default = "NORMAL"
+}
+
+variable "sparse_diskgroup" {
+  default = true
+}
+
+variable "hostname" {
+  default = "myoracledb"
+}
+
+variable "host_user_name" {
+  default = "opc"
 }
 
 variable "n_character_set" {
@@ -46,4 +61,16 @@ variable "character_set" {
 
 variable "db_workload" {
   default = "OLTP"
+}
+
+variable "pdb_name" {
+  default = "pdbName"
+}
+
+variable "data_storage_size_in_gb" {
+  default = "256"
+}
+
+variable "license_model" {
+  default = "LICENSE_INCLUDED"
 }
