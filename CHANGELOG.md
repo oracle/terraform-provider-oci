@@ -9,6 +9,9 @@
 - Support for `mount_type_details`, `mount_type`, `nfs_server` and `nfs_server_export` attributes in `oci_database_backup_destination` resource
 - Support resource discovery for `ons` resources
 
+### Fixed
+- Fix issue where discovering object storage buckets without lifecycle policies, results in an error
+
 ### Notes
 - `mount_type_details` attribute needs to be set when `type` attribute is set to `NFS` in `oci_database_backup_destination` resource
 

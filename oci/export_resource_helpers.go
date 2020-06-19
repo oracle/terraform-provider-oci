@@ -50,6 +50,10 @@ type TerraformResourceHints struct {
 	ignorableRequiredMissingAttributes map[string]bool
 }
 
+func (h *TerraformResourceHints) DiscoversWithSingularDatasource() bool {
+	return h.datasourceItemsAttr == ""
+}
+
 type TerraformResourceAssociation struct {
 	*TerraformResourceHints
 	datasourceQueryParams map[string]string // Mapping of data source inputs and the source attribute from a parent resource
@@ -132,7 +136,9 @@ func (ctx *resourceDiscoveryContext) printErrors() {
 		if resourceDiscoveryError.resourceGraph != nil {
 			var notFoundChildren []string
 			getNotFoundChildren(resourceDiscoveryError.resourceType, resourceDiscoveryError.resourceGraph, &notFoundChildren)
-			color.Red(fmt.Sprintf("\tFollowing child resources were not discovered due to parent error: %v", strings.Join(notFoundChildren, ", ")))
+			if len(notFoundChildren) > 0 {
+				color.Red(fmt.Sprintf("\tFollowing child resources were also not discovered due to parent error: %v", strings.Join(notFoundChildren, ", ")))
+			}
 		}
 	}
 }
