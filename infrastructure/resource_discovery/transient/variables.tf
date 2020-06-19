@@ -108,3 +108,13 @@ variable "autonomous_database_license_model" {
 variable "autonomous_database_is_dedicated" {
   default = false
 }
+
+/* ATP-D */
+
+variable "autonomous_exadata_infrastructure_domain" {
+  default = "subnetexadatard.vcnrd.oraclevcn.com"
+}
+
+variable "autonomous_container_database_backup_config_recovery_window_in_days" {
+  default = 10
+}
