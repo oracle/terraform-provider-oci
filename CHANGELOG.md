@@ -5,6 +5,7 @@
 - Support for `oci_metering_computation_usage` resource and `oci_metering_computation_configuration` datasource
 - Support for new optional parameters in `oci_core_instance_configuration`
 - Support for L2 Virtualization
+- Support for DBaaS One-off patching
 
 ## 3.82.0 (June 24, 2020)
 
