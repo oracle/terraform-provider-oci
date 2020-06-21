@@ -2,6 +2,14 @@
 // Licensed under the Mozilla Public License v2.0
 variable "compartment_ocid" {}
 
+variable "function_image" {
+  default = "phx.ocir.io/dxterraformdev/functions/function:0.0.1"
+}
+
+variable "function_image_digest" {
+  default = "sha256:73a6de3a706f299f59d2e217c049814e14b42346c12b407996ebbce0c453f1a2"
+}
+
 variable "instance_image_ocid" {
   type = "map"
 
@@ -46,6 +54,309 @@ variable "character_set" {
 
 variable "db_workload" {
   default = "OLTP"
+}
+
+/* apigateway */
+variable "gateway_display_name" {
+  default = "apigatewayGatewayRd"
+}
+
+variable "gateway_endpoint_type" {
+  default = "PUBLIC"
+}
+
+variable "gateway_state" {
+  default = "ACTIVE"
+}
+
+variable "deployment_defined_tags_value" {
+  default = "value"
+}
+
+variable "deployment_display_name" {
+  default = "apigatewayDeploymentRd"
+}
+
+variable "deployment_freeform_tags" {
+  default = {
+    "Department" = "Finance"
+  }
+}
+
+variable "application_state" {
+  default = "AVAILABLE"
+}
+
+variable "config" {
+  default = {
+    "MY_FUNCTION_CONFIG" = "ConfVal"
+  }
+}
+
+variable "function_memory_in_mbs" {
+  default = 128
+}
+
+variable "function_timeout_in_seconds" {
+  default = 30
+}
+
+variable "deployment_path_prefix" {
+  default = "/v1"
+}
+
+variable "deployment_specification_logging_policies_access_log_is_enabled" {
+  default = false
+}
+
+variable "deployment_specification_logging_policies_execution_log_is_enabled" {
+  default = false
+}
+
+variable "deployment_specification_logging_policies_execution_log_log_level" {
+  default = "INFO"
+}
+
+variable "deployment_specification_request_policies_authentication_is_anonymous_access_allowed" {
+  default = false
+}
+
+variable "deployment_specification_request_policies_authentication_token_header" {
+  default = "Authorization"
+}
+
+variable "deployment_specification_request_policies_authentication_token_query_param" {
+  default = "tokenQueryParam"
+}
+
+variable "deployment_specification_request_policies_authentication_type" {
+  default = "CUSTOM_AUTHENTICATION"
+}
+
+variable "deployment_specification_request_policies_cors_allowed_headers" {
+  default = ["*"]
+}
+
+variable "deployment_specification_request_policies_cors_allowed_methods" {
+  default = ["*"]
+}
+
+variable "deployment_specification_request_policies_cors_allowed_origins" {
+  default = ["*"]
+}
+
+variable "deployment_specification_request_policies_cors_exposed_headers" {
+  default = ["*"]
+}
+
+variable "deployment_specification_request_policies_cors_is_allow_credentials_enabled" {
+  default = false
+}
+
+variable "deployment_specification_request_policies_cors_max_age_in_seconds" {
+  default = "600"
+}
+
+variable "deployment_specification_request_policies_rate_limiting_rate_in_requests_per_second" {
+  default = 10
+}
+
+variable "deployment_specification_request_policies_rate_limiting_rate_key" {
+  default = "CLIENT_IP"
+}
+
+variable "deployment_specification_routes_backend_body" {
+  default = "body"
+}
+
+variable "deployment_specification_routes_backend_connect_timeout_in_seconds" {
+  default = 1.0
+}
+
+variable "deployment_specification_routes_backend_headers_name" {
+  default = "name"
+}
+
+variable "deployment_specification_routes_backend_headers_value" {
+  default = "value"
+}
+
+variable "deployment_specification_routes_backend_is_ssl_verify_disabled" {
+  default = false
+}
+
+variable "deployment_specification_routes_backend_read_timeout_in_seconds" {
+  default = 1.0
+}
+
+variable "deployment_specification_routes_backend_send_timeout_in_seconds" {
+  default = 1.0
+}
+
+variable "deployment_specification_routes_backend_status" {
+  default = 10
+}
+
+variable "deployment_specification_routes_backend_type" {
+  default = "HTTP_BACKEND"
+}
+
+variable "deployment_specification_routes_backend_url" {
+  default = "https://api.weather.gov"
+}
+
+variable "deployment_specification_routes_logging_policies_access_log_is_enabled" {
+  default = false
+}
+
+variable "deployment_specification_routes_logging_policies_execution_log_is_enabled" {
+  default = false
+}
+
+variable "deployment_specification_routes_logging_policies_execution_log_log_level" {
+  default = "INFO"
+}
+
+variable "deployment_specification_routes_methods" {
+  default = ["GET"]
+}
+
+variable "deployment_specification_routes_path" {
+  default = "/hello"
+}
+
+variable "deployment_specification_routes_request_policies_authorization_allowed_scope" {
+  default = []
+}
+
+variable "deployment_specification_routes_request_policies_authorization_type" {
+  default = "AUTHENTICATION_ONLY"
+}
+
+variable "deployment_specification_routes_request_policies_cors_allowed_headers" {
+  default = ["*"]
+}
+
+variable "deployment_specification_routes_request_policies_cors_allowed_methods" {
+  default = ["GET"]
+}
+
+variable "deployment_specification_routes_request_policies_cors_allowed_origins" {
+  default = ["*"]
+}
+
+variable "deployment_specification_routes_request_policies_cors_exposed_headers" {
+  default = ["*"]
+}
+
+variable "deployment_specification_routes_request_policies_cors_is_allow_credentials_enabled" {
+  default = false
+}
+
+variable "deployment_specification_routes_request_policies_cors_max_age_in_seconds" {
+  default = "600"
+}
+
+variable "deployment_state" {
+  default = "ACTIVE"
+}
+
+/* email */
+variable "sender_email_address" {
+  default = "JohnSmith@example.com"
+}
+
+variable "suppression_email_address" {
+  default = "JohnSmith@example.com"
+}
+
+/* health_checks */
+variable "http_monitor_defined_tags_value" {
+  default = "value"
+}
+
+variable "http_monitor_freeform_tags" {
+  default = {
+    "Department" = "Finance"
+  }
+}
+
+variable "http_monitor_headers" {
+  default = "headers"
+}
+
+variable "http_monitor_interval_in_seconds" {
+  default = 10
+}
+
+variable "http_monitor_is_enabled" {
+  default = true
+}
+
+variable "http_monitor_method" {
+  default = "GET"
+}
+
+variable "http_monitor_path" {
+  default = "/"
+}
+
+variable "http_monitor_port" {
+  default = "443"
+}
+
+variable "http_monitor_protocol" {
+  default = "HTTPS"
+}
+
+variable "http_monitor_targets" {
+  default = ["www.oracle.com"]
+}
+
+variable "http_monitor_timeout_in_seconds" {
+  default = 10
+}
+
+variable "http_monitor_vantage_point_names" {
+  default = ["goo-chs"]
+}
+
+variable "ping_monitor_defined_tags_value" {
+  default = "value"
+}
+
+variable "ping_monitor_freeform_tags" {
+  default = {
+    "Department" = "Finance"
+  }
+}
+
+variable "ping_monitor_interval_in_seconds" {
+  default = 10
+}
+
+variable "ping_monitor_is_enabled" {
+  default = false
+}
+
+variable "ping_monitor_port" {
+  default = 80
+}
+
+variable "ping_monitor_protocol" {
+  default = "TCP"
+}
+
+variable "ping_monitor_targets" {
+  default = ["www.oracle.com"]
+}
+
+variable "ping_monitor_timeout_in_seconds" {
+  default = 10
+}
+
+variable "ping_monitor_vantage_point_names" {
+  default = ["goo-chs"]
 }
 
 /* Nosql */
