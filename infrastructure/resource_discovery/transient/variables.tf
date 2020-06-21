@@ -1,6 +1,11 @@
 // Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
+
 variable "compartment_ocid" {}
+
+variable "function_image" {}
+
+variable "function_image_digest" {}
 
 variable "instance_image_ocid" {
   type = "map"
@@ -122,3 +127,156 @@ variable "autonomous_container_database_backup_config_recovery_window_in_days" {
 /* Osmanagement */
 
 variable "ssh_private_key" {}
+
+/*  apigateway  */
+
+variable "gateway_state" {
+  default = "ACTIVE"
+}
+
+variable "deployment_state" {
+  default = "ACTIVE"
+}
+
+variable "gateway_display_name" {
+  default = "apigatewayGatewayRd"
+}
+
+variable "gateway_endpoint_type" {
+  default = "PUBLIC"
+}
+
+variable "deployment_path_prefix" {
+  default = "/v1"
+}
+
+variable "deployment_specification_logging_policies_access_log_is_enabled" {
+  default = false
+}
+
+variable "deployment_specification_logging_policies_execution_log_is_enabled" {
+  default = false
+}
+
+variable "deployment_specification_logging_policies_execution_log_log_level" {
+  default = "INFO"
+}
+
+variable "deployment_specification_request_policies_authentication_type" {
+  default = "CUSTOM_AUTHENTICATION"
+}
+
+variable "deployment_specification_request_policies_authentication_is_anonymous_access_allowed" {
+  default = false
+}
+
+variable "deployment_specification_request_policies_authentication_token_header" {
+  default = "Authorization"
+}
+
+variable "deployment_specification_request_policies_cors_allowed_origins" {
+  default = ["*"]
+}
+
+variable "deployment_specification_request_policies_cors_allowed_headers" {
+  default = ["*"]
+}
+
+variable "deployment_specification_request_policies_cors_allowed_methods" {
+  default = ["*"]
+}
+
+variable "deployment_specification_request_policies_cors_exposed_headers" {
+  default = ["*"]
+}
+
+variable "deployment_specification_request_policies_cors_is_allow_credentials_enabled" {
+  default = false
+}
+
+variable "deployment_specification_request_policies_cors_max_age_in_seconds" {
+  default = "600"
+}
+
+variable "deployment_specification_request_policies_rate_limiting_rate_in_requests_per_second" {
+  default = 10
+}
+
+variable "deployment_specification_request_policies_rate_limiting_rate_key" {
+  default = "CLIENT_IP"
+}
+
+variable "deployment_specification_routes_backend_type" {
+  default = "HTTP_BACKEND"
+}
+
+variable "deployment_specification_routes_backend_url" {
+  default = "https://api.weather.gov"
+}
+
+variable "deployment_specification_routes_path" {
+  default = "/hello"
+}
+
+variable "deployment_specification_routes_logging_policies_access_log_is_enabled" {
+  default = false
+}
+
+variable "deployment_specification_routes_logging_policies_execution_log_is_enabled" {
+  default = false
+}
+
+variable "deployment_specification_routes_logging_policies_execution_log_log_level" {
+  default = "INFO"
+}
+
+variable "deployment_specification_routes_methods" {
+  default = ["GET"]
+}
+
+variable "deployment_specification_routes_request_policies_authorization_type" {
+  default = "AUTHENTICATION_ONLY"
+}
+
+variable "deployment_specification_routes_request_policies_cors_allowed_origins" {
+  default = ["*"]
+}
+
+variable "deployment_specification_routes_request_policies_cors_allowed_headers" {
+  default = ["*"]
+}
+
+variable "deployment_specification_routes_request_policies_cors_allowed_methods" {
+  default = ["GET"]
+}
+
+variable "deployment_specification_routes_request_policies_cors_exposed_headers" {
+  default = ["*"]
+}
+
+variable "deployment_specification_routes_request_policies_cors_is_allow_credentials_enabled" {
+  default = false
+}
+
+variable "deployment_specification_routes_request_policies_cors_max_age_in_seconds" {
+  default = "600"
+}
+
+/* function */
+variable "config" {
+  default = {
+    "MY_FUNCTION_CONFIG" = "ConfVal"
+  }
+}
+
+variable "function_memory_in_mbs" {
+  default = 128
+}
+
+variable "function_timeout_in_seconds" {
+  default = 30
+}
+
+variable "application_state" {
+  default = "AVAILABLE"
+}
