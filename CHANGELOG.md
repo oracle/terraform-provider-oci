@@ -8,7 +8,7 @@
 - Support `oci_database_autonomous_vm_cluster` for service `database`
 - Support for `mount_type_details`, `mount_type`, `nfs_server` and `nfs_server_export` attributes in `oci_database_backup_destination` resource
 - Support resource discovery for `ons` resources
-
+- Support resource discovery for `analytics` resources
 ### Fixed
 - Fix issue where discovering object storage buckets without lifecycle policies, results in an error
 

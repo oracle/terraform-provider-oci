@@ -47,6 +47,7 @@ var availabilityDomainsGraph = TerraformResourceGraph{
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"availability_domain": availabilityDomainsGraph,
+	"analytics":           analyticsResourceGraph,
 	"apigateway":          apigatewayResourceGraph,
 	"auto_scaling":        autoScalingResourceGraph,
 	"bds":                 bdsResourceGraph,
@@ -77,6 +78,12 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
 	"waas":                waasResourceGraph,
+}
+
+var analyticsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportAnalyticsAnalyticsInstanceHints},
+	},
 }
 
 var apigatewayResourceGraph = TerraformResourceGraph{
