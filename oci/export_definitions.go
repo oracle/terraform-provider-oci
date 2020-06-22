@@ -4,6 +4,7 @@
 package oci
 
 import (
+	oci_analytics "github.com/oracle/oci-go-sdk/analytics"
 	oci_apigateway "github.com/oracle/oci-go-sdk/apigateway"
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
@@ -54,6 +55,17 @@ var exportApigatewayDeploymentHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_apigateway.DeploymentLifecycleStateActive),
+	},
+}
+
+var exportAnalyticsAnalyticsInstanceHints = &TerraformResourceHints{
+	resourceClass:          "oci_analytics_analytics_instance",
+	datasourceClass:        "oci_analytics_analytics_instances",
+	datasourceItemsAttr:    "analytics_instances",
+	resourceAbbreviation:   "analytics_instance",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_analytics.AnalyticsInstanceLifecycleStateActive),
 	},
 }
 

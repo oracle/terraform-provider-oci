@@ -90,6 +90,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported.
 * `output_path` - Path to output generated configurations and state files of the exported compartment
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
+    * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value.
@@ -212,6 +213,10 @@ The list of supported resources can also be retrieved by running this command:
 ```
 terraform-provider-oci -command=list_export_resources
 ```
+
+analytics
+    
+* oci\_analytics\_analytics\_instance
 
 apigateway
     
