@@ -280,3 +280,69 @@ variable "function_timeout_in_seconds" {
 variable "application_state" {
   default = "AVAILABLE"
 }
+
+/* Identity */
+
+variable "authentication_policy_password_policy_is_lowercase_characters_required" {
+  default = true
+}
+
+variable "authentication_policy_password_policy_is_numeric_characters_required" {
+  default = true
+}
+
+variable "authentication_policy_password_policy_is_special_characters_required" {
+  default = true
+}
+
+variable "authentication_policy_password_policy_is_uppercase_characters_required" {
+  default = true
+}
+
+variable "authentication_policy_password_policy_is_username_containment_allowed" {
+  default = false
+}
+
+variable "authentication_policy_password_policy_minimum_password_length" {
+  default = 11
+}
+
+variable "network_source_defined_tags_value" {
+  default = "value"
+}
+
+variable "network_source_description" {
+  default = "corporate ip ranges to be used for ip based authorization"
+}
+
+variable "network_source_freeform_tags" {
+  default = {
+    "Department" = "Finance"
+  }
+}
+
+variable "network_source_public_source_list" {
+  default = ["128.2.13.5"]
+}
+
+variable "network_source_services" {
+  default = ["all"]
+}
+
+variable "network_source_virtual_source_list" {
+  default = []
+}
+
+/* datascience */
+
+variable "datascience_notebook_session_shape" {
+  default = "VM.Standard.E2.2"
+}
+
+variable "datascience_model_artifact_content_length" {
+  default = "9"
+}
+
+variable "datascience_model_artifact" {
+  default = "./resources/model_artifact.xml"
+}

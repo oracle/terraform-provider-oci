@@ -46,7 +46,7 @@ resource "oci_core_instance_pool" "oci_core_instance_pool_rd" {
   }
 }
 
-resource "oci_autoscaling_auto_scaling_configuration" "cd" {
+resource "oci_autoscaling_auto_scaling_configuration" "autoscaling_auto_scaling_configuration_rd" {
   compartment_id       = "${var.compartment_ocid}"
   cool_down_in_seconds = "300"
   display_name         = "autoScalingConfigurationRD"

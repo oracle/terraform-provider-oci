@@ -53,7 +53,7 @@ resource "oci_core_network_security_group" "network_security_group_backup_rd" {
 }
 
 resource "oci_core_subnet" "subnet_rd" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "TestSubnet"
   dns_label           = "testsubnet"
@@ -62,9 +62,4 @@ resource "oci_core_subnet" "subnet_rd" {
   vcn_id              = "${oci_core_vcn.vcn_rd.id}"
   route_table_id      = "${oci_core_vcn.vcn_rd.default_route_table_id}"
   dhcp_options_id     = "${oci_core_vcn.vcn_rd.default_dhcp_options_id}"
-}
-
-data "oci_identity_availability_domain" "ad" {
-  compartment_id = "${var.tenancy_ocid}"
-  ad_number      = 1
 }
