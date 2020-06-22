@@ -458,3 +458,162 @@ variable "certificate_display_name" {
 variable "waas_policy_display_name" {
   default = "tf_example_waas_policy_rd"
 }
+
+/* dataflow */
+
+variable "application_driver_shape" {
+  default = "VM.Standard2.1"
+}
+
+variable "application_executor_shape" {
+  default = "VM.Standard2.1"
+}
+
+variable "application_language" {
+  default = "PYTHON"
+}
+
+variable "application_num_executors" {
+  default = 1
+}
+
+variable "application_spark_version" {
+  default = "2.4.4"
+}
+
+variable "application_file_uri" {
+  default = "oci://StreamingArchiverTestBucket@dxterraformdev/dataflowTestFile.py"
+}
+
+variable "application_archive_uri" {
+  default = "oci://StreamingArchiverTestBucket@dxterraformdev/dataflowTestFile.py.zip"
+}
+
+variable "application_warehouse_bucket_uri" {
+  default = "oci://dataflow-logs@dxterraformdev/"
+}
+
+variable "application_logs_bucket_uri" {
+  default = "oci://dataflow-logs@dxterraformdev/"
+}
+
+/* dns */
+
+variable "http_monitor_display_name_dns_rd" {
+  default = "httpMonitorDisplayNameDnsRD"
+}
+
+variable "steering_policy_answers_is_disabled" {
+  default = false
+}
+
+variable "steering_policy_answers_name" {
+  default = "name"
+}
+
+variable "steering_policy_answers_pool" {
+  default = "pool"
+}
+
+variable "steering_policy_answers_rdata" {
+  default = "192.0.2.1"
+}
+
+variable "steering_policy_answers_rtype" {
+  default = "A"
+}
+
+variable "steering_policy_display_name" {
+  default = "dnsSteeringPolicyRD"
+}
+
+variable "steering_policy_display_name_contains" {
+  default = "displayNameContains"
+}
+
+variable "steering_policy_freeform_tags" {
+  default = {
+    "bar-key" = "value"
+  }
+}
+
+variable "steering_policy_id" {
+  default = "id"
+}
+
+variable "steering_policy_rules_cases_answer_data_answer_condition" {
+  default = "answer.name == 'sampler'"
+}
+
+variable "steering_policy_rules_cases_answer_data_should_keep" {
+  default = false
+}
+
+variable "steering_policy_rules_cases_answer_data_value" {
+  default = 10
+}
+
+variable "steering_policy_rules_cases_case_condition" {
+  default = "query.client.address in (subnet '198.51.100.0/24')"
+}
+
+variable "steering_policy_rules_cases_count" {
+  default = 10
+}
+
+variable "steering_policy_rules_default_answer_data_answer_condition" {
+  default = "answer.name == 'sampler'"
+}
+
+variable "steering_policy_rules_default_answer_data_should_keep" {
+  default = false
+}
+
+variable "steering_policy_rules_default_answer_data_value" {
+  default = 10
+}
+
+variable "steering_policy_rules_default_count" {
+  default = 10
+}
+
+variable "steering_policy_rules_rule_type" {
+  default = "PRIORITY"
+}
+
+variable "steering_policy_state" {
+  default = "ACTIVE"
+}
+
+variable "steering_policy_template" {
+  default = "CUSTOM"
+}
+
+variable "steering_policy_time_created_greater_than_or_equal_to" {
+  default = "2018-01-01T00:00:00.000Z"
+}
+
+variable "steering_policy_time_created_less_than" {
+  default = "2038-01-01T00:00:00.000Z"
+}
+
+variable "steering_policy_ttl" {
+  default = 10
+}
+
+/* dns attachment */
+variable "steering_policy_attachment_display_name" {
+  default = "Test-Steering-Policy-Attachment"
+}
+
+variable "steering_policy_attachment_state" {
+  default = "ACTIVE"
+}
+
+variable "steering_policy_attachment_time_created_greater_than_or_equal_to" {
+  default = "2018-01-01T00:00:00.000Z"
+}
+
+variable "steering_policy_attachment_time_created_less_than" {
+  default = "2038-01-01T00:00:00.000Z"
+}
