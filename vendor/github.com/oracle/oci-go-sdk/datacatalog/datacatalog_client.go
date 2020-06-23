@@ -75,6 +75,58 @@ func (client *DataCatalogClient) ConfigurationProvider() *common.ConfigurationPr
 	return client.config
 }
 
+// AttachCatalogPrivateEndpoint Attaches a private reverse connection endpoint resource to a data catalog resource. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+func (client DataCatalogClient) AttachCatalogPrivateEndpoint(ctx context.Context, request AttachCatalogPrivateEndpointRequest) (response AttachCatalogPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachCatalogPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachCatalogPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachCatalogPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachCatalogPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachCatalogPrivateEndpointResponse")
+	}
+	return
+}
+
+// attachCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) attachCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/attachCatalogPrivateEndpoint")
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachCatalogPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeCatalogCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 func (client DataCatalogClient) ChangeCatalogCompartment(ctx context.Context, request ChangeCatalogCompartmentRequest) (response ChangeCatalogCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -110,6 +162,53 @@ func (client DataCatalogClient) changeCatalogCompartment(ctx context.Context, re
 	}
 
 	var response ChangeCatalogCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeCatalogPrivateEndpointCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+func (client DataCatalogClient) ChangeCatalogPrivateEndpointCompartment(ctx context.Context, request ChangeCatalogPrivateEndpointCompartmentRequest) (response ChangeCatalogPrivateEndpointCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeCatalogPrivateEndpointCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCatalogPrivateEndpointCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCatalogPrivateEndpointCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCatalogPrivateEndpointCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCatalogPrivateEndpointCompartmentResponse")
+	}
+	return
+}
+
+// changeCatalogPrivateEndpointCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) changeCatalogPrivateEndpointCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCatalogPrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -267,6 +366,58 @@ func (client DataCatalogClient) createCatalog(ctx context.Context, request commo
 	}
 
 	var response CreateCatalogResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateCatalogPrivateEndpoint Create a new private reverse connection endpoint.
+func (client DataCatalogClient) CreateCatalogPrivateEndpoint(ctx context.Context, request CreateCatalogPrivateEndpointRequest) (response CreateCatalogPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCatalogPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCatalogPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCatalogPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCatalogPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCatalogPrivateEndpointResponse")
+	}
+	return
+}
+
+// createCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) createCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogPrivateEndpoints")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCatalogPrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1096,6 +1247,53 @@ func (client DataCatalogClient) deleteCatalog(ctx context.Context, request commo
 	return response, err
 }
 
+// DeleteCatalogPrivateEndpoint Deletes a private reverse connection endpoint by identifier.
+func (client DataCatalogClient) DeleteCatalogPrivateEndpoint(ctx context.Context, request DeleteCatalogPrivateEndpointRequest) (response DeleteCatalogPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCatalogPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCatalogPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCatalogPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCatalogPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCatalogPrivateEndpointResponse")
+	}
+	return
+}
+
+// deleteCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) deleteCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCatalogPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteConnection Deletes a specific connection of a data asset.
 func (client DataCatalogClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1660,6 +1858,53 @@ func (client DataCatalogClient) deleteTermRelationship(ctx context.Context, requ
 	return response, err
 }
 
+// DetachCatalogPrivateEndpoint Detaches a private reverse connection endpoint resource to a data catalog resource. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+func (client DataCatalogClient) DetachCatalogPrivateEndpoint(ctx context.Context, request DetachCatalogPrivateEndpointRequest) (response DetachCatalogPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.detachCatalogPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachCatalogPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachCatalogPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachCatalogPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachCatalogPrivateEndpointResponse")
+	}
+	return
+}
+
+// detachCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) detachCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/detachCatalogPrivateEndpoint")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachCatalogPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ExpandTreeForGlossary Returns the fully expanded tree hierarchy of parent and child terms in this glossary.
 func (client DataCatalogClient) ExpandTreeForGlossary(ctx context.Context, request ExpandTreeForGlossaryRequest) (response ExpandTreeForGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1893,6 +2138,53 @@ func (client DataCatalogClient) getCatalog(ctx context.Context, request common.O
 	}
 
 	var response GetCatalogResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCatalogPrivateEndpoint Gets a specific private reverse connection by identifier.
+func (client DataCatalogClient) GetCatalogPrivateEndpoint(ctx context.Context, request GetCatalogPrivateEndpointRequest) (response GetCatalogPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCatalogPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCatalogPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCatalogPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCatalogPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCatalogPrivateEndpointResponse")
+	}
+	return
+}
+
+// getCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) getCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCatalogPrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2890,6 +3182,53 @@ func (client DataCatalogClient) listAttributes(ctx context.Context, request comm
 	}
 
 	var response ListAttributesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCatalogPrivateEndpoints Returns a list of all the catalog private endpoints in the specified compartment.
+func (client DataCatalogClient) ListCatalogPrivateEndpoints(ctx context.Context, request ListCatalogPrivateEndpointsRequest) (response ListCatalogPrivateEndpointsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCatalogPrivateEndpoints, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCatalogPrivateEndpointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCatalogPrivateEndpointsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCatalogPrivateEndpointsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCatalogPrivateEndpointsResponse")
+	}
+	return
+}
+
+// listCatalogPrivateEndpoints implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) listCatalogPrivateEndpoints(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogPrivateEndpoints")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCatalogPrivateEndpointsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -4169,6 +4508,53 @@ func (client DataCatalogClient) updateCatalog(ctx context.Context, request commo
 	}
 
 	var response UpdateCatalogResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCatalogPrivateEndpoint Updates the private reverse connection endpoint.
+func (client DataCatalogClient) UpdateCatalogPrivateEndpoint(ctx context.Context, request UpdateCatalogPrivateEndpointRequest) (response UpdateCatalogPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCatalogPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCatalogPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCatalogPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCatalogPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCatalogPrivateEndpointResponse")
+	}
+	return
+}
+
+// updateCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) updateCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCatalogPrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

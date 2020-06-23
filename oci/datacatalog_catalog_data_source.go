@@ -67,6 +67,8 @@ func (s *DatacatalogCatalogDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("attached_catalog_private_endpoints", s.Res.AttachedCatalogPrivateEndpoints)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

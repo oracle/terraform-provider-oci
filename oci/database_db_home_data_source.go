@@ -83,9 +83,15 @@ func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 		s.D.Set("db_version", *s.Res.DbVersion)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)

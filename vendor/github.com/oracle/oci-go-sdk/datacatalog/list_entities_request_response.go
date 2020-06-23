@@ -22,7 +22,7 @@ type ListEntitiesRequest struct {
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListEntitiesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Time that the resource was created. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreated"`
@@ -58,7 +58,7 @@ type ListEntitiesRequest struct {
 	Path *string `mandatory:"false" contributesTo:"query" name:"path"`
 
 	// Harvest status of the harvestable resource as updated by the harvest process.
-	HarvestStatus HarvestStatusEnum `mandatory:"false" contributesTo:"query" name:"harvestStatus" omitEmpty:"true"`
+	HarvestStatus ListEntitiesHarvestStatusEnum `mandatory:"false" contributesTo:"query" name:"harvestStatus" omitEmpty:"true"`
 
 	// Key of the last harvest process to update this resource.
 	LastJobKey *string `mandatory:"false" contributesTo:"query" name:"lastJobKey"`
@@ -124,6 +124,68 @@ func (response ListEntitiesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListEntitiesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListEntitiesLifecycleStateEnum Enum with underlying type: string
+type ListEntitiesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListEntitiesLifecycleStateEnum
+const (
+	ListEntitiesLifecycleStateCreating ListEntitiesLifecycleStateEnum = "CREATING"
+	ListEntitiesLifecycleStateActive   ListEntitiesLifecycleStateEnum = "ACTIVE"
+	ListEntitiesLifecycleStateInactive ListEntitiesLifecycleStateEnum = "INACTIVE"
+	ListEntitiesLifecycleStateUpdating ListEntitiesLifecycleStateEnum = "UPDATING"
+	ListEntitiesLifecycleStateDeleting ListEntitiesLifecycleStateEnum = "DELETING"
+	ListEntitiesLifecycleStateDeleted  ListEntitiesLifecycleStateEnum = "DELETED"
+	ListEntitiesLifecycleStateFailed   ListEntitiesLifecycleStateEnum = "FAILED"
+	ListEntitiesLifecycleStateMoving   ListEntitiesLifecycleStateEnum = "MOVING"
+)
+
+var mappingListEntitiesLifecycleState = map[string]ListEntitiesLifecycleStateEnum{
+	"CREATING": ListEntitiesLifecycleStateCreating,
+	"ACTIVE":   ListEntitiesLifecycleStateActive,
+	"INACTIVE": ListEntitiesLifecycleStateInactive,
+	"UPDATING": ListEntitiesLifecycleStateUpdating,
+	"DELETING": ListEntitiesLifecycleStateDeleting,
+	"DELETED":  ListEntitiesLifecycleStateDeleted,
+	"FAILED":   ListEntitiesLifecycleStateFailed,
+	"MOVING":   ListEntitiesLifecycleStateMoving,
+}
+
+// GetListEntitiesLifecycleStateEnumValues Enumerates the set of values for ListEntitiesLifecycleStateEnum
+func GetListEntitiesLifecycleStateEnumValues() []ListEntitiesLifecycleStateEnum {
+	values := make([]ListEntitiesLifecycleStateEnum, 0)
+	for _, v := range mappingListEntitiesLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListEntitiesHarvestStatusEnum Enum with underlying type: string
+type ListEntitiesHarvestStatusEnum string
+
+// Set of constants representing the allowable values for ListEntitiesHarvestStatusEnum
+const (
+	ListEntitiesHarvestStatusComplete   ListEntitiesHarvestStatusEnum = "COMPLETE"
+	ListEntitiesHarvestStatusError      ListEntitiesHarvestStatusEnum = "ERROR"
+	ListEntitiesHarvestStatusInProgress ListEntitiesHarvestStatusEnum = "IN_PROGRESS"
+	ListEntitiesHarvestStatusDeferred   ListEntitiesHarvestStatusEnum = "DEFERRED"
+)
+
+var mappingListEntitiesHarvestStatus = map[string]ListEntitiesHarvestStatusEnum{
+	"COMPLETE":    ListEntitiesHarvestStatusComplete,
+	"ERROR":       ListEntitiesHarvestStatusError,
+	"IN_PROGRESS": ListEntitiesHarvestStatusInProgress,
+	"DEFERRED":    ListEntitiesHarvestStatusDeferred,
+}
+
+// GetListEntitiesHarvestStatusEnumValues Enumerates the set of values for ListEntitiesHarvestStatusEnum
+func GetListEntitiesHarvestStatusEnumValues() []ListEntitiesHarvestStatusEnum {
+	values := make([]ListEntitiesHarvestStatusEnum, 0)
+	for _, v := range mappingListEntitiesHarvestStatus {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListEntitiesFieldsEnum Enum with underlying type: string

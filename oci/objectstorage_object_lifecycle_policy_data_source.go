@@ -92,17 +92,25 @@ func (s *ObjectStorageObjectLifecyclePolicyDataSourceCrud) SetData() error {
 }
 
 func fixupObjectNameFilterInclusionPrefixesAsList(objectLifecycleRuleMap map[string]interface{}) {
-	objectNameFilterList := objectLifecycleRuleMap["object_name_filter"].([]interface{})
-	if objectNameFilterList != nil {
-		firstElement := objectNameFilterList[0]
-		objectNameFilterMap := firstElement.(map[string]interface{})
-		inclusionPrefixesSet := objectNameFilterMap["inclusion_prefixes"].(*schema.Set)
-		objectNameFilterMap["inclusion_prefixes"] = inclusionPrefixesSet.List()
+	if objectNameFilterList, exists := objectLifecycleRuleMap["object_name_filter"]; exists {
+		if objectNameFilterList, ok := objectNameFilterList.([]interface{}); ok && len(objectNameFilterList) > 0 {
+			firstElement := objectNameFilterList[0]
 
-		inclusionPatternsSet := objectNameFilterMap["inclusion_patterns"].(*schema.Set)
-		objectNameFilterMap["inclusion_patterns"] = inclusionPatternsSet.List()
+			if objectNameFilterMap, ok := firstElement.(map[string]interface{}); ok {
+				if inclusionPrefixesSet, ok := objectNameFilterMap["inclusion_prefixes"].(*schema.Set); ok {
+					objectNameFilterMap["inclusion_prefixes"] = inclusionPrefixesSet.List()
+				}
 
-		exclusionPatternsSet := objectNameFilterMap["exclusion_patterns"].(*schema.Set)
-		objectNameFilterMap["exclusion_patterns"] = exclusionPatternsSet.List()
+				if inclusionPatternsSet, ok := objectNameFilterMap["inclusion_patterns"].(*schema.Set); ok {
+					objectNameFilterMap["inclusion_patterns"] = inclusionPatternsSet.List()
+				}
+
+				if exclusionPatternsSet, ok := objectNameFilterMap["exclusion_patterns"].(*schema.Set); ok {
+					objectNameFilterMap["exclusion_patterns"] = exclusionPatternsSet.List()
+				}
+			}
+
+		}
+
 	}
 }

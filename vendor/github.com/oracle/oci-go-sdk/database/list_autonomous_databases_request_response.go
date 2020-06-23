@@ -31,6 +31,9 @@ type ListAutonomousDatabasesRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListAutonomousDatabasesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// A filter to return only resources that match the given Infrastructure Type.
+	InfrastructureType AutonomousDatabaseSummaryInfrastructureTypeEnum `mandatory:"false" contributesTo:"query" name:"infrastructureType" omitEmpty:"true"`
+
 	// A filter to return only resources that match the given lifecycle state exactly.
 	LifecycleState AutonomousDatabaseSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

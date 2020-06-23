@@ -25,7 +25,7 @@ type ListCatalogsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListCatalogsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListCatalogsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
@@ -79,6 +79,41 @@ func (response ListCatalogsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListCatalogsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListCatalogsLifecycleStateEnum Enum with underlying type: string
+type ListCatalogsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListCatalogsLifecycleStateEnum
+const (
+	ListCatalogsLifecycleStateCreating ListCatalogsLifecycleStateEnum = "CREATING"
+	ListCatalogsLifecycleStateActive   ListCatalogsLifecycleStateEnum = "ACTIVE"
+	ListCatalogsLifecycleStateInactive ListCatalogsLifecycleStateEnum = "INACTIVE"
+	ListCatalogsLifecycleStateUpdating ListCatalogsLifecycleStateEnum = "UPDATING"
+	ListCatalogsLifecycleStateDeleting ListCatalogsLifecycleStateEnum = "DELETING"
+	ListCatalogsLifecycleStateDeleted  ListCatalogsLifecycleStateEnum = "DELETED"
+	ListCatalogsLifecycleStateFailed   ListCatalogsLifecycleStateEnum = "FAILED"
+	ListCatalogsLifecycleStateMoving   ListCatalogsLifecycleStateEnum = "MOVING"
+)
+
+var mappingListCatalogsLifecycleState = map[string]ListCatalogsLifecycleStateEnum{
+	"CREATING": ListCatalogsLifecycleStateCreating,
+	"ACTIVE":   ListCatalogsLifecycleStateActive,
+	"INACTIVE": ListCatalogsLifecycleStateInactive,
+	"UPDATING": ListCatalogsLifecycleStateUpdating,
+	"DELETING": ListCatalogsLifecycleStateDeleting,
+	"DELETED":  ListCatalogsLifecycleStateDeleted,
+	"FAILED":   ListCatalogsLifecycleStateFailed,
+	"MOVING":   ListCatalogsLifecycleStateMoving,
+}
+
+// GetListCatalogsLifecycleStateEnumValues Enumerates the set of values for ListCatalogsLifecycleStateEnum
+func GetListCatalogsLifecycleStateEnumValues() []ListCatalogsLifecycleStateEnum {
+	values := make([]ListCatalogsLifecycleStateEnum, 0)
+	for _, v := range mappingListCatalogsLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListCatalogsSortOrderEnum Enum with underlying type: string

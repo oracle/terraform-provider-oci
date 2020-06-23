@@ -150,9 +150,15 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 			dbHome["db_version"] = *r.DbVersion
 		}
 
+		if r.DefinedTags != nil {
+			dbHome["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			dbHome["display_name"] = *r.DisplayName
 		}
+
+		dbHome["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			dbHome["id"] = *r.Id

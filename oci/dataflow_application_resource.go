@@ -62,6 +62,11 @@ func DataflowApplicationResource() *schema.Resource {
 			},
 
 			// Optional
+			"archive_uri": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"arguments": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -223,6 +228,11 @@ func (s *DataflowApplicationResourceCrud) DeletedTarget() []string {
 func (s *DataflowApplicationResourceCrud) Create() error {
 	request := oci_dataflow.CreateApplicationRequest{}
 
+	if archiveUri, ok := s.D.GetOkExists("archive_uri"); ok {
+		tmp := archiveUri.(string)
+		request.ArchiveUri = &tmp
+	}
+
 	if arguments, ok := s.D.GetOkExists("arguments"); ok {
 		interfaces := arguments.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -371,6 +381,11 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ApplicationId = &tmp
 
+	if archiveUri, ok := s.D.GetOkExists("archive_uri"); ok {
+		tmp := archiveUri.(string)
+		request.ArchiveUri = &tmp
+	}
+
 	if arguments, ok := s.D.GetOkExists("arguments"); ok {
 		interfaces := arguments.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -495,6 +510,10 @@ func (s *DataflowApplicationResourceCrud) Delete() error {
 }
 
 func (s *DataflowApplicationResourceCrud) SetData() error {
+	if s.Res.ArchiveUri != nil {
+		s.D.Set("archive_uri", *s.Res.ArchiveUri)
+	}
+
 	s.D.Set("arguments", s.Res.Arguments)
 
 	if s.Res.ClassName != nil {

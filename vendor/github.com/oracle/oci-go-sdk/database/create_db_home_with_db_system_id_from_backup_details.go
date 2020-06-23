@@ -24,11 +24,30 @@ type CreateDbHomeWithDbSystemIdFromBackupDetails struct {
 
 	// The user-provided name of the Database Home.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 //GetDisplayName returns DisplayName
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+//GetFreeformTags returns FreeformTags
+func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) String() string {

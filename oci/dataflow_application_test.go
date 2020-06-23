@@ -48,6 +48,7 @@ var (
 		"language":             Representation{repType: Required, create: `PYTHON`, update: `SCALA`},
 		"num_executors":        Representation{repType: Required, create: `1`, update: `2`},
 		"spark_version":        Representation{repType: Required, create: `2.4`, update: `2.4.4`},
+		"archive_uri":          Representation{repType: Optional, create: `${var.dataflow_archive_uri}`},
 		"arguments":            Representation{repType: Optional, create: []string{`arguments`}, update: []string{`arguments2`}},
 		"configuration":        Representation{repType: Optional, create: map[string]string{"spark.shuffle.io.maxRetries": "10"}, update: map[string]string{"spark.shuffle.io.maxRetries": "11"}},
 		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -81,6 +82,8 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 	fileUriUpdated := getEnvSettingWithBlankDefault("dataflow_file_uri_updated")
 	fileUriVariableStr := fmt.Sprintf("variable \"dataflow_file_uri\" { default = \"%s\" }\n", fileUri)
 	fileUriVariableStrUpdated := fmt.Sprintf("variable \"dataflow_file_uri_updated\" { default = \"%s\" }\n", fileUriUpdated)
+	archiveUri := getEnvSettingWithBlankDefault("dataflow_archive_uri")
+	archiveUriVariableStr := fmt.Sprintf("variable \"dataflow_archive_uri\" { default = \"%s\" }\n", archiveUri)
 
 	logsBucketUri := getEnvSettingWithBlankDefault("dataflow_logs_bucket_uri")
 	logsBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_logs_bucket_uri\" { default = \"%s\" }\n", logsBucketUri)
@@ -103,7 +106,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -124,13 +127,14 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies,
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, dataFlowApplicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
@@ -169,12 +173,13 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApplicationResourceDependencies + fileUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create,
 						representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
@@ -211,12 +216,13 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update,
 						representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 							"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
@@ -255,7 +261,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications", Optional, Update, dataFlowApplicationDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
+					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),
@@ -280,13 +286,14 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
+					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "archive_uri"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.%", "1"),
@@ -314,7 +321,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + fileUriVariableStrUpdated + classNameStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + classNameStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),

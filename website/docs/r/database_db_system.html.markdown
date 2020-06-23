@@ -63,7 +63,9 @@ resource "oci_database_db_system" "test_db_system" {
 
 		#Optional
 		db_version = "${var.db_system_db_home_db_version}"
+		defined_tags = "${var.db_system_db_home_defined_tags}"
 		display_name = "${var.db_system_db_home_display_name}"
+		freeform_tags = "${var.db_system_db_home_freeform_tags}"
 	}
 	hostname = "${var.db_system_hostname}"
 	shape = "${var.db_system_shape}"
@@ -165,7 +167,9 @@ The following arguments are supported:
 		* `pdb_name` - (Applicable when source=NONE) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 		* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
 	* `db_version` - (Required when source=NONE) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
+	* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `display_name` - (Optional) The user-provided name of the Database Home.
+	* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `db_system_options` - (Optional) 
 	* `storage_management` - (Optional) The storage option used in DB system. ASM - Automatic storage management LVM - Logical Volume management 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 

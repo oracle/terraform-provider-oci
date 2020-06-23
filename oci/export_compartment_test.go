@@ -4,7 +4,13 @@
 package oci
 
 import (
+	"archive/zip"
+	"bytes"
+	"context"
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
 	"regexp"
 	"strconv"
@@ -12,6 +18,8 @@ import (
 	"testing"
 	"time"
 
+	oci_common "github.com/oracle/oci-go-sdk/common"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -34,6 +42,24 @@ var exportParentDefinition = &TerraformResourceHints{
 
 var exportChildDefinition = &TerraformResourceHints{
 	resourceClass:               "oci_test_child",
+	datasourceClass:             "oci_test_children",
+	resourceAbbreviation:        "child",
+	datasourceItemsAttr:         "item_summaries",
+	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+	requireResourceRefresh:      true,
+}
+
+var exportParentDefinitionWithFaultyDatasource = &TerraformResourceHints{
+	resourceClass:               "oci_test_parent",
+	datasourceClass:             "oci_test_error_parents",
+	resourceAbbreviation:        "parent",
+	datasourceItemsAttr:         "items",
+	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+	alwaysExportable:            true,
+}
+
+var exportChildDefinitionWithFaultyDatasource = &TerraformResourceHints{
+	resourceClass:               "oci_test_error_child",
 	datasourceClass:             "oci_test_children",
 	resourceAbbreviation:        "child",
 	datasourceItemsAttr:         "item_summaries",
@@ -64,6 +90,28 @@ var compartmentTestingResourceGraph = TerraformResourceGraph{
 	"oci_test_parent": {
 		{
 			TerraformResourceHints: exportChildDefinition,
+			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+		},
+	},
+}
+
+var compartmentTestingResourceGraphWithFaultyParentResource = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{
+			TerraformResourceHints: exportParentDefinitionWithFaultyDatasource,
+		},
+	},
+}
+
+var compartmentTestingResourceGraphWithFaultyChildResource = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{
+			TerraformResourceHints: exportParentDefinition,
+		},
+	},
+	"oci_test_parent": {
+		{
+			TerraformResourceHints: exportChildDefinitionWithFaultyDatasource,
 			datasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 	},
@@ -253,6 +301,45 @@ func testChildrenDatasource() *schema.Resource {
 	}
 }
 
+func testParentsDatasourceWithError() *schema.Resource {
+	return &schema.Resource{
+		Read: listTestParentsWithError,
+		Schema: map[string]*schema.Schema{
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"items": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     GetDataSourceItemSchema(testParentResource()),
+			},
+		},
+	}
+}
+
+func testChildResourceWithError() *schema.Resource {
+	// Reuse the parent schema and add a parent dependency attribute
+	childResourceSchema := testParentResource().Schema
+	childResourceSchema["parent_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+
+	// Don't have a display_name attribute so a different name can be generated
+	delete(childResourceSchema, "display_name")
+
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Create: createTestChild,
+		Read:   readTestChildWithError,
+		Delete: deleteTestChild,
+		Schema: childResourceSchema,
+	}
+}
+
 func createTestParent(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
@@ -282,6 +369,10 @@ func listTestParents(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
+func listTestParentsWithError(d *schema.ResourceData, m interface{}) error {
+	return fmt.Errorf("could not find resources: error in listTestParentsWithError")
+}
+
 func deleteTestParent(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
@@ -300,6 +391,10 @@ func readTestChild(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("could not find child with id %s", d.Id())
 	}
 	return nil
+}
+
+func readTestChildWithError(d *schema.ResourceData, m interface{}) error {
+	return fmt.Errorf("could not find child with id %s", d.Id())
 }
 
 func listTestChildren(d *schema.ResourceData, m interface{}) error {
@@ -341,8 +436,11 @@ func initResourceDiscoveryTests() {
 
 	resourcesMap["oci_test_parent"] = testParentResource()
 	resourcesMap["oci_test_child"] = testChildResource()
+	resourcesMap["oci_test_error_child"] = testChildResourceWithError()
+
 	datasourcesMap["oci_test_parents"] = testParentsDatasource()
 	datasourcesMap["oci_test_children"] = testChildrenDatasource()
+	datasourcesMap["oci_test_error_parents"] = testParentsDatasourceWithError()
 
 	tenancyResourceGraphs["tenancy_testing"] = tenancyTestingResourceGraph
 	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
@@ -353,8 +451,10 @@ func initResourceDiscoveryTests() {
 func cleanupResourceDiscoveryTests() {
 	delete(resourcesMap, "oci_test_parent")
 	delete(resourcesMap, "oci_test_child")
+	delete(resourcesMap, "oci_test_error_child")
 	delete(datasourcesMap, "oci_test_parents")
 	delete(datasourcesMap, "oci_test_children")
+	delete(datasourcesMap, "oci_test_error_children")
 }
 
 func initTestResources() {
@@ -479,7 +579,7 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 			TFVersion:     &tfHclVersion,
 		}
 
-		if err = RunExportCommand(args); err != nil {
+		if err, _ = RunExportCommand(args); err != nil {
 			t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
 			t.Fail()
 		}
@@ -522,9 +622,59 @@ func TestUnitRunExportCommand_error(t *testing.T) {
 		GenerateState: false,
 		TFVersion:     &tfHclVersion,
 	}
-	if err = RunExportCommand(args); err == nil {
+	if err, _ = RunExportCommand(args); err == nil {
 		t.Logf("export command expected to fail due to non-existent path, but it succeeded")
 		t.Fail()
+	}
+
+	os.RemoveAll(outputDir)
+}
+
+// Test exit status in case of partial success
+func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
+	initResourceDiscoveryTests()
+	// Replace compartmentResourceGraphs with the one having resource that has error in read
+	// Status returned should be StatusPartialSuccess
+	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraphWithFaultyParentResource
+
+	defer cleanupResourceDiscoveryTests()
+	compartmentId := resourceDiscoveryTestCompartmentOcid
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+
+	tfHclVersion = &TfHclVersion12{}
+	args := &ExportCommandArgs{
+		CompartmentId: &compartmentId,
+		Services:      []string{"compartment_testing", "tenancy_testing"},
+		OutputDir:     &outputDir,
+		GenerateState: false,
+		TFVersion:     &tfHclVersion,
+	}
+
+	if err, status := RunExportCommand(args); err != nil {
+		t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
+		t.Fail()
+	} else if status != StatusPartialSuccess {
+		t.Logf("(TF version %s) export command returned unexpected Exit Status: %v", tfHclVersion.toString(), status)
+		t.Fail()
+	}
+
+	if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
+		t.Logf("(TF version %s) no tenancy_testing.tf file generated", tfHclVersion.toString())
+		t.Fail()
+	}
+
+	if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
+		t.Logf("(TF version %s) no compartment_testing.tf file generated", tfHclVersion.toString())
+		t.Fail()
+	}
+
+	if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
+		t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tfHclVersion.toString())
 	}
 
 	os.RemoveAll(outputDir)
@@ -536,7 +686,10 @@ func TestUnitFindResources_basic(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -560,6 +713,26 @@ func TestUnitFindResources_basic(t *testing.T) {
 				t.Fail()
 			}
 		}
+	}
+}
+
+// Test that errorList has errors if resources are not found
+func TestUnitFindResources_errorList(t *testing.T) {
+	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	_, err := findResources(ctx, rootResource, compartmentTestingResourceGraphWithFaultyChildResource)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+	if len(ctx.errorList) == 0 {
+		t.Logf("expected errors for failed resources in resourceDiscoveryContext errorList but found none")
+		t.Fail()
 	}
 }
 
@@ -596,7 +769,12 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 			t.Logf(ocid)
 		}
 
-		results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, restrictedOcids)
+		ctx := &resourceDiscoveryContext{
+			expectedResourceIds: restrictedOcids,
+			errorList:           ErrorList{},
+		}
+
+		results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 		if err != nil {
 			t.Logf("got error from findResources: %v", err)
 			t.Fail()
@@ -627,7 +805,10 @@ func TestUnitFindResources_overrideFn(t *testing.T) {
 	}
 	defer func() { exportChildDefinition.findResourcesOverrideFn = nil }()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -662,7 +843,10 @@ func TestUnitFindResources_processResourceFn(t *testing.T) {
 	}
 	defer func() { exportChildDefinition.processDiscoveredResourcesFn = nil }()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -747,7 +931,10 @@ func TestUnitGetHCLString_basic(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -823,7 +1010,10 @@ func TestUnitGetHCLString_missingFields(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -865,7 +1055,10 @@ func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -913,7 +1106,10 @@ func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	results, err := findResources(nil, rootResource, compartmentTestingResourceGraph, nil)
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
@@ -965,4 +1161,146 @@ func TestUnitGetExportConfig(t *testing.T) {
 	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", getExportConfig)           // correct profileName with mix and match & env
 	defer removeFile(configFile)
 	defer removeFile(keyFile)
+}
+
+/*
+This test is used to destroy and re-create resources in a compartment using ORM stack
+DO NOT RUN THIS TEST LOCALLY AS IT WILL DESTROY INFRASTRUCTURE
+*/
+func TestResourceDiscoveryCreateResourcesUsingStack(t *testing.T) {
+	// env var check so as to prevent local run of this test.
+	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(getEnvSettingWithDefault("recreate_rd_resources", "false")); !reCreateResourceDiscoveryResources {
+		return
+	}
+	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
+	stackId := getEnvSettingWithBlankDefault("stack_id")
+	if stackId == "" {
+		t.Skip("Dependency stack_id not defined for test")
+	}
+	// Destroy resources using stack destroy job
+	isAutoApproved := true
+	destroyJobRequest := oci_resourcemanager.CreateJobRequest{
+		CreateJobDetails: oci_resourcemanager.CreateJobDetails{
+			StackId:   &stackId,
+			Operation: oci_resourcemanager.JobOperationDestroy,
+			ApplyJobPlanResolution: &oci_resourcemanager.ApplyJobPlanResolution{
+				IsAutoApproved: &isAutoApproved,
+			},
+		},
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: getRetryPolicy(false, "resourcemanager"),
+		},
+	}
+	destroyJobRequest.RequestMetadata.RetryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
+
+	destroyJobResponse, err := resourceManagerClient.CreateJob(context.Background(), destroyJobRequest)
+
+	if err != nil {
+		log.Fatalf("[ERROR] error in destroy job for stack: %v", err)
+	}
+
+	retryPolicy := getRetryPolicy(false, "resourcemanager")
+	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(15*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
+
+	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
+		JobId: destroyJobResponse.Id,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	if err != nil {
+		log.Fatalf("[WARN] wait for jobSuccessWaitCondition failed for %s resource with error %v", *destroyJobResponse.Id, err)
+	} else {
+		log.Printf("[INFO] end of jobSuccessWaitCondition for resource %s ", *destroyJobResponse.Id)
+	}
+
+	// Update zip file in stack to use the latest `examples/resource_discovery/*`
+
+	buf := new(bytes.Buffer)
+	zipWriter := zip.NewWriter(buf)
+	basePath := "../examples/resource_discovery/"
+	files, err := ioutil.ReadDir(basePath)
+	if err != nil {
+		log.Fatalf("[ERROR] unable to read files from resource manager example (%s): %v", basePath, err)
+	}
+
+	//Add files to zip
+	for _, file := range files {
+		if !strings.HasSuffix(file.Name(), ".tf") {
+			continue
+		}
+		data, err := ioutil.ReadFile(basePath + file.Name())
+		if err != nil {
+			log.Fatalf("[ERROR] read config file: %v", err)
+		}
+
+		f, err := zipWriter.Create(file.Name())
+		if err != nil {
+			log.Fatalf("[ERROR] cannot create file for zip configuration: %v", err)
+		}
+		_, err = f.Write(data)
+		if err != nil {
+			log.Fatalf("[ERROR] cannot write tf configuration to zip archive: %v", err)
+		}
+	}
+	// close zip writer
+	err = zipWriter.Close()
+	if err != nil {
+		log.Fatalf("[ERROR] cannot close zip writer: %v", err)
+	}
+
+	encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
+	log.Printf(encoded)
+
+	updateStackRequest := oci_resourcemanager.UpdateStackRequest{
+		StackId: &stackId,
+		UpdateStackDetails: oci_resourcemanager.UpdateStackDetails{
+			ConfigSource: oci_resourcemanager.UpdateZipUploadConfigSourceDetails{
+				ZipFileBase64Encoded: &encoded,
+			},
+		},
+	}
+	_, err = resourceManagerClient.UpdateStack(context.Background(), updateStackRequest)
+
+	if err != nil {
+		log.Fatalf("[ERROR] cannot update configuration for resource discovery example in stack: %v", err)
+	}
+
+	// recreate resources using stack apply Job
+	applyJobRequest := oci_resourcemanager.CreateJobRequest{
+		CreateJobDetails: oci_resourcemanager.CreateJobDetails{
+			StackId:   &stackId,
+			Operation: oci_resourcemanager.JobOperationApply,
+			ApplyJobPlanResolution: &oci_resourcemanager.ApplyJobPlanResolution{
+				IsAutoApproved: &isAutoApproved,
+			},
+		},
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: getRetryPolicy(false, "resourcemanager"),
+		},
+	}
+	applyJobResponse, err := resourceManagerClient.CreateJob(context.Background(), applyJobRequest)
+
+	if err != nil {
+		log.Fatalf("[ERROR] error in apply job for stack: %s", err.Error())
+	}
+
+	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
+		JobId: applyJobResponse.Id,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	if err != nil {
+		log.Fatalf("[WARN] wait for jobSuccessWaitCondition failed for %s resource with error %v", *applyJobResponse.Id, err)
+	} else {
+		log.Printf("[INFO] end of jobSuccessWaitCondition for resource %s ", *applyJobResponse.Id)
+	}
+}
+
+func jobSuccessWaitCondition(response oci_common.OCIOperationResponse) bool {
+	if jobResponse, ok := response.Response.(oci_resourcemanager.GetJobResponse); ok {
+		return jobResponse.LifecycleState != oci_resourcemanager.JobLifecycleStateSucceeded
+	}
+	return false
 }

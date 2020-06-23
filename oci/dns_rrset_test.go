@@ -23,6 +23,16 @@ var (
 	RrsetRequiredOnlyResource = RrsetResourceDependencies +
 		generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetRepresentation)
 
+	RrsetResourceConfig = RrsetResourceDependencies +
+		generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentation)
+
+	rrsetSingularDataSourceRepresentation = map[string]interface{}{
+		"domain":          Representation{repType: Required, create: dnsDomainName},
+		"rtype":           Representation{repType: Required, create: `A`},
+		"zone_name_or_id": Representation{repType: Required, create: `${oci_dns_zone.test_zone.id}`},
+		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
+	}
+
 	dnsDomainName       = randomString(5, charsetWithoutDigits) + ".token.oci-record-test"
 	rrsetRepresentation = map[string]interface{}{
 		"domain":          Representation{repType: Required, create: dnsDomainName},
@@ -63,6 +73,8 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_rrset.test_rrset"
+
+	singularDatasourceName := "data.oci_dns_rrset.test_rrset"
 
 	var resId, resId2 string
 
@@ -149,6 +161,34 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 						return err
 					},
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + RrsetResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularDatasourceName, "domain", dnsDomainName),
+					resource.TestCheckResourceAttr(singularDatasourceName, "rtype", "A"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_name_or_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "1"),
+					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "items", map[string]string{
+						"domain": dnsDomainName,
+						"rdata":  "77.77.77.77",
+						"rtype":  "A",
+						"ttl":    "1000",
+					},
+						[]string{
+							"is_protected",
+							"record_hash",
+							"rrset_version",
+						}),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + RrsetResourceConfig,
 			},
 			// verify resource import
 			{

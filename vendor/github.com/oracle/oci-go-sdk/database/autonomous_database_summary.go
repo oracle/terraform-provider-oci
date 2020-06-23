@@ -51,6 +51,9 @@ type AutonomousDatabaseSummary struct {
 	// The date and time the Always Free database will be automatically deleted because of inactivity. If the database is in the STOPPED state and without activity until this time, it will be deleted.
 	TimeDeletionOfFreeAutonomousDatabase *common.SDKTime `mandatory:"false" json:"timeDeletionOfFreeAutonomousDatabase"`
 
+	// The infrastructure type this resource belongs to.
+	InfrastructureType AutonomousDatabaseSummaryInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
+
 	// True if the database uses dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).
 	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
@@ -196,6 +199,29 @@ var mappingAutonomousDatabaseSummaryLifecycleState = map[string]AutonomousDataba
 func GetAutonomousDatabaseSummaryLifecycleStateEnumValues() []AutonomousDatabaseSummaryLifecycleStateEnum {
 	values := make([]AutonomousDatabaseSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingAutonomousDatabaseSummaryLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseSummaryInfrastructureTypeEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryInfrastructureTypeEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryInfrastructureTypeEnum
+const (
+	AutonomousDatabaseSummaryInfrastructureTypeCloud           AutonomousDatabaseSummaryInfrastructureTypeEnum = "CLOUD"
+	AutonomousDatabaseSummaryInfrastructureTypeCloudAtCustomer AutonomousDatabaseSummaryInfrastructureTypeEnum = "CLOUD_AT_CUSTOMER"
+)
+
+var mappingAutonomousDatabaseSummaryInfrastructureType = map[string]AutonomousDatabaseSummaryInfrastructureTypeEnum{
+	"CLOUD":             AutonomousDatabaseSummaryInfrastructureTypeCloud,
+	"CLOUD_AT_CUSTOMER": AutonomousDatabaseSummaryInfrastructureTypeCloudAtCustomer,
+}
+
+// GetAutonomousDatabaseSummaryInfrastructureTypeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryInfrastructureTypeEnum
+func GetAutonomousDatabaseSummaryInfrastructureTypeEnumValues() []AutonomousDatabaseSummaryInfrastructureTypeEnum {
+	values := make([]AutonomousDatabaseSummaryInfrastructureTypeEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryInfrastructureType {
 		values = append(values, v)
 	}
 	return values

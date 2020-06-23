@@ -17,6 +17,19 @@ provider "oci" {
 }
 
 resource "oci_datacatalog_catalog" test_oci_datacatalog_catalog {
+  compartment_id                     = "${var.compartment_id}"
+  attached_catalog_private_endpoints = ["${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}"]
+}
+
+resource "oci_datacatalog_catalog_private_endpoint" "test_catalog_private_endpoint" {
+  #Required
+  compartment_id = "${var.compartment_id}"
+  dns_zones      = ["custpvtsubnet.oraclevcn.com"]
+  subnet_id      = "${oci_core_subnet.test_subnet.id}"
+}
+
+data "oci_datacatalog_catalog_private_endpoints" "test_catalog_private_endpoints" {
+  #Required
   compartment_id = "${var.compartment_id}"
 }
 

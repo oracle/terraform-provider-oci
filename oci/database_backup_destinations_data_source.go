@@ -135,6 +135,14 @@ func (s *DatabaseBackupDestinationsDataSourceCrud) SetData() error {
 			backupDestination["local_mount_point_path"] = *r.LocalMountPointPath
 		}
 
+		backupDestination["nfs_mount_type"] = r.NfsMountType
+
+		backupDestination["nfs_server"] = r.NfsServer
+
+		if r.NfsServerExport != nil {
+			backupDestination["nfs_server_export"] = *r.NfsServerExport
+		}
+
 		backupDestination["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

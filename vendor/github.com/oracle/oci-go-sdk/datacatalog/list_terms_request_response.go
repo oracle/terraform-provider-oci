@@ -22,7 +22,7 @@ type ListTermsRequest struct {
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListTermsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique key of the parent term.
 	ParentTermKey *string `mandatory:"false" contributesTo:"query" name:"parentTermKey"`
@@ -31,7 +31,7 @@ type ListTermsRequest struct {
 	IsAllowedToHaveChildTerms *bool `mandatory:"false" contributesTo:"query" name:"isAllowedToHaveChildTerms"`
 
 	// Status of the approval workflow for this business term in the glossary.
-	WorkflowStatus TermWorkflowStatusEnum `mandatory:"false" contributesTo:"query" name:"workflowStatus" omitEmpty:"true"`
+	WorkflowStatus ListTermsWorkflowStatusEnum `mandatory:"false" contributesTo:"query" name:"workflowStatus" omitEmpty:"true"`
 
 	// Full path of the resource for resources that support paths.
 	Path *string `mandatory:"false" contributesTo:"query" name:"path"`
@@ -97,6 +97,68 @@ func (response ListTermsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListTermsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListTermsLifecycleStateEnum Enum with underlying type: string
+type ListTermsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListTermsLifecycleStateEnum
+const (
+	ListTermsLifecycleStateCreating ListTermsLifecycleStateEnum = "CREATING"
+	ListTermsLifecycleStateActive   ListTermsLifecycleStateEnum = "ACTIVE"
+	ListTermsLifecycleStateInactive ListTermsLifecycleStateEnum = "INACTIVE"
+	ListTermsLifecycleStateUpdating ListTermsLifecycleStateEnum = "UPDATING"
+	ListTermsLifecycleStateDeleting ListTermsLifecycleStateEnum = "DELETING"
+	ListTermsLifecycleStateDeleted  ListTermsLifecycleStateEnum = "DELETED"
+	ListTermsLifecycleStateFailed   ListTermsLifecycleStateEnum = "FAILED"
+	ListTermsLifecycleStateMoving   ListTermsLifecycleStateEnum = "MOVING"
+)
+
+var mappingListTermsLifecycleState = map[string]ListTermsLifecycleStateEnum{
+	"CREATING": ListTermsLifecycleStateCreating,
+	"ACTIVE":   ListTermsLifecycleStateActive,
+	"INACTIVE": ListTermsLifecycleStateInactive,
+	"UPDATING": ListTermsLifecycleStateUpdating,
+	"DELETING": ListTermsLifecycleStateDeleting,
+	"DELETED":  ListTermsLifecycleStateDeleted,
+	"FAILED":   ListTermsLifecycleStateFailed,
+	"MOVING":   ListTermsLifecycleStateMoving,
+}
+
+// GetListTermsLifecycleStateEnumValues Enumerates the set of values for ListTermsLifecycleStateEnum
+func GetListTermsLifecycleStateEnumValues() []ListTermsLifecycleStateEnum {
+	values := make([]ListTermsLifecycleStateEnum, 0)
+	for _, v := range mappingListTermsLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListTermsWorkflowStatusEnum Enum with underlying type: string
+type ListTermsWorkflowStatusEnum string
+
+// Set of constants representing the allowable values for ListTermsWorkflowStatusEnum
+const (
+	ListTermsWorkflowStatusNew         ListTermsWorkflowStatusEnum = "NEW"
+	ListTermsWorkflowStatusApproved    ListTermsWorkflowStatusEnum = "APPROVED"
+	ListTermsWorkflowStatusUnderReview ListTermsWorkflowStatusEnum = "UNDER_REVIEW"
+	ListTermsWorkflowStatusEscalated   ListTermsWorkflowStatusEnum = "ESCALATED"
+)
+
+var mappingListTermsWorkflowStatus = map[string]ListTermsWorkflowStatusEnum{
+	"NEW":          ListTermsWorkflowStatusNew,
+	"APPROVED":     ListTermsWorkflowStatusApproved,
+	"UNDER_REVIEW": ListTermsWorkflowStatusUnderReview,
+	"ESCALATED":    ListTermsWorkflowStatusEscalated,
+}
+
+// GetListTermsWorkflowStatusEnumValues Enumerates the set of values for ListTermsWorkflowStatusEnum
+func GetListTermsWorkflowStatusEnumValues() []ListTermsWorkflowStatusEnum {
+	values := make([]ListTermsWorkflowStatusEnum, 0)
+	for _, v := range mappingListTermsWorkflowStatus {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListTermsFieldsEnum Enum with underlying type: string

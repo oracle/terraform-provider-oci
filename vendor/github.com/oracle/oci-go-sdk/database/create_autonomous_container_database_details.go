@@ -19,14 +19,20 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// The display name for the Autonomous Container Database.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the Autonomous Exadata Infrastructure.
-	AutonomousExadataInfrastructureId *string `mandatory:"true" json:"autonomousExadataInfrastructureId"`
-
 	// Database Patch model preference.
 	PatchModel CreateAutonomousContainerDatabaseDetailsPatchModelEnum `mandatory:"true" json:"patchModel"`
 
+	// The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
+	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
+
 	// The service level agreement type of the Autonomous Container Database. The default is STANDARD. For a mission critical Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
 	ServiceLevelAgreementType CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum `mandatory:"false" json:"serviceLevelAgreementType,omitempty"`
+
+	// The OCID of the Autonomous Exadata Infrastructure.
+	AutonomousExadataInfrastructureId *string `mandatory:"false" json:"autonomousExadataInfrastructureId"`
+
+	// The OCID of the Autonomous VM Cluster.
+	AutonomousVmClusterId *string `mandatory:"false" json:"autonomousVmClusterId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Autonomous Container Database.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`

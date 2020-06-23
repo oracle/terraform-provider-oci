@@ -53,7 +53,9 @@ resource "oci_database_db_home" "test_db_home" {
 	db_system_id = "${oci_database_db_system.test_db_system.id}"
 	db_version {
 	}
+	defined_tags = "${var.db_home_defined_tags}"
 	display_name = "${var.db_home_display_name}"
+	freeform_tags = {"Department"= "Finance"}
 	source = "${var.db_home_source}"
 	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
 }
@@ -87,7 +89,9 @@ The following arguments are supported:
 	* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
 * `db_system_id` - (Required when source=DATABASE | DB_BACKUP | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `db_version` - (Required when source=NONE | VM_CLUSTER_NEW) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
+* `defined_tags` - (Optional Applicable when source=VM_CLUSTER_NEW) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Optional) The user-provided name of the Database Home.
+* `freeform_tags` - (Optional Applicable when source=VM_CLUSTER_NEW) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `source` - (Optional) The source of database: NONE for creating a new database. DB_BACKUP for creating a new database by restoring from a database backup. VM_CLUSTER_NEW for creating a database for VM Cluster.
 * `vm_cluster_id` - (Required when source=VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 
@@ -103,7 +107,9 @@ The following attributes are exported:
 * `db_home_location` - The location of the Oracle Database Home.
 * `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `db_version` - The Oracle Database version.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-provided name for the Database Home. The name does not need to be unique.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
 * `lifecycle_details` - Additional information about the current lifecycleState.

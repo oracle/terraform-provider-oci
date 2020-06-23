@@ -54,6 +54,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `application_id` - The application ID. 
+* `archive_uri` - An Oracle Cloud Infrastructure URI of an archive (zip) file that may used to support the execution of the application. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat 
 * `arguments` - The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"` 
 * `class_name` - The class for the application. 
 * `compartment_id` - The OCID of a compartment. 
