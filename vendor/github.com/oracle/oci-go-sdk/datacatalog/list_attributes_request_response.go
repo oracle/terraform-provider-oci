@@ -25,7 +25,7 @@ type ListAttributesRequest struct {
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListAttributesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Time that the resource was created. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreated"`
@@ -127,6 +127,41 @@ func (response ListAttributesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListAttributesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListAttributesLifecycleStateEnum Enum with underlying type: string
+type ListAttributesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListAttributesLifecycleStateEnum
+const (
+	ListAttributesLifecycleStateCreating ListAttributesLifecycleStateEnum = "CREATING"
+	ListAttributesLifecycleStateActive   ListAttributesLifecycleStateEnum = "ACTIVE"
+	ListAttributesLifecycleStateInactive ListAttributesLifecycleStateEnum = "INACTIVE"
+	ListAttributesLifecycleStateUpdating ListAttributesLifecycleStateEnum = "UPDATING"
+	ListAttributesLifecycleStateDeleting ListAttributesLifecycleStateEnum = "DELETING"
+	ListAttributesLifecycleStateDeleted  ListAttributesLifecycleStateEnum = "DELETED"
+	ListAttributesLifecycleStateFailed   ListAttributesLifecycleStateEnum = "FAILED"
+	ListAttributesLifecycleStateMoving   ListAttributesLifecycleStateEnum = "MOVING"
+)
+
+var mappingListAttributesLifecycleState = map[string]ListAttributesLifecycleStateEnum{
+	"CREATING": ListAttributesLifecycleStateCreating,
+	"ACTIVE":   ListAttributesLifecycleStateActive,
+	"INACTIVE": ListAttributesLifecycleStateInactive,
+	"UPDATING": ListAttributesLifecycleStateUpdating,
+	"DELETING": ListAttributesLifecycleStateDeleting,
+	"DELETED":  ListAttributesLifecycleStateDeleted,
+	"FAILED":   ListAttributesLifecycleStateFailed,
+	"MOVING":   ListAttributesLifecycleStateMoving,
+}
+
+// GetListAttributesLifecycleStateEnumValues Enumerates the set of values for ListAttributesLifecycleStateEnum
+func GetListAttributesLifecycleStateEnumValues() []ListAttributesLifecycleStateEnum {
+	values := make([]ListAttributesLifecycleStateEnum, 0)
+	for _, v := range mappingListAttributesLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListAttributesFieldsEnum Enum with underlying type: string

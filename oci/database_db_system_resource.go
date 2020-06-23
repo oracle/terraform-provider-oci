@@ -262,11 +262,26 @@ func DatabaseDbSystemResource() *schema.Resource {
 							ForceNew:         true,
 							DiffSuppressFunc: dbVersionDiffSuppress,
 						},
+						"defined_tags": {
+							Type:             schema.TypeMap,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: definedTagsDiffSuppressFunction,
+							Elem:             schema.TypeString,
+						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem:     schema.TypeString,
 						},
 
 						// Computed
@@ -1421,9 +1436,21 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat s
 		result.DbVersion = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	return result, nil
@@ -1440,9 +1467,15 @@ func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]
 		result["db_version"] = string(*obj.DbVersion)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	return result
 }
@@ -2490,6 +2523,12 @@ func (s *DatabaseDbSystemResourceCrud) DbHomeToMap(obj *oci_database.DbHome) map
 	if obj.DbVersion != nil {
 		result["db_version"] = string(*obj.DbVersion)
 	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)

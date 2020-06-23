@@ -71,11 +71,12 @@ func main() {
 			if ids != nil && *ids != "" {
 				args.IDs = strings.Split(*ids, ",")
 			}
-
-			if err := provider.RunExportCommand(args); err != nil {
+			err, status := provider.RunExportCommand(args)
+			if err != nil {
 				color.Red("%v", err)
-				os.Exit(1)
 			}
+			os.Exit(int(status))
+
 		case "list_export_resources":
 			if err := provider.RunListExportableResourcesCommand(); err != nil {
 				log.Printf("%v", err)

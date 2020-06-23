@@ -22,7 +22,7 @@ type ListJobLogsRequest struct {
 	JobExecutionKey *string `mandatory:"true" contributesTo:"path" name:"jobExecutionKey"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListJobLogsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Severity level for this Log.
 	Severity *string `mandatory:"false" contributesTo:"query" name:"severity"`
@@ -100,6 +100,41 @@ func (response ListJobLogsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListJobLogsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListJobLogsLifecycleStateEnum Enum with underlying type: string
+type ListJobLogsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListJobLogsLifecycleStateEnum
+const (
+	ListJobLogsLifecycleStateCreating ListJobLogsLifecycleStateEnum = "CREATING"
+	ListJobLogsLifecycleStateActive   ListJobLogsLifecycleStateEnum = "ACTIVE"
+	ListJobLogsLifecycleStateInactive ListJobLogsLifecycleStateEnum = "INACTIVE"
+	ListJobLogsLifecycleStateUpdating ListJobLogsLifecycleStateEnum = "UPDATING"
+	ListJobLogsLifecycleStateDeleting ListJobLogsLifecycleStateEnum = "DELETING"
+	ListJobLogsLifecycleStateDeleted  ListJobLogsLifecycleStateEnum = "DELETED"
+	ListJobLogsLifecycleStateFailed   ListJobLogsLifecycleStateEnum = "FAILED"
+	ListJobLogsLifecycleStateMoving   ListJobLogsLifecycleStateEnum = "MOVING"
+)
+
+var mappingListJobLogsLifecycleState = map[string]ListJobLogsLifecycleStateEnum{
+	"CREATING": ListJobLogsLifecycleStateCreating,
+	"ACTIVE":   ListJobLogsLifecycleStateActive,
+	"INACTIVE": ListJobLogsLifecycleStateInactive,
+	"UPDATING": ListJobLogsLifecycleStateUpdating,
+	"DELETING": ListJobLogsLifecycleStateDeleting,
+	"DELETED":  ListJobLogsLifecycleStateDeleted,
+	"FAILED":   ListJobLogsLifecycleStateFailed,
+	"MOVING":   ListJobLogsLifecycleStateMoving,
+}
+
+// GetListJobLogsLifecycleStateEnumValues Enumerates the set of values for ListJobLogsLifecycleStateEnum
+func GetListJobLogsLifecycleStateEnumValues() []ListJobLogsLifecycleStateEnum {
+	values := make([]ListJobLogsLifecycleStateEnum, 0)
+	for _, v := range mappingListJobLogsLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListJobLogsFieldsEnum Enum with underlying type: string

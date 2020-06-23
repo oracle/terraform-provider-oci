@@ -23,6 +23,10 @@ func DatabaseAutonomousContainerDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"autonomous_vm_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -32,6 +36,10 @@ func DatabaseAutonomousContainerDatabasesDataSource() *schema.Resource {
 				Required: true,
 			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"infrastructure_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -74,6 +82,11 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) Get() error {
 		request.AutonomousExadataInfrastructureId = &tmp
 	}
 
+	if autonomousVmClusterId, ok := s.D.GetOkExists("autonomous_vm_cluster_id"); ok {
+		tmp := autonomousVmClusterId.(string)
+		request.AutonomousVmClusterId = &tmp
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
@@ -87,6 +100,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if infrastructureType, ok := s.D.GetOkExists("infrastructure_type"); ok {
+		request.InfrastructureType = oci_database.AutonomousContainerDatabaseSummaryInfrastructureTypeEnum(infrastructureType.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -133,14 +150,22 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["autonomous_exadata_infrastructure_id"] = *r.AutonomousExadataInfrastructureId
 		}
 
+		if r.AutonomousVmClusterId != nil {
+			autonomousContainerDatabase["autonomous_vm_cluster_id"] = *r.AutonomousVmClusterId
+		}
+
 		if r.AvailabilityDomain != nil {
 			autonomousContainerDatabase["availability_domain"] = *r.AvailabilityDomain
 		}
 
 		if r.BackupConfig != nil {
-			autonomousContainerDatabase["backup_config"] = []interface{}{AutonomousContainerDatabaseBackupConfigToMap(r.BackupConfig)}
+			autonomousContainerDatabase["backup_config"] = []interface{}{AutonomousContainerDatabaseBackupConfigToMap(r.BackupConfig, nil, true)}
 		} else {
 			autonomousContainerDatabase["backup_config"] = nil
+		}
+
+		if r.DbUniqueName != nil {
+			autonomousContainerDatabase["db_unique_name"] = *r.DbUniqueName
 		}
 
 		if r.DbVersion != nil {
@@ -160,6 +185,8 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 		if r.Id != nil {
 			autonomousContainerDatabase["id"] = *r.Id
 		}
+
+		autonomousContainerDatabase["infrastructure_type"] = r.InfrastructureType
 
 		if r.LastMaintenanceRunId != nil {
 			autonomousContainerDatabase["last_maintenance_run_id"] = *r.LastMaintenanceRunId

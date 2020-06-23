@@ -28,12 +28,12 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 
     nodes {
       hostname = "myprefix2-cghdm1"
-      ip       = "192.169.19.1"
+      ip       = "192.169.19.18"
     }
 
     nodes {
       hostname = "myprefix2-cghdm2"
-      ip       = "192.169.19.2"
+      ip       = "192.169.19.20"
     }
 
     vlan_id = "11"
@@ -47,15 +47,15 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 
     nodes {
       hostname     = "myprefix1-r64zc1"
-      ip           = "192.168.19.2"
-      vip          = "192.168.19.3"
+      ip           = "192.168.19.10"
+      vip          = "192.168.19.11"
       vip_hostname = "myprefix1-r64zc1-vip"
     }
 
     nodes {
       hostname     = "myprefix1-r64zc2"
-      ip           = "192.168.19.4"
-      vip          = "192.168.19.5"
+      ip           = "192.168.19.14"
+      vip          = "192.168.19.15"
       vip_hostname = "myprefix1-r64zc2-vip"
     }
 
@@ -75,7 +75,7 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 resource "oci_database_vm_cluster" "test_vm_cluster" {
   #Required
   compartment_id            = "${var.compartment_id}"
-  cpu_core_count            = "2"
+  cpu_core_count            = "4"
   display_name              = "testVmCluster"
   exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
   gi_version                = "19.1.0.0"
@@ -174,7 +174,10 @@ resource "oci_database_backup_destination" "test_backup_destination_nfs" {
   freeform_tags = {
     "Department" = "Finance"
   }
-  local_mount_point_path = "local_mount_point_path"
+  mount_type_details {
+    local_mount_point_path = "localMountPointPath"
+    mount_type             = "SELF_MOUNT"
+  }
 }
 
 data "oci_database_vm_cluster_network_download_config_file" "test_vm_cluster_network_download_config_file" {

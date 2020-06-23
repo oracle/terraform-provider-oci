@@ -32,6 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `attached_catalog_private_endpoints` - The list of private reverse connection endpoints attached to the catalog
 * `compartment_id` - Compartment identifier.
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Data catalog identifier, which can be renamed.

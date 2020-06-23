@@ -25,7 +25,7 @@ type ListTermRelationshipsRequest struct {
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListTermRelationshipsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Specifies the fields to return in a term relationship summary response.
 	Fields []ListTermRelationshipsFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"multi"`
@@ -88,6 +88,41 @@ func (response ListTermRelationshipsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListTermRelationshipsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListTermRelationshipsLifecycleStateEnum Enum with underlying type: string
+type ListTermRelationshipsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListTermRelationshipsLifecycleStateEnum
+const (
+	ListTermRelationshipsLifecycleStateCreating ListTermRelationshipsLifecycleStateEnum = "CREATING"
+	ListTermRelationshipsLifecycleStateActive   ListTermRelationshipsLifecycleStateEnum = "ACTIVE"
+	ListTermRelationshipsLifecycleStateInactive ListTermRelationshipsLifecycleStateEnum = "INACTIVE"
+	ListTermRelationshipsLifecycleStateUpdating ListTermRelationshipsLifecycleStateEnum = "UPDATING"
+	ListTermRelationshipsLifecycleStateDeleting ListTermRelationshipsLifecycleStateEnum = "DELETING"
+	ListTermRelationshipsLifecycleStateDeleted  ListTermRelationshipsLifecycleStateEnum = "DELETED"
+	ListTermRelationshipsLifecycleStateFailed   ListTermRelationshipsLifecycleStateEnum = "FAILED"
+	ListTermRelationshipsLifecycleStateMoving   ListTermRelationshipsLifecycleStateEnum = "MOVING"
+)
+
+var mappingListTermRelationshipsLifecycleState = map[string]ListTermRelationshipsLifecycleStateEnum{
+	"CREATING": ListTermRelationshipsLifecycleStateCreating,
+	"ACTIVE":   ListTermRelationshipsLifecycleStateActive,
+	"INACTIVE": ListTermRelationshipsLifecycleStateInactive,
+	"UPDATING": ListTermRelationshipsLifecycleStateUpdating,
+	"DELETING": ListTermRelationshipsLifecycleStateDeleting,
+	"DELETED":  ListTermRelationshipsLifecycleStateDeleted,
+	"FAILED":   ListTermRelationshipsLifecycleStateFailed,
+	"MOVING":   ListTermRelationshipsLifecycleStateMoving,
+}
+
+// GetListTermRelationshipsLifecycleStateEnumValues Enumerates the set of values for ListTermRelationshipsLifecycleStateEnum
+func GetListTermRelationshipsLifecycleStateEnumValues() []ListTermRelationshipsLifecycleStateEnum {
+	values := make([]ListTermRelationshipsLifecycleStateEnum, 0)
+	for _, v := range mappingListTermRelationshipsLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListTermRelationshipsFieldsEnum Enum with underlying type: string

@@ -95,6 +95,8 @@ var (
 		"source":        Representation{repType: Required, create: `VM_CLUSTER_NEW`},
 		"db_version":    Representation{repType: Required, create: `12.1.0.2`},
 		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 	dbHomeDatabaseRepresentationSourceVmClusterNew = map[string]interface{}{
 		"admin_password":   Representation{repType: Required, create: `BEstrO0ng_#11`},
@@ -285,7 +287,9 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
 					resource.TestMatchResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHomeVm"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
@@ -363,7 +367,9 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
 					resource.TestMatchResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHomeVm"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),

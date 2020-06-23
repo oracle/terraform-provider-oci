@@ -6,9 +6,16 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
 	"strconv"
 	"strings"
 
+	oci_dns "github.com/oracle/oci-go-sdk/dns"
+
+	"github.com/hashicorp/hcl2/hclwrite"
+
+	"github.com/fatih/color"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -45,6 +52,10 @@ type TerraformResourceHints struct {
 	ignorableRequiredMissingAttributes map[string]bool
 }
 
+func (h *TerraformResourceHints) DiscoversWithSingularDatasource() bool {
+	return h.datasourceItemsAttr == ""
+}
+
 type TerraformResourceAssociation struct {
 	*TerraformResourceHints
 	datasourceQueryParams map[string]string // Mapping of data source inputs and the source attribute from a parent resource
@@ -56,12 +67,213 @@ type InterpolationString struct {
 	value string
 }
 
-type GenerateConfigStep struct {
-	root                *OCIResource
-	resourceGraph       TerraformResourceGraph
-	stepName            string
+type ResourceDiscoveryError struct {
+	resourceType   string
+	parentResource string
+	error          error
+	resourceGraph  *TerraformResourceGraph
+}
+
+type ErrorList = []*ResourceDiscoveryError
+
+type resourceDiscoveryContext struct {
+	clients             *OracleClients
+	expectedResourceIds map[string]bool
+	tenancyOcid         string
+	discoveredResources []*OCIResource
+	summaryStatements   []string
+	*ExportCommandArgs
+	errorList                    ErrorList
+	missingAttributesPerResource map[string][]string
+}
+
+// Resource discovery Exit status
+type Status int
+
+// Exit statuses
+const (
+	StatusSuccess Status = iota
+	StatusFail
+	StatusPartialSuccess
+)
+
+func (ctx *resourceDiscoveryContext) postValidate() error {
+	// Check that all expected resource IDs were found, if any were given
+	missingResourceIds := []string{}
+	for resourceId, found := range ctx.expectedResourceIds {
+		if !found {
+			missingResourceIds = append(missingResourceIds, resourceId)
+		}
+	}
+
+	if len(missingResourceIds) > 0 {
+		ctx.summaryStatements = append(ctx.summaryStatements, "")
+		ctx.summaryStatements = append(ctx.summaryStatements, "Warning: The following resource IDs were not found.")
+		for _, resourceId := range missingResourceIds {
+			ctx.summaryStatements = append(ctx.summaryStatements, fmt.Sprintf("- %s", resourceId))
+		}
+		return fmt.Errorf("[ERROR] one or more expected resource ids were not found")
+	}
+	return nil
+}
+
+func (ctx *resourceDiscoveryContext) printSummary() {
+
+	ctx.summaryStatements = append(ctx.summaryStatements, "\n=== COMPLETED ===")
+
+	for _, statement := range ctx.summaryStatements {
+		color.Green(statement)
+	}
+}
+
+func (ctx *resourceDiscoveryContext) printErrors() {
+	color.Yellow("\n[WARN] Resource discovery finished with errors listed below:\n")
+	for _, resourceDiscoveryError := range ctx.errorList {
+		if resourceDiscoveryError.parentResource == "export" {
+			color.Red(fmt.Sprintf("Error discovering `%s` resources error: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.error.Error()))
+		} else {
+			color.Red(fmt.Sprintf("Error discovering `%s` resources for %s error: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.parentResource, resourceDiscoveryError.error.Error()))
+		}
+		/* log child resources if exist and were not discovered because of error in parent resource discovery*/
+		if resourceDiscoveryError.resourceGraph != nil {
+			var notFoundChildren []string
+			getNotFoundChildren(resourceDiscoveryError.resourceType, resourceDiscoveryError.resourceGraph, &notFoundChildren)
+			if len(notFoundChildren) > 0 {
+				color.Red(fmt.Sprintf("\tFollowing child resources were also not discovered due to parent error: %v", strings.Join(notFoundChildren, ", ")))
+			}
+		}
+	}
+}
+
+func getNotFoundChildren(parent string, resourceGraph *TerraformResourceGraph, children *[]string) {
+	childResources, exists := (*resourceGraph)[parent]
+	if exists {
+		for _, child := range childResources {
+			*children = append(*children, child.resourceClass)
+			getNotFoundChildren(child.resourceClass, resourceGraph, children)
+		}
+	}
+}
+
+func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandArgs, tenancyOcid string) *resourceDiscoveryContext {
+	result := &resourceDiscoveryContext{
+		clients:             clients,
+		ExportCommandArgs:   args,
+		tenancyOcid:         tenancyOcid,
+		discoveredResources: []*OCIResource{},
+		summaryStatements:   []string{},
+		errorList:           ErrorList{},
+	}
+	result.expectedResourceIds = convertStringSliceToSet(args.IDs, true)
+	return result
+}
+
+type resourceDiscoveryStep interface {
+	discover() error
+	getOmittedResources() []*OCIResource
+	writeConfiguration() error
+}
+
+type resourceDiscoveryBaseStep struct {
+	ctx                 *resourceDiscoveryContext
+	name                string
 	discoveredResources []*OCIResource
 	omittedResources    []*OCIResource
+}
+
+func (r *resourceDiscoveryBaseStep) writeConfiguration() error {
+	configOutputFile := fmt.Sprintf("%s%s%s.tf", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
+	tmpConfigOutputFile := fmt.Sprintf("%s%s%s.tf.tmp", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
+
+	file, err := os.OpenFile(tmpConfigOutputFile, os.O_CREATE|os.O_RDWR, 0666)
+	if err != nil {
+		return err
+	}
+
+	// Build the HCL config
+	// Note that we still build a TF file even if no resources were discovered for this TF file.
+	// A user may run this command multiple times and may see stale resources if we don't overwrite the file with
+	// an empty one.
+	builder := &strings.Builder{}
+	builder.WriteString("## This configuration was generated by terraform-provider-oci\n\n")
+
+	for _, resource := range r.discoveredResources {
+		log.Printf("[INFO] ===> Generating resource '%s'", resource.getTerraformReference())
+		if err := resource.getHCLString(builder, referenceMap); err != nil {
+			_ = file.Close()
+			return err
+		}
+
+		if resource.terraformTypeInfo != nil && len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
+			attributes := make([]string, 0, len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes))
+			for attribute := range resource.terraformTypeInfo.ignorableRequiredMissingAttributes {
+				attributes = append(attributes, attribute)
+			}
+			if r.ctx.missingAttributesPerResource == nil {
+				r.ctx.missingAttributesPerResource = make(map[string][]string)
+			}
+			r.ctx.missingAttributesPerResource[resource.getTerraformReference()] = attributes
+		}
+
+		r.ctx.discoveredResources = append(r.ctx.discoveredResources, resource)
+	}
+
+	// Format the HCL config
+	formattedString := hclwrite.Format([]byte(builder.String()))
+
+	_, err = file.WriteString(string(formattedString))
+	if err != nil {
+		_ = file.Close()
+		return err
+	}
+
+	if fErr := file.Close(); fErr != nil {
+		return fErr
+	}
+
+	if err := os.Rename(tmpConfigOutputFile, configOutputFile); err != nil {
+		return err
+	}
+
+	r.ctx.summaryStatements = append(r.ctx.summaryStatements, fmt.Sprintf("Found %d '%s' resources. Generated under '%s'", len(r.discoveredResources), r.name, configOutputFile))
+	return nil
+}
+
+func (r *resourceDiscoveryBaseStep) getOmittedResources() []*OCIResource {
+	return r.omittedResources
+}
+
+type resourceDiscoveryWithGraph struct {
+	resourceDiscoveryBaseStep
+	root          *OCIResource
+	resourceGraph TerraformResourceGraph
+}
+
+func (r *resourceDiscoveryWithGraph) discover() error {
+	var err error
+	var ociResources []*OCIResource
+	ociResources, err = findResources(r.ctx, r.root, r.resourceGraph)
+	if err != nil {
+		return err
+	}
+
+	// Filter out omitted resources from export
+	r.discoveredResources = []*OCIResource{}
+	r.omittedResources = []*OCIResource{}
+	for _, resource := range ociResources {
+		if !resource.omitFromExport {
+			referenceMap[resource.id] = resource.getHclReferenceIdString()
+			r.discoveredResources = append(r.discoveredResources, resource)
+		} else {
+			r.omittedResources = append(r.omittedResources, resource)
+		}
+	}
+	return nil
+}
+
+type resourceDiscoveryWithIds struct {
+	resourceDiscoveryBaseStep
+	exportIds map[string]string // map of IDs and their respective resource types
 }
 
 type TerraformResourceGraph map[string][]TerraformResourceAssociation
@@ -95,6 +307,7 @@ func init() {
 	exportCoreNetworkSecurityGroupSecurityRuleHints.processDiscoveredResourcesFn = processNetworkSecurityGroupRules
 	exportCoreRouteTableHints.processDiscoveredResourcesFn = processDefaultRouteTables
 	exportCoreSecurityListHints.processDiscoveredResourcesFn = processDefaultSecurityLists
+	exportCoreVnicAttachmentHints.requireResourceRefresh = true
 	exportCoreVnicAttachmentHints.processDiscoveredResourcesFn = filterSecondaryVnicAttachments
 	exportCoreVolumeGroupHints.processDiscoveredResourcesFn = processVolumeGroups
 
@@ -133,6 +346,8 @@ func init() {
 	exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
 	exportObjectStorageNamespaceHints.alwaysExportable = true
 
+	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
+
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
 	exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
 	exportObjectStorageObjectHints.requireResourceRefresh = true
@@ -169,6 +384,78 @@ func init() {
 	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
 
 	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
+
+	exportDnsRrsetHints.getIdFn = getDnsRrsetId
+	exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
+	exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
+}
+
+func processDnsRrset(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+
+	for _, record := range resources {
+		// Populate config file from compositeId
+		record.compartmentId = record.parent.compartmentId
+		domain, rtype, zoneNameOrId, err := parseRrsetCompositeId(record.id)
+		if err == nil {
+			record.sourceAttributes["domain"] = domain
+			record.sourceAttributes["rtype"] = rtype
+			record.sourceAttributes["zone_name_or_id"] = zoneNameOrId
+		}
+	}
+	return resources, nil
+}
+
+func findDnsRrset(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) (resources []*OCIResource, err error) {
+	// Rrset is singular datasource only
+	// and need to use GetZoneRecordsRequest to list all records
+	zoneId := parent.id
+	request := oci_dns.GetZoneRecordsRequest{}
+	request.ZoneNameOrId = &zoneId
+	response, err := clients.dnsClient().GetZoneRecords(context.Background(), request)
+
+	if err != nil {
+		return resources, err
+	}
+
+	for _, record := range response.Items {
+		recordResource := resourcesMap[tfMeta.resourceClass]
+		d := recordResource.TestResourceData()
+		zoneId := parent.id
+		domain := record.Domain
+		rtype := record.Rtype
+		d.SetId(getRrsetCompositeId(*domain, *rtype, zoneId))
+		if err := recordResource.Read(d, clients); err != nil {
+			return resources, err
+		}
+		resource := &OCIResource{
+			compartmentId:    parent.compartmentId,
+			sourceAttributes: convertResourceDataToMap(recordResource.Schema, d),
+			rawResource:      record,
+			TerraformResource: TerraformResource{
+				id:             d.Id(),
+				terraformClass: tfMeta.resourceClass,
+				terraformName:  fmt.Sprintf("%s_%s", parent.parent.terraformName, *record.RecordHash),
+			},
+			getHclStringFn: getHclStringFromGenericMap,
+			parent:         parent,
+		}
+		resources = append(resources, resource)
+	}
+
+	return resources, err
+}
+
+func getDnsRrsetId(resource *OCIResource) (string, error) {
+	domain, ok := resource.sourceAttributes["domain"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find domain for DnsRrset")
+	}
+	rtype, ok := resource.sourceAttributes["rtype"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find rtype for DnsRrset")
+	}
+	zoneId := resource.parent.id
+	return getRrsetCompositeId(domain, rtype, zoneId), nil
 }
 
 func getDatacatalogDataAssetId(resource *OCIResource) (string, error) {
@@ -435,17 +722,6 @@ func filterSecondaryVnicAttachments(clients *OracleClients, resources []*OCIReso
 				continue
 			}
 		}
-
-		resourceSchema := resourcesMap["oci_core_vnic_attachment"]
-		if vnicAttachmentReadFn := resourceSchema.Read; vnicAttachmentReadFn != nil {
-			d := resourceSchema.TestResourceData()
-			d.SetId(attachment.id)
-			if err := vnicAttachmentReadFn(d, clients); err != nil {
-				return results, err
-			}
-			attachment.sourceAttributes = convertResourceDataToMap(resourceSchema.Schema, d)
-		}
-
 		results = append(results, attachment)
 	}
 
@@ -627,6 +903,14 @@ func processLoadBalancerCertificates(clients *OracleClients, resources []*OCIRes
 	}
 
 	return resources, nil
+}
+
+func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["topic_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find topic id for ons notification topic")
+	}
+	return id, nil
 }
 
 func getObjectStorageBucketId(resource *OCIResource) (string, error) {

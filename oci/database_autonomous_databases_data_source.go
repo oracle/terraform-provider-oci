@@ -39,6 +39,10 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"infrastructure_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"is_free_tier": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -99,6 +103,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if infrastructureType, ok := s.D.GetOkExists("infrastructure_type"); ok {
+		request.InfrastructureType = oci_database.AutonomousDatabaseSummaryInfrastructureTypeEnum(infrastructureType.(string))
 	}
 
 	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
@@ -197,6 +205,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		if r.Id != nil {
 			autonomousDatabase["id"] = *r.Id
 		}
+
+		autonomousDatabase["infrastructure_type"] = r.InfrastructureType
 
 		if r.IsAutoScalingEnabled != nil {
 			autonomousDatabase["is_auto_scaling_enabled"] = *r.IsAutoScalingEnabled

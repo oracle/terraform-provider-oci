@@ -247,11 +247,24 @@ func DatabaseDbHomeResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: dbVersionDiffSuppress,
 			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -447,6 +460,83 @@ func (s *DatabaseDbHomeResourceCrud) Get() error {
 	return nil
 }
 
+func (s *DatabaseDbHomeResourceCrud) Update() error {
+	updateDbHomeRequest := oci_database.UpdateDbHomeRequest{}
+
+	tmp := s.D.Id()
+	updateDbHomeRequest.DbHomeId = &tmp
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		updateDbHomeRequest.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		updateDbHomeRequest.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+	updateDbHomeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateDbHome(context.Background(), updateDbHomeRequest)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.DbHome
+	err = s.Get()
+	if err != nil {
+		log.Printf("[ERROR] error refreshing the dbHome information before an upate: %v", err)
+	}
+	if s.Database == nil || s.Database.Id == nil {
+		err := s.getDatabaseInfo()
+		if err != nil {
+			return fmt.Errorf("could not perform an update as we could not get the databaseId in the dbHome: %v", err)
+		}
+	}
+
+	request := oci_database.UpdateDatabaseRequest{}
+
+	request.DatabaseId = s.Database.Id
+
+	if database, ok := s.D.GetOkExists("database"); ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+			tmp, err := s.mapToUpdateDatabaseDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.UpdateDatabaseDetails = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	getDatabaseRequest := oci_database.GetDatabaseRequest{}
+
+	getDatabaseRequest.DatabaseId = s.Database.Id
+
+	getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
+	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+	if err != nil {
+		s.Database = &updateDatabaseResponse.Database
+		err = s.SetData()
+		if err != nil {
+			log.Printf("[ERROR] error setting data after polling error on database: %v", err)
+		}
+		return fmt.Errorf("[ERROR] unable to get database after the update: %v", err)
+	}
+
+	s.Database = &getDatabaseResponse.Database
+
+	return err
+}
+
 func (s *DatabaseDbHomeResourceCrud) Delete() error {
 	request := oci_database.DeleteDbHomeRequest{}
 
@@ -523,9 +613,15 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 		s.D.Set("db_version", *s.Res.DbVersion)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
@@ -819,9 +915,19 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
 		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if vmClusterId, ok := s.D.GetOkExists("vm_cluster_id"); ok {
 			tmp := vmClusterId.(string)
@@ -923,59 +1029,6 @@ func (s *DatabaseDbHomeResourceCrud) getDatabaseInfo() error {
 	s.Database = &getDatabaseResponse.Database
 
 	return nil
-}
-
-func (s *DatabaseDbHomeResourceCrud) Update() error {
-	err := s.Get()
-	if err != nil {
-		log.Printf("[ERROR] error refreshing the dbHome information before an upate: %v", err)
-	}
-	if s.Database == nil || s.Database.Id == nil {
-		err := s.getDatabaseInfo()
-		if err != nil {
-			return fmt.Errorf("could not perform an update as we could not get the databaseId in the dbHome: %v", err)
-		}
-	}
-
-	request := oci_database.UpdateDatabaseRequest{}
-
-	request.DatabaseId = s.Database.Id
-
-	if database, ok := s.D.GetOkExists("database"); ok {
-		if tmpList := database.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
-			tmp, err := s.mapToUpdateDatabaseDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.UpdateDatabaseDetails = tmp
-		}
-	}
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	getDatabaseRequest := oci_database.GetDatabaseRequest{}
-
-	getDatabaseRequest.DatabaseId = s.Database.Id
-
-	getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
-	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
-	if err != nil {
-		s.Database = &updateDatabaseResponse.Database
-		err = s.SetData()
-		if err != nil {
-			log.Printf("[ERROR] error setting data after polling error on database: %v", err)
-		}
-		return fmt.Errorf("[ERROR] unable to get database after the update: %v", err)
-	}
-
-	s.Database = &getDatabaseResponse.Database
-
-	return err
 }
 
 func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) map[string]interface{} {

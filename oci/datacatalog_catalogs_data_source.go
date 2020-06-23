@@ -72,7 +72,7 @@ func (s *DatacatalogCatalogsDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_datacatalog.LifecycleStateEnum(state.(string))
+		request.LifecycleState = oci_datacatalog.ListCatalogsLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datacatalog")
@@ -110,6 +110,8 @@ func (s *DatacatalogCatalogsDataSourceCrud) SetData() error {
 		catalog := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}
+
+		catalog["attached_catalog_private_endpoints"] = r.AttachedCatalogPrivateEndpoints
 
 		if r.DefinedTags != nil {
 			catalog["defined_tags"] = definedTagsToMap(r.DefinedTags)

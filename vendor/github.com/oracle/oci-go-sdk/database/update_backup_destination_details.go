@@ -26,6 +26,15 @@ type UpdateBackupDestinationDetails struct {
 	// The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes.
 	LocalMountPointPath *string `mandatory:"false" json:"localMountPointPath"`
 
+	// NFS Mount type for backup destination.
+	NfsMountType UpdateBackupDestinationDetailsNfsMountTypeEnum `mandatory:"false" json:"nfsMountType,omitempty"`
+
+	// IP addresses for NFS Auto mount.
+	NfsServer []string `mandatory:"false" json:"nfsServer"`
+
+	// Specifies the directory on which to mount the file system
+	NfsServerExport *string `mandatory:"false" json:"nfsServerExport"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -38,4 +47,27 @@ type UpdateBackupDestinationDetails struct {
 
 func (m UpdateBackupDestinationDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UpdateBackupDestinationDetailsNfsMountTypeEnum Enum with underlying type: string
+type UpdateBackupDestinationDetailsNfsMountTypeEnum string
+
+// Set of constants representing the allowable values for UpdateBackupDestinationDetailsNfsMountTypeEnum
+const (
+	UpdateBackupDestinationDetailsNfsMountTypeSelfMount      UpdateBackupDestinationDetailsNfsMountTypeEnum = "SELF_MOUNT"
+	UpdateBackupDestinationDetailsNfsMountTypeAutomatedMount UpdateBackupDestinationDetailsNfsMountTypeEnum = "AUTOMATED_MOUNT"
+)
+
+var mappingUpdateBackupDestinationDetailsNfsMountType = map[string]UpdateBackupDestinationDetailsNfsMountTypeEnum{
+	"SELF_MOUNT":      UpdateBackupDestinationDetailsNfsMountTypeSelfMount,
+	"AUTOMATED_MOUNT": UpdateBackupDestinationDetailsNfsMountTypeAutomatedMount,
+}
+
+// GetUpdateBackupDestinationDetailsNfsMountTypeEnumValues Enumerates the set of values for UpdateBackupDestinationDetailsNfsMountTypeEnum
+func GetUpdateBackupDestinationDetailsNfsMountTypeEnumValues() []UpdateBackupDestinationDetailsNfsMountTypeEnum {
+	values := make([]UpdateBackupDestinationDetailsNfsMountTypeEnum, 0)
+	for _, v := range mappingUpdateBackupDestinationDetailsNfsMountType {
+		values = append(values, v)
+	}
+	return values
 }

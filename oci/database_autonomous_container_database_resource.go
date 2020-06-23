@@ -32,11 +32,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 		Delete: deleteDatabaseAutonomousContainerDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"autonomous_exadata_infrastructure_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -47,6 +42,18 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			},
 
 			// Optional
+			"autonomous_exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"autonomous_vm_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"backup_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -58,6 +65,45 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"backup_destination_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"type": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"internet_proxy": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"vpc_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Sensitive: true,
+									},
+									"vpc_user": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"recovery_window_in_days": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -72,6 +118,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"db_unique_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -175,6 +227,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 
 			// Computed
 			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"infrastructure_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -374,6 +430,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.AutonomousExadataInfrastructureId = &tmp
 	}
 
+	if autonomousVmClusterId, ok := s.D.GetOkExists("autonomous_vm_cluster_id"); ok {
+		tmp := autonomousVmClusterId.(string)
+		request.AutonomousVmClusterId = &tmp
+	}
+
 	if backupConfig, ok := s.D.GetOkExists("backup_config"); ok {
 		if tmpList := backupConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_config", 0)
@@ -388,6 +449,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists("db_unique_name"); ok {
+		tmp := dbUniqueName.(string)
+		request.DbUniqueName = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -540,12 +606,16 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("autonomous_exadata_infrastructure_id", *s.Res.AutonomousExadataInfrastructureId)
 	}
 
+	if s.Res.AutonomousVmClusterId != nil {
+		s.D.Set("autonomous_vm_cluster_id", *s.Res.AutonomousVmClusterId)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
 	if s.Res.BackupConfig != nil {
-		s.D.Set("backup_config", []interface{}{AutonomousContainerDatabaseBackupConfigToMap(s.Res.BackupConfig)})
+		s.D.Set("backup_config", []interface{}{AutonomousContainerDatabaseBackupConfigToMap(s.Res.BackupConfig, s, false)})
 	} else {
 		s.D.Set("backup_config", nil)
 	}
@@ -558,6 +628,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("db_version", *s.Res.DbVersion)
 	}
 
+	if s.Res.DbUniqueName != nil {
+		s.D.Set("db_unique_name", *s.Res.DbUniqueName)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -567,6 +641,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
@@ -602,6 +678,22 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToAutonomousContainerDatabaseBackupConfig(fieldKeyFormat string) (oci_database.AutonomousContainerDatabaseBackupConfig, error) {
 	result := oci_database.AutonomousContainerDatabaseBackupConfig{}
 
+	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
+		interfaces := backupDestinationDetails.([]interface{})
+		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
+		if len(interfaces) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_destination_details"), 0)
+			converted, err := s.mapToBackupDestinationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[0] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")) {
+			result.BackupDestinationDetails = tmp
+		}
+	}
+
 	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
@@ -610,11 +702,79 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToAutonomousContain
 	return result, nil
 }
 
-func AutonomousContainerDatabaseBackupConfigToMap(obj *oci_database.AutonomousContainerDatabaseBackupConfig) map[string]interface{} {
+// service currently supports only one backupDestination
+func AutonomousContainerDatabaseBackupConfigToMap(obj *oci_database.AutonomousContainerDatabaseBackupConfig, s *DatabaseAutonomousContainerDatabaseResourceCrud, dataSource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	backupDestinationDetails := []interface{}{}
+	// s will be nil for datasource
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_config.0.backup_destination_details", 0)
+	if len(obj.BackupDestinationDetails) > 0 {
+		backupDestinationDetails = append(backupDestinationDetails, AutonomousContainerDatabaseBackupDestinationDetailsToMap(obj.BackupDestinationDetails[0], s, dataSource, fieldKeyFormat))
+		result["backup_destination_details"] = backupDestinationDetails
+	}
 
 	if obj.RecoveryWindowInDays != nil {
 		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
+	}
+
+	return result
+}
+
+func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
+	result := oci_database.BackupDestinationDetails{}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if internetProxy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "internet_proxy")); ok {
+		tmp := internetProxy.(string)
+		result.InternetProxy = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
+	}
+
+	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok {
+		tmp := vpcPassword.(string)
+		result.VpcPassword = &tmp
+	}
+
+	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok {
+		tmp := vpcUser.(string)
+		result.VpcUser = &tmp
+	}
+
+	return result, nil
+}
+
+func AutonomousContainerDatabaseBackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails, s *DatabaseAutonomousContainerDatabaseResourceCrud, dataSource bool, fieldKeyFormat string) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.InternetProxy != nil {
+		result["internet_proxy"] = string(*obj.InternetProxy)
+	}
+
+	result["type"] = string(obj.Type)
+
+	if obj.VpcUser != nil {
+		result["vpc_user"] = string(*obj.VpcUser)
+	}
+
+	if dataSource {
+		return result
+	}
+
+	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok {
+		tmp := vpcPassword.(string)
+		result["vpc_password"] = &tmp
 	}
 
 	return result
