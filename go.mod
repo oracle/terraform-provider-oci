@@ -7,7 +7,7 @@ require (
 	github.com/hashicorp/hcl2 v0.0.0-20190618163856-0b64543c968c
 	github.com/hashicorp/terraform v0.12.4-0.20190628193153-a74738cd35fc
 	github.com/mitchellh/cli v1.0.0
-	github.com/oracle/oci-go-sdk v20.1.0+incompatible
+	github.com/oracle/oci-go-sdk v21.0.0+incompatible
 	github.com/stretchr/objx v0.1.1 // indirect
 	github.com/stretchr/testify v1.3.0
 	gopkg.in/yaml.v2 v2.2.2
