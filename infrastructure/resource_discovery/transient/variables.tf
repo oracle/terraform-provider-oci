@@ -118,3 +118,7 @@ variable "autonomous_exadata_infrastructure_domain" {
 variable "autonomous_container_database_backup_config_recovery_window_in_days" {
   default = 10
 }
+
+/* Osmanagement */
+
+variable "ssh_private_key" {}

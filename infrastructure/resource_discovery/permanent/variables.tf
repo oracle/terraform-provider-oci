@@ -47,3 +47,103 @@ variable "character_set" {
 variable "db_workload" {
   default = "OLTP"
 }
+
+/* Nosql */
+
+variable "table_ddl_statement" {
+  default = "CREATE TABLE IF NOT EXISTS test_table(id INTEGER, name STRING, age STRING, info JSON, PRIMARY KEY(SHARD(id)))"
+}
+
+variable "index_keys_column_name" {
+  default = "name"
+}
+
+/* Monitoring */
+
+variable "alarm_body" {
+  default = "High CPU utilization reached"
+}
+
+variable "alarm_compartment_id_in_subtree" {
+  default = false
+}
+
+variable "alarm_defined_tags_value" {
+  default = "value"
+}
+
+variable "alarm_destinations" {
+  default = []
+}
+
+variable "alarm_display_name" {
+  default = "High CPU Utilization"
+}
+
+variable "alarm_freeform_tags" {
+  default = {
+    "Department" = "Finance"
+  }
+}
+
+variable "alarm_is_enabled" {
+  default = false
+}
+
+variable "alarm_metric_compartment_id_in_subtree" {
+  default = false
+}
+
+variable "alarm_namespace" {
+  default = "oci_computeagent"
+}
+
+variable "alarm_pending_duration" {
+  default = "PT5M"
+}
+
+variable "alarm_query" {
+  default = "CpuUtilization[10m].percentile(0.9) < 85"
+}
+
+variable "alarm_repeat_notification_duration" {
+  default = "PT2H"
+}
+
+variable "alarm_resolution" {
+  default = "1m"
+}
+
+variable "alarm_resource_group" {
+  default = "resourceGroup"
+}
+
+variable "alarm_severity" {
+  default = "WARNING"
+}
+
+variable "alarm_state" {
+  default = "ACTIVE"
+}
+
+variable "alarm_suppression_description" {
+  default = "System Maintenance"
+}
+
+variable "alarm_suppression_time_suppress_from" {
+  default = "2029-02-01T18:00:00.000Z"
+}
+
+variable "alarm_suppression_time_suppress_until" {
+  default = "2029-02-01T19:00:00.000Z"
+}
+
+/* Waas */
+
+variable "certificate_display_name" {
+  default = "tf_example_waas_certificate_rd"
+}
+
+variable "waas_policy_display_name" {
+  default = "tf_example_waas_policy_rd"
+}
