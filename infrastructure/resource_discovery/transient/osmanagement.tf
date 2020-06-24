@@ -7,7 +7,7 @@ resource "oci_osmanagement_managed_instance_group" "managed_instance_group_rd" {
   display_name   = "TF-managed-instance-group-rd"
 
   #Optional
-  description   = "TF Managed instance group"
+  description = "TF Managed instance group"
 }
 
 resource "oci_osmanagement_software_source" "software_source_rd" {

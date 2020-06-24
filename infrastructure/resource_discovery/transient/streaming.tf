@@ -5,6 +5,7 @@ resource "oci_streaming_stream_pool" "stream_pool_rd" {
   #Required
   compartment_id = "${var.compartment_ocid}"
   name           = "TFStreamPoolRd"
+
   kafka_settings {
     #Optional
     auto_create_topics_enable = true

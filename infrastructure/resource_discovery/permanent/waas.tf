@@ -40,7 +40,7 @@ resource "oci_waas_address_list" "address_list_rd" {
 
 resource "oci_waas_waas_policy" "waas_policy_rd" {
   compartment_id = "${var.compartment_ocid}"
-  domain = "testdomainforrd.oracle.com"
+  domain         = "testdomainforrd.oracle.com"
 }
 
 resource "oci_waas_http_redirect" "http_redirect_rd" {
