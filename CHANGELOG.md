@@ -1,4 +1,5 @@
-## 3.82.0 (Unreleased)
+## 3.83.0 (Unreleased)
+## 3.82.0 (June 24, 2020)
 
 ### Added
 - Support for MySQL service added
