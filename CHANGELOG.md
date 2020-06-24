@@ -4,6 +4,7 @@
 - Support for DBaaS -  ADB - Serverless Extreme Availibility
 - Support for Switchover action in autonomous database added
 - Support for datasource of `core` with optional `vcn_id`
+- Support for Oracle Blockchain Platform service
 
 ## 3.84.0 (July 08, 2020)
 
