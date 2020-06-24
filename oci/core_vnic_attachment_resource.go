@@ -388,11 +388,10 @@ func (s *CoreVnicAttachmentResourceCrud) SetData() error {
 	// @CODEGEN 1/2018: We need to refresh the vnic details after every refresh.
 	request := oci_core.GetVnicRequest{}
 	request.VnicId = s.Res.VnicId
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.VirtualNetworkClient.GetVnic(context.Background(), request)
 	if err != nil {
-		// VNIC might not be found when attaching or detaching.
+		// VNIC might not be found when attaching or detaching; or if it is in a different compartment
 		log.Printf("[DEBUG] VNIC not found during VNIC Attachment refresh. (VNIC ID: %q, Error: %q)", *request.VnicId, err)
 		return nil
 	}

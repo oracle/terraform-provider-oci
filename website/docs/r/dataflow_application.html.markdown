@@ -28,6 +28,7 @@ resource "oci_dataflow_application" "test_application" {
 	spark_version = "${var.application_spark_version}"
 
 	#Optional
+	archive_uri = "${var.application_archive_uri}"
 	arguments = "${var.application_arguments}"
 	class_name = "${var.application_class_name}"
 	configuration = "${var.application_configuration}"
@@ -48,6 +49,7 @@ resource "oci_dataflow_application" "test_application" {
 
 The following arguments are supported:
 
+* `archive_uri` - (Optional) (Updatable) An Oracle Cloud Infrastructure URI of an archive (zip) file that may used to support the execution of the application. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat 
 * `arguments` - (Optional) (Updatable) The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"` 
 * `class_name` - (Optional) (Updatable) The class for the application. 
 * `compartment_id` - (Required) (Updatable) The OCID of a compartment. 
@@ -76,6 +78,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `archive_uri` - An Oracle Cloud Infrastructure URI of an archive (zip) file that may used to support the execution of the application. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat 
 * `arguments` - The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"` 
 * `class_name` - The class for the application. 
 * `compartment_id` - The OCID of a compartment. 

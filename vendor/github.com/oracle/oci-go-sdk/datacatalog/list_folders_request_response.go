@@ -22,7 +22,7 @@ type ListFoldersRequest struct {
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListFoldersLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique folder key.
 	ParentFolderKey *string `mandatory:"false" contributesTo:"query" name:"parentFolderKey"`
@@ -46,7 +46,7 @@ type ListFoldersRequest struct {
 	UpdatedById *string `mandatory:"false" contributesTo:"query" name:"updatedById"`
 
 	// Harvest status of the harvestable resource as updated by the harvest process.
-	HarvestStatus HarvestStatusEnum `mandatory:"false" contributesTo:"query" name:"harvestStatus" omitEmpty:"true"`
+	HarvestStatus ListFoldersHarvestStatusEnum `mandatory:"false" contributesTo:"query" name:"harvestStatus" omitEmpty:"true"`
 
 	// Key of the last harvest process to update this resource.
 	LastJobKey *string `mandatory:"false" contributesTo:"query" name:"lastJobKey"`
@@ -112,6 +112,68 @@ func (response ListFoldersResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListFoldersResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListFoldersLifecycleStateEnum Enum with underlying type: string
+type ListFoldersLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListFoldersLifecycleStateEnum
+const (
+	ListFoldersLifecycleStateCreating ListFoldersLifecycleStateEnum = "CREATING"
+	ListFoldersLifecycleStateActive   ListFoldersLifecycleStateEnum = "ACTIVE"
+	ListFoldersLifecycleStateInactive ListFoldersLifecycleStateEnum = "INACTIVE"
+	ListFoldersLifecycleStateUpdating ListFoldersLifecycleStateEnum = "UPDATING"
+	ListFoldersLifecycleStateDeleting ListFoldersLifecycleStateEnum = "DELETING"
+	ListFoldersLifecycleStateDeleted  ListFoldersLifecycleStateEnum = "DELETED"
+	ListFoldersLifecycleStateFailed   ListFoldersLifecycleStateEnum = "FAILED"
+	ListFoldersLifecycleStateMoving   ListFoldersLifecycleStateEnum = "MOVING"
+)
+
+var mappingListFoldersLifecycleState = map[string]ListFoldersLifecycleStateEnum{
+	"CREATING": ListFoldersLifecycleStateCreating,
+	"ACTIVE":   ListFoldersLifecycleStateActive,
+	"INACTIVE": ListFoldersLifecycleStateInactive,
+	"UPDATING": ListFoldersLifecycleStateUpdating,
+	"DELETING": ListFoldersLifecycleStateDeleting,
+	"DELETED":  ListFoldersLifecycleStateDeleted,
+	"FAILED":   ListFoldersLifecycleStateFailed,
+	"MOVING":   ListFoldersLifecycleStateMoving,
+}
+
+// GetListFoldersLifecycleStateEnumValues Enumerates the set of values for ListFoldersLifecycleStateEnum
+func GetListFoldersLifecycleStateEnumValues() []ListFoldersLifecycleStateEnum {
+	values := make([]ListFoldersLifecycleStateEnum, 0)
+	for _, v := range mappingListFoldersLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListFoldersHarvestStatusEnum Enum with underlying type: string
+type ListFoldersHarvestStatusEnum string
+
+// Set of constants representing the allowable values for ListFoldersHarvestStatusEnum
+const (
+	ListFoldersHarvestStatusComplete   ListFoldersHarvestStatusEnum = "COMPLETE"
+	ListFoldersHarvestStatusError      ListFoldersHarvestStatusEnum = "ERROR"
+	ListFoldersHarvestStatusInProgress ListFoldersHarvestStatusEnum = "IN_PROGRESS"
+	ListFoldersHarvestStatusDeferred   ListFoldersHarvestStatusEnum = "DEFERRED"
+)
+
+var mappingListFoldersHarvestStatus = map[string]ListFoldersHarvestStatusEnum{
+	"COMPLETE":    ListFoldersHarvestStatusComplete,
+	"ERROR":       ListFoldersHarvestStatusError,
+	"IN_PROGRESS": ListFoldersHarvestStatusInProgress,
+	"DEFERRED":    ListFoldersHarvestStatusDeferred,
+}
+
+// GetListFoldersHarvestStatusEnumValues Enumerates the set of values for ListFoldersHarvestStatusEnum
+func GetListFoldersHarvestStatusEnumValues() []ListFoldersHarvestStatusEnum {
+	values := make([]ListFoldersHarvestStatusEnum, 0)
+	for _, v := range mappingListFoldersHarvestStatus {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListFoldersFieldsEnum Enum with underlying type: string

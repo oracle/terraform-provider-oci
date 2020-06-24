@@ -43,10 +43,10 @@ var (
 	}
 
 	autonomousContainerDatabaseRepresentation = map[string]interface{}{
-		"autonomous_exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
 		"display_name":                         Representation{repType: Required, create: `containerdatabases2`, update: `displayName2`},
 		"patch_model":                          Representation{repType: Required, create: `RELEASE_UPDATES`, update: `RELEASE_UPDATE_REVISIONS`},
-		"backup_config":                        RepresentationGroup{Optional, autonomousContainerDatabaseBackupConfigRepresentation},
+		"autonomous_exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
+		"backup_config":                        RepresentationGroup{Optional, ACDatabaseBackupConfigRepresentation},
 		"compartment_id":                       Representation{repType: Optional, create: `${var.compartment_id}`},
 		"defined_tags":                         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
@@ -54,7 +54,8 @@ var (
 		"service_level_agreement_type":         Representation{repType: Optional, create: `STANDARD`},
 	}
 	autonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
-		"recovery_window_in_days": Representation{repType: Optional, create: `10`, update: `11`},
+		"backup_destination_details": RepresentationGroup{Optional, autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation},
+		"recovery_window_in_days":    Representation{repType: Optional, create: `10`, update: `11`},
 	}
 	autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation = map[string]interface{}{
 		"preference": Representation{repType: Required, create: `NO_PREFERENCE`},
@@ -73,7 +74,12 @@ var (
 		"name": Representation{repType: Required, create: `APRIL`, update: `MAY`},
 	}
 
-	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig
+	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig +
+		generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
+			representationCopyWithNewProperties(exadataInfrastructureRepresentation, map[string]interface{}{"activation_file": Representation{repType: Required, create: activationFilePath}})) +
+		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
+			representationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{repType: Required, create: "true"}}))
 )
 
 func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {

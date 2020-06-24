@@ -27,6 +27,9 @@ type BackupDestinationDetails struct {
 
 	// For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 	VpcPassword *string `mandatory:"false" json:"vpcPassword"`
+
+	// Proxy URL to connect to object store.
+	InternetProxy *string `mandatory:"false" json:"internetProxy"`
 }
 
 func (m BackupDestinationDetails) String() string {

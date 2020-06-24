@@ -20,12 +20,23 @@ type CreateDbHomeBase interface {
 
 	// The user-provided name of the Database Home.
 	GetDisplayName() *string
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	GetFreeformTags() map[string]string
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	GetDefinedTags() map[string]map[string]interface{}
 }
 
 type createdbhomebase struct {
-	JsonData    []byte
-	DisplayName *string `mandatory:"false" json:"displayName"`
-	Source      string  `json:"source"`
+	JsonData     []byte
+	DisplayName  *string                           `mandatory:"false" json:"displayName"`
+	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Source       string                            `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -40,6 +51,8 @@ func (m *createdbhomebase) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.DisplayName = s.Model.DisplayName
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
 	m.Source = s.Model.Source
 
 	return err
@@ -78,6 +91,16 @@ func (m *createdbhomebase) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 //GetDisplayName returns DisplayName
 func (m createdbhomebase) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+//GetFreeformTags returns FreeformTags
+func (m createdbhomebase) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m createdbhomebase) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m createdbhomebase) String() string {

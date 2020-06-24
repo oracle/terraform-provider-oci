@@ -22,7 +22,7 @@ type ListConnectionsRequest struct {
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListConnectionsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Time that the resource was created. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreated"`
@@ -106,6 +106,41 @@ func (response ListConnectionsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListConnectionsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListConnectionsLifecycleStateEnum Enum with underlying type: string
+type ListConnectionsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListConnectionsLifecycleStateEnum
+const (
+	ListConnectionsLifecycleStateCreating ListConnectionsLifecycleStateEnum = "CREATING"
+	ListConnectionsLifecycleStateActive   ListConnectionsLifecycleStateEnum = "ACTIVE"
+	ListConnectionsLifecycleStateInactive ListConnectionsLifecycleStateEnum = "INACTIVE"
+	ListConnectionsLifecycleStateUpdating ListConnectionsLifecycleStateEnum = "UPDATING"
+	ListConnectionsLifecycleStateDeleting ListConnectionsLifecycleStateEnum = "DELETING"
+	ListConnectionsLifecycleStateDeleted  ListConnectionsLifecycleStateEnum = "DELETED"
+	ListConnectionsLifecycleStateFailed   ListConnectionsLifecycleStateEnum = "FAILED"
+	ListConnectionsLifecycleStateMoving   ListConnectionsLifecycleStateEnum = "MOVING"
+)
+
+var mappingListConnectionsLifecycleState = map[string]ListConnectionsLifecycleStateEnum{
+	"CREATING": ListConnectionsLifecycleStateCreating,
+	"ACTIVE":   ListConnectionsLifecycleStateActive,
+	"INACTIVE": ListConnectionsLifecycleStateInactive,
+	"UPDATING": ListConnectionsLifecycleStateUpdating,
+	"DELETING": ListConnectionsLifecycleStateDeleting,
+	"DELETED":  ListConnectionsLifecycleStateDeleted,
+	"FAILED":   ListConnectionsLifecycleStateFailed,
+	"MOVING":   ListConnectionsLifecycleStateMoving,
+}
+
+// GetListConnectionsLifecycleStateEnumValues Enumerates the set of values for ListConnectionsLifecycleStateEnum
+func GetListConnectionsLifecycleStateEnumValues() []ListConnectionsLifecycleStateEnum {
+	values := make([]ListConnectionsLifecycleStateEnum, 0)
+	for _, v := range mappingListConnectionsLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListConnectionsFieldsEnum Enum with underlying type: string

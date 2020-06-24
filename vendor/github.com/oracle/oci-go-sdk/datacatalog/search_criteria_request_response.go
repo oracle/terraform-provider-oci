@@ -25,7 +25,7 @@ type SearchCriteriaRequest struct {
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState SearchCriteriaLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A search timeout string (for example, timeout=4000ms), bounding the search request to be executed within the
 	// specified time value and bail with the hits accumulated up to that point when expired.
@@ -90,6 +90,41 @@ func (response SearchCriteriaResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response SearchCriteriaResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// SearchCriteriaLifecycleStateEnum Enum with underlying type: string
+type SearchCriteriaLifecycleStateEnum string
+
+// Set of constants representing the allowable values for SearchCriteriaLifecycleStateEnum
+const (
+	SearchCriteriaLifecycleStateCreating SearchCriteriaLifecycleStateEnum = "CREATING"
+	SearchCriteriaLifecycleStateActive   SearchCriteriaLifecycleStateEnum = "ACTIVE"
+	SearchCriteriaLifecycleStateInactive SearchCriteriaLifecycleStateEnum = "INACTIVE"
+	SearchCriteriaLifecycleStateUpdating SearchCriteriaLifecycleStateEnum = "UPDATING"
+	SearchCriteriaLifecycleStateDeleting SearchCriteriaLifecycleStateEnum = "DELETING"
+	SearchCriteriaLifecycleStateDeleted  SearchCriteriaLifecycleStateEnum = "DELETED"
+	SearchCriteriaLifecycleStateFailed   SearchCriteriaLifecycleStateEnum = "FAILED"
+	SearchCriteriaLifecycleStateMoving   SearchCriteriaLifecycleStateEnum = "MOVING"
+)
+
+var mappingSearchCriteriaLifecycleState = map[string]SearchCriteriaLifecycleStateEnum{
+	"CREATING": SearchCriteriaLifecycleStateCreating,
+	"ACTIVE":   SearchCriteriaLifecycleStateActive,
+	"INACTIVE": SearchCriteriaLifecycleStateInactive,
+	"UPDATING": SearchCriteriaLifecycleStateUpdating,
+	"DELETING": SearchCriteriaLifecycleStateDeleting,
+	"DELETED":  SearchCriteriaLifecycleStateDeleted,
+	"FAILED":   SearchCriteriaLifecycleStateFailed,
+	"MOVING":   SearchCriteriaLifecycleStateMoving,
+}
+
+// GetSearchCriteriaLifecycleStateEnumValues Enumerates the set of values for SearchCriteriaLifecycleStateEnum
+func GetSearchCriteriaLifecycleStateEnumValues() []SearchCriteriaLifecycleStateEnum {
+	values := make([]SearchCriteriaLifecycleStateEnum, 0)
+	for _, v := range mappingSearchCriteriaLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // SearchCriteriaSortByEnum Enum with underlying type: string

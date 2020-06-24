@@ -25,7 +25,7 @@ type ListEntityTagsRequest struct {
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListEntityTagsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique key of the related term.
 	TermKey *string `mandatory:"false" contributesTo:"query" name:"termKey"`
@@ -100,6 +100,41 @@ func (response ListEntityTagsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListEntityTagsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListEntityTagsLifecycleStateEnum Enum with underlying type: string
+type ListEntityTagsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListEntityTagsLifecycleStateEnum
+const (
+	ListEntityTagsLifecycleStateCreating ListEntityTagsLifecycleStateEnum = "CREATING"
+	ListEntityTagsLifecycleStateActive   ListEntityTagsLifecycleStateEnum = "ACTIVE"
+	ListEntityTagsLifecycleStateInactive ListEntityTagsLifecycleStateEnum = "INACTIVE"
+	ListEntityTagsLifecycleStateUpdating ListEntityTagsLifecycleStateEnum = "UPDATING"
+	ListEntityTagsLifecycleStateDeleting ListEntityTagsLifecycleStateEnum = "DELETING"
+	ListEntityTagsLifecycleStateDeleted  ListEntityTagsLifecycleStateEnum = "DELETED"
+	ListEntityTagsLifecycleStateFailed   ListEntityTagsLifecycleStateEnum = "FAILED"
+	ListEntityTagsLifecycleStateMoving   ListEntityTagsLifecycleStateEnum = "MOVING"
+)
+
+var mappingListEntityTagsLifecycleState = map[string]ListEntityTagsLifecycleStateEnum{
+	"CREATING": ListEntityTagsLifecycleStateCreating,
+	"ACTIVE":   ListEntityTagsLifecycleStateActive,
+	"INACTIVE": ListEntityTagsLifecycleStateInactive,
+	"UPDATING": ListEntityTagsLifecycleStateUpdating,
+	"DELETING": ListEntityTagsLifecycleStateDeleting,
+	"DELETED":  ListEntityTagsLifecycleStateDeleted,
+	"FAILED":   ListEntityTagsLifecycleStateFailed,
+	"MOVING":   ListEntityTagsLifecycleStateMoving,
+}
+
+// GetListEntityTagsLifecycleStateEnumValues Enumerates the set of values for ListEntityTagsLifecycleStateEnum
+func GetListEntityTagsLifecycleStateEnumValues() []ListEntityTagsLifecycleStateEnum {
+	values := make([]ListEntityTagsLifecycleStateEnum, 0)
+	for _, v := range mappingListEntityTagsLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListEntityTagsFieldsEnum Enum with underlying type: string
