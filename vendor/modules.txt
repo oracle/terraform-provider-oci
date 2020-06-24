@@ -492,6 +492,7 @@ github.com/oracle/oci-go-sdk/apigateway
 github.com/oracle/oci-go-sdk/audit
 github.com/oracle/oci-go-sdk/autoscaling
 github.com/oracle/oci-go-sdk/bds
+github.com/oracle/oci-go-sdk/blockchain
 github.com/oracle/oci-go-sdk/budget
 github.com/oracle/oci-go-sdk/common
 github.com/oracle/oci-go-sdk/common/auth
