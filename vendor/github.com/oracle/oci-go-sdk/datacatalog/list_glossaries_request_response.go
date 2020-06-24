@@ -19,7 +19,7 @@ type ListGlossariesRequest struct {
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
-	LifecycleState LifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListGlossariesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Time that the resource was created. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreated"`
@@ -94,6 +94,41 @@ func (response ListGlossariesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListGlossariesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListGlossariesLifecycleStateEnum Enum with underlying type: string
+type ListGlossariesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListGlossariesLifecycleStateEnum
+const (
+	ListGlossariesLifecycleStateCreating ListGlossariesLifecycleStateEnum = "CREATING"
+	ListGlossariesLifecycleStateActive   ListGlossariesLifecycleStateEnum = "ACTIVE"
+	ListGlossariesLifecycleStateInactive ListGlossariesLifecycleStateEnum = "INACTIVE"
+	ListGlossariesLifecycleStateUpdating ListGlossariesLifecycleStateEnum = "UPDATING"
+	ListGlossariesLifecycleStateDeleting ListGlossariesLifecycleStateEnum = "DELETING"
+	ListGlossariesLifecycleStateDeleted  ListGlossariesLifecycleStateEnum = "DELETED"
+	ListGlossariesLifecycleStateFailed   ListGlossariesLifecycleStateEnum = "FAILED"
+	ListGlossariesLifecycleStateMoving   ListGlossariesLifecycleStateEnum = "MOVING"
+)
+
+var mappingListGlossariesLifecycleState = map[string]ListGlossariesLifecycleStateEnum{
+	"CREATING": ListGlossariesLifecycleStateCreating,
+	"ACTIVE":   ListGlossariesLifecycleStateActive,
+	"INACTIVE": ListGlossariesLifecycleStateInactive,
+	"UPDATING": ListGlossariesLifecycleStateUpdating,
+	"DELETING": ListGlossariesLifecycleStateDeleting,
+	"DELETED":  ListGlossariesLifecycleStateDeleted,
+	"FAILED":   ListGlossariesLifecycleStateFailed,
+	"MOVING":   ListGlossariesLifecycleStateMoving,
+}
+
+// GetListGlossariesLifecycleStateEnumValues Enumerates the set of values for ListGlossariesLifecycleStateEnum
+func GetListGlossariesLifecycleStateEnumValues() []ListGlossariesLifecycleStateEnum {
+	values := make([]ListGlossariesLifecycleStateEnum, 0)
+	for _, v := range mappingListGlossariesLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListGlossariesFieldsEnum Enum with underlying type: string

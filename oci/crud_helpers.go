@@ -125,7 +125,9 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 			(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no ")) ||
 			strings.Contains(strings.ToLower((*err).Error()), "status code: 404") { // status code: 404 is not enough because the load balancer error responses don't include it for some reason
 			log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
-			sync.VoidState()
+			if sync != nil {
+				sync.VoidState()
+			}
 			*err = nil
 		}
 	}

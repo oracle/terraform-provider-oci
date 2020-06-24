@@ -43,3 +43,9 @@ resource "oci_dns_rrset" "rrset-cname" {
     ttl    = 86400
   }
 }
+
+data "oci_dns_rrset" "test_rrset" {
+  domain          = "el.${oci_dns_zone.zone3.name}"
+  rtype           = "CNAME"
+  zone_name_or_id = "${oci_dns_zone.zone3.id}"
+}

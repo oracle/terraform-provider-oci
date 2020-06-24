@@ -90,6 +90,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported.
 * `output_path` - Path to output generated configurations and state files of the exported compartment
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
+    * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value.
@@ -102,6 +103,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `datacatalog` - Discovers datacatalog resources within the specified compartment
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
+    * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
@@ -119,6 +121,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `oce` - Discovers oce resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `oda` - Discovers oda resources within the specified compartment
+    * `ons` - Discovers ons resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
@@ -129,6 +132,14 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * 0.12
 
 > **Note**: The compartment export functionality currently supports discovery of the target compartment. The ability to discover resources in child compartments is not yet supported.
+
+### Exit status
+
+While discovering resources if there is any error related to the APIs or service unavailability, the tool will move on to find next resource. All the errors encountered will be displayed after the discovery is complete.
+
+* Exit code 0 - Success
+* Exit code 1 - Failure due to errors such as incorrect environment variables, arguments or configuration
+* Exit code 2 - Partial Success when resource discovery was not able to find all the resources because of the service failures
 
 ### Generated Terraform Configuration Contents
 
@@ -204,6 +215,10 @@ The list of supported resources can also be retrieved by running this command:
 terraform-provider-oci -command=list_export_resources
 ```
 
+analytics
+    
+* oci\_analytics\_analytics\_instance
+
 apigateway
     
 * oci\_apigateway\_gateway
@@ -278,6 +293,7 @@ database
 * oci\_database\_autonomous\_container\_database
 * oci\_database\_autonomous\_database
 * oci\_database\_autonomous\_exadata\_infrastructure
+* oci\_database\_autonomous\_vm\_cluster
 * oci\_database\_backup\_destination
 * oci\_database\_backup
 * oci\_database\_database
@@ -286,6 +302,13 @@ database
 * oci\_database\_exadata\_infrastructure
 * oci\_database\_vm\_cluster\_network
 * oci\_database\_vm\_cluster
+
+datacatalog
+    
+* oci\_datacatalog\_catalog
+* oci\_datacatalog\_data\_asset
+* oci\_datacatalog\_connection
+* oci\_datacatalog\_catalog\_private\_endpoint
 
 dataflow
     
@@ -298,18 +321,17 @@ datascience
 * oci\_datascience\_model
 * oci\_datascience\_model\_provenance
 
+dataintegration
+    
+* oci\_dataintegration\_workspace
+
 dns
     
 * oci\_dns\_zone
 * oci\_dns\_steering\_policy
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
-
-datacatalog
-    
-* oci\_datacatalog\_catalog
-* oci\_datacatalog\_data\_asset
-* oci\_datacatalog\_connection
+* oci\_dns\_rrset
 
 email
     
@@ -408,6 +430,10 @@ oce
 oda
     
 * oci\_oda\_oda\_instance
+
+ons
+    
+* oci\_ons\_notification\_topic
 
 osmanagement
     

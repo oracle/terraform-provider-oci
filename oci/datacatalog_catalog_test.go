@@ -41,13 +41,17 @@ var (
 	}
 
 	catalogRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":                     Representation{repType: Required, create: `${var.compartment_id}`},
+		"defined_tags":                       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":                      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"attached_catalog_private_endpoints": Representation{repType: Optional, create: []string{`${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`}},
 	}
 
-	CatalogResourceDependencies = DefinedTagsDependencies
+	CatalogResourceDependencies = generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestDatacatalogCatalogResource_basic(t *testing.T) {
@@ -104,6 +108,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -130,6 +135,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -151,6 +157,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -174,6 +181,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "catalogs.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.attached_catalog_private_endpoints.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.freeform_tags.%", "1"),
@@ -192,6 +200,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 
+					resource.TestCheckResourceAttr(singularDatasourceName, "attached_catalog_private_endpoints.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
@@ -309,7 +318,7 @@ func getCatalogIds(compartment string) ([]string, error) {
 
 	listCatalogsRequest := oci_datacatalog.ListCatalogsRequest{}
 	listCatalogsRequest.CompartmentId = &compartmentId
-	listCatalogsRequest.LifecycleState = oci_datacatalog.LifecycleStateActive
+	listCatalogsRequest.LifecycleState = oci_datacatalog.ListCatalogsLifecycleStateActive
 	listCatalogsResponse, err := dataCatalogClient.ListCatalogs(context.Background(), listCatalogsRequest)
 
 	if err != nil {

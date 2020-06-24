@@ -40,6 +40,15 @@ type BackupDestinationSummary struct {
 	// The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes.
 	LocalMountPointPath *string `mandatory:"false" json:"localMountPointPath"`
 
+	// NFS Mount type for backup destination.
+	NfsMountType BackupDestinationSummaryNfsMountTypeEnum `mandatory:"false" json:"nfsMountType,omitempty"`
+
+	// Host names or IP addresses for NFS Auto mount.
+	NfsServer []string `mandatory:"false" json:"nfsServer"`
+
+	// Specifies the directory on which to mount the file system
+	NfsServerExport *string `mandatory:"false" json:"nfsServerExport"`
+
 	// The current lifecycle state of the backup destination.
 	LifecycleState BackupDestinationSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
@@ -82,6 +91,29 @@ var mappingBackupDestinationSummaryType = map[string]BackupDestinationSummaryTyp
 func GetBackupDestinationSummaryTypeEnumValues() []BackupDestinationSummaryTypeEnum {
 	values := make([]BackupDestinationSummaryTypeEnum, 0)
 	for _, v := range mappingBackupDestinationSummaryType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// BackupDestinationSummaryNfsMountTypeEnum Enum with underlying type: string
+type BackupDestinationSummaryNfsMountTypeEnum string
+
+// Set of constants representing the allowable values for BackupDestinationSummaryNfsMountTypeEnum
+const (
+	BackupDestinationSummaryNfsMountTypeSelfMount      BackupDestinationSummaryNfsMountTypeEnum = "SELF_MOUNT"
+	BackupDestinationSummaryNfsMountTypeAutomatedMount BackupDestinationSummaryNfsMountTypeEnum = "AUTOMATED_MOUNT"
+)
+
+var mappingBackupDestinationSummaryNfsMountType = map[string]BackupDestinationSummaryNfsMountTypeEnum{
+	"SELF_MOUNT":      BackupDestinationSummaryNfsMountTypeSelfMount,
+	"AUTOMATED_MOUNT": BackupDestinationSummaryNfsMountTypeAutomatedMount,
+}
+
+// GetBackupDestinationSummaryNfsMountTypeEnumValues Enumerates the set of values for BackupDestinationSummaryNfsMountTypeEnum
+func GetBackupDestinationSummaryNfsMountTypeEnumValues() []BackupDestinationSummaryNfsMountTypeEnum {
+	values := make([]BackupDestinationSummaryNfsMountTypeEnum, 0)
+	for _, v := range mappingBackupDestinationSummaryNfsMountType {
 		values = append(values, v)
 	}
 	return values

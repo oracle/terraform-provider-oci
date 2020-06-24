@@ -54,6 +54,9 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically contains additional displayable text 
 * `local_mount_point_path` - The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes. 
+* `nfs_mount_type` - NFS Mount type for backup destination.
+* `nfs_server` - Host names or IP addresses for NFS Auto mount.
+* `nfs_server_export` - Specifies the directory on which to mount the file system
 * `state` - The current lifecycle state of the backup destination.
 * `time_created` - The date and time the backup destination was created.
 * `type` - Type of the backup destination.

@@ -72,6 +72,10 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 		s.D.Set("application_id", *s.Res.ApplicationId)
 	}
 
+	if s.Res.ArchiveUri != nil {
+		s.D.Set("archive_uri", *s.Res.ArchiveUri)
+	}
+
 	s.D.Set("arguments", s.Res.Arguments)
 
 	if s.Res.ClassName != nil {

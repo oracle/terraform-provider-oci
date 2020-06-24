@@ -111,6 +111,10 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 					db_home {
 						db_version = "12.1.0.2"
+						defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+						freeform_tags = {
+							"Department" = "Finance"
+						}
 						database {
 							admin_password = "BEstrO0ng_#11"
 							db_name = "aTFdb"
@@ -135,6 +139,9 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.freeform_tags.Department", "Finance"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
@@ -235,6 +242,10 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group2.id}"]
 					db_home {
 						db_version = "12.1.0.2"
+						defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+						freeform_tags = {
+							"Department" = "Finance"
+						}
 						database {
 							admin_password = "BEstrO0ng_#11"
 							db_name = "aTFdb"
@@ -259,6 +270,9 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.freeform_tags.Department", "Finance"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
@@ -350,6 +364,10 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					time_zone = "US/Pacific"
 					db_home {
 						db_version = "12.1.0.2"
+						defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+						freeform_tags = {
+							"Department" = "Finance"
+						}
 						database {
 							admin_password = "BEstrO0ng_#11"
 							db_name = "aTFdb"
@@ -374,6 +392,9 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.freeform_tags.Department", "Finance"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),

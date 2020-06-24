@@ -486,7 +486,7 @@ github.com/modern-go/reflect2
 github.com/nu7hatch/gouuid
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk v20.1.0+incompatible
+# github.com/oracle/oci-go-sdk v21.0.0+incompatible
 github.com/oracle/oci-go-sdk/analytics
 github.com/oracle/oci-go-sdk/apigateway
 github.com/oracle/oci-go-sdk/audit
@@ -500,6 +500,7 @@ github.com/oracle/oci-go-sdk/core
 github.com/oracle/oci-go-sdk/database
 github.com/oracle/oci-go-sdk/datacatalog
 github.com/oracle/oci-go-sdk/dataflow
+github.com/oracle/oci-go-sdk/dataintegration
 github.com/oracle/oci-go-sdk/datasafe
 github.com/oracle/oci-go-sdk/datascience
 github.com/oracle/oci-go-sdk/dns
@@ -515,6 +516,7 @@ github.com/oracle/oci-go-sdk/limits
 github.com/oracle/oci-go-sdk/loadbalancer
 github.com/oracle/oci-go-sdk/marketplace
 github.com/oracle/oci-go-sdk/monitoring
+github.com/oracle/oci-go-sdk/mysql
 github.com/oracle/oci-go-sdk/nosql
 github.com/oracle/oci-go-sdk/objectstorage
 github.com/oracle/oci-go-sdk/oce

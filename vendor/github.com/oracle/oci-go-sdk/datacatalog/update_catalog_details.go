@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateCatalogDetails The information to be updated.
+// UpdateCatalogDetails The information to be updated for catalog resource.
 type UpdateCatalogDetails struct {
 
 	// Data catalog identifier.

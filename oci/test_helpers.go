@@ -452,7 +452,7 @@ func testExportCompartment(id *string, compartmentId *string, exportCommandArgs 
 	var tfVersion TfHclVersion = &TfHclVersion12{Value: TfVersion12}
 	exportCommandArgs.TFVersion = &tfVersion
 
-	if errExport := RunExportCommand(exportCommandArgs); errExport != nil {
+	if errExport, _ := RunExportCommand(exportCommandArgs); errExport != nil {
 		return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport)
 	}
 	meta := command.Meta{

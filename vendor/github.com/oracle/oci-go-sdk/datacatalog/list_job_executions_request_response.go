@@ -19,7 +19,7 @@ type ListJobExecutionsRequest struct {
 	JobKey *string `mandatory:"true" contributesTo:"path" name:"jobKey"`
 
 	// Job execution lifecycle state.
-	LifecycleState JobExecutionStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListJobExecutionsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Time that the resource was created. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreated"`
@@ -34,7 +34,7 @@ type ListJobExecutionsRequest struct {
 	UpdatedById *string `mandatory:"false" contributesTo:"query" name:"updatedById"`
 
 	// Job type.
-	JobType JobTypeEnum `mandatory:"false" contributesTo:"query" name:"jobType" omitEmpty:"true"`
+	JobType ListJobExecutionsJobTypeEnum `mandatory:"false" contributesTo:"query" name:"jobType" omitEmpty:"true"`
 
 	// Sub-type of this job execution.
 	SubType *string `mandatory:"false" contributesTo:"query" name:"subType"`
@@ -129,6 +129,82 @@ func (response ListJobExecutionsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListJobExecutionsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListJobExecutionsLifecycleStateEnum Enum with underlying type: string
+type ListJobExecutionsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListJobExecutionsLifecycleStateEnum
+const (
+	ListJobExecutionsLifecycleStateCreated    ListJobExecutionsLifecycleStateEnum = "CREATED"
+	ListJobExecutionsLifecycleStateInProgress ListJobExecutionsLifecycleStateEnum = "IN_PROGRESS"
+	ListJobExecutionsLifecycleStateInactive   ListJobExecutionsLifecycleStateEnum = "INACTIVE"
+	ListJobExecutionsLifecycleStateFailed     ListJobExecutionsLifecycleStateEnum = "FAILED"
+	ListJobExecutionsLifecycleStateSucceeded  ListJobExecutionsLifecycleStateEnum = "SUCCEEDED"
+	ListJobExecutionsLifecycleStateCanceled   ListJobExecutionsLifecycleStateEnum = "CANCELED"
+)
+
+var mappingListJobExecutionsLifecycleState = map[string]ListJobExecutionsLifecycleStateEnum{
+	"CREATED":     ListJobExecutionsLifecycleStateCreated,
+	"IN_PROGRESS": ListJobExecutionsLifecycleStateInProgress,
+	"INACTIVE":    ListJobExecutionsLifecycleStateInactive,
+	"FAILED":      ListJobExecutionsLifecycleStateFailed,
+	"SUCCEEDED":   ListJobExecutionsLifecycleStateSucceeded,
+	"CANCELED":    ListJobExecutionsLifecycleStateCanceled,
+}
+
+// GetListJobExecutionsLifecycleStateEnumValues Enumerates the set of values for ListJobExecutionsLifecycleStateEnum
+func GetListJobExecutionsLifecycleStateEnumValues() []ListJobExecutionsLifecycleStateEnum {
+	values := make([]ListJobExecutionsLifecycleStateEnum, 0)
+	for _, v := range mappingListJobExecutionsLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListJobExecutionsJobTypeEnum Enum with underlying type: string
+type ListJobExecutionsJobTypeEnum string
+
+// Set of constants representing the allowable values for ListJobExecutionsJobTypeEnum
+const (
+	ListJobExecutionsJobTypeHarvest                    ListJobExecutionsJobTypeEnum = "HARVEST"
+	ListJobExecutionsJobTypeProfiling                  ListJobExecutionsJobTypeEnum = "PROFILING"
+	ListJobExecutionsJobTypeSampling                   ListJobExecutionsJobTypeEnum = "SAMPLING"
+	ListJobExecutionsJobTypePreview                    ListJobExecutionsJobTypeEnum = "PREVIEW"
+	ListJobExecutionsJobTypeImport                     ListJobExecutionsJobTypeEnum = "IMPORT"
+	ListJobExecutionsJobTypeExport                     ListJobExecutionsJobTypeEnum = "EXPORT"
+	ListJobExecutionsJobTypeInternal                   ListJobExecutionsJobTypeEnum = "INTERNAL"
+	ListJobExecutionsJobTypePurge                      ListJobExecutionsJobTypeEnum = "PURGE"
+	ListJobExecutionsJobTypeImmediate                  ListJobExecutionsJobTypeEnum = "IMMEDIATE"
+	ListJobExecutionsJobTypeScheduled                  ListJobExecutionsJobTypeEnum = "SCHEDULED"
+	ListJobExecutionsJobTypeImmediateExecution         ListJobExecutionsJobTypeEnum = "IMMEDIATE_EXECUTION"
+	ListJobExecutionsJobTypeScheduledExecution         ListJobExecutionsJobTypeEnum = "SCHEDULED_EXECUTION"
+	ListJobExecutionsJobTypeScheduledExecutionInstance ListJobExecutionsJobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
+)
+
+var mappingListJobExecutionsJobType = map[string]ListJobExecutionsJobTypeEnum{
+	"HARVEST":                      ListJobExecutionsJobTypeHarvest,
+	"PROFILING":                    ListJobExecutionsJobTypeProfiling,
+	"SAMPLING":                     ListJobExecutionsJobTypeSampling,
+	"PREVIEW":                      ListJobExecutionsJobTypePreview,
+	"IMPORT":                       ListJobExecutionsJobTypeImport,
+	"EXPORT":                       ListJobExecutionsJobTypeExport,
+	"INTERNAL":                     ListJobExecutionsJobTypeInternal,
+	"PURGE":                        ListJobExecutionsJobTypePurge,
+	"IMMEDIATE":                    ListJobExecutionsJobTypeImmediate,
+	"SCHEDULED":                    ListJobExecutionsJobTypeScheduled,
+	"IMMEDIATE_EXECUTION":          ListJobExecutionsJobTypeImmediateExecution,
+	"SCHEDULED_EXECUTION":          ListJobExecutionsJobTypeScheduledExecution,
+	"SCHEDULED_EXECUTION_INSTANCE": ListJobExecutionsJobTypeScheduledExecutionInstance,
+}
+
+// GetListJobExecutionsJobTypeEnumValues Enumerates the set of values for ListJobExecutionsJobTypeEnum
+func GetListJobExecutionsJobTypeEnumValues() []ListJobExecutionsJobTypeEnum {
+	values := make([]ListJobExecutionsJobTypeEnum, 0)
+	for _, v := range mappingListJobExecutionsJobType {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListJobExecutionsFieldsEnum Enum with underlying type: string

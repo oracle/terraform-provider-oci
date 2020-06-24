@@ -71,18 +71,26 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("autonomous_exadata_infrastructure_id", *s.Res.AutonomousExadataInfrastructureId)
 	}
 
+	if s.Res.AutonomousVmClusterId != nil {
+		s.D.Set("autonomous_vm_cluster_id", *s.Res.AutonomousVmClusterId)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
 	if s.Res.BackupConfig != nil {
-		s.D.Set("backup_config", []interface{}{AutonomousContainerDatabaseBackupConfigToMap(s.Res.BackupConfig)})
+		s.D.Set("backup_config", []interface{}{AutonomousContainerDatabaseBackupConfigToMap(s.Res.BackupConfig, nil, true)})
 	} else {
 		s.D.Set("backup_config", nil)
 	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DbUniqueName != nil {
+		s.D.Set("db_unique_name", *s.Res.DbUniqueName)
 	}
 
 	if s.Res.DbVersion != nil {
@@ -98,6 +106,8 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)

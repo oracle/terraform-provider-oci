@@ -279,6 +279,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"infrastructure_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"is_preview": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -677,6 +681,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)

@@ -118,7 +118,7 @@ func (s *DatacatalogDataAssetsDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_datacatalog.LifecycleStateEnum(state.(string))
+		request.LifecycleState = oci_datacatalog.ListDataAssetsLifecycleStateEnum(state.(string))
 	}
 
 	if timeCreated, ok := s.D.GetOkExists("time_created"); ok {
