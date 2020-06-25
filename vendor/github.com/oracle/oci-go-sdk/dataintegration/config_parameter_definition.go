@@ -79,5 +79,6 @@ func (m *ConfigParameterDefinition) UnmarshalJSON(data []byte) (e error) {
 	m.IsStatic = model.IsStatic
 
 	m.IsClassFieldValue = model.IsClassFieldValue
+
 	return
 }

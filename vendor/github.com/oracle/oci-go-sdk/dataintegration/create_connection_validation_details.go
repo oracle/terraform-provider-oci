@@ -61,5 +61,6 @@ func (m *CreateConnectionValidationDetails) UnmarshalJSON(data []byte) (e error)
 	}
 
 	m.RegistryMetadata = model.RegistryMetadata
+
 	return
 }

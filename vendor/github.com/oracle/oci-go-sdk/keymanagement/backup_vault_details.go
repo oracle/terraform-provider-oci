@@ -48,5 +48,6 @@ func (m *BackupVaultDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.IsIncludeKeys = model.IsIncludeKeys
+
 	return
 }

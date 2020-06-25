@@ -143,6 +143,7 @@ func (m *InputPort) UnmarshalJSON(data []byte) (e error) {
 			m.Fields[i] = nil
 		}
 	}
+
 	return
 }
 

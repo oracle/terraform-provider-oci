@@ -102,6 +102,7 @@ func (m *StructuredType) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ModelType = model.ModelType
+
 	return
 }
 

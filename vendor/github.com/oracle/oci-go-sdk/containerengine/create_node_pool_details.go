@@ -131,5 +131,6 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	m.KubernetesVersion = model.KubernetesVersion
 
 	m.NodeShape = model.NodeShape
+
 	return
 }

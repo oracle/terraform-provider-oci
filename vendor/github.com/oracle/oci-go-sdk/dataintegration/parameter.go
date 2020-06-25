@@ -169,6 +169,7 @@ func (m *Parameter) UnmarshalJSON(data []byte) (e error) {
 	m.OutputAggregationType = model.OutputAggregationType
 
 	m.TypeName = model.TypeName
+
 	return
 }
 
