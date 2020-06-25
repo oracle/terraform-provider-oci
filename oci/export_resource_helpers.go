@@ -396,6 +396,10 @@ func init() {
 	exportDnsRrsetHints.getIdFn = getDnsRrsetId
 	exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
 	exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
+
+	exportMysqlMysqlBackupHints.requireResourceRefresh = true
+	exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
+	exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem
 }
 
 func processDnsRrset(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
@@ -755,6 +759,40 @@ func filterSecondaryVnicAttachments(clients *OracleClients, resources []*OCIReso
 	}
 
 	return results, nil
+}
+
+func filterMysqlBackups(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	results := []*OCIResource{}
+
+	// Filter out Mysql Backups that are automatically created. We cannot operate on "Automatic" backups.
+	for _, backup := range resources {
+		sourceDetails, exists := backup.sourceAttributes["creation_type"]
+
+		if exists && sourceDetails.(string) == "AUTOMATIC" {
+			continue
+		}
+
+		results = append(results, backup)
+	}
+
+	return results, nil
+}
+
+// TODO: remove this when service fixes source
+func processMysqlDbSystem(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, dbSystem := range resources {
+		if source, exists := dbSystem.sourceAttributes["source"]; exists {
+			if sourceList := source.([]interface{}); len(sourceList) > 0 {
+				if sourceMap, ok := sourceList[0].(map[string]interface{}); ok {
+					if sourceMap["source_type"].(string) == "NONE" {
+						delete(dbSystem.sourceAttributes, "source")
+					}
+				}
+			}
+		}
+	}
+
+	return resources, nil
 }
 
 func filterSourcedBootVolumes(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
