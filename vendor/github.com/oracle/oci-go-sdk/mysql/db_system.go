@@ -201,6 +201,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated
+
 	return
 }
 

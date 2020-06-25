@@ -147,6 +147,7 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 	m.TimeCreated = model.TimeCreated
 
 	m.VaultId = model.VaultId
+
 	return
 }
 

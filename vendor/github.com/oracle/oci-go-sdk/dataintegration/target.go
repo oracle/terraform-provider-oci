@@ -226,6 +226,7 @@ func (m *Target) UnmarshalJSON(data []byte) (e error) {
 	m.DataProperty = model.DataProperty
 
 	m.WriteOperationConfig = model.WriteOperationConfig
+
 	return
 }
 

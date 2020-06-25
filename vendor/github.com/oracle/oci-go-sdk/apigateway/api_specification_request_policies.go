@@ -55,5 +55,6 @@ func (m *ApiSpecificationRequestPolicies) UnmarshalJSON(data []byte) (e error) {
 	m.RateLimiting = model.RateLimiting
 
 	m.Cors = model.Cors
+
 	return
 }

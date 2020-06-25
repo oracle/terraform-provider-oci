@@ -146,5 +146,6 @@ func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.NodeConfigDetails = model.NodeConfigDetails
+
 	return
 }

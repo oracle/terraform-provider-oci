@@ -102,5 +102,6 @@ func (m *AutoScalingConfigurationSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.TimeCreated = model.TimeCreated
+
 	return
 }

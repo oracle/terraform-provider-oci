@@ -157,6 +157,7 @@ func (m *AccessRule) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Action = model.Action
+
 	return
 }
 

@@ -133,5 +133,6 @@ func (m *ConfiguredType) UnmarshalJSON(data []byte) (e error) {
 	m.ConfigValues = model.ConfigValues
 
 	m.ConfigDefinition = model.ConfigDefinition
+
 	return
 }

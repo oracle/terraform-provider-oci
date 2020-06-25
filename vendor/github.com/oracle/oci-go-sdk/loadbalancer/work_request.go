@@ -49,6 +49,9 @@ type WorkRequest struct {
 
 	ErrorDetails []WorkRequestError `mandatory:"true" json:"errorDetails"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// The date and time the work request was completed, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`

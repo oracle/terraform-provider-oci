@@ -220,5 +220,6 @@ func (m *Source) UnmarshalJSON(data []byte) (e error) {
 	m.IsPredefinedShape = model.IsPredefinedShape
 
 	m.ReadOperationConfig = model.ReadOperationConfig
+
 	return
 }

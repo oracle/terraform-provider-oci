@@ -133,5 +133,6 @@ func (m *ConditionalInputLink) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Condition = model.Condition
+
 	return
 }
