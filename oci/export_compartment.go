@@ -777,6 +777,30 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 	return nil
 }
 
+func (resource *OCIResource) hasFreeformTag(tagKey string) bool {
+	if freeformTags, exists := resource.sourceAttributes["freeform_tags"]; exists {
+		if freeformTagMap, ok := freeformTags.(map[string]interface{}); ok {
+			if _, hasFreeFormTag := freeformTagMap[tagKey]; hasFreeFormTag {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+func (resource *OCIResource) hasDefinedTag(tagKey string, tagValue string) bool {
+	if definedTags, exists := resource.sourceAttributes["defined_tags"]; exists {
+		if definedTagMap, ok := definedTags.(map[string]interface{}); ok {
+			if definedTagValue, hasDefinedTag := definedTagMap[tagKey]; hasDefinedTag {
+				return definedTagValue == tagValue
+			}
+		}
+	}
+
+	return false
+}
+
 func (ociRes *OCIResource) getHCLString(builder *strings.Builder, interpolationMap map[string]string) error {
 	// Remove any potential cyclical references from the interpolation map
 	selfReference := ociRes.getTerraformReference()
