@@ -1,4 +1,8 @@
 ## 3.84.0 (Unreleased)
+
+### Added
+- Support `name` field to Identity Provider Group Summary response
+
 ## 3.83.0 (July 01, 2020)
 
 ### Added
