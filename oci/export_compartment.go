@@ -336,6 +336,10 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		return err
 	}
 
+	if err := ctx.postValidate(); err != nil {
+		return err
+	}
+
 	if ctx.GenerateState {
 		// Run init and import commands
 		meta := command.Meta{
@@ -392,9 +396,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 				importId,
 			}
 			if errCode := importCmd.Run(importArgs); errCode != 0 {
-				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, resource.parent.terraformName,
-					fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId), nil})
-				continue
+				return fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
 			}
 		}
 
@@ -405,9 +407,6 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		}
 	}
 
-	if err := ctx.postValidate(); err != nil {
-		return err
-	}
 	return nil
 }
 
