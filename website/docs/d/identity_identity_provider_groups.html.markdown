@@ -42,6 +42,7 @@ The following attributes are exported:
 * `external_identifier` - Identifier of the group in the identity provider
 * `id` - The OCID of the `IdentityProviderGroup`.
 * `identity_provider_id` - The OCID of the `IdentityProvider` this group belongs to.
+* `name` - Display name of the group
 * `time_created` - Date and time the `IdentityProviderGroup` was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_modified` - Date and time the `IdentityProviderGroup` was last modified, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 

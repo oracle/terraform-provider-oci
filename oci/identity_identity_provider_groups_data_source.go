@@ -49,6 +49,10 @@ func IdentityIdentityProviderGroupsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_created": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -136,6 +140,10 @@ func (s *IdentityIdentityProviderGroupsDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			identityProviderGroup["id"] = *r.Id
+		}
+
+		if r.Name != nil {
+			identityProviderGroup["name"] = *r.Name
 		}
 
 		if r.TimeCreated != nil {
