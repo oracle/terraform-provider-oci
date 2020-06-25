@@ -10,6 +10,7 @@
 - Support resource discovery and import for `ons_subscriptions` resource
 - Support resource discovery for `oci_objectstorage_replication_policy` resource
 - Support for specifying the retry timeout duration for API errors in resource discovery using argument `retry_timeout` in the export command. The default retry duration is 15s.
+- Support for `MySQL` resource discovery
 
 ## 3.82.0 (June 24, 2020)
 
