@@ -2,6 +2,7 @@
 
 ### Added
 - Support `name` field to Identity Provider Group Summary response
+- Support for ADB-S: Private Endpoint
 
 ## 3.83.0 (July 01, 2020)
 
