@@ -44,7 +44,7 @@ The following arguments are supported:
 
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
 * `cache_control` - (Optional) The cache-control header value to be returned in GetObjectResponse.
-* `content` - (Required) The object to upload to the object store. Cannot be defined if `source` or `source_uri_details` is defined.
+* `content` - (Optional) The object to upload to the object store. Cannot be defined if `source` or `source_uri_details` is defined.
 * `content_disposition` - (Optional) The Content-Disposition header value to be returned in GetObjectResponse.
 * `content_encoding` - (Optional) The content encoding of the object.
 * `content_language` - (Optional) The content language of the object.
