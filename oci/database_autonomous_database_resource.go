@@ -210,6 +210,15 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"switchover_to": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					"PRIMARY",
+					"STANDBY",
+				}, true),
+			},
 
 			// Computed
 			"available_upgrade_versions": {
@@ -326,6 +335,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -355,6 +368,14 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_maintenance_end": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_of_last_failover": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_of_last_switchover": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -409,6 +430,11 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.workRequestClient = m.(*OracleClients).workRequestClient
+
+	err := sync.validateSwitchoverDatabase()
+	if err != nil {
+		return err
+	}
 
 	return UpdateResource(d, sync)
 }
@@ -800,6 +826,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
 	}
 
+	if s.Res.TimeOfLastFailover != nil {
+		s.D.Set("time_of_last_failover", s.Res.TimeOfLastFailover.String())
+	}
+
+	if s.Res.TimeOfLastSwitchover != nil {
+		s.D.Set("time_of_last_switchover", s.Res.TimeOfLastSwitchover.String())
+	}
+
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_reclamation_of_free_autonomous_database", s.Res.TimeReclamationOfFreeAutonomousDatabase.String())
 	}
@@ -864,6 +898,10 @@ func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseS
 
 	if obj.LagTimeInSeconds != nil {
 		result["lag_time_in_seconds"] = int(*obj.LagTimeInSeconds)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	result["state"] = string(obj.LifecycleState)
@@ -1458,5 +1496,86 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(nsgIds []string) e
 		return err
 	}
 	s.Res = &response.AutonomousDatabase
+	return nil
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() error {
+	err := s.Get()
+	if err != nil {
+		return err
+	}
+
+	if switchoverTo, ok := s.D.GetOkExists("switchover_to"); ok && s.D.HasChange("switchover_to") {
+		oldRaw, newRaw := s.D.GetChange("switchover_to")
+		oldRaw = strings.ToUpper(oldRaw.(string))
+		newRaw = strings.ToUpper(newRaw.(string))
+		switchoverTo = strings.ToUpper(switchoverTo.(string))
+		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok && isDataGuardEnabled.(bool) == true {
+			if newRaw.(string) != "PRIMARY" || oldRaw.(string) != "" {
+				if stateStatus, ok := s.D.GetOkExists("state"); ok {
+					wantedStateStatus := oci_database.AutonomousDatabaseLifecycleStateEnum(strings.ToUpper(stateStatus.(string)))
+					if wantedStateStatus == oci_database.AutonomousDatabaseLifecycleStateAvailable {
+						if _, ok := s.D.GetOkExists("standby_db"); ok {
+							fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "standby_db", 0)
+							if standbyState, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
+								wantedStandByState := oci_database.AutonomousDatabaseStandbySummaryLifecycleStateEnum(strings.ToUpper(standbyState.(string)))
+								if wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateAvailable {
+									if err := s.switchoverDatabase(); err != nil {
+										s.D.Set("switchover_to", oldRaw.(string))
+										return err
+									}
+
+									s.D.Set("switchover_to", switchoverTo.(string))
+								} else {
+									s.D.Set("switchover_to", oldRaw.(string))
+
+									return fmt.Errorf("Autonomous standby state: %s is not present in [AVAILABLE] states", wantedStandByState)
+								}
+							}
+						}
+					} else {
+						s.D.Set("switchover_to", oldRaw.(string))
+
+						return fmt.Errorf("Autonomous database state: %s is not present in [AVAILABLE] states", wantedStateStatus)
+					}
+				}
+			} else {
+				s.D.Set("switchover_to", "PRIMARY")
+			}
+		} else {
+			if oldRaw.(string) == "" {
+				s.D.Set("switchover_to", "PRIMARY")
+			} else {
+				s.D.Set("switchover_to", oldRaw.(string))
+			}
+
+			return fmt.Errorf("Autonomous Data Guard not found in enabled state")
+		}
+	}
+
+	return nil
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase() error {
+	request := oci_database.SwitchoverAutonomousDatabaseRequest{}
+
+	tmp := s.D.Id()
+	request.AutonomousDatabaseId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.SwitchoverAutonomousDatabase(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

@@ -297,6 +297,14 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["time_maintenance_end"] = r.TimeMaintenanceEnd.String()
 		}
 
+		if r.TimeOfLastFailover != nil {
+			autonomousDatabase["time_of_last_failover"] = r.TimeOfLastFailover.String()
+		}
+
+		if r.TimeOfLastSwitchover != nil {
+			autonomousDatabase["time_of_last_switchover"] = r.TimeOfLastSwitchover.String()
+		}
+
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
 			autonomousDatabase["time_reclamation_of_free_autonomous_database"] = r.TimeReclamationOfFreeAutonomousDatabase.String()
 		}
