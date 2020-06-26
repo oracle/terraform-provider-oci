@@ -7,6 +7,7 @@
 - Support for HTTP Header in load balancer rule set
 - Support for new optional parameters in `oci_core_instance_configuration`
 - Support for DBaaS One-off patching
+- Support resource discovery and import for `ons_subscriptions` resource
 
 ## 3.82.0 (June 24, 2020)
 

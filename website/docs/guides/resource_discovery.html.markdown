@@ -434,6 +434,7 @@ oda
 ons
     
 * oci\_ons\_notification\_topic
+* oci\_ons\_subscription
 
 osmanagement
     

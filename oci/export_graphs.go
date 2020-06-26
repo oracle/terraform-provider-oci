@@ -674,6 +674,7 @@ var odaResourceGraph = TerraformResourceGraph{
 var onsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOnsNotificationTopicHints},
+		{TerraformResourceHints: exportOnsSubscriptionHints},
 	},
 }
 
