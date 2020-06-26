@@ -1,6 +1,9 @@
 ## 3.85.0 (Unreleased)
+
 ### Added
 - Support for DBaaS -  ADB - Serverless Extreme Availibility
+- Support for Switchover action in autonomous database added
+
 ## 3.84.0 (July 08, 2020)
 
 ### Added

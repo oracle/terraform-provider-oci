@@ -75,6 +75,7 @@ The following attributes are exported:
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
 * `standby_db` - 
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
+	* `lifecycle_details` - Additional information about the current lifecycle state.
 	* `state` - The current state of the Autonomous Database.
 * `state` - The current state of the Autonomous Database.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
@@ -90,6 +91,8 @@ The following attributes are exported:
 * `time_deletion_of_free_autonomous_database` - The date and time the Always Free database will be automatically deleted because of inactivity. If the database is in the STOPPED state and without activity until this time, it will be deleted. 
 * `time_maintenance_begin` - The date and time when maintenance will begin.
 * `time_maintenance_end` - The date and time when maintenance will end.
+* `time_of_last_failover` - The timestamp of the last failover operation.
+* `time_of_last_switchover` - The timestamp of the last switchover operation for the Autonomous Database.
 * `time_reclamation_of_free_autonomous_database` - The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state. 
 * `used_data_storage_size_in_tbs` - The amount of storage that has been used, in terabytes.
 * `whitelisted_ips` - The client IP access control list (ACL). This feature is available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only. Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
