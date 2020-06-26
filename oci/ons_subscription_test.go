@@ -46,7 +46,7 @@ var (
 		"topic_id":        Representation{repType: Required, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 		"defined_tags":    Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":   Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"delivery_policy": Representation{repType: Optional, update: `{\"backoffRetryPolicy\":{\"initialDelayInFailureRetry\":60000,\"maxRetryDuration\":7000000,\"policyType\":\"EXPONENTIAL\"}, \"maxReceiveRatePerSecond\" : 0}`},
+		"delivery_policy": Representation{repType: Optional, update: `{\"backoffRetryPolicy\":{\"maxRetryDuration\":7000000,\"policyType\":\"EXPONENTIAL\"}}`},
 	}
 
 	SubscriptionResourceDependencies = DefinedTagsDependencies +
@@ -116,11 +116,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
 						return err
 					},
 				),
@@ -169,6 +164,11 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId2, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -218,6 +218,18 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "EMAIL"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + SubscriptionResourceConfig,
+			},
+			// verify resource import
+			{
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
 			},
 		},
 	})

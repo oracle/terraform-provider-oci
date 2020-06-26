@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -154,6 +155,13 @@ func (s *OnsSubscriptionsDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func parseDeliveryPolicy(policy interface{}) string {
+	backoffRetryPolicy := policy.(map[string]interface{})["backoff_retry_policy"].([]interface{})
+	maxRetryDuration := backoffRetryPolicy[0].(map[string]interface{})["max_retry_duration"]
+	policyType := backoffRetryPolicy[0].(map[string]interface{})["policy_type"]
+	return fmt.Sprintf("{\"backoffRetryPolicy\":{\"maxRetryDuration\":%v,\"policyType\":\"%v\"}}", maxRetryDuration, policyType)
 }
 
 func modifySubscriptionSchema(resourceSchema *schema.Resource) *schema.Resource {

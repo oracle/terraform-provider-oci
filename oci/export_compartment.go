@@ -639,6 +639,11 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 				continue
 			case []interface{}:
 				switch tfSchema.Type {
+				case schema.TypeString:
+					if tfAttribute == "delivery_policy" {
+						builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, parseDeliveryPolicy(v[0].(interface{}))))
+						continue
+					}
 				case schema.TypeList, schema.TypeSet:
 					switch elem := tfSchema.Elem.(type) {
 					case *schema.Resource:

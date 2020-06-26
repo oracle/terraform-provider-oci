@@ -1303,6 +1303,17 @@ var exportOnsNotificationTopicHints = &TerraformResourceHints{
 	},
 }
 
+var exportOnsSubscriptionHints = &TerraformResourceHints{
+	resourceClass:        "oci_ons_subscription",
+	datasourceClass:      "oci_ons_subscriptions",
+	datasourceItemsAttr:  "subscriptions",
+	resourceAbbreviation: "subscription",
+	discoverableLifecycleStates: []string{
+		string(oci_ons.SubscriptionLifecycleStatePending),
+		string(oci_ons.SubscriptionLifecycleStateActive),
+	},
+}
+
 var exportOsmanagementManagedInstanceGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_osmanagement_managed_instance_group",
 	datasourceClass:      "oci_osmanagement_managed_instance_groups",
