@@ -1,10 +1,11 @@
 ## 3.83.0 (Unreleased)
 
 ### Added
+- Support for Metering Computation service
+- Support for Oracle Cloud VmWare Provisioning service
+- Support for Virtual LAN in core service
 - Support for HTTP Header in load balancer rule set
-- Support for `oci_metering_computation_usage` resource and `oci_metering_computation_configuration` datasource
 - Support for new optional parameters in `oci_core_instance_configuration`
-- Support for L2 Virtualization
 - Support for DBaaS One-off patching
 
 ## 3.82.0 (June 24, 2020)
