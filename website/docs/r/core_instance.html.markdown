@@ -174,9 +174,11 @@ The following arguments are supported:
 * `dedicated_vm_host_id` - (Optional) The OCID of dedicated VM host. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
-* `extended_metadata` - (Optional) (Updatable) Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
+* `extended_metadata` - (Optional) (Updatable) Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the `metadata` object.
 
-	They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only). 
+	They are distinguished from `metadata` fields in that these can be nested JSON objects (whereas `metadata` fields are string/string maps only).
+
+	The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 
 	Input in terraform is the same as metadata but allows nested metadata if you pass a valid JSON string as a value. See the example above.
 * `fault_domain` - (Optional) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
@@ -254,6 +256,8 @@ The following arguments are supported:
 	```
 
 	You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
+
+	The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 	
 	**Note:** Both the 'user_data' and 'ssh_authorized_keys' fields cannot be changed after an instance has launched. Any request which updates, removes, or adds either of these fields will be rejected. You must provide the same values for 'user_data' and 'ssh_authorized_keys' that already exist on the instance. 
 * `preserve_boot_volume` - (Optional) Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
@@ -287,9 +291,9 @@ The following attributes are exported:
 * `dedicated_vm_host_id` - The OCID of dedicated VM host. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
-* `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
+* `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the `metadata` object.
 
-	They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only). 
+	They are distinguished from `metadata` fields in that these can be nested JSON objects (whereas `metadata` fields are string/string maps only). 
 
 	Input in terraform is the same as metadata but allows nested metadata if you pass a valid JSON string as a value. See the example below.
 * `fault_domain` - The name of the fault domain the instance is running in.

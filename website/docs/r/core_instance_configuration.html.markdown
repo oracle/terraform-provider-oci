@@ -212,9 +212,11 @@ The following arguments are supported:
 			Dedicated VM hosts can be used when launching individual instances from an instance configuration. They cannot be used to launch instance pools. 
 		* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 		* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
-		* `extended_metadata` - (Optional) Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
+		* `extended_metadata` - (Optional) Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the `metadata` object.
 
-			They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only). 
+			They are distinguished from `metadata` fields in that these can be nested JSON objects (whereas `metadata` fields are string/string maps only).
+
+			The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 		* `fault_domain` - (Optional) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
 
 			If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.
@@ -284,7 +286,9 @@ The following arguments are supported:
 
 			curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/ curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/ curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/<any-key-name>
 
-			You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively. 
+			You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
+
+			The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 		* `preferred_maintenance_action` - (Optional) The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 			* `LIVE_MIGRATE` - Run maintenance using a live migration.
 			* `REBOOT` - Run maintenance using a reboot. 
@@ -383,9 +387,11 @@ The following attributes are exported:
 			Dedicated VM hosts can be used when launching individual instances from an instance configuration. They cannot be used to launch instance pools. 
 		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
-		* `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
+		* `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the `metadata` object.
 
-			They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only). 
+			They are distinguished from `metadata` fields in that these can be nested JSON objects (whereas `metadata` fields are string/string maps only).
+
+			The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 		* `fault_domain` - A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
 
 			If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.
@@ -455,7 +461,9 @@ The following attributes are exported:
 
 			curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/ curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/ curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/<any-key-name>
 
-			You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively. 
+			You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
+
+			The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 		* `preferred_maintenance_action` - The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 			* `LIVE_MIGRATE` - Run maintenance using a live migration.
 			* `REBOOT` - Run maintenance using a reboot. 
