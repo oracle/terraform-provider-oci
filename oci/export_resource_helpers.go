@@ -90,8 +90,8 @@ type resourceDiscoveryContext struct {
 // Resource discovery Exit status
 type Status int
 
-// Exit statuses
 const (
+	// Exit statuses
 	StatusSuccess Status = iota
 	StatusFail
 	StatusPartialSuccess
