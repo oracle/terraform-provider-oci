@@ -120,6 +120,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `mysql` - Discovers mysql resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
     * `oce` - Discovers oce resources within the specified compartment
+    * `ocvp` - Discovers ocvp resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `oda` - Discovers oda resources within the specified compartment
     * `ons` - Discovers ons resources within the specified compartment
@@ -442,6 +443,11 @@ object_storage
 oce
     
 * oci\_oce\_oce\_instance
+
+ocvp
+    
+* oci\_ocvp\_sddc
+* oci\_ocvp\_esxi\_host
 
 oda
     

@@ -74,6 +74,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"oce":                 oceResourceGraph,
+	"ocvp":                ocvpResourceGraph,
 	"oda":                 odaResourceGraph,
 	"ons":                 onsResourceGraph,
 	"osmanagement":        osmanagementResourceGraph,
@@ -677,6 +678,20 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 var oceResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOceOceInstanceHints},
+	},
+}
+
+var ocvpResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportOcvpSddcHints},
+	},
+	"oci_ocvp_sddc": {
+		{
+			TerraformResourceHints: exportOcvpEsxiHostHints,
+			datasourceQueryParams: map[string]string{
+				"sddc_id": "id",
+			},
+		},
 	},
 }
 
