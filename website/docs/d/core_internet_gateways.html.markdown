@@ -11,7 +11,6 @@ description: |-
 This data source provides the list of Internet Gateways in Oracle Cloud Infrastructure Core service.
 
 Lists the internet gateways in the specified VCN and the specified compartment.
-If Vcn ID is not provided, then it will list all of the internet gateways in all the VCNs that are in the specified compartment.
 
 
 ## Example Usage

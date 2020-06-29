@@ -11,7 +11,6 @@ description: |-
 This data source provides the list of Security Lists in Oracle Cloud Infrastructure Core service.
 
 Lists the security lists in the specified VCN and compartment.
-If Vcn ID is not provided, then it will list all of the security lists in all the VCNs that are in the specified compartment.
 
 
 ## Example Usage
