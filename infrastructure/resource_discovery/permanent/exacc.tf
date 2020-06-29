@@ -200,7 +200,7 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
   is_local_backup_enabled = "false"
   license_model           = "LICENSE_INCLUDED"
   time_zone               = "US/Pacific"
-  defined_tags = "${map("${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}", "value1")}"
+  defined_tags            = "${map("${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}", "value1")}"
 
   freeform_tags = {
     "Department" = "Finance"
