@@ -338,6 +338,9 @@ func init() {
 
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 
+	exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]string{
+		"artifact_content_length": "0",
+	}
 	exportDatascienceModelProvenanceHints.getIdFn = getModelProvenanceId
 
 	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
