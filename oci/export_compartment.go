@@ -119,6 +119,7 @@ type ExportCommandArgs struct {
 	OutputDir       *string
 	GenerateState   bool
 	TFVersion       *TfHclVersion
+	RetryTimeout    *string
 }
 
 func RunExportCommand(args *ExportCommandArgs) (error, Status) {
@@ -162,6 +163,19 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 	}
 
 	ctx := createResourceDiscoveryContext(clients.(*OracleClients), args, tenancyOcid)
+
+	/*
+		Setting retry timeout to a lower value for resource discovery
+		This is done to handle the 404 and 500 errors in case
+		any resource is unavailable in a region or in case the service is down
+		The time out value is configurable from export command
+	*/
+	if args.RetryTimeout != nil && *args.RetryTimeout != "" {
+		longRetryTime = *getTimeoutDuration(*args.RetryTimeout)
+		shortRetryTime = longRetryTime
+	}
+
+	log.Printf("[INFO] resource discovery retry timeout duration set to %v", shortRetryTime)
 
 	if err := runExportCommand(ctx); err != nil {
 		return err, StatusFail
