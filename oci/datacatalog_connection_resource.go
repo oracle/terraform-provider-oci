@@ -67,9 +67,9 @@ func DatacatalogConnectionResource() *schema.Resource {
 			"enc_properties": {
 				Type:             schema.TypeMap,
 				Optional:         true,
+				Sensitive:        true,
 				DiffSuppressFunc: encPropertiesDiffSuppressFunction,
 				Elem:             schema.TypeString,
-				Sensitive:        true,
 			},
 			"is_default": {
 				Type:     schema.TypeBool,
