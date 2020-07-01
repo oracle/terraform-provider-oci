@@ -27,10 +27,6 @@ func CorePrivateIpResource() *schema.Resource {
 		Delete:   deleteCorePrivateIp,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"vnic_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 
 			// Optional
 			"defined_tags": {
@@ -62,6 +58,17 @@ func CorePrivateIpResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"vlan_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"vnic_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -161,6 +168,11 @@ func (s *CorePrivateIpResourceCrud) Create() error {
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
 		tmp := ipAddress.(string)
 		request.IpAddress = &tmp
+	}
+
+	if vlanId, ok := s.D.GetOkExists("vlan_id"); ok {
+		tmp := vlanId.(string)
+		request.VlanId = &tmp
 	}
 
 	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
@@ -289,6 +301,10 @@ func (s *CorePrivateIpResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.VlanId != nil {
+		s.D.Set("vlan_id", *s.Res.VlanId)
 	}
 
 	if s.Res.VnicId != nil {

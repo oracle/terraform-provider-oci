@@ -179,5 +179,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.AdminUsername = model.AdminUsername
 
 	m.AdminPassword = model.AdminPassword
+
 	return
 }

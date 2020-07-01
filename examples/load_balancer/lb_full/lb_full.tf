@@ -399,6 +399,12 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
     response_code = 302
   }
 
+  items {
+    action                         = "HTTP_HEADER"
+    are_invalid_characters_allowed = true
+    http_large_header_size_in_kb   = 8
+  }
+
   load_balancer_id = "${oci_load_balancer.lb1.id}"
   name             = "example_rule_set_name"
 }

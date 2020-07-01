@@ -53,6 +53,7 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 								"CONTROL_ACCESS_USING_HTTP_METHODS",
 								"EXTEND_HTTP_REQUEST_HEADER_VALUE",
 								"EXTEND_HTTP_RESPONSE_HEADER_VALUE",
+								"HTTP_HEADER",
 								"REDIRECT",
 								"REMOVE_HTTP_REQUEST_HEADER",
 								"REMOVE_HTTP_RESPONSE_HEADER",
@@ -67,6 +68,11 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+						},
+						"are_invalid_characters_allowed": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
 						},
 						"conditions": {
 							Type:     schema.TypeList,
@@ -109,6 +115,11 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 						},
 						"header": {
 							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"http_large_header_size_in_kb": {
+							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
@@ -680,6 +691,17 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 			details.Suffix = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("HTTP_HEADER"):
+		details := oci_load_balancer.HttpHeaderRule{}
+		if areInvalidCharactersAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_invalid_characters_allowed")); ok {
+			tmp := areInvalidCharactersAllowed.(bool)
+			details.AreInvalidCharactersAllowed = &tmp
+		}
+		if httpLargeHeaderSizeInKB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "http_large_header_size_in_kb")); ok {
+			tmp := httpLargeHeaderSizeInKB.(int)
+			details.HttpLargeHeaderSizeInKB = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("REDIRECT"):
 		details := oci_load_balancer.RedirectRule{}
 		if conditions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "conditions")); ok {
@@ -803,6 +825,16 @@ func RuleToMap(obj oci_load_balancer.Rule) map[string]interface{} {
 
 		if v.Suffix != nil {
 			result["suffix"] = string(*v.Suffix)
+		}
+	case oci_load_balancer.HttpHeaderRule:
+		result["action"] = "HTTP_HEADER"
+
+		if v.AreInvalidCharactersAllowed != nil {
+			result["are_invalid_characters_allowed"] = bool(*v.AreInvalidCharactersAllowed)
+		}
+
+		if v.HttpLargeHeaderSizeInKB != nil {
+			result["http_large_header_size_in_kb"] = int(*v.HttpLargeHeaderSizeInKB)
 		}
 	case oci_load_balancer.RedirectRule:
 		result["action"] = "REDIRECT"
@@ -941,6 +973,9 @@ func itemsHashCodeForSets(v interface{}) int {
 			}
 		}
 	}
+	if areInvalidCharactersAllowed, ok := m["are_invalid_characters_allowed"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", areInvalidCharactersAllowed))
+	}
 	if conditions, ok := m["conditions"]; ok && conditions != nil {
 		if tmpList := conditions.([]interface{}); len(tmpList) > 0 {
 			for _, conditionsRaw := range tmpList {
@@ -962,6 +997,9 @@ func itemsHashCodeForSets(v interface{}) int {
 	}
 	if header, ok := m["header"]; ok && header != "" {
 		buf.WriteString(fmt.Sprintf("%v-", header))
+	}
+	if httpLargeHeaderSizeInKB, ok := m["http_large_header_size_in_kb"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", httpLargeHeaderSizeInKB))
 	}
 	if prefix, ok := m["prefix"]; ok && prefix != "" {
 		buf.WriteString(fmt.Sprintf("%v-", prefix))

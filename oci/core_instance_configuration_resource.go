@@ -109,13 +109,31 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												},
 
 												// Optional
+												"device": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"display_name": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
 												},
+												"is_pv_encryption_in_transit_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"is_read_only": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_shareable": {
 													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
@@ -965,6 +983,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAttach
 			tmp := useChap.(bool)
 			details.UseChap = &tmp
 		}
+		if device, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device")); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
 		if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -972,10 +994,22 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAttach
 		if isReadOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_read_only")); ok {
 			tmp := isReadOnly.(bool)
 			details.IsReadOnly = &tmp
+		}
+		if isShareable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_shareable")); ok {
+			tmp := isShareable.(bool)
+			details.IsShareable = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("paravirtualized"):
 		details := oci_core.InstanceConfigurationParavirtualizedAttachVolumeDetails{}
+		if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+			tmp := isPvEncryptionInTransitEnabled.(bool)
+			details.IsPvEncryptionInTransitEnabled = &tmp
+		}
+		if device, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device")); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
 		if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -983,6 +1017,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAttach
 		if isReadOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_read_only")); ok {
 			tmp := isReadOnly.(bool)
 			details.IsReadOnly = &tmp
+		}
+		if isShareable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_shareable")); ok {
+			tmp := isShareable.(bool)
+			details.IsShareable = &tmp
 		}
 		baseObject = details
 	default:
@@ -1008,15 +1046,35 @@ func InstanceConfigurationAttachVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 		if v.UseChap != nil {
 			result["use_chap"] = bool(*v.UseChap)
 		}
+
+		if v.Device != nil {
+			result["device"] = *v.Device
+		}
+
+		if v.IsShareable != nil {
+			result["is_shareable"] = bool(*v.IsShareable)
+		}
 	case oci_core.InstanceConfigurationParavirtualizedAttachVolumeDetails:
 		result["type"] = "paravirtualized"
+
+		if v.IsPvEncryptionInTransitEnabled != nil {
+			result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
+		}
 
 		if v.DisplayName != nil {
 			result["display_name"] = *v.DisplayName
 		}
 
+		if v.Device != nil {
+			result["device"] = *v.Device
+		}
+
 		if v.IsReadOnly != nil {
 			result["is_read_only"] = bool(*v.IsReadOnly)
+		}
+
+		if v.IsShareable != nil {
+			result["is_shareable"] = bool(*v.IsShareable)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)

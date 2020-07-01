@@ -135,6 +135,7 @@ func (m *Tag) UnmarshalJSON(data []byte) (e error) {
 	m.IsRetired = model.IsRetired
 
 	m.TimeCreated = model.TimeCreated
+
 	return
 }
 

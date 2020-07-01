@@ -49,6 +49,9 @@ type DbHome struct {
 	// The date and time the Database Home was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// List of one-off patches for Database Homes.
+	OneOffPatches []string `mandatory:"false" json:"oneOffPatches"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

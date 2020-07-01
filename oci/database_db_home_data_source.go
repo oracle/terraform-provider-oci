@@ -101,6 +101,8 @@ func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("one_off_patches", s.Res.OneOffPatches)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

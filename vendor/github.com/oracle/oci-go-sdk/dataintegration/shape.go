@@ -133,5 +133,6 @@ func (m *Shape) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Type = nil
 	}
+
 	return
 }

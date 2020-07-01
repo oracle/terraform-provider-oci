@@ -101,5 +101,6 @@ func (m *CompositeFieldMap) UnmarshalJSON(data []byte) (e error) {
 			m.FieldMaps[i] = nil
 		}
 	}
+
 	return
 }

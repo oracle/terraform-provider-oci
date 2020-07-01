@@ -94,11 +94,6 @@ func CoreInstanceResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"subnet_id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
 
 						// Optional
 						"assign_public_ip": {
@@ -106,7 +101,7 @@ func CoreInstanceResource() *schema.Resource {
 							// values for boolean nested objects correctly.
 							Type:     schema.TypeString,
 							Optional: true,
-							Default:  "true",
+							Default:  "false",
 							ValidateFunc: func(v interface{}, k string) ([]string, []error) {
 								// Verify that we can parse the string value as a bool value.
 								var es []error
@@ -163,6 +158,18 @@ func CoreInstanceResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"vlan_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 
 						// Computed
@@ -1126,6 +1133,11 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 		result.SubnetId = &tmp
 	}
 
+	if vlanId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan_id")); ok {
+		tmp := vlanId.(string)
+		result.VlanId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1177,6 +1189,10 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	if obj.VlanId != nil {
+		result["vlan_id"] = string(*obj.VlanId)
 	}
 
 	return result

@@ -10,6 +10,7 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
+	oci_ocvp "github.com/oracle/oci-go-sdk/ocvp"
 	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 )
 
@@ -38,6 +39,7 @@ type OracleClients struct {
 	configuration             map[string]string
 	sdkClientMap              map[string]interface{}
 	gatewayWorkRequestsClient *oci_apigateway.WorkRequestsClient
+	ocvpWorkRequestClient     *oci_ocvp.WorkRequestClient
 	workRequestClient         *oci_work_requests.WorkRequestClient
 }
 
@@ -106,6 +108,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.gatewayWorkRequestsClient = &gatewayWorkRequestsClient
+
+	ocvpWorkRequestClient, err := oci_ocvp.NewWorkRequestClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&ocvpWorkRequestClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.ocvpWorkRequestClient = &ocvpWorkRequestClient
 
 	workRequestClient, err := oci_work_requests.NewWorkRequestClientWithConfigurationProvider(configProvider)
 	if err != nil {

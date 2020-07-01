@@ -2418,7 +2418,7 @@ func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request co
 	return response, err
 }
 
-// ListImageShapeCompatibilityEntries Lists the shape compatibilities for the image.
+// ListImageShapeCompatibilityEntries Lists the compatible shapes for the specified image.
 func (client ComputeClient) ListImageShapeCompatibilityEntries(ctx context.Context, request ListImageShapeCompatibilityEntriesRequest) (response ListImageShapeCompatibilityEntriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

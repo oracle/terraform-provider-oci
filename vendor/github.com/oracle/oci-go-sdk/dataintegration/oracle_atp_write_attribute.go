@@ -83,5 +83,6 @@ func (m *OracleAtpWriteAttribute) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.StagingConnection = nil
 	}
+
 	return
 }

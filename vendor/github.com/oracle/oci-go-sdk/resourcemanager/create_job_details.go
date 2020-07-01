@@ -83,5 +83,6 @@ func (m *CreateJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.StackId = model.StackId
+
 	return
 }

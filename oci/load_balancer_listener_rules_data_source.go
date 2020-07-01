@@ -57,6 +57,17 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"allowed_methods": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"are_invalid_characters_allowed": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"conditions": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -88,6 +99,10 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 									},
 									"header": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"http_large_header_size_in_kb": {
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"prefix": {
