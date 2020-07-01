@@ -102,5 +102,6 @@ func (m *RuleTypeConfig) UnmarshalJSON(data []byte) (e error) {
 	m.ConfigValues = model.ConfigValues
 
 	m.ObjectStatus = model.ObjectStatus
+
 	return
 }

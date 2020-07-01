@@ -90,11 +90,16 @@ type resourceDiscoveryContext struct {
 // Resource discovery Exit status
 type Status int
 
-// Exit statuses
 const (
+	// Exit statuses
 	StatusSuccess Status = iota
 	StatusFail
 	StatusPartialSuccess
+
+	// Tags to filter resources
+	OracleTagsCreatedBy           = "Oracle-Tags.CreatedBy"
+	OkeTagValue                   = "oke"
+	ResourceCreatedByInstancePool = "oci:compute:instancepool"
 )
 
 func (ctx *resourceDiscoveryContext) postValidate() error {
@@ -300,6 +305,7 @@ func init() {
 
 	exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
 	exportCoreInstanceHints.processDiscoveredResourcesFn = processInstances
+	exportCorePrivateIpHints.processDiscoveredResourcesFn = processPrivateIps
 	exportCoreInstanceHints.requireResourceRefresh = true
 	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceClass = "oci_core_network_security_group_security_rules"
 	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceItemsAttr = "security_rules"
@@ -354,6 +360,8 @@ func init() {
 	exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
 	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStorageObjectPreauthenticatedRequestId
 	exportObjectStoragePreauthenticatedRequestHints.processDiscoveredResourcesFn = processObjectStoragePreauthenticatedRequest
+	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
+	exportObjectStorageReplicationPolicyHints.processDiscoveredResourcesFn = processObjectStorageReplicationPolicy
 
 	exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
 
@@ -388,6 +396,10 @@ func init() {
 	exportDnsRrsetHints.getIdFn = getDnsRrsetId
 	exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
 	exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
+
+	exportMysqlMysqlBackupHints.requireResourceRefresh = true
+	exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
+	exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem
 }
 
 func processDnsRrset(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
@@ -650,18 +662,39 @@ func getBudgetAlertRuleId(resource *OCIResource) (string, error) {
 	return getAlertRuleCompositeId(alertRuleId, budgetId), nil
 }
 
+func processPrivateIps(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	privateIps := []*OCIResource{}
+
+	for _, privateIp := range resources {
+
+		if privateIp.hasFreeformTag(ResourceCreatedByInstancePool) {
+			continue
+		}
+
+		// OKE will add tagging support, for now we rely on Automatic default tags for tenancies created after December 17, 2019
+		if privateIp.hasDefinedTag(OracleTagsCreatedBy, OkeTagValue) {
+			continue
+		}
+
+		privateIps = append(privateIps, privateIp)
+	}
+
+	return privateIps, nil
+}
+
 func processInstances(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
 	for _, instance := range resources {
 		// Omit any resources that were launched by an instance pool. Those shouldn't be managed by Terraform as they are created
 		// and managed through the instance pool resource instead.
-		if freeformTags, exists := instance.sourceAttributes["freeform_tags"]; exists {
-			if freeformTagMap, ok := freeformTags.(map[string]interface{}); ok {
-				if _, hasInstancePoolTag := freeformTagMap["oci:compute:instancepool"]; hasInstancePoolTag {
-					continue
-				}
-			}
+		if instance.hasFreeformTag(ResourceCreatedByInstancePool) {
+			continue
+		}
+
+		// OKE will add tagging support, for now we rely on Automatic default tags for tenancies created after December 17, 2019
+		if instance.hasDefinedTag(OracleTagsCreatedBy, OkeTagValue) {
+			continue
 		}
 
 		// Ensure the boot volume created by this instance can be referenced elsewhere by adding it to the reference map
@@ -726,6 +759,40 @@ func filterSecondaryVnicAttachments(clients *OracleClients, resources []*OCIReso
 	}
 
 	return results, nil
+}
+
+func filterMysqlBackups(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	results := []*OCIResource{}
+
+	// Filter out Mysql Backups that are automatically created. We cannot operate on "Automatic" backups.
+	for _, backup := range resources {
+		sourceDetails, exists := backup.sourceAttributes["creation_type"]
+
+		if exists && sourceDetails.(string) == "AUTOMATIC" {
+			continue
+		}
+
+		results = append(results, backup)
+	}
+
+	return results, nil
+}
+
+// TODO: remove this when service fixes source
+func processMysqlDbSystem(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, dbSystem := range resources {
+		if source, exists := dbSystem.sourceAttributes["source"]; exists {
+			if sourceList := source.([]interface{}); len(sourceList) > 0 {
+				if sourceMap, ok := sourceList[0].(map[string]interface{}); ok {
+					if sourceMap["source_type"].(string) == "NONE" {
+						delete(dbSystem.sourceAttributes, "source")
+					}
+				}
+			}
+		}
+	}
+
+	return resources, nil
 }
 
 func filterSourcedBootVolumes(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
@@ -1010,6 +1077,7 @@ func processObjectStorageReplicationPolicy(clients *OracleClients, resources []*
 	for _, index := range resources {
 		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
 		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
+		index.sourceAttributes["delete_object_in_destination_bucket"] = false
 	}
 	return resources, nil
 }

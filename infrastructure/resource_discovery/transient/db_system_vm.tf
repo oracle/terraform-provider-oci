@@ -47,7 +47,7 @@ resource "oci_database_db_system" "test_db_system" {
   data_storage_size_in_gb = "${var.data_storage_size_in_gb}"
   license_model           = "${var.license_model}"
   node_count              = "${lookup(data.oci_database_db_system_shapes.test_db_system_shapes.db_system_shapes[0], "minimum_node_count")}"
-  nsg_ids                 = ["${oci_core_network_security_group.test_network_security_group_backup.id}", "${oci_core_network_security_group.test_network_security_group.id}"]
+  nsg_ids                 = ["${oci_core_network_security_group.network_security_group_backup_rd.id}", "${oci_core_network_security_group.network_security_group_rd.id}"]
 
   #To use defined_tags, set the values below to an existing tag namespace, refer to the identity example on how to create tag namespaces
   #defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"

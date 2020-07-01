@@ -63,7 +63,7 @@ resource "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exada
     weeks_of_month = ["2"]
   }
 
-  nsg_ids   = ["${oci_core_network_security_group.test_network_security_group.id}"]
+  nsg_ids   = ["${oci_core_network_security_group.network_security_group_rd.id}"]
   shape     = "Exadata.Quarter2.92"
   subnet_id = "${oci_core_subnet.exadata_subnet_rd.id}"
 }

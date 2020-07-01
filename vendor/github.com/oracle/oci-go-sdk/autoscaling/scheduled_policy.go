@@ -118,5 +118,6 @@ func (m *ScheduledPolicy) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ExecutionSchedule = nil
 	}
+
 	return
 }

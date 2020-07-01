@@ -72,6 +72,7 @@ func (m *ApiSpecificationRoute) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Backend = nil
 	}
+
 	return
 }
 

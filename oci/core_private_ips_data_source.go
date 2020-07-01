@@ -27,6 +27,10 @@ func CorePrivateIpsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"vlan_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"vnic_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -69,6 +73,11 @@ func (s *CorePrivateIpsDataSourceCrud) Get() error {
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
+	}
+
+	if vlanId, ok := s.D.GetOkExists("vlan_id"); ok {
+		tmp := vlanId.(string)
+		request.VlanId = &tmp
 	}
 
 	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
@@ -150,6 +159,10 @@ func (s *CorePrivateIpsDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			privateIp["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VlanId != nil {
+			privateIp["vlan_id"] = *r.VlanId
 		}
 
 		if r.VnicId != nil {

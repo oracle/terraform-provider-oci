@@ -61,6 +61,10 @@ var (
 		"instance_type": Representation{repType: Required, create: `compute`},
 		"block_volumes": RepresentationGroup{Required, instanceConfigurationInstanceDetailsBlockVolumesRepresentation},
 	}
+	instanceConfigurationInstanceDetailsParavirtualizedBlockRepresentation = map[string]interface{}{
+		"instance_type": Representation{repType: Required, create: `compute`},
+		"block_volumes": RepresentationGroup{Required, instanceConfigurationInstanceDetailsBlockVolumesRepresentation},
+	}
 	instanceConfigurationInstanceDetailsRepresentation = map[string]interface{}{
 		"instance_type":   Representation{repType: Required, create: `compute`},
 		"secondary_vnics": RepresentationGroup{Required, instanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
@@ -71,6 +75,10 @@ var (
 	}
 	instanceConfigurationInstanceDetailsBlockVolumesAttachRepresentation = map[string]interface{}{
 		"attach_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsBlockVolumesAttachDetailsRepresentation},
+		"volume_id":      Representation{repType: Optional, create: `${oci_core_boot_volume.test_boot_volume.id}`},
+	}
+	instanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachRepresentation = map[string]interface{}{
+		"attach_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachDetailsRepresentation},
 		"volume_id":      Representation{repType: Optional, create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
 	instanceShapeConfigRepresentation = map[string]interface{}{
@@ -107,6 +115,14 @@ var (
 		"display_name": Representation{repType: Optional, create: `backend-servers`},
 		"is_read_only": Representation{repType: Optional, create: `false`},
 		"use_chap":     Representation{repType: Optional, create: `false`},
+	}
+	instanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachDetailsRepresentation = map[string]interface{}{
+		"type":                                Representation{repType: Required, create: `paravirtualized`},
+		"display_name":                        Representation{repType: Optional, create: `backend-servers`},
+		"device":                              Representation{repType: Optional, create: `server`},
+		"is_read_only":                        Representation{repType: Optional, create: `false`},
+		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
+		"is_shareable":                        Representation{repType: Optional, create: `false`},
 	}
 	instanceConfigurationInstanceDetailsBlockVolumesCreateDetailsRepresentation = map[string]interface{}{
 		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -151,12 +167,12 @@ var (
 	}
 
 	InstanceConfigurationResourceDependencies = generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostRepresentation) +
 		OciImageIdsVariable +
 		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		VolumeBackupPolicyDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
@@ -392,6 +408,43 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.0.is_read_only", "false"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.0.type", "iscsi"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.0.use_chap", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.create_details.#", "0"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.block_volumes.0.volume_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("resource was not recreated")
+						}
+						return err
+					},
+				),
+			},
+			// verify recreate with optionals block_volumes.create_details to block_volumes.attach_details-paravirtualized
+			{
+				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
+							getUpdatedRepresentationCopy("block_volumes", RepresentationGroup{Optional,
+								instanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachRepresentation},
+								instanceConfigurationInstanceDetailsParavirtualizedBlockRepresentation)},
+							instanceConfigurationRepresentation)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.0.display_name", "backend-servers"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.0.device", "server"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.0.is_read_only", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.0.type", "paravirtualized"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.0.is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.attach_details.0.is_shareable", "false"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.create_details.#", "0"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.block_volumes.0.volume_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),

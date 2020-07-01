@@ -113,5 +113,6 @@ func (m *FlowNode) UnmarshalJSON(data []byte) (e error) {
 	m.ConfigProviderDelegate = model.ConfigProviderDelegate
 
 	m.ObjectStatus = model.ObjectStatus
+
 	return
 }

@@ -17,6 +17,9 @@ import (
 type UpdateDbHomeDetails struct {
 	DbVersion *PatchDetails `mandatory:"false" json:"dbVersion"`
 
+	// List of one-off patches for Database Homes.
+	OneOffPatches []string `mandatory:"false" json:"oneOffPatches"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

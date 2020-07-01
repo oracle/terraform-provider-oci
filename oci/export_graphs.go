@@ -70,6 +70,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"load_balancer":       loadBalancerResourceGraph,
 	"marketplace":         marketplaceResourceGraph,
 	"monitoring":          monitoringResourceGraph,
+	"mysql":               mysqlResourceGraph,
 	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"oce":                 oceResourceGraph,
@@ -608,6 +609,13 @@ var monitoringResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var mysqlResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportMysqlMysqlBackupHints},
+		{TerraformResourceHints: exportMysqlMysqlDbSystemHints},
+	},
+}
+
 var nosqlResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportNosqlTableHints},
@@ -648,6 +656,13 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 				"bucket":    "name",
 			},
 		},
+		{
+			TerraformResourceHints: exportObjectStorageReplicationPolicyHints,
+			datasourceQueryParams: map[string]string{
+				"namespace": "namespace",
+				"bucket":    "name",
+			},
+		},
 	},
 	"oci_objectstorage_namespace": {
 		{
@@ -674,6 +689,7 @@ var odaResourceGraph = TerraformResourceGraph{
 var onsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOnsNotificationTopicHints},
+		{TerraformResourceHints: exportOnsSubscriptionHints},
 	},
 }
 

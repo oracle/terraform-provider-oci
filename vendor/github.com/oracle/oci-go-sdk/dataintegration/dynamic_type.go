@@ -128,5 +128,6 @@ func (m *DynamicType) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ConfigDefinition = model.ConfigDefinition
+
 	return
 }

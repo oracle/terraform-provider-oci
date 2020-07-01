@@ -53,5 +53,6 @@ func (m *ListenerRuleSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.RuleSetName = model.RuleSetName
+
 	return
 }

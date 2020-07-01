@@ -151,6 +151,10 @@ func (s *CoreVnicAttachmentsDataSourceCrud) SetData() error {
 			vnicAttachment["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.VlanId != nil {
+			vnicAttachment["vlan_id"] = *r.VlanId
+		}
+
 		if r.VlanTag != nil {
 			vnicAttachment["vlan_tag"] = *r.VlanTag
 		}

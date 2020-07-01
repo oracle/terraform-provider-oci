@@ -117,6 +117,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
     * `monitoring` - Discovers monitoring resources within the specified compartment
+    * `mysql` - Discovers mysql resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
     * `oce` - Discovers oce resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
@@ -411,6 +412,11 @@ monitoring
     
 * oci\_monitoring\_alarm
 
+mysql
+    
+* oci\_mysql\_mysql\_backup
+* oci\_mysql\_mysql\_db\_system
+
 nosql
     
 * oci\_nosql\_table
@@ -422,6 +428,7 @@ object_storage
 * oci\_objectstorage\_object\_lifecycle\_policy
 * oci\_objectstorage\_object
 * oci\_objectstorage\_preauthrequest
+* oci\_objectstorage\_replication\_policy
 
 oce
     
@@ -434,6 +441,7 @@ oda
 ons
     
 * oci\_ons\_notification\_topic
+* oci\_ons\_subscription
 
 osmanagement
     

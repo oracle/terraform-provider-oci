@@ -125,27 +125,18 @@ type LaunchInstanceDetails struct {
 	//  Cloud-Init to run custom scripts or provide custom Cloud-Init configuration. For
 	//  information about how to take advantage of user data, see the
 	//  Cloud-Init Documentation (http://cloudinit.readthedocs.org/en/latest/topics/format.html).
-	//  **Note:** Cloud-Init does not pull this data from the `http://169.254.169.254/opc/v1/instance/metadata/`
-	//  path. When the instance launches and either of these keys are provided, the key values are formatted as
-	//  OpenStack metadata and copied to the following locations, which are recognized by Cloud-Init:
-	//  `http://169.254.169.254/openstack/latest/meta_data.json` - This JSON blob
-	//  contains, among other things, the SSH keys that you provided for
-	//   **"ssh_authorized_keys"**.
-	//  `http://169.254.169.254/openstack/latest/user_data` - Contains the
-	//  base64-decoded data that you provided for **"user_data"**.
 	//  **Metadata Example**
 	//       "metadata" : {
 	//          "quake_bot_level" : "Severe",
-	//          "ssh_authorized_keys" : "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCZ06fccNTQfq+xubFlJ5ZR3kt+uzspdH9tXL+lAejSM1NXM+CFZev7MIxfEjas06y80ZBZ7DUTQO0GxJPeD8NCOb1VorF8M4xuLwrmzRtkoZzU16umt4y1W0Q4ifdp3IiiU0U8/WxczSXcUVZOLqkz5dc6oMHdMVpkimietWzGZ4LBBsH/LjEVY7E0V+a0sNchlVDIZcm7ErReBLcdTGDq0uLBiuChyl6RUkX1PNhusquTGwK7zc8OBXkRuubn5UKXhI3Ul9Nyk4XESkVWIGNKmw8mSpoJSjR8P9ZjRmcZVo8S+x4KVPMZKQEor== ryan.smith@company.com
-	//          ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAzJSAtwEPoB3Jmr58IXrDGzLuDYkWAYg8AsLYlo6JZvKpjY1xednIcfEVQJm4T2DhVmdWhRrwQ8DmayVZvBkLt+zs2LdoAJEVimKwXcJFD/7wtH8Lnk17HiglbbbNXsemjDY0hea4JUE5CfvkIdZBITuMrfqSmA4n3VNoorXYdvtTMoGG8fxMub46RPtuxtqi9bG9Zqenordkg5FJt2mVNfQRqf83CWojcOkklUWq4CjyxaeLf5i9gv1fRoBo4QhiA8I6NCSppO8GnoV/6Ox6TNoh9BiifqGKC9VGYuC89RvUajRBTZSK2TK4DPfaT+2R+slPsFrwiT/oPEhhEK1S5Q== rsa-key-20160227",
-	//          "user_data" : "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+	//          "ssh_authorized_keys" : "ssh-rsa <your_public_SSH_key>== rsa-key-20160227",
+	//          "user_data" : "<your_public_SSH_key>=="
 	//       }
 	//  **Getting Metadata on the Instance**
 	//  To get information about your instance, connect to the instance using SSH and issue any of the
 	//  following GET requests:
-	//      curl http://169.254.169.254/opc/v1/instance/
-	//      curl http://169.254.169.254/opc/v1/instance/metadata/
-	//      curl http://169.254.169.254/opc/v1/instance/metadata/<any-key-name>
+	//      curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/
+	//      curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/
+	//      curl -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/metadata/<any-key-name>
 	//  You'll get back a response that includes all the instance information; only the metadata information; or
 	//  the metadata information for the specified key name, respectively.
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
@@ -248,5 +239,6 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.CompartmentId = model.CompartmentId
 
 	m.Shape = model.Shape
+
 	return
 }

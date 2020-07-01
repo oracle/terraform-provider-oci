@@ -137,5 +137,6 @@ func (m *CompositeType) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ConfigDefinition = model.ConfigDefinition
+
 	return
 }

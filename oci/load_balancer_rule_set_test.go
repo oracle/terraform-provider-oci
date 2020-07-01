@@ -137,6 +137,12 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 		}
 		response_code = 302
 	}
+	items {
+		#Required
+		action = "HTTP_HEADER"
+		are_invalid_characters_allowed = true
+		http_large_header_size_in_kb = 8
+	}
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 	name = "example_rule_set"
 }
@@ -198,7 +204,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					RuleSetResourceWithMultipleRules,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "items.#", "10"),
+					resource.TestCheckResourceAttr(resourceName, "items.#", "11"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action": "ADD_HTTP_REQUEST_HEADER",
 						"header": "example_header_name",
@@ -256,6 +262,12 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 						"conditions.#":   "1",
 						"redirect_uri.#": "1",
 						"response_code":  "302",
+					},
+						[]string{}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+						"action":                         "HTTP_HEADER",
+						"are_invalid_characters_allowed": "true",
+						"http_large_header_size_in_kb":   "8",
 					},
 						[]string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),

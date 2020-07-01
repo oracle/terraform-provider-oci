@@ -78,7 +78,6 @@ var (
 		"is_monitoring_disabled": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 	instanceCreateVnicDetailsRepresentation = map[string]interface{}{
-		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 		"assign_public_ip":       Representation{repType: Optional, create: `true`},
 		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":           Representation{repType: Optional, create: `displayName`},
@@ -87,6 +86,7 @@ var (
 		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
 		"private_ip":             Representation{repType: Optional, create: `10.0.0.5`},
 		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
+		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	instanceLaunchOptionsRepresentation = map[string]interface{}{
 		"network_type": Representation{repType: Optional, create: `PARAVIRTUALIZED`},
@@ -116,6 +116,7 @@ resource "oci_core_instance" "test_instance" {
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{repType: Required, create: `dnslabel`},
 		})) +
+		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
