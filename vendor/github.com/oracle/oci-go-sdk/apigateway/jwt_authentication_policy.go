@@ -126,5 +126,6 @@ func (m *JwtAuthenticationPolicy) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.PublicKeys = nil
 	}
+
 	return
 }

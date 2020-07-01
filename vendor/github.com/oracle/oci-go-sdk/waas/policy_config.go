@@ -143,6 +143,7 @@ func (m *PolicyConfig) UnmarshalJSON(data []byte) (e error) {
 	m.IsSniEnabled = model.IsSniEnabled
 
 	m.HealthChecks = model.HealthChecks
+
 	return
 }
 

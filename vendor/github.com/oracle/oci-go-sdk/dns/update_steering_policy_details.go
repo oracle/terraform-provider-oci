@@ -147,6 +147,7 @@ func (m *UpdateSteeringPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Rules[i] = nil
 		}
 	}
+
 	return
 }
 

@@ -182,6 +182,7 @@ func (m *TypedNamePatternRule) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.Names {
 		m.Names[i] = n
 	}
+
 	return
 }
 

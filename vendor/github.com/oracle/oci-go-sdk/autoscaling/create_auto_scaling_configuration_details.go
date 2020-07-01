@@ -105,5 +105,6 @@ func (m *CreateAutoScalingConfigurationDetails) UnmarshalJSON(data []byte) (e er
 	} else {
 		m.Resource = nil
 	}
+
 	return
 }

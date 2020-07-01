@@ -105,6 +105,10 @@ func (s *CorePrivateIpDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.VlanId != nil {
+		s.D.Set("vlan_id", *s.Res.VlanId)
+	}
+
 	if s.Res.VnicId != nil {
 		s.D.Set("vnic_id", *s.Res.VnicId)
 	}

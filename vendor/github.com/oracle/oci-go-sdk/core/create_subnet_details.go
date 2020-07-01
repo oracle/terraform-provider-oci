@@ -21,7 +21,7 @@ import (
 type CreateSubnetDetails struct {
 
 	// The CIDR IP address range of the subnet.
-	// Example: `172.16.1.0/24`
+	// Example: `10.0.1.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 
 	// The OCID of the compartment to contain the subnet.

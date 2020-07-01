@@ -122,6 +122,7 @@ func (m *WriteOperationConfig) UnmarshalJSON(data []byte) (e error) {
 	m.WriteMode = model.WriteMode
 
 	m.ObjectStatus = model.ObjectStatus
+
 	return
 }
 

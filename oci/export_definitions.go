@@ -27,6 +27,7 @@ import (
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
+	oci_mysql "github.com/oracle/oci-go-sdk/mysql"
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
@@ -1293,6 +1294,13 @@ var exportObjectStoragePreauthenticatedRequestHints = &TerraformResourceHints{
 	resourceAbbreviation: "preauthenticated_request",
 }
 
+var exportObjectStorageReplicationPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_objectstorage_replication_policy",
+	datasourceClass:      "oci_objectstorage_replication_policies",
+	datasourceItemsAttr:  "replication_policies",
+	resourceAbbreviation: "replication_policy",
+}
+
 var exportOnsNotificationTopicHints = &TerraformResourceHints{
 	resourceClass:        "oci_ons_notification_topic",
 	datasourceClass:      "oci_ons_notification_topics",
@@ -1300,6 +1308,17 @@ var exportOnsNotificationTopicHints = &TerraformResourceHints{
 	resourceAbbreviation: "notification_topic",
 	discoverableLifecycleStates: []string{
 		string(oci_ons.NotificationTopicLifecycleStateActive),
+	},
+}
+
+var exportOnsSubscriptionHints = &TerraformResourceHints{
+	resourceClass:        "oci_ons_subscription",
+	datasourceClass:      "oci_ons_subscriptions",
+	datasourceItemsAttr:  "subscriptions",
+	resourceAbbreviation: "subscription",
+	discoverableLifecycleStates: []string{
+		string(oci_ons.SubscriptionLifecycleStatePending),
+		string(oci_ons.SubscriptionLifecycleStateActive),
 	},
 }
 
@@ -1407,5 +1426,26 @@ var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_data_safe.ListDataSafePrivateEndpointsLifecycleStateActive),
+	},
+}
+
+var exportMysqlMysqlBackupHints = &TerraformResourceHints{
+	resourceClass:        "oci_mysql_mysql_backup",
+	datasourceClass:      "oci_mysql_mysql_backups",
+	datasourceItemsAttr:  "backups",
+	resourceAbbreviation: "mysql_backup",
+	discoverableLifecycleStates: []string{
+		string(oci_mysql.BackupLifecycleStateActive),
+	},
+}
+
+var exportMysqlMysqlDbSystemHints = &TerraformResourceHints{
+	resourceClass:          "oci_mysql_mysql_db_system",
+	datasourceClass:        "oci_mysql_mysql_db_systems",
+	datasourceItemsAttr:    "db_systems",
+	resourceAbbreviation:   "mysql_db_system",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_mysql.DbSystemLifecycleStateActive),
 	},
 }

@@ -11,7 +11,6 @@ description: |-
 This data source provides the list of Dhcp Options in Oracle Cloud Infrastructure Core service.
 
 Lists the sets of DHCP options in the specified VCN and specified compartment.
-If Vcn ID is not provided, then it will list all sets of DHCP options in all the VCNs that are in the specified compartment.
 The response includes the default set of options that automatically comes with each VCN,
 plus any other sets you've created.
 

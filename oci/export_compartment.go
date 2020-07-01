@@ -119,6 +119,7 @@ type ExportCommandArgs struct {
 	OutputDir       *string
 	GenerateState   bool
 	TFVersion       *TfHclVersion
+	RetryTimeout    *string
 }
 
 func RunExportCommand(args *ExportCommandArgs) (error, Status) {
@@ -162,6 +163,19 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 	}
 
 	ctx := createResourceDiscoveryContext(clients.(*OracleClients), args, tenancyOcid)
+
+	/*
+		Setting retry timeout to a lower value for resource discovery
+		This is done to handle the 404 and 500 errors in case
+		any resource is unavailable in a region or in case the service is down
+		The time out value is configurable from export command
+	*/
+	if args.RetryTimeout != nil && *args.RetryTimeout != "" {
+		longRetryTime = *getTimeoutDuration(*args.RetryTimeout)
+		shortRetryTime = longRetryTime
+	}
+
+	log.Printf("[INFO] resource discovery retry timeout duration set to %v", shortRetryTime)
 
 	if err := runExportCommand(ctx); err != nil {
 		return err, StatusFail
@@ -336,6 +350,10 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		return err
 	}
 
+	if err := ctx.postValidate(); err != nil {
+		return err
+	}
+
 	if ctx.GenerateState {
 		// Run init and import commands
 		meta := command.Meta{
@@ -392,9 +410,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 				importId,
 			}
 			if errCode := importCmd.Run(importArgs); errCode != 0 {
-				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, resource.parent.terraformName,
-					fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId), nil})
-				continue
+				return fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
 			}
 		}
 
@@ -405,9 +421,6 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		}
 	}
 
-	if err := ctx.postValidate(); err != nil {
-		return err
-	}
 	return nil
 }
 
@@ -640,6 +653,11 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 				continue
 			case []interface{}:
 				switch tfSchema.Type {
+				case schema.TypeString:
+					if tfAttribute == "delivery_policy" {
+						builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, parseDeliveryPolicy(v[0].(interface{}))))
+						continue
+					}
 				case schema.TypeList, schema.TypeSet:
 					switch elem := tfSchema.Elem.(type) {
 					case *schema.Resource:
@@ -776,6 +794,30 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 		}
 	}
 	return nil
+}
+
+func (resource *OCIResource) hasFreeformTag(tagKey string) bool {
+	if freeformTags, exists := resource.sourceAttributes["freeform_tags"]; exists {
+		if freeformTagMap, ok := freeformTags.(map[string]interface{}); ok {
+			if _, hasFreeFormTag := freeformTagMap[tagKey]; hasFreeFormTag {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+func (resource *OCIResource) hasDefinedTag(tagKey string, tagValue string) bool {
+	if definedTags, exists := resource.sourceAttributes["defined_tags"]; exists {
+		if definedTagMap, ok := definedTags.(map[string]interface{}); ok {
+			if definedTagValue, hasDefinedTag := definedTagMap[tagKey]; hasDefinedTag {
+				return definedTagValue == tagValue
+			}
+		}
+	}
+
+	return false
 }
 
 func (ociRes *OCIResource) getHCLString(builder *strings.Builder, interpolationMap map[string]string) error {

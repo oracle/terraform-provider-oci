@@ -142,5 +142,6 @@ func (m *DynamicInputField) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.Labels {
 		m.Labels[i] = n
 	}
+
 	return
 }

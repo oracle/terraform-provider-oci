@@ -221,6 +221,13 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"one_off_patches": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1068,6 +1075,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 
 	if obj.DbUniqueName != nil {
 		result["db_unique_name"] = string(*obj.DbUniqueName)
+	}
+
+	if s.Res.OneOffPatches != nil {
+		result["one_off_patches"] = s.Res.OneOffPatches
 	}
 
 	if obj.DbWorkload != nil {
