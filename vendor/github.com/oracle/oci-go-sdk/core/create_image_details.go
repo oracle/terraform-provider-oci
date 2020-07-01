@@ -96,6 +96,7 @@ func (m *CreateImageDetails) UnmarshalJSON(data []byte) (e error) {
 	m.LaunchMode = model.LaunchMode
 
 	m.CompartmentId = model.CompartmentId
+
 	return
 }
 

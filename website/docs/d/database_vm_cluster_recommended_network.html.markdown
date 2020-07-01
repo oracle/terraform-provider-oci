@@ -29,7 +29,7 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
 		netmask = "${var.vm_cluster_recommended_network_networks_netmask}"
 		network_type = "${var.vm_cluster_recommended_network_networks_network_type}"
 		prefix = "${var.vm_cluster_recommended_network_networks_prefix}"
-		vlan_id = "${oci_database_vlan.test_vlan.id}"
+		vlan_id = "${oci_core_vlan.test_vlan.id}"
 	}
 
 	#Optional

@@ -95,5 +95,6 @@ func (m *UpdateScheduledPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ExecutionSchedule = nil
 	}
+
 	return
 }

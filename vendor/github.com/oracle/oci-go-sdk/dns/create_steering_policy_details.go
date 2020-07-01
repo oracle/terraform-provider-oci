@@ -151,6 +151,7 @@ func (m *CreateSteeringPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Template = model.Template
+
 	return
 }
 

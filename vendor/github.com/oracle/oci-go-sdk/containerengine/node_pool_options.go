@@ -79,5 +79,6 @@ func (m *NodePoolOptions) UnmarshalJSON(data []byte) (e error) {
 			m.Sources[i] = nil
 		}
 	}
+
 	return
 }

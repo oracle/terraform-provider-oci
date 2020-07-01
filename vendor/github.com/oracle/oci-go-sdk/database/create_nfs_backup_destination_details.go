@@ -112,5 +112,6 @@ func (m *CreateNfsBackupDestinationDetails) UnmarshalJSON(data []byte) (e error)
 	m.DisplayName = model.DisplayName
 
 	m.CompartmentId = model.CompartmentId
+
 	return
 }

@@ -43,5 +43,6 @@ func (m *RestoreKeyFromObjectStoreDetails) UnmarshalJSON(data []byte) (e error) 
 	} else {
 		m.BackupLocation = nil
 	}
+
 	return
 }

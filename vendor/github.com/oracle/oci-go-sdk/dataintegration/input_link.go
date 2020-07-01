@@ -129,5 +129,6 @@ func (m *InputLink) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.FieldMap = nil
 	}
+
 	return
 }

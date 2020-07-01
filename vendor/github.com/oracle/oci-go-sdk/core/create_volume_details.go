@@ -134,5 +134,6 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId
+
 	return
 }

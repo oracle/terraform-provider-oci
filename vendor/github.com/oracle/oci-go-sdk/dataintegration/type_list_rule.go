@@ -173,6 +173,7 @@ func (m *TypeListRule) UnmarshalJSON(data []byte) (e error) {
 			m.Types[i] = nil
 		}
 	}
+
 	return
 }
 

@@ -20,6 +20,9 @@ func init() {
 
 func OnsSubscriptionResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createOnsSubscription,
 		Read:     readOnsSubscription,

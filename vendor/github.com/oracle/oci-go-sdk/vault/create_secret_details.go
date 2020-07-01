@@ -115,5 +115,6 @@ func (m *CreateSecretDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SecretName = model.SecretName
 
 	m.VaultId = model.VaultId
+
 	return
 }

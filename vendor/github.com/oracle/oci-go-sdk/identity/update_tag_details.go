@@ -87,5 +87,6 @@ func (m *UpdateTagDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Validator = nil
 	}
+
 	return
 }

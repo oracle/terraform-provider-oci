@@ -50,5 +50,6 @@ func (m *ApiSpecificationRouteRequestPolicies) UnmarshalJSON(data []byte) (e err
 	}
 
 	m.Cors = model.Cors
+
 	return
 }

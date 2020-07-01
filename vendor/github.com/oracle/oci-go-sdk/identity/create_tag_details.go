@@ -87,5 +87,6 @@ func (m *CreateTagDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Name = model.Name
 
 	m.Description = model.Description
+
 	return
 }

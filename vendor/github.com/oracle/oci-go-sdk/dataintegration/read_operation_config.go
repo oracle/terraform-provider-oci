@@ -116,5 +116,6 @@ func (m *ReadOperationConfig) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ObjectStatus = model.ObjectStatus
+
 	return
 }

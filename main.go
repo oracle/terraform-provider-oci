@@ -27,6 +27,7 @@ func main() {
 	var generateStateFile = flag.Bool("generate_state", false, "[export][experimental] Set this to import the discovered resources into a state file along with the Terraform configuration")
 	var help = flag.Bool("help", false, "Prints usage options")
 	var tfVersion = flag.String("tf_version", "0.12", "The version of terraform syntax to generate for configurations. The state file will be written in v0.12 only. The allowed values are :\n * 0.11\n * 0.12")
+	var retryTimeout = flag.String("retry_timeout", "15s", "[export] The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s")
 
 	flag.Parse()
 	provider.PrintVersion()
@@ -62,6 +63,7 @@ func main() {
 				OutputDir:       outputPath,
 				GenerateState:   *generateStateFile,
 				TFVersion:       &terraformVersion,
+				RetryTimeout:    retryTimeout,
 			}
 
 			if services != nil && *services != "" {

@@ -49,6 +49,7 @@ func (m *DataFormat) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Type = model.Type
+
 	return
 }
 

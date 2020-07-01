@@ -99,5 +99,6 @@ func (m *UpdateSecretDetails) UnmarshalJSON(data []byte) (e error) {
 			m.SecretRules[i] = nil
 		}
 	}
+
 	return
 }
