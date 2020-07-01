@@ -15,6 +15,7 @@ type SortByEnum string
 // Set of constants representing the allowable values for SortByEnum
 const (
 	SortByCapacityType   SortByEnum = "capacityType"
+	SortByCapacityValue  SortByEnum = "capacityValue"
 	SortByFeatureSet     SortByEnum = "featureSet"
 	SortByLifecycleState SortByEnum = "lifecycleState"
 	SortByName           SortByEnum = "name"
@@ -23,6 +24,7 @@ const (
 
 var mappingSortBy = map[string]SortByEnum{
 	"capacityType":   SortByCapacityType,
+	"capacityValue":  SortByCapacityValue,
 	"featureSet":     SortByFeatureSet,
 	"lifecycleState": SortByLifecycleState,
 	"name":           SortByName,

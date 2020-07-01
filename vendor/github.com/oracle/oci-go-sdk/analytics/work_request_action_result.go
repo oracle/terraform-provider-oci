@@ -14,23 +14,25 @@ type WorkRequestActionResultEnum string
 
 // Set of constants representing the allowable values for WorkRequestActionResultEnum
 const (
-	WorkRequestActionResultCompartmentChanged WorkRequestActionResultEnum = "COMPARTMENT_CHANGED"
-	WorkRequestActionResultCreated            WorkRequestActionResultEnum = "CREATED"
-	WorkRequestActionResultDeleted            WorkRequestActionResultEnum = "DELETED"
-	WorkRequestActionResultStarted            WorkRequestActionResultEnum = "STARTED"
-	WorkRequestActionResultStopped            WorkRequestActionResultEnum = "STOPPED"
-	WorkRequestActionResultScaled             WorkRequestActionResultEnum = "SCALED"
-	WorkRequestActionResultNone               WorkRequestActionResultEnum = "NONE"
+	WorkRequestActionResultCompartmentChanged     WorkRequestActionResultEnum = "COMPARTMENT_CHANGED"
+	WorkRequestActionResultCreated                WorkRequestActionResultEnum = "CREATED"
+	WorkRequestActionResultDeleted                WorkRequestActionResultEnum = "DELETED"
+	WorkRequestActionResultStarted                WorkRequestActionResultEnum = "STARTED"
+	WorkRequestActionResultStopped                WorkRequestActionResultEnum = "STOPPED"
+	WorkRequestActionResultScaled                 WorkRequestActionResultEnum = "SCALED"
+	WorkRequestActionResultNetworkEndpointChanged WorkRequestActionResultEnum = "NETWORK_ENDPOINT_CHANGED"
+	WorkRequestActionResultNone                   WorkRequestActionResultEnum = "NONE"
 )
 
 var mappingWorkRequestActionResult = map[string]WorkRequestActionResultEnum{
-	"COMPARTMENT_CHANGED": WorkRequestActionResultCompartmentChanged,
-	"CREATED":             WorkRequestActionResultCreated,
-	"DELETED":             WorkRequestActionResultDeleted,
-	"STARTED":             WorkRequestActionResultStarted,
-	"STOPPED":             WorkRequestActionResultStopped,
-	"SCALED":              WorkRequestActionResultScaled,
-	"NONE":                WorkRequestActionResultNone,
+	"COMPARTMENT_CHANGED":      WorkRequestActionResultCompartmentChanged,
+	"CREATED":                  WorkRequestActionResultCreated,
+	"DELETED":                  WorkRequestActionResultDeleted,
+	"STARTED":                  WorkRequestActionResultStarted,
+	"STOPPED":                  WorkRequestActionResultStopped,
+	"SCALED":                   WorkRequestActionResultScaled,
+	"NETWORK_ENDPOINT_CHANGED": WorkRequestActionResultNetworkEndpointChanged,
+	"NONE": WorkRequestActionResultNone,
 }
 
 // GetWorkRequestActionResultEnumValues Enumerates the set of values for WorkRequestActionResultEnum

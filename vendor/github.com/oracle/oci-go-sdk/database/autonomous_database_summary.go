@@ -108,7 +108,7 @@ type AutonomousDatabaseSummary struct {
 	// The private endpoint for the resource.
 	PrivateEndpoint *string `mandatory:"false" json:"privateEndpoint"`
 
-	// The private endpoint label for the resource.
+	// The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
 	PrivateEndpointLabel *string `mandatory:"false" json:"privateEndpointLabel"`
 
 	// The private endpoint Ip address for the resource.
