@@ -12,7 +12,7 @@ import (
 // ListBulkActionResourceTypesRequest wrapper for the ListBulkActionResourceTypes operation
 type ListBulkActionResourceTypesRequest struct {
 
-	// The type of the bulk action.
+	// The type of bulk action.
 	BulkActionType ListBulkActionResourceTypesBulkActionTypeEnum `mandatory:"true" contributesTo:"query" name:"bulkActionType" omitEmpty:"true"`
 
 	// The value of the `opc-next-page` response header from the previous "List" call.

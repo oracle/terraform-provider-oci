@@ -231,8 +231,11 @@ func (client IdentityClient) assembleEffectiveTagSet(ctx context.Context, reques
 	return response, err
 }
 
-// BulkDeleteResources Bulk delete resources in the compartment. All resources must be in the same compartment.
-// This API can only be invoked from tenancy's home region.
+// BulkDeleteResources Deletes multiple resources in the compartment. All resources must be in the same compartment. You must have the appropriate
+// permissions to delete the resources in the request. This API can only be invoked from the tenancy's
+// home region (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingregions.htm#Home). This operation creates a
+// WorkRequest. Use the GetWorkRequest
+// API to monitor the status of the bulk action.
 func (client IdentityClient) BulkDeleteResources(ctx context.Context, request BulkDeleteResourcesRequest) (response BulkDeleteResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -351,8 +354,11 @@ func (client IdentityClient) bulkDeleteTags(ctx context.Context, request common.
 	return response, err
 }
 
-// BulkMoveResources Bulk move resources in the compartment. All resources must be in the same compartment.
-// This API can only be invoked from tenancy's home region.
+// BulkMoveResources Moves multiple resources from one compartment to another. All resources must be in the same compartment.
+// This API can only be invoked from the tenancy's home region (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingregions.htm#Home).
+// To move resources, you must have the appropriate permissions to move the resource in both the source and target
+// compartments. This operation creates a WorkRequest.
+// Use the GetWorkRequest API to monitor the status of the bulk action.
 func (client IdentityClient) BulkMoveResources(ctx context.Context, request BulkMoveResourcesRequest) (response BulkMoveResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3610,7 +3616,13 @@ func (client IdentityClient) listAvailabilityDomains(ctx context.Context, reques
 	return response, err
 }
 
-// ListBulkActionResourceTypes Lists the resource types supported by compartment bulk actions.
+// ListBulkActionResourceTypes Lists the resource-types supported by compartment bulk actions. Use this API to help you provide the correct
+// resource-type information to the BulkDeleteResources
+// and BulkMoveResources operations. The returned list of
+// resource-types provides the appropriate resource-type names to use with the bulk action operations along with
+// the type of identifying information you'll need to provide for each resource-type. Most resource-types just
+// require an OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) to identify a specific resource, but some resource-types,
+// such as buckets, require you to provide other identifying information.
 func (client IdentityClient) ListBulkActionResourceTypes(ctx context.Context, request ListBulkActionResourceTypesRequest) (response ListBulkActionResourceTypesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

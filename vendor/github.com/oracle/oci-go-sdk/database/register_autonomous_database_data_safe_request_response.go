@@ -18,6 +18,9 @@ type RegisterAutonomousDatabaseDataSafeRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Request to register an Autonomous Database with Data Safe.
+	RegisterAutonomousDatabaseDataSafeDetails `contributesTo:"body"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

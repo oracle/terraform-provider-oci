@@ -184,6 +184,7 @@ type ListAnalyticsInstancesSortByEnum string
 // Set of constants representing the allowable values for ListAnalyticsInstancesSortByEnum
 const (
 	ListAnalyticsInstancesSortByCapacitytype   ListAnalyticsInstancesSortByEnum = "capacityType"
+	ListAnalyticsInstancesSortByCapacityvalue  ListAnalyticsInstancesSortByEnum = "capacityValue"
 	ListAnalyticsInstancesSortByFeatureset     ListAnalyticsInstancesSortByEnum = "featureSet"
 	ListAnalyticsInstancesSortByLifecyclestate ListAnalyticsInstancesSortByEnum = "lifecycleState"
 	ListAnalyticsInstancesSortByName           ListAnalyticsInstancesSortByEnum = "name"
@@ -192,6 +193,7 @@ const (
 
 var mappingListAnalyticsInstancesSortBy = map[string]ListAnalyticsInstancesSortByEnum{
 	"capacityType":   ListAnalyticsInstancesSortByCapacitytype,
+	"capacityValue":  ListAnalyticsInstancesSortByCapacityvalue,
 	"featureSet":     ListAnalyticsInstancesSortByFeatureset,
 	"lifecycleState": ListAnalyticsInstancesSortByLifecyclestate,
 	"name":           ListAnalyticsInstancesSortByName,

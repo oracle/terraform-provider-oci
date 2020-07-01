@@ -10,6 +10,7 @@
 package analytics
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/common"
 )
 
@@ -36,6 +37,8 @@ type CreateAnalyticsInstanceDetails struct {
 	// Email address receiving notifications.
 	EmailNotification *string `mandatory:"false" json:"emailNotification"`
 
+	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
+
 	// IDCS access token identifying a stripe and service administrator user.
 	IdcsAccessToken *string `mandatory:"false" json:"idcsAccessToken"`
 
@@ -52,4 +55,58 @@ type CreateAnalyticsInstanceDetails struct {
 
 func (m CreateAnalyticsInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateAnalyticsInstanceDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description            *string                           `json:"description"`
+		EmailNotification      *string                           `json:"emailNotification"`
+		NetworkEndpointDetails networkendpointdetails            `json:"networkEndpointDetails"`
+		IdcsAccessToken        *string                           `json:"idcsAccessToken"`
+		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags           map[string]string                 `json:"freeformTags"`
+		Name                   *string                           `json:"name"`
+		CompartmentId          *string                           `json:"compartmentId"`
+		FeatureSet             FeatureSetEnum                    `json:"featureSet"`
+		Capacity               *Capacity                         `json:"capacity"`
+		LicenseType            LicenseTypeEnum                   `json:"licenseType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.EmailNotification = model.EmailNotification
+
+	nn, e = model.NetworkEndpointDetails.UnmarshalPolymorphicJSON(model.NetworkEndpointDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkEndpointDetails = nn.(NetworkEndpointDetails)
+	} else {
+		m.NetworkEndpointDetails = nil
+	}
+
+	m.IdcsAccessToken = model.IdcsAccessToken
+
+	m.DefinedTags = model.DefinedTags
+
+	m.FreeformTags = model.FreeformTags
+
+	m.Name = model.Name
+
+	m.CompartmentId = model.CompartmentId
+
+	m.FeatureSet = model.FeatureSet
+
+	m.Capacity = model.Capacity
+
+	m.LicenseType = model.LicenseType
+
+	return
 }
