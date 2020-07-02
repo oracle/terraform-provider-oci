@@ -663,11 +663,15 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok && s.D.HasChange("node_config_details") {
 		if tmpList := nodeConfigDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
-			tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
-			if err != nil {
-				return err
+			_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs"))
+			_, exists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size"))
+			if (ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "placement_configs"))) || (exists && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "size"))) {
+				tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				request.NodeConfigDetails = &tmp
 			}
-			request.NodeConfigDetails = &tmp
 		}
 	}
 
