@@ -101,7 +101,7 @@ func CoreInstanceResource() *schema.Resource {
 							// values for boolean nested objects correctly.
 							Type:     schema.TypeString,
 							Optional: true,
-							Default:  "false",
+							Default:  "true",
 							ValidateFunc: func(v interface{}, k string) ([]string, []error) {
 								// Verify that we can parse the string value as a bool value.
 								var es []error

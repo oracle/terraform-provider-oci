@@ -1,4 +1,8 @@
-## 3.84.0 (Unreleased)
+## 3.83.1 (Unreleased)
+
+### Fixed
+- Reverted the default value to `true` for `assign_public_ip` in `oci_core_instance` resource
+
 ## 3.83.0 (July 01, 2020)
 
 ### Added
