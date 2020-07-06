@@ -2,6 +2,8 @@
 ### Added
 - Support for Automatic performance/cost tuning - Phase 1: Detach/attach optimization
 - Support for ADB-D | Patching - Patch Now
+- Support for making `launch_options` and `fault_domain` updatable in `oci_core_instance`
+
 ## 3.86.0 (July 22, 2020)
 
 ### Added
