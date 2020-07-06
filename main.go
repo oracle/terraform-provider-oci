@@ -23,6 +23,7 @@ func main() {
 	var compartmentName = flag.String("compartment_name", "", "[export] The name of a compartment to export.")
 	var outputPath = flag.String("output_path", "", "[export] Path to output generated configurations and state files of the exported compartment")
 	var services = flag.String("services", "", "[export] Comma-separated list of service resources to export. By default, all compartment-scope resources are exported.")
+	var excludeServices = flag.String("exclude_services", "", "[export] [experimental] Comma-separated list of service resources to exclude from export. If a service is present in both 'services' and 'exclude_services' argument, it will be excluded.")
 	var ids = flag.String("ids", "", "[export] Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported.")
 	var generateStateFile = flag.Bool("generate_state", false, "[export][experimental] Set this to import the discovered resources into a state file along with the Terraform configuration")
 	var help = flag.Bool("help", false, "Prints usage options")
@@ -68,6 +69,10 @@ func main() {
 
 			if services != nil && *services != "" {
 				args.Services = strings.Split(*services, ",")
+			}
+
+			if excludeServices != nil && *excludeServices != "" {
+				args.ExcludeServices = strings.Split(*excludeServices, ",")
 			}
 
 			if ids != nil && *ids != "" {
