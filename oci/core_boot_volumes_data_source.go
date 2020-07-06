@@ -114,6 +114,10 @@ func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 			"compartment_id":      *r.CompartmentId,
 		}
 
+		if r.AutoTunedVpusPerGB != nil {
+			bootVolume["auto_tuned_vpus_per_gb"] = strconv.FormatInt(*r.AutoTunedVpusPerGB, 10)
+		}
+
 		if r.DefinedTags != nil {
 			bootVolume["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
@@ -130,6 +134,10 @@ func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 
 		if r.ImageId != nil {
 			bootVolume["image_id"] = *r.ImageId
+		}
+
+		if r.IsAutoTuneEnabled != nil {
+			bootVolume["is_auto_tune_enabled"] = *r.IsAutoTuneEnabled
 		}
 
 		if r.IsHydrated != nil {
