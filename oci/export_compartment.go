@@ -128,6 +128,7 @@ type ExportCommandArgs struct {
 	GenerateState   bool
 	TFVersion       *TfHclVersion
 	RetryTimeout    *string
+	ExcludeServices []string
 }
 
 func RunExportCommand(args *ExportCommandArgs) (error, Status) {
