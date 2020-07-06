@@ -181,7 +181,7 @@ The following arguments are supported:
 	The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 
 	Input in terraform is the same as metadata but allows nested metadata if you pass a valid JSON string as a value. See the example above.
-* `fault_domain` - (Optional) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
+* `fault_domain` - (Optional) (Updatable) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
 
 	If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.
 
@@ -202,9 +202,9 @@ The following arguments are supported:
 	For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 	For more information about iPXE, see http://ipxe.org. 
-* `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
-* `launch_options` - (Optional) Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
-	* `boot_volume_type` - (Optional) Emulation type for volume.
+* `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false. Do not use this field if planning to make update to this field in the future, instead use `is_pv_encryption_in_transit_enabled` under `launch_options`.
+* `launch_options` - (Optional) (Updatable) Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
+	* `boot_volume_type` - (Optional) (Updatable) Emulation type for volume.
 		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
@@ -214,8 +214,8 @@ The following arguments are supported:
 		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
 	* `is_consistent_volume_naming_enabled` - (Optional) Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - (Optional) Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails). 
-	* `network_type` - (Optional) Emulation type for the physical network interface card (NIC).
+	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
+	* `network_type` - (Optional) (Updatable) Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
 		* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
@@ -331,7 +331,7 @@ The following attributes are exported:
 		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails). 
+	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment.
 	* `network_type` - Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
