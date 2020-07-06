@@ -4,9 +4,10 @@
 package oci
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
-	"identity": identityResourceGraph,
-	"limits":   limitsResourceGraph,
-	"budget":   budgetResourceGraph,
+	"identity":      identityResourceGraph,
+	"limits":        limitsResourceGraph,
+	"budget":        budgetResourceGraph,
+	"email_tenancy": emailTenancyResourceGraph,
 }
 
 var availabilityDomainsGraph = TerraformResourceGraph{
@@ -60,7 +61,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"datascience":         datascienceResourceGraph,
 	"dataintegration":     dataintegrationResourceGraph,
 	"dns":                 dnsResourceGraph,
-	"email":               emailResourceGraph,
+	"email_compartment":   emailCompartmentResourceGraph,
 	"events":              eventsResourceGraph,
 	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
@@ -389,10 +390,13 @@ var datacatalogResourceGraph = TerraformResourceGraph{
 	},
 }
 
-var emailResourceGraph = TerraformResourceGraph{
+var emailCompartmentResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEmailSenderHints},
 	},
+}
+
+var emailTenancyResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportEmailSuppressionHints},
 	},
