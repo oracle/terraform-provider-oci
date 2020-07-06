@@ -132,7 +132,16 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * 0.11
     * 0.12
 
-> **Note**: The compartment export functionality currently supports discovery of the target compartment. The ability to discover resources in child compartments is not yet supported.
+| Arguments | Resources discovered |
+| ----------| -------------------- |
+| compartment_id = \<empty or tenancy ocid\>  <br> services= \<empty\> or not specified | all tenancy and compartment scope resources <br>  |
+| compartment_id = \<empty or tenancy ocid\>  <br> services= \<comma separated list of services\> | tenancy and compartment scope resources for the services specified |
+| compartment_id = \<non-root compartment\> <br> services= \<empty\> or not specified | all compartment scope resources only |
+| compartment_id = \<non-root compartment\> services=\<comma separated list of services\> | compartment scope resources for the services specified<br>tenancy scope resources will not be discovered even if services with such resources are specified |
+
+> **Notes**:
+* The compartment export functionality currently supports discovery of the target compartment. The ability to discover resources in child compartments is not yet supported.
+* If using Instance Principals, resources can not be discovered if compartment_id is not specified
 
 ### Exit status
 

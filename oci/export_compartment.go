@@ -43,6 +43,7 @@ var resourceNameCount map[string]int
 var resourcesMap map[string]*schema.Resource
 var datasourcesMap map[string]*schema.Resource
 var compartmentScopeServices []string
+var tenancyScopeServices []string
 var isMissingRequiredAttributes bool
 var exportConfigProvider oci_common.ConfigurationProvider
 var tfHclVersion TfHclVersion
@@ -56,6 +57,13 @@ func init() {
 	idx := 0
 	for mode := range compartmentResourceGraphs {
 		compartmentScopeServices[idx] = mode
+		idx++
+	}
+
+	tenancyScopeServices = make([]string, len(tenancyResourceGraphs))
+	idx = 0
+	for mode := range tenancyResourceGraphs {
+		tenancyScopeServices[idx] = mode
 		idx++
 	}
 
@@ -155,14 +163,29 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 		}
 	}
 
-	args.finalizeServices()
+	/*
+		We do not get customer tenancy ocid from configuration provider in case of Instance Principals auth
+		Getting the tenancy ocid by repeated Get calls on parent for compartment
+	*/
+	var tenancyOcid string
+	if args.CompartmentId != nil && *args.CompartmentId != "" {
+		tenancyOcid, err = getTenancyOcidFromCompartment(clients.(*OracleClients), *args.CompartmentId)
+		if err != nil {
+			return err, StatusFail
+		}
+	} else {
+		// If compartment ocid not provided in arguments, get it from configuration provider
 
-	tenancyOcid, exists := clients.(*OracleClients).configuration["tenancy_ocid"]
-	if !exists {
-		return fmt.Errorf("[ERROR] could not get a tenancy OCID during initialization"), StatusFail
+		tenancyId, exists := clients.(*OracleClients).configuration["tenancy_ocid"]
+		if !exists {
+			return fmt.Errorf("[ERROR] could not get a tenancy OCID during initialization"), StatusFail
+		}
+		tenancyOcid = tenancyId
 	}
 
 	ctx := createResourceDiscoveryContext(clients.(*OracleClients), args, tenancyOcid)
+
+	args.finalizeServices(ctx)
 
 	/*
 		Setting retry timeout to a lower value for resource discovery
@@ -199,9 +222,16 @@ func convertStringSliceToSet(slice []string, omitEmptyStrings bool) map[string]b
 	return result
 }
 
-func (args *ExportCommandArgs) finalizeServices() {
+func (args *ExportCommandArgs) finalizeServices(ctx *resourceDiscoveryContext) {
 	if len(args.Services) == 0 {
 		args.Services = compartmentScopeServices
+
+		/*
+			If compartmentId provided is not provided or is a root compartment then discover tenancy scope resources too
+		*/
+		if args.CompartmentId != nil && (*args.CompartmentId == "" || *args.CompartmentId == ctx.tenancyOcid) {
+			args.Services = append(args.Services, tenancyScopeServices...)
+		}
 	}
 
 	// Dedupes possible repeating services from command line and sorts them
@@ -429,33 +459,37 @@ func getDiscoverResourceSteps(ctx *resourceDiscoveryContext) ([]resourceDiscover
 }
 
 func getDiscoverResourceWithGraphSteps(ctx *resourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
-	result := []resourceDiscoveryStep{}
-
-	tenancyResource := &OCIResource{
-		compartmentId: ctx.tenancyOcid,
-		TerraformResource: TerraformResource{
-			id:             ctx.tenancyOcid,
-			terraformClass: "oci_identity_tenancy",
-			terraformName:  "export",
-		},
-	}
-
-	for _, mode := range ctx.Services {
-		if resourceGraph, exists := tenancyResourceGraphs[mode]; exists {
-			result = append(result, &resourceDiscoveryWithGraph{
-				root:                      tenancyResource,
-				resourceGraph:             resourceGraph,
-				resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{name: mode, ctx: ctx},
-			})
-
-			vars["tenancy_ocid"] = fmt.Sprintf("\"%s\"", ctx.tenancyOcid)
-			referenceMap[ctx.tenancyOcid] = tfHclVersion.getVarHclString("tenancy_ocid")
-		}
-	}
 
 	if ctx.CompartmentId == nil || *ctx.CompartmentId == "" {
 		*ctx.CompartmentId = ctx.tenancyOcid
 	}
+	result := []resourceDiscoveryStep{}
+
+	// Discover tenancy scope resources only if compartmentId is tenancy ocid
+	if *ctx.CompartmentId == ctx.tenancyOcid {
+		tenancyResource := &OCIResource{
+			compartmentId: ctx.tenancyOcid,
+			TerraformResource: TerraformResource{
+				id:             ctx.tenancyOcid,
+				terraformClass: "oci_identity_tenancy",
+				terraformName:  "export",
+			},
+		}
+
+		for _, mode := range ctx.Services {
+			if resourceGraph, exists := tenancyResourceGraphs[mode]; exists {
+				result = append(result, &resourceDiscoveryWithGraph{
+					root:                      tenancyResource,
+					resourceGraph:             resourceGraph,
+					resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{name: mode, ctx: ctx},
+				})
+
+				vars["tenancy_ocid"] = fmt.Sprintf("\"%s\"", ctx.tenancyOcid)
+				referenceMap[ctx.tenancyOcid] = tfHclVersion.getVarHclString("tenancy_ocid")
+			}
+		}
+	}
+
 	compartmentResource := &OCIResource{
 		compartmentId: *ctx.CompartmentId,
 		TerraformResource: TerraformResource{
@@ -1241,4 +1275,26 @@ func readEnvironmentVars(d *schema.ResourceData) error {
 		}
 	}
 	return nil
+}
+
+func getTenancyOcidFromCompartment(clients *OracleClients, compartmentId string) (string, error) {
+
+	for true {
+		response, err := clients.identityClient().GetCompartment(context.Background(), oci_identity.GetCompartmentRequest{
+			CompartmentId: &compartmentId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: getRetryPolicy(true, "identity"),
+			},
+		})
+		if err != nil {
+			return "", fmt.Errorf("[ERROR] could not get tenancy ocid from compartment ocid %v", err)
+		}
+		if response.CompartmentId == nil {
+			log.Printf("[INFO] root compartment found %v", compartmentId)
+			return *response.Id, nil
+		}
+		compartmentId = *response.CompartmentId
+	}
+
+	return "", fmt.Errorf("[ERROR] could not get tenancy ocid from compartment ocid")
 }
