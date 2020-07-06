@@ -100,6 +100,11 @@ func CoreBootVolumeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_auto_tune_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -121,6 +126,10 @@ func CoreBootVolumeResource() *schema.Resource {
 			},
 
 			// Computed
+			"auto_tuned_vpus_per_gb": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"image_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -270,6 +279,11 @@ func (s *CoreBootVolumeResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isAutoTuneEnabled, ok := s.D.GetOkExists("is_auto_tune_enabled"); ok {
+		tmp := isAutoTuneEnabled.(bool)
+		request.IsAutoTuneEnabled = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -364,6 +378,11 @@ func (s *CoreBootVolumeResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isAutoTuneEnabled, ok := s.D.GetOkExists("is_auto_tune_enabled"); ok {
+		tmp := isAutoTuneEnabled.(bool)
+		request.IsAutoTuneEnabled = &tmp
+	}
+
 	if s.D.HasChange("kms_key_id") {
 		keyUpdateRequest := oci_core.UpdateBootVolumeKmsKeyRequest{}
 
@@ -423,6 +442,10 @@ func (s *CoreBootVolumeResourceCrud) Delete() error {
 }
 
 func (s *CoreBootVolumeResourceCrud) SetData() error {
+	if s.Res.AutoTunedVpusPerGB != nil {
+		s.D.Set("auto_tuned_vpus_per_gb", strconv.FormatInt(*s.Res.AutoTunedVpusPerGB, 10))
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -443,6 +466,10 @@ func (s *CoreBootVolumeResourceCrud) SetData() error {
 
 	if s.Res.ImageId != nil {
 		s.D.Set("image_id", *s.Res.ImageId)
+	}
+
+	if s.Res.IsAutoTuneEnabled != nil {
+		s.D.Set("is_auto_tune_enabled", *s.Res.IsAutoTuneEnabled)
 	}
 
 	if s.Res.IsHydrated != nil {

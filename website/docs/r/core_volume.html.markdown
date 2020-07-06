@@ -39,6 +39,7 @@ resource "oci_core_volume" "test_volume" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.volume_display_name}"
 	freeform_tags = {"Department"= "Finance"}
+	is_auto_tune_enabled = "${var.volume_is_auto_tune_enabled}"
 	kms_key_id = "${oci_kms_key.test_key.id}"
 	size_in_gbs = "${var.volume_size_in_gbs}"
 	size_in_mbs = "${var.volume_size_in_mbs}"
@@ -61,6 +62,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this volume. 
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management key to assign as the master encryption key for the volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use `size_in_gbs` instead. 
@@ -83,12 +85,14 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `auto_tuned_vpus_per_gb` - The number of Volume Performance Units per GB that this volume is effectively tuned to when it's idle. 
 * `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment that contains the volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume.
+* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this volume. 
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup.
 * `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume.
 * `size_in_gbs` - The size of the volume in GBs.
