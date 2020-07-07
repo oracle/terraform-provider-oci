@@ -1,4 +1,11 @@
 ## 3.84.0 (Unreleased)
+
+### Added
+- Support `name` field to Identity Provider Group Summary response
+- Support for ADB-S: Private Endpoint
+- Support for `register` and `reregister` to `datasafe` in `Autonomous database - Dedicated` resources
+- Support for `network_endpoint_details` in `oci_analytics_analytics_instance` resource
+
 ## 3.83.1 (July 03, 2020)
 
 ### Fixed

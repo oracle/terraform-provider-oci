@@ -25,6 +25,9 @@ type IdentityProviderGroupSummary struct {
 	// Display name of the group
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Display name of the group
+	Name *string `mandatory:"false" json:"name"`
+
 	// Identifier of the group in the identity provider
 	ExternalIdentifier *string `mandatory:"false" json:"externalIdentifier"`
 

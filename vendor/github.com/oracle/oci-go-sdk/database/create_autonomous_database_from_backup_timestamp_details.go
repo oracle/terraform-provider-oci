@@ -77,7 +77,7 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The private endpoint label for the resource.
+	// The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
 	PrivateEndpointLabel *string `mandatory:"false" json:"privateEndpointLabel"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -216,7 +216,7 @@ var mappingListJobDefinitionsFields = map[string]ListJobDefinitionsFieldsEnum{
 	"lifecycleState":        ListJobDefinitionsFieldsLifecyclestate,
 	"timeCreated":           ListJobDefinitionsFieldsTimecreated,
 	"isSampleDataExtracted": ListJobDefinitionsFieldsIssampledataextracted,
-	"uri": ListJobDefinitionsFieldsUri,
+	"uri":                   ListJobDefinitionsFieldsUri,
 }
 
 // GetListJobDefinitionsFieldsEnumValues Enumerates the set of values for ListJobDefinitionsFieldsEnum

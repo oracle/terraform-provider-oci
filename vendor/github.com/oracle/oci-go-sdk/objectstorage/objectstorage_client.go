@@ -2099,6 +2099,58 @@ func (client ObjectStorageClient) reencryptBucket(ctx context.Context, request c
 	return response, err
 }
 
+// ReencryptObject Re-encrypts the data encryption keys that encrypt the object and its chunks. By default, when you create a bucket, the Object Storage
+// service manages the master encryption key used to encrypt each object's data encryption keys. The encryption mechanism that you specify for
+// the bucket applies to the objects it contains.
+// You can alternatively employ one of these encryption strategies for an object:
+// - You can assign a key that you created and control through the Oracle Cloud Infrastructure Vault service.
+// - You can encrypt an object using your own encryption key. The key you supply is known as a customer-provided encryption key (SSE-C).
+func (client ObjectStorageClient) ReencryptObject(ctx context.Context, request ReencryptObjectRequest) (response ReencryptObjectResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.reencryptObject, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReencryptObjectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReencryptObjectResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReencryptObjectResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReencryptObjectResponse")
+	}
+	return
+}
+
+// reencryptObject implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) reencryptObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/reencrypt/{objectName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReencryptObjectResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RenameObject Rename an object in the given Object Storage namespace.
 func (client ObjectStorageClient) RenameObject(ctx context.Context, request RenameObjectRequest) (response RenameObjectResponse, err error) {
 	var ociResponse common.OCIResponse
