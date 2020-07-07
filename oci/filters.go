@@ -102,6 +102,60 @@ func ApplyFilters(filters *schema.Set, items []map[string]interface{}, resourceS
 	return items
 }
 
+func ApplyFiltersInCollection(filters *schema.Set, items []interface{}, resourceSchema map[string]*schema.Schema) []interface{} {
+	if filters == nil || filters.Len() == 0 {
+		return items
+	}
+
+	for _, f := range filters.List() {
+		fSet := f.(map[string]interface{})
+		keyword := fSet["name"].(string)
+		var pathElements []string
+		var err error
+		if pathElements, err = getFieldPathElements(resourceSchema, keyword); err != nil {
+			log.Printf(err.Error())
+			pathElements = []string{keyword}
+		}
+
+		isReg := false
+		if regex, regexOk := fSet["regex"]; regexOk {
+			isReg = regex.(bool)
+		}
+
+		// create a string equality check strategy based on this filters "regex" flag
+		stringsEqual := func(propertyVal string, filterVal string) bool {
+			if isReg {
+				re, err := regexp.Compile(filterVal)
+				if err != nil {
+					// todo: when all SetData() fns are refactored to return a possible error, these log statements should
+					// be converted to errors for return propagation
+					log.Printf(`[WARN] Invalid regular expression "%s" for "%s" filter\n`, filterVal, keyword)
+					return false
+				}
+				return re.MatchString(propertyVal)
+			}
+
+			return filterVal == propertyVal
+		}
+
+		// build a collection of items from matches against the set of filters
+		res := make([]interface{}, 0)
+		for _, item := range items {
+			itemMap, ok := item.(map[string]interface{})
+			if !ok {
+				continue
+			}
+			targetVal, targetValOk := getValueFromPath(itemMap, pathElements)
+			if targetValOk && orComparator(targetVal, fSet["values"].([]interface{}), stringsEqual) {
+				res = append(res, itemMap)
+			}
+		}
+		items = res
+	}
+
+	return items
+}
+
 func getValueFromPath(item map[string]interface{}, path []string) (targetVal interface{}, targetValOk bool) {
 	workingMap := item
 	tempWorkingMap := item

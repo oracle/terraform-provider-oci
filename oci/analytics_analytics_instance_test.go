@@ -52,14 +52,20 @@ var (
 		"license_type":   Representation{repType: Required, create: `LICENSE_INCLUDED`, update: `BRING_YOUR_OWN_LICENSE`},
 		"name":           Representation{repType: Required, create: analyticsinstanceOptionalName},
 		//"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":        Representation{repType: Optional, create: `description`, update: `description2`},
-		"email_notification": Representation{repType: Optional, create: `emailNotification`, update: `emailNotification2`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"idcs_access_token":  Representation{repType: Required, create: `${var.idcs_access_token}`},
+		"description":              Representation{repType: Optional, create: `description`, update: `description2`},
+		"email_notification":       Representation{repType: Optional, create: `emailNotification`, update: `emailNotification2`},
+		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"idcs_access_token":        Representation{repType: Required, create: `${var.idcs_access_token}`},
+		"network_endpoint_details": RepresentationGroup{Optional, analyticsInstanceNetworkEndpointDetailsRepresentation},
 	}
 	analyticsInstanceCapacityRepresentation = map[string]interface{}{
 		"capacity_type":  Representation{repType: Required, create: `OLPU_COUNT`},
 		"capacity_value": Representation{repType: Required, create: `2`},
+	}
+	analyticsInstanceNetworkEndpointDetailsRepresentation = map[string]interface{}{
+		"network_endpoint_type": Representation{repType: Required, create: `PRIVATE`},
+		"subnet_id":             Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_id":                Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
 	analyticsInstanceCapacityUpdateRepresentation = map[string]interface{}{
@@ -67,7 +73,8 @@ var (
 		"capacity_value": Representation{repType: Required, create: `4`},
 	}
 
-	AnalyticsInstanceResourceDependencies = ""
+	AnalyticsInstanceResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
@@ -145,6 +152,10 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -181,6 +192,10 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -275,6 +290,10 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
 					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -375,6 +394,10 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.license_type", "BRING_YOUR_OWN_LICENSE"),
 					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.name", analyticsinstanceOptionalName),
+					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.network_endpoint_details.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.network_endpoint_details.0.vcn_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.service_url"),
 					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.time_created"),
@@ -401,6 +424,8 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", analyticsinstanceOptionalName),
+					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_url"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

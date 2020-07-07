@@ -155,7 +155,10 @@ func getNotFoundChildren(parent string, resourceGraph *TerraformResourceGraph, c
 	if exists {
 		for _, child := range childResources {
 			*children = append(*children, child.resourceClass)
-			getNotFoundChildren(child.resourceClass, resourceGraph, children)
+			// Avoid recursion if a resource can be nested within itself e.g. compartments
+			if child.resourceClass != parent {
+				getNotFoundChildren(child.resourceClass, resourceGraph, children)
+			}
 		}
 	}
 }
@@ -338,6 +341,9 @@ func init() {
 
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 
+	exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]string{
+		"artifact_content_length": "0",
+	}
 	exportDatascienceModelProvenanceHints.getIdFn = getModelProvenanceId
 
 	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
