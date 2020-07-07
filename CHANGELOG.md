@@ -6,6 +6,11 @@
 - Support for `register` and `reregister` to `datasafe` in `Autonomous database - Dedicated` resources
 - Support for `network_endpoint_details` in `oci_analytics_analytics_instance` resource
 
+## 3.83.1 (July 03, 2020)
+
+### Fixed
+- Reverted the default value to `true` for `assign_public_ip` in `oci_core_instance` resource
+
 ## 3.83.0 (July 01, 2020)
 
 ### Added
