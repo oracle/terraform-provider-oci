@@ -122,7 +122,7 @@ var mappingRuleAction = map[string]RuleActionEnum{
 	"ADD_HTTP_RESPONSE_HEADER":          RuleActionAddHttpResponseHeader,
 	"EXTEND_HTTP_RESPONSE_HEADER_VALUE": RuleActionExtendHttpResponseHeaderValue,
 	"REMOVE_HTTP_RESPONSE_HEADER":       RuleActionRemoveHttpResponseHeader,
-	"ALLOW": RuleActionAllow,
+	"ALLOW":                             RuleActionAllow,
 	"CONTROL_ACCESS_USING_HTTP_METHODS": RuleActionControlAccessUsingHttpMethods,
 	"REDIRECT":                          RuleActionRedirect,
 	"HTTP_HEADER":                       RuleActionHttpHeader,
