@@ -1010,6 +1010,21 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 
 		foundItems, _ := d.GetOkExists(tfMeta.datasourceItemsAttr)
 		for idx, item := range foundItems.([]interface{}) {
+			if itemMap, ok := item.(map[string]interface{}); ok {
+				if state, exists := itemMap["state"].(string); exists {
+					discoverable := false
+					for _, val := range tfMeta.discoverableLifecycleStates {
+						if strings.EqualFold(state, val) {
+							discoverable = true
+							break
+						}
+					}
+
+					if !discoverable {
+						continue
+					}
+				}
+			}
 			var resource *OCIResource
 			var err error
 			if tfMeta.requireResourceRefresh {
@@ -1038,7 +1053,10 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 				if err = resourceSchema.Read(r, clients); err != nil {
 					return results, err
 				}
-
+				// If state was voided because of error in Read (r.Id() is empty)
+				if r.Id() == "" {
+					return results, fmt.Errorf("singular data source not able to find resource")
+				}
 				resource, err = generateOciResourceFromResourceData(r, r, resourceSchema.Schema, "", tfMeta, parent)
 				if err != nil {
 					return results, err
@@ -1047,20 +1065,6 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 				resource, err = generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", tfMeta.datasourceItemsAttr, idx), tfMeta, parent)
 				if err != nil {
 					return results, err
-				}
-			}
-
-			if state, ok := resource.sourceAttributes["state"]; ok && len(tfMeta.discoverableLifecycleStates) > 0 {
-				discoverable := false
-				for _, val := range tfMeta.discoverableLifecycleStates {
-					if strings.EqualFold(state.(string), val) {
-						discoverable = true
-						break
-					}
-				}
-
-				if !discoverable {
-					continue
 				}
 			}
 
