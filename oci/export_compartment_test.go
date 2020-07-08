@@ -29,6 +29,7 @@ const (
 	resourceDiscoveryTestCompartmentOcid   = "ocid1.testcompartment.abc"
 	resourceDiscoveryTestActiveLifecycle   = "ACTIVE"
 	resourceDiscoveryTestInactiveLifecycle = "INACTIVE"
+	resourceIdFor404ErrorResource          = "ocid1.child.abcdefghiklmnop.1"
 )
 
 var exportParentDefinition = &TerraformResourceHints{
@@ -60,6 +61,15 @@ var exportParentDefinitionWithFaultyDatasource = &TerraformResourceHints{
 
 var exportChildDefinitionWithFaultyDatasource = &TerraformResourceHints{
 	resourceClass:               "oci_test_error_child",
+	datasourceClass:             "oci_test_children",
+	resourceAbbreviation:        "child",
+	datasourceItemsAttr:         "item_summaries",
+	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+	requireResourceRefresh:      true,
+}
+
+var exportResourceDefinitionWith404Error = &TerraformResourceHints{
+	resourceClass:               "oci_test_404_error_child",
 	datasourceClass:             "oci_test_children",
 	resourceAbbreviation:        "child",
 	datasourceItemsAttr:         "item_summaries",
@@ -112,6 +122,20 @@ var compartmentTestingResourceGraphWithFaultyChildResource = TerraformResourceGr
 	"oci_test_parent": {
 		{
 			TerraformResourceHints: exportChildDefinitionWithFaultyDatasource,
+			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+		},
+	},
+}
+
+var compartmentTestingResourceGraphWith404ErrorResource = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{
+			TerraformResourceHints: exportParentDefinition,
+		},
+	},
+	"oci_test_parent": {
+		{
+			TerraformResourceHints: exportResourceDefinitionWith404Error,
 			datasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 	},
@@ -428,6 +452,52 @@ func deleteTestChild(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
+func testChildResourceWith404Error() *schema.Resource {
+	// Reuse the parent schema and add a parent dependency attribute
+	childResourceSchema := testParentResource().Schema
+	childResourceSchema["parent_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+
+	// Don't have a display_name attribute so a different name can be generated
+	delete(childResourceSchema, "display_name")
+
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Create: createTestChild,
+		Read:   readTestChildWith404Error,
+		Delete: deleteTestChild,
+		Schema: childResourceSchema,
+	}
+}
+
+func readTestChildWith404Error(d *schema.ResourceData, m interface{}) error {
+	sync := &TestChildWith404ErrorResourceCrud{}
+	sync.D = d
+
+	return ReadResource(sync)
+}
+
+type TestChildWith404ErrorResourceCrud struct {
+	BaseCrud
+}
+
+func (s TestChildWith404ErrorResourceCrud) Get() error {
+	if s.D.Id() == resourceIdFor404ErrorResource {
+		return fmt.Errorf("404 not found")
+	} else {
+		return readTestChild(s.D, nil)
+	}
+
+}
+
+func (s TestChildWith404ErrorResourceCrud) SetData() error {
+	return nil
+}
+
 func initResourceDiscoveryTests() {
 	resourceNameCount = map[string]int{}
 	resourcesMap = ResourcesMap()
@@ -437,6 +507,7 @@ func initResourceDiscoveryTests() {
 	resourcesMap["oci_test_parent"] = testParentResource()
 	resourcesMap["oci_test_child"] = testChildResource()
 	resourcesMap["oci_test_error_child"] = testChildResourceWithError()
+	resourcesMap["oci_test_404_error_child"] = testChildResourceWith404Error()
 
 	datasourcesMap["oci_test_parents"] = testParentsDatasource()
 	datasourcesMap["oci_test_children"] = testChildrenDatasource()
@@ -709,6 +780,34 @@ func TestUnitFindResources_basic(t *testing.T) {
 				t.Logf("child resource should have a name with prefix '%s' but name is '%s' instead", expectedTfNamePrefix, foundResource.terraformName)
 				t.Fail()
 			}
+		}
+	}
+}
+
+// Test that resource with 404 Not found error do not show up in results
+func TestUnitFindResources_404Error(t *testing.T) {
+	// env var export_enable_tenancy_lookup=false needed for this test
+	initResourceDiscoveryTests()
+	// Replace compartmentResourceGraphs with the one having resource that has 404 error in read
+	// Resource with 404 error should be skipped
+
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraphWith404ErrorResource)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+
+	for _, resource := range results {
+		if resource.sourceAttributes["id"] == "" {
+			// State is voided but resource still showed up in results
+			t.Logf("got resource with 404 not found error in results when not expected")
+			t.Fail()
 		}
 	}
 }
