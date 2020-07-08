@@ -584,8 +584,8 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 			t.Fail()
 		}
 
-		if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-			t.Logf("(TF version %s) no tenancy_testing.tf file generated", tfHclVersion.toString())
+		if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
+			t.Logf("(TF version %s) tenancy_testing.tf file generated even though it wasn't expected", tfHclVersion.toString())
 			t.Fail()
 		}
 
@@ -660,11 +660,6 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 		t.Fail()
 	} else if status != StatusPartialSuccess {
 		t.Logf("(TF version %s) export command returned unexpected Exit Status: %v", tfHclVersion.toString(), status)
-		t.Fail()
-	}
-
-	if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-		t.Logf("(TF version %s) no tenancy_testing.tf file generated", tfHclVersion.toString())
 		t.Fail()
 	}
 
