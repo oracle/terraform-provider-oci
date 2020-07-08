@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 	"time"
@@ -24,6 +25,7 @@ var (
 	adbDedicatedCloneName  = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adDedicatedName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adDedicatedUpdateName  = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbBackupSourceName    = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbBackupIdName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbBackupTimestampName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbPreviewDbName       = randomString(1, charsetWithoutDigits) + randomString(13, charset)
@@ -119,7 +121,10 @@ var (
 
 	AutonomousDatabaseFromBackupDependencies = AutonomousDatabaseResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
+		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
+			representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+				"db_name": Representation{repType: Required, create: adbBackupSourceName},
+			}))
 )
 
 func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
@@ -934,6 +939,15 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckDatabaseAutonomousDatabaseDestroy,
 		Steps: []resource.TestStep{
+			// create dependencies
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
+				Check: func(s *terraform.State) (err error) {
+					log.Printf("[DEBUG] Source ADB should be at least 2hrs old. Time Sleep for 2hrs")
+					time.Sleep(2 * time.Hour)
+					return nil
+				},
+			},
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
@@ -1005,6 +1019,15 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 		},
 		CheckDestroy: testAccCheckDatabaseAutonomousDatabaseDestroy,
 		Steps: []resource.TestStep{
+			// create dependencies, To create clone the source db must be atleast 2 hrs old
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
+				Check: func(s *terraform.State) (err error) {
+					log.Printf("[DEBUG] Source ADB should be at least 2hrs old. Time Sleep for 2hrs")
+					time.Sleep(2 * time.Hour)
+					return nil
+				},
+			},
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
