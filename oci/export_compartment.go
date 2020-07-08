@@ -245,8 +245,11 @@ func (args *ExportCommandArgs) finalizeServices(ctx *resourceDiscoveryContext) {
 	// Dedupes possible repeating services from command line and sorts them
 	finalServices := []string{}
 	serviceSet := convertStringSliceToSet(args.Services, true)
+	excludeServicesSet := convertStringSliceToSet(args.ExcludeServices, true)
 	for service := range serviceSet {
-		finalServices = append(finalServices, service)
+		if _, exists := excludeServicesSet[service]; !exists {
+			finalServices = append(finalServices, service)
+		}
 	}
 	args.Services = finalServices
 	sort.Strings(args.Services)
