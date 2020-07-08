@@ -17,11 +17,8 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/hashicorp/terraform/backend/local"
-
-	"github.com/mitchellh/cli"
-
-	"github.com/hashicorp/terraform/command"
+	"github.com/hashicorp/terraform-exec/tfexec"
+	"github.com/hashicorp/terraform-exec/tfinstall"
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v25/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"
@@ -30,6 +27,7 @@ import (
 const (
 	exportUserAgentFormatter        = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform-oci-exporter/%s)"
 	defaultTmpStateFile             = "terraform.tfstate.tmp"
+	defaultStateFilename            = "terraform.tfstate"
 	varsFile                        = "vars.tf"
 	providerFile                    = "provider.tf"
 	missingRequiredAttributeWarning = `
@@ -429,27 +427,28 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		}
 
 		// Run init and import commands
-		meta := command.Meta{
-			Ui: &cli.BasicUi{
-				Reader:      os.Stdin,
-				Writer:      os.Stdout,
-				ErrorWriter: logOutput,
-			},
-			RunningInAutomation: true,
+
+		tfPath, err := tfinstall.Find(tfinstall.LookPath())
+		if err != nil {
+			return err
 		}
 
-		initCmd := command.InitCommand{Meta: meta}
-		var initArgs []string
+		tf, err := tfexec.NewTerraform(*ctx.OutputDir, tfPath)
+		if err != nil {
+			return err
+		}
+		backgroundCtx := context.Background()
+
+		var initArgs []tfexec.InitOption
 		if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
 			Logf("[INFO] plugin dir: '%s'", pluginDir)
-			initArgs = append(initArgs, fmt.Sprintf("-plugin-dir=%v", pluginDir))
+			initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
 		}
-		initArgs = append(initArgs, *ctx.OutputDir)
-		if errCode := initCmd.Run(initArgs); errCode != 0 {
+		if err := tf.Init(backgroundCtx, initArgs...); err != nil {
 			return nil
 		}
 
-		stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), local.DefaultStateFilename)
+		stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultStateFilename)
 		tmpStateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultTmpStateFile)
 		if err := os.RemoveAll(tmpStateOutputFile); err != nil {
 			Logf("[WARN] unable to delete existing tmp state file %s", tmpStateOutputFile)
@@ -470,19 +469,18 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 				continue
 			}
 
-			importCmd := command.ImportCommand{Meta: meta}
 			importId := resource.importId
 			if len(importId) == 0 {
 				importId = resource.id
 			}
 
-			importArgs := []string{
-				fmt.Sprintf("-config=%s", *ctx.OutputDir),
-				fmt.Sprintf("-state=%s", tmpStateOutputFile),
-				resource.getTerraformReference(),
-				importId,
+			importArgs := []tfexec.ImportOption{
+				tfexec.Config(*ctx.OutputDir),
+				tfexec.State(tmpStateOutputFile),
+				tfexec.Addr(resource.getTerraformReference()),
+				tfexec.Id(importId),
 			}
-			if errCode := importCmd.Run(importArgs); errCode != 0 {
+			if err := tf.Import(backgroundCtx, importArgs...); err != nil {
 				Logf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
 
 				// mark resource as errored so that it can be skipped while writing configurations
