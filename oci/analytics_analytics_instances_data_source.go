@@ -153,6 +153,16 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) SetData() error {
 			analyticsInstance["name"] = *r.Name
 		}
 
+		if r.NetworkEndpointDetails != nil {
+			networkEndpointDetailsArray := []interface{}{}
+			if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&r.NetworkEndpointDetails); networkEndpointDetailsMap != nil {
+				networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
+			}
+			analyticsInstance["network_endpoint_details"] = networkEndpointDetailsArray
+		} else {
+			analyticsInstance["network_endpoint_details"] = nil
+		}
+
 		if r.ServiceUrl != nil {
 			analyticsInstance["service_url"] = *r.ServiceUrl
 		}

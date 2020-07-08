@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// BulkActionResourceTypeCollection Collection of resource types supported by bulk action.
+// BulkActionResourceTypeCollection Collection of resource-types supported by a compartment bulk action.
 type BulkActionResourceTypeCollection struct {
 
-	// Collection of resource types supported by bulk action.
+	// Collection of the resource-types supported by a compartment bulk action.
 	Items []BulkActionResourceType `mandatory:"true" json:"items"`
 }
 
