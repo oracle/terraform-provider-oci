@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"runtime"
 	"sort"
+	"strconv"
 	"strings"
 	"syscall"
 
@@ -164,12 +165,13 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 		}
 	}
 
+	exportEnableTenancyLookup, _ := strconv.ParseBool(getEnvSettingWithDefault("export_enable_tenancy_lookup", "true"))
 	/*
 		We do not get customer tenancy ocid from configuration provider in case of Instance Principals auth
 		Getting the tenancy ocid by repeated Get calls on parent for compartment
 	*/
 	var tenancyOcid string
-	if args.CompartmentId != nil && *args.CompartmentId != "" {
+	if (args.CompartmentId != nil && *args.CompartmentId != "") && exportEnableTenancyLookup {
 		tenancyOcid, err = getTenancyOcidFromCompartment(clients.(*OracleClients), *args.CompartmentId)
 		if err != nil {
 			return err, StatusFail
