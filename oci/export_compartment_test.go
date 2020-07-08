@@ -12,6 +12,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -27,6 +28,7 @@ import (
 
 const (
 	resourceDiscoveryTestCompartmentOcid   = "ocid1.testcompartment.abc"
+	resourceDiscoveryTestTenancyOcid       = "ocid1.testtenancy.xyz"
 	resourceDiscoveryTestActiveLifecycle   = "ACTIVE"
 	resourceDiscoveryTestInactiveLifecycle = "INACTIVE"
 	resourceIdFor404ErrorResource          = "ocid1.child.abcdefghiklmnop.1"
@@ -1399,4 +1401,90 @@ func jobSuccessWaitCondition(response oci_common.OCIOperationResponse) bool {
 		return jobResponse.LifecycleState != oci_resourcemanager.JobLifecycleStateSucceeded
 	}
 	return false
+}
+
+func TestExportCommandArgs_finalizeServices(t *testing.T) {
+	compartmentResourceGraphs = map[string]TerraformResourceGraph{
+		"compartment_testing":   compartmentTestingResourceGraph,
+		"compartment_testing_2": compartmentTestingResourceGraph,
+	}
+	tenancyResourceGraphs = map[string]TerraformResourceGraph{
+		"tenancy_testing":   tenancyTestingResourceGraph,
+		"tenancy_testing_2": tenancyTestingResourceGraph,
+	}
+
+	compartmentScopeServices = []string{"compartment_testing", "compartment_testing_2"}
+	tenancyScopeServices = []string{"tenancy_testing", "tenancy_testing_2"}
+	tenancyOcid := resourceDiscoveryTestTenancyOcid
+	compartmentId := resourceDiscoveryTestCompartmentOcid
+
+	type fields struct {
+		FinalizedServices []string
+	}
+	type args struct {
+		ctx *resourceDiscoveryContext
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+	}{
+		{
+			name: "compartment_without_exclude",
+			fields: fields{
+				FinalizedServices: []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
+			},
+			args: args{
+				ctx: &resourceDiscoveryContext{
+					tenancyOcid: tenancyOcid,
+					ExportCommandArgs: &ExportCommandArgs{
+						CompartmentId:   &compartmentId,
+						Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
+						ExcludeServices: []string{},
+					},
+				},
+			},
+		},
+		{
+			name: "compartment_with_exclude",
+			fields: fields{
+				FinalizedServices: []string{"compartment_testing_2", "tenancy_testing"},
+			},
+			args: args{
+				ctx: &resourceDiscoveryContext{
+					tenancyOcid: tenancyOcid,
+					ExportCommandArgs: &ExportCommandArgs{
+						CompartmentId:   &compartmentId,
+						Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
+						ExcludeServices: []string{"compartment_testing"},
+					},
+				},
+			},
+		},
+		{
+			name: "root_compartment_without_services_with_exclude",
+			fields: fields{
+				FinalizedServices: []string{"compartment_testing", "tenancy_testing", "tenancy_testing_2"},
+			},
+			args: args{
+				ctx: &resourceDiscoveryContext{
+					tenancyOcid: tenancyOcid,
+					ExportCommandArgs: &ExportCommandArgs{
+						CompartmentId:   &tenancyOcid,
+						ExcludeServices: []string{"compartment_testing_2"},
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			tt.args.ctx.ExportCommandArgs.finalizeServices(tt.args.ctx)
+			if !reflect.DeepEqual(tt.args.ctx.ExportCommandArgs.Services, tt.fields.FinalizedServices) {
+				t.Logf("incorrect services list, expected: %v actual: %v", tt.fields.FinalizedServices, tt.args.ctx.ExportCommandArgs.Services)
+				t.Fail()
+			}
+		})
+	}
 }
