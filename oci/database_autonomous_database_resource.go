@@ -165,7 +165,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -190,7 +189,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"timestamp": {
 				Type:             schema.TypeString,
@@ -504,34 +502,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok && s.D.HasChange("nsg_ids") {
-		set := nsgIds.(*schema.Set)
-		interfaces := set.List()
-		tmp := make([]string, len(interfaces))
-		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
-			}
-		}
-		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
-			nsgUpdateRequest := oci_database.UpdateAutonomousDatabaseRequest{}
-
-			autonomousDatabaseId := s.D.Id()
-			nsgUpdateRequest.AutonomousDatabaseId = &autonomousDatabaseId
-
-			nsgUpdateRequest.NsgIds = tmp
-
-			nsgUpdateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-
-			nsgUpdateResponse, err := s.Client.UpdateAutonomousDatabase(context.Background(), nsgUpdateRequest)
-			if err != nil {
-				return err
-			}
-
-			s.Res = &nsgUpdateResponse.AutonomousDatabase
-		}
-	}
-
 	request := oci_database.UpdateAutonomousDatabaseRequest{}
 
 	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok && s.D.HasChange("admin_password") {
@@ -588,6 +558,23 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateAutonomousDatabaseDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok && s.D.HasChange("nsg_ids") {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			err := s.updateNsgIds(tmp)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok && s.D.HasChange("whitelisted_ips") {
@@ -1286,6 +1273,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 	switch dataSafeStatus {
 	case oci_database.AutonomousDatabaseDataSafeStatusRegistered:
 		request := oci_database.RegisterAutonomousDatabaseDataSafeRequest{}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			request.PdbAdminPassword = &tmp
+		}
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
@@ -1303,6 +1294,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 		return nil
 	case oci_database.AutonomousDatabaseDataSafeStatusNotRegistered:
 		request := oci_database.DeregisterAutonomousDatabaseDataSafeRequest{}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			request.PdbAdminPassword = &tmp
+		}
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
@@ -1344,5 +1339,37 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDbVersion(dbVersion strin
 		return err
 	}
 
+	return nil
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(nsgIds []string) error {
+	changeNsgIdsRequest := oci_database.UpdateAutonomousDatabaseRequest{}
+	changeNsgIdsRequest.NsgIds = nsgIds
+
+	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok && s.D.HasChange("subnet_id") {
+		tmp := subnetId.(string)
+		changeNsgIdsRequest.SubnetId = &tmp
+	}
+
+	if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok && s.D.HasChange("private_endpoint_label") {
+		tmp := privateEndpointLabel.(string)
+		changeNsgIdsRequest.PrivateEndpointLabel = &tmp
+	}
+	tmp := s.D.Id()
+	changeNsgIdsRequest.AutonomousDatabaseId = &tmp
+
+	changeNsgIdsRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), changeNsgIdsRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	if err != nil {
+		return err
+	}
+	s.Res = &response.AutonomousDatabase
 	return nil
 }

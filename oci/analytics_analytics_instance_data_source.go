@@ -99,6 +99,16 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	if s.Res.NetworkEndpointDetails != nil {
+		networkEndpointDetailsArray := []interface{}{}
+		if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&s.Res.NetworkEndpointDetails); networkEndpointDetailsMap != nil {
+			networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
+		}
+		s.D.Set("network_endpoint_details", networkEndpointDetailsArray)
+	} else {
+		s.D.Set("network_endpoint_details", nil)
+	}
+
 	if s.Res.ServiceUrl != nil {
 		s.D.Set("service_url", *s.Res.ServiceUrl)
 	}

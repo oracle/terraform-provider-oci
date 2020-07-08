@@ -18,6 +18,9 @@ type DeregisterAutonomousDatabaseDataSafeRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Details for deregistering an Autonomous Database with Data Safe.
+	DeregisterAutonomousDatabaseDataSafeDetails `contributesTo:"body"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

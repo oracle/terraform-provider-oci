@@ -14,21 +14,23 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeCreateAnalyticsInstance            WorkRequestOperationTypeEnum = "CREATE_ANALYTICS_INSTANCE"
-	WorkRequestOperationTypeDeleteAnalyticsInstance            WorkRequestOperationTypeEnum = "DELETE_ANALYTICS_INSTANCE"
-	WorkRequestOperationTypeStartAnalyticsInstance             WorkRequestOperationTypeEnum = "START_ANALYTICS_INSTANCE"
-	WorkRequestOperationTypeStopAnalyticsInstance              WorkRequestOperationTypeEnum = "STOP_ANALYTICS_INSTANCE"
-	WorkRequestOperationTypeScaleAnalyticsInstance             WorkRequestOperationTypeEnum = "SCALE_ANALYTICS_INSTANCE"
-	WorkRequestOperationTypeChangeAnalyticsInstanceCompartment WorkRequestOperationTypeEnum = "CHANGE_ANALYTICS_INSTANCE_COMPARTMENT"
+	WorkRequestOperationTypeCreateAnalyticsInstance                WorkRequestOperationTypeEnum = "CREATE_ANALYTICS_INSTANCE"
+	WorkRequestOperationTypeDeleteAnalyticsInstance                WorkRequestOperationTypeEnum = "DELETE_ANALYTICS_INSTANCE"
+	WorkRequestOperationTypeStartAnalyticsInstance                 WorkRequestOperationTypeEnum = "START_ANALYTICS_INSTANCE"
+	WorkRequestOperationTypeStopAnalyticsInstance                  WorkRequestOperationTypeEnum = "STOP_ANALYTICS_INSTANCE"
+	WorkRequestOperationTypeScaleAnalyticsInstance                 WorkRequestOperationTypeEnum = "SCALE_ANALYTICS_INSTANCE"
+	WorkRequestOperationTypeChangeAnalyticsInstanceCompartment     WorkRequestOperationTypeEnum = "CHANGE_ANALYTICS_INSTANCE_COMPARTMENT"
+	WorkRequestOperationTypeChangeAnalyticsInstanceNetworkEndpoint WorkRequestOperationTypeEnum = "CHANGE_ANALYTICS_INSTANCE_NETWORK_ENDPOINT"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
-	"CREATE_ANALYTICS_INSTANCE":             WorkRequestOperationTypeCreateAnalyticsInstance,
-	"DELETE_ANALYTICS_INSTANCE":             WorkRequestOperationTypeDeleteAnalyticsInstance,
-	"START_ANALYTICS_INSTANCE":              WorkRequestOperationTypeStartAnalyticsInstance,
-	"STOP_ANALYTICS_INSTANCE":               WorkRequestOperationTypeStopAnalyticsInstance,
-	"SCALE_ANALYTICS_INSTANCE":              WorkRequestOperationTypeScaleAnalyticsInstance,
-	"CHANGE_ANALYTICS_INSTANCE_COMPARTMENT": WorkRequestOperationTypeChangeAnalyticsInstanceCompartment,
+	"CREATE_ANALYTICS_INSTANCE":                  WorkRequestOperationTypeCreateAnalyticsInstance,
+	"DELETE_ANALYTICS_INSTANCE":                  WorkRequestOperationTypeDeleteAnalyticsInstance,
+	"START_ANALYTICS_INSTANCE":                   WorkRequestOperationTypeStartAnalyticsInstance,
+	"STOP_ANALYTICS_INSTANCE":                    WorkRequestOperationTypeStopAnalyticsInstance,
+	"SCALE_ANALYTICS_INSTANCE":                   WorkRequestOperationTypeScaleAnalyticsInstance,
+	"CHANGE_ANALYTICS_INSTANCE_COMPARTMENT":      WorkRequestOperationTypeChangeAnalyticsInstanceCompartment,
+	"CHANGE_ANALYTICS_INSTANCE_NETWORK_ENDPOINT": WorkRequestOperationTypeChangeAnalyticsInstanceNetworkEndpoint,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

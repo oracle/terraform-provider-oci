@@ -128,6 +128,59 @@ func (client AnalyticsClient) changeAnalyticsInstanceCompartment(ctx context.Con
 	return response, err
 }
 
+// ChangeAnalyticsInstanceNetworkEndpoint Change an Analytics instance network endpoint. The operation is long-running
+// and creates a new WorkRequest.
+func (client AnalyticsClient) ChangeAnalyticsInstanceNetworkEndpoint(ctx context.Context, request ChangeAnalyticsInstanceNetworkEndpointRequest) (response ChangeAnalyticsInstanceNetworkEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeAnalyticsInstanceNetworkEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAnalyticsInstanceNetworkEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAnalyticsInstanceNetworkEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeAnalyticsInstanceNetworkEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeAnalyticsInstanceNetworkEndpointResponse")
+	}
+	return
+}
+
+// changeAnalyticsInstanceNetworkEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client AnalyticsClient) changeAnalyticsInstanceNetworkEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/changeNetworkEndpoint")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeAnalyticsInstanceNetworkEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAnalyticsInstance Create a new AnalyticsInstance in the specified compartment. The operation is long-running
 // and creates a new WorkRequest.
 func (client AnalyticsClient) CreateAnalyticsInstance(ctx context.Context, request CreateAnalyticsInstanceRequest) (response CreateAnalyticsInstanceResponse, err error) {

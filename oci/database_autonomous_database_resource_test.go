@@ -45,6 +45,7 @@ var (
 			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 			"is_dedicated":                     Representation{repType: Optional, create: `true`},
 			"display_name":                     Representation{repType: Optional, create: adDedicatedName, update: adDedicatedUpdateName},
+			"data_safe_status":                 Representation{repType: Optional, create: `REGISTERED`, update: `NOT_REGISTERED`},
 		})
 
 	autonomousDatabaseDedicatedRepresentationForClone = representationCopyWithNewProperties(
@@ -1141,38 +1142,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 					},
 				),
 			},
-			// verify updates to updatable parameters without nsg update: Cannot update the Autonomous Database NSG IDs while another Autonomous Database update request is in progress
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabasePrivateEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify update to nsg
+			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabasePrivateEndpointRepresentation),
@@ -1268,6 +1238,79 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 					resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_label", "xlx4fcli"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				),
+			},
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies,
+			},
+			// verify create with no private end point
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+							"db_version": Representation{repType: Optional, create: `19c`},
+						}), []string{"whitelisted_ips"})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// verify turn on PE
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+							"db_version":             Representation{repType: Optional, create: `19c`},
+							"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{`${oci_core_network_security_group.test_network_security_group.id}`, `${oci_core_network_security_group.test_network_security_group2.id}`}},
+							"private_endpoint_label": Representation{repType: Optional, create: `xlx4fcli`},
+							"subnet_id":              Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
+						}), []string{"whitelisted_ips"})), Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "xlx4fcli"),
+					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
 				),
 			},
 		},
