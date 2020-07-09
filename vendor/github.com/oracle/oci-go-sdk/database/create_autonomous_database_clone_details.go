@@ -59,6 +59,9 @@ type CreateAutonomousDatabaseCloneDetails struct {
 	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.1.1","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.0.0/16"]`
 	WhitelistedIps []string `mandatory:"false" json:"whitelistedIps"`
 
+	// Indicates whether the Autonomous Database has Data Guard enabled.
+	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
@@ -170,6 +173,11 @@ func (m CreateAutonomousDatabaseCloneDetails) GetAutonomousContainerDatabaseId()
 //GetWhitelistedIps returns WhitelistedIps
 func (m CreateAutonomousDatabaseCloneDetails) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
+}
+
+//GetIsDataGuardEnabled returns IsDataGuardEnabled
+func (m CreateAutonomousDatabaseCloneDetails) GetIsDataGuardEnabled() *bool {
+	return m.IsDataGuardEnabled
 }
 
 //GetSubnetId returns SubnetId
