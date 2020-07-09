@@ -24,7 +24,7 @@ import (
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/v27/resourcemanager"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 const (

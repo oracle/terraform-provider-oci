@@ -20,7 +20,7 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-exec/tfinstall"
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v27/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v27/identity"
 )

@@ -7,7 +7,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v27/common"
 	oci_email "github.com/oracle/oci-go-sdk/v27/email"
 )

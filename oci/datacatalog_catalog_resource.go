@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v27/common"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v27/datacatalog"

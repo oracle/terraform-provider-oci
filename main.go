@@ -11,8 +11,8 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/hashicorp/terraform/plugin"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/plugin"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	provider "github.com/terraform-providers/terraform-provider-oci/oci"
 )

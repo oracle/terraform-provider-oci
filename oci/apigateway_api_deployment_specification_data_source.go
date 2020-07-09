@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/oracle/oci-go-sdk/v27/apigateway"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v27/apigateway"
 )
