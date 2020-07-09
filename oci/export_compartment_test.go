@@ -558,6 +558,7 @@ func generateTestResourceFromSchema(id int, resourceSchemaMap map[string]*schema
 
 // Basic test to ensure that RunExportCommand generates TF artifacts
 func TestUnitRunExportCommand_basic(t *testing.T) {
+	// env var export_enable_tenancy_lookup=false needed for this test
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
 	compartmentId := resourceDiscoveryTestCompartmentOcid
@@ -632,6 +633,7 @@ func TestUnitRunExportCommand_error(t *testing.T) {
 
 // Test exit status in case of partial success
 func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
+	// env var export_enable_tenancy_lookup=false needed for this test
 	initResourceDiscoveryTests()
 	// Replace compartmentResourceGraphs with the one having resource that has error in read
 	// Status returned should be StatusPartialSuccess

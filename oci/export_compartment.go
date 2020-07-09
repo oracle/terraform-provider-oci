@@ -165,6 +165,11 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 		}
 	}
 
+	/*
+		export_enable_tenancy_lookup is added for testing
+		We use dummy resources for testing and GetCompartmentRequest on dummy compartment will fail
+		For testing we will default to tenancy from sdk configuration provider
+	*/
 	exportEnableTenancyLookup, _ := strconv.ParseBool(getEnvSettingWithDefault("export_enable_tenancy_lookup", "true"))
 	/*
 		We do not get customer tenancy ocid from configuration provider in case of Instance Principals auth
