@@ -37,9 +37,13 @@ type GetJobLogsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Time stamp specifying the lower time limit for which logs are returned in a query.
+	// Format is defined by RFC3339.
+	// Example: `2020-01-01T12:00:00.000Z`
 	TimestampGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timestampGreaterThanOrEqualTo"`
 
 	// Time stamp specifying the upper time limit for which logs are returned in a query.
+	// Format is defined by RFC3339.
+	// Example: `2020-02-01T12:00:00.000Z`
 	TimestampLessThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timestampLessThanOrEqualTo"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
