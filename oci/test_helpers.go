@@ -475,7 +475,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
 	}
 	if err := tf.Init(backgroundCtx, initArgs...); err != nil {
-		return nil
+		return err
 	}
 
 	// Need to set the compartment id environment variable for plan step
