@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v25/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v25/workrequests"

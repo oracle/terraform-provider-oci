@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v25/blockchain"
 	"github.com/oracle/oci-go-sdk/v25/common"
 

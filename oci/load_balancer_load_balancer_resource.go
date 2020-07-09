@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v25/loadbalancer"
 )

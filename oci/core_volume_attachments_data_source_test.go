@@ -12,8 +12,8 @@ import (
 
 	oci_core "github.com/oracle/oci-go-sdk/v25/core"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/oracle/oci-go-sdk/v25/core"
 	"github.com/stretchr/testify/suite"

@@ -11,7 +11,7 @@ import (
 
 	oci_blockchain "github.com/oracle/oci-go-sdk/v25/blockchain"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 func blockchainPlatformComputeShapeDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {

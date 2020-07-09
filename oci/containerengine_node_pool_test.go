@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/oci-go-sdk/v25/common"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/oracle/oci-go-sdk/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v25/containerengine"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"

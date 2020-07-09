@@ -6,11 +6,11 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"fmt"
 
-	"github.com/hashicorp/terraform/helper/hashcode"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	oci_kms "github.com/oracle/oci-go-sdk/v25/keymanagement"
 )
 

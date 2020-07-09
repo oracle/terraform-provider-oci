@@ -15,8 +15,8 @@ import (
 
 	"sync"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v25/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v25/loadbalancer"

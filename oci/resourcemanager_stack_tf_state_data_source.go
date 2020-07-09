@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/v25/resourcemanager"
 )
 
