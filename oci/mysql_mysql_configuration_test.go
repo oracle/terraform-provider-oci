@@ -132,7 +132,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.query_alloc_block_size", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.query_prealloc_size", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_mode", ""),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_require_primary_key", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_require_primary_key", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_warnings", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.transaction_isolation", ""),
 				),
