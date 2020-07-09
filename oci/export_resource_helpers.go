@@ -15,7 +15,8 @@ import (
 
 	"github.com/hashicorp/hcl2/hclwrite"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/fatih/color"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v25/core"
 	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"

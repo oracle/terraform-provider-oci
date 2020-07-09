@@ -16,9 +16,9 @@ import (
 
 	"os"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v25/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v25/objectstorage"
 

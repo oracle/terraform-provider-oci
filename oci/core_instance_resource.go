@@ -13,10 +13,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/customdiff"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/customdiff"
 
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	"github.com/oracle/oci-go-sdk/v25/common"
 	oci_core "github.com/oracle/oci-go-sdk/v25/core"

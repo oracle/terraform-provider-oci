@@ -11,7 +11,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v25/objectstorage"
 )
 

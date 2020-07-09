@@ -7,7 +7,7 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_limits "github.com/oracle/oci-go-sdk/v25/limits"
 )
 
