@@ -42,6 +42,7 @@ These missing attributes are also added to the lifecycle ignore_changes.
 	placeholderValueForMissingAttribute = `<placeholder for missing required attribute>`
 	EnvLogFile                          = "TF_LOG_PATH"
 	EnvOCITFLogFile                     = "OCI_TF_LOG_PATH"
+	terraformBinPathName                = "terraform_bin_path"
 )
 
 var referenceMap map[string]string             //	stores references to replace the ocids in config
@@ -432,12 +433,15 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 
 		// Run init and import commands
 
-		tfPath, err := tfinstall.Find(tfinstall.LookPath())
-		if err != nil {
-			return err
+		terraformBinPath := getEnvSettingWithBlankDefault(terraformBinPathName)
+		if terraformBinPath == "" {
+			terraformBinPath, err = tfinstall.Find(tfinstall.LookPath())
+			if err != nil {
+				return err
+			}
 		}
 
-		tf, err := tfexec.NewTerraform(*ctx.OutputDir, tfPath)
+		tf, err := tfexec.NewTerraform(*ctx.OutputDir, terraformBinPath)
 		if err != nil {
 			return err
 		}
