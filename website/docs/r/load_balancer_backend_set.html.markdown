@@ -75,17 +75,6 @@ resource "oci_load_balancer_backend_set" "test_backend_set" {
 
 The following arguments are supported:
 
-* `backend` - (Optional) (Updatable) 
-	* `backup` - (Optional) (Updatable) Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
-
-		**Note:** You cannot add a backend server marked as `backup` to a backend set that uses the IP Hash policy.
-
-		Example: `false` 
-	* `drain` - (Optional) (Updatable) Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: `false` 
-	* `ip_address` - (Required) (Updatable) The IP address of the backend server.  Example: `10.0.0.3` 
-	* `offline` - (Optional) (Updatable) Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
-	* `port` - (Required) (Updatable) The communication port for the backend server.  Example: `8080` 
-	* `weight` - (Optional) (Updatable) The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
 * `health_checker` - (Required) (Updatable) 
 	* `interval_ms` - (Optional) (Updatable) The interval between health checks, in milliseconds.  Example: `10000` 
 	* `port` - (Optional) (Updatable) The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the `Backend` object.  Example: `8080` 
