@@ -19,11 +19,11 @@ var (
 		"specification.request_policies.authentication.type",
 		Representation{repType: Required, create: `JWT_AUTHENTICATION`, update: `JWT_AUTHENTICATION`},
 		deploymentRepresentation)
-	deploymentRepresentationJwtRemoteJWKS = getMultipleUpdatedNestedRepresenationCopy([]string{
+	deploymentRepresentationJwtRemoteJWKS = getRepresentationCopyWithMultipleRemovedProperties([]string{
 		"specification.request_policies.authentication.function_id",
 		"specification.request_policies.authentication.public_keys.keys",
 	}, deploymentRepresentationJwt)
-	deploymentRepresentationJwtStaticKeys = getMultipleUpdatedNestedRepresenationCopy([]string{
+	deploymentRepresentationJwtStaticKeys = getRepresentationCopyWithMultipleRemovedProperties([]string{
 		"specification.request_policies.authentication.function_id",
 		"specification.request_policies.authentication.public_keys.uri",
 		"specification.request_policies.authentication.public_keys.max_cache_duration_in_hours",
