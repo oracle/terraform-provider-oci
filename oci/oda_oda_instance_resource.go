@@ -234,6 +234,18 @@ func (s *OdaOdaInstanceResourceCrud) DeletedTarget() []string {
 	}
 }
 
+func (s *OdaOdaInstanceResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_oda.OdaInstanceLifecycleStateUpdating),
+	}
+}
+
+func (s *OdaOdaInstanceResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_oda.OdaInstanceLifecycleStateActive),
+	}
+}
+
 func (s *OdaOdaInstanceResourceCrud) Create() error {
 	request := oci_oda.CreateOdaInstanceRequest{}
 
