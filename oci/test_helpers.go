@@ -459,11 +459,15 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 
 	// run init command
 
-	tfPath, err := tfinstall.Find(tfinstall.LookPath())
-	if err != nil {
-		return err
+	terraformBinPath := getEnvSettingWithBlankDefault(terraformBinPathName)
+	if terraformBinPath == "" {
+		var err error
+		terraformBinPath, err = tfinstall.Find(tfinstall.LookPath())
+		if err != nil {
+			return err
+		}
 	}
-	tf, err := tfexec.NewTerraform(*exportCommandArgs.OutputDir, tfPath)
+	tf, err := tfexec.NewTerraform(*exportCommandArgs.OutputDir, terraformBinPath)
 	if err != nil {
 		return err
 	}
