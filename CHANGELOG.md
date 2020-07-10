@@ -1,6 +1,8 @@
 ## 3.89.0 (Unreleased)
+
 ### Added
 - Object Lifecycle Management support for Multipart Uploads Cleanup
+- Support for Autonomous JSON database added
 
 ## 3.88.0 (August 05, 2020)
 

@@ -105,7 +105,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -585,6 +584,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		if err != nil {
 			return err
 		}
+	}
+
+	if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok && s.D.HasChange("db_workload") {
+		request.DbWorkload = oci_database.UpdateAutonomousDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
