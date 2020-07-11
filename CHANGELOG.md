@@ -3,6 +3,7 @@
 - Support for Automatic performance/cost tuning - Phase 1: Detach/attach optimization
 - Support for ADB-D | Patching - Patch Now
 - Support for making `launch_options` and `fault_domain` updatable in `oci_core_instance`
+- Support for resource `oci_core_compute_image_capability_schema` and datasources `oci_core_compute_global_image_capability_schema` and `oci_core_compute_global_image_capability_schemas_version`
 
 ## 3.86.0 (July 22, 2020)
 
