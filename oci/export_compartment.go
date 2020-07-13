@@ -1014,7 +1014,7 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 		foundItems, _ := d.GetOkExists(tfMeta.datasourceItemsAttr)
 		for idx, item := range foundItems.([]interface{}) {
 			if itemMap, ok := item.(map[string]interface{}); ok {
-				if state, exists := itemMap["state"].(string); exists {
+				if state, exists := itemMap["state"].(string); exists && len(tfMeta.discoverableLifecycleStates) > 0 {
 					discoverable := false
 					for _, val := range tfMeta.discoverableLifecycleStates {
 						if strings.EqualFold(state, val) {
