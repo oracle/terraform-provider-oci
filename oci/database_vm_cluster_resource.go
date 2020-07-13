@@ -167,6 +167,7 @@ func updateDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -539,7 +540,7 @@ func (s *DatabaseVmClusterResourceCrud) updateCompartment(compartment interface{
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "vmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
