@@ -5,6 +5,7 @@
 - Support for Switchover action in autonomous database added
 - Support for datasource of `core` with optional `vcn_id`
 - Support for Oracle Blockchain Platform service
+- Support for resource discovery of vlan resource
 
 ## 3.84.0 (July 08, 2020)
 

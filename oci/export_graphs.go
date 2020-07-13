@@ -234,6 +234,12 @@ var coreResourceGraph = TerraformResourceGraph{
 			},
 		},
 		{
+			TerraformResourceHints: exportCoreVlanHints,
+			datasourceQueryParams: map[string]string{
+				"vcn_id": "id",
+			},
+		},
+		{
 			TerraformResourceHints: exportCoreRouteTableHints,
 			datasourceQueryParams: map[string]string{
 				"vcn_id": "id",

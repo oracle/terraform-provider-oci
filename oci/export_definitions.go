@@ -433,6 +433,16 @@ var exportCoreVcnHints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreVlanHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_vlan",
+	datasourceClass:      "oci_core_vlans",
+	datasourceItemsAttr:  "vlans",
+	resourceAbbreviation: "vlan",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VlanLifecycleStateAvailable),
+	},
+}
+
 var exportCoreVirtualCircuitHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_virtual_circuit",
 	datasourceClass:      "oci_core_virtual_circuits",
