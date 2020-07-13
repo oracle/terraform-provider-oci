@@ -1,6 +1,7 @@
 ## 3.87.0 (Unreleased)
 ### Added
 - Support for Automatic performance/cost tuning - Phase 1: Detach/attach optimization
+- Support for ADB-D | Patching - Patch Now
 ## 3.86.0 (July 22, 2020)
 
 ### Added
