@@ -285,6 +285,7 @@ core
 * oci\_core\_service\_gateway
 * oci\_core\_subnet
 * oci\_core\_vcn
+* oci\_core\_vlan
 * oci\_core\_virtual\_circuit
 * oci\_core\_vnic\_attachment
 * oci\_core\_volume\_attachment
