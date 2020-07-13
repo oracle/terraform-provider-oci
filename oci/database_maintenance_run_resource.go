@@ -41,6 +41,11 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_patch_now_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"time_scheduled": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -140,6 +145,7 @@ func (s *DatabaseMaintenanceRunResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_database.MaintenanceRunLifecycleStateScheduled),
 		string(oci_database.MaintenanceRunLifecycleStateInProgress),
+		string(oci_database.MaintenanceRunLifecycleStateUpdating),
 	}
 }
 
@@ -170,6 +176,11 @@ func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 		request.IsEnabled = &tmp
 	}
 
+	if isPatchNowEnabled, ok := s.D.GetOkExists("is_patch_now_enabled"); ok {
+		tmp := isPatchNowEnabled.(bool)
+		request.IsPatchNowEnabled = &tmp
+	}
+
 	if maintenanceRunId, ok := s.D.GetOkExists("maintenance_run_id"); ok {
 		tmp := maintenanceRunId.(string)
 		request.MaintenanceRunId = &tmp
@@ -198,6 +209,11 @@ func (s *DatabaseMaintenanceRunResourceCrud) Get() error {
 	request := oci_database.GetMaintenanceRunRequest{}
 
 	tmp := s.D.Id()
+	if tmp == "" {
+		if id, ok := s.D.GetOkExists("maintenance_run_id"); ok {
+			tmp = id.(string)
+		}
+	}
 	request.MaintenanceRunId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -217,6 +233,11 @@ func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
 		tmp := isEnabled.(bool)
 		request.IsEnabled = &tmp
+	}
+
+	if isPatchNowEnabled, ok := s.D.GetOkExists("is_patch_now_enabled"); ok {
+		tmp := isPatchNowEnabled.(bool)
+		request.IsPatchNowEnabled = &tmp
 	}
 
 	tmp := s.D.Id()
