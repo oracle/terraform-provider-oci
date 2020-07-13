@@ -881,7 +881,7 @@ func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, 
 	var identifier *string
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
-		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+		if strings.Contains(strings.ToLower(*res.EntityType), strings.ToLower(entityType)) {
 			if res.ActionType == action {
 				identifier = res.Identifier
 				break
