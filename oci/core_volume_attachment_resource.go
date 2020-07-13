@@ -279,6 +279,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("is_read_only", *v.IsReadOnly)
 		}
 
+		if v.IsShareable != nil {
+			s.D.Set("is_shareable", *v.IsShareable)
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.TimeCreated != nil {
@@ -343,6 +347,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("is_read_only", *v.IsReadOnly)
 		}
 
+		if v.IsShareable != nil {
+			s.D.Set("is_shareable", *v.IsShareable)
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.TimeCreated != nil {
@@ -385,6 +393,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 
 		if v.IsReadOnly != nil {
 			s.D.Set("is_read_only", *v.IsReadOnly)
+		}
+
+		if v.IsShareable != nil {
+			s.D.Set("is_shareable", *v.IsShareable)
 		}
 
 		s.D.Set("state", v.LifecycleState)
