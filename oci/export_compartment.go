@@ -544,7 +544,7 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 		if childType.findResourcesOverrideFn != nil {
 			findResourceFn = childType.findResourcesOverrideFn
 		}
-		results, err := findResourceFn(ctx.clients, &childType, root)
+		results, err := findResourceFn(ctx, &childType, root, &resourceGraph)
 		if err != nil {
 			// add error to the errorList and continue discovering rest of the resources
 			ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{childType.resourceClass, root.terraformName, err, &resourceGraph})
@@ -977,9 +977,9 @@ func convertDatasourceItemToMap(d *schema.ResourceData, itemPrefix string, itemS
 	return result, nil
 }
 
-func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) ([]*OCIResource, error) {
+func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
 	results := []*OCIResource{}
-
+	clients := ctx.clients
 	log.Printf("[INFO] discovering resources with data source '%s'\n", tfMeta.datasourceClass)
 	datasource := datasourcesMap[tfMeta.datasourceClass]
 	d := datasource.TestResourceData()
@@ -1038,36 +1038,43 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 				if tfMeta.getIdFn != nil {
 					tmpResource, err := generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", tfMeta.datasourceItemsAttr, idx), tfMeta, parent)
 					if err != nil {
-						return results, err
+						ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating temporary resource from resource data returned in list datasource read: %v ", err), resourceGraph})
+						continue
 					}
 
 					itemId, err := tfMeta.getIdFn(tmpResource)
 					if err != nil {
-						return results, err
+						ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] failed to get a composite ID for the resource: %v ", err), resourceGraph})
+						continue
 					}
 					r.SetId(itemId)
 				} else if idSchema, exists := elemResource.Schema["id"]; exists && idSchema.Type == schema.TypeString {
 					itemId := item.(map[string]interface{})["id"]
 					r.SetId(itemId.(string))
 				} else {
-					return results, fmt.Errorf("[ERROR] elements in datasource '%s' are missing an 'id' field and is unable to generate an id", tfMeta.datasourceClass)
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] elements in datasource '%s' are missing an 'id' field and is unable to generate an id", tfMeta.datasourceClass), resourceGraph})
+					continue
 				}
 
 				if err = resourceSchema.Read(r, clients); err != nil {
-					return results, err
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error refreshing resource using resource read: %v ", err), resourceGraph})
+					continue
 				}
 				// If state was voided because of error in Read (r.Id() is empty)
 				if r.Id() == "" {
-					return results, fmt.Errorf("singular data source not able to find resource")
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error refreshing resource using resource read, state voided"), resourceGraph})
+					continue
 				}
 				resource, err = generateOciResourceFromResourceData(r, r, resourceSchema.Schema, "", tfMeta, parent)
 				if err != nil {
-					return results, err
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating resource from resource data returned in resource read: %v ", err), resourceGraph})
+					continue
 				}
 			} else {
 				resource, err = generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", tfMeta.datasourceItemsAttr, idx), tfMeta, parent)
 				if err != nil {
-					return results, err
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating resource from resource data returned in list datasource read: %v ", err), resourceGraph})
+					continue
 				}
 			}
 
