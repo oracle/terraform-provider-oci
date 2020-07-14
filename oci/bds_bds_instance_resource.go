@@ -288,11 +288,19 @@ func BdsBdsInstanceResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"bd_cell_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"bda_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"bdm_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"bds_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -304,11 +312,27 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"csql_cell_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"db_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"hue_server_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"os_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_refreshed": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -396,10 +420,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Computed: true,
 						},
 						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_refreshed": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1116,12 +1136,20 @@ func CloudSqlDetailsToMap(obj *oci_bds.CloudSqlDetails) map[string]interface{} {
 func ClusterDetailsToMap(obj *oci_bds.ClusterDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.BdCellVersion != nil {
+		result["bd_cell_version"] = string(*obj.BdCellVersion)
+	}
+
 	if obj.BdaVersion != nil {
 		result["bda_version"] = string(*obj.BdaVersion)
 	}
 
 	if obj.BdmVersion != nil {
 		result["bdm_version"] = string(*obj.BdmVersion)
+	}
+
+	if obj.BdsVersion != nil {
+		result["bds_version"] = string(*obj.BdsVersion)
 	}
 
 	if obj.BigDataManagerUrl != nil {
@@ -1132,8 +1160,20 @@ func ClusterDetailsToMap(obj *oci_bds.ClusterDetails) map[string]interface{} {
 		result["cloudera_manager_url"] = string(*obj.ClouderaManagerUrl)
 	}
 
+	if obj.CsqlCellVersion != nil {
+		result["csql_cell_version"] = string(*obj.CsqlCellVersion)
+	}
+
+	if obj.DbVersion != nil {
+		result["db_version"] = string(*obj.DbVersion)
+	}
+
 	if obj.HueServerUrl != nil {
 		result["hue_server_url"] = string(*obj.HueServerUrl)
+	}
+
+	if obj.OsVersion != nil {
+		result["os_version"] = string(*obj.OsVersion)
 	}
 
 	if obj.TimeCreated != nil {
