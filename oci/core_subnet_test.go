@@ -38,9 +38,9 @@ var (
 
 	subnetDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"display_name":   Representation{repType: Optional, create: `MySubnet`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, subnetDataSourceFilterRepresentation}}
 	subnetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -380,26 +380,16 @@ func getSubnetIds(compartment string) ([]string, error) {
 
 	listSubnetsRequest := oci_core.ListSubnetsRequest{}
 	listSubnetsRequest.CompartmentId = &compartmentId
+	listSubnetsRequest.LifecycleState = oci_core.SubnetLifecycleStateAvailable
+	listSubnetsResponse, err := virtualNetworkClient.ListSubnets(context.Background(), listSubnetsRequest)
 
-	vcnIds, error := getVcnIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting vcnId required for Subnet resource requests \n")
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Subnet list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, vcnId := range vcnIds {
-		listSubnetsRequest.VcnId = &vcnId
-
-		listSubnetsRequest.LifecycleState = oci_core.SubnetLifecycleStateAvailable
-		listSubnetsResponse, err := virtualNetworkClient.ListSubnets(context.Background(), listSubnetsRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting Subnet list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, subnet := range listSubnetsResponse.Items {
-			id := *subnet.Id
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "SubnetId", id)
-		}
-
+	for _, subnet := range listSubnetsResponse.Items {
+		id := *subnet.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "SubnetId", id)
 	}
 	return resourceIds, nil
 }

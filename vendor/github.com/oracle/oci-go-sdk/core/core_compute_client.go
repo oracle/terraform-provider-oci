@@ -1940,6 +1940,13 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 // GetVnic with the VNIC ID.
 // You can later add secondary VNICs to an instance. For more information, see
 // Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/Content/Network/Tasks/managingVNICs.htm).
+// To launch an instance from a Marketplace image listing, you must provide the image ID of the
+// listing resource version that you want, but you also must subscribe to the listing before you try
+// to launch the instance. To subscribe to the listing, use the GetAppCatalogListingAgreements
+// operation to get the signature for the terms of use agreement for the desired listing resource version.
+// Then, call CreateAppCatalogSubscription
+// with the signature. To get the image ID for the LaunchInstance operation, call
+// GetAppCatalogListingResourceVersion.
 func (client ComputeClient) LaunchInstance(ctx context.Context, request LaunchInstanceRequest) (response LaunchInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

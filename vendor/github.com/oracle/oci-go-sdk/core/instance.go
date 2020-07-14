@@ -120,6 +120,7 @@ type Instance struct {
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode InstanceLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
+	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
 
 	// Custom metadata that you provide.

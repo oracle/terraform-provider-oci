@@ -486,12 +486,13 @@ github.com/modern-go/reflect2
 github.com/nu7hatch/gouuid
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk v21.2.0+incompatible
+# github.com/oracle/oci-go-sdk v21.3.0+incompatible
 github.com/oracle/oci-go-sdk/analytics
 github.com/oracle/oci-go-sdk/apigateway
 github.com/oracle/oci-go-sdk/audit
 github.com/oracle/oci-go-sdk/autoscaling
 github.com/oracle/oci-go-sdk/bds
+github.com/oracle/oci-go-sdk/blockchain
 github.com/oracle/oci-go-sdk/budget
 github.com/oracle/oci-go-sdk/common
 github.com/oracle/oci-go-sdk/common/auth

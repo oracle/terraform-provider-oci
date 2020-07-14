@@ -158,7 +158,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				PreConfig: waitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(3*time.Minute),
+				PreConfig: waitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(20*time.Minute),
 					dataFlowInvokeRunFetchOperation, "dataflow", false),
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InvokeRunResourceDependencies + warehouseBucketUriVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Create,

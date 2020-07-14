@@ -248,6 +248,11 @@ func (s *CoreBootVolumeBackupResourceCrud) Create() error {
 		if err != nil {
 			return err
 		}
+		s.D.SetId(*s.Res.Id)
+		err = WaitForResourceCondition(s, func() bool { return s.Res.LifecycleState == oci_core.BootVolumeBackupLifecycleStateAvailable }, s.D.Timeout(schema.TimeoutCreate))
+		if err != nil {
+			return err
+		}
 		// Update for some fields that can't be created by copy
 		return s.Update()
 	}

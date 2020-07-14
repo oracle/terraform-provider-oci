@@ -17,16 +17,20 @@ import (
 )
 
 var (
-	vnicAttachmentRepresentationVlan = getMultipleUpdatedNestedRepresenationCopy([]string{
-		"create_vnic_details.hostname_label",
-		"create_vnic_details.nsg_ids",
-		"create_vnic_details.private_ip",
-		"create_vnic_details.skip_source_dest_check",
-		"create_vnic_details.subnet_id",
-	}, vnicAttachmentRepresentation)
-	vnicAttachmentRepresentationSubnet = getMultipleUpdatedNestedRepresenationCopy([]string{
-		"create_vnic_details.vlan_id",
-	}, vnicAttachmentRepresentation)
+	vnicAttachmentRepresentationVlan = map[string]interface{}{
+		"create_vnic_details": RepresentationGroup{Required, vnicAttachmentCreateVnicDetailsVlanRepresentation},
+		"instance_id":         Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"display_name":        Representation{repType: Optional, create: `displayName`},
+		"nic_index":           Representation{repType: Optional, create: `0`},
+	}
+
+	vnicAttachmentCreateVnicDetailsVlanRepresentation = map[string]interface{}{
+		"assign_public_ip": Representation{repType: Optional, create: `false`},
+		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":     Representation{repType: Optional, create: `displayName`},
+		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"vlan_id":          Representation{repType: Required, create: `${oci_core_vlan.test_vlan.id}`},
+	}
 
 	VnicAttachmentResourceDependenciesVlan = generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +

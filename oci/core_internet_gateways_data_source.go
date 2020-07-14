@@ -33,7 +33,7 @@ func CoreInternetGatewaysDataSource() *schema.Resource {
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"gateways": {
 				Type:     schema.TypeList,
@@ -118,7 +118,6 @@ func (s *CoreInternetGatewaysDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		internetGateway := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
-			"vcn_id":         *r.VcnId,
 		}
 
 		if r.DefinedTags != nil {
@@ -143,6 +142,10 @@ func (s *CoreInternetGatewaysDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			internetGateway["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VcnId != nil {
+			internetGateway["vcn_id"] = *r.VcnId
 		}
 
 		resources = append(resources, internetGateway)

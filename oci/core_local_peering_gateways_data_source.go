@@ -25,7 +25,7 @@ func CoreLocalPeeringGatewaysDataSource() *schema.Resource {
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"local_peering_gateways": {
 				Type:     schema.TypeList,
@@ -101,7 +101,6 @@ func (s *CoreLocalPeeringGatewaysDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		localPeeringGateway := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
-			"vcn_id":         *r.VcnId,
 		}
 
 		if r.DefinedTags != nil {
@@ -142,6 +141,10 @@ func (s *CoreLocalPeeringGatewaysDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			localPeeringGateway["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VcnId != nil {
+			localPeeringGateway["vcn_id"] = *r.VcnId
 		}
 
 		resources = append(resources, localPeeringGateway)

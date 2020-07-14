@@ -25,7 +25,7 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
-	// The service level agreement type of the Autonomous Container Database. The default is STANDARD. For a mission critical Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
+	// The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
 	ServiceLevelAgreementType CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum `mandatory:"false" json:"serviceLevelAgreementType,omitempty"`
 
 	// The OCID of the Autonomous Exadata Infrastructure.

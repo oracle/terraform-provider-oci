@@ -30,6 +30,7 @@ import (
 	oci_mysql "github.com/oracle/oci-go-sdk/mysql"
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
+	oci_ocvp "github.com/oracle/oci-go-sdk/ocvp"
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
@@ -429,6 +430,16 @@ var exportCoreVcnHints = &TerraformResourceHints{
 	resourceAbbreviation: "vcn",
 	discoverableLifecycleStates: []string{
 		string(oci_core.VcnLifecycleStateAvailable),
+	},
+}
+
+var exportCoreVlanHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_vlan",
+	datasourceClass:      "oci_core_vlans",
+	datasourceItemsAttr:  "vlans",
+	resourceAbbreviation: "vlan",
+	discoverableLifecycleStates: []string{
+		string(oci_core.VlanLifecycleStateAvailable),
 	},
 }
 
@@ -1447,5 +1458,27 @@ var exportMysqlMysqlDbSystemHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_mysql.DbSystemLifecycleStateActive),
+	},
+}
+
+var exportOcvpSddcHints = &TerraformResourceHints{
+	resourceClass:          "oci_ocvp_sddc",
+	datasourceClass:        "oci_ocvp_sddcs",
+	datasourceItemsAttr:    "sddc_collection",
+	resourceAbbreviation:   "sddc",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_ocvp.LifecycleStatesActive),
+	},
+}
+
+var exportOcvpEsxiHostHints = &TerraformResourceHints{
+	resourceClass:          "oci_ocvp_esxi_host",
+	datasourceClass:        "oci_ocvp_esxi_hosts",
+	datasourceItemsAttr:    "esxi_host_collection",
+	resourceAbbreviation:   "esxi_host",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_ocvp.LifecycleStatesActive),
 	},
 }
