@@ -433,7 +433,10 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		if terraformBinPath == "" {
 			terraformBinPath, err = tfinstall.Find(tfinstall.LookPath())
 			if err != nil {
-				return err
+				terraformBinPath, err = tfinstall.Find(tfinstall.LatestVersion(*ctx.OutputDir, true))
+				if err != nil {
+					return err
+				}
 			}
 		}
 
@@ -449,7 +452,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 			initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
 		}
 		if err := tf.Init(backgroundCtx, initArgs...); err != nil {
-			return nil
+			return err
 		}
 
 		stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultStateFilename)
