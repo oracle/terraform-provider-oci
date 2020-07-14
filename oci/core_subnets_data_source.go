@@ -33,7 +33,7 @@ func CoreSubnetsDataSource() *schema.Resource {
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"subnets": {
 				Type:     schema.TypeList,
@@ -118,7 +118,6 @@ func (s *CoreSubnetsDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		subnet := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
-			"vcn_id":         *r.VcnId,
 		}
 
 		if r.AvailabilityDomain != nil {
@@ -181,6 +180,10 @@ func (s *CoreSubnetsDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			subnet["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VcnId != nil {
+			subnet["vcn_id"] = *r.VcnId
 		}
 
 		if r.VirtualRouterIp != nil {

@@ -38,7 +38,7 @@ type LaunchInstanceDetails struct {
 	// the instance is launched.
 	CreateVnicDetails *CreateVnicDetails `mandatory:"false" json:"createVnicDetails"`
 
-	// The OCID of dedicated VM host.
+	// The OCID of the dedicated VM host.
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -103,6 +103,8 @@ type LaunchInstanceDetails struct {
 	// For more information about iPXE, see http://ipxe.org.
 	IpxeScript *string `mandatory:"false" json:"ipxeScript"`
 
+	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any
+	// default values.
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
 
 	// Custom metadata key/value pairs that you provide, such as the SSH public key

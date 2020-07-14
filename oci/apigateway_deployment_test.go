@@ -169,7 +169,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 
-	deploymentRepresentationCustomAuth = getMultipleUpdatedNestedRepresenationCopy([]string{
+	deploymentRepresentationCustomAuth = getRepresentationCopyWithMultipleRemovedProperties([]string{
 		"specification.request_policies.authentication.audiences",
 		"specification.request_policies.authentication.issuers",
 		"specification.request_policies.authentication.max_clock_skew_in_seconds",

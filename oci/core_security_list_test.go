@@ -25,9 +25,9 @@ var (
 
 	securityListDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"display_name":   Representation{repType: Optional, create: `MyPrivateSubnetSecurityList`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, securityListDataSourceFilterRepresentation}}
 	securityListDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -657,26 +657,16 @@ func getSecurityListIds(compartment string) ([]string, error) {
 
 	listSecurityListsRequest := oci_core.ListSecurityListsRequest{}
 	listSecurityListsRequest.CompartmentId = &compartmentId
+	listSecurityListsRequest.LifecycleState = oci_core.SecurityListLifecycleStateAvailable
+	listSecurityListsResponse, err := virtualNetworkClient.ListSecurityLists(context.Background(), listSecurityListsRequest)
 
-	vcnIds, error := getVcnIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting vcnId required for SecurityList resource requests \n")
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting SecurityList list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, vcnId := range vcnIds {
-		listSecurityListsRequest.VcnId = &vcnId
-
-		listSecurityListsRequest.LifecycleState = oci_core.SecurityListLifecycleStateAvailable
-		listSecurityListsResponse, err := virtualNetworkClient.ListSecurityLists(context.Background(), listSecurityListsRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting SecurityList list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, securityList := range listSecurityListsResponse.Items {
-			id := *securityList.Id
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "SecurityListId", id)
-		}
-
+	for _, securityList := range listSecurityListsResponse.Items {
+		id := *securityList.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "SecurityListId", id)
 	}
 	return resourceIds, nil
 }

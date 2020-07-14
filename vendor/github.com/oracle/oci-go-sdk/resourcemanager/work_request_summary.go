@@ -4,7 +4,10 @@
 
 // Resource Manager API
 //
-// API for the Resource Manager service. Use this API to install, configure, and manage resources via the "infrastructure-as-code" model. For more information, see Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
+// API for the Resource Manager service.
+// Use this API to install, configure, and manage resources via the "infrastructure-as-code" model.
+// For more information, see
+// Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
 //
 
 package resourcemanager
@@ -34,13 +37,19 @@ type WorkRequestSummary struct {
 	// Percentage of the work request completed.
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
-	// When the work request was created.
+	// The date and time when the work request was created.
+	// Format is defined by RFC3339.
+	// Example: `2020-01-25T21:10:29.600Z`
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
-	// When the work request transitioned from ACCEPTED to IN_PROGRESS.
+	// The date and time when the work request transitioned from ACCEPTED to IN_PROGRESS.
+	// Format is defined by RFC3339.
+	// Example: `2020-01-25T21:10:29.600Z`
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// When the work request reached a terminal state (FAILED or SUCCEEDED).
+	// The date and time when the work request reached a terminal state (FAILED or SUCCEEDED).
+	// Format is defined by RFC3339.
+	// Example: `2020-01-25T21:10:29.600Z`
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 

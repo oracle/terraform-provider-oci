@@ -18,7 +18,9 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// InstanceConfigurationLaunchInstanceDetails See Instance launch details - LaunchInstanceDetails
+// InstanceConfigurationLaunchInstanceDetails Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails`
+// parameter to specify whether a boot volume or an image should be used to launch a new instance.
+// See LaunchInstanceDetails for more information.
 type InstanceConfigurationLaunchInstanceDetails struct {
 
 	// The availability domain of the instance.
@@ -144,6 +146,7 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
+	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions *InstanceConfigurationLaunchOptions `mandatory:"false" json:"launchOptions"`
 
 	AgentConfig *InstanceConfigurationLaunchInstanceAgentConfigDetails `mandatory:"false" json:"agentConfig"`

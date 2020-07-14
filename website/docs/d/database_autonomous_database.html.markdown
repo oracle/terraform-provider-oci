@@ -56,10 +56,12 @@ The following attributes are exported:
 	* DW - indicates an Autonomous Data Warehouse database 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
+* `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 * `infrastructure_type` - The infrastructure type this resource belongs to.
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. Note that auto scaling is available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only. 
+* `is_data_guard_enabled` - Indicates whether the Autonomous Database has Data Guard enabled.
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
 * `is_free_tier` - Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. 
 * `is_preview` - Indicates if the Autonomous Database version is a preview version.
@@ -71,6 +73,10 @@ The following attributes are exported:
 * `private_endpoint_ip` - The private endpoint Ip address for the resource.
 * `private_endpoint_label` - The private endpoint label for the resource.
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
+* `standby_db` - 
+	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
+	* `lifecycle_details` - Additional information about the current lifecycle state.
+	* `state` - The current state of the Autonomous Database.
 * `state` - The current state of the Autonomous Database.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 
@@ -85,6 +91,8 @@ The following attributes are exported:
 * `time_deletion_of_free_autonomous_database` - The date and time the Always Free database will be automatically deleted because of inactivity. If the database is in the STOPPED state and without activity until this time, it will be deleted. 
 * `time_maintenance_begin` - The date and time when maintenance will begin.
 * `time_maintenance_end` - The date and time when maintenance will end.
+* `time_of_last_failover` - The timestamp of the last failover operation.
+* `time_of_last_switchover` - The timestamp of the last switchover operation for the Autonomous Database.
 * `time_reclamation_of_free_autonomous_database` - The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state. 
 * `used_data_storage_size_in_tbs` - The amount of storage that has been used, in terabytes.
 * `whitelisted_ips` - The client IP access control list (ACL). This feature is available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only. Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.

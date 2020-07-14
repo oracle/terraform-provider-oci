@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -59,6 +60,8 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_email_suppressions.test_suppressions"
 	singularDatasourceName := "data.oci_email_suppression.test_suppression"
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -74,6 +77,16 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					// email address is converted to lower case by the service
 					resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmith@example.com"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 
