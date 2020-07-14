@@ -64,7 +64,7 @@ var (
 		generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types_connection", Optional, Create,
 			representationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
 				"type_category": Representation{repType: Optional, create: `connection`},
-				"name":          Representation{repType: Optional, create: `Jdbc`},
+				"name":          Representation{repType: Optional, create: `JDBC`},
 			})) +
 		generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create,
 			representationCopyWithNewProperties(dataAssetRepresentation, map[string]interface{}{
