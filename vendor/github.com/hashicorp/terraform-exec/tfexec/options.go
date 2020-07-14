@@ -1,13 +1,5 @@
 package tfexec
 
-type AddrOption struct {
-	addr string
-}
-
-func Addr(addr string) *AddrOption {
-	return &AddrOption{addr}
-}
-
 type AllowMissingConfigOption struct {
 	allowMissingConfig bool
 }
@@ -38,6 +30,11 @@ type BackupOption struct {
 
 func Backup(path string) *BackupOption {
 	return &BackupOption{path}
+}
+
+// DisableBackup is a convenience method for Backup("-"), indicating backup state should be disabled.
+func DisableBackup() *BackupOption {
+	return &BackupOption{"-"}
 }
 
 type ConfigOption struct {
@@ -95,14 +92,6 @@ type GetPluginsOption struct {
 
 func GetPlugins(getPlugins bool) *GetPluginsOption {
 	return &GetPluginsOption{getPlugins}
-}
-
-type IdOption struct {
-	id string
-}
-
-func Id(id string) *IdOption {
-	return &IdOption{id}
 }
 
 type LockOption struct {
