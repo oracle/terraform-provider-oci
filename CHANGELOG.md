@@ -1,6 +1,7 @@
 ## 3.88.0 (Unreleased)
 ### Fixed
 - Fix `lifecycle_details` in datasource `blockchain_platforms`
+- Support for version fields to `cluster_details` in `bds_instance`
 
 ## 3.87.0 (July 29, 2020)
 ### Added

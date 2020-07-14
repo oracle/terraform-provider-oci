@@ -112,11 +112,16 @@ The following attributes are exported:
 		* `principal_name` - Name of the Kerberos principal
 	* `shape` - Shape of the node
 * `cluster_details` - Specific info about a Hadoop cluster
+	* `bd_cell_version` - Cloud SQL cell version
 	* `bda_version` - BDA version installed in the cluster
-	* `bdm_version` - BDM version installed in the cluster
+	* `bdm_version` - Big Data Manager version installed in the cluster
+	* `bds_version` - Big Data Service version installed in the cluster
 	* `big_data_manager_url` - The URL of a Big Data Manager
 	* `cloudera_manager_url` - The URL of a Cloudera Manager
+	* `csql_cell_version` - Big Data SQL version
+	* `db_version` - Query Server Database version
 	* `hue_server_url` - The URL of a Hue Server
+	* `os_version` - Oracle Linux version installed in the cluster
 	* `time_created` - The time the cluster was created. An RFC3339 formatted datetime string
 	* `time_refreshed` - The time the BDS instance was automatically, or manually refreshed. An RFC3339 formatted datetime string 
 * `cluster_version` - Version of the Hadoop distribution
