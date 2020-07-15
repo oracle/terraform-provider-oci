@@ -17,7 +17,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// LaunchOptions Options for tuning compatibility and performance of VM shapes.
+// LaunchOptions Options for tuning the compatibility and performance of VM shapes. The values that you specify override any
+// default values.
 type LaunchOptions struct {
 
 	// Emulation type for volume.
@@ -54,7 +55,8 @@ type LaunchOptions struct {
 	// Storage volumes on Oracle provided images.
 	RemoteDataVolumeType LaunchOptionsRemoteDataVolumeTypeEnum `mandatory:"false" json:"remoteDataVolumeType,omitempty"`
 
-	// Whether to enable in-transit encryption for the boot volume's paravirtualized attachment. The default value is false.
+	// Deprecated. Instead use `isPvEncryptionInTransitEnabled` in
+	// LaunchInstanceDetails.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
 	// Whether to enable consistent volume naming feature. Defaults to false.

@@ -4,9 +4,10 @@
 package oci
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
-	"identity": identityResourceGraph,
-	"limits":   limitsResourceGraph,
-	"budget":   budgetResourceGraph,
+	"identity":      identityResourceGraph,
+	"limits":        limitsResourceGraph,
+	"budget":        budgetResourceGraph,
+	"email_tenancy": emailTenancyResourceGraph,
 }
 
 var availabilityDomainsGraph = TerraformResourceGraph{
@@ -60,7 +61,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"datascience":         datascienceResourceGraph,
 	"dataintegration":     dataintegrationResourceGraph,
 	"dns":                 dnsResourceGraph,
-	"email":               emailResourceGraph,
+	"email_compartment":   emailCompartmentResourceGraph,
 	"events":              eventsResourceGraph,
 	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
@@ -74,6 +75,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"nosql":               nosqlResourceGraph,
 	"object_storage":      objectStorageResourceGraph,
 	"oce":                 oceResourceGraph,
+	"ocvp":                ocvpResourceGraph,
 	"oda":                 odaResourceGraph,
 	"ons":                 onsResourceGraph,
 	"osmanagement":        osmanagementResourceGraph,
@@ -227,6 +229,12 @@ var coreResourceGraph = TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportCoreNatGatewayHints,
+			datasourceQueryParams: map[string]string{
+				"vcn_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportCoreVlanHints,
 			datasourceQueryParams: map[string]string{
 				"vcn_id": "id",
 			},
@@ -388,10 +396,13 @@ var datacatalogResourceGraph = TerraformResourceGraph{
 	},
 }
 
-var emailResourceGraph = TerraformResourceGraph{
+var emailCompartmentResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEmailSenderHints},
 	},
+}
+
+var emailTenancyResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportEmailSuppressionHints},
 	},
@@ -677,6 +688,20 @@ var objectStorageResourceGraph = TerraformResourceGraph{
 var oceResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOceOceInstanceHints},
+	},
+}
+
+var ocvpResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportOcvpSddcHints},
+	},
+	"oci_ocvp_sddc": {
+		{
+			TerraformResourceHints: exportOcvpEsxiHostHints,
+			datasourceQueryParams: map[string]string{
+				"sddc_id": "id",
+			},
+		},
 	},
 }
 

@@ -53,6 +53,9 @@ type ListAutonomousDatabasesRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only resources that have Data Guard enabled.
+	IsDataGuardEnabled *bool `mandatory:"false" contributesTo:"query" name:"isDataGuardEnabled"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

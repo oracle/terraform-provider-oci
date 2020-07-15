@@ -6,7 +6,6 @@ package oci
 import (
 	"fmt"
 	"regexp"
-	"strconv"
 	"testing"
 	"time"
 
@@ -16,15 +15,6 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
-)
-
-var (
-	//overriding ipxe script is an advanced feature. there is no way to validate if the machine will boot when the ipxe script is overridden
-	//incase of invalid ipxe script the system will be stuck in an ipxe loop, which means it won't boot the OS and without which some operations might not work like detaching a vnic
-	instanceRepresentationCoreVnicVlan = getMultipleUpdatedNestedRepresenationCopy([]string{
-		"create_vnic_details.vlan_id",
-		"ipxe_script",
-	}, instanceRepresentation)
 )
 
 type ResourceCoreInstanceTestSuite struct {
@@ -1421,152 +1411,4 @@ func TestResourceCoreInstanceTestSuite(t *testing.T) {
 		t.Skip("Skip TestResourceCoreInstanceTestSuite in HttpReplay mode.")
 	}
 	suite.Run(t, new(ResourceCoreInstanceTestSuite))
-}
-
-func (s *ResourceCoreInstanceTestSuite) TestResourceCoreInstanceResource_basic() {
-	config := commonTestVariables()
-
-	provider := testAccProvider
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	resourceName := "oci_core_instance.test_instance"
-	datasourceName := "data.oci_core_vnic_attachments.test_vnic_attachments"
-
-	var resId, resId2 string
-
-	resource.Test(s.T(), resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckCoreInstanceDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: config + compartmentIdVariableStr + InstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationCoreVnicVlan),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "true"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnamelabel"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "dedicated_vm_host_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
-					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "image"),
-					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "launch_options.0.boot_volume_type"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.firmware", "UEFI_64"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_consistent_volume_naming_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "region"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
-					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + InstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCoreVnicVlan) +
-					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentationVlan) +
-					generateDataSourceFromRepresentationMap("oci_core_vnic_attachments", "test_vnic_attachments", Optional, Update, vnicAttachmentDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "true"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnamelabel"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "dedicated_vm_host_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "3"),
-					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "image"),
-					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "launch_options.0.boot_volume_type"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.firmware", "UEFI_64"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_consistent_volume_naming_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
-					resource.TestCheckResourceAttr(resourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "region"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
-					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					resource.TestCheckResourceAttr(datasourceName, "vnic_attachments.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.instance_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vlan_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-		},
-	})
 }

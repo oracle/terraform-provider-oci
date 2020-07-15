@@ -12,6 +12,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -27,8 +29,10 @@ import (
 
 const (
 	resourceDiscoveryTestCompartmentOcid   = "ocid1.testcompartment.abc"
+	resourceDiscoveryTestTenancyOcid       = "ocid1.testtenancy.xyz"
 	resourceDiscoveryTestActiveLifecycle   = "ACTIVE"
 	resourceDiscoveryTestInactiveLifecycle = "INACTIVE"
+	resourceIdFor404ErrorResource          = "ocid1.child.abcdefghiklmnop.1"
 )
 
 var exportParentDefinition = &TerraformResourceHints{
@@ -60,6 +64,15 @@ var exportParentDefinitionWithFaultyDatasource = &TerraformResourceHints{
 
 var exportChildDefinitionWithFaultyDatasource = &TerraformResourceHints{
 	resourceClass:               "oci_test_error_child",
+	datasourceClass:             "oci_test_children",
+	resourceAbbreviation:        "child",
+	datasourceItemsAttr:         "item_summaries",
+	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+	requireResourceRefresh:      true,
+}
+
+var exportResourceDefinitionWith404Error = &TerraformResourceHints{
+	resourceClass:               "oci_test_404_error_child",
 	datasourceClass:             "oci_test_children",
 	resourceAbbreviation:        "child",
 	datasourceItemsAttr:         "item_summaries",
@@ -112,6 +125,20 @@ var compartmentTestingResourceGraphWithFaultyChildResource = TerraformResourceGr
 	"oci_test_parent": {
 		{
 			TerraformResourceHints: exportChildDefinitionWithFaultyDatasource,
+			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+		},
+	},
+}
+
+var compartmentTestingResourceGraphWith404ErrorResource = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{
+			TerraformResourceHints: exportParentDefinition,
+		},
+	},
+	"oci_test_parent": {
+		{
+			TerraformResourceHints: exportResourceDefinitionWith404Error,
 			datasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 	},
@@ -428,6 +455,52 @@ func deleteTestChild(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
+func testChildResourceWith404Error() *schema.Resource {
+	// Reuse the parent schema and add a parent dependency attribute
+	childResourceSchema := testParentResource().Schema
+	childResourceSchema["parent_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+
+	// Don't have a display_name attribute so a different name can be generated
+	delete(childResourceSchema, "display_name")
+
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Create: createTestChild,
+		Read:   readTestChildWith404Error,
+		Delete: deleteTestChild,
+		Schema: childResourceSchema,
+	}
+}
+
+func readTestChildWith404Error(d *schema.ResourceData, m interface{}) error {
+	sync := &TestChildWith404ErrorResourceCrud{}
+	sync.D = d
+
+	return ReadResource(sync)
+}
+
+type TestChildWith404ErrorResourceCrud struct {
+	BaseCrud
+}
+
+func (s TestChildWith404ErrorResourceCrud) Get() error {
+	if s.D.Id() == resourceIdFor404ErrorResource {
+		return fmt.Errorf("404 not found")
+	} else {
+		return readTestChild(s.D, nil)
+	}
+
+}
+
+func (s TestChildWith404ErrorResourceCrud) SetData() error {
+	return nil
+}
+
 func initResourceDiscoveryTests() {
 	resourceNameCount = map[string]int{}
 	resourcesMap = ResourcesMap()
@@ -437,6 +510,7 @@ func initResourceDiscoveryTests() {
 	resourcesMap["oci_test_parent"] = testParentResource()
 	resourcesMap["oci_test_child"] = testChildResource()
 	resourcesMap["oci_test_error_child"] = testChildResourceWithError()
+	resourcesMap["oci_test_404_error_child"] = testChildResourceWith404Error()
 
 	datasourcesMap["oci_test_parents"] = testParentsDatasource()
 	datasourcesMap["oci_test_children"] = testChildrenDatasource()
@@ -558,6 +632,7 @@ func generateTestResourceFromSchema(id int, resourceSchemaMap map[string]*schema
 
 // Basic test to ensure that RunExportCommand generates TF artifacts
 func TestUnitRunExportCommand_basic(t *testing.T) {
+	// env var export_enable_tenancy_lookup=false needed for this test
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
 	compartmentId := resourceDiscoveryTestCompartmentOcid
@@ -584,8 +659,8 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 			t.Fail()
 		}
 
-		if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-			t.Logf("(TF version %s) no tenancy_testing.tf file generated", tfHclVersion.toString())
+		if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
+			t.Logf("(TF version %s) tenancy_testing.tf file generated even though it wasn't expected", tfHclVersion.toString())
 			t.Fail()
 		}
 
@@ -632,6 +707,7 @@ func TestUnitRunExportCommand_error(t *testing.T) {
 
 // Test exit status in case of partial success
 func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
+	// env var export_enable_tenancy_lookup=false needed for this test
 	initResourceDiscoveryTests()
 	// Replace compartmentResourceGraphs with the one having resource that has error in read
 	// Status returned should be StatusPartialSuccess
@@ -660,11 +736,6 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 		t.Fail()
 	} else if status != StatusPartialSuccess {
 		t.Logf("(TF version %s) export command returned unexpected Exit Status: %v", tfHclVersion.toString(), status)
-		t.Fail()
-	}
-
-	if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-		t.Logf("(TF version %s) no tenancy_testing.tf file generated", tfHclVersion.toString())
 		t.Fail()
 	}
 
@@ -712,6 +783,34 @@ func TestUnitFindResources_basic(t *testing.T) {
 				t.Logf("child resource should have a name with prefix '%s' but name is '%s' instead", expectedTfNamePrefix, foundResource.terraformName)
 				t.Fail()
 			}
+		}
+	}
+}
+
+// Test that resource with 404 Not found error do not show up in results
+func TestUnitFindResources_404Error(t *testing.T) {
+	// env var export_enable_tenancy_lookup=false needed for this test
+	initResourceDiscoveryTests()
+	// Replace compartmentResourceGraphs with the one having resource that has 404 error in read
+	// Resource with 404 error should be skipped
+
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraphWith404ErrorResource)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+
+	for _, resource := range results {
+		if resource.sourceAttributes["id"] == "" {
+			// State is voided but resource still showed up in results
+			t.Logf("got resource with 404 not found error in results when not expected")
+			t.Fail()
 		}
 	}
 }
@@ -1157,10 +1256,11 @@ func TestUnitGetExportConfig(t *testing.T) {
 	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", getExportConfig)        // Invalid auth + disable auto-retries
 	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE1", getExportConfig)           // correct profileName
 	providerConfigTest(t, false, false, authAPIKeySetting, "wrongProfile", getExportConfig)       // Invalid profileName
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", getExportConfig)           // correct profileName with mix and match
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", getExportConfig)           // correct profileName with mix and match & env
+	//providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", getExportConfig)           // correct profileName with mix and match, disable for TC
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", getExportConfig) // correct profileName with mix and match & env
 	defer removeFile(configFile)
 	defer removeFile(keyFile)
+	defer os.RemoveAll(path.Join(getHomeFolder(), defaultConfigDirName))
 }
 
 /*
@@ -1303,4 +1403,90 @@ func jobSuccessWaitCondition(response oci_common.OCIOperationResponse) bool {
 		return jobResponse.LifecycleState != oci_resourcemanager.JobLifecycleStateSucceeded
 	}
 	return false
+}
+
+func TestExportCommandArgs_finalizeServices(t *testing.T) {
+	compartmentResourceGraphs = map[string]TerraformResourceGraph{
+		"compartment_testing":   compartmentTestingResourceGraph,
+		"compartment_testing_2": compartmentTestingResourceGraph,
+	}
+	tenancyResourceGraphs = map[string]TerraformResourceGraph{
+		"tenancy_testing":   tenancyTestingResourceGraph,
+		"tenancy_testing_2": tenancyTestingResourceGraph,
+	}
+
+	compartmentScopeServices = []string{"compartment_testing", "compartment_testing_2"}
+	tenancyScopeServices = []string{"tenancy_testing", "tenancy_testing_2"}
+	tenancyOcid := resourceDiscoveryTestTenancyOcid
+	compartmentId := resourceDiscoveryTestCompartmentOcid
+
+	type fields struct {
+		FinalizedServices []string
+	}
+	type args struct {
+		ctx *resourceDiscoveryContext
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+	}{
+		{
+			name: "compartment_without_exclude",
+			fields: fields{
+				FinalizedServices: []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
+			},
+			args: args{
+				ctx: &resourceDiscoveryContext{
+					tenancyOcid: tenancyOcid,
+					ExportCommandArgs: &ExportCommandArgs{
+						CompartmentId:   &compartmentId,
+						Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
+						ExcludeServices: []string{},
+					},
+				},
+			},
+		},
+		{
+			name: "compartment_with_exclude",
+			fields: fields{
+				FinalizedServices: []string{"compartment_testing_2", "tenancy_testing"},
+			},
+			args: args{
+				ctx: &resourceDiscoveryContext{
+					tenancyOcid: tenancyOcid,
+					ExportCommandArgs: &ExportCommandArgs{
+						CompartmentId:   &compartmentId,
+						Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
+						ExcludeServices: []string{"compartment_testing"},
+					},
+				},
+			},
+		},
+		{
+			name: "root_compartment_without_services_with_exclude",
+			fields: fields{
+				FinalizedServices: []string{"compartment_testing", "tenancy_testing", "tenancy_testing_2"},
+			},
+			args: args{
+				ctx: &resourceDiscoveryContext{
+					tenancyOcid: tenancyOcid,
+					ExportCommandArgs: &ExportCommandArgs{
+						CompartmentId:   &tenancyOcid,
+						ExcludeServices: []string{"compartment_testing_2"},
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			tt.args.ctx.ExportCommandArgs.finalizeServices(tt.args.ctx)
+			if !reflect.DeepEqual(tt.args.ctx.ExportCommandArgs.Services, tt.fields.FinalizedServices) {
+				t.Logf("incorrect services list, expected: %v actual: %v", tt.fields.FinalizedServices, tt.args.ctx.ExportCommandArgs.Services)
+				t.Fail()
+			}
+		})
+	}
 }

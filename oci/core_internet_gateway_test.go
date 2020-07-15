@@ -25,9 +25,9 @@ var (
 
 	internetGatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"display_name":   Representation{repType: Optional, create: `MyInternetGateway`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, internetGatewayDataSourceFilterRepresentation}}
 	internetGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -292,26 +292,16 @@ func getInternetGatewayIds(compartment string) ([]string, error) {
 
 	listInternetGatewaysRequest := oci_core.ListInternetGatewaysRequest{}
 	listInternetGatewaysRequest.CompartmentId = &compartmentId
+	listInternetGatewaysRequest.LifecycleState = oci_core.InternetGatewayLifecycleStateAvailable
+	listInternetGatewaysResponse, err := virtualNetworkClient.ListInternetGateways(context.Background(), listInternetGatewaysRequest)
 
-	vcnIds, error := getVcnIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting vcnId required for InternetGateway resource requests \n")
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting InternetGateway list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, vcnId := range vcnIds {
-		listInternetGatewaysRequest.VcnId = &vcnId
-
-		listInternetGatewaysRequest.LifecycleState = oci_core.InternetGatewayLifecycleStateAvailable
-		listInternetGatewaysResponse, err := virtualNetworkClient.ListInternetGateways(context.Background(), listInternetGatewaysRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting InternetGateway list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, internetGateway := range listInternetGatewaysResponse.Items {
-			id := *internetGateway.Id
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "InternetGatewayId", id)
-		}
-
+	for _, internetGateway := range listInternetGatewaysResponse.Items {
+		id := *internetGateway.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "InternetGatewayId", id)
 	}
 	return resourceIds, nil
 }

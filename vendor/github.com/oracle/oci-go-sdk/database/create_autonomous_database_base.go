@@ -66,6 +66,9 @@ type CreateAutonomousDatabaseBase interface {
 	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.1.1","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.0.0/16"]`
 	GetWhitelistedIps() []string
 
+	// Indicates whether the Autonomous Database has Data Guard enabled.
+	GetIsDataGuardEnabled() *bool
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
@@ -113,6 +116,7 @@ type createautonomousdatabasebase struct {
 	IsDedicated                              *bool                                        `mandatory:"false" json:"isDedicated"`
 	AutonomousContainerDatabaseId            *string                                      `mandatory:"false" json:"autonomousContainerDatabaseId"`
 	WhitelistedIps                           []string                                     `mandatory:"false" json:"whitelistedIps"`
+	IsDataGuardEnabled                       *bool                                        `mandatory:"false" json:"isDataGuardEnabled"`
 	SubnetId                                 *string                                      `mandatory:"false" json:"subnetId"`
 	NsgIds                                   []string                                     `mandatory:"false" json:"nsgIds"`
 	PrivateEndpointLabel                     *string                                      `mandatory:"false" json:"privateEndpointLabel"`
@@ -147,6 +151,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsDedicated = s.Model.IsDedicated
 	m.AutonomousContainerDatabaseId = s.Model.AutonomousContainerDatabaseId
 	m.WhitelistedIps = s.Model.WhitelistedIps
+	m.IsDataGuardEnabled = s.Model.IsDataGuardEnabled
 	m.SubnetId = s.Model.SubnetId
 	m.NsgIds = s.Model.NsgIds
 	m.PrivateEndpointLabel = s.Model.PrivateEndpointLabel
@@ -256,6 +261,11 @@ func (m createautonomousdatabasebase) GetAutonomousContainerDatabaseId() *string
 //GetWhitelistedIps returns WhitelistedIps
 func (m createautonomousdatabasebase) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
+}
+
+//GetIsDataGuardEnabled returns IsDataGuardEnabled
+func (m createautonomousdatabasebase) GetIsDataGuardEnabled() *bool {
+	return m.IsDataGuardEnabled
 }
 
 //GetSubnetId returns SubnetId

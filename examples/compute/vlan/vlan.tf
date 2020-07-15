@@ -41,21 +41,6 @@ data "oci_identity_availability_domains" "test_availability_domains" {
   compartment_id = "${var.tenancy_ocid}"
 }
 
-resource "oci_identity_tag_namespace" "tag-namespace1" {
-  compartment_id = "${var.tenancy_ocid}"
-  description    = "example tag namespace"
-  name           = "${var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"}"
-
-  is_retired = false
-}
-
-resource "oci_identity_tag" "tag1" {
-  description      = "example tag"
-  name             = "example-tag"
-  tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
-  is_retired       = false
-}
-
 resource "oci_core_vlan" "test_vlan" {
   #Required
   availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
@@ -68,7 +53,8 @@ resource "oci_core_vlan" "test_vlan" {
   nsg_ids        = ["${oci_core_network_security_group.test_network_security_group.id}"]
   route_table_id = "${oci_core_route_table.test_route_table.id}"
   vlan_tag       = "10"
-  defined_tags   = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+
+  //  defined_tags   = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
 
   freeform_tags = {
     "Department" = "Finance"

@@ -25,7 +25,7 @@ var (
 
 	localPeeringGatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, localPeeringGatewayDataSourceFilterRepresentation}}
 	localPeeringGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -353,25 +353,15 @@ func getLocalPeeringGatewayIds(compartment string) ([]string, error) {
 
 	listLocalPeeringGatewaysRequest := oci_core.ListLocalPeeringGatewaysRequest{}
 	listLocalPeeringGatewaysRequest.CompartmentId = &compartmentId
+	listLocalPeeringGatewaysResponse, err := virtualNetworkClient.ListLocalPeeringGateways(context.Background(), listLocalPeeringGatewaysRequest)
 
-	vcnIds, error := getVcnIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting vcnId required for LocalPeeringGateway resource requests \n")
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting LocalPeeringGateway list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, vcnId := range vcnIds {
-		listLocalPeeringGatewaysRequest.VcnId = &vcnId
-
-		listLocalPeeringGatewaysResponse, err := virtualNetworkClient.ListLocalPeeringGateways(context.Background(), listLocalPeeringGatewaysRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting LocalPeeringGateway list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, localPeeringGateway := range listLocalPeeringGatewaysResponse.Items {
-			id := *localPeeringGateway.Id
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "LocalPeeringGatewayId", id)
-		}
-
+	for _, localPeeringGateway := range listLocalPeeringGatewaysResponse.Items {
+		id := *localPeeringGateway.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "LocalPeeringGatewayId", id)
 	}
 	return resourceIds, nil
 }

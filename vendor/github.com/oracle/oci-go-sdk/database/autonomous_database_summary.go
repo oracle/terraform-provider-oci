@@ -143,6 +143,20 @@ type AutonomousDatabaseSummary struct {
 	// The date and time when maintenance will end.
 	TimeMaintenanceEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceEnd"`
 
+	// The timestamp of the last switchover operation for the Autonomous Database.
+	TimeOfLastSwitchover *common.SDKTime `mandatory:"false" json:"timeOfLastSwitchover"`
+
+	// The timestamp of the last failover operation.
+	TimeOfLastFailover *common.SDKTime `mandatory:"false" json:"timeOfLastFailover"`
+
+	// Indicates whether the Autonomous Database has Data Guard enabled.
+	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
+
+	// Indicates the number of seconds of data loss for a Data Guard failover.
+	FailedDataRecoveryInSeconds *int `mandatory:"false" json:"failedDataRecoveryInSeconds"`
+
+	StandbyDb *AutonomousDatabaseStandbySummary `mandatory:"false" json:"standbyDb"`
+
 	// List of Oracle Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
 	AvailableUpgradeVersions []string `mandatory:"false" json:"availableUpgradeVersions"`
 }
@@ -172,6 +186,8 @@ const (
 	AutonomousDatabaseSummaryLifecycleStateUpdating                AutonomousDatabaseSummaryLifecycleStateEnum = "UPDATING"
 	AutonomousDatabaseSummaryLifecycleStateMaintenanceInProgress   AutonomousDatabaseSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 	AutonomousDatabaseSummaryLifecycleStateRestarting              AutonomousDatabaseSummaryLifecycleStateEnum = "RESTARTING"
+	AutonomousDatabaseSummaryLifecycleStateRecreating              AutonomousDatabaseSummaryLifecycleStateEnum = "RECREATING"
+	AutonomousDatabaseSummaryLifecycleStateRoleChangeInProgress    AutonomousDatabaseSummaryLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
 	AutonomousDatabaseSummaryLifecycleStateUpgrading               AutonomousDatabaseSummaryLifecycleStateEnum = "UPGRADING"
 )
 
@@ -192,6 +208,8 @@ var mappingAutonomousDatabaseSummaryLifecycleState = map[string]AutonomousDataba
 	"UPDATING":                  AutonomousDatabaseSummaryLifecycleStateUpdating,
 	"MAINTENANCE_IN_PROGRESS":   AutonomousDatabaseSummaryLifecycleStateMaintenanceInProgress,
 	"RESTARTING":                AutonomousDatabaseSummaryLifecycleStateRestarting,
+	"RECREATING":                AutonomousDatabaseSummaryLifecycleStateRecreating,
+	"ROLE_CHANGE_IN_PROGRESS":   AutonomousDatabaseSummaryLifecycleStateRoleChangeInProgress,
 	"UPGRADING":                 AutonomousDatabaseSummaryLifecycleStateUpgrading,
 }
 

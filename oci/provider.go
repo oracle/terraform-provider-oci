@@ -631,6 +631,9 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 }
 
 func getHomeFolder() string {
+	if os.Getenv("TF_HOME_OVERRIDE") != "" {
+		return os.Getenv("TF_HOME_OVERRIDE")
+	}
 	current, e := user.Current()
 	if e != nil {
 		//Give up and try to return something sensible
