@@ -50,7 +50,7 @@ var (
 		"desired_state":       Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"time_of_deletion":    Representation{repType: Optional, create: deletionTime.Format(time.RFC3339Nano)},
+		"time_of_deletion":    Representation{repType: Required, create: deletionTime.Format(time.RFC3339Nano)},
 	}
 	keyKeyShapeRepresentation = map[string]interface{}{
 		"algorithm": Representation{repType: Required, create: `AES`},
