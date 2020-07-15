@@ -117,12 +117,20 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.FailedDataRecoveryInSeconds != nil {
+		s.D.Set("failed_data_recovery_in_seconds", *s.Res.FailedDataRecoveryInSeconds)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
+	}
+
+	if s.Res.IsDataGuardEnabled != nil {
+		s.D.Set("is_data_guard_enabled", *s.Res.IsDataGuardEnabled)
 	}
 
 	if s.Res.IsDedicated != nil {
@@ -161,6 +169,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
 	}
 
+	if s.Res.StandbyDb != nil {
+		s.D.Set("standby_db", []interface{}{AutonomousDatabaseStandbySummaryToMap(s.Res.StandbyDb)})
+	} else {
+		s.D.Set("standby_db", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
@@ -185,6 +199,14 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceEnd != nil {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
+	}
+
+	if s.Res.TimeOfLastFailover != nil {
+		s.D.Set("time_of_last_failover", s.Res.TimeOfLastFailover.String())
+	}
+
+	if s.Res.TimeOfLastSwitchover != nil {
+		s.D.Set("time_of_last_switchover", s.Res.TimeOfLastSwitchover.String())
 	}
 
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {

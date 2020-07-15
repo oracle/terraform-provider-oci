@@ -275,29 +275,29 @@ func updateNestedRepresentation(currIndex int, propertyNames []string, newValue 
 
 // removes the list of properties at nested level(given the full qualified name) from the representation map
 // example for fully qualified name of a nested level property: "specification.request_policies.authentication.audiences"
-func getMultipleUpdatedNestedRepresenationCopy(propertyNames []string, representations map[string]interface{}) map[string]interface{} {
+func getRepresentationCopyWithMultipleRemovedProperties(propertyNames []string, representation map[string]interface{}) map[string]interface{} {
 	for i := 0; i < len(propertyNames); i++ {
-		representations = representationCopyWithRemovedNestedProperties(propertyNames[i], representations)
+		representation = representationCopyWithRemovedNestedProperties(propertyNames[i], representation)
 	}
-	return representations
+	return representation
 }
 
-func representationCopyWithRemovedNestedProperties(propertyNameStr string, representations map[string]interface{}) map[string]interface{} {
+func representationCopyWithRemovedNestedProperties(propertyNameStr string, representation map[string]interface{}) map[string]interface{} {
 	propertyNames := strings.Split(propertyNameStr, ".")
-	return updateNestedRepresentationRemoveProperty(0, propertyNames, cloneRepresentation(representations))
+	return updateNestedRepresentationRemoveProperty(0, propertyNames, cloneRepresentation(representation))
 }
 
-func updateNestedRepresentationRemoveProperty(currIndex int, propertyNames []string, representations map[string]interface{}) map[string]interface{} {
+func updateNestedRepresentationRemoveProperty(currIndex int, propertyNames []string, representation map[string]interface{}) map[string]interface{} {
 	//recursively search the property to remove
-	for prop := range representations {
+	for prop := range representation {
 		if prop == propertyNames[currIndex] {
-			representationGroup, ok := representations[prop].(RepresentationGroup)
+			representationGroup, ok := representation[prop].(RepresentationGroup)
 			if ok && currIndex+1 < len(propertyNames) {
 				updateNestedRepresentationRemoveProperty(currIndex+1, propertyNames, representationGroup.group)
 			} else {
-				delete(representations, prop)
+				delete(representation, prop)
 			}
-			return representations
+			return representation
 		}
 	}
 	return nil

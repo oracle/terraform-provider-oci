@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"runtime"
 	"sort"
+	"strconv"
 	"strings"
 	"syscall"
 
@@ -165,11 +166,17 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 	}
 
 	/*
+		export_enable_tenancy_lookup is added for testing
+		We use dummy resources for testing and GetCompartmentRequest on dummy compartment will fail
+		For testing we will default to tenancy from sdk configuration provider
+	*/
+	exportEnableTenancyLookup, _ := strconv.ParseBool(getEnvSettingWithDefault("export_enable_tenancy_lookup", "true"))
+	/*
 		We do not get customer tenancy ocid from configuration provider in case of Instance Principals auth
 		Getting the tenancy ocid by repeated Get calls on parent for compartment
 	*/
 	var tenancyOcid string
-	if args.CompartmentId != nil && *args.CompartmentId != "" {
+	if (args.CompartmentId != nil && *args.CompartmentId != "") && exportEnableTenancyLookup {
 		tenancyOcid, err = getTenancyOcidFromCompartment(clients.(*OracleClients), *args.CompartmentId)
 		if err != nil {
 			return err, StatusFail
@@ -238,8 +245,11 @@ func (args *ExportCommandArgs) finalizeServices(ctx *resourceDiscoveryContext) {
 	// Dedupes possible repeating services from command line and sorts them
 	finalServices := []string{}
 	serviceSet := convertStringSliceToSet(args.Services, true)
+	excludeServicesSet := convertStringSliceToSet(args.ExcludeServices, true)
 	for service := range serviceSet {
-		finalServices = append(finalServices, service)
+		if _, exists := excludeServicesSet[service]; !exists {
+			finalServices = append(finalServices, service)
+		}
 	}
 	args.Services = finalServices
 	sort.Strings(args.Services)
@@ -1003,6 +1013,21 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 
 		foundItems, _ := d.GetOkExists(tfMeta.datasourceItemsAttr)
 		for idx, item := range foundItems.([]interface{}) {
+			if itemMap, ok := item.(map[string]interface{}); ok {
+				if state, exists := itemMap["state"].(string); exists && len(tfMeta.discoverableLifecycleStates) > 0 {
+					discoverable := false
+					for _, val := range tfMeta.discoverableLifecycleStates {
+						if strings.EqualFold(state, val) {
+							discoverable = true
+							break
+						}
+					}
+
+					if !discoverable {
+						continue
+					}
+				}
+			}
 			var resource *OCIResource
 			var err error
 			if tfMeta.requireResourceRefresh {
@@ -1031,7 +1056,10 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 				if err = resourceSchema.Read(r, clients); err != nil {
 					return results, err
 				}
-
+				// If state was voided because of error in Read (r.Id() is empty)
+				if r.Id() == "" {
+					return results, fmt.Errorf("singular data source not able to find resource")
+				}
 				resource, err = generateOciResourceFromResourceData(r, r, resourceSchema.Schema, "", tfMeta, parent)
 				if err != nil {
 					return results, err
@@ -1040,20 +1068,6 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 				resource, err = generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", tfMeta.datasourceItemsAttr, idx), tfMeta, parent)
 				if err != nil {
 					return results, err
-				}
-			}
-
-			if state, ok := resource.sourceAttributes["state"]; ok && len(tfMeta.discoverableLifecycleStates) > 0 {
-				discoverable := false
-				for _, val := range tfMeta.discoverableLifecycleStates {
-					if strings.EqualFold(state.(string), val) {
-						discoverable = true
-						break
-					}
-				}
-
-				if !discoverable {
-					continue
 				}
 			}
 

@@ -25,7 +25,8 @@ type CreateVlanDetails struct {
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
 	// The range of IPv4 addresses that will be used for layer 3 communication with
-	// hosts outside the VLAN.
+	// hosts outside the VLAN. The CIDR must maintain the following rules -
+	// a. The CIDR block is valid and correctly formatted.
 	// Example: `192.0.2.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 

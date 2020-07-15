@@ -33,7 +33,7 @@ func CoreRouteTablesDataSource() *schema.Resource {
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"route_tables": {
 				Type:     schema.TypeList,
@@ -118,7 +118,6 @@ func (s *CoreRouteTablesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		routeTable := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
-			"vcn_id":         *r.VcnId,
 		}
 
 		if r.DefinedTags != nil {
@@ -145,6 +144,10 @@ func (s *CoreRouteTablesDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			routeTable["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VcnId != nil {
+			routeTable["vcn_id"] = *r.VcnId
 		}
 
 		resources = append(resources, routeTable)

@@ -4,7 +4,10 @@
 
 // Resource Manager API
 //
-// API for the Resource Manager service. Use this API to install, configure, and manage resources via the "infrastructure-as-code" model. For more information, see Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
+// API for the Resource Manager service.
+// Use this API to install, configure, and manage resources via the "infrastructure-as-code" model.
+// For more information, see
+// Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
 //
 
 package resourcemanager
@@ -48,15 +51,19 @@ type Job struct {
 	// The plan job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that was used (if this was an apply job and was not auto-approved).
 	ResolvedPlanJobId *string `mandatory:"false" json:"resolvedPlanJobId"`
 
-	// The date and time at which the job was created.
+	// The date and time when the job was created.
+	// Format is defined by RFC3339.
+	// Example: `2020-01-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time at which the job stopped running, irrespective of whether the job ran successfully.
+	// The date and time when the job stopped running, irrespective of whether the job ran successfully.
+	// Format is defined by RFC3339.
+	// Example: `2020-01-25T21:10:29.600Z`
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
 	// Current state of the specified job.
-	// For more information about resource states in Resource Manager, see
-	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts).
+	// For more information about job lifecycle states in Resource Manager, see
+	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#JobStates).
 	LifecycleState JobLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	FailureDetails *FailureDetails `mandatory:"false" json:"failureDetails"`
@@ -69,6 +76,8 @@ type Job struct {
 	// The maximum size of each variable, including both name and value, is 4096 bytes.
 	// Example: `{"CompartmentId": "compartment-id-value"}`
 	Variables map[string]string `mandatory:"false" json:"variables"`
+
+	ConfigSource ConfigSourceRecord `mandatory:"false" json:"configSource"`
 
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -102,6 +111,7 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 		FailureDetails         *FailureDetails                   `json:"failureDetails"`
 		WorkingDirectory       *string                           `json:"workingDirectory"`
 		Variables              map[string]string                 `json:"variables"`
+		ConfigSource           configsourcerecord                `json:"configSource"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 	}{}
@@ -146,6 +156,16 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	m.WorkingDirectory = model.WorkingDirectory
 
 	m.Variables = model.Variables
+
+	nn, e = model.ConfigSource.UnmarshalPolymorphicJSON(model.ConfigSource.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ConfigSource = nn.(ConfigSourceRecord)
+	} else {
+		m.ConfigSource = nil
+	}
 
 	m.FreeformTags = model.FreeformTags
 

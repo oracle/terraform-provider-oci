@@ -4,7 +4,10 @@
 
 // Resource Manager API
 //
-// API for the Resource Manager service. Use this API to install, configure, and manage resources via the "infrastructure-as-code" model. For more information, see Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
+// API for the Resource Manager service.
+// Use this API to install, configure, and manage resources via the "infrastructure-as-code" model.
+// For more information, see
+// Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
 //
 
 package resourcemanager
@@ -54,6 +57,10 @@ func (m *configsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 
 	var err error
 	switch m.ConfigSourceType {
+	case "GIT_CONFIG_SOURCE":
+		mm := GitConfigSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ZIP_UPLOAD":
 		mm := ZipUploadConfigSource{}
 		err = json.Unmarshal(data, &mm)
@@ -77,11 +84,13 @@ type ConfigSourceConfigSourceTypeEnum string
 
 // Set of constants representing the allowable values for ConfigSourceConfigSourceTypeEnum
 const (
-	ConfigSourceConfigSourceTypeZipUpload ConfigSourceConfigSourceTypeEnum = "ZIP_UPLOAD"
+	ConfigSourceConfigSourceTypeZipUpload       ConfigSourceConfigSourceTypeEnum = "ZIP_UPLOAD"
+	ConfigSourceConfigSourceTypeGitConfigSource ConfigSourceConfigSourceTypeEnum = "GIT_CONFIG_SOURCE"
 )
 
 var mappingConfigSourceConfigSourceType = map[string]ConfigSourceConfigSourceTypeEnum{
-	"ZIP_UPLOAD": ConfigSourceConfigSourceTypeZipUpload,
+	"ZIP_UPLOAD":        ConfigSourceConfigSourceTypeZipUpload,
+	"GIT_CONFIG_SOURCE": ConfigSourceConfigSourceTypeGitConfigSource,
 }
 
 // GetConfigSourceConfigSourceTypeEnumValues Enumerates the set of values for ConfigSourceConfigSourceTypeEnum

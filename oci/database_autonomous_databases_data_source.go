@@ -43,6 +43,10 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_data_guard_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"is_free_tier": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -107,6 +111,11 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 
 	if infrastructureType, ok := s.D.GetOkExists("infrastructure_type"); ok {
 		request.InfrastructureType = oci_database.AutonomousDatabaseSummaryInfrastructureTypeEnum(infrastructureType.(string))
+	}
+
+	if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+		tmp := isDataGuardEnabled.(bool)
+		request.IsDataGuardEnabled = &tmp
 	}
 
 	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
@@ -200,6 +209,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["display_name"] = *r.DisplayName
 		}
 
+		if r.FailedDataRecoveryInSeconds != nil {
+			autonomousDatabase["failed_data_recovery_in_seconds"] = *r.FailedDataRecoveryInSeconds
+		}
+
 		autonomousDatabase["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
@@ -210,6 +223,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.IsAutoScalingEnabled != nil {
 			autonomousDatabase["is_auto_scaling_enabled"] = *r.IsAutoScalingEnabled
+		}
+
+		if r.IsDataGuardEnabled != nil {
+			autonomousDatabase["is_data_guard_enabled"] = *r.IsDataGuardEnabled
 		}
 
 		if r.IsDedicated != nil {
@@ -248,6 +265,12 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["service_console_url"] = *r.ServiceConsoleUrl
 		}
 
+		if r.StandbyDb != nil {
+			autonomousDatabase["standby_db"] = []interface{}{AutonomousDatabaseStandbySummaryToMap(r.StandbyDb)}
+		} else {
+			autonomousDatabase["standby_db"] = nil
+		}
+
 		autonomousDatabase["state"] = r.LifecycleState
 
 		if r.SubnetId != nil {
@@ -272,6 +295,14 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeMaintenanceEnd != nil {
 			autonomousDatabase["time_maintenance_end"] = r.TimeMaintenanceEnd.String()
+		}
+
+		if r.TimeOfLastFailover != nil {
+			autonomousDatabase["time_of_last_failover"] = r.TimeOfLastFailover.String()
+		}
+
+		if r.TimeOfLastSwitchover != nil {
+			autonomousDatabase["time_of_last_switchover"] = r.TimeOfLastSwitchover.String()
 		}
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {

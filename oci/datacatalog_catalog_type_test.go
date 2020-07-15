@@ -74,7 +74,7 @@ func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "fields.#", "0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "type_key"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "12"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "16"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
 				),
 			},

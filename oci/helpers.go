@@ -25,8 +25,9 @@ import (
 )
 
 const (
-	charset              = charsetWithoutDigits + "0123456789"
-	charsetWithoutDigits = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	charset                       = charsetWithoutDigits + "0123456789"
+	charsetWithoutDigits          = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	charsetLowerCaseWithoutDigits = "abcdefghijklmnopqrstuvwxyz"
 
 	OciImageIdsVariable = `
 variable "InstanceImageOCID" {
