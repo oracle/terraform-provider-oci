@@ -22,6 +22,9 @@ type UpdateOceInstanceDetails struct {
 	// Web Application Firewall(WAF) primary domain
 	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
 
+	// Flag indicating whether the instance license is new cloud or bring your own license
+	InstanceLicenseType LicenseTypeEnum `mandatory:"false" json:"instanceLicenseType,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
