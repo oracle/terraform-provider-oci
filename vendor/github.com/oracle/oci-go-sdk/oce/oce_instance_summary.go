@@ -59,6 +59,9 @@ type OceInstanceSummary struct {
 	// Flag indicating whether the instance access is private or public
 	InstanceAccessType OceInstanceSummaryInstanceAccessTypeEnum `mandatory:"false" json:"instanceAccessType,omitempty"`
 
+	// Flag indicating whether the instance license is new cloud or bring your own license
+	InstanceLicenseType LicenseTypeEnum `mandatory:"false" json:"instanceLicenseType,omitempty"`
+
 	// The time the the OceInstance was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
