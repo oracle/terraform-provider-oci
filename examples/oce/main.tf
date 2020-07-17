@@ -61,7 +61,6 @@ output "active_oce_instances" {
   value = ["${data.oci_oce_oce_instances.test_oce_instances.oce_instances}"]
 }
 
-// output "output_nested_service_data" {
-//  value = "${jsondecode(data.oci_oce_oce_instance.test_oce_instance.service.dns).A.domain}"
-// }
-
+output "output_nested_service_data" {
+  value = "${jsondecode(data.oci_oce_oce_instance.test_oce_instance.service.dns).A.domain}"
+}
