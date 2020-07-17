@@ -56,6 +56,7 @@ var (
 		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"logs_bucket_uri":      Representation{repType: Optional, create: `${var.dataflow_logs_bucket_uri}`},
 		"parameters":           RepresentationGroup{Optional, applicationParametersRepresentation},
+		"private_endpoint_id":  Representation{repType: Optional, create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
 		"warehouse_bucket_uri": Representation{repType: Optional, create: `${var.dataflow_warehouse_bucket_uri}`},
 	}
 	applicationParametersRepresentation = map[string]interface{}{
@@ -63,7 +64,10 @@ var (
 		"value": Representation{repType: Required, create: `value`, update: `value2`},
 	}
 
-	dataFlowApplicationResourceDependencies = DefinedTagsDependencies
+	dataFlowApplicationResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestDataflowApplicationResource_basic(t *testing.T) {
@@ -153,6 +157,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
+					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 					resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -173,7 +178,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + dataFlowApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create,
 						representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
@@ -198,6 +203,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
+					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 					resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -241,6 +247,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name2"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value2"),
+					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 					resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4.4"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),

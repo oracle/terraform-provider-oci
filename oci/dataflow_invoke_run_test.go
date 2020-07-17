@@ -59,7 +59,11 @@ var (
 		"value": Representation{repType: Required, create: `value`},
 	}
 
-	InvokeRunResourceDependencies = generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, dataFlowApplicationRepresentation) +
+	InvokeRunResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Create, privateEndpointRepresentation) +
+		generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, dataFlowApplicationRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -295,6 +299,11 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "parameters.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "parameters.0.name", "name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "parameters.0.value", "value"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_dns_zones.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_max_host_count"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_nsg_ids.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_subnet_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "run_duration_in_milliseconds"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "spark_version"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
