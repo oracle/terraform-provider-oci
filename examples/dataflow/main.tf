@@ -34,6 +34,10 @@ variable "application_file_uri" {}
 
 variable "application_archive_uri" {}
 
+variable "dataflow_logs_bucket_uri" {}
+
+variable "dataflow_warehouse_bucket_uri" {}
+
 variable "application_language" {
   default = "PYTHON"
 }
@@ -111,6 +115,88 @@ resource "oci_dataflow_invoke_run" "tf_invoke_run" {
   #}
 
   #warehouse_bucket_uri = "${var.invoke_run_warehouse_bucket_uri}"
+}
+
+resource "oci_core_vcn" "test_vcn" {
+  cidr_block     = "10.0.0.0/16"
+  compartment_id = "${var.compartment_id}"
+}
+
+resource "oci_core_subnet" "test_subnet" {
+  cidr_block     = "10.0.0.0/24"
+  compartment_id = "${var.compartment_id}"
+  vcn_id         = "${oci_core_vcn.test_vcn.id}"
+}
+
+resource "oci_core_network_security_group" "test_network_security_group" {
+  compartment_id = "${var.compartment_id}"
+  vcn_id         = "${oci_core_vcn.test_vcn.id}"
+}
+
+resource "oci_dataflow_private_endpoint" "test_private_endpoint" {
+  compartment_id = "${var.compartment_id}"
+  description    = "description"
+  display_name   = "pe_name"
+  dns_zones      = ["custpvtsubnet.oraclevcn.com"]
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+
+  max_host_count = "256"
+  nsg_ids        = ["${oci_core_network_security_group.test_network_security_group.id}"]
+  subnet_id      = "${oci_core_subnet.test_subnet.id}"
+}
+
+resource "oci_dataflow_application" "test_application" {
+  archive_uri    = "${var.application_archive_uri}"
+  arguments      = ["arguments"]
+  compartment_id = "${var.compartment_id}"
+
+  configuration = {
+    "spark.shuffle.io.maxRetries" = "10"
+  }
+
+  description    = "description"
+  display_name   = "test_wordcount_app"
+  driver_shape   = "VM.Standard2.1"
+  executor_shape = "VM.Standard2.1"
+  file_uri       = "${var.application_file_uri}"
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+
+  language        = "PYTHON"
+  logs_bucket_uri = "${var.dataflow_logs_bucket_uri}"
+  num_executors   = "1"
+
+  parameters {
+    name  = "name"
+    value = "value"
+  }
+
+  private_endpoint_id  = "${oci_dataflow_private_endpoint.test_private_endpoint.id}"
+  spark_version        = "2.4"
+  warehouse_bucket_uri = "${var.dataflow_warehouse_bucket_uri}"
+}
+
+resource "oci_dataflow_invoke_run" "test_invoke_run" {
+  application_id = "${oci_dataflow_application.test_application.id}"
+  compartment_id = "${var.compartment_id}"
+  display_name   = "test_run_name"
+}
+
+data "oci_dataflow_private_endpoints" "test_private_endpoints" {
+  compartment_id = "${var.compartment_id}"
+
+  // service supports using only one filter at a time for LIST API call
+  display_name = "pe_name"
+
+  filter {
+    name   = "id"
+    values = ["${oci_dataflow_private_endpoint.test_private_endpoint.id}"]
+  }
 }
 
 data "oci_dataflow_invoke_runs" "tf_invoke_runs" {
