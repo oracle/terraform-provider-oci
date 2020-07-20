@@ -88,6 +88,10 @@ func (s *DatabaseMaintenanceRunDataSourceCrud) SetData() error {
 
 	s.D.Set("maintenance_type", s.Res.MaintenanceType)
 
+	if s.Res.PatchId != nil {
+		s.D.Set("patch_id", *s.Res.PatchId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TargetResourceId != nil {

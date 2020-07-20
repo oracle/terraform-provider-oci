@@ -33,6 +33,7 @@ var (
 		"maintenance_run_id":   Representation{repType: Required, create: `${var.maintenance_run_id}`},
 		"is_enabled":           Representation{repType: Required, create: `false`, update: `true`},
 		"is_patch_now_enabled": Representation{repType: Optional, update: `true`},
+		"patch_id":             Representation{repType: Optional, create: `${var.maintenance_run_patch_id}`},
 		"time_scheduled":       Representation{repType: Optional, create: mrTimeScheduledCreate.Format(time.RFC3339Nano), update: mrTimeScheduledUpdate.Format(time.RFC3339Nano)},
 	}
 
@@ -51,6 +52,9 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 	maintenanceRunId := getEnvSettingWithBlankDefault("maintenance_run_id")
 	maintenanceRunIdVariableStr := fmt.Sprintf("variable \"maintenance_run_id\" { default = \"%s\" }\n", maintenanceRunId)
 
+	patchId := getEnvSettingWithBlankDefault("maintenance_run_patch_id")
+	patchIdVariableStr := fmt.Sprintf("variable \"maintenance_run_patch_id\" { default = \"%s\" }\n", patchId)
+
 	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
@@ -67,7 +71,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + MaintenanceRunResourceDependencies +
+				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
@@ -81,11 +85,11 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + MaintenanceRunResourceDependencies,
+				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + MaintenanceRunResourceDependencies +
+				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Create, maintenanceRunRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -93,6 +97,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
 
@@ -110,7 +115,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + MaintenanceRunResourceDependencies +
+				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Update, maintenanceRunRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -119,6 +124,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "is_patch_now_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledUpdate.Format(time.RFC3339Nano)),
 
@@ -135,7 +141,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + maintenanceRunIdVariableStr + MaintenanceRunResourceConfig,
+					compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),
 
@@ -152,7 +158,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + MaintenanceRunResourceConfig,
+				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceConfig,
 			},
 			// verify resource import
 			{
