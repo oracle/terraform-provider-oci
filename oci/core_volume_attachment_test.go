@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
@@ -65,6 +66,8 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 	resourceName := "oci_core_volume_attachment.test_volume_attachment"
 	datasourceName := "data.oci_core_volume_attachments.test_volume_attachments"
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -105,6 +108,15 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 
@@ -141,7 +153,6 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
-					"is_shareable",
 					"use_chap",
 				},
 				ResourceName: resourceName,

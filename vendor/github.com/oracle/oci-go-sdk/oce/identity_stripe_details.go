@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// IdentityStripeDetails Identity Stripe
+// IdentityStripeDetails Details of the identity stripe used for OceInstance
 type IdentityStripeDetails struct {
 
 	// Name of the Identity Cloud Service instance in My Services to be used.
