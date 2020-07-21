@@ -139,6 +139,8 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 
 		oceInstance["instance_access_type"] = r.InstanceAccessType
 
+		oceInstance["instance_license_type"] = r.InstanceLicenseType
+
 		oceInstance["instance_usage_type"] = r.InstanceUsageType
 
 		if r.Name != nil {

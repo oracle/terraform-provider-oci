@@ -95,6 +95,8 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 
 	s.D.Set("instance_access_type", s.Res.InstanceAccessType)
 
+	s.D.Set("instance_license_type", s.Res.InstanceLicenseType)
+
 	s.D.Set("instance_usage_type", s.Res.InstanceUsageType)
 
 	if s.Res.Name != nil {

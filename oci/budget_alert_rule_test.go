@@ -67,6 +67,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_budget_alert_rule.test_alert_rule"
 	datasourceName := "data.oci_budget_alert_rules.test_alert_rules"
@@ -129,7 +130,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 						compositeId = "budgets/" + budgetId + "/alertRules/" + resId
 						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
 								return errExport
 							}
 						}

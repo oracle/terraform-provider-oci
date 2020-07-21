@@ -1,4 +1,8 @@
 ## 3.86.0 (Unreleased)
+
+### Added
+- Support for BYOL in `oci_oce_oce_instance`
+
 ## 3.85.0 (July 15, 2020)
 
 ### Added
