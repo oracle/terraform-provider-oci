@@ -33,12 +33,13 @@ resource "oci_oce_oce_instance" "test_oce_instance" {
   tenancy_name             = "${var.tenancy_name}"
 
   #optional
-  freeform_tags        = "${map("freeformkey", "freeformvalue")}"
-  description          = "description"
-  instance_access_type = "PUBLIC"
-  instance_usage_type  = "NONPRIMARY"
-  upgrade_schedule     = "UPGRADE_IMMEDIATELY"
-  waf_primary_domain   = "oracle.com"
+  freeform_tags         = "${map("freeformkey", "freeformvalue")}"
+  description           = "description"
+  instance_access_type  = "PUBLIC"
+  instance_usage_type   = "NONPRIMARY"
+  instance_license_type = "BYOL"
+  upgrade_schedule      = "UPGRADE_IMMEDIATELY"
+  waf_primary_domain    = "oracle.com"
 }
 
 data "oci_oce_oce_instances" "test_oce_instances" {

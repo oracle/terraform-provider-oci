@@ -813,6 +813,12 @@ func TestUnitFindResources_404Error(t *testing.T) {
 			t.Fail()
 		}
 	}
+
+	// Check that we got all child resources except 1 that had 404 error
+	if len(results) != len(parentResources)+len(childrenResources)-1 {
+		t.Logf("got %d results but expected %d results", len(results), len(parentResources)+len(childrenResources)-1)
+		t.Fail()
+	}
 }
 
 // Test that errorList has errors if resources are not found
@@ -899,7 +905,7 @@ func TestUnitFindResources_overrideFn(t *testing.T) {
 	rootResource := getRootCompartmentResource()
 
 	// Create an override function that returns nothing when discovering child test resources
-	exportChildDefinition.findResourcesOverrideFn = func(*OracleClients, *TerraformResourceAssociation, *OCIResource) ([]*OCIResource, error) {
+	exportChildDefinition.findResourcesOverrideFn = func(*resourceDiscoveryContext, *TerraformResourceAssociation, *OCIResource, *TerraformResourceGraph) ([]*OCIResource, error) {
 		return []*OCIResource{}, nil
 	}
 	defer func() { exportChildDefinition.findResourcesOverrideFn = nil }()
@@ -1489,4 +1495,37 @@ func TestExportCommandArgs_finalizeServices(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestUnitGetHCLString_logging(t *testing.T) {
+
+	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	logFilePath := fmt.Sprintf("%s%sresource_discovery.log", outputDir, string(os.PathSeparator))
+
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+	os.Setenv("OCI_TF_LOG_PATH", logFilePath)
+	l, _ := newTFProviderLogger()
+	SetTFProviderLogger(l)
+
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	_, err = findResources(ctx, rootResource, compartmentTestingResourceGraph)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+	if f, err := os.Stat(logFilePath); os.IsNotExist(err) || f.Size() == 0 {
+		t.Logf("resource discovery logs not redirected to path specified by OCI_TF_LOG_PATH")
+		t.Fail()
+	}
+
+	os.RemoveAll(outputDir)
 }

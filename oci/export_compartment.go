@@ -36,6 +36,7 @@ Placeholder values have been added for such attributes with a comment "Required 
 These missing attributes are also added to the lifecycle ignore_changes.`
 	placeholderValueForMissingAttribute = `<placeholder for missing required attribute>`
 	EnvLogFile                          = "TF_LOG_PATH"
+	EnvOCITFLogFile                     = "OCI_TF_LOG_PATH"
 )
 
 var referenceMap map[string]string
@@ -93,12 +94,12 @@ func printResourceGraphResources(resourceGraphs map[string]TerraformResourceGrap
 			}
 
 			sort.Strings(supportedResources)
-			log.Printf("%s (%s-scope resources)", graphName, scope)
-			log.Printf("===========")
+			Logf("%s (%s-scope resources)", graphName, scope)
+			Log("===========")
 			for _, resourceClass := range supportedResources {
-				log.Printf("- %s", resourceClass)
+				Logf("- %s", resourceClass)
 			}
-			log.Println("")
+			Logln("")
 		}
 	}
 	return nil
@@ -108,7 +109,7 @@ func RunListExportableResourcesCommand() error {
 	resourcesMap = ResourcesMap()
 	datasourcesMap = DataSourcesMap()
 
-	log.Println("List of Discoverable Oracle Cloud Infrastructure Resources")
+	Logln("List of Discoverable Oracle Cloud Infrastructure Resources")
 
 	if err := printResourceGraphResources(tenancyResourceGraphs, "tenancy"); err != nil {
 		return err
@@ -206,7 +207,7 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 		shortRetryTime = longRetryTime
 	}
 
-	log.Printf("[INFO] resource discovery retry timeout duration set to %v", shortRetryTime)
+	Logf("[INFO] resource discovery retry timeout duration set to %v", shortRetryTime)
 
 	if err := runExportCommand(ctx); err != nil {
 		return err, StatusFail
@@ -371,7 +372,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 	if isMissingRequiredAttributes {
 		ctx.summaryStatements = append(ctx.summaryStatements, "")
 		ctx.summaryStatements = append(ctx.summaryStatements, missingRequiredAttributeWarning)
-		ctx.summaryStatements = append(ctx.summaryStatements, "\nMissing required attributes:\n")
+		ctx.summaryStatements = append(ctx.summaryStatements, "Missing required attributes:")
 		for key, value := range ctx.missingAttributesPerResource {
 			ctx.summaryStatements = append(ctx.summaryStatements, fmt.Sprintf("%s: %s", key, strings.Join(value, ",")))
 		}
@@ -409,7 +410,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		initCmd := command.InitCommand{Meta: meta}
 		var initArgs []string
 		if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
-			log.Printf("[INFO] plugin dir: '%s'", pluginDir)
+			Logf("[INFO] plugin dir: '%s'", pluginDir)
 			initArgs = append(initArgs, fmt.Sprintf("-plugin-dir=%v", pluginDir))
 		}
 		initArgs = append(initArgs, *ctx.OutputDir)
@@ -420,21 +421,21 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), local.DefaultStateFilename)
 		tmpStateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultTmpStateFile)
 		if err := os.RemoveAll(tmpStateOutputFile); err != nil {
-			log.Printf("[WARN] unable to delete existing tmp state file %s", tmpStateOutputFile)
+			Logf("[WARN] unable to delete existing tmp state file %s", tmpStateOutputFile)
 			return err
 		}
 
 		for _, resource := range ctx.discoveredResources {
-			log.Printf("[INFO] ===> Importing resource '%s'", resource.getTerraformReference())
+			Logf("[INFO] ===> Importing resource '%s'", resource.getTerraformReference())
 
 			resourceDefinition, exists := resourcesMap[resource.terraformClass]
 			if !exists {
-				log.Printf("[INFO] skip importing '%s' since it is not a Terraform OCI resource", resource.getTerraformReference())
+				Logf("[INFO] skip importing '%s' since it is not a Terraform OCI resource", resource.getTerraformReference())
 				continue
 			}
 
 			if resourceDefinition.Importer == nil {
-				log.Printf("[WARN] unable to import '%s' because import is not supported for '%s'", resource.getTerraformReference(), resource.terraformClass)
+				Logf("[WARN] unable to import '%s' because import is not supported for '%s'", resource.getTerraformReference(), resource.terraformClass)
 				continue
 			}
 
@@ -537,14 +538,14 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 		return foundResources, nil
 	}
 
-	log.Printf("[INFO] resource discovery: visiting %s\n", root.getTerraformReference())
+	Logf("[INFO] resource discovery: visiting %s\n", root.getTerraformReference())
 
 	for _, childType := range childResourceTypes {
 		findResourceFn := findResourcesGeneric
 		if childType.findResourcesOverrideFn != nil {
 			findResourceFn = childType.findResourcesOverrideFn
 		}
-		results, err := findResourceFn(ctx.clients, &childType, root)
+		results, err := findResourceFn(ctx, &childType, root, &resourceGraph)
 		if err != nil {
 			// add error to the errorList and continue discovering rest of the resources
 			ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{childType.resourceClass, root.terraformName, err, &resourceGraph})
@@ -792,17 +793,17 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 					return fmt.Errorf("[ERROR] sourceAttribute '%s', tfAttribute '%s': Source attribute is nested object but TF attribute is not", tfAttribute, tfAttribute)
 				}
 			case nil:
-				log.Printf("[INFO] TF attribute '%s' is nil in source\n", tfAttribute)
+				Logf("[INFO] TF attribute '%s' is nil in source\n", tfAttribute)
 				if !tfSchema.Required {
 					continue
 				}
 			default:
-				log.Printf("[WARN] TF attribute '%s' is unknown type in source\n", tfAttribute)
+				Logf("[WARN] TF attribute '%s' is unknown type in source\n", tfAttribute)
 			}
 		}
 
 		if tfSchema.Required {
-			log.Printf("[WARN] Required TF attribute '%s' not found in source\n", tfAttribute)
+			Logf("[WARN] Required TF attribute '%s' not found in source\n", tfAttribute)
 			/* Set missing value if specified in resource hints. This is to avoid plan failure for existing infrastructure.
 			This is only done for required attributes as the Optional attributes will not cause plan failure
 			We can extend this in future to provide this option to customer to add default values for attributes
@@ -834,7 +835,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 			}
 
 		} else if tfSchema.Optional {
-			log.Printf("[INFO] Optional TF attribute '%s' not found in source\n", tfAttribute)
+			Logf("[INFO] Optional TF attribute '%s' not found in source\n", tfAttribute)
 			builder.WriteString(fmt.Sprintf("#%s = <<Optional value not found in discovery>>\n", tfAttribute))
 		}
 	}
@@ -977,16 +978,17 @@ func convertDatasourceItemToMap(d *schema.ResourceData, itemPrefix string, itemS
 	return result, nil
 }
 
-func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssociation, parent *OCIResource) ([]*OCIResource, error) {
+func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
 	results := []*OCIResource{}
+	clients := ctx.clients
 
-	log.Printf("[INFO] discovering resources with data source '%s'\n", tfMeta.datasourceClass)
+	Logf("[INFO] discovering resources with data source '%s'\n", tfMeta.datasourceClass)
 	datasource := datasourcesMap[tfMeta.datasourceClass]
 	d := datasource.TestResourceData()
 	d.Set("compartment_id", parent.compartmentId)
 
 	for queryAttributeName, queryValue := range tfMeta.datasourceQueryParams {
-		log.Printf("[INFO] adding datasource query attribute '%s' from parent attribute '%s'\n", queryAttributeName, queryValue)
+		Logf("[INFO] adding datasource query attribute '%s' from parent attribute '%s'\n", queryAttributeName, queryValue)
 		if queryValue == "" || queryValue == "id" {
 			d.Set(queryAttributeName, parent.id)
 		} else if strings.HasPrefix(queryValue, "'") && strings.HasSuffix(queryValue, "'") { // Anything encapsulated in ' ' means to use the literal value
@@ -994,7 +996,7 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 		} else if val, ok := parent.sourceAttributes[queryValue]; ok {
 			d.Set(queryAttributeName, val)
 		} else {
-			log.Printf("[WARN] no attribute '%s' found in parent '%s', returning no results for this resource\n", queryValue, parent.getTerraformReference())
+			Logf("[WARN] no attribute '%s' found in parent '%s', returning no results for this resource\n", queryValue, parent.getTerraformReference())
 			return results, nil
 		}
 	}
@@ -1038,36 +1040,43 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 				if tfMeta.getIdFn != nil {
 					tmpResource, err := generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", tfMeta.datasourceItemsAttr, idx), tfMeta, parent)
 					if err != nil {
-						return results, err
+						ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating temporary resource from resource data returned in list datasource read: %v ", err), resourceGraph})
+						continue
 					}
 
 					itemId, err := tfMeta.getIdFn(tmpResource)
 					if err != nil {
-						return results, err
+						ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] failed to get a composite ID for the resource: %v ", err), resourceGraph})
+						continue
 					}
 					r.SetId(itemId)
 				} else if idSchema, exists := elemResource.Schema["id"]; exists && idSchema.Type == schema.TypeString {
 					itemId := item.(map[string]interface{})["id"]
 					r.SetId(itemId.(string))
 				} else {
-					return results, fmt.Errorf("[ERROR] elements in datasource '%s' are missing an 'id' field and is unable to generate an id", tfMeta.datasourceClass)
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] elements in datasource '%s' are missing an 'id' field and is unable to generate an id", tfMeta.datasourceClass), resourceGraph})
+					continue
 				}
 
 				if err = resourceSchema.Read(r, clients); err != nil {
-					return results, err
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error refreshing resource using resource read: %v ", err), resourceGraph})
+					continue
 				}
 				// If state was voided because of error in Read (r.Id() is empty)
 				if r.Id() == "" {
-					return results, fmt.Errorf("singular data source not able to find resource")
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error refreshing resource using resource read, state voided"), resourceGraph})
+					continue
 				}
 				resource, err = generateOciResourceFromResourceData(r, r, resourceSchema.Schema, "", tfMeta, parent)
 				if err != nil {
-					return results, err
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating resource from resource data returned in resource read: %v ", err), resourceGraph})
+					continue
 				}
 			} else {
 				resource, err = generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", tfMeta.datasourceItemsAttr, idx), tfMeta, parent)
 				if err != nil {
-					return results, err
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating resource from resource data returned in list datasource read: %v ", err), resourceGraph})
+					continue
 				}
 			}
 
@@ -1103,7 +1112,7 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 			results = append(results, resource)
 		}
 	} else {
-		log.Printf("[DEBUG] singular data source not able to find resource")
+		Debugf("[DEBUG] singular data source not able to find resource")
 	}
 
 	return results, nil
@@ -1230,7 +1239,7 @@ func resolveCompartmentId(clients *OracleClients, compartmentName *string) (*str
 
 		for _, compartment := range resp.Items {
 			if compartment.Name != nil && *compartment.Name == *compartmentName {
-				log.Printf("[INFO] resolved compartment name '%s' to compartment id '%s'", *compartmentName, *compartment.Id)
+				Logf("[INFO] resolved compartment name '%s' to compartment id '%s'", *compartmentName, *compartment.Id)
 				return compartment.Id, nil
 			}
 		}
@@ -1305,7 +1314,7 @@ func getTenancyOcidFromCompartment(clients *OracleClients, compartmentId string)
 			return "", fmt.Errorf("[ERROR] could not get tenancy ocid from compartment ocid %v", err)
 		}
 		if response.CompartmentId == nil {
-			log.Printf("[INFO] root compartment found %v", compartmentId)
+			Logf("[INFO] root compartment found %v", compartmentId)
 			return *response.Id, nil
 		}
 		compartmentId = *response.CompartmentId

@@ -558,20 +558,11 @@ func TestResourceCoreDHCPOptions_changeOptionsOrder(t *testing.T) {
   						// required
   						options {
     						type = "DomainNameServer"
-    						server_type = "VcnLocalPlusInternet"
-  						}
-
-  						options {
-    						type = "DomainNameServer"
 							server_type = "CustomDnsServer"
     						custom_dns_servers = ["8.8.4.4", "8.8.8.8"]
 						}
 					}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
-						"type":        "DomainNameServer",
-						"server_type": "VcnLocalPlusInternet",
-					}, []string{}),
 					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
 						"type":                 "DomainNameServer",
 						"server_type":          "CustomDnsServer",
@@ -599,23 +590,11 @@ func TestResourceCoreDHCPOptions_changeOptionsOrder(t *testing.T) {
     						type = "DomainNameServer"
     						server_type = "VcnLocalPlusInternet"
   						}
-
-  						options {
-    						type = "DomainNameServer"
-							server_type = "CustomDnsServer"
-    						custom_dns_servers = ["8.8.8.8", "8.8.4.4"]
-						}
 					}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
 						"type":        "DomainNameServer",
 						"server_type": "VcnLocalPlusInternet",
-					}, []string{}),
-					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
-						"type":                 "DomainNameServer",
-						"server_type":          "CustomDnsServer",
-						"custom_dns_servers.0": "8.8.8.8",
-						"custom_dns_servers.1": "8.8.4.4",
 					}, []string{}),
 				),
 			},
