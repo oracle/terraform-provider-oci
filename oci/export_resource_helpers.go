@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 
@@ -1056,9 +1057,22 @@ func getObjectStorageObjectPreauthenticatedRequestId(resource *OCIResource) (str
 }
 
 func processObjectStoragePreauthenticatedRequest(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
-	for _, index := range resources {
-		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
-		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
+	for _, resource := range resources {
+		resource.sourceAttributes["bucket"] = resource.parent.sourceAttributes["name"].(string)
+		resource.sourceAttributes["namespace"] = resource.parent.sourceAttributes["namespace"].(string)
+
+		// Check if time is already in RFC3339Nano format
+		timeExpires, err := time.Parse(time.RFC3339Nano, resource.sourceAttributes["time_expires"].(string))
+		if err != nil {
+			// parse time using format in time.String()
+			timeExpires, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", resource.sourceAttributes["time_expires"].(string))
+			if err != nil {
+				return resources, err
+			}
+			// Format to RFC3339Nano
+			resource.sourceAttributes["time_expires"] = timeExpires.Format(time.RFC3339Nano)
+		}
+
 	}
 	return resources, nil
 }
@@ -1083,9 +1097,9 @@ func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) 
 }
 
 func processObjectStorageReplicationPolicy(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
-	for _, index := range resources {
-		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
-		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
+	for _, resource := range resources {
+		resource.sourceAttributes["bucket"] = resource.parent.sourceAttributes["name"].(string)
+		resource.sourceAttributes["namespace"] = resource.parent.sourceAttributes["namespace"].(string)
 	}
 	return resources, nil
 }
