@@ -159,6 +159,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("open_mode", s.Res.OpenMode)
 
+	s.D.Set("permission_level", s.Res.PermissionLevel)
+
 	if s.Res.PrivateEndpoint != nil {
 		s.D.Set("private_endpoint", *s.Res.PrivateEndpoint)
 	}
