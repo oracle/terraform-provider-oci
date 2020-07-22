@@ -43,7 +43,7 @@ type TerraformResourceHints struct {
 	getHCLStringOverrideFn func(*strings.Builder, *OCIResource, map[string]string) error // Custom function for generating HCL syntax for the resource
 
 	// Hints for adding default value to HCL representation for attributes not found in resource discovery
-	defaultValuesForMissingAttributes map[string]string
+	defaultValuesForMissingAttributes map[string]interface{}
 
 	// Hints for adding resource attributes to `ignore_changes` in HCL representation
 	// This is added to avoid plan failure/diff for attributes that service does not return in read response
@@ -334,14 +334,14 @@ func init() {
 	exportDatabaseDatabaseHints.requireResourceRefresh = true
 	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = filterPrimaryDatabases
 
-	exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]string{
+	exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]interface{}{
 		"source": "NONE",
 	}
 	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = processDatabases
 
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 
-	exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]string{
+	exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]interface{}{
 		"artifact_content_length": "0",
 	}
 	exportDatascienceModelProvenanceHints.getIdFn = getModelProvenanceId
@@ -357,7 +357,9 @@ func init() {
 	exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
 	exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
 	exportObjectStorageNamespaceHints.alwaysExportable = true
-
+	exportObjectStorageReplicationPolicyHints.defaultValuesForMissingAttributes = map[string]interface{}{
+		"delete_object_in_destination_bucket": deleteObjectInDestinationBucketStateEnumDecline,
+	}
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
@@ -1084,7 +1086,6 @@ func processObjectStorageReplicationPolicy(clients *OracleClients, resources []*
 	for _, index := range resources {
 		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
 		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
-		index.sourceAttributes["delete_object_in_destination_bucket"] = false
 	}
 	return resources, nil
 }
