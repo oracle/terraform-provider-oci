@@ -58,8 +58,8 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"database":            databaseResourceGraph,
 	"datacatalog":         datacatalogResourceGraph,
 	"dataflow":            dataflowResourceGraph,
-	"datascience":         datascienceResourceGraph,
 	"dataintegration":     dataintegrationResourceGraph,
+	"datascience":         datascienceResourceGraph,
 	"dns":                 dnsResourceGraph,
 	"email_compartment":   emailCompartmentResourceGraph,
 	"events":              eventsResourceGraph,
@@ -151,7 +151,9 @@ var coreResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreInstanceConsoleConnectionHints},
 		{TerraformResourceHints: exportCoreInstancePoolHints},
 		{TerraformResourceHints: exportCoreInstanceHints},
+		{TerraformResourceHints: exportCoreInternetGatewayHints},
 		{TerraformResourceHints: exportCoreIpSecConnectionHints},
+		{TerraformResourceHints: exportCoreLocalPeeringGatewayHints},
 		{TerraformResourceHints: exportCoreNetworkSecurityGroupHints},
 		{
 			TerraformResourceHints: exportCorePublicIpHints,
@@ -161,6 +163,7 @@ var coreResourceGraph = TerraformResourceGraph{
 		},
 		{TerraformResourceHints: exportCoreRemotePeeringConnectionHints},
 		{TerraformResourceHints: exportCoreServiceGatewayHints},
+		{TerraformResourceHints: exportCoreSubnetHints},
 		{TerraformResourceHints: exportCoreVcnHints},
 		{TerraformResourceHints: exportCoreVirtualCircuitHints},
 		{TerraformResourceHints: exportCoreVolumeAttachmentHints},
@@ -216,25 +219,7 @@ var coreResourceGraph = TerraformResourceGraph{
 			},
 		},
 		{
-			TerraformResourceHints: exportCoreInternetGatewayHints,
-			datasourceQueryParams: map[string]string{
-				"vcn_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportCoreLocalPeeringGatewayHints,
-			datasourceQueryParams: map[string]string{
-				"vcn_id": "id",
-			},
-		},
-		{
 			TerraformResourceHints: exportCoreNatGatewayHints,
-			datasourceQueryParams: map[string]string{
-				"vcn_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportCoreVlanHints,
 			datasourceQueryParams: map[string]string{
 				"vcn_id": "id",
 			},
@@ -252,7 +237,7 @@ var coreResourceGraph = TerraformResourceGraph{
 			},
 		},
 		{
-			TerraformResourceHints: exportCoreSubnetHints,
+			TerraformResourceHints: exportCoreVlanHints,
 			datasourceQueryParams: map[string]string{
 				"vcn_id": "id",
 			},
