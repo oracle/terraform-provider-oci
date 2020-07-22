@@ -24,7 +24,7 @@ var (
 
 	configurationRepresentation = map[string]interface{}{
 		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"retention_period_days": Representation{repType: Required, create: `100`, update: `91`},
+		"retention_period_days": Representation{repType: Required, create: `365`},
 	}
 
 	ConfigurationResourceDependencies = ""
@@ -57,7 +57,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "100"),
+					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "365"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -77,7 +77,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "91"),
+					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "365"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -96,7 +96,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "retention_period_days", "91"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "retention_period_days", "365"),
 				),
 			},
 		},

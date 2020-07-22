@@ -98,6 +98,11 @@ func OceOceInstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"instance_license_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"instance_usage_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -255,6 +260,10 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 
 	if instanceAccessType, ok := s.D.GetOkExists("instance_access_type"); ok {
 		request.InstanceAccessType = oci_oce.CreateOceInstanceDetailsInstanceAccessTypeEnum(instanceAccessType.(string))
+	}
+
+	if instanceLicenseType, ok := s.D.GetOkExists("instance_license_type"); ok {
+		request.InstanceLicenseType = oci_oce.LicenseTypeEnum(instanceLicenseType.(string))
 	}
 
 	if instanceUsageType, ok := s.D.GetOkExists("instance_usage_type"); ok {
@@ -444,6 +453,10 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if instanceLicenseType, ok := s.D.GetOkExists("instance_license_type"); ok {
+		request.InstanceLicenseType = oci_oce.LicenseTypeEnum(instanceLicenseType.(string))
+	}
+
 	tmp := s.D.Id()
 	request.OceInstanceId = &tmp
 
@@ -511,6 +524,8 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 	}
 
 	s.D.Set("instance_access_type", s.Res.InstanceAccessType)
+
+	s.D.Set("instance_license_type", s.Res.InstanceLicenseType)
 
 	s.D.Set("instance_usage_type", s.Res.InstanceUsageType)
 
