@@ -187,9 +187,11 @@ func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperati
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
+	e := response.Error
 	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 	case 404:
-		if disableNotFoundRetries {
+		if disableNotFoundRetries ||
+			strings.Contains(e.Error(), "does not define a lifecycle policy") {
 			defaultRetryTime = 0
 		} else {
 			defaultRetryTime = longRetryTime
