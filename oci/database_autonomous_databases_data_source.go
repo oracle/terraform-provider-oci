@@ -264,6 +264,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["open_mode"] = r.OpenMode
 
+		autonomousDatabase["permission_level"] = r.PermissionLevel
+
 		if r.PrivateEndpoint != nil {
 			autonomousDatabase["private_endpoint"] = *r.PrivateEndpoint
 		}
