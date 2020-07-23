@@ -58,8 +58,9 @@ func BlockchainOsnResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"ocpu_allocation_number": {
-							Type:     schema.TypeFloat,
-							Required: true,
+							Type:             schema.TypeFloat,
+							Required:         true,
+							DiffSuppressFunc: monetaryDiffSuppress,
 						},
 
 						// Optional

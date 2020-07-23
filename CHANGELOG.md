@@ -3,6 +3,7 @@
 ### Added
 - Support for data flow private endpoints added
 - Support for version fields to `cluster_details` in `bds_instance`
+- Support for `waas_protection_rule` resource
 
 ### Fixed
 - Fix `lifecycle_details` in datasource `blockchain_platforms`
