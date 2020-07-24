@@ -17,38 +17,39 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateBootVolumeDetails The representation of UpdateBootVolumeDetails
-type UpdateBootVolumeDetails struct {
+// ComputeImageCapabilitySchemaSummary Summary information for a compute image capability schema
+type ComputeImageCapabilitySchemaSummary struct {
+
+	// The compute image capability schema OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	Id *string `mandatory:"true" json:"id"`
+
+	// The name of the compute global image capability schema version
+	ComputeGlobalImageCapabilitySchemaVersionName *string `mandatory:"true" json:"computeGlobalImageCapabilitySchemaVersionName"`
+
+	// The OCID of the image associated with this compute image capability schema
+	ImageId *string `mandatory:"true" json:"imageId"`
+
+	// A user-friendly name for the compute image capability schema.
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	// The date and time the compute image capability schema was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The OCID of the compartment containing the compute global image capability schema
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Avoid entering confidential information.
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// The size to resize the volume to in GBs. Has to be larger than the current size.
-	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
-
-	// The number of volume performance units (VPUs) that will be applied to this volume per GB,
-	// representing the Block Volume service's elastic performance options.
-	// See Block Volume Elastic Performance (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
-	// Allowed values:
-	//   * `10`: Represents Balanced option.
-	//   * `20`: Represents Higher Performance option.
-	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
-
-	// Specifies whether the auto-tune performance is enabled for this boot volume.
-	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
 }
 
-func (m UpdateBootVolumeDetails) String() string {
+func (m ComputeImageCapabilitySchemaSummary) String() string {
 	return common.PointerString(m)
 }

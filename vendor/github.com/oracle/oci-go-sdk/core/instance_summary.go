@@ -45,7 +45,7 @@ type InstanceSummary struct {
 	// The user-friendly name.  Does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The name of the Fault Domain the instance is running in.
+	// The fault domain the instance is running in.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
 	// The shape of an instance. The shape determines the number of CPUs, amount of memory,
