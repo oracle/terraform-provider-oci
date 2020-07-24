@@ -20,7 +20,7 @@ import (
 type StackResourceDriftCollection struct {
 
 	// Collection of drift status details for all resources defined in the stack.
-	Items []StackResourceDriftSummary `mandatory:"false" json:"items"`
+	Items []StackResourceDriftSummary `mandatory:"true" json:"items"`
 }
 
 func (m StackResourceDriftCollection) String() string {

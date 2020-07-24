@@ -49,11 +49,8 @@ type GitlabAccessTokenConfigurationSourceProvider struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The Git service API endpoint.
-	// Example: `https://gitlab.com/api/v3/`
+	// Example: `https://gitlab.com/api/v4/`
 	ApiEndpoint *string `mandatory:"false" json:"apiEndpoint"`
-
-	// The personal access token configured on the Git repository.
-	AccessToken *string `mandatory:"false" json:"accessToken"`
 
 	// The current lifecycle state of the configuration source provider.
 	// For more information about configuration source provider lifecycle states in Resource Manager, see
