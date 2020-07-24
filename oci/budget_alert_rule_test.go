@@ -222,21 +222,31 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
 				),
 			},
-			// TODO: Currently import in test is not working because ImportStateId param does not work
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			//{
-			//	Config: config + compartmentIdVariableStr + AlertRuleResourceConfig,
-			//},
+			{
+				Config: config + compartmentIdVariableStr + AlertRuleResourceConfig,
+			},
 			// verify resource import
-			//{
-			//	Config:                  config,
-			//	ImportState:             true,
-			//	ImportStateVerify:       true,
-			//	ImportStateVerifyIgnore: []string{},
-			//	ResourceName:            resourceName,
-			//},
+			{
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateIdFunc:       getAlertRuleImportId(resourceName),
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
+			},
 		},
 	})
+}
+
+func getAlertRuleImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("budgets/" + rs.Primary.Attributes["budget_id"] + "/alertRules/" + rs.Primary.Attributes["id"]), nil
+	}
 }
 
 func testAccCheckBudgetAlertRuleDestroy(s *terraform.State) error {

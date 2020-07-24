@@ -350,8 +350,8 @@ func (s *BudgetAlertRuleResourceCrud) SetData() error {
 
 	alertRuleId, budgetId, err := parseAlertRuleCompositeId(s.D.Id())
 	if err == nil {
-		s.D.Set("id", &alertRuleId)
-		s.D.Set("budget_id", &budgetId)
+		s.D.SetId(alertRuleId)
+		s.D.Set("budget_id", budgetId)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}

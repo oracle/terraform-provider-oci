@@ -331,18 +331,17 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceConfig,
 			},
-			// TODO Import is not working because ImportStateId param does not work. The Import step still picks id from state.
 			// verify resource import
-			//{
-			//	Config:            config,
-			//	ImportState:       true,
-			//	ImportStateId:     compositeId,
-			//	ImportStateVerify: true,
-			//	ImportStateVerifyIgnore: []string{
-			//		"validate_vm_cluster_network",
-			//	},
-			//	ResourceName: resourceName,
-			//},
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateIdFunc: getVmClusterNetworkImportId(resourceName),
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"validate_vm_cluster_network",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
 }
@@ -480,4 +479,14 @@ func vmClusterNetworkSweepResponseFetchOperation(client *OracleClients, resource
 		},
 	})
 	return err
+}
+
+func getVmClusterNetworkImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("exadataInfrastructures/" + rs.Primary.Attributes["exadata_infrastructure_id"] + "/vmClusterNetworks/" + rs.Primary.Attributes["id"]), nil
+	}
 }
