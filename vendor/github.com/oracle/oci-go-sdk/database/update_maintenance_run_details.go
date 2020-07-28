@@ -21,6 +21,9 @@ type UpdateMaintenanceRunDetails struct {
 
 	// The scheduled date and time of the Maintenance Run to update.
 	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
+
+	// If set to `TRUE`, starts patching immediately.
+	IsPatchNowEnabled *bool `mandatory:"false" json:"isPatchNowEnabled"`
 }
 
 func (m UpdateMaintenanceRunDetails) String() string {

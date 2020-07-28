@@ -30,10 +30,14 @@ const (
 	defaultTmpStateFile             = "terraform.tfstate.tmp"
 	varsFile                        = "vars.tf"
 	providerFile                    = "provider.tf"
-	missingRequiredAttributeWarning = `Warning: There are one or more 'Required' attributes for which a value could not be discovered.
+	missingRequiredAttributeWarning = `
+
+Warning: There are one or more 'Required' attributes for which a value could not be discovered.
 This may be expected behavior from the service, which may prevent discovery of certain sensitive attributes or secrets.
+
 Placeholder values have been added for such attributes with a comment "Required attribute not found in discovery, placeholder value set to avoid plan failure".
-These missing attributes are also added to the lifecycle ignore_changes.`
+These missing attributes are also added to the lifecycle ignore_changes.
+`
 	placeholderValueForMissingAttribute = `<placeholder for missing required attribute>`
 	EnvLogFile                          = "TF_LOG_PATH"
 	EnvOCITFLogFile                     = "OCI_TF_LOG_PATH"
@@ -814,7 +818,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 			}
 
 			if ociRes.terraformTypeInfo.defaultValuesForMissingAttributes == nil {
-				ociRes.terraformTypeInfo.defaultValuesForMissingAttributes = make(map[string]string)
+				ociRes.terraformTypeInfo.defaultValuesForMissingAttributes = make(map[string]interface{})
 			}
 			if tfAttributeVal, exists := ociRes.terraformTypeInfo.defaultValuesForMissingAttributes[tfAttribute]; exists {
 				builder.WriteString(fmt.Sprintf("%s = %q", tfAttribute, tfAttributeVal))

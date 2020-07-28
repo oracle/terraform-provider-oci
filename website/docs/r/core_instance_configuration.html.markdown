@@ -219,9 +219,9 @@ The following arguments are supported:
 			The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 		* `fault_domain` - (Optional) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
 
-			If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.
+			If you do not specify the fault domain, the system selects one for you.
 
-			To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
+			 To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
 
 			Example: `FAULT-DOMAIN-1` 
 		* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -240,30 +240,30 @@ The following arguments are supported:
 		* `launch_mode` - (Optional) Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 			* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
 			* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
-			* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
+			* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 			* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
 		* `launch_options` - (Optional) Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
-			* `boot_volume_type` - (Optional) Emulation type for volume.
+			* `boot_volume_type` - (Optional) Emulation type for the boot volume.
 				* `ISCSI` - ISCSI attached block storage device.
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
-				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
+				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle provided images.
+				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 			* `firmware` - (Optional) Firmware used to boot VM.  Select the option that matches your operating system.
 				* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
-				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
+				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle-provided images. 
 			* `is_consistent_volume_naming_enabled` - (Optional) Whether to enable consistent volume naming feature. Defaults to false.
 			* `is_pv_encryption_in_transit_enabled` - (Optional) Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [InstanceConfigurationLaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/InstanceConfigurationLaunchInstanceDetails). 
 			* `network_type` - (Optional) Emulation type for the physical network interface card (NIC).
 				* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 				* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
-				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
+				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers. 
 			* `remote_data_volume_type` - (Optional) Emulation type for volume.
 				* `ISCSI` - ISCSI attached block storage device.
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
-				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
+				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle provided images.
+				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 		* `metadata` - (Optional) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -394,9 +394,9 @@ The following attributes are exported:
 			The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 		* `fault_domain` - A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
 
-			If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.
+			If you do not specify the fault domain, the system selects one for you.
 
-			To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
+			 To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
 
 			Example: `FAULT-DOMAIN-1` 
 		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -415,30 +415,30 @@ The following attributes are exported:
 		* `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 			* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
 			* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
-			* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
+			* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 			* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
 		* `launch_options` - Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
-			* `boot_volume_type` - Emulation type for volume.
+			* `boot_volume_type` - Emulation type for the boot volume.
 				* `ISCSI` - ISCSI attached block storage device.
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
-				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
+				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle provided images.
+				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 			* `firmware` - Firmware used to boot VM.  Select the option that matches your operating system.
 				* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
-				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
+				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle-provided images. 
 			* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
 			* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [InstanceConfigurationLaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/InstanceConfigurationLaunchInstanceDetails). 
 			* `network_type` - Emulation type for the physical network interface card (NIC).
 				* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 				* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
-				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
+				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers. 
 			* `remote_data_volume_type` - Emulation type for volume.
 				* `ISCSI` - ISCSI attached block storage device.
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
-				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
-				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images. 
+				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle provided images.
+				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 		* `metadata` - Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:

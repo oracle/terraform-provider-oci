@@ -127,7 +127,7 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
   vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
 
   database {
-    admin_password = "BEstrO0ng_#11"
+    admin_password = "BEstrO0ng_#11" // this-is-not-the-secret - comment added for exception from security scans
     db_name        = "VMClusRD"
     character_set  = "AL32UTF8"
     ncharacter_set = "AL16UTF16"

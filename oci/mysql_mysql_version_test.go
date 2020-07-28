@@ -47,7 +47,6 @@ func TestMysqlMysqlVersionResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(datasourceName, "versions.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "versions.0.version_family"),
-					resource.TestCheckResourceAttr(datasourceName, "versions.0.versions.#", "1"),
 				),
 			},
 		},
