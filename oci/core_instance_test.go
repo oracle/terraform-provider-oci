@@ -89,7 +89,11 @@ var (
 		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	instanceLaunchOptionsRepresentation = map[string]interface{}{
-		"network_type": Representation{repType: Optional, create: `PARAVIRTUALIZED`},
+		"boot_volume_type":                    Representation{repType: Optional, create: `ISCSI`},
+		"firmware":                            Representation{repType: Optional, create: `UEFI_64`},
+		"is_consistent_volume_naming_enabled": Representation{repType: Optional, create: `true`},
+		"network_type":                        Representation{repType: Optional, create: `PARAVIRTUALIZED`},
+		"remote_data_volume_type":             Representation{repType: Optional, create: `PARAVIRTUALIZED`},
 	}
 	instanceSourceDetailsRepresentation = map[string]interface{}{
 		"source_id":   Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
@@ -107,8 +111,7 @@ resource "oci_core_instance" "test_instance" {
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }
 `
-	InstanceResourceDependencies = generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation) +
-		OciImageIdsVariable +
+	InstanceResourceDependenciesWithoutDHV = OciImageIdsVariable +
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
 			"dns_label": Representation{repType: Required, create: `dnslabel`},
@@ -116,9 +119,13 @@ resource "oci_core_instance" "test_instance" {
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{repType: Required, create: `dnslabel`},
 		})) +
+		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
+
+	InstanceResourceDependencies = generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation) +
+		InstanceResourceDependenciesWithoutDHV
 )
 
 func TestCoreInstanceResource_basic(t *testing.T) {

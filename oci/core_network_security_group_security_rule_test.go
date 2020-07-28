@@ -219,7 +219,9 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_network_security_group_security_rules", "test_network_security_group_security_rules", Optional, Update, networkSecurityGroupSecurityRuleDataSourceRepresentation) +
-					compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
+					compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
+						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "direction"),
 					resource.TestCheckResourceAttrSet(datasourceName, "network_security_group_id"),
@@ -235,16 +237,25 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.time_created"),
 				),
 			},
-			// TODO Import is not working because ImportStateId param does not work. The Import step still picks id from state.
-			//// verify resource import
-			//{
-			//	Config:                  config,
-			//	ImportState:             true,
-			//	ImportStateVerify:       true,
-			//	ImportStateId:           compositeId,
-			//	ImportStateVerifyIgnore: []string{},
-			//	ResourceName:            resourceName,
-			//},
+			// verify resource import
+			{
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateIdFunc:       getNetworkSecurityGroupSecurityRuleImportId(resourceName),
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
+			},
 		},
 	})
+}
+
+func getNetworkSecurityGroupSecurityRuleImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("networkSecurityGroups/" + rs.Primary.Attributes["network_security_group_id"] + "/securityRules/" + rs.Primary.Attributes["id"]), nil
+	}
 }

@@ -37,7 +37,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 	var resId, resId2 string
 
 	updatedRepresentation := getUpdatedRepresentationCopy("ip_address", Representation{repType: Optional, create: `10.0.0.8`},
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(mysqlDbSystemRepresentation, []string{"data_storage_size_in_gb"}), map[string]interface{}{
+		representationCopyWithNewProperties(representationCopyWithRemovedProperties(mysqlDbSystemRepresentation, []string{"data_storage_size_in_gb", "mysql_version"}), map[string]interface{}{
 			"source": RepresentationGroup{Optional, mysqlDbSystemSourceRepresentation},
 		}))
 
@@ -73,7 +73,6 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.8"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
-					resource.TestCheckResourceAttr(resourceName, "mysql_version", "8.0.20"),
 					resource.TestCheckResourceAttr(resourceName, "port", "3306"),
 					resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
 					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
@@ -116,7 +115,6 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.8"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
-					resource.TestCheckResourceAttr(resourceName, "mysql_version", "8.0.20"),
 					resource.TestCheckResourceAttr(resourceName, "port", "3306"),
 					resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
 					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
@@ -164,7 +162,6 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.8"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
-					resource.TestCheckResourceAttr(resourceName, "mysql_version", "8.0.20"),
 					resource.TestCheckResourceAttr(resourceName, "port", "3306"),
 					resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
 					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
@@ -211,7 +208,6 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.8"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
-					resource.TestCheckResourceAttr(resourceName, "mysql_version", "8.0.20"),
 					resource.TestCheckResourceAttr(resourceName, "port", "3306"),
 					resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
 					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),

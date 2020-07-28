@@ -31,6 +31,8 @@ const (
 	RegionPHX Region = "us-phoenix-1"
 	//RegionIAD region IAD
 	RegionIAD Region = "us-ashburn-1"
+	//RegionSJC1 region SJC
+	RegionSJC1 Region = "us-sanjose-1"
 	//RegionFRA region FRA
 	RegionFRA Region = "eu-frankfurt-1"
 	//RegionLHR region LHR
@@ -99,15 +101,16 @@ var shortNameRegion = map[string]Region{
 	"mel": RegionAPMelbourne1,
 	"bom": RegionAPMumbai1,
 	"hyd": RegionAPHyderabad1,
-	"gru": RegionSASaopaulo1,
 	"icn": RegionAPSeoul1,
 	"yny": RegionAPChuncheon1,
 	"nrt": RegionAPTokyo1,
 	"kix": RegionAPOsaka1,
+	"syd": RegionAPSydney1,
 	"yul": RegionCAMontreal1,
 	"yyz": RegionCAToronto1,
+	"sjc": RegionSJC1,
+	"gru": RegionSASaopaulo1,
 	"jed": RegionMEJeddah1,
-	"syd": RegionAPSydney1,
 	"ltn": RegionUKGovLondon1,
 }
 
@@ -125,6 +128,7 @@ var regionRealm = map[Region]string{
 	RegionLHR:          "oc1",
 	RegionCAToronto1:   "oc1",
 	RegionCAMontreal1:  "oc1",
+	RegionSJC1:         "oc1",
 	RegionAPTokyo1:     "oc1",
 	RegionAPOsaka1:     "oc1",
 	RegionAPSeoul1:     "oc1",

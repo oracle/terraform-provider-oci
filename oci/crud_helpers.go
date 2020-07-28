@@ -53,7 +53,8 @@ type deleteObjectInDestinationBucketStateEnum string
 
 // Set of constants representing the allowable values for ListCustomProtectionRulesLifecycleStateEnum
 const (
-	deleteObjectInDestinationBucketStateEnumAccept deleteObjectInDestinationBucketStateEnum = "ACCEPT"
+	deleteObjectInDestinationBucketStateEnumAccept  deleteObjectInDestinationBucketStateEnum = "ACCEPT"
+	deleteObjectInDestinationBucketStateEnumDecline deleteObjectInDestinationBucketStateEnum = "DECLINE"
 )
 
 const (

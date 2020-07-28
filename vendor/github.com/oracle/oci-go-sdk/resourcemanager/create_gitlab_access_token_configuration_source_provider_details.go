@@ -22,7 +22,7 @@ import (
 type CreateGitlabAccessTokenConfigurationSourceProviderDetails struct {
 
 	// The Git service API endpoint.
-	// Example: `https://gitlab.com/api/v3/`
+	// Example: `https://gitlab.com/api/v4/`
 	ApiEndpoint *string `mandatory:"true" json:"apiEndpoint"`
 
 	// The personal access token to be configured on the Git repository. Avoid entering confidential information.

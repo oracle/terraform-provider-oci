@@ -29,7 +29,7 @@ type UpdateStackDetails struct {
 	ConfigSource UpdateConfigSourceDetails `mandatory:"false" json:"configSource"`
 
 	// Terraform variables associated with this resource.
-	// The maximum number of variables supported is 100.
+	// The maximum number of variables supported is 250.
 	// The maximum size of each variable, including both name and value, is 4096 bytes.
 	// Example: `{"CompartmentId": "compartment-id-value"}`
 	Variables map[string]string `mandatory:"false" json:"variables"`

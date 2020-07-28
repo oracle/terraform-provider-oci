@@ -49,7 +49,7 @@ type GitlabAccessTokenConfigurationSourceProviderSummary struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The Git service API endpoint.
-	// Example: `https://gitlab.com/api/v3/`
+	// Example: `https://gitlab.com/api/v4/`
 	ApiEndpoint *string `mandatory:"false" json:"apiEndpoint"`
 
 	// Current state of the specified configuration source provider.

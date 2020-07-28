@@ -68,6 +68,10 @@ func (s *CoreBootVolumeDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AutoTunedVpusPerGB != nil {
+		s.D.Set("auto_tuned_vpus_per_gb", strconv.FormatInt(*s.Res.AutoTunedVpusPerGB, 10))
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -88,6 +92,10 @@ func (s *CoreBootVolumeDataSourceCrud) SetData() error {
 
 	if s.Res.ImageId != nil {
 		s.D.Set("image_id", *s.Res.ImageId)
+	}
+
+	if s.Res.IsAutoTuneEnabled != nil {
+		s.D.Set("is_auto_tune_enabled", *s.Res.IsAutoTuneEnabled)
 	}
 
 	if s.Res.IsHydrated != nil {
