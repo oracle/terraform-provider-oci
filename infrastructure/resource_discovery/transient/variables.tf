@@ -7,6 +7,8 @@ variable "function_image" {}
 
 variable "function_image_digest" {}
 
+variable "private_key_data" {}
+
 variable "instance_image_ocid" {
   type = "map"
 
