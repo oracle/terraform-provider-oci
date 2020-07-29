@@ -109,7 +109,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_max_purge_lag_delay", "300000"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.local_infile", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mandatory_roles", "public"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_connections", "2000"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_connections", "1000"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_execution_time", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_prepared_stmt_count", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysql_firewall_mode", "false"),

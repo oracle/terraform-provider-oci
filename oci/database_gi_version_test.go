@@ -16,7 +16,7 @@ import (
 var (
 	giVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape":          Representation{repType: Optional, create: `ExadataCC.Quarter3.100`},
+		"shape":          Representation{repType: Required, create: `ExadataCC.Quarter3.100`},
 	}
 
 	GiVersionResourceConfig = ""

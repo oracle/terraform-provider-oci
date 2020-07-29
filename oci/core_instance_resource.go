@@ -204,7 +204,6 @@ func CoreInstanceResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"freeform_tags": {
@@ -244,7 +243,6 @@ func CoreInstanceResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -256,7 +254,6 @@ func CoreInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"firmware": {
 							Type:     schema.TypeString,
@@ -274,13 +271,11 @@ func CoreInstanceResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"network_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"remote_data_volume_type": {
 							Type:     schema.TypeString,
@@ -783,8 +778,8 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
-	// update shape and shape config
-	err := s.updateShape()
+	// update shape, shape config, fault domain and launch options
+	err := s.updateOptionsViaWorkRequest()
 
 	if err != nil {
 		return err
@@ -1507,6 +1502,25 @@ func InstanceShapeConfigToMap(obj *oci_core.InstanceShapeConfig) map[string]inte
 	return result
 }
 
+func (s *CoreInstanceResourceCrud) mapToUpdateLaunchOptions(fieldKeyFormat string) (oci_core.UpdateLaunchOptions, error) {
+	result := oci_core.UpdateLaunchOptions{}
+
+	if bootVolumeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_type")); ok {
+		result.BootVolumeType = oci_core.UpdateLaunchOptionsBootVolumeTypeEnum(bootVolumeType.(string))
+	}
+
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+		tmp := isPvEncryptionInTransitEnabled.(bool)
+		result.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
+	if networkType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_type")); ok {
+		result.NetworkType = oci_core.UpdateLaunchOptionsNetworkTypeEnum(networkType.(string))
+	}
+
+	return result, nil
+}
+
 func (s *CoreInstanceResourceCrud) mapToLaunchOptions(fieldKeyFormat string) (oci_core.LaunchOptions, error) {
 	result := oci_core.LaunchOptions{}
 
@@ -1643,14 +1657,30 @@ func (s *CoreInstanceResourceCrud) updateCompartment(compartment interface{}) er
 	return nil
 }
 
-func (s *CoreInstanceResourceCrud) updateShape() error {
-	changeShapeRequest := oci_core.UpdateInstanceRequest{}
+func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
+	request := oci_core.UpdateInstanceRequest{}
+
+	if faultDomain, ok := s.D.GetOkExists("fault_domain"); ok && s.D.HasChange("fault_domain") {
+		tmp := faultDomain.(string)
+		request.FaultDomain = &tmp
+	}
+
+	if launchOptions, ok := s.D.GetOkExists("launch_options"); ok && s.D.HasChange("launch_options") {
+		if tmpList := launchOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "launch_options", 0)
+			tmp, err := s.mapToUpdateLaunchOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LaunchOptions = &tmp
+		}
+	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
 		oldRaw, newRaw := s.D.GetChange("shape")
 		if newRaw != "" && oldRaw != "" {
 			shapeTmp := shape.(string)
-			changeShapeRequest.Shape = &shapeTmp
+			request.Shape = &shapeTmp
 		}
 	}
 
@@ -1661,21 +1691,21 @@ func (s *CoreInstanceResourceCrud) updateShape() error {
 			if err != nil {
 				return err
 			}
-			changeShapeRequest.ShapeConfig = &tmp
+			request.ShapeConfig = &tmp
 		}
 	}
 
-	if changeShapeRequest.Shape == nil && changeShapeRequest.ShapeConfig == nil {
+	if request.Shape == nil && request.ShapeConfig == nil && request.LaunchOptions == nil && request.FaultDomain == nil {
 		// no-op
 		return nil
 	}
 
 	idTmp := s.D.Id()
-	changeShapeRequest.InstanceId = &idTmp
+	request.InstanceId = &idTmp
 
-	changeShapeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateInstance(context.Background(), changeShapeRequest)
+	response, err := s.Client.UpdateInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}

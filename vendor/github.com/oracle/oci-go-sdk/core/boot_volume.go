@@ -92,6 +92,12 @@ type BootVolume struct {
 
 	// The OCID of the Key Management master encryption key assigned to the boot volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// Specifies whether the auto-tune performance is enabled for this boot volume.
+	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
+
+	// The number of Volume Performance Units per GB that this boot volume is effectively tuned to when it's idle.
+	AutoTunedVpusPerGB *int64 `mandatory:"false" json:"autoTunedVpusPerGB"`
 }
 
 func (m BootVolume) String() string {
@@ -112,6 +118,8 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 		SourceDetails      bootvolumesourcedetails           `json:"sourceDetails"`
 		VolumeGroupId      *string                           `json:"volumeGroupId"`
 		KmsKeyId           *string                           `json:"kmsKeyId"`
+		IsAutoTuneEnabled  *bool                             `json:"isAutoTuneEnabled"`
+		AutoTunedVpusPerGB *int64                            `json:"autoTunedVpusPerGB"`
 		AvailabilityDomain *string                           `json:"availabilityDomain"`
 		CompartmentId      *string                           `json:"compartmentId"`
 		Id                 *string                           `json:"id"`
@@ -154,6 +162,10 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 	m.VolumeGroupId = model.VolumeGroupId
 
 	m.KmsKeyId = model.KmsKeyId
+
+	m.IsAutoTuneEnabled = model.IsAutoTuneEnabled
+
+	m.AutoTunedVpusPerGB = model.AutoTunedVpusPerGB
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 
