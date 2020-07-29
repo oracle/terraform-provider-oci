@@ -34,6 +34,7 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.boot_volume_display_name}"
 	freeform_tags = {"Department"= "Finance"}
+	is_auto_tune_enabled = "${var.boot_volume_is_auto_tune_enabled}"
 	kms_key_id = "${oci_kms_key.test_key.id}"
 	size_in_gbs = "${var.boot_volume_size_in_gbs}"
 	vpus_per_gb = "${var.boot_volume_vpus_per_gb}"
@@ -50,6 +51,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this boot volume. 
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management key to assign as the master encryption key for the boot volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `source_details` - (Required) Specifies the boot volume source details for a new boot volume. The volume source is either another boot volume in the same availability domain or a boot volume backup. This is a mandatory field for a boot volume. 
@@ -69,6 +71,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `auto_tuned_vpus_per_gb` - The number of Volume Performance Units per GB that this boot volume is effectively tuned to when it's idle. 
 * `availability_domain` - The availability domain of the boot volume.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment that contains the boot volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -76,6 +79,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The boot volume's Oracle ID (OCID).
 * `image_id` - The image OCID used to create the boot volume.
+* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. 
 * `is_hydrated` - Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup.
 * `kms_key_id` - The OCID of the Key Management master encryption key assigned to the boot volume.
 * `size_in_gbs` - The size of the boot volume in GBs.

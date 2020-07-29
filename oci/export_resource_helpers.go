@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 
@@ -43,7 +44,7 @@ type TerraformResourceHints struct {
 	getHCLStringOverrideFn func(*strings.Builder, *OCIResource, map[string]string) error // Custom function for generating HCL syntax for the resource
 
 	// Hints for adding default value to HCL representation for attributes not found in resource discovery
-	defaultValuesForMissingAttributes map[string]string
+	defaultValuesForMissingAttributes map[string]interface{}
 
 	// Hints for adding resource attributes to `ignore_changes` in HCL representation
 	// This is added to avoid plan failure/diff for attributes that service does not return in read response
@@ -334,14 +335,14 @@ func init() {
 	exportDatabaseDatabaseHints.requireResourceRefresh = true
 	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = filterPrimaryDatabases
 
-	exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]string{
+	exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]interface{}{
 		"source": "NONE",
 	}
 	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = processDatabases
 
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 
-	exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]string{
+	exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]interface{}{
 		"artifact_content_length": "0",
 	}
 	exportDatascienceModelProvenanceHints.getIdFn = getModelProvenanceId
@@ -357,7 +358,9 @@ func init() {
 	exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
 	exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
 	exportObjectStorageNamespaceHints.alwaysExportable = true
-
+	exportObjectStorageReplicationPolicyHints.defaultValuesForMissingAttributes = map[string]interface{}{
+		"delete_object_in_destination_bucket": deleteObjectInDestinationBucketStateEnumDecline,
+	}
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
@@ -1054,9 +1057,22 @@ func getObjectStorageObjectPreauthenticatedRequestId(resource *OCIResource) (str
 }
 
 func processObjectStoragePreauthenticatedRequest(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
-	for _, index := range resources {
-		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
-		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
+	for _, resource := range resources {
+		resource.sourceAttributes["bucket"] = resource.parent.sourceAttributes["name"].(string)
+		resource.sourceAttributes["namespace"] = resource.parent.sourceAttributes["namespace"].(string)
+
+		// Check if time is already in RFC3339Nano format
+		timeExpires, err := time.Parse(time.RFC3339Nano, resource.sourceAttributes["time_expires"].(string))
+		if err != nil {
+			// parse time using format in time.String()
+			timeExpires, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", resource.sourceAttributes["time_expires"].(string))
+			if err != nil {
+				return resources, err
+			}
+			// Format to RFC3339Nano
+			resource.sourceAttributes["time_expires"] = timeExpires.Format(time.RFC3339Nano)
+		}
+
 	}
 	return resources, nil
 }
@@ -1081,10 +1097,9 @@ func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) 
 }
 
 func processObjectStorageReplicationPolicy(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
-	for _, index := range resources {
-		index.sourceAttributes["bucket"] = index.parent.sourceAttributes["name"].(string)
-		index.sourceAttributes["namespace"] = index.parent.sourceAttributes["namespace"].(string)
-		index.sourceAttributes["delete_object_in_destination_bucket"] = false
+	for _, resource := range resources {
+		resource.sourceAttributes["bucket"] = resource.parent.sourceAttributes["name"].(string)
+		resource.sourceAttributes["namespace"] = resource.parent.sourceAttributes["namespace"].(string)
 	}
 	return resources, nil
 }

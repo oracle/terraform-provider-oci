@@ -130,6 +130,10 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AutoTunedVpusPerGB != nil {
+			volume["auto_tuned_vpus_per_gb"] = strconv.FormatInt(*r.AutoTunedVpusPerGB, 10)
+		}
+
 		if r.AvailabilityDomain != nil {
 			volume["availability_domain"] = *r.AvailabilityDomain
 		}
@@ -146,6 +150,10 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			volume["id"] = *r.Id
+		}
+
+		if r.IsAutoTuneEnabled != nil {
+			volume["is_auto_tune_enabled"] = *r.IsAutoTuneEnabled
 		}
 
 		if r.IsHydrated != nil {
