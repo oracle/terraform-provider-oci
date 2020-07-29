@@ -2,6 +2,10 @@
 // Licensed under the Mozilla Public License v2.0
 variable "compartment_ocid" {}
 
+variable "private_key_data" {}
+
+variable "dns_secret" {}
+
 variable "function_image" {
   default = "phx.ocir.io/dxterraformdev/functions/function:0.0.1"
 }
@@ -32,9 +36,7 @@ variable "db_edition" {
   default = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 }
 
-variable "db_admin_password" {
-  default = "BEstrO0ng_#12"
-}
+variable "db_admin_password" {}
 
 variable "db_version" {
   default = "12.1.0.2"
