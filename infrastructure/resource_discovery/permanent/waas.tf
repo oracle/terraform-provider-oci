@@ -40,17 +40,17 @@ resource "oci_waas_address_list" "address_list_rd" {
 
 resource "oci_waas_waas_policy" "waas_policy_rd" {
   compartment_id = "${var.compartment_ocid}"
-  domain         = "testdomainforrd.oracle.com"
+  domain         = "${var.waas_policy_domain}"
 }
 
 resource "oci_waas_http_redirect" "http_redirect_rd" {
   #Required
   compartment_id = "${var.compartment_ocid}"
-  domain         = "testdomainforrd3.com"
+  domain         = "${var.waas_http_redirect_domain}"
 
   target {
     #Required
-    host     = "testdomainforrd2.com"
+    host     = "${var.waas_http_redirect_host}"
     path     = "/test{path}"
     protocol = "HTTP"
     query    = "{query}"

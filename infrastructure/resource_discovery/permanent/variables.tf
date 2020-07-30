@@ -6,13 +6,9 @@ variable "private_key_data" {}
 
 variable "dns_secret" {}
 
-variable "function_image" {
-  default = "phx.ocir.io/dxterraformdev/functions/function:0.0.1"
-}
+variable "function_image" {}
 
-variable "function_image_digest" {
-  default = "sha256:73a6de3a706f299f59d2e217c049814e14b42346c12b407996ebbce0c453f1a2"
-}
+variable "function_image_digest" {}
 
 variable "instance_image_ocid" {
   type = "map"
@@ -603,6 +599,10 @@ variable "steering_policy_ttl" {
   default = 10
 }
 
+variable "dns_tsig_key_name" {
+  default = "test_tsig_key-name_rd"
+}
+
 /* dns attachment */
 variable "steering_policy_attachment_display_name" {
   default = "Test-Steering-Policy-Attachment"
@@ -618,4 +618,22 @@ variable "steering_policy_attachment_time_created_greater_than_or_equal_to" {
 
 variable "steering_policy_attachment_time_created_less_than" {
   default = "2038-01-01T00:00:00.000Z"
+}
+
+/* waas */
+variable "waas_policy_domain" {
+  default = "testdomainforrd.oracle.com"
+}
+
+variable "waas_http_redirect_domain" {
+  default = "testdomainforrd3.oracle.com"
+}
+
+variable "waas_http_redirect_host" {
+  default = "testdomainforrd2.oracle.com"
+}
+
+/* tagging */
+variable "tag_namespace_name" {
+  default = "tagNamespaceRD"
 }
