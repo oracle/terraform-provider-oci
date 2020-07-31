@@ -1,5 +1,8 @@
 ## 3.93.0 (Unreleased)
 
+### Added
+- Support for load balancer shape update added
+
 ### Notes
 - Examples updated to Terraform v0.12 syntax
 
