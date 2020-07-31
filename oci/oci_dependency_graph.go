@@ -67,6 +67,7 @@ func initDependencyGraph() {
 	DependencyGraph["group"] = append(DependencyGraph["group"], "IdentityUserGroupMembership")
 	DependencyGraph["healthCheckMonitor"] = append(DependencyGraph["healthCheckMonitor"], "DnsSteeringPolicy")
 	DependencyGraph["identityProvider"] = append(DependencyGraph["identityProvider"], "IdentityIdpGroupMapping")
+	DependencyGraph["image"] = append(DependencyGraph["image"], "CoreComputeImageCapabilitySchema")
 	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreBootVolumeAttachment")
 	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreConsoleHistory")
 	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreInstanceConsoleConnection")
