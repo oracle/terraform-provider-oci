@@ -24,6 +24,9 @@ const (
 	OperationTypesAddCloudSql             OperationTypesEnum = "ADD_CLOUD_SQL"
 	OperationTypesRemoveCloudSql          OperationTypesEnum = "REMOVE_CLOUD_SQL"
 	OperationTypesChangeCompartmentForBds OperationTypesEnum = "CHANGE_COMPARTMENT_FOR_BDS"
+	OperationTypesChangeShape             OperationTypesEnum = "CHANGE_SHAPE"
+	OperationTypesUpdateInfra             OperationTypesEnum = "UPDATE_INFRA"
+	OperationTypesRestartNode             OperationTypesEnum = "RESTART_NODE"
 )
 
 var mappingOperationTypes = map[string]OperationTypesEnum{
@@ -35,6 +38,9 @@ var mappingOperationTypes = map[string]OperationTypesEnum{
 	"ADD_CLOUD_SQL":              OperationTypesAddCloudSql,
 	"REMOVE_CLOUD_SQL":           OperationTypesRemoveCloudSql,
 	"CHANGE_COMPARTMENT_FOR_BDS": OperationTypesChangeCompartmentForBds,
+	"CHANGE_SHAPE":               OperationTypesChangeShape,
+	"UPDATE_INFRA":               OperationTypesUpdateInfra,
+	"RESTART_NODE":               OperationTypesRestartNode,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum

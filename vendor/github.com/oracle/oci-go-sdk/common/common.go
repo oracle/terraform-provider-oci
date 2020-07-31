@@ -23,7 +23,7 @@ const (
 
 	//RegionSEA region SEA
 	RegionSEA Region = "sea"
-	//RegionCAToronto1 region for toronto
+	//RegionCAToronto1 region for Toronto
 	RegionCAToronto1 Region = "ca-toronto-1"
 	//RegionCAMontreal1 region for Montreal
 	RegionCAMontreal1 Region = "ca-montreal-1"
@@ -37,15 +37,15 @@ const (
 	RegionFRA Region = "eu-frankfurt-1"
 	//RegionLHR region LHR
 	RegionLHR Region = "uk-london-1"
-	//RegionAPTokyo1 region for tokyo
+	//RegionAPTokyo1 region for Tokyo
 	RegionAPTokyo1 Region = "ap-tokyo-1"
 	//RegionAPOsaka1 region for Osaka
 	RegionAPOsaka1 Region = "ap-osaka-1"
-	//RegionAPSeoul1 region for seoul
+	//RegionAPSeoul1 region for Seoul
 	RegionAPSeoul1 Region = "ap-seoul-1"
 	//RegionAPChuncheon1 region for Chuncheon
 	RegionAPChuncheon1 Region = "ap-chuncheon-1"
-	//RegionAPMumbai1 region for mumbai
+	//RegionAPMumbai1 region for Mumbai
 	RegionAPMumbai1 Region = "ap-mumbai-1"
 	//RegionAPHyderabad1 region for Hyderabad
 	RegionAPHyderabad1 Region = "ap-hyderabad-1"
@@ -62,19 +62,21 @@ const (
 	//RegionSASaopaulo1 region for Sao Paulo
 	RegionSASaopaulo1 Region = "sa-saopaulo-1"
 
-	//RegionUSLangley1 region for langley
+	//RegionUSLangley1 region for Langley
 	RegionUSLangley1 Region = "us-langley-1"
-	//RegionUSLuke1 region for luke
+	//RegionUSLuke1 region for Luke
 	RegionUSLuke1 Region = "us-luke-1"
 
-	//RegionUSGovAshburn1 region for langley
+	//RegionUSGovAshburn1 gov region Ashburn
 	RegionUSGovAshburn1 Region = "us-gov-ashburn-1"
-	//RegionUSGovChicago1 region for luke
+	//RegionUSGovChicago1 gov region Chicago
 	RegionUSGovChicago1 Region = "us-gov-chicago-1"
-	//RegionUSGovPhoenix1 region for luke
+	//RegionUSGovPhoenix1 region for Phoenix
 	RegionUSGovPhoenix1 Region = "us-gov-phoenix-1"
 	//RegionUKGovLondon1 gov region London
 	RegionUKGovLondon1 Region = "uk-gov-london-1"
+	//RegionUKGovCardiff1 gov region Cardiff
+	RegionUKGovCardiff1 Region = "uk-gov-cardiff-1"
 
 	// Region Metadata Configuration File
 	regionMetadataCfgDirName  = ".oci"
@@ -112,6 +114,7 @@ var shortNameRegion = map[string]Region{
 	"gru": RegionSASaopaulo1,
 	"jed": RegionMEJeddah1,
 	"ltn": RegionUKGovLondon1,
+	"brs": RegionUKGovCardiff1,
 }
 
 var realm = map[string]string{
@@ -147,6 +150,7 @@ var regionRealm = map[Region]string{
 	RegionUSGovAshburn1: "oc3",
 	RegionUSGovChicago1: "oc3",
 	RegionUSGovPhoenix1: "oc3",
+	RegionUKGovCardiff1: "oc4",
 	RegionUKGovLondon1:  "oc4",
 }
 
