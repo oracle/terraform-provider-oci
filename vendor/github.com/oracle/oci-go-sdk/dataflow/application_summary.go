@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ApplicationSummary A data flow application object used in bulk listings.
+// ApplicationSummary A Data Flow application object used in bulk listings.
 type ApplicationSummary struct {
 
 	// The OCID of a compartment.

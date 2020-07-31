@@ -44,6 +44,7 @@ type StackSummary struct {
 	// - ACTIVE
 	// - DELETING
 	// - DELETED
+	// - FAILED
 	LifecycleState StackLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The version of Terraform specified for the stack. Example: `0.12.x`

@@ -31,6 +31,7 @@ type ListStacksRequest struct {
 	// - ACTIVE
 	// - DELETING
 	// - DELETED
+	// - FAILED
 	LifecycleState StackLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the specified display name.

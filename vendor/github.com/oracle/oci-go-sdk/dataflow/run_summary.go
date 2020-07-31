@@ -60,7 +60,7 @@ type RunSummary struct {
 	// The detailed messages about the lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Unique Oracle-assigned identifier for the request.
+	// Unique Oracle assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" json:"opcRequestId"`
 

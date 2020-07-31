@@ -147,6 +147,7 @@ const (
 	StackLifecycleStateActive   StackLifecycleStateEnum = "ACTIVE"
 	StackLifecycleStateDeleting StackLifecycleStateEnum = "DELETING"
 	StackLifecycleStateDeleted  StackLifecycleStateEnum = "DELETED"
+	StackLifecycleStateFailed   StackLifecycleStateEnum = "FAILED"
 )
 
 var mappingStackLifecycleState = map[string]StackLifecycleStateEnum{
@@ -154,6 +155,7 @@ var mappingStackLifecycleState = map[string]StackLifecycleStateEnum{
 	"ACTIVE":   StackLifecycleStateActive,
 	"DELETING": StackLifecycleStateDeleting,
 	"DELETED":  StackLifecycleStateDeleted,
+	"FAILED":   StackLifecycleStateFailed,
 }
 
 // GetStackLifecycleStateEnumValues Enumerates the set of values for StackLifecycleStateEnum

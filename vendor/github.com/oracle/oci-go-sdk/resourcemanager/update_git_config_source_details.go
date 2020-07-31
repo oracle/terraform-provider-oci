@@ -24,7 +24,7 @@ type UpdateGitConfigSourceDetails struct {
 	// for the Git configuration source.
 	ConfigurationSourceProviderId *string `mandatory:"true" json:"configurationSourceProviderId"`
 
-	// The path of the directory from which to run terraform. If not specified, the the root will be used.
+	// The path of the directory from which to run terraform. If not specified, the the root will be used. This parameter is ignored for the `configSourceType` value of `COMPARTMENT_CONFIG_SOURCE`.
 	WorkingDirectory *string `mandatory:"false" json:"workingDirectory"`
 
 	// The URL of the Git repository.

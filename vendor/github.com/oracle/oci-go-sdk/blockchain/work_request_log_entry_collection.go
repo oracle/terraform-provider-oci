@@ -4,7 +4,7 @@
 
 // Blockchain Platform Control Plane API
 //
-// Blockchain Platform Plane API
+// Blockchain Platform Control Plane API
 //
 
 package blockchain
