@@ -34,7 +34,7 @@ var (
 		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
-		//"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
 		"filter": RepresentationGroup{Required, dataSafePrivateEndpointDataSourceFilterRepresentation}}
 	dataSafePrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -199,7 +199,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.compartment_id", compartmentId),
