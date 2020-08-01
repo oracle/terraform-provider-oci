@@ -35,7 +35,7 @@ var (
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
-		"filter": RepresentationGroup{Required, dataSafePrivateEndpointDataSourceFilterRepresentation}}
+		"filter":         RepresentationGroup{Required, dataSafePrivateEndpointDataSourceFilterRepresentation}}
 	dataSafePrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`}},
