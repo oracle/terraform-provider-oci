@@ -5,6 +5,7 @@
 - Support for Autonomous JSON database added
 - Support resource discovery for Blockchain resources
 - Support Data Catalog 1.0.3 Release
+- Support for change network access in Autonomous Database private endpoint 
 
 ## 3.88.0 (August 05, 2020)
 
