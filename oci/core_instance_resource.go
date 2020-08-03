@@ -85,6 +85,27 @@ func CoreInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"availability_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"recovery_action": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"create_vnic_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -614,6 +635,17 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		}
 	}
 
+	if availabilityConfig, ok := s.D.GetOkExists("availability_config"); ok {
+		if tmpList := availabilityConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "availability_config", 0)
+			tmp, err := s.mapToLaunchInstanceAvailabilityConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AvailabilityConfig = &tmp
+		}
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
@@ -798,6 +830,17 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
+	if availabilityConfig, ok := s.D.GetOkExists("availability_config"); ok {
+		if tmpList := availabilityConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "availability_config", 0)
+			tmp, err := s.mapToUpdateInstanceAvailabilityConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AvailabilityConfig = &tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -920,6 +963,12 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		s.D.Set("agent_config", []interface{}{InstanceAgentConfigToMap(s.Res.AgentConfig)})
 	} else {
 		s.D.Set("agent_config", nil)
+	}
+
+	if s.Res.AvailabilityConfig != nil {
+		s.D.Set("availability_config", []interface{}{InstanceAvailabilityConfigToMap(s.Res.AvailabilityConfig)})
+	} else {
+		s.D.Set("availability_config", nil)
 	}
 
 	if s.Res.AvailabilityDomain != nil {
@@ -1434,6 +1483,24 @@ func InstanceAgentConfigToMap(obj *oci_core.InstanceAgentConfig) map[string]inte
 	return result
 }
 
+func (s *CoreInstanceResourceCrud) mapToLaunchInstanceAvailabilityConfigDetails(fieldKeyFormat string) (oci_core.LaunchInstanceAvailabilityConfigDetails, error) {
+	result := oci_core.LaunchInstanceAvailabilityConfigDetails{}
+
+	if recoveryAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_action")); ok {
+		result.RecoveryAction = oci_core.LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum(recoveryAction.(string))
+	}
+
+	return result, nil
+}
+
+func InstanceAvailabilityConfigToMap(obj *oci_core.InstanceAvailabilityConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["recovery_action"] = string(obj.RecoveryAction)
+
+	return result
+}
+
 func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.LaunchInstanceShapeConfigDetails, error) {
 	result := oci_core.LaunchInstanceShapeConfigDetails{}
 
@@ -1715,4 +1782,15 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 		return err
 	}
 	return nil
+}
+
+func (s *CoreInstanceResourceCrud) mapToUpdateInstanceAvailabilityConfigDetails(fieldKeyFormat string) (oci_core.UpdateInstanceAvailabilityConfigDetails, error) {
+	result := oci_core.UpdateInstanceAvailabilityConfigDetails{}
+
+	if recoveryAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_action")); ok {
+		tmp := oci_core.UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum(recoveryAction.(string))
+		result.RecoveryAction = tmp
+	}
+
+	return result, nil
 }
