@@ -70,7 +70,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 	datasourceName := "data.oci_blockchain_peers.test_peers"
 	singularDatasourceName := "data.oci_blockchain_peer.test_peer"
 
-	var resId, resId2 string
+	var resId, resId2, compositeId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -117,8 +117,10 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						blockchainPlatformId, _ := fromInstanceState(s, resourceName, "blockchain_platform_id")
+						compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/peers/" + resId
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -188,12 +190,24 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 			{
 				Config:                  config,
 				ImportState:             true,
+				ImportStateIdFunc:       getBlockchainPeerCompositeId(resourceName),
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
 				ResourceName:            resourceName,
 			},
 		},
 	})
+}
+
+func getBlockchainPeerCompositeId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+
+		return fmt.Sprintf("blockchainPlatforms/%s/peers/%s", rs.Primary.Attributes["blockchain_platform_id"], rs.Primary.Attributes["id"]), nil
+	}
 }
 
 func testAccCheckBlockchainPeerDestroy(s *terraform.State) error {
