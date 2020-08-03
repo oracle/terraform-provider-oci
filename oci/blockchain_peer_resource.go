@@ -7,6 +7,8 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/url"
+	"regexp"
 	"strings"
 	"time"
 
@@ -139,7 +141,7 @@ type BlockchainPeerResourceCrud struct {
 }
 
 func (s *BlockchainPeerResourceCrud) ID() string {
-	return *s.Res.PeerKey
+	return getPeerCompositeId(s.D.Get("blockchain_platform_id").(string), *s.Res.PeerKey)
 }
 
 func (s *BlockchainPeerResourceCrud) CreatedTarget() []string {
@@ -322,6 +324,14 @@ func (s *BlockchainPeerResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PeerId = &tmp
 
+	blockchainPlatformId, peerId, err := parsePeerCompositeId(s.D.Id())
+	if err == nil {
+		request.BlockchainPlatformId = &blockchainPlatformId
+		request.PeerId = &peerId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.GetPeer(context.Background(), request)
@@ -399,6 +409,15 @@ func (s *BlockchainPeerResourceCrud) Delete() error {
 }
 
 func (s *BlockchainPeerResourceCrud) SetData() error {
+
+	blockchainPlatformId, peerId, err := parsePeerCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("blockchain_platform_id", &blockchainPlatformId)
+		s.D.SetId(peerId)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	s.D.Set("ad", s.Res.Ad)
 
 	if s.Res.Alias != nil {
@@ -424,6 +443,25 @@ func (s *BlockchainPeerResourceCrud) SetData() error {
 	s.D.Set("state", s.Res.LifecycleState)
 
 	return nil
+}
+
+func getPeerCompositeId(blockchainPlatformId string, peerId string) string {
+	blockchainPlatformId = url.PathEscape(blockchainPlatformId)
+	peerId = url.PathEscape(peerId)
+	compositeId := "blockchainPlatforms/" + blockchainPlatformId + "/peers/" + peerId
+	return compositeId
+}
+
+func parsePeerCompositeId(compositeId string) (blockchainPlatformId string, peerId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("blockchainPlatforms/.*/peers/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	blockchainPlatformId, _ = url.PathUnescape(parts[1])
+	peerId, _ = url.PathUnescape(parts[3])
+	return
 }
 
 func (s *BlockchainPeerResourceCrud) mapToOcpuAllocationNumberParam(fieldKeyFormat string) (oci_blockchain.OcpuAllocationNumberParam, error) {

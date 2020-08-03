@@ -56,6 +56,6 @@ The following attributes are exported:
 Osns can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_blockchain_osn.test_osn "id"
+$ terraform import oci_blockchain_osn.test_osn "blockchainPlatforms/{blockchainPlatformId}/osns/{osnId}" 
 ```
 
