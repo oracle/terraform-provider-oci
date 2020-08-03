@@ -4,6 +4,7 @@
 - Object Lifecycle Management support for Multipart Uploads Cleanup
 - Support for Autonomous JSON database added
 - Support resource discovery for Blockchain resources
+- Support Data Catalog 1.0.3 Release
 
 ## 3.88.0 (August 05, 2020)
 
