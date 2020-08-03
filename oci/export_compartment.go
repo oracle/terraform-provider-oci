@@ -1016,6 +1016,15 @@ func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResour
 		if !ok {
 			return results, fmt.Errorf("[ERROR] element schema is not of a resource")
 		}
+		if tfMeta.isDatasourceCollection {
+			collectionItemSchema := elemResource.Schema["items"]
+
+			elemResource, ok = collectionItemSchema.Elem.(*schema.Resource)
+			if !ok {
+				return results, fmt.Errorf("[ERROR] collection element schema is not of a resource")
+			}
+			tfMeta.datasourceItemsAttr = tfMeta.datasourceItemsAttr + ".0.items"
+		}
 
 		foundItems, _ := d.GetOkExists(tfMeta.datasourceItemsAttr)
 		for idx, item := range foundItems.([]interface{}) {
