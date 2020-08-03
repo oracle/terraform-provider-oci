@@ -48,6 +48,7 @@ var (
 		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
 		"shape":                Representation{repType: Required, create: `VM.Standard2.1`},
 		"agent_config":         RepresentationGroup{Optional, instanceAgentConfigRepresentation},
+		"availability_config":  RepresentationGroup{Optional, instanceAvailabilityConfigRepresentation},
 		"create_vnic_details":  RepresentationGroup{Optional, instanceCreateVnicDetailsRepresentation},
 		"dedicated_vm_host_id": Representation{repType: Optional, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
 		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -76,6 +77,9 @@ var (
 	instanceAgentConfigRepresentation = map[string]interface{}{
 		"is_management_disabled": Representation{repType: Optional, create: `false`, update: `true`},
 		"is_monitoring_disabled": Representation{repType: Optional, create: `false`, update: `true`},
+	}
+	instanceAvailabilityConfigRepresentation = map[string]interface{}{
+		"recovery_action": Representation{repType: Optional, create: `RESTORE_INSTANCE`, update: `STOP_INSTANCE`},
 	}
 	instanceCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_public_ip":       Representation{repType: Optional, create: `true`},
@@ -233,6 +237,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
@@ -298,6 +304,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
@@ -357,6 +365,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "STOP_INSTANCE"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
@@ -424,6 +434,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_management_disabled", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_monitoring_disabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_config.0.recovery_action", "STOP_INSTANCE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.dedicated_vm_host_id"),
@@ -474,6 +486,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "availability_config.0.recovery_action", "STOP_INSTANCE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),

@@ -314,6 +314,29 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 											},
 										},
 									},
+									"availability_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"recovery_action": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"availability_domain": {
 										Type:             schema.TypeString,
 										Optional:         true,
@@ -1084,6 +1107,24 @@ func InstanceConfigurationAttachVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 	return result
 }
 
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAvailabilityConfig(fieldKeyFormat string) (oci_core.InstanceConfigurationAvailabilityConfig, error) {
+	result := oci_core.InstanceConfigurationAvailabilityConfig{}
+
+	if recoveryAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_action")); ok {
+		result.RecoveryAction = oci_core.InstanceConfigurationAvailabilityConfigRecoveryActionEnum(recoveryAction.(string))
+	}
+
+	return result, nil
+}
+
+func InstanceConfigurationAvailabilityConfigToMap(obj *oci_core.InstanceConfigurationAvailabilityConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["recovery_action"] = string(obj.RecoveryAction)
+
+	return result
+}
+
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationBlockVolumeDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationBlockVolumeDetails, error) {
 	result := oci_core.InstanceConfigurationBlockVolumeDetails{}
 
@@ -1568,6 +1609,17 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		}
 	}
 
+	if availabilityConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_config")); ok {
+		if tmpList := availabilityConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "availability_config"), 0)
+			tmp, err := s.mapToInstanceConfigurationAvailabilityConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert availability_config, encountered error: %v", err)
+			}
+			result.AvailabilityConfig = &tmp
+		}
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
 		tmp := availabilityDomain.(string)
 		result.AvailabilityDomain = &tmp
@@ -1692,6 +1744,10 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 
 	if obj.AgentConfig != nil {
 		result["agent_config"] = []interface{}{InstanceConfigurationLaunchInstanceAgentConfigDetailsToMap(obj.AgentConfig)}
+	}
+
+	if obj.AvailabilityConfig != nil {
+		result["availability_config"] = []interface{}{InstanceConfigurationAvailabilityConfigToMap(obj.AvailabilityConfig)}
 	}
 
 	if obj.AvailabilityDomain != nil {
