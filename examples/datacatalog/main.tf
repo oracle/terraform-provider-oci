@@ -39,7 +39,7 @@ data "oci_datacatalog_catalogs" test_oci_datacatalog_catalogs {
 
 resource "oci_datacatalog_data_asset" test_oci_datacatalog_dataAsset {
   display_name = "test_data_assets"
-  type_key     = "${data.oci_datacatalog_catalog_types.test_catalog_types_dataAsset.type_collection.0.key}"
+  type_key     = "${data.oci_datacatalog_catalog_types.test_catalog_types_dataAsset.type_collection.0.items.0.key}"
   catalog_id   = "${oci_datacatalog_catalog.test_oci_datacatalog_catalog.id}"
 
   properties {
@@ -52,7 +52,7 @@ resource "oci_datacatalog_data_asset" test_oci_datacatalog_dataAsset {
 #
 resource "oci_datacatalog_connection" test_connection {
   catalog_id     = "${oci_datacatalog_catalog.test_oci_datacatalog_catalog.id}"
-  type_key       = "${data.oci_datacatalog_catalog_types.test_catalog_types_connection.type_collection.0.key}"
+  type_key       = "${data.oci_datacatalog_catalog_types.test_catalog_types_connection.type_collection.0.items.0.key}"
   data_asset_key = "${oci_datacatalog_data_asset.test_oci_datacatalog_dataAsset.id}"
   display_name   = "connection_name"
 

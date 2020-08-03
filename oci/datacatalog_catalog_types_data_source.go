@@ -64,33 +64,45 @@ func DatacatalogCatalogTypesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"key": {
-							Type:     schema.TypeString,
+						"count": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"name": {
-							Type:     schema.TypeString,
+						"items": {
+							Type:     schema.TypeList,
 							Computed: true,
-						},
-						"description": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"catalog_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"type_category": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"uri": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"state": {
-							Type:     schema.TypeString,
-							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"key": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"catalog_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"type_category": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"uri": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -203,11 +215,29 @@ func (s *DatacatalogCatalogTypesDataSourceCrud) SetData() error {
 
 	s.D.SetId(GenerateDataSourceID())
 
+	resources := []map[string]interface{}{}
+	catalogType := map[string]interface{}{}
+
 	items := []interface{}{}
+
 	for _, item := range s.Res.Items {
 		items = append(items, TypeSummaryToMap(item))
 	}
-	s.D.Set("type_collection", items)
+	catalogType["items"] = items
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		items = ApplyFiltersInCollection(f.(*schema.Set), items, DatacatalogCatalogTypesDataSource().Schema["type_collection"].Elem.(*schema.Resource).Schema)
+		catalogType["items"] = items
+	}
+
+	if s.Res.Count != nil {
+		catalogType["count"] = *s.Res.Count
+	}
+
+	resources = append(resources, catalogType)
+	if err := s.D.Set("type_collection", resources); err != nil {
+		return err
+	}
 
 	return nil
 }

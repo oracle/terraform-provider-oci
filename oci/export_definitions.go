@@ -782,6 +782,7 @@ var exportDatacatalogDataAssetHints = &TerraformResourceHints{
 	resourceClass:          "oci_datacatalog_data_asset",
 	datasourceClass:        "oci_datacatalog_data_assets",
 	datasourceItemsAttr:    "data_asset_collection",
+	isDatasourceCollection: true,
 	resourceAbbreviation:   "data_asset",
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
@@ -793,6 +794,7 @@ var exportDatacatalogConnectionHints = &TerraformResourceHints{
 	resourceClass:          "oci_datacatalog_connection",
 	datasourceClass:        "oci_datacatalog_connections",
 	datasourceItemsAttr:    "connection_collection",
+	isDatasourceCollection: true,
 	resourceAbbreviation:   "connection",
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
