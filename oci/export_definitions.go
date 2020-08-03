@@ -7,6 +7,7 @@ import (
 	oci_analytics "github.com/oracle/oci-go-sdk/analytics"
 	oci_apigateway "github.com/oracle/oci-go-sdk/apigateway"
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
+	oci_blockchain "github.com/oracle/oci-go-sdk/blockchain"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -1480,5 +1481,41 @@ var exportOcvpEsxiHostHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_ocvp.LifecycleStatesActive),
+	},
+}
+
+var exportBlockchainBlockchainPlatformHints = &TerraformResourceHints{
+	resourceClass:          "oci_blockchain_blockchain_platform",
+	datasourceClass:        "oci_blockchain_blockchain_platforms",
+	datasourceItemsAttr:    "blockchain_platform_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "blockchain_platform",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_blockchain.BlockchainPlatformLifecycleStateActive),
+	},
+}
+
+var exportBlockchainPeerHints = &TerraformResourceHints{
+	resourceClass:          "oci_blockchain_peer",
+	datasourceClass:        "oci_blockchain_peers",
+	datasourceItemsAttr:    "peer_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "peer",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_blockchain.PeerLifecycleStateActive),
+	},
+}
+
+var exportBlockchainOsnHints = &TerraformResourceHints{
+	resourceClass:          "oci_blockchain_osn",
+	datasourceClass:        "oci_blockchain_osns",
+	datasourceItemsAttr:    "osn_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "osn",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_blockchain.OsnLifecycleStateActive),
 	},
 }

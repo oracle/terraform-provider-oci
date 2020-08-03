@@ -95,6 +95,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value.
     * `bds` - Discovers big data service resources within the specified compartment
+    * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
@@ -242,6 +243,12 @@ auto_scaling
 bds
     
 * oci\_bds\_bds\_instance
+
+blockchain
+    
+* oci\_blockchain\_blockchain\_platform
+* oci\_blockchain\_peer
+* oci\_blockchain\_osn
 
 budget
     

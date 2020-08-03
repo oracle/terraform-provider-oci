@@ -15,7 +15,6 @@ import (
 
 	"github.com/hashicorp/hcl2/hclwrite"
 
-	"github.com/fatih/color"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -31,6 +30,7 @@ type TerraformResourceHints struct {
 	// Hints to help with discovering this resource using data sources
 	datasourceClass              string                             // The name of the data source class to use for discovering resources (e.g. oci_core_vcns)
 	datasourceItemsAttr          string                             // The attribute with the data source that contains the discovered resources returned by the data source (e.g. virtual_networks)
+	isDatasourceCollection       bool                               // True if list datasource is modeled as a collection with `items` field under datasourceItemsAttr
 	requireResourceRefresh       bool                               // Whether to use the resource to fill in missing information from datasource (e.g. when datasources only return summary information)
 	discoverableLifecycleStates  []string                           // List of lifecycle states that should be discovered. If empty, then all lifecycle states are discoverable.
 	processDiscoveredResourcesFn ProcessOCIResourcesFunc            // Custom function for processing resources discovered by the data source
@@ -127,25 +127,25 @@ func (ctx *resourceDiscoveryContext) printSummary() {
 	ctx.summaryStatements = append(ctx.summaryStatements, "=== COMPLETED ===")
 
 	for _, statement := range ctx.summaryStatements {
-		Logln(statement)
+		Logln(green(statement))
 	}
 }
 
 func (ctx *resourceDiscoveryContext) printErrors() {
-	color.Yellow("\n[WARN] Resource discovery finished with errors listed below:\n")
+	Logln(yellow("\n\n[WARN] Resource discovery finished with errors listed below:\n"))
 	for _, resourceDiscoveryError := range ctx.errorList {
 		if resourceDiscoveryError.parentResource == "export" {
-			Logln(fmt.Sprintf("Error discovering `%s` resources: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.error.Error()))
+			Logln(yellow(fmt.Sprintf("Error discovering `%s` resources: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.error.Error())))
 
 		} else {
-			Logln(fmt.Sprintf("Error discovering `%s` resources for %s: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.parentResource, resourceDiscoveryError.error.Error()))
+			Logln(yellow(fmt.Sprintf("Error discovering `%s` resources for %s: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.parentResource, resourceDiscoveryError.error.Error())))
 		}
 		/* log child resources if exist and were not discovered because of error in parent resource discovery*/
 		if resourceDiscoveryError.resourceGraph != nil {
 			var notFoundChildren []string
 			getNotFoundChildren(resourceDiscoveryError.resourceType, resourceDiscoveryError.resourceGraph, &notFoundChildren)
 			if len(notFoundChildren) > 0 {
-				Logln(fmt.Sprintf("\tFollowing child resources were also not discovered due to parent error: %v", strings.Join(notFoundChildren, ", ")))
+				Logln(yellow(fmt.Sprintf("\tFollowing child resources were also not discovered due to parent error: %v", strings.Join(notFoundChildren, ", "))))
 			}
 		}
 	}
@@ -292,6 +292,9 @@ type ProcessOCIResourcesFunc func(*OracleClients, []*OCIResource) ([]*OCIResourc
 func init() {
 	// TODO: The following changes to resource hints are deviations from what can currently be handled by the core resource discovery/generation logic
 	// We should strive to eliminate these deviations by either improving the core logic or code generator
+
+	exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
+	exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 
 	// Custom overrides for generating composite Load Balancer IDs within the resource discovery framework
 	exportLoadBalancerBackendHints.processDiscoveredResourcesFn = processLoadBalancerBackends
@@ -573,6 +576,26 @@ func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
 	userId := resource.parent.id
 
 	return getSwiftPasswordCompositeId(id, userId), nil
+}
+
+func getBlockchainOsnId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["osn_key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Blockchain OSN")
+	}
+	blockchainPlatformId := resource.parent.id
+
+	return getOsnCompositeId(blockchainPlatformId, id), nil
+}
+
+func getBlockchainPeerId(resource *OCIResource) (string, error) {
+	id, ok := resource.sourceAttributes["peer_key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find id for Blockchain Peer")
+	}
+	blockchainPlatformId := resource.parent.id
+
+	return getPeerCompositeId(blockchainPlatformId, id), nil
 }
 
 func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
