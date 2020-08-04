@@ -1529,3 +1529,24 @@ func TestUnitGetHCLString_logging(t *testing.T) {
 
 	os.RemoveAll(outputDir)
 }
+
+func TestRunListExportableServicesCommand(t *testing.T) {
+
+	outputDir, _ := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+
+	if err := os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+	servicesJsonPath := fmt.Sprintf("%s/services.json", outputDir)
+	if err := RunListExportableServicesCommand(servicesJsonPath); err != nil {
+		t.Errorf("RunListExportableServicesCommand() error = %v", err)
+	}
+
+	if f, err := os.Stat(servicesJsonPath); os.IsNotExist(err) || f.Size() == 0 {
+		t.Logf("resource discovery services json not exported to path specified")
+		t.Fail()
+	}
+	os.RemoveAll(outputDir)
+}
