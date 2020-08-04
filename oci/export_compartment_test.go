@@ -1710,3 +1710,41 @@ func Test_deleteInvalidReferences(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func Test_createTerraformStruct(t *testing.T) {
+
+	_ = os.Unsetenv(terraformBinPathName)
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+	args := &ExportCommandArgs{
+		OutputDir: &outputDir,
+	}
+	tfHclVersion = &TfHclVersion12{}
+	// verify executable from system path
+	if _, err := createTerraformStruct(args); err != nil {
+		t.Errorf("createTerraformStruct() error = %v", err)
+		t.Fail()
+	}
+
+	// verify executable from env var
+	// if invalid path is specified
+	_ = os.Setenv(terraformBinPathName, "invalidPath")
+
+	if _, err := createTerraformStruct(args); err == nil {
+		t.Errorf("createTerraformStruct() expected error but succeeded")
+		t.Fail()
+	}
+
+	// if path specified is a directory
+	_ = os.Setenv(terraformBinPathName, "./")
+
+	if _, err := createTerraformStruct(args); err == nil {
+		t.Errorf("createTerraformStruct() expected error but succeeded")
+		t.Fail()
+	}
+
+}

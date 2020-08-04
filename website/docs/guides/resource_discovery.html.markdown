@@ -10,7 +10,7 @@ description: |-
 
 ### Overview
 
-You can use Terraform Resource Discovery to discover deployed resources in your compartment and export them to Terraform configuration and state files. This release supports the most commonly used Oracle Cloud Infrastructure services, such as Compute, Block Volumes, Networking, Load Balancing, Database, and Identity and Access Management (IAM). Please look at the section “Supported Resources” for details.
+Terraform Resource Discovery can be used to discover deployed resources within a compartment and export them to Terraform configuration and state files. Refer to the [Supported Resources](#supported-resources) for details.
 
 ### Use Cases and Benefits
 
@@ -26,7 +26,22 @@ With this feature, you can perform the following tasks:
 
 Please note that this feature is available for version 3.50 and above. The latest version of the terraform-oci-provider can be downloaded using terraform init or by going to https://releases.hashicorp.com/terraform-provider-oci/
 
-### Authentication
+### Prerequisites
+
+Resource discovery uses Hashicorp's [terraform-exec](https://github.com/hashicorp/terraform-exec/) to import the discovered resources into the state file. Terraform exec requires terraform CLI to be present on your system. Download the [appropriate package](https://www.terraform.io/downloads.html) for your system.
+
+Note: Terraform version v0.11.* is not supported by the tool for generating the state file. Only configurations are supported in v0.11. By default the configurations are generated in v0.12.
+If specifying v0.13.* for the Terraform CLI, make sure that the version is compatible with v0.12 syntax.
+
+The terraform CLI can be provided in 2 ways:
+
+    * provide full path including name for the terraform CLI using environment variable `terraform_bin_path`
+      OR
+    * add terraform CLI to the system path and the tool will find it
+
+
+#### Authentication
+
 To discover resources in your compartment, the terraform-oci-provider will need authentication information about the user, tenancy, and region with which to discover
 the resources. It is recommended to specify a user that has access to inspect and read the resources to discover.
 
@@ -63,7 +78,6 @@ If the parameters have multiple sources, the priority will be in the following o
     Non-default profile
     DEFAULT profile
 
-
 ### Usage
 
 Once you have specified the prerequisite authentication settings, the command can be used as follows with a compartment being specified by name or OCID:
@@ -86,9 +100,10 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `export` - Discovers Oracle Cloud Infrastructure resources within your compartment and generates Terraform configuration files for them
     * `list_export_resources` - Lists the Terraform Oracle Cloud Infrastructure resources types that can be discovered by the `export` command
     * `list_export_services` - Lists the allowed values for services arguments along with scope in json format
-* `compartment_id` - OCID of a compartment to export. If `compartment_id`  or `compartment_name` is not specified, the root compartment will be used.
-* `compartment_name` - The name of a compartment to export. Use this instead of `compartment_id` to provide a compartment name.
-* `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported.
+* `compartment_id` - OCID of a compartment to export. If `compartment_id`  or `compartment_name` is not specified, the root compartment will be used
+* `compartment_name` - The name of a compartment to export. Use this instead of `compartment_id` to provide a compartment name
+* `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
+* `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported
 * `list_export_services_path` - Path to output list of supported services in json format, must include json file name
 * `output_path` - Path to output generated configurations and state files of the exported compartment
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
@@ -134,7 +149,6 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
-* `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
     * 0.11
     * 0.12
