@@ -4,6 +4,7 @@
 - Support for patching in ADB-D: datasource `oci_database_autonomous_container_patches` for autonomous container databases
 - Support for patching in ADB-D: Retrieving patch info from patchId
 - Support for Policy based Request/Response transformation
+- Support for Management agent service
 
 ## 3.91.0 (September 02, 2020)
 
