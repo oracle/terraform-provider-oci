@@ -4,7 +4,6 @@ import (
 	"context"
 	"os/exec"
 	"strconv"
-	"strings"
 )
 
 type importConfig struct {
@@ -67,18 +66,8 @@ func (opt *VarFileOption) configureImport(conf *importConfig) {
 	conf.varFile = opt.path
 }
 
-func (t *Terraform) Import(ctx context.Context, address, id string, opts ...ImportOption) error {
-	importCmd := t.importCmd(ctx, address, id, opts...)
-
-	var errBuf strings.Builder
-	importCmd.Stderr = &errBuf
-
-	err := importCmd.Run()
-	if err != nil {
-		return parseError(errBuf.String())
-	}
-
-	return nil
+func (tf *Terraform) Import(ctx context.Context, address, id string, opts ...ImportOption) error {
+	return tf.runTerraformCmd(tf.importCmd(ctx, address, id, opts...))
 }
 
 func (tf *Terraform) importCmd(ctx context.Context, address, id string, opts ...ImportOption) *exec.Cmd {
@@ -121,7 +110,7 @@ func (tf *Terraform) importCmd(ctx context.Context, address, id string, opts ...
 	// string slice opts: split into separate args
 	if c.vars != nil {
 		for _, v := range c.vars {
-			args = append(args, "-var '"+v+"'")
+			args = append(args, "-var", v)
 		}
 	}
 

@@ -56,9 +56,10 @@ func main() {
 			} else if *tfVersion == "" || provider.TfVersionEnum(*tfVersion) == provider.TfVersion12 {
 				terraformVersion = &provider.TfHclVersion12{Value: provider.TfVersionEnum(*tfVersion)}
 			} else {
-				log.Printf("[ERROR]: Invalid tf_version '%s', supported values: 0.11, 0.12\n", *tfVersion)
+				color.Red("[ERROR]: Invalid tf_version '%s', supported values: 0.11, 0.12\n", *tfVersion)
 				os.Exit(1)
 			}
+
 			args := &provider.ExportCommandArgs{
 				CompartmentId:   compartmentId,
 				CompartmentName: compartmentName,
