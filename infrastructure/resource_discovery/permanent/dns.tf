@@ -200,8 +200,8 @@ data "oci_identity_tenancy" "tenancy" {
 resource "oci_dns_tsig_key" "test_tsig_key" {
   algorithm      = "hmac-sha1"
   compartment_id = "${var.compartment_ocid}"
-  name           = "test_tsig_key-name"
-  secret         = "c2VjcmV0"                // this-is-not-the-secret - comment added for exception from security scans
+  name           = "${var.dns_tsig_key_name}"
+  secret         = "${var.dns_secret}"
 }
 
 resource "random_string" "random_prefix" {

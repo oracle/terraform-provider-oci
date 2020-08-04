@@ -29,7 +29,7 @@ type Run struct {
 	ExecutorShape *string `mandatory:"true" json:"executorShape"`
 
 	// An Oracle Cloud Infrastructure URI of the file containing the application to execute.
-	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	FileUri *string `mandatory:"true" json:"fileUri"`
 
 	// The ID of a run.
@@ -55,8 +55,8 @@ type Run struct {
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// An Oracle Cloud Infrastructure URI of an archive (zip) file that may used to support the execution of the application.
-	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat
+	// An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution a Python, Java, or Scala application.
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	ArchiveUri *string `mandatory:"false" json:"archiveUri"`
 
 	// The arguments passed to the running application as command line arguments.  An argument is
@@ -73,7 +73,7 @@ type Run struct {
 	ClassName *string `mandatory:"false" json:"className"`
 
 	// The Spark configuration passed to the running process.
-	// See https://spark.apache.org/docs/latest/configuration.html#available-properties
+	// See https://spark.apache.org/docs/latest/configuration.html#available-properties.
 	// Example: { "spark.app.name" : "My App Name", "spark.shuffle.io.maxRetries" : "4" }
 	// Note: Not all Spark properties are permitted to be set.  Attempting to set a property that is
 	// not allowed to be overwritten will cause a 400 status to be returned.
@@ -101,10 +101,10 @@ type Run struct {
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
-	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	LogsBucketUri *string `mandatory:"false" json:"logsBucketUri"`
 
-	// Unique Oracle-assigned identifier for the request.
+	// Unique Oracle assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" json:"opcRequestId"`
 
@@ -121,6 +121,25 @@ type Run struct {
 	// Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ]
 	Parameters []ApplicationParameter `mandatory:"false" json:"parameters"`
 
+	// An array of DNS zone names.
+	// Example: `[ "app.examplecorp.com", "app.examplecorp2.com" ]`
+	PrivateEndpointDnsZones []string `mandatory:"false" json:"privateEndpointDnsZones"`
+
+	// The maximum number of hosts to be accessed through the private endpoint. This value is used
+	// to calculate the relevant CIDR block and should be a multiple of 256.  If the value is not a
+	// multiple of 256, it is rounded up to the next multiple of 256. For example, 300 is rounded up
+	// to 512.
+	PrivateEndpointMaxHostCount *int `mandatory:"false" json:"privateEndpointMaxHostCount"`
+
+	// An array of network security group OCIDs.
+	PrivateEndpointNsgIds []string `mandatory:"false" json:"privateEndpointNsgIds"`
+
+	// The OCID of a private endpoint.
+	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
+
+	// The OCID of a subnet.
+	PrivateEndpointSubnetId *string `mandatory:"false" json:"privateEndpointSubnetId"`
+
 	// The duration of the run in milliseconds.
 	RunDurationInMilliseconds *int64 `mandatory:"false" json:"runDurationInMilliseconds"`
 
@@ -129,7 +148,7 @@ type Run struct {
 
 	// An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory
 	// for BATCH SQL runs.
-	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	WarehouseBucketUri *string `mandatory:"false" json:"warehouseBucketUri"`
 }
 

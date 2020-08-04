@@ -58,8 +58,9 @@ func BlockchainOsnResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"ocpu_allocation_number": {
-							Type:     schema.TypeFloat,
-							Required: true,
+							Type:             schema.TypeFloat,
+							Required:         true,
+							DiffSuppressFunc: monetaryDiffSuppress,
 						},
 
 						// Optional
@@ -330,7 +331,7 @@ func (s *BlockchainOsnResourceCrud) mapToOcpuAllocationNumberParam(fieldKeyForma
 	result := oci_blockchain.OcpuAllocationNumberParam{}
 
 	if ocpuAllocationNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpu_allocation_number")); ok {
-		tmp := ocpuAllocationNumber.(float32)
+		tmp := float32(ocpuAllocationNumber.(float64))
 		result.OcpuAllocationNumber = &tmp
 	}
 

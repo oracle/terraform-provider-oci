@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -444,17 +445,25 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	ipAddresses := []string{}
+	ipMode := "IPV4"
 	for _, ad := range s.Res.IpAddresses {
 		if ad.IpAddress != nil {
 			ipAddresses = append(ipAddresses, *ad.IpAddress)
 		}
+		tmp := *ad.IpAddress
+		if !isIPV4(tmp) {
+			ipMode = "IPV6"
+		}
 	}
+	s.D.Set("ip_mode", ipMode)
 	s.D.Set("ip_addresses", ipAddresses)
 
 	ipAddressDetails := []interface{}{}
+
 	for _, item := range s.Res.IpAddresses {
 		ipAddressDetails = append(ipAddressDetails, IpAddressToMap(item))
 	}
+
 	s.D.Set("ip_address_details", ipAddressDetails)
 
 	if s.Res.IsPrivate != nil {
@@ -498,6 +507,10 @@ func IpAddressToMap(obj oci_load_balancer.IpAddress) map[string]interface{} {
 	}
 
 	return result
+}
+
+func isIPV4(ipAddress string) bool {
+	return strings.Contains(ipAddress, ".")
 }
 
 func (s *LoadBalancerLoadBalancerResourceCrud) updateCompartment(compartment interface{}) error {

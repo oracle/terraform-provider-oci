@@ -130,6 +130,11 @@ func DataflowApplicationResource() *schema.Resource {
 					},
 				},
 			},
+			"private_endpoint_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"warehouse_bucket_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -328,6 +333,11 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 		}
 	}
 
+	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
+		tmp := privateEndpointId.(string)
+		request.PrivateEndpointId = &tmp
+	}
+
 	if sparkVersion, ok := s.D.GetOkExists("spark_version"); ok {
 		tmp := sparkVersion.(string)
 		request.SparkVersion = &tmp
@@ -476,6 +486,11 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		}
 	}
 
+	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
+		tmp := privateEndpointId.(string)
+		request.PrivateEndpointId = &tmp
+	}
+
 	if sparkVersion, ok := s.D.GetOkExists("spark_version"); ok {
 		tmp := sparkVersion.(string)
 		request.SparkVersion = &tmp
@@ -575,6 +590,10 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 		parameters = append(parameters, ApplicationParameterToMap(item))
 	}
 	s.D.Set("parameters", parameters)
+
+	if s.Res.PrivateEndpointId != nil {
+		s.D.Set("private_endpoint_id", *s.Res.PrivateEndpointId)
+	}
 
 	if s.Res.SparkVersion != nil {
 		s.D.Set("spark_version", *s.Res.SparkVersion)

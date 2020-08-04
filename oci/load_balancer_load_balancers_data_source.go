@@ -141,11 +141,17 @@ func (s *LoadBalancerLoadBalancersDataSourceCrud) SetData() error {
 		loadBalancer["ip_address_details"] = ipAddressDetails
 
 		ipAddresses := []string{}
+		ipMode := "IPV4"
 		for _, ad := range r.IpAddresses {
 			if ad.IpAddress != nil {
 				ipAddresses = append(ipAddresses, *ad.IpAddress)
 			}
+			tmp := *ad.IpAddress
+			if !isIPV4(tmp) {
+				ipMode = "IPV6"
+			}
 		}
+		loadBalancer["ip_mode"] = ipMode
 		loadBalancer["ip_addresses"] = ipAddresses
 
 		if r.IsPrivate != nil {
