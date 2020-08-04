@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os/exec"
 	"strconv"
-	"strings"
 )
 
 type applyConfig struct {
@@ -81,17 +80,7 @@ func (opt *DirOrPlanOption) configureApply(conf *applyConfig) {
 }
 
 func (tf *Terraform) Apply(ctx context.Context, opts ...ApplyOption) error {
-	applyCmd := tf.applyCmd(ctx, opts...)
-
-	var errBuf strings.Builder
-	applyCmd.Stderr = &errBuf
-
-	err := applyCmd.Run()
-	if err != nil {
-		return parseError(errBuf.String())
-	}
-
-	return nil
+	return tf.runTerraformCmd(tf.applyCmd(ctx, opts...))
 }
 
 func (tf *Terraform) applyCmd(ctx context.Context, opts ...ApplyOption) *exec.Cmd {
@@ -133,7 +122,7 @@ func (tf *Terraform) applyCmd(ctx context.Context, opts ...ApplyOption) *exec.Cm
 	}
 	if c.vars != nil {
 		for _, v := range c.vars {
-			args = append(args, "-var '"+v+"'")
+			args = append(args, "-var", v)
 		}
 	}
 

@@ -5,25 +5,20 @@ import (
 	"context"
 	"encoding/json"
 	"os/exec"
-	"strings"
 
 	tfjson "github.com/hashicorp/terraform-json"
 )
 
 func (tf *Terraform) ProvidersSchema(ctx context.Context) (*tfjson.ProviderSchemas, error) {
-	var ret tfjson.ProviderSchemas
-
-	var errBuf strings.Builder
-	var outBuf bytes.Buffer
-
 	schemaCmd := tf.providersSchemaCmd(ctx)
 
-	schemaCmd.Stderr = &errBuf
+	var ret tfjson.ProviderSchemas
+	var outBuf bytes.Buffer
 	schemaCmd.Stdout = &outBuf
 
-	err := schemaCmd.Run()
+	err := tf.runTerraformCmd(schemaCmd)
 	if err != nil {
-		return nil, parseError(errBuf.String())
+		return nil, err
 	}
 
 	err = json.Unmarshal(outBuf.Bytes(), &ret)

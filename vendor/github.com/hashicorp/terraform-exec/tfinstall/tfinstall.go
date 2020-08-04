@@ -279,7 +279,8 @@ func runTerraformVersion(execPath string) error {
 		return err
 	}
 
-	if !strings.HasPrefix(string(out), "Terraform v") {
+	// very basic sanity check
+	if !strings.Contains(string(out), "Terraform v") {
 		return fmt.Errorf("located executable at %s, but output of `terraform version` was:\n%s", execPath, out)
 	}
 

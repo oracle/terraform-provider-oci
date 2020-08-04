@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"os/exec"
-	"strings"
 )
 
 type outputConfig struct {
@@ -36,17 +35,14 @@ type OutputMeta struct {
 func (tf *Terraform) Output(ctx context.Context, opts ...OutputOption) (map[string]OutputMeta, error) {
 	outputCmd := tf.outputCmd(ctx, opts...)
 
-	var errBuf strings.Builder
 	var outBuf bytes.Buffer
-
-	outputCmd.Stderr = &errBuf
 	outputCmd.Stdout = &outBuf
 
 	outputs := map[string]OutputMeta{}
 
-	err := outputCmd.Run()
+	err := tf.runTerraformCmd(outputCmd)
 	if err != nil {
-		return nil, parseError(err.Error())
+		return nil, err
 	}
 
 	err = json.Unmarshal(outBuf.Bytes(), &outputs)

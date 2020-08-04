@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os/exec"
-	"strings"
 )
 
 type initConfig struct {
@@ -82,18 +81,8 @@ func (opt *VerifyPluginsOption) configureInit(conf *initConfig) {
 	conf.verifyPlugins = opt.verifyPlugins
 }
 
-func (t *Terraform) Init(ctx context.Context, opts ...InitOption) error {
-	initCmd := t.initCmd(ctx, opts...)
-
-	var errBuf strings.Builder
-	initCmd.Stderr = &errBuf
-
-	err := initCmd.Run()
-	if err != nil {
-		return parseError(errBuf.String())
-	}
-
-	return nil
+func (tf *Terraform) Init(ctx context.Context, opts ...InitOption) error {
+	return tf.runTerraformCmd(tf.initCmd(ctx, opts...))
 }
 
 func (tf *Terraform) initCmd(ctx context.Context, opts ...InitOption) *exec.Cmd {
