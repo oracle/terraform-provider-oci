@@ -84,27 +84,29 @@ type BdsInstanceLifecycleStateEnum string
 
 // Set of constants representing the allowable values for BdsInstanceLifecycleStateEnum
 const (
-	BdsInstanceLifecycleStateCreating   BdsInstanceLifecycleStateEnum = "CREATING"
-	BdsInstanceLifecycleStateActive     BdsInstanceLifecycleStateEnum = "ACTIVE"
-	BdsInstanceLifecycleStateUpdating   BdsInstanceLifecycleStateEnum = "UPDATING"
-	BdsInstanceLifecycleStateSuspending BdsInstanceLifecycleStateEnum = "SUSPENDING"
-	BdsInstanceLifecycleStateSuspended  BdsInstanceLifecycleStateEnum = "SUSPENDED"
-	BdsInstanceLifecycleStateResuming   BdsInstanceLifecycleStateEnum = "RESUMING"
-	BdsInstanceLifecycleStateDeleting   BdsInstanceLifecycleStateEnum = "DELETING"
-	BdsInstanceLifecycleStateDeleted    BdsInstanceLifecycleStateEnum = "DELETED"
-	BdsInstanceLifecycleStateFailed     BdsInstanceLifecycleStateEnum = "FAILED"
+	BdsInstanceLifecycleStateCreating      BdsInstanceLifecycleStateEnum = "CREATING"
+	BdsInstanceLifecycleStateActive        BdsInstanceLifecycleStateEnum = "ACTIVE"
+	BdsInstanceLifecycleStateUpdating      BdsInstanceLifecycleStateEnum = "UPDATING"
+	BdsInstanceLifecycleStateUpdatingInfra BdsInstanceLifecycleStateEnum = "UPDATING_INFRA"
+	BdsInstanceLifecycleStateSuspending    BdsInstanceLifecycleStateEnum = "SUSPENDING"
+	BdsInstanceLifecycleStateSuspended     BdsInstanceLifecycleStateEnum = "SUSPENDED"
+	BdsInstanceLifecycleStateResuming      BdsInstanceLifecycleStateEnum = "RESUMING"
+	BdsInstanceLifecycleStateDeleting      BdsInstanceLifecycleStateEnum = "DELETING"
+	BdsInstanceLifecycleStateDeleted       BdsInstanceLifecycleStateEnum = "DELETED"
+	BdsInstanceLifecycleStateFailed        BdsInstanceLifecycleStateEnum = "FAILED"
 )
 
 var mappingBdsInstanceLifecycleState = map[string]BdsInstanceLifecycleStateEnum{
-	"CREATING":   BdsInstanceLifecycleStateCreating,
-	"ACTIVE":     BdsInstanceLifecycleStateActive,
-	"UPDATING":   BdsInstanceLifecycleStateUpdating,
-	"SUSPENDING": BdsInstanceLifecycleStateSuspending,
-	"SUSPENDED":  BdsInstanceLifecycleStateSuspended,
-	"RESUMING":   BdsInstanceLifecycleStateResuming,
-	"DELETING":   BdsInstanceLifecycleStateDeleting,
-	"DELETED":    BdsInstanceLifecycleStateDeleted,
-	"FAILED":     BdsInstanceLifecycleStateFailed,
+	"CREATING":       BdsInstanceLifecycleStateCreating,
+	"ACTIVE":         BdsInstanceLifecycleStateActive,
+	"UPDATING":       BdsInstanceLifecycleStateUpdating,
+	"UPDATING_INFRA": BdsInstanceLifecycleStateUpdatingInfra,
+	"SUSPENDING":     BdsInstanceLifecycleStateSuspending,
+	"SUSPENDED":      BdsInstanceLifecycleStateSuspended,
+	"RESUMING":       BdsInstanceLifecycleStateResuming,
+	"DELETING":       BdsInstanceLifecycleStateDeleting,
+	"DELETED":        BdsInstanceLifecycleStateDeleted,
+	"FAILED":         BdsInstanceLifecycleStateFailed,
 }
 
 // GetBdsInstanceLifecycleStateEnumValues Enumerates the set of values for BdsInstanceLifecycleStateEnum

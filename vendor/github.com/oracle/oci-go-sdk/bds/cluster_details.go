@@ -24,8 +24,23 @@ type ClusterDetails struct {
 	// BDA version installed in the cluster
 	BdaVersion *string `mandatory:"false" json:"bdaVersion"`
 
-	// BDM version installed in the cluster
+	// Big Data Manager version installed in the cluster
 	BdmVersion *string `mandatory:"false" json:"bdmVersion"`
+
+	// Big Data Service version installed in the cluster
+	BdsVersion *string `mandatory:"false" json:"bdsVersion"`
+
+	// Oracle Linux version installed in the cluster
+	OsVersion *string `mandatory:"false" json:"osVersion"`
+
+	// Query Server Database version
+	DbVersion *string `mandatory:"false" json:"dbVersion"`
+
+	// Cloud SQL cell version
+	BdCellVersion *string `mandatory:"false" json:"bdCellVersion"`
+
+	// Big Data SQL version
+	CsqlCellVersion *string `mandatory:"false" json:"csqlCellVersion"`
 
 	// The time the BDS instance was automatically, or manually refreshed.
 	// An RFC3339 formatted datetime string

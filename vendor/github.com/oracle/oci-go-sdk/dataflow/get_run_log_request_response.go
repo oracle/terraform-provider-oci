@@ -51,7 +51,7 @@ type GetRunLogResponse struct {
 	// The io.ReadCloser instance
 	Content io.ReadCloser `presentIn:"body" encoding:"binary"`
 
-	// Unique Oracle-assigned identifier for the request.
+	// Unique Oracle assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 

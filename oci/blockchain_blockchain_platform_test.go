@@ -32,8 +32,8 @@ var (
 
 	blockchainPlatformDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"display_name":   Representation{repType: Optional, create: blockchainPlatformDisplayName},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, blockchainPlatformDataSourceFilterRepresentation}}
 	blockchainPlatformDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -218,12 +218,12 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platforms", "test_blockchain_platforms", Optional, Update, blockchainPlatformDataSourceRepresentation) +
-					compartmentIdVariableStr + BlockchainPlatformResourceDependencies +
+					compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
 					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", blockchainPlatformDisplayName),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "blockchain_platform_collection.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "blockchain_platform_collection.0.items.#", "1"),

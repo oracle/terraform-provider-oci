@@ -133,6 +133,10 @@ func (s *DataflowApplicationDataSourceCrud) SetData() error {
 	}
 	s.D.Set("parameters", parameters)
 
+	if s.Res.PrivateEndpointId != nil {
+		s.D.Set("private_endpoint_id", *s.Res.PrivateEndpointId)
+	}
+
 	if s.Res.SparkVersion != nil {
 		s.D.Set("spark_version", *s.Res.SparkVersion)
 	}

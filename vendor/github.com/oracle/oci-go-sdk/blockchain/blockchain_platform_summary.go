@@ -4,7 +4,7 @@
 
 // Blockchain Platform Control Plane API
 //
-// Blockchain Platform Plane API
+// Blockchain Platform Control Plane API
 //
 
 package blockchain
@@ -47,7 +47,7 @@ type BlockchainPlatformSummary struct {
 	LifecycleState BlockchainPlatformLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-	LifeCycleDetails *string `mandatory:"false" json:"lifeCycleDetails"`
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
