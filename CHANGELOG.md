@@ -1,7 +1,6 @@
 ## 3.88.0 (Unreleased)
 
 ### Added
-- Support for data flow private endpoints added
 - Support for version fields to `cluster_details` in `bds_instance`
 - Support for `waas_protection_rule` resource
 
