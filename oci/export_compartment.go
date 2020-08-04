@@ -15,12 +15,14 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"syscall"
+
+	"golang.org/x/mod/semver"
+
+	"github.com/hashicorp/terraform-exec/tfinstall"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
-	"github.com/hashicorp/terraform-exec/tfinstall"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/common"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"
 )
 
@@ -40,7 +42,7 @@ These missing attributes are also added to the lifecycle ignore_changes.
 `
 	placeholderValueForMissingAttribute = `<placeholder for missing required attribute>`
 	EnvLogFile                          = "TF_LOG_PATH"
-	EnvOCITFLogFile                     = "OCI_TF_LOG_PATH"
+	EnvOCITFLogFile                     = "OCI_TF_LOG_PATH" // Log path for Custom TF logger - TFProviderLogger
 	terraformBinPathName                = "terraform_bin_path"
 )
 
@@ -166,7 +168,7 @@ func RunListExportableServicesCommand(listExportServicesPath string) error {
 		if err := ioutil.WriteFile(listExportServicesPath, servicesJson, 0644); err != nil {
 			return err
 		} else {
-			Logf("Services written to json file at: %s", listExportServicesPath)
+			Logf("[INFO] Services written to json file at: %s", listExportServicesPath)
 		}
 	}
 	Logf(string(servicesJson))
@@ -248,8 +250,11 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 		tenancyOcid = tenancyId
 	}
 
-	ctx := createResourceDiscoveryContext(clients.(*OracleClients), args, tenancyOcid)
-
+	ctx, err := createResourceDiscoveryContext(clients.(*OracleClients), args, tenancyOcid)
+	if err != nil {
+		Logln(err.Error())
+		return err, StatusFail
+	}
 	args.finalizeServices(ctx)
 
 	/*
@@ -377,22 +382,11 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 }
 
 func runExportCommand(ctx *resourceDiscoveryContext) error {
-	Logf("Running export command\n")
+	Logf("[INFO] Running export command\n")
 
 	steps, err := getDiscoverResourceSteps(ctx)
 	if err != nil {
 		return err
-	}
-
-	logOutput := os.Stderr
-	if logPath := os.Getenv(EnvLogFile); logPath != "" {
-		var err error
-		logOutput, err = os.OpenFile(logPath, syscall.O_CREAT|syscall.O_RDWR|syscall.O_APPEND, 0666)
-		if err == nil {
-			// go-plugin/client users go-hclog/log with os.Stderr as DefaultOutput
-			os.Stderr = logOutput
-			log.SetOutput(logOutput)
-		}
 	}
 
 	// Discover and build a model of all targeted resources
@@ -428,22 +422,6 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		}
 
 		// Run init and import commands
-
-		terraformBinPath := getEnvSettingWithBlankDefault(terraformBinPathName)
-		if terraformBinPath == "" {
-			terraformBinPath, err = tfinstall.Find(tfinstall.LookPath())
-			if err != nil {
-				terraformBinPath, err = tfinstall.Find(tfinstall.LatestVersion(*ctx.OutputDir, true))
-				if err != nil {
-					return err
-				}
-			}
-		}
-
-		tf, err := tfexec.NewTerraform(*ctx.OutputDir, terraformBinPath)
-		if err != nil {
-			return err
-		}
 		backgroundCtx := context.Background()
 
 		var initArgs []tfexec.InitOption
@@ -451,7 +429,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 			Logf("[INFO] plugin dir: '%s'", pluginDir)
 			initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
 		}
-		if err := tf.Init(backgroundCtx, initArgs...); err != nil {
+		if err := ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
 			return err
 		}
 
@@ -484,10 +462,8 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 			importArgs := []tfexec.ImportOption{
 				tfexec.Config(*ctx.OutputDir),
 				tfexec.State(tmpStateOutputFile),
-				tfexec.Addr(resource.getTerraformReference()),
-				tfexec.Id(importId),
 			}
-			if err := tf.Import(backgroundCtx, importArgs...); err != nil {
+			if err := ctx.terraform.Import(backgroundCtx, resource.getTerraformReference(), importId, importArgs...); err != nil {
 				Logf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
 
 				// mark resource as errored so that it can be skipped while writing configurations
@@ -1473,4 +1449,78 @@ func deleteInvalidReferences(referenceMap map[string]string, discoveredResources
 			}
 		}
 	}
+}
+
+func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, error) {
+
+	Logln("[INFO] validating Terraform CLI")
+	var err error
+	terraformBinPath := getEnvSettingWithBlankDefault(terraformBinPathName)
+	if terraformBinPath == "" {
+		terraformBinPath, err = tfinstall.Find(tfinstall.LookPath())
+		if err != nil {
+			return nil, fmt.Errorf("[ERROR] error finding terraform CLI, either specify the path to terraform CLI "+
+				"including name using env var 'terraform_bin_path' or add terraform CLI to your system path: %s", err.Error())
+		}
+	} else {
+		// Validate the path provided
+		file, err := os.Stat(terraformBinPath)
+		if err != nil {
+			return nil, fmt.Errorf("[ERROR]: error verifying the terraform binary path provided %s: %s", terraformBinPath, err)
+		}
+		if file.IsDir() {
+			return nil, fmt.Errorf("[ERROR]: terraform CLI path provided is a directory: %s", terraformBinPath)
+		}
+
+	}
+
+	// Initialize Terraform struct from executable provided
+	// Setting the global var 'tf' here, will be later using while running terraform init and import
+	tf, err := tfexec.NewTerraform(*args.OutputDir, terraformBinPath)
+	if err != nil {
+		return nil, err
+	}
+
+	// Set log path for TF Exec
+	logPath := os.Getenv(EnvLogFile)
+	if logPath != "" {
+		Logf("[INFO] setting log path for Terraform exec to '%s'", logPath)
+		if err := tf.SetLogPath(logPath); err != nil {
+			return nil, err
+		}
+	}
+
+	backgroundCtx := context.Background()
+
+	// discard stdout to avoid showing tf version results in logs
+	tf.SetStdout(ioutil.Discard)
+
+	// validate Terraform CLI
+	if tfVersion, _, err := tf.Version(backgroundCtx, true); err != nil {
+		return nil, fmt.Errorf("[ERROR] error verifying the terraform binary provided: %s", err)
+	} else {
+		Debugf("[DEBUG] version %v", tfVersion)
+
+		// check for tf_version and terraform CLI version so as to avoid
+		// scenarios where config is not compatible with TF version of state file
+		// version should be >= 0.12.0
+		inputTfVersion := "v" + tfVersion.String()
+
+		if semver.MajorMinor(inputTfVersion) == semver.MajorMinor("v"+string(TfVersion11)) {
+			return nil, fmt.Errorf("[ERROR] resource discovery does not support v0.11.* CLI, "+
+				"please specify terraform CLI with version v0.12.*, terraform version provided: %s", tfVersion.String())
+		}
+
+		executableVersion := semver.MajorMinor(inputTfVersion)
+		configVersion := semver.MajorMinor("v" + tfHclVersion.toString())
+
+		if executableVersion < configVersion {
+			return nil, fmt.Errorf("[ERROR] major and minor version of terraform CLI provided is not same as the generated configuration version, "+
+				"configuration version: %s, terraform CLI version: %s, please provide CLI version >= %s ", tfHclVersion.toString(), tfVersion.String(), tfHclVersion.toString())
+		}
+	}
+	// enable stdout again to show init and import output in logs
+	tf.SetStdout(os.Stdout)
+
+	return tf, nil
 }

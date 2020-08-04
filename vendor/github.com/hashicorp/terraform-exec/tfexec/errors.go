@@ -1,11 +1,17 @@
 package tfexec
 
 import (
+	"errors"
 	"fmt"
+	"os/exec"
 	"regexp"
 )
 
-func parseError(stderr string) error {
+func parseError(err error, stderr string) error {
+	if _, ok := err.(*exec.ExitError); !ok {
+		return err
+	}
+
 	switch {
 	// case ErrTerraformNotFound.regexp.MatchString(stderr):
 	// return ErrTerraformNotFound
@@ -13,10 +19,13 @@ func parseError(stderr string) error {
 		return &ErrCLIUsage{stderr: stderr}
 	case regexp.MustCompile(`Error: Could not satisfy plugin requirements`).MatchString(stderr):
 		return &ErrNoInit{stderr: stderr}
+	case regexp.MustCompile(`Error: Could not load plugin`).MatchString(stderr):
+		// this string is present in 0.13
+		return &ErrNoInit{stderr: stderr}
 	case regexp.MustCompile(`Error: No configuration files`).MatchString(stderr):
 		return &ErrNoConfig{stderr: stderr}
 	default:
-		return &Err{stderr: stderr}
+		return errors.New(stderr)
 	}
 }
 
@@ -28,9 +37,17 @@ func (e *ErrNoSuitableBinary) Error() string {
 	return fmt.Sprintf("no suitable terraform binary could be found: %s", e.err.Error())
 }
 
-// Not yet implemented.
-// Intended for use when the detected Terraform version is not compatible with the command or flags being used in this invocation.
-type ErrVersionMismatch struct{}
+// ErrVersionMismatch is returned when the detected Terraform version is not compatible with the
+// command or flags being used in this invocation.
+type ErrVersionMismatch struct {
+	MinInclusive string
+	MaxExclusive string
+	Actual       string
+}
+
+func (e *ErrVersionMismatch) Error() string {
+	return fmt.Sprintf("unexpected version %s (min: %s, max: %s)", e.Actual, e.MinInclusive, e.MaxExclusive)
+}
 
 type ErrNoInit struct {
 	stderr string
@@ -48,7 +65,9 @@ func (e *ErrNoConfig) Error() string {
 	return e.stderr
 }
 
-// Terraform CLI indicates usage errors in three different ways: either
+// ErrCLIUsage is returned when the combination of flags or arguments is incorrect.
+//
+//  CLI indicates usage errors in three different ways: either
 // 1. Exit 1, with a custom error message on stderr.
 // 2. Exit 1, with command usage logged to stderr.
 // 3. Exit 127, with command usage logged to stdout.
@@ -64,11 +83,12 @@ func (e *ErrCLIUsage) Error() string {
 	return e.stderr
 }
 
-// catchall error
-type Err struct {
-	stderr string
+// ErrManualEnvVar is returned when an env var that should be set programatically via an option or method
+// is set via the manual environment passing functions.
+type ErrManualEnvVar struct {
+	name string
 }
 
-func (e *Err) Error() string {
-	return e.stderr
+func (err *ErrManualEnvVar) Error() string {
+	return fmt.Sprintf("manual setting of env var %q detected", err.name)
 }

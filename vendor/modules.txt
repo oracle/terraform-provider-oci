@@ -98,7 +98,7 @@ github.com/hashicorp/go-plugin/internal/plugin
 github.com/hashicorp/go-safetemp
 # github.com/hashicorp/go-uuid v1.0.1
 github.com/hashicorp/go-uuid
-# github.com/hashicorp/go-version v1.2.0
+# github.com/hashicorp/go-version v1.2.1
 github.com/hashicorp/go-version
 # github.com/hashicorp/golang-lru v0.5.1
 github.com/hashicorp/golang-lru/simplelru
@@ -131,7 +131,7 @@ github.com/hashicorp/hcl2/hcl/hclsyntax
 github.com/hashicorp/logutils
 # github.com/hashicorp/terraform-config-inspect v0.0.0-20191115094559-17f92b0546e8
 github.com/hashicorp/terraform-config-inspect/tfconfig
-# github.com/hashicorp/terraform-exec v0.2.3-0.20200714005955-7764650a3a04
+# github.com/hashicorp/terraform-exec v0.6.0
 github.com/hashicorp/terraform-exec/tfexec
 github.com/hashicorp/terraform-exec/tfinstall
 # github.com/hashicorp/terraform-json v0.5.0
@@ -317,7 +317,7 @@ go.opencensus.io/stats/internal
 go.opencensus.io/internal/tagencoding
 go.opencensus.io/metric/metricproducer
 go.opencensus.io/resource
-# golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586
+# golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
 golang.org/x/crypto/openpgp
 golang.org/x/crypto/openpgp/armor
 golang.org/x/crypto/openpgp/errors
@@ -327,6 +327,8 @@ golang.org/x/crypto/bcrypt
 golang.org/x/crypto/cast5
 golang.org/x/crypto/openpgp/elgamal
 golang.org/x/crypto/blowfish
+# golang.org/x/mod v0.3.0
+golang.org/x/mod/semver
 # golang.org/x/net v0.0.0-20200301022130-244492dfa37a
 golang.org/x/net/context
 golang.org/x/net/trace
