@@ -2,6 +2,7 @@
 
 ### Added
 - HCX Support for Oracle Cloud VMware Solution
+- Support for Operations insights added to `autonomous_database` resource
 
 ## 3.97.0 (October 14, 2020)
 
