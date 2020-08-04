@@ -59,10 +59,11 @@ var (
 		"is_auto_scaling_enabled":  Representation{repType: Optional, create: `false`},
 		"is_dedicated":             Representation{repType: Optional, create: `false`},
 		"is_preview_version_with_service_terms_accepted": Representation{repType: Optional, create: `false`},
-		"license_model":   Representation{repType: Optional, create: `LICENSE_INCLUDED`},
-		"whitelisted_ips": Representation{repType: Optional, create: []string{`1.1.1.1/28`}},
-		"timeouts":        RepresentationGroup{Required, autonomousDatabaseTimeoutsRepresentation},
-		"state":           Representation{repType: Optional, create: `AVAILABLE`},
+		"license_model":              Representation{repType: Optional, create: `LICENSE_INCLUDED`},
+		"whitelisted_ips":            Representation{repType: Optional, create: []string{`1.1.1.1/28`}},
+		"operations_insights_status": Representation{repType: Optional, create: `NOT_ENABLED`, update: `ENABLED`},
+		"timeouts":                   RepresentationGroup{Required, autonomousDatabaseTimeoutsRepresentation},
+		"state":                      Representation{repType: Optional, create: `AVAILABLE`},
 	}
 
 	autonomousDatabaseTimeoutsRepresentation = map[string]interface{}{
@@ -166,6 +167,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_ONLY"),
+					resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "NOT_ENABLED"),
 					resource.TestCheckResourceAttr(resourceName, "permission_level", "RESTRICTED"),
 
 					func(s *terraform.State) (err error) {
@@ -244,6 +246,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
+					resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "ENABLED"),
 					resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
 
 					func(s *terraform.State) (err error) {
@@ -449,6 +452,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_preview"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.operations_insights_status"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.permission_level"),
 					// @Codegen: Can't test private_endpoint with fake resource
 					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint"),
@@ -492,6 +496,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_status"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "permission_level"),
 					// @Codegen: Can't test private_endpoint with fake resource
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint"),
