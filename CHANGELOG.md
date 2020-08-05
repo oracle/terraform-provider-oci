@@ -1,4 +1,4 @@
-## 3.88.0 (Unreleased)
+## 3.88.0 (August 05, 2020)
 
 ### Added
 - Support for version fields to `cluster_details` in `bds_instance`
