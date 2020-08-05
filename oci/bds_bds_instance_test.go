@@ -319,6 +319,11 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "cloud_sql_details.#", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_version", "CDH6"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bd_cell_version"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bds_version"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.csql_cell_version"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.db_version"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.os_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"), //empty
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),

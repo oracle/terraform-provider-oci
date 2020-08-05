@@ -58,7 +58,7 @@ func BlockchainPeerResource() *schema.Resource {
 						"ocpu_allocation_number": {
 							Type:             schema.TypeFloat,
 							Required:         true,
-							DiffSuppressFunc: blockchainPlatformPeerOcpuAllocationNumberDiffSuppressFunction,
+							DiffSuppressFunc: monetaryDiffSuppress,
 						},
 
 						// Optional

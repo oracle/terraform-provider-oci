@@ -5,7 +5,7 @@ resource "oci_identity_tag_namespace" "tag_namespace_rd" {
   #Required
   compartment_id = "${var.tenancy_ocid}"
   description    = "Just a test"
-  name           = "rd-tag-namespace"
+  name           = "${var.tag_namespace_name}"
 
   is_retired = false
 }

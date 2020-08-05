@@ -845,8 +845,8 @@ func BlockchainPlatformSummaryToMap(obj oci_blockchain.BlockchainPlatformSummary
 		result["id"] = string(*obj.Id)
 	}
 
-	if obj.LifeCycleDetails != nil {
-		result["life_cycle_details"] = string(*obj.LifeCycleDetails)
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	result["platform_role"] = string(obj.PlatformRole)

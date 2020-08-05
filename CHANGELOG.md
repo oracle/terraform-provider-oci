@@ -1,4 +1,12 @@
 ## 3.88.0 (Unreleased)
+
+### Added
+- Support for version fields to `cluster_details` in `bds_instance`
+- Support for `waas_protection_rule` resource
+
+### Fixed
+- Fix `lifecycle_details` in datasource `blockchain_platforms`
+
 ## 3.87.0 (July 29, 2020)
 ### Added
 - Support for Automatic performance/cost tuning - Phase 1: Detach/attach optimization
