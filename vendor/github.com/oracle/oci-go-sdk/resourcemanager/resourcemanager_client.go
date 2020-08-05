@@ -342,6 +342,7 @@ func (client ResourceManagerClient) createJob(ctx context.Context, request commo
 // CreateStack Creates a stack in the specified compartment.
 // You can create a stack from a Terraform configuration file.
 // The Terraform configuration file can be directly uploaded or referenced from a source code control system.
+// You can also create a stack from an existing compartment.
 // For more information, see
 // To create a stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#CreateStack).
 func (client ResourceManagerClient) CreateStack(ctx context.Context, request CreateStackRequest) (response CreateStackResponse, err error) {
@@ -1097,6 +1098,53 @@ func (client ResourceManagerClient) listJobs(ctx context.Context, request common
 	}
 
 	var response ListJobsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListResourceDiscoveryServices Returns a list of supported services for Resource Discovery. For reference on service names, see the Terraform provider documentation (https://www.terraform.io/docs/providers/oci/guides/resource_discovery.html#services).
+func (client ResourceManagerClient) ListResourceDiscoveryServices(ctx context.Context, request ListResourceDiscoveryServicesRequest) (response ListResourceDiscoveryServicesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listResourceDiscoveryServices, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListResourceDiscoveryServicesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListResourceDiscoveryServicesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListResourceDiscoveryServicesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListResourceDiscoveryServicesResponse")
+	}
+	return
+}
+
+// listResourceDiscoveryServices implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) listResourceDiscoveryServices(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceDiscoveryServices")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListResourceDiscoveryServicesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

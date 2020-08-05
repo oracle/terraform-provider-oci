@@ -22,6 +22,7 @@ type CreateConfigSourceDetails interface {
 
 	// File path to the directory from which Terraform runs.
 	// If not specified, the root directory is used.
+	// This parameter is ignored for the `configSourceType` value of `COMPARTMENT_CONFIG_SOURCE`.
 	GetWorkingDirectory() *string
 }
 
@@ -63,6 +64,10 @@ func (m *createconfigsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		return mm, err
 	case "GIT_CONFIG_SOURCE":
 		mm := CreateGitConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPARTMENT_CONFIG_SOURCE":
+		mm := CreateCompartmentConfigSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

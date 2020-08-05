@@ -75,10 +75,10 @@ resource "oci_waas_address_list" "test_address_list" {
 resource "oci_waas_waas_policy" "test_waas_policy" {
   #Required
   compartment_id = "${var.compartment_ocid}"
-  domain         = "somethingnew42.oracle.com"
+  domain         = "somethingnew54.oracle.com"
 
   #Optional
-  additional_domains = ["somethingnew1.oracle.com", "somethingnew2.oracle.com"]
+  additional_domains = ["somethingnew55.oracle.com", "somethingnew56.oracle.com"]
   display_name       = "${var.waas_policy_display_name}"
 
   origin_groups {
@@ -416,6 +416,27 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
       address_lists = ["${oci_waas_address_list.test_address_list.id}`}"]
     }
   }
+}
+
+resource "oci_waas_protection_rule" "test_waas_protection_rule" {
+  waas_policy_id = "${oci_waas_waas_policy.test_waas_policy.id}"
+  key            = "933161"
+  action         = "DETECT"
+
+  exclusions = {
+    exclusions = ["example.com"]
+    target     = "REQUEST_COOKIES"
+  }
+}
+
+data "oci_waas_protection_rules" "test_waas_protection_rules" {
+  waas_policy_id = "${oci_waas_waas_policy.test_waas_policy.id}"
+  action         = ["DETECT"]
+}
+
+data "oci_waas_protection_rule" "test_waas_protection_rule" {
+  waas_policy_id      = "${oci_waas_waas_policy.test_waas_policy.id}"
+  protection_rule_key = "${oci_waas_protection_rule.test_waas_protection_rule.key}"
 }
 
 data "oci_waas_waas_policies" "test_waas_policies" {

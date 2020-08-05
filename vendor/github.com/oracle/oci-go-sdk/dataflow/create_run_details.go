@@ -51,7 +51,7 @@ type CreateRunDetails struct {
 	Arguments []string `mandatory:"false" json:"arguments"`
 
 	// The Spark configuration passed to the running process.
-	// See https://spark.apache.org/docs/latest/configuration.html#available-properties
+	// See https://spark.apache.org/docs/latest/configuration.html#available-properties.
 	// Example: { "spark.app.name" : "My App Name", "spark.shuffle.io.maxRetries" : "4" }
 	// Note: Not all Spark properties are permitted to be set.  Attempting to set a property that is
 	// not allowed to be overwritten will cause a 400 status to be returned.
@@ -73,7 +73,7 @@ type CreateRunDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
-	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	LogsBucketUri *string `mandatory:"false" json:"logsBucketUri"`
 
 	// The number of executor VMs requested.
@@ -87,7 +87,7 @@ type CreateRunDetails struct {
 
 	// An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory
 	// for BATCH SQL runs.
-	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	WarehouseBucketUri *string `mandatory:"false" json:"warehouseBucketUri"`
 }
 

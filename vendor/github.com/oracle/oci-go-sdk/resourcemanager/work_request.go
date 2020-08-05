@@ -62,13 +62,15 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeChangeStackCompartment WorkRequestOperationTypeEnum = "CHANGE_STACK_COMPARTMENT"
-	WorkRequestOperationTypeDriftDetection         WorkRequestOperationTypeEnum = "DRIFT_DETECTION"
+	WorkRequestOperationTypeChangeStackCompartment     WorkRequestOperationTypeEnum = "CHANGE_STACK_COMPARTMENT"
+	WorkRequestOperationTypeCreateStackFromCompartment WorkRequestOperationTypeEnum = "CREATE_STACK_FROM_COMPARTMENT"
+	WorkRequestOperationTypeDriftDetection             WorkRequestOperationTypeEnum = "DRIFT_DETECTION"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
-	"CHANGE_STACK_COMPARTMENT": WorkRequestOperationTypeChangeStackCompartment,
-	"DRIFT_DETECTION":          WorkRequestOperationTypeDriftDetection,
+	"CHANGE_STACK_COMPARTMENT":      WorkRequestOperationTypeChangeStackCompartment,
+	"CREATE_STACK_FROM_COMPARTMENT": WorkRequestOperationTypeCreateStackFromCompartment,
+	"DRIFT_DETECTION":               WorkRequestOperationTypeDriftDetection,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

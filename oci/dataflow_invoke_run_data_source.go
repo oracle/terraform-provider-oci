@@ -150,6 +150,22 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 	}
 	s.D.Set("parameters", parameters)
 
+	s.D.Set("private_endpoint_dns_zones", s.Res.PrivateEndpointDnsZones)
+
+	if s.Res.PrivateEndpointId != nil {
+		s.D.Set("private_endpoint_id", *s.Res.PrivateEndpointId)
+	}
+
+	if s.Res.PrivateEndpointMaxHostCount != nil {
+		s.D.Set("private_endpoint_max_host_count", *s.Res.PrivateEndpointMaxHostCount)
+	}
+
+	s.D.Set("private_endpoint_nsg_ids", s.Res.PrivateEndpointNsgIds)
+
+	if s.Res.PrivateEndpointSubnetId != nil {
+		s.D.Set("private_endpoint_subnet_id", *s.Res.PrivateEndpointSubnetId)
+	}
+
 	if s.Res.RunDurationInMilliseconds != nil {
 		s.D.Set("run_duration_in_milliseconds", strconv.FormatInt(*s.Res.RunDurationInMilliseconds, 10))
 	}

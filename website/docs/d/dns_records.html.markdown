@@ -55,7 +55,6 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment the resource belongs to.
 * `domain` - The fully qualified domain name where the record can be located. 
 * `is_protected` - A Boolean flag indicating whether or not parts of the record are unable to be explicitly managed. 
 * `rdata` - The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm) 

@@ -28,27 +28,28 @@ resource "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
   platform_role  = "FOUNDER"
 
   #Optional
-  storage_size_in_tbs = "1.0"
-  total_ocpu_capacity = "16"
-  idcs_access_token   = "${var.idcs_access_token}"
-
-  replicas {
-    #Optional
-    ca_count      = "4"
-    console_count = "3"
-    proxy_count   = "4"
-  }
+  idcs_access_token = "${var.idcs_access_token}"
 }
 
-data "oci_blockchain_blockchain_platform" "test_blockchain_platforms" {
+data "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
   #Required
   blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+}
+
+data "oci_blockchain_blockchain_platforms" "test_blockchain_platforms" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
 }
 
 resource "oci_blockchain_osn" "test_osn" {
   #Required
   ad                     = "AD1"
   blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+
+  ocpu_allocation_param {
+    #Required
+    ocpu_allocation_number = "0.4"
+  }
 }
 
 data "oci_blockchain_osn" "test_osn" {

@@ -22,6 +22,7 @@ type ConfigSource interface {
 
 	// File path to the directory to use for running Terraform.
 	// If not specified, the root directory is used.
+	// This parameter is ignored for the `configSourceType` value of `COMPARTMENT_CONFIG_SOURCE`.
 	GetWorkingDirectory() *string
 }
 
@@ -61,6 +62,10 @@ func (m *configsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := GitConfigSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COMPARTMENT_CONFIG_SOURCE":
+		mm := CompartmentConfigSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ZIP_UPLOAD":
 		mm := ZipUploadConfigSource{}
 		err = json.Unmarshal(data, &mm)
@@ -84,13 +89,15 @@ type ConfigSourceConfigSourceTypeEnum string
 
 // Set of constants representing the allowable values for ConfigSourceConfigSourceTypeEnum
 const (
-	ConfigSourceConfigSourceTypeZipUpload       ConfigSourceConfigSourceTypeEnum = "ZIP_UPLOAD"
-	ConfigSourceConfigSourceTypeGitConfigSource ConfigSourceConfigSourceTypeEnum = "GIT_CONFIG_SOURCE"
+	ConfigSourceConfigSourceTypeZipUpload               ConfigSourceConfigSourceTypeEnum = "ZIP_UPLOAD"
+	ConfigSourceConfigSourceTypeGitConfigSource         ConfigSourceConfigSourceTypeEnum = "GIT_CONFIG_SOURCE"
+	ConfigSourceConfigSourceTypeCompartmentConfigSource ConfigSourceConfigSourceTypeEnum = "COMPARTMENT_CONFIG_SOURCE"
 )
 
 var mappingConfigSourceConfigSourceType = map[string]ConfigSourceConfigSourceTypeEnum{
-	"ZIP_UPLOAD":        ConfigSourceConfigSourceTypeZipUpload,
-	"GIT_CONFIG_SOURCE": ConfigSourceConfigSourceTypeGitConfigSource,
+	"ZIP_UPLOAD":                ConfigSourceConfigSourceTypeZipUpload,
+	"GIT_CONFIG_SOURCE":         ConfigSourceConfigSourceTypeGitConfigSource,
+	"COMPARTMENT_CONFIG_SOURCE": ConfigSourceConfigSourceTypeCompartmentConfigSource,
 }
 
 // GetConfigSourceConfigSourceTypeEnumValues Enumerates the set of values for ConfigSourceConfigSourceTypeEnum
