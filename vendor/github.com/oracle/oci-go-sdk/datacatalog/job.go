@@ -79,6 +79,15 @@ type Job struct {
 	// OCID of the user who updated this job.
 	UpdatedById *string `mandatory:"false" json:"updatedById"`
 
+	// The display name of the job definition resource that defined the scope of this job.
+	JobDefinitionName *string `mandatory:"false" json:"jobDefinitionName"`
+
+	// Error code returned from the latest job execution for this job. Useful when the latest Job execution is in FAILED state.
+	ErrorCode *string `mandatory:"false" json:"errorCode"`
+
+	// Error message returned from the latest job execution for this job. Useful when the latest Job Execution is in a FAILED state.
+	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
+
 	// URI to the job instance in the API.
 	Uri *string `mandatory:"false" json:"uri"`
 }
