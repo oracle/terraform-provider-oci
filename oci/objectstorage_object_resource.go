@@ -109,9 +109,21 @@ func ObjectStorageObjectResource() *schema.Resource {
 				Computed: true,
 			},
 			"content_md5": {
-				Type: schema.TypeString,
-				// @CODEGEN 2/2018: this was generated as Optional, we will set it from the service's response
+				Type:     schema.TypeString,
+				Optional: true,
 				Computed: true,
+				ForceNew: true,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					if !isHex(new) {
+						return old == new
+					}
+
+					base64, err := hexToB64(new)
+					if err != nil {
+						return false
+					}
+					return old == *base64
+				},
 			},
 			"content_type": {
 				Type:     schema.TypeString,
@@ -545,9 +557,23 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 		request.ContentLanguage = &tmp
 	}
 
-	// @CODEGEN 2/2018: Generator code allow you to set the content_length and
-	// content_md5 fields from the schema. These are omitted from the existing provider
+	// @CODEGEN 2/2018: Generator code allow you to set the content_length
+	// from the schema. These are omitted from the existing provider
 	// resource because they can be computed.
+
+	if contentMd5, ok := s.D.GetOkExists("content_md5"); ok {
+		tmp := contentMd5.(string)
+
+		if isHex(tmp) {
+			contentMd5B64, err := hexToB64(tmp)
+			if err != nil {
+				return err
+			}
+			request.ContentMD5 = contentMd5B64
+		} else {
+			request.ContentMD5 = &tmp
+		}
+	}
 
 	if contentType, ok := s.D.GetOkExists("content_type"); ok {
 		tmp := contentType.(string)
