@@ -51,6 +51,10 @@ The following arguments are supported:
 * `content_disposition` - (Optional) The Content-Disposition header value to be returned in GetObjectResponse.
 * `content_encoding` - (Optional) The content encoding of the object.
 * `content_language` - (Optional) The content language of the object.
+* `content_md5` - (Optional) The optional base-64 header that defines the encoded MD5 hash of the body. If the optional Content-MD5 header is present, Object Storage performs an integrity check on the body of the HTTP request by computing the MD5 hash for the body and comparing it to the MD5 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content MD5 error is returned with the message:
+"The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)".
+
+    This supports either base64-encoded or hex-encoded checksums.
 * `content_type` - (Optional) The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
 * `delete_all_object_versions` - (Optional) (Updatable) A boolean to delete all object versions for an object in a bucket that has or ever had versioning enabled.
 * `metadata` - (Optional) Optional user-defined metadata key and value.
