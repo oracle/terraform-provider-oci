@@ -4,6 +4,7 @@
 - Support for Network Source Restrictions
 - OKE Support for the AMD ROME Adoption
 - Support for VM DB System Cloning
+- Support for DBAAS ADB Serverless Refreshable Clone
 
 ## 3.90.1 (August 26, 2020)
 
