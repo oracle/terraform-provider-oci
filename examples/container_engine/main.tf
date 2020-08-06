@@ -167,8 +167,8 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 
   node_source_details {
     #Required
-    image_id    = data.oci_containerengine_node_pool_option.test_node_pool_option.sources[0].image_id
-    source_type = data.oci_containerengine_node_pool_option.test_node_pool_option.sources[0].source_type
+    image_id    = local.oracle_linux_images.0
+    source_type = "IMAGE"
 
     #Optional
     boot_volume_size_in_gbs = "60"
@@ -232,6 +232,12 @@ data "oci_containerengine_cluster_option" "test_cluster_option" {
 
 data "oci_containerengine_node_pool_option" "test_node_pool_option" {
   node_pool_option_id = "all"
+}
+
+locals {
+  all_sources = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources}"
+
+  oracle_linux_images = [for source in local.all_sources : source.image_id if length(regexall("Oracle-Linux-[0-9]*.[0-9]*-20[0-9]*",source.source_name)) > 0]
 }
 
 output "cluster_kubernetes_versions" {
