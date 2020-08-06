@@ -1,24 +1,30 @@
 ---
 subcategory: "Database"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_database"
-sidebar_current: "docs-oci-datasource-database-autonomous_database"
+page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_databases_clones"
+sidebar_current: "docs-oci-datasource-database-autonomous_databases_clones"
 description: |-
-  Provides details about a specific Autonomous Database in Oracle Cloud Infrastructure Database service
+  Provides the list of Autonomous Databases Clones in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_autonomous_database
-This data source provides details about a specific Autonomous Database resource in Oracle Cloud Infrastructure Database service.
+# Data Source: oci_database_autonomous_databases_clones
+This data source provides the list of Autonomous Databases Clones in Oracle Cloud Infrastructure Database service.
 
-Gets the details of the specified Autonomous Database.
+Gets a list of the Autonomous Database clones for the specified Autonomous Database.
 
 
 ## Example Usage
 
 ```hcl
-data "oci_database_autonomous_database" "test_autonomous_database" {
+data "oci_database_autonomous_databases_clones" "test_autonomous_databases_clones" {
 	#Required
 	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	clone_type = "${var.autonomous_databases_clone_clone_type}"
+	display_name = "${var.autonomous_databases_clone_display_name}"
+	state = "${var.autonomous_databases_clone_state}"
 }
 ```
 
@@ -27,9 +33,19 @@ data "oci_database_autonomous_database" "test_autonomous_database" {
 The following arguments are supported:
 
 * `autonomous_database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `clone_type` - (Optional) A filter to return only resources that match the given clone type exactly.
+* `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
+* `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
 ## Attributes Reference
+
+The following attributes are exported:
+
+* `autonomous_databases` - The list of autonomous_databases.
+
+### AutonomousDatabasesClone Reference
 
 The following attributes are exported:
 
@@ -47,14 +63,13 @@ The following attributes are exported:
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of OCPU cores to be made available to the database.
-* `data_safe_status` - Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
+* `data_safe_status` - Status of the Data Safe registration for this Autonomous Database.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
 * `db_version` - A valid Oracle Database version for Autonomous Database.
 * `db_workload` - The Autonomous Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous Transaction Processing database
-	* DW - indicates an Autonomous Data Warehouse database
-	* AJD - indicates an Autonomous JSON Database 
+	* DW - indicates an Autonomous Data Warehouse database 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
@@ -74,7 +89,7 @@ The following attributes are exported:
 * `open_mode` - The `DATABASE OPEN` mode. You can open the database in `READ_ONLY` or `READ_WRITE` mode.
 * `private_endpoint` - The private endpoint for the resource.
 * `private_endpoint_ip` - The private endpoint Ip address for the resource.
-* `private_endpoint_label` - The private endpoint label for the resource.
+* `private_endpoint_label` - The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
 * `refreshable_mode` - The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 * `refreshable_status` - The refresh status of the clone. REFRESHING indicates that the clone is currently being refreshed with data from the source Autonomous Database.
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
