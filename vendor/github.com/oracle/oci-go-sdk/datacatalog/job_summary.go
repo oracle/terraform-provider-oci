@@ -72,6 +72,15 @@ type JobSummary struct {
 	// Example: `2019-03-25T21:10:29.600Z`
 	TimeOfLatestExecution *common.SDKTime `mandatory:"false" json:"timeOfLatestExecution"`
 
+	// The display name of the job definition resource that defined the scope of this job.
+	JobDefinitionName *string `mandatory:"false" json:"jobDefinitionName"`
+
+	// Error code returned from the latest job execution for this job. Useful when the latest Job execution is in FAILED state.
+	ErrorCode *string `mandatory:"false" json:"errorCode"`
+
+	// Error message returned from the latest job execution for this job. Useful when the latest Job Execution is in a FAILED state.
+	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
+
 	// Array of the executions summary associated with this job.
 	Executions []JobExecutionSummary `mandatory:"false" json:"executions"`
 }

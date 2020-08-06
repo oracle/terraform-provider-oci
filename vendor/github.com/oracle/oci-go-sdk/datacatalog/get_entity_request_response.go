@@ -92,6 +92,7 @@ const (
 	GetEntityFieldsIslogical         GetEntityFieldsEnum = "isLogical"
 	GetEntityFieldsIspartition       GetEntityFieldsEnum = "isPartition"
 	GetEntityFieldsFolderkey         GetEntityFieldsEnum = "folderKey"
+	GetEntityFieldsFoldername        GetEntityFieldsEnum = "folderName"
 	GetEntityFieldsTypekey           GetEntityFieldsEnum = "typeKey"
 	GetEntityFieldsPath              GetEntityFieldsEnum = "path"
 	GetEntityFieldsHarveststatus     GetEntityFieldsEnum = "harvestStatus"
@@ -116,6 +117,7 @@ var mappingGetEntityFields = map[string]GetEntityFieldsEnum{
 	"isLogical":         GetEntityFieldsIslogical,
 	"isPartition":       GetEntityFieldsIspartition,
 	"folderKey":         GetEntityFieldsFolderkey,
+	"folderName":        GetEntityFieldsFoldername,
 	"typeKey":           GetEntityFieldsTypekey,
 	"path":              GetEntityFieldsPath,
 	"harvestStatus":     GetEntityFieldsHarveststatus,

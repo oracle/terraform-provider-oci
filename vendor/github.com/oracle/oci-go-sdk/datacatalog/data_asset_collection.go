@@ -18,6 +18,9 @@ type DataAssetCollection struct {
 
 	// Collection of data asset summaries.
 	Items []DataAssetSummary `mandatory:"true" json:"items"`
+
+	// Total number of items returned.
+	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m DataAssetCollection) String() string {

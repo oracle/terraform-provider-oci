@@ -173,6 +173,8 @@ const (
 	ListJobExecutionsJobTypePreview                    ListJobExecutionsJobTypeEnum = "PREVIEW"
 	ListJobExecutionsJobTypeImport                     ListJobExecutionsJobTypeEnum = "IMPORT"
 	ListJobExecutionsJobTypeExport                     ListJobExecutionsJobTypeEnum = "EXPORT"
+	ListJobExecutionsJobTypeImportGlossary             ListJobExecutionsJobTypeEnum = "IMPORT_GLOSSARY"
+	ListJobExecutionsJobTypeExportGlossary             ListJobExecutionsJobTypeEnum = "EXPORT_GLOSSARY"
 	ListJobExecutionsJobTypeInternal                   ListJobExecutionsJobTypeEnum = "INTERNAL"
 	ListJobExecutionsJobTypePurge                      ListJobExecutionsJobTypeEnum = "PURGE"
 	ListJobExecutionsJobTypeImmediate                  ListJobExecutionsJobTypeEnum = "IMMEDIATE"
@@ -189,6 +191,8 @@ var mappingListJobExecutionsJobType = map[string]ListJobExecutionsJobTypeEnum{
 	"PREVIEW":                      ListJobExecutionsJobTypePreview,
 	"IMPORT":                       ListJobExecutionsJobTypeImport,
 	"EXPORT":                       ListJobExecutionsJobTypeExport,
+	"IMPORT_GLOSSARY":              ListJobExecutionsJobTypeImportGlossary,
+	"EXPORT_GLOSSARY":              ListJobExecutionsJobTypeExportGlossary,
 	"INTERNAL":                     ListJobExecutionsJobTypeInternal,
 	"PURGE":                        ListJobExecutionsJobTypePurge,
 	"IMMEDIATE":                    ListJobExecutionsJobTypeImmediate,

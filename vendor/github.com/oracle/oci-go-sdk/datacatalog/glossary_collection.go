@@ -18,6 +18,9 @@ type GlossaryCollection struct {
 
 	// Collection of glossaries.
 	Items []GlossarySummary `mandatory:"true" json:"items"`
+
+	// Total number of items returned.
+	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m GlossaryCollection) String() string {

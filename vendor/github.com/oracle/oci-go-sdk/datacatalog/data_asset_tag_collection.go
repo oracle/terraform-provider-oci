@@ -18,6 +18,9 @@ type DataAssetTagCollection struct {
 
 	// Collection of data asset tags.
 	Items []DataAssetTagSummary `mandatory:"true" json:"items"`
+
+	// Total number of items returned.
+	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m DataAssetTagCollection) String() string {

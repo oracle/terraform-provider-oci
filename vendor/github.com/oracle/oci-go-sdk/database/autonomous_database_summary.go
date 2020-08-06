@@ -123,6 +123,7 @@ type AutonomousDatabaseSummary struct {
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
+	// - AJD - indicates an Autonomous JSON Database
 	DbWorkload AutonomousDatabaseSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// The client IP access control list (ACL). This feature is available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
@@ -275,11 +276,13 @@ type AutonomousDatabaseSummaryDbWorkloadEnum string
 const (
 	AutonomousDatabaseSummaryDbWorkloadOltp AutonomousDatabaseSummaryDbWorkloadEnum = "OLTP"
 	AutonomousDatabaseSummaryDbWorkloadDw   AutonomousDatabaseSummaryDbWorkloadEnum = "DW"
+	AutonomousDatabaseSummaryDbWorkloadAjd  AutonomousDatabaseSummaryDbWorkloadEnum = "AJD"
 )
 
 var mappingAutonomousDatabaseSummaryDbWorkload = map[string]AutonomousDatabaseSummaryDbWorkloadEnum{
 	"OLTP": AutonomousDatabaseSummaryDbWorkloadOltp,
 	"DW":   AutonomousDatabaseSummaryDbWorkloadDw,
+	"AJD":  AutonomousDatabaseSummaryDbWorkloadAjd,
 }
 
 // GetAutonomousDatabaseSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDatabaseSummaryDbWorkloadEnum
