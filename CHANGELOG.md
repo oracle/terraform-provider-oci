@@ -8,6 +8,9 @@
 - Support for data flow private endpoints added
 - Support for change node shape for Big Data Service
 
+### Fixed
+- Fix lifecyclestate logging to provide better feedback to the user with the OCID of the resource
+
 ## 3.89.0 (August 12, 2020)
 
 ### Added
