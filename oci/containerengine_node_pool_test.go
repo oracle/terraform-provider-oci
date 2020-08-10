@@ -46,7 +46,7 @@ var (
 		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
 		"node_image_name":     Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.images.0}`},
-		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`},
+		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`, update: `VM.Standard2.2`},
 		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
 		"initial_node_labels": RepresentationGroup{Optional, nodePoolInitialNodeLabelsRepresentation},
 		"node_metadata":       Representation{repType: Optional, create: map[string]string{"nodeMetadata": "nodeMetadata"}, update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
@@ -164,7 +164,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
 					resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
 					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
 					resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
@@ -173,34 +173,6 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to node_metadata should create new resource
-			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key2"),
-					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-					resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
-					resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
-					resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
 						}
 						return err
 					},
@@ -228,7 +200,8 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_name"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.2"),
+					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_source.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.quantity_per_subnet", "2"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.subnet_ids.#", "2"),
@@ -253,7 +226,8 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "node_source.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "quantity_per_subnet", "2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "2"),
