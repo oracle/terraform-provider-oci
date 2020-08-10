@@ -163,7 +163,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_validations(t *testing.T) {
 }
 
 func TestObjectStorageObjectLifecyclePolicyResource_MultiPartUploadsRule(t *testing.T) {
-	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_basic")
+	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_MultiPartUploadsRule")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
