@@ -119,6 +119,16 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 		s.D.Set("node_source", nil)
 	}
 
+	if s.Res.NodeSourceDetails != nil {
+		nodeSourceDetailsArray := []interface{}{}
+		if nodeSourceDetailsMap := NodeSourceDetailsToMap(&s.Res.NodeSourceDetails); nodeSourceDetailsMap != nil {
+			nodeSourceDetailsArray = append(nodeSourceDetailsArray, nodeSourceDetailsMap)
+		}
+		s.D.Set("node_source_details", nodeSourceDetailsArray)
+	} else {
+		s.D.Set("node_source_details", nil)
+	}
+
 	nodes := []interface{}{}
 	for _, item := range s.Res.Nodes {
 		nodes = append(nodes, NodeToMap(item))

@@ -4,6 +4,8 @@
 - Support to export the allowed values for `services` argument for Resource Discovery in json format
 - Support for DataGuard -Gen 2 Exadata Cloud at Customer (ExaCC)-V2
 - Support for customer choice to not recover VM on hypervisor reboot
+- Support for OKE Node Pool Boot Volume Sizing
+- Support for data flow private endpoints added
 
 ## 3.89.0 (August 12, 2020)
 

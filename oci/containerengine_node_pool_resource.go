@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -63,7 +64,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			"node_shape": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 
 			// Optional
@@ -155,13 +155,12 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
 			"node_source_details": {
 				Type:          schema.TypeList,
 				Optional:      true,
-				ForceNew:      true,
+				Computed:      true,
 				MaxItems:      1,
 				MinItems:      1,
 				ConflictsWith: []string{"node_image_id", "node_image_name"},
@@ -171,12 +170,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						"image_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"source_type": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"IMAGE",
@@ -184,6 +181,13 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"boot_volume_size_in_gbs": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     validateInt64TypeString,
+							DiffSuppressFunc: int64StringDiffSuppressFunction,
+						},
 
 						// Computed
 					},
@@ -199,7 +203,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"subnet_ids": {
 				Type:          schema.TypeSet,
@@ -675,12 +678,37 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		}
 	}
 
+	if nodeMetadata, ok := s.D.GetOkExists("node_metadata"); ok {
+		request.NodeMetadata = objectMapToStringMap(nodeMetadata.(map[string]interface{}))
+	}
+
 	tmp := s.D.Id()
 	request.NodePoolId = &tmp
+
+	if nodeShape, ok := s.D.GetOkExists("node_shape"); ok {
+		tmp := nodeShape.(string)
+		request.NodeShape = &tmp
+	}
+
+	if nodeSourceDetails, ok := s.D.GetOkExists("node_source_details"); ok {
+		if tmpList := nodeSourceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_source_details", 0)
+			tmp, err := s.mapToNodeSourceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodeSourceDetails = tmp
+		}
+	}
 
 	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok && s.D.HasChange("quantity_per_subnet") {
 		tmp := quantityPerSubnet.(int)
 		request.QuantityPerSubnet = &tmp
+	}
+
+	if sshPublicKey, ok := s.D.GetOkExists("ssh_public_key"); ok {
+		tmp := sshPublicKey.(string)
+		request.SshPublicKey = &tmp
 	}
 
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok && s.D.HasChange("subnet_ids") {
@@ -777,6 +805,16 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("node_source", nodeSourceArray)
 	} else {
 		s.D.Set("node_source", nil)
+	}
+
+	if s.Res.NodeSourceDetails != nil {
+		nodeSourceDetailsArray := []interface{}{}
+		if nodeSourceDetailsMap := NodeSourceDetailsToMap(&s.Res.NodeSourceDetails); nodeSourceDetailsMap != nil {
+			nodeSourceDetailsArray = append(nodeSourceDetailsArray, nodeSourceDetailsMap)
+		}
+		s.D.Set("node_source_details", nodeSourceDetailsArray)
+	} else {
+		s.D.Set("node_source_details", nil)
 	}
 
 	nodes := []interface{}{}
@@ -998,6 +1036,16 @@ func (s *ContainerengineNodePoolResourceCrud) mapToNodeSourceDetails(fieldKeyFor
 	switch strings.ToLower(sourceType) {
 	case strings.ToLower("IMAGE"):
 		details := oci_containerengine.NodeSourceViaImageDetails{}
+		if bootVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")); ok {
+			tmp := bootVolumeSizeInGBs.(string)
+			if tmp != "" {
+				tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+				}
+				details.BootVolumeSizeInGBs = &tmpInt64
+			}
+		}
 		if imageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_id")); ok {
 			tmp := imageId.(string)
 			details.ImageId = &tmp
@@ -1014,6 +1062,10 @@ func NodeSourceDetailsToMap(obj *oci_containerengine.NodeSourceDetails) map[stri
 	switch v := (*obj).(type) {
 	case oci_containerengine.NodeSourceViaImageDetails:
 		result["source_type"] = "IMAGE"
+
+		if v.BootVolumeSizeInGBs != nil {
+			result["boot_volume_size_in_gbs"] = strconv.FormatInt(*v.BootVolumeSizeInGBs, 10)
+		}
 
 		if v.ImageId != nil {
 			result["image_id"] = string(*v.ImageId)
