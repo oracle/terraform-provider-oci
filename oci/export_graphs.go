@@ -329,6 +329,7 @@ var databaseResourceGraph = TerraformResourceGraph{
 var dataflowResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataflowApplicationHints},
+		{TerraformResourceHints: exportDataflowPrivateEndpointHints},
 	},
 }
 
