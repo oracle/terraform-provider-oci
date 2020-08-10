@@ -1,6 +1,7 @@
 ## 3.95.0 (Unreleased)
 - Support for query parameters added to `object_storage` `object` resource
 - Support for custom certificates added to `apigateway` `certificate` resource
+- Support added for update Instance Console Connections
 
 ## 3.94.0 (September 23, 2020)
 

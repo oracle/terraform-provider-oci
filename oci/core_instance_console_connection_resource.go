@@ -23,6 +23,7 @@ func CoreInstanceConsoleConnectionResource() *schema.Resource {
 		Timeouts: DefaultTimeout,
 		Create:   createCoreInstanceConsoleConnection,
 		Read:     readCoreInstanceConsoleConnection,
+		Update:   updateCoreInstanceConsoleConnection,
 		Delete:   deleteCoreInstanceConsoleConnection,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -42,7 +43,6 @@ func CoreInstanceConsoleConnectionResource() *schema.Resource {
 				Type:             schema.TypeMap,
 				Optional:         true,
 				Computed:         true,
-				ForceNew:         true,
 				DiffSuppressFunc: definedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
@@ -50,7 +50,6 @@ func CoreInstanceConsoleConnectionResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
 
@@ -93,6 +92,14 @@ func readCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) er
 	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
+}
+
+func updateCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConsoleConnectionResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).computeClient()
+
+	return UpdateResource(d, sync)
 }
 
 func deleteCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
@@ -184,6 +191,35 @@ func (s *CoreInstanceConsoleConnectionResourceCrud) Get() error {
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetInstanceConsoleConnection(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.InstanceConsoleConnection
+	return nil
+}
+
+func (s *CoreInstanceConsoleConnectionResourceCrud) Update() error {
+	request := oci_core.UpdateInstanceConsoleConnectionRequest{}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	tmp := s.D.Id()
+	request.InstanceConsoleConnectionId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateInstanceConsoleConnection(context.Background(), request)
 	if err != nil {
 		return err
 	}
