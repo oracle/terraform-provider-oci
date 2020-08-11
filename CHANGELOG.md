@@ -6,6 +6,7 @@
 - Support for customer choice to not recover VM on hypervisor reboot
 - Support for OKE Node Pool Boot Volume Sizing
 - Support for data flow private endpoints added
+- Support for change node shape for Big Data Service
 
 ## 3.89.0 (August 12, 2020)
 
