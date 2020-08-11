@@ -725,13 +725,6 @@ var exportDataintegrationWorkspaceHints = &TerraformResourceHints{
 	},
 }
 
-var exportDnsRecordHints = &TerraformResourceHints{
-	resourceClass:        "oci_dns_record",
-	datasourceClass:      "oci_dns_records",
-	datasourceItemsAttr:  "records",
-	resourceAbbreviation: "record",
-}
-
 var exportDnsZoneHints = &TerraformResourceHints{
 	resourceClass:          "oci_dns_zone",
 	datasourceClass:        "oci_dns_zones",
