@@ -7,6 +7,9 @@
 - Support Data Catalog 1.0.3 Release
 - Support for change network access in Autonomous Database private endpoint 
 
+### Fixed
+- Fix cross-region copy work request lookup for `oci_objectstorage_object`
+
 ## 3.88.0 (August 05, 2020)
 
 ### Added
