@@ -167,6 +167,12 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["image"] = *r.ImageId
 		}
 
+		if r.InstanceOptions != nil {
+			instance["instance_options"] = []interface{}{InstanceOptionsToMap(r.InstanceOptions)}
+		} else {
+			instance["instance_options"] = nil
+		}
+
 		if r.IpxeScript != nil {
 			instance["ipxe_script"] = *r.IpxeScript
 		}

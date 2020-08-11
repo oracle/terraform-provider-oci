@@ -119,6 +119,12 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("image", *s.Res.ImageId)
 	}
 
+	if s.Res.InstanceOptions != nil {
+		s.D.Set("instance_options", []interface{}{InstanceOptionsToMap(s.Res.InstanceOptions)})
+	} else {
+		s.D.Set("instance_options", nil)
+	}
+
 	if s.Res.IpxeScript != nil {
 		s.D.Set("ipxe_script", *s.Res.IpxeScript)
 	}
