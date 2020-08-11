@@ -95,7 +95,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
-    * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value.
+    * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value
     * `bds` - Discovers big data service resources within the specified compartment
     * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
@@ -105,8 +105,8 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `database` - Discovers database resources within the specified compartment
     * `datacatalog` - Discovers datacatalog resources within the specified compartment
     * `dataflow` - Discovers dataflow resources within the specified compartment
-    * `datascience` - Discovers datascience resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
+    * `datascience` - Discovers datascience resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
     * `email_tenancy` - Discovers email_suppression resources across the entire tenancy
@@ -114,8 +114,8 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
-    * `integration` - Discovers integration resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
+    * `integration` - Discovers integration resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
@@ -123,9 +123,9 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `mysql` - Discovers mysql resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
+    * `object_storage` - Discovers object storage resources within the specified compartment
     * `oce` - Discovers oce resources within the specified compartment
     * `ocvp` - Discovers ocvp resources within the specified compartment
-    * `object_storage` - Discovers object storage resources within the specified compartment
     * `oda` - Discovers oda resources within the specified compartment
     * `ons` - Discovers ons resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
@@ -269,7 +269,6 @@ core
 * oci\_core\_boot\_volume
 * oci\_core\_console\_history
 * oci\_core\_cluster\_network
-* oci\_core\_compute\_image\_capability\_schema
 * oci\_core\_cpe
 * oci\_core\_cross\_connect\_group
 * oci\_core\_cross\_connect
@@ -338,16 +337,16 @@ dataflow
 * oci\_dataflow\_application
 * oci\_dataflow\_private\_endpoint
 
+dataintegration
+    
+* oci\_dataintegration\_workspace
+
 datascience
     
 * oci\_datascience\_project
 * oci\_datascience\_notebook\_session
 * oci\_datascience\_model
 * oci\_datascience\_model\_provenance
-
-dataintegration
-    
-* oci\_dataintegration\_workspace
 
 dns
     
