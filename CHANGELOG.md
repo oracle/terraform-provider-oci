@@ -1,5 +1,6 @@
 ## 3.96.0 (Unreleased)
 - Support for ExaCS: X8M RoCE
+- Support for Instance Metadata Service Security Header added
 
 ## 3.95.0 (September 30, 2020)
 - Support for query parameters added to `object_storage` `object` resource
