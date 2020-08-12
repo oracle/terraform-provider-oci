@@ -108,7 +108,8 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `datascience` - Discovers datascience resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
-    * `email` - Discovers email resources within the specified compartment
+    * `email` - Discovers email_sender resources within the specified compartment
+    * `email_tenancy` - Discovers email_suppression resources across the entire tenancy
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
@@ -357,8 +358,11 @@ dns
 
 email
     
-* oci\_email\_suppression
 * oci\_email\_sender
+
+email_tenancy
+
+* oci\_email\_suppression
 
 events
     
