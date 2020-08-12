@@ -18,9 +18,6 @@ type TermCollection struct {
 
 	// Collection of terms.
 	Items []TermSummary `mandatory:"true" json:"items"`
-
-	// Total number of items returned.
-	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m TermCollection) String() string {

@@ -127,11 +127,6 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 								},
 							},
 						},
-						"target": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Default:  "objects",
-						},
 
 						// Computed
 					},
@@ -397,11 +392,6 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectLifecycleRul
 		}
 	}
 
-	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
-		tmp := target.(string)
-		result.Target = &tmp
-	}
-
 	if timeAmount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_amount")); ok {
 		tmp := timeAmount.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
@@ -435,10 +425,6 @@ func ObjectLifecycleRuleToMap(obj oci_object_storage.ObjectLifecycleRule) map[st
 
 	if obj.ObjectNameFilter != nil {
 		result["object_name_filter"] = []interface{}{ObjectNameFilterToMap(obj.ObjectNameFilter)}
-	}
-
-	if obj.Target != nil {
-		result["target"] = string(*obj.Target)
 	}
 
 	if obj.TimeAmount != nil {
@@ -561,9 +547,6 @@ func rulesHashCodeForSets(v interface{}) int {
 				}
 			}
 		}
-	}
-	if target, ok := m["target"]; ok && target != "" {
-		buf.WriteString(fmt.Sprintf("%v-", target))
 	}
 	if timeAmount, ok := m["time_amount"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", timeAmount))

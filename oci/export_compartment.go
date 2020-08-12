@@ -154,13 +154,11 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 
 	err := readEnvironmentVars(d)
 	if err != nil {
-		Logln(err.Error())
 		return err, StatusFail
 	}
 
 	clients, err := getExportConfig(d)
 	if err != nil {
-		Logln(err.Error())
 		return err, StatusFail
 	}
 
@@ -168,7 +166,6 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 		var err error
 		args.CompartmentId, err = resolveCompartmentId(clients.(*OracleClients), args.CompartmentName)
 		if err != nil {
-			Logln(err.Error())
 			return err, StatusFail
 		}
 	}
@@ -187,7 +184,6 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 	if (args.CompartmentId != nil && *args.CompartmentId != "") && exportEnableTenancyLookup {
 		tenancyOcid, err = getTenancyOcidFromCompartment(clients.(*OracleClients), *args.CompartmentId)
 		if err != nil {
-			Logln(err.Error())
 			return err, StatusFail
 		}
 	} else {
@@ -218,7 +214,6 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 	Logf("[INFO] resource discovery retry timeout duration set to %v", shortRetryTime)
 
 	if err := runExportCommand(ctx); err != nil {
-		Logln(err.Error())
 		return err, StatusFail
 	}
 	if len(ctx.errorList) > 0 {
@@ -300,6 +295,8 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 
 	// Note: In case of Instance Principal auth, the TenancyOCID will return
 	// the ocid for the tenancy for the compute instance and not the one for the customer
+	// This needs to be updated in future (if we have customer request) in order to enable
+	// tenancy level resources to be discovered with Instance Principal auth
 	clients.configuration["tenancy_ocid"], err = sdkConfigProvider.TenancyOCID()
 	if err != nil {
 		return nil, err
@@ -1018,15 +1015,6 @@ func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResour
 		elemResource, ok := itemSchema.Elem.(*schema.Resource)
 		if !ok {
 			return results, fmt.Errorf("[ERROR] element schema is not of a resource")
-		}
-		if tfMeta.isDatasourceCollection {
-			collectionItemSchema := elemResource.Schema["items"]
-
-			elemResource, ok = collectionItemSchema.Elem.(*schema.Resource)
-			if !ok {
-				return results, fmt.Errorf("[ERROR] collection element schema is not of a resource")
-			}
-			tfMeta.datasourceItemsAttr = tfMeta.datasourceItemsAttr + ".0.items"
 		}
 
 		foundItems, _ := d.GetOkExists(tfMeta.datasourceItemsAttr)

@@ -63,6 +63,6 @@ The following attributes are exported:
 Peers can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_blockchain_peer.test_peer "blockchainPlatforms/{blockchainPlatformId}/peers/{peerId}" 
+$ terraform import oci_blockchain_peer.test_peer "id"
 ```
 

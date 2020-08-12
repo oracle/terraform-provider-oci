@@ -11,14 +11,6 @@ import (
 	"strings"
 	"sync"
 	"syscall"
-
-	"github.com/fatih/color"
-)
-
-var (
-	yellow = color.New(color.FgYellow).SprintFunc()
-	red    = color.New(color.FgRed).SprintFunc()
-	green  = color.New(color.FgGreen).SprintFunc()
 )
 
 //TFProviderLogger interface for logging in the Terraform Provider

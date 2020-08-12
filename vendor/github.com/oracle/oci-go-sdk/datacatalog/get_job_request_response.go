@@ -95,9 +95,6 @@ const (
 	GetJobFieldsCreatedbyid            GetJobFieldsEnum = "createdById"
 	GetJobFieldsUpdatedbyid            GetJobFieldsEnum = "updatedById"
 	GetJobFieldsUri                    GetJobFieldsEnum = "uri"
-	GetJobFieldsJobdefinitionname      GetJobFieldsEnum = "jobDefinitionName"
-	GetJobFieldsErrorcode              GetJobFieldsEnum = "errorCode"
-	GetJobFieldsErrormessage           GetJobFieldsEnum = "errorMessage"
 )
 
 var mappingGetJobFields = map[string]GetJobFieldsEnum{
@@ -122,9 +119,6 @@ var mappingGetJobFields = map[string]GetJobFieldsEnum{
 	"createdById":            GetJobFieldsCreatedbyid,
 	"updatedById":            GetJobFieldsUpdatedbyid,
 	"uri":                    GetJobFieldsUri,
-	"jobDefinitionName":      GetJobFieldsJobdefinitionname,
-	"errorCode":              GetJobFieldsErrorcode,
-	"errorMessage":           GetJobFieldsErrormessage,
 }
 
 // GetGetJobFieldsEnumValues Enumerates the set of values for GetJobFieldsEnum

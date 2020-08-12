@@ -22,7 +22,6 @@ type AutonomousDbVersionSummary struct {
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
-	// - AJD - indicates an Autonomous JSON Database
 	DbWorkload AutonomousDbVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// True if the database uses dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).
@@ -46,13 +45,11 @@ type AutonomousDbVersionSummaryDbWorkloadEnum string
 const (
 	AutonomousDbVersionSummaryDbWorkloadOltp AutonomousDbVersionSummaryDbWorkloadEnum = "OLTP"
 	AutonomousDbVersionSummaryDbWorkloadDw   AutonomousDbVersionSummaryDbWorkloadEnum = "DW"
-	AutonomousDbVersionSummaryDbWorkloadAjd  AutonomousDbVersionSummaryDbWorkloadEnum = "AJD"
 )
 
 var mappingAutonomousDbVersionSummaryDbWorkload = map[string]AutonomousDbVersionSummaryDbWorkloadEnum{
 	"OLTP": AutonomousDbVersionSummaryDbWorkloadOltp,
 	"DW":   AutonomousDbVersionSummaryDbWorkloadDw,
-	"AJD":  AutonomousDbVersionSummaryDbWorkloadAjd,
 }
 
 // GetAutonomousDbVersionSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDbVersionSummaryDbWorkloadEnum

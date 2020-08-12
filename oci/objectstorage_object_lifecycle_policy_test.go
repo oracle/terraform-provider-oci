@@ -45,7 +45,6 @@ var (
 		"time_amount":        Representation{repType: Required, create: `10`, update: `11`},
 		"time_unit":          Representation{repType: Required, create: `DAYS`, update: `YEARS`},
 		"object_name_filter": RepresentationGroup{Optional, objectLifecyclePolicyRulesObjectNameFilterRepresentation},
-		"target":             Representation{repType: Optional, create: `objects`},
 	}
 	objectLifecyclePolicyRulesObjectNameFilterRepresentation = map[string]interface{}{
 		"exclusion_patterns": Representation{repType: Optional, create: []string{`exclusionPattern1`, `exclusionPattern2`}, update: []string{`exclusionPattern1`, `exclusionPattern2`, `exclusionPattern3`}},
@@ -116,7 +115,6 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 						"object_name_filter.0.inclusion_prefixes.#": "2",
 						"object_name_filter.0.exclusion_patterns.#": "2",
 						"object_name_filter.0.inclusion_patterns.#": "2",
-						"target":      "objects",
 						"time_amount": "10",
 						"time_unit":   "DAYS",
 					},
@@ -150,7 +148,6 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 						"object_name_filter.0.inclusion_prefixes.#": "3",
 						"object_name_filter.0.exclusion_patterns.#": "3",
 						"object_name_filter.0.inclusion_patterns.#": "3",
-						"target":      "objects",
 						"time_amount": "11",
 						"time_unit":   "YEARS",
 					},
@@ -186,7 +183,6 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 						"object_name_filter.0.inclusion_prefixes.#": "3",
 						"object_name_filter.0.exclusion_patterns.#": "3",
 						"object_name_filter.0.inclusion_patterns.#": "3",
-						"target":      "objects",
 						"time_amount": "11",
 						"time_unit":   "YEARS",
 					},
@@ -205,6 +201,146 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
 				ResourceName:            resourceName,
+			},
+		},
+	})
+}
+
+func TestObjectStorageObjectLifecyclePolicyResource_validations(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_validations")
+	defer httpreplay.SaveScenario()
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_objectstorage_object_lifecycle_policy.test_object_lifecycle_policy"
+
+	objectLifecyclePolicyRulesObjectNameFilterDifferentOrderRepresentation := map[string]interface{}{
+		"inclusion_prefixes": Representation{repType: Optional, create: []string{bucketName, bucketName2}, update: []string{bucketName, bucketName2, bucketName3}},
+		"inclusion_patterns": Representation{repType: Optional, create: []string{`inclusionPattern1`, `inclusionPattern2`}, update: []string{`inclusionPattern1`, `inclusionPattern2`, `inclusionPattern3`}},
+		"exclusion_patterns": Representation{repType: Optional, create: []string{`exclusionPattern1`, `exclusionPattern2`}, update: []string{`exclusionPattern1`, `exclusionPattern2`, `exclusionPattern3`}},
+	}
+
+	objectLifecyclePolicyRulesObjectNameFilterOneValueIncludeRepresentation := map[string]interface{}{
+		"inclusion_patterns": Representation{repType: Optional, create: []string{`inclusionPattern1`}},
+	}
+
+	objectLifecyclePolicyRulesObjectNameFilterOneValueExcludeRepresentation := map[string]interface{}{
+		"exclusion_patterns": Representation{repType: Optional, create: []string{`inclusionPattern1`}},
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckObjectStorageObjectLifecyclePolicyDestroy,
+		Steps: []resource.TestStep{
+			// verify baseline create
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create, objectLifecyclePolicyRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
+					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+
+					func(s *terraform.State) (err error) {
+						_, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// change order of inclusion prefixes
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", Representation{repType: Optional, create: []string{bucketName2, bucketName}}, objectLifecyclePolicyRepresentation)),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: false,
+			},
+			// Remove inclusion prefixes to see plan has changed
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", Representation{repType: Optional, create: []string{}}, objectLifecyclePolicyRepresentation)),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+			// Change the value for the inclusion prefixes to see plan has changed
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", Representation{repType: Optional, create: []string{bucketName, bucketName2 + "_test"}}, objectLifecyclePolicyRepresentation)),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+			// change order of inclusion patterns
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter.inclusion_patterns", Representation{repType: Optional, create: []string{`inclusionPattern2`, `inclusionPattern1`}}, objectLifecyclePolicyRepresentation)),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: false,
+			},
+			// Remove inclusion patterns to see plan has changed
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter.inclusion_patterns", Representation{repType: Optional, create: []string{}}, objectLifecyclePolicyRepresentation)),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+			// change order of exclusion patterns
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter.exclusion_patterns", Representation{repType: Optional, create: []string{`exclusionPattern2`, `exclusionPattern1`}}, objectLifecyclePolicyRepresentation)),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: false,
+			},
+			// Remove exclusion patterns to see plan has changed
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter.exclusion_patterns", Representation{repType: Optional, create: []string{}}, objectLifecyclePolicyRepresentation)),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+			// change order of object_name_filter
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter", RepresentationGroup{Optional, objectLifecyclePolicyRulesObjectNameFilterDifferentOrderRepresentation}, objectLifecyclePolicyRepresentation)),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: false,
+			},
+
+			// update the object_name_filter properties with the only one inclusion_patterns value
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter", RepresentationGroup{Optional, objectLifecyclePolicyRulesObjectNameFilterOneValueIncludeRepresentation}, objectLifecyclePolicyRepresentation)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
+					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+
+					func(s *terraform.State) (err error) {
+						_, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// change to the same value for the exclusion_patterns
+			{
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter", RepresentationGroup{Optional, objectLifecyclePolicyRulesObjectNameFilterOneValueExcludeRepresentation}, objectLifecyclePolicyRepresentation)),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
 			},
 		},
 	})

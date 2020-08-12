@@ -16,7 +16,7 @@ import (
 var (
 	catalogTypeSingularDataSourceRepresentation = map[string]interface{}{
 		"catalog_id": Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"type_key":   Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
+		"type_key":   Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.key}`},
 		"fields":     Representation{repType: Optional, create: []string{}},
 	}
 
@@ -56,10 +56,10 @@ func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "type_collection.0.items.0.name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "type_collection.0.items.0.description"),
-					resource.TestCheckResourceAttrSet(datasourceName, "type_collection.0.items.0.uri"),
-					resource.TestCheckResourceAttrSet(datasourceName, "type_collection.0.items.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "type_collection.0.name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "type_collection.0.description"),
+					resource.TestCheckResourceAttrSet(datasourceName, "type_collection.0.uri"),
+					resource.TestCheckResourceAttrSet(datasourceName, "type_collection.0.state"),
 				),
 			},
 			// verify singular datasource

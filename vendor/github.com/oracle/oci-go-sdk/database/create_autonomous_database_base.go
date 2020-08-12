@@ -36,7 +36,6 @@ type CreateAutonomousDatabaseBase interface {
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
-	// - AJD - indicates an Autonomous JSON Database
 	GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
@@ -310,13 +309,11 @@ type CreateAutonomousDatabaseBaseDbWorkloadEnum string
 const (
 	CreateAutonomousDatabaseBaseDbWorkloadOltp CreateAutonomousDatabaseBaseDbWorkloadEnum = "OLTP"
 	CreateAutonomousDatabaseBaseDbWorkloadDw   CreateAutonomousDatabaseBaseDbWorkloadEnum = "DW"
-	CreateAutonomousDatabaseBaseDbWorkloadAjd  CreateAutonomousDatabaseBaseDbWorkloadEnum = "AJD"
 )
 
 var mappingCreateAutonomousDatabaseBaseDbWorkload = map[string]CreateAutonomousDatabaseBaseDbWorkloadEnum{
 	"OLTP": CreateAutonomousDatabaseBaseDbWorkloadOltp,
 	"DW":   CreateAutonomousDatabaseBaseDbWorkloadDw,
-	"AJD":  CreateAutonomousDatabaseBaseDbWorkloadAjd,
 }
 
 // GetCreateAutonomousDatabaseBaseDbWorkloadEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseDbWorkloadEnum
