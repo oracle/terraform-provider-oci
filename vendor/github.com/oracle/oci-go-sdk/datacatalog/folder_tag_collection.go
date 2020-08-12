@@ -18,6 +18,9 @@ type FolderTagCollection struct {
 
 	// Collection of folder tags.
 	Items []FolderTagSummary `mandatory:"true" json:"items"`
+
+	// Total number of items returned.
+	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m FolderTagCollection) String() string {

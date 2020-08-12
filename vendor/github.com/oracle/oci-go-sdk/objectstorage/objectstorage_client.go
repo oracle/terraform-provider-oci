@@ -1934,6 +1934,8 @@ func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, reques
 
 // PutObject Creates a new object or overwrites an existing object with the same name. The maximum object size allowed by
 // PutObject is 50 GiB.
+// See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
+// for object naming requirements.
 // See Special Instructions for Object Storage PUT (https://docs.cloud.oracle.com/Content/API/Concepts/signingrequests.htm#ObjectStoragePut)
 // for request signature requirements.
 func (client ObjectStorageClient) PutObject(ctx context.Context, request PutObjectRequest) (response PutObjectResponse, err error) {
@@ -2152,6 +2154,8 @@ func (client ObjectStorageClient) reencryptObject(ctx context.Context, request c
 }
 
 // RenameObject Rename an object in the given Object Storage namespace.
+// See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
+// for object naming requirements.
 func (client ObjectStorageClient) RenameObject(ctx context.Context, request RenameObjectRequest) (response RenameObjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
