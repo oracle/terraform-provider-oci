@@ -18,9 +18,6 @@ type EntityCollection struct {
 
 	// Collection of data entities.
 	Items []EntitySummary `mandatory:"true" json:"items"`
-
-	// Total number of items returned.
-	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m EntityCollection) String() string {

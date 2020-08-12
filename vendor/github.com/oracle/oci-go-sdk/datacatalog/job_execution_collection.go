@@ -18,9 +18,6 @@ type JobExecutionCollection struct {
 
 	// Collection of job executions.
 	Items []JobExecutionSummary `mandatory:"true" json:"items"`
-
-	// Total number of items returned.
-	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m JobExecutionCollection) String() string {

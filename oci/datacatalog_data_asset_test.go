@@ -31,13 +31,12 @@ var (
 		"fields":         Representation{repType: Optional, create: []string{`key`}},
 	}
 	dataAssetDataSourceRepresentation = map[string]interface{}{
-		"catalog_id":            Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"display_name":          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"display_name_contains": Representation{repType: Optional, create: `displayNam`},
-		"fields":                Representation{repType: Optional, create: []string{`key`}},
-		"state":                 Representation{repType: Optional, create: `ACTIVE`},
-		"type_key":              Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
-		"filter":                RepresentationGroup{Required, dataAssetDataSourceFilterRepresentation},
+		"catalog_id":   Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"display_name": Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"fields":       Representation{repType: Optional, create: []string{`key`}},
+		"state":        Representation{repType: Optional, create: `ACTIVE`},
+		"type_key":     Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.key}`},
+		"filter":       RepresentationGroup{Required, dataAssetDataSourceFilterRepresentation},
 	}
 	dataAssetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `state`},
@@ -47,7 +46,7 @@ var (
 	dataAssetRepresentation = map[string]interface{}{
 		"catalog_id":   Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
 		"display_name": Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"type_key":     Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
+		"type_key":     Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.key}`},
 		"description":  Representation{repType: Optional, create: `description`, update: `description2`},
 		"properties":   Representation{repType: Required, create: map[string]string{"default.host": "jbanford-host", "default.port": "1521", "default.database": "SID"}, update: map[string]string{"default.host": "jbanford-host", "default.port": "1251", "default.database": "SID"}},
 	}
@@ -162,13 +161,12 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "catalog_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayNam"),
 					resource.TestCheckResourceAttr(datasourceName, "fields.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "type_key"),
 
 					resource.TestCheckResourceAttr(datasourceName, "data_asset_collection.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_asset_collection.0.items.0.key"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_asset_collection.0.key"),
 				),
 			},
 			// verify singular datasource

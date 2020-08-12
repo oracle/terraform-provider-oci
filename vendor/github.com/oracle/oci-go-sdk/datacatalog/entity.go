@@ -66,9 +66,6 @@ type Entity struct {
 	// Key of the associated folder.
 	FolderKey *string `mandatory:"false" json:"folderKey"`
 
-	// Name of the associated folder. This name is harvested from the source data asset when the parent folder for the entiy is harvested.
-	FolderName *string `mandatory:"false" json:"folderName"`
-
 	// Full path of the data entity.
 	Path *string `mandatory:"false" json:"path"`
 

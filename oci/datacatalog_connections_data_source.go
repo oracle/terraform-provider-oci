@@ -37,10 +37,6 @@ func DatacatalogConnectionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"display_name_contains": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"external_key": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -80,21 +76,7 @@ func DatacatalogConnectionsDataSource() *schema.Resource {
 			"connection_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-
-						"count": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-
-						"items": {
-							Type:     schema.TypeList,
-							Computed: true,
-							Elem:     DatacatalogConnectionResource(),
-						},
-					},
-				},
+				Elem:     GetDataSourceItemSchema(DatacatalogConnectionResource()),
 			},
 		},
 	}
@@ -139,11 +121,6 @@ func (s *DatacatalogConnectionsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
-	}
-
-	if displayNameContains, ok := s.D.GetOkExists("display_name_contains"); ok {
-		tmp := displayNameContains.(string)
-		request.DisplayNameContains = &tmp
 	}
 
 	if externalKey, ok := s.D.GetOkExists("external_key"); ok {
@@ -232,26 +209,16 @@ func (s *DatacatalogConnectionsDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(GenerateDataSourceID())
-	resources := []map[string]interface{}{}
-	connection := map[string]interface{}{}
 
-	items := []interface{}{}
+	resources := []map[string]interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, ConnectionSummaryToMap(item))
+		resources = append(resources, ConnectionSummaryToMap(item))
 	}
-	connection["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = ApplyFiltersInCollection(f.(*schema.Set), items, DatacatalogConnectionsDataSource().Schema["connection_collection"].Elem.(*schema.Resource).Schema)
-		connection["items"] = items
+		resources = ApplyFilters(f.(*schema.Set), resources, DatacatalogConnectionsDataSource().Schema["connection_collection"].Elem.(*schema.Resource).Schema)
 	}
 
-	connection["count"] = *s.Res.Count
-
-	resources = append(resources, connection)
-	if err := s.D.Set("connection_collection", resources); err != nil {
-		return err
-	}
-
+	s.D.Set("connection_collection", resources)
 	return nil
 }

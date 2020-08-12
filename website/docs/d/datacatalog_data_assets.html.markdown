@@ -22,7 +22,6 @@ data "oci_datacatalog_data_assets" "test_data_assets" {
 	#Optional
 	created_by_id = "${oci_datacatalog_created_by.test_created_by.id}"
 	display_name = "${var.data_asset_display_name}"
-	display_name_contains = "${var.data_asset_display_name_contains}"
 	external_key = "${var.data_asset_external_key}"
 	fields = "${var.data_asset_fields}"
 	state = "${var.data_asset_state}"
@@ -40,7 +39,6 @@ The following arguments are supported:
 * `catalog_id` - (Required) Unique catalog identifier.
 * `created_by_id` - (Optional) OCID of the user who created the resource.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
-* `display_name_contains` - (Optional) A filter to return only resources that match display name pattern given. The match is not case sensitive. For Example : /folders?displayNameContains=Cu.* The above would match all folders with display name that starts with "Cu". 
 * `external_key` - (Optional) Unique external identifier of this resource in the external source system.
 * `fields` - (Optional) Specifies the fields to return in a data asset summary response. 
 * `state` - (Optional) A filter to return only resources that match the specified lifecycle state. The value is case insensitive.

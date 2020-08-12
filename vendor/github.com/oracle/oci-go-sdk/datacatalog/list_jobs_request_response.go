@@ -18,11 +18,6 @@ type ListJobsRequest struct {
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources that match display name pattern given. The match is not case sensitive.
-	// For Example : /folders?displayNameContains=Cu.*
-	// The above would match all folders with display name that starts with "Cu".
-	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
-
 	// Job lifecycle state.
 	LifecycleState ListJobsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
@@ -167,8 +162,6 @@ const (
 	ListJobsJobTypePreview                    ListJobsJobTypeEnum = "PREVIEW"
 	ListJobsJobTypeImport                     ListJobsJobTypeEnum = "IMPORT"
 	ListJobsJobTypeExport                     ListJobsJobTypeEnum = "EXPORT"
-	ListJobsJobTypeImportGlossary             ListJobsJobTypeEnum = "IMPORT_GLOSSARY"
-	ListJobsJobTypeExportGlossary             ListJobsJobTypeEnum = "EXPORT_GLOSSARY"
 	ListJobsJobTypeInternal                   ListJobsJobTypeEnum = "INTERNAL"
 	ListJobsJobTypePurge                      ListJobsJobTypeEnum = "PURGE"
 	ListJobsJobTypeImmediate                  ListJobsJobTypeEnum = "IMMEDIATE"
@@ -185,8 +178,6 @@ var mappingListJobsJobType = map[string]ListJobsJobTypeEnum{
 	"PREVIEW":                      ListJobsJobTypePreview,
 	"IMPORT":                       ListJobsJobTypeImport,
 	"EXPORT":                       ListJobsJobTypeExport,
-	"IMPORT_GLOSSARY":              ListJobsJobTypeImportGlossary,
-	"EXPORT_GLOSSARY":              ListJobsJobTypeExportGlossary,
 	"INTERNAL":                     ListJobsJobTypeInternal,
 	"PURGE":                        ListJobsJobTypePurge,
 	"IMMEDIATE":                    ListJobsJobTypeImmediate,
@@ -251,9 +242,6 @@ const (
 	ListJobsFieldsTimeoflatestexecution  ListJobsFieldsEnum = "timeOfLatestExecution"
 	ListJobsFieldsExecutions             ListJobsFieldsEnum = "executions"
 	ListJobsFieldsUri                    ListJobsFieldsEnum = "uri"
-	ListJobsFieldsJobdefinitionname      ListJobsFieldsEnum = "jobDefinitionName"
-	ListJobsFieldsErrorcode              ListJobsFieldsEnum = "errorCode"
-	ListJobsFieldsErrormessage           ListJobsFieldsEnum = "errorMessage"
 )
 
 var mappingListJobsFields = map[string]ListJobsFieldsEnum{
@@ -275,9 +263,6 @@ var mappingListJobsFields = map[string]ListJobsFieldsEnum{
 	"timeOfLatestExecution":  ListJobsFieldsTimeoflatestexecution,
 	"executions":             ListJobsFieldsExecutions,
 	"uri":                    ListJobsFieldsUri,
-	"jobDefinitionName":      ListJobsFieldsJobdefinitionname,
-	"errorCode":              ListJobsFieldsErrorcode,
-	"errorMessage":           ListJobsFieldsErrormessage,
 }
 
 // GetListJobsFieldsEnumValues Enumerates the set of values for ListJobsFieldsEnum

@@ -232,18 +232,6 @@ resource "oci_load_balancer" "lb1" {
   display_name = "lb1"
 }
 
-resource "oci_load_balancer" "lb2" {
-  shape          = "100Mbps"
-  compartment_id = "${var.compartment_ocid}"
-
-  subnet_ids = [
-    "${oci_core_subnet.subnet1.id}",
-    "${oci_core_subnet.subnet2.id}",
-  ]
-
-  display_name = "lb1"
-}
-
 resource "oci_load_balancer_backend_set" "lb-bes1" {
   name             = "lb-bes1"
   load_balancer_id = "${oci_load_balancer.lb1.id}"
@@ -252,19 +240,6 @@ resource "oci_load_balancer_backend_set" "lb-bes1" {
   health_checker {
     port                = "80"
     protocol            = "HTTP"
-    response_body_regex = ".*"
-    url_path            = "/"
-  }
-}
-
-resource "oci_load_balancer_backend_set" "lb-bes2" {
-  name             = "lb-bes1"
-  load_balancer_id = "${oci_load_balancer.lb2.id}"
-  policy           = "ROUND_ROBIN"
-
-  health_checker {
-    port                = "80"
-    protocol            = "TCP"
     response_body_regex = ".*"
     url_path            = "/"
   }
@@ -341,11 +316,12 @@ resource "oci_load_balancer_listener" "lb-listener2" {
 }
 
 resource "oci_load_balancer_listener" "lb-listener3" {
-  load_balancer_id         = "${oci_load_balancer.lb2.id}"
+  load_balancer_id         = "${oci_load_balancer.lb1.id}"
   name                     = "tcp"
-  default_backend_set_name = "${oci_load_balancer_backend_set.lb-bes2.name}"
+  default_backend_set_name = "${oci_load_balancer_backend_set.lb-bes1.name}"
   port                     = 80
   protocol                 = "TCP"
+  rule_set_names           = ["${oci_load_balancer_rule_set.test_rule_set.name}"]
 
   connection_configuration {
     idle_timeout_in_seconds            = "2"

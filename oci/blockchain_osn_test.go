@@ -68,7 +68,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 	datasourceName := "data.oci_blockchain_osns.test_osns"
 	singularDatasourceName := "data.oci_blockchain_osn.test_osn"
 
-	var resId, resId2, compositeId string
+	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -109,10 +109,8 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
-						blockchainPlatformId, _ := fromInstanceState(s, resourceName, "blockchain_platform_id")
-						compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/osns/" + resId
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -178,24 +176,12 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 			{
 				Config:                  config,
 				ImportState:             true,
-				ImportStateIdFunc:       getBlockchainOsnCompositeId(resourceName),
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
 				ResourceName:            resourceName,
 			},
 		},
 	})
-}
-
-func getBlockchainOsnCompositeId(resourceName string) resource.ImportStateIdFunc {
-	return func(s *terraform.State) (string, error) {
-		rs, ok := s.RootModule().Resources[resourceName]
-		if !ok {
-			return "", fmt.Errorf("not found: %s", resourceName)
-		}
-
-		return fmt.Sprintf("blockchainPlatforms/%s/osns/%s", rs.Primary.Attributes["blockchain_platform_id"], rs.Primary.Attributes["id"]), nil
-	}
 }
 
 func testAccCheckBlockchainOsnDestroy(s *terraform.State) error {

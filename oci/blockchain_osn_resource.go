@@ -7,8 +7,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/url"
-	"regexp"
 	"strings"
 	"time"
 
@@ -118,7 +116,7 @@ type BlockchainOsnResourceCrud struct {
 }
 
 func (s *BlockchainOsnResourceCrud) ID() string {
-	return getOsnCompositeId(s.D.Get("blockchain_platform_id").(string), *s.Res.OsnKey)
+	return *s.Res.OsnKey
 }
 
 func (s *BlockchainOsnResourceCrud) CreatedTarget() []string {
@@ -295,14 +293,6 @@ func (s *BlockchainOsnResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.OsnId = &tmp
 
-	blockchainPlatformId, osnId, err := parseOsnCompositeId(s.D.Id())
-	if err == nil {
-		request.BlockchainPlatformId = &blockchainPlatformId
-		request.OsnId = &osnId
-	} else {
-		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
-	}
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.GetOsn(context.Background(), request)
@@ -320,15 +310,6 @@ func (s *BlockchainOsnResourceCrud) Delete() error {
 }
 
 func (s *BlockchainOsnResourceCrud) SetData() error {
-
-	blockchainPlatformId, osnId, err := parseOsnCompositeId(s.D.Id())
-	if err == nil {
-		s.D.Set("blockchain_platform_id", &blockchainPlatformId)
-		s.D.SetId(osnId)
-	} else {
-		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
-	}
-
 	s.D.Set("ad", s.Res.Ad)
 
 	if s.Res.OcpuAllocationParam != nil {
@@ -344,25 +325,6 @@ func (s *BlockchainOsnResourceCrud) SetData() error {
 	s.D.Set("state", s.Res.LifecycleState)
 
 	return nil
-}
-
-func getOsnCompositeId(blockchainPlatformId string, osnId string) string {
-	blockchainPlatformId = url.PathEscape(blockchainPlatformId)
-	osnId = url.PathEscape(osnId)
-	compositeId := "blockchainPlatforms/" + blockchainPlatformId + "/osns/" + osnId
-	return compositeId
-}
-
-func parseOsnCompositeId(compositeId string) (blockchainPlatformId string, osnId string, err error) {
-	parts := strings.Split(compositeId, "/")
-	match, _ := regexp.MatchString("blockchainPlatforms/.*/osns/.*", compositeId)
-	if !match || len(parts) != 4 {
-		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
-		return
-	}
-	blockchainPlatformId, _ = url.PathUnescape(parts[1])
-	osnId, _ = url.PathUnescape(parts[3])
-	return
 }
 
 func (s *BlockchainOsnResourceCrud) mapToOcpuAllocationNumberParam(fieldKeyFormat string) (oci_blockchain.OcpuAllocationNumberParam, error) {
