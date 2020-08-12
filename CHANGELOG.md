@@ -1,4 +1,4 @@
-## 3.89.0 (Unreleased)
+## 3.89.0 (August 12, 2020)
 
 ### Added
 - Object Lifecycle Management support for Multipart Uploads Cleanup
