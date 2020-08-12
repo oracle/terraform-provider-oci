@@ -62,7 +62,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"dataintegration":     dataintegrationResourceGraph,
 	"datascience":         datascienceResourceGraph,
 	"dns":                 dnsResourceGraph,
-	"email_compartment":   emailCompartmentResourceGraph,
+	"email":               emailResourceGraph,
 	"events":              eventsResourceGraph,
 	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
@@ -402,7 +402,7 @@ var datacatalogResourceGraph = TerraformResourceGraph{
 	},
 }
 
-var emailCompartmentResourceGraph = TerraformResourceGraph{
+var emailResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEmailSenderHints},
 	},
