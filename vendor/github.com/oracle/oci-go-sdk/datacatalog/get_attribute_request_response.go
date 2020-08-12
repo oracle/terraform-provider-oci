@@ -80,49 +80,63 @@ type GetAttributeFieldsEnum string
 
 // Set of constants representing the allowable values for GetAttributeFieldsEnum
 const (
-	GetAttributeFieldsKey               GetAttributeFieldsEnum = "key"
-	GetAttributeFieldsDisplayname       GetAttributeFieldsEnum = "displayName"
-	GetAttributeFieldsDescription       GetAttributeFieldsEnum = "description"
-	GetAttributeFieldsEntitykey         GetAttributeFieldsEnum = "entityKey"
-	GetAttributeFieldsLifecyclestate    GetAttributeFieldsEnum = "lifecycleState"
-	GetAttributeFieldsTimecreated       GetAttributeFieldsEnum = "timeCreated"
-	GetAttributeFieldsTimeupdated       GetAttributeFieldsEnum = "timeUpdated"
-	GetAttributeFieldsCreatedbyid       GetAttributeFieldsEnum = "createdById"
-	GetAttributeFieldsUpdatedbyid       GetAttributeFieldsEnum = "updatedById"
-	GetAttributeFieldsExternaldatatype  GetAttributeFieldsEnum = "externalDataType"
-	GetAttributeFieldsExternalkey       GetAttributeFieldsEnum = "externalKey"
-	GetAttributeFieldsIsincrementaldata GetAttributeFieldsEnum = "isIncrementalData"
-	GetAttributeFieldsIsnullable        GetAttributeFieldsEnum = "isNullable"
-	GetAttributeFieldsLength            GetAttributeFieldsEnum = "length"
-	GetAttributeFieldsPosition          GetAttributeFieldsEnum = "position"
-	GetAttributeFieldsPrecision         GetAttributeFieldsEnum = "precision"
-	GetAttributeFieldsScale             GetAttributeFieldsEnum = "scale"
-	GetAttributeFieldsTimeexternal      GetAttributeFieldsEnum = "timeExternal"
-	GetAttributeFieldsUri               GetAttributeFieldsEnum = "uri"
-	GetAttributeFieldsProperties        GetAttributeFieldsEnum = "properties"
+	GetAttributeFieldsKey                        GetAttributeFieldsEnum = "key"
+	GetAttributeFieldsDisplayname                GetAttributeFieldsEnum = "displayName"
+	GetAttributeFieldsDescription                GetAttributeFieldsEnum = "description"
+	GetAttributeFieldsEntitykey                  GetAttributeFieldsEnum = "entityKey"
+	GetAttributeFieldsLifecyclestate             GetAttributeFieldsEnum = "lifecycleState"
+	GetAttributeFieldsTimecreated                GetAttributeFieldsEnum = "timeCreated"
+	GetAttributeFieldsTimeupdated                GetAttributeFieldsEnum = "timeUpdated"
+	GetAttributeFieldsCreatedbyid                GetAttributeFieldsEnum = "createdById"
+	GetAttributeFieldsUpdatedbyid                GetAttributeFieldsEnum = "updatedById"
+	GetAttributeFieldsExternaldatatype           GetAttributeFieldsEnum = "externalDataType"
+	GetAttributeFieldsExternalkey                GetAttributeFieldsEnum = "externalKey"
+	GetAttributeFieldsIsincrementaldata          GetAttributeFieldsEnum = "isIncrementalData"
+	GetAttributeFieldsIsnullable                 GetAttributeFieldsEnum = "isNullable"
+	GetAttributeFieldsLength                     GetAttributeFieldsEnum = "length"
+	GetAttributeFieldsPosition                   GetAttributeFieldsEnum = "position"
+	GetAttributeFieldsPrecision                  GetAttributeFieldsEnum = "precision"
+	GetAttributeFieldsScale                      GetAttributeFieldsEnum = "scale"
+	GetAttributeFieldsTimeexternal               GetAttributeFieldsEnum = "timeExternal"
+	GetAttributeFieldsUri                        GetAttributeFieldsEnum = "uri"
+	GetAttributeFieldsProperties                 GetAttributeFieldsEnum = "properties"
+	GetAttributeFieldsPath                       GetAttributeFieldsEnum = "path"
+	GetAttributeFieldsMincollectioncount         GetAttributeFieldsEnum = "minCollectionCount"
+	GetAttributeFieldsMaxcollectioncount         GetAttributeFieldsEnum = "maxCollectionCount"
+	GetAttributeFieldsDatatypeentitykey          GetAttributeFieldsEnum = "datatypeEntityKey"
+	GetAttributeFieldsExternaldatatypeentitykey  GetAttributeFieldsEnum = "externalDatatypeEntityKey"
+	GetAttributeFieldsParentattributekey         GetAttributeFieldsEnum = "parentAttributeKey"
+	GetAttributeFieldsExternalparentattributekey GetAttributeFieldsEnum = "externalParentAttributeKey"
 )
 
 var mappingGetAttributeFields = map[string]GetAttributeFieldsEnum{
-	"key":               GetAttributeFieldsKey,
-	"displayName":       GetAttributeFieldsDisplayname,
-	"description":       GetAttributeFieldsDescription,
-	"entityKey":         GetAttributeFieldsEntitykey,
-	"lifecycleState":    GetAttributeFieldsLifecyclestate,
-	"timeCreated":       GetAttributeFieldsTimecreated,
-	"timeUpdated":       GetAttributeFieldsTimeupdated,
-	"createdById":       GetAttributeFieldsCreatedbyid,
-	"updatedById":       GetAttributeFieldsUpdatedbyid,
-	"externalDataType":  GetAttributeFieldsExternaldatatype,
-	"externalKey":       GetAttributeFieldsExternalkey,
-	"isIncrementalData": GetAttributeFieldsIsincrementaldata,
-	"isNullable":        GetAttributeFieldsIsnullable,
-	"length":            GetAttributeFieldsLength,
-	"position":          GetAttributeFieldsPosition,
-	"precision":         GetAttributeFieldsPrecision,
-	"scale":             GetAttributeFieldsScale,
-	"timeExternal":      GetAttributeFieldsTimeexternal,
-	"uri":               GetAttributeFieldsUri,
-	"properties":        GetAttributeFieldsProperties,
+	"key":                        GetAttributeFieldsKey,
+	"displayName":                GetAttributeFieldsDisplayname,
+	"description":                GetAttributeFieldsDescription,
+	"entityKey":                  GetAttributeFieldsEntitykey,
+	"lifecycleState":             GetAttributeFieldsLifecyclestate,
+	"timeCreated":                GetAttributeFieldsTimecreated,
+	"timeUpdated":                GetAttributeFieldsTimeupdated,
+	"createdById":                GetAttributeFieldsCreatedbyid,
+	"updatedById":                GetAttributeFieldsUpdatedbyid,
+	"externalDataType":           GetAttributeFieldsExternaldatatype,
+	"externalKey":                GetAttributeFieldsExternalkey,
+	"isIncrementalData":          GetAttributeFieldsIsincrementaldata,
+	"isNullable":                 GetAttributeFieldsIsnullable,
+	"length":                     GetAttributeFieldsLength,
+	"position":                   GetAttributeFieldsPosition,
+	"precision":                  GetAttributeFieldsPrecision,
+	"scale":                      GetAttributeFieldsScale,
+	"timeExternal":               GetAttributeFieldsTimeexternal,
+	"uri":                        GetAttributeFieldsUri,
+	"properties":                 GetAttributeFieldsProperties,
+	"path":                       GetAttributeFieldsPath,
+	"minCollectionCount":         GetAttributeFieldsMincollectioncount,
+	"maxCollectionCount":         GetAttributeFieldsMaxcollectioncount,
+	"datatypeEntityKey":          GetAttributeFieldsDatatypeentitykey,
+	"externalDatatypeEntityKey":  GetAttributeFieldsExternaldatatypeentitykey,
+	"parentAttributeKey":         GetAttributeFieldsParentattributekey,
+	"externalParentAttributeKey": GetAttributeFieldsExternalparentattributekey,
 }
 
 // GetGetAttributeFieldsEnumValues Enumerates the set of values for GetAttributeFieldsEnum

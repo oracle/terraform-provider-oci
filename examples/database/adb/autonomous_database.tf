@@ -41,6 +41,18 @@ resource "oci_database_autonomous_database" "autonomous_database" {
   whitelisted_ips                                = ["1.1.1.1/28"]
 }
 
+resource "oci_database_autonomous_database" "test_autonomous_database" {
+  admin_password           = "${random_string.autonomous_database_admin_password.result}"
+  compartment_id           = "${var.compartment_ocid}"
+  cpu_core_count           = "1"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbdb11"
+  db_version               = "19c"
+  db_workload              = "AJD"
+  license_model            = "LICENSE_INCLUDED"
+  is_free_tier             = "false"
+}
+
 resource "oci_database_autonomous_database_backup" "autonomous_database_backup" {
   #Required
   autonomous_database_id = "${oci_database_autonomous_database.autonomous_database.id}"

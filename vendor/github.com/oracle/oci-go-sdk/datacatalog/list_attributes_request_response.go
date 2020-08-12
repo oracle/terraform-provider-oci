@@ -24,6 +24,11 @@ type ListAttributesRequest struct {
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only resources that match display name pattern given. The match is not case sensitive.
+	// For Example : /folders?displayNameContains=Cu.*
+	// The above would match all folders with display name that starts with "Cu".
+	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
+
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
 	LifecycleState ListAttributesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
@@ -169,31 +174,45 @@ type ListAttributesFieldsEnum string
 
 // Set of constants representing the allowable values for ListAttributesFieldsEnum
 const (
-	ListAttributesFieldsKey              ListAttributesFieldsEnum = "key"
-	ListAttributesFieldsDisplayname      ListAttributesFieldsEnum = "displayName"
-	ListAttributesFieldsDescription      ListAttributesFieldsEnum = "description"
-	ListAttributesFieldsEntitykey        ListAttributesFieldsEnum = "entityKey"
-	ListAttributesFieldsLifecyclestate   ListAttributesFieldsEnum = "lifecycleState"
-	ListAttributesFieldsTimecreated      ListAttributesFieldsEnum = "timeCreated"
-	ListAttributesFieldsExternaldatatype ListAttributesFieldsEnum = "externalDataType"
-	ListAttributesFieldsExternalkey      ListAttributesFieldsEnum = "externalKey"
-	ListAttributesFieldsLength           ListAttributesFieldsEnum = "length"
-	ListAttributesFieldsIsnullable       ListAttributesFieldsEnum = "isNullable"
-	ListAttributesFieldsUri              ListAttributesFieldsEnum = "uri"
+	ListAttributesFieldsKey                        ListAttributesFieldsEnum = "key"
+	ListAttributesFieldsDisplayname                ListAttributesFieldsEnum = "displayName"
+	ListAttributesFieldsDescription                ListAttributesFieldsEnum = "description"
+	ListAttributesFieldsEntitykey                  ListAttributesFieldsEnum = "entityKey"
+	ListAttributesFieldsLifecyclestate             ListAttributesFieldsEnum = "lifecycleState"
+	ListAttributesFieldsTimecreated                ListAttributesFieldsEnum = "timeCreated"
+	ListAttributesFieldsExternaldatatype           ListAttributesFieldsEnum = "externalDataType"
+	ListAttributesFieldsExternalkey                ListAttributesFieldsEnum = "externalKey"
+	ListAttributesFieldsLength                     ListAttributesFieldsEnum = "length"
+	ListAttributesFieldsIsnullable                 ListAttributesFieldsEnum = "isNullable"
+	ListAttributesFieldsUri                        ListAttributesFieldsEnum = "uri"
+	ListAttributesFieldsPath                       ListAttributesFieldsEnum = "path"
+	ListAttributesFieldsMincollectioncount         ListAttributesFieldsEnum = "minCollectionCount"
+	ListAttributesFieldsMaxcollectioncount         ListAttributesFieldsEnum = "maxCollectionCount"
+	ListAttributesFieldsDatatypeentitykey          ListAttributesFieldsEnum = "datatypeEntityKey"
+	ListAttributesFieldsExternaldatatypeentitykey  ListAttributesFieldsEnum = "externalDatatypeEntityKey"
+	ListAttributesFieldsParentattributekey         ListAttributesFieldsEnum = "parentAttributeKey"
+	ListAttributesFieldsExternalparentattributekey ListAttributesFieldsEnum = "externalParentAttributeKey"
 )
 
 var mappingListAttributesFields = map[string]ListAttributesFieldsEnum{
-	"key":              ListAttributesFieldsKey,
-	"displayName":      ListAttributesFieldsDisplayname,
-	"description":      ListAttributesFieldsDescription,
-	"entityKey":        ListAttributesFieldsEntitykey,
-	"lifecycleState":   ListAttributesFieldsLifecyclestate,
-	"timeCreated":      ListAttributesFieldsTimecreated,
-	"externalDataType": ListAttributesFieldsExternaldatatype,
-	"externalKey":      ListAttributesFieldsExternalkey,
-	"length":           ListAttributesFieldsLength,
-	"isNullable":       ListAttributesFieldsIsnullable,
-	"uri":              ListAttributesFieldsUri,
+	"key":                        ListAttributesFieldsKey,
+	"displayName":                ListAttributesFieldsDisplayname,
+	"description":                ListAttributesFieldsDescription,
+	"entityKey":                  ListAttributesFieldsEntitykey,
+	"lifecycleState":             ListAttributesFieldsLifecyclestate,
+	"timeCreated":                ListAttributesFieldsTimecreated,
+	"externalDataType":           ListAttributesFieldsExternaldatatype,
+	"externalKey":                ListAttributesFieldsExternalkey,
+	"length":                     ListAttributesFieldsLength,
+	"isNullable":                 ListAttributesFieldsIsnullable,
+	"uri":                        ListAttributesFieldsUri,
+	"path":                       ListAttributesFieldsPath,
+	"minCollectionCount":         ListAttributesFieldsMincollectioncount,
+	"maxCollectionCount":         ListAttributesFieldsMaxcollectioncount,
+	"datatypeEntityKey":          ListAttributesFieldsDatatypeentitykey,
+	"externalDatatypeEntityKey":  ListAttributesFieldsExternaldatatypeentitykey,
+	"parentAttributeKey":         ListAttributesFieldsParentattributekey,
+	"externalParentAttributeKey": ListAttributesFieldsExternalparentattributekey,
 }
 
 // GetListAttributesFieldsEnumValues Enumerates the set of values for ListAttributesFieldsEnum

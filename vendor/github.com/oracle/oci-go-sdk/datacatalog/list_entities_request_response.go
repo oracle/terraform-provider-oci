@@ -21,6 +21,11 @@ type ListEntitiesRequest struct {
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only resources that match display name pattern given. The match is not case sensitive.
+	// For Example : /folders?displayNameContains=Cu.*
+	// The above would match all folders with display name that starts with "Cu".
+	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
+
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
 	LifecycleState ListEntitiesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
@@ -202,6 +207,7 @@ const (
 	ListEntitiesFieldsUpdatedbyid    ListEntitiesFieldsEnum = "updatedById"
 	ListEntitiesFieldsLifecyclestate ListEntitiesFieldsEnum = "lifecycleState"
 	ListEntitiesFieldsFolderkey      ListEntitiesFieldsEnum = "folderKey"
+	ListEntitiesFieldsFoldername     ListEntitiesFieldsEnum = "folderName"
 	ListEntitiesFieldsExternalkey    ListEntitiesFieldsEnum = "externalKey"
 	ListEntitiesFieldsPath           ListEntitiesFieldsEnum = "path"
 	ListEntitiesFieldsUri            ListEntitiesFieldsEnum = "uri"
@@ -217,6 +223,7 @@ var mappingListEntitiesFields = map[string]ListEntitiesFieldsEnum{
 	"updatedById":    ListEntitiesFieldsUpdatedbyid,
 	"lifecycleState": ListEntitiesFieldsLifecyclestate,
 	"folderKey":      ListEntitiesFieldsFolderkey,
+	"folderName":     ListEntitiesFieldsFoldername,
 	"externalKey":    ListEntitiesFieldsExternalkey,
 	"path":           ListEntitiesFieldsPath,
 	"uri":            ListEntitiesFieldsUri,

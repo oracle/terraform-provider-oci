@@ -1,4 +1,15 @@
 ## 3.89.0 (Unreleased)
+
+### Added
+- Object Lifecycle Management support for Multipart Uploads Cleanup
+- Support for Autonomous JSON database added
+- Support resource discovery for Blockchain resources
+- Support Data Catalog 1.0.3 Release
+- Support for change network access in Autonomous Database private endpoint 
+
+### Fixed
+- Fix cross-region copy work request lookup for `oci_objectstorage_object`
+
 ## 3.88.0 (August 05, 2020)
 
 ### Added

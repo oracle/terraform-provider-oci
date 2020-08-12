@@ -33,6 +33,10 @@ func DatacatalogDataAssetsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"display_name_contains": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"external_key": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -56,7 +60,21 @@ func DatacatalogDataAssetsDataSource() *schema.Resource {
 			"data_asset_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DatacatalogDataAssetResource()),
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+
+						"count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+
+						"items": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem:     DatacatalogDataAssetResource(),
+						},
+					},
+				},
 			},
 		},
 	}
@@ -96,6 +114,11 @@ func (s *DatacatalogDataAssetsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if displayNameContains, ok := s.D.GetOkExists("display_name_contains"); ok {
+		tmp := displayNameContains.(string)
+		request.DisplayNameContains = &tmp
 	}
 
 	if externalKey, ok := s.D.GetOkExists("external_key"); ok {
@@ -176,16 +199,26 @@ func (s *DatacatalogDataAssetsDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(GenerateDataSourceID())
-
 	resources := []map[string]interface{}{}
+	dataAsset := map[string]interface{}{}
+
+	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		resources = append(resources, DataAssetSummaryToMap(item))
+		items = append(items, DataAssetSummaryToMap(item))
 	}
+	dataAsset["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DatacatalogDataAssetsDataSource().Schema["data_asset_collection"].Elem.(*schema.Resource).Schema)
+		items = ApplyFiltersInCollection(f.(*schema.Set), items, DatacatalogDataAssetsDataSource().Schema["data_asset_collection"].Elem.(*schema.Resource).Schema)
+		dataAsset["items"] = items
 	}
 
-	s.D.Set("data_asset_collection", resources)
+	dataAsset["count"] = *s.Res.Count
+
+	resources = append(resources, dataAsset)
+	if err := s.D.Set("data_asset_collection", resources); err != nil {
+		return err
+	}
+
 	return nil
 }

@@ -18,6 +18,9 @@ type AttributeTagCollection struct {
 
 	// Collection of attribute tags.
 	Items []AttributeTagSummary `mandatory:"true" json:"items"`
+
+	// Total number of items returned.
+	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m AttributeTagCollection) String() string {

@@ -33,13 +33,14 @@ var (
 	}
 
 	connectionDataSourceRepresentation = map[string]interface{}{
-		"catalog_id":     Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"data_asset_key": Representation{repType: Required, create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"fields":         Representation{repType: Optional, create: []string{}},
-		"is_default":     Representation{repType: Optional, create: `false`, update: `true`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
-		"filter":         RepresentationGroup{Required, connectionDataSourceFilterRepresentation}}
+		"catalog_id":            Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"data_asset_key":        Representation{repType: Required, create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
+		"display_name":          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"display_name_contains": Representation{repType: Optional, create: `displayName`},
+		"fields":                Representation{repType: Optional, create: []string{}},
+		"is_default":            Representation{repType: Optional, create: `false`, update: `true`},
+		"state":                 Representation{repType: Optional, create: `ACTIVE`},
+		"filter":                RepresentationGroup{Required, connectionDataSourceFilterRepresentation}}
 	connectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `is_default`},
 		"values": Representation{repType: Required, create: []string{`true`}},
@@ -50,7 +51,7 @@ var (
 		"data_asset_key": Representation{repType: Required, create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
 		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
 		"properties":     Representation{repType: Required, create: map[string]string{"default.username": "scott"}, update: map[string]string{"default.username": "wardon"}},
-		"type_key":       Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types_connection.type_collection.0.key}`},
+		"type_key":       Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types_connection.type_collection.0.items.0.key}`},
 		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
 		"enc_properties": Representation{repType: Required, create: map[string]string{"default.password": "tiger"}, update: map[string]string{"default.password": "lion"}},
 		"is_default":     Representation{repType: Optional, create: `false`, update: `true`},
@@ -68,7 +69,7 @@ var (
 			})) +
 		generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create,
 			representationCopyWithNewProperties(dataAssetRepresentation, map[string]interface{}{
-				"type_key": Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types_dataAssset.type_collection.0.key}`}}))
+				"type_key": Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types_dataAssset.type_collection.0.items.0.key}`}}))
 )
 
 func TestDatacatalogConnectionResource_basic(t *testing.T) {
@@ -182,6 +183,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "catalog_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "data_asset_key"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayName"),
 					resource.TestCheckResourceAttr(datasourceName, "is_default", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttr(datasourceName, "connection_collection.#", "1"),

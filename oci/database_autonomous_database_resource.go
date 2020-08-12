@@ -105,7 +105,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -587,6 +586,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok && s.D.HasChange("db_workload") {
+		request.DbWorkload = oci_database.UpdateAutonomousDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -623,7 +626,15 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.LicenseModel = oci_database.UpdateAutonomousDatabaseDetailsLicenseModelEnum(licenseModel.(string))
 	}
 
-	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok && s.D.HasChange("nsg_ids") {
+	var updateNewtworkAccessFlag = false
+	if _, ok := s.D.GetOkExists("nsg_ids"); ok && s.D.HasChange("nsg_ids") {
+		updateNewtworkAccessFlag = true
+	}
+	if _, ok := s.D.GetOkExists("private_endpoint_label"); ok && s.D.HasChange("private_endpoint_label") {
+		updateNewtworkAccessFlag = true
+	}
+	if updateNewtworkAccessFlag == true {
+		var nsgIds, _ = s.D.GetOkExists("nsg_ids")
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
@@ -632,7 +643,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") || updateNewtworkAccessFlag {
 			err := s.updateNsgIds(tmp)
 			if err != nil {
 				return err
@@ -1473,12 +1484,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(nsgIds []string) e
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok && s.D.HasChange("subnet_id") {
 		tmp := subnetId.(string)
-		changeNsgIdsRequest.SubnetId = &tmp
+		if tmp == "null" {
+			changeNsgIdsRequest.SubnetId = &(*new(string))
+		} else {
+			changeNsgIdsRequest.SubnetId = &tmp
+		}
 	}
 
 	if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok && s.D.HasChange("private_endpoint_label") {
 		tmp := privateEndpointLabel.(string)
-		changeNsgIdsRequest.PrivateEndpointLabel = &tmp
+		if tmp == "null" {
+			changeNsgIdsRequest.PrivateEndpointLabel = &(*new(string))
+		} else {
+			changeNsgIdsRequest.PrivateEndpointLabel = &tmp
+		}
 	}
 	tmp := s.D.Id()
 	changeNsgIdsRequest.AutonomousDatabaseId = &tmp
