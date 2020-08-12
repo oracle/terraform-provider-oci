@@ -18,9 +18,6 @@ type JobCollection struct {
 
 	// Collection of jobs.
 	Items []JobSummary `mandatory:"true" json:"items"`
-
-	// Total number of items returned.
-	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m JobCollection) String() string {

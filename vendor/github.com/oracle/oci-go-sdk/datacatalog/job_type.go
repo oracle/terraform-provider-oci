@@ -20,8 +20,6 @@ const (
 	JobTypePreview                    JobTypeEnum = "PREVIEW"
 	JobTypeImport                     JobTypeEnum = "IMPORT"
 	JobTypeExport                     JobTypeEnum = "EXPORT"
-	JobTypeImportGlossary             JobTypeEnum = "IMPORT_GLOSSARY"
-	JobTypeExportGlossary             JobTypeEnum = "EXPORT_GLOSSARY"
 	JobTypeInternal                   JobTypeEnum = "INTERNAL"
 	JobTypePurge                      JobTypeEnum = "PURGE"
 	JobTypeImmediate                  JobTypeEnum = "IMMEDIATE"
@@ -38,8 +36,6 @@ var mappingJobType = map[string]JobTypeEnum{
 	"PREVIEW":                      JobTypePreview,
 	"IMPORT":                       JobTypeImport,
 	"EXPORT":                       JobTypeExport,
-	"IMPORT_GLOSSARY":              JobTypeImportGlossary,
-	"EXPORT_GLOSSARY":              JobTypeExportGlossary,
 	"INTERNAL":                     JobTypeInternal,
 	"PURGE":                        JobTypePurge,
 	"IMMEDIATE":                    JobTypeImmediate,

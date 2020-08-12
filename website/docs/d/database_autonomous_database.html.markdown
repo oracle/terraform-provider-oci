@@ -53,8 +53,7 @@ The following attributes are exported:
 * `db_version` - A valid Oracle Database version for Autonomous Database.
 * `db_workload` - The Autonomous Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous Transaction Processing database
-	* DW - indicates an Autonomous Data Warehouse database
-	* AJD - indicates an Autonomous JSON Database 
+	* DW - indicates an Autonomous Data Warehouse database 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.

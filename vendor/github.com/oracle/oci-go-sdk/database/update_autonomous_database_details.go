@@ -47,12 +47,6 @@ type UpdateAutonomousDatabaseDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The Autonomous Database workload type. The following values are valid:
-	// - OLTP - indicates an Autonomous Transaction Processing database
-	// - DW - indicates an Autonomous Data Warehouse database
-	// - AJD - indicates an Autonomous JSON Database
-	DbWorkload UpdateAutonomousDatabaseDetailsDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
-
 	// The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
 	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel UpdateAutonomousDatabaseDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
@@ -93,31 +87,6 @@ type UpdateAutonomousDatabaseDetails struct {
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
 	return common.PointerString(m)
-}
-
-// UpdateAutonomousDatabaseDetailsDbWorkloadEnum Enum with underlying type: string
-type UpdateAutonomousDatabaseDetailsDbWorkloadEnum string
-
-// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsDbWorkloadEnum
-const (
-	UpdateAutonomousDatabaseDetailsDbWorkloadOltp UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "OLTP"
-	UpdateAutonomousDatabaseDetailsDbWorkloadDw   UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "DW"
-	UpdateAutonomousDatabaseDetailsDbWorkloadAjd  UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "AJD"
-)
-
-var mappingUpdateAutonomousDatabaseDetailsDbWorkload = map[string]UpdateAutonomousDatabaseDetailsDbWorkloadEnum{
-	"OLTP": UpdateAutonomousDatabaseDetailsDbWorkloadOltp,
-	"DW":   UpdateAutonomousDatabaseDetailsDbWorkloadDw,
-	"AJD":  UpdateAutonomousDatabaseDetailsDbWorkloadAjd,
-}
-
-// GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsDbWorkloadEnum
-func GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumValues() []UpdateAutonomousDatabaseDetailsDbWorkloadEnum {
-	values := make([]UpdateAutonomousDatabaseDetailsDbWorkloadEnum, 0)
-	for _, v := range mappingUpdateAutonomousDatabaseDetailsDbWorkload {
-		values = append(values, v)
-	}
-	return values
 }
 
 // UpdateAutonomousDatabaseDetailsLicenseModelEnum Enum with underlying type: string

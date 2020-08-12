@@ -409,7 +409,7 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 	getWorkRequestRequest := oci_object_storage.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = &workRequestId
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
-	workRequestResponse, err := s.SourceRegionClient.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}

@@ -1433,7 +1433,7 @@ func TestResourceCoreInstanceTestSuite(t *testing.T) {
 	suite.Run(t, new(ResourceCoreInstanceTestSuite))
 }
 
-func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOptions(t *testing.T) {
+func TestAccResourceCoreInstance_launchOptions(t *testing.T) {
 	httpreplay.SetScenario("TestAccResourceCoreInstance_launchOptions")
 	defer httpreplay.SaveScenario()
 

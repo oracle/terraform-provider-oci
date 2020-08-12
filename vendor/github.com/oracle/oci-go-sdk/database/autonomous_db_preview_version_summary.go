@@ -28,7 +28,6 @@ type AutonomousDbPreviewVersionSummary struct {
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
-	// - AJD - indicates an Autonomous JSON Database
 	DbWorkload AutonomousDbPreviewVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// A URL that points to a detailed description of the preview version.
@@ -46,13 +45,11 @@ type AutonomousDbPreviewVersionSummaryDbWorkloadEnum string
 const (
 	AutonomousDbPreviewVersionSummaryDbWorkloadOltp AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "OLTP"
 	AutonomousDbPreviewVersionSummaryDbWorkloadDw   AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "DW"
-	AutonomousDbPreviewVersionSummaryDbWorkloadAjd  AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "AJD"
 )
 
 var mappingAutonomousDbPreviewVersionSummaryDbWorkload = map[string]AutonomousDbPreviewVersionSummaryDbWorkloadEnum{
 	"OLTP": AutonomousDbPreviewVersionSummaryDbWorkloadOltp,
 	"DW":   AutonomousDbPreviewVersionSummaryDbWorkloadDw,
-	"AJD":  AutonomousDbPreviewVersionSummaryDbWorkloadAjd,
 }
 
 // GetAutonomousDbPreviewVersionSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDbPreviewVersionSummaryDbWorkloadEnum

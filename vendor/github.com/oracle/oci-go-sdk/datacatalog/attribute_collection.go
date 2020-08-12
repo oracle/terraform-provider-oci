@@ -18,9 +18,6 @@ type AttributeCollection struct {
 
 	// Collection of attributes.
 	Items []AttributeSummary `mandatory:"true" json:"items"`
-
-	// Total number of items returned.
-	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m AttributeCollection) String() string {
