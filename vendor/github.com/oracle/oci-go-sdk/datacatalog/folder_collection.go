@@ -18,6 +18,9 @@ type FolderCollection struct {
 
 	// Collection of folders.
 	Items []FolderSummary `mandatory:"true" json:"items"`
+
+	// Total number of items returned.
+	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m FolderCollection) String() string {

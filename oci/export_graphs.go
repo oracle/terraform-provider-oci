@@ -52,6 +52,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"apigateway":          apigatewayResourceGraph,
 	"auto_scaling":        autoScalingResourceGraph,
 	"bds":                 bdsResourceGraph,
+	"blockchain":          blockchainResourceGraph,
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"data_safe":           dataSafeResourceGraph,
@@ -106,6 +107,26 @@ var autoScalingResourceGraph = TerraformResourceGraph{
 var bdsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportBdsBdsInstanceHints},
+	},
+}
+
+var blockchainResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportBlockchainBlockchainPlatformHints},
+	},
+	"oci_blockchain_blockchain_platform": {
+		{
+			TerraformResourceHints: exportBlockchainOsnHints,
+			datasourceQueryParams: map[string]string{
+				"blockchain_platform_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportBlockchainPeerHints,
+			datasourceQueryParams: map[string]string{
+				"blockchain_platform_id": "id",
+			},
+		},
 	},
 }
 

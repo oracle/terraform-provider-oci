@@ -18,6 +18,9 @@ type EntityTagCollection struct {
 
 	// Collection of entity tags.
 	Items []EntityTagSummary `mandatory:"true" json:"items"`
+
+	// Total number of items returned.
+	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m EntityTagCollection) String() string {

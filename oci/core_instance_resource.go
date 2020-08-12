@@ -1062,6 +1062,10 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		}
 	}
 
+	err := s.setIsPvEncryptionInTransitEnabledForDataVolume()
+	if err != nil {
+		log.Printf("[WARN] is_pv_encryption_in_transit_enabled could not be set: %q", err)
+	}
 	return nil
 }
 
@@ -1714,5 +1718,42 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (s *CoreInstanceResourceCrud) setIsPvEncryptionInTransitEnabledForDataVolume() error {
+	request := oci_core.ListVolumeAttachmentsRequest{}
+
+	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+		tmp := availabilityDomain.(string)
+		request.AvailabilityDomain = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
+		tmp := instanceId.(string)
+		request.InstanceId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
+	response, err := s.Client.ListVolumeAttachments(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if len(response.Items) != 0 {
+		err := s.D.Set("is_pv_encryption_in_transit_enabled", response.Items[0].GetIsPvEncryptionInTransitEnabled())
+		if err != nil {
+			return err
+		}
+	} else {
+		return fmt.Errorf("[ERROR] Volume attachment not found")
+	}
+
 	return nil
 }

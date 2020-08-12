@@ -18,6 +18,9 @@ type JobMetricCollection struct {
 
 	// Collection of job metrics.
 	Items []JobMetricSummary `mandatory:"true" json:"items"`
+
+	// Total number of items returned.
+	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m JobMetricCollection) String() string {

@@ -61,6 +61,26 @@ type Attribute struct {
 	// Property that identifies if this attribute can be assigned null values.
 	IsNullable *bool `mandatory:"false" json:"isNullable"`
 
+	// The minimum count for the number of instances of a given type stored in this collection type attribute,applicable if this attribute is a complex type.
+	MinCollectionCount *int `mandatory:"false" json:"minCollectionCount"`
+
+	// The maximum count for the number of instances of a given type stored in this collection type attribute,applicable if this attribute is a complex type.
+	// For type specifications in systems that specify only "capacity" without upper or lower bound , this property can also be used to just mean "capacity".
+	// Some examples are Varray size in Oracle , Occurs Clause in Cobol , capacity in XmlSchemaObjectCollection , maxOccurs in  Xml , maxItems in Json
+	MaxCollectionCount *int `mandatory:"false" json:"maxCollectionCount"`
+
+	// Entity key that represents the datatype of this attribute , applicable if this attribute is a complex type.
+	DatatypeEntityKey *string `mandatory:"false" json:"datatypeEntityKey"`
+
+	// External entity key that represents the datatype of this attribute , applicable if this attribute is a complex type.
+	ExternalDatatypeEntityKey *string `mandatory:"false" json:"externalDatatypeEntityKey"`
+
+	// Attribute key that represents the parent attribute of this attribute , applicable if the parent attribute is of complex datatype.
+	ParentAttributeKey *string `mandatory:"false" json:"parentAttributeKey"`
+
+	// External attribute key that represents the parent attribute  of this attribute , applicable if the parent attribute is of complex type.
+	ExternalParentAttributeKey *string `mandatory:"false" json:"externalParentAttributeKey"`
+
 	// Max allowed length of the attribute value.
 	Length *int64 `mandatory:"false" json:"length"`
 
@@ -78,6 +98,9 @@ type Attribute struct {
 
 	// URI to the attribute instance in the API.
 	Uri *string `mandatory:"false" json:"uri"`
+
+	// Full path of the attribute.
+	Path *string `mandatory:"false" json:"path"`
 
 	// A map of maps that contains the properties which are specific to the attribute type. Each attribute type
 	// definition defines it's set of required and optional properties. The map keys are category names and the

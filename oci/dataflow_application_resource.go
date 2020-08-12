@@ -65,7 +65,6 @@ func DataflowApplicationResource() *schema.Resource {
 			"archive_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
 			},
 			"arguments": {
 				Type:     schema.TypeList,
