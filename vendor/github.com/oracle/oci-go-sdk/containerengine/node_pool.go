@@ -34,7 +34,7 @@ type NodePool struct {
 	// The version of Kubernetes running on the nodes in the node pool.
 	KubernetesVersion *string `mandatory:"false" json:"kubernetesVersion"`
 
-	// A list of key/value pairs to add to each underlying OCI instance in the node pool.
+	// A list of key/value pairs to add to each underlying OCI instance in the node pool on launch.
 	NodeMetadata map[string]string `mandatory:"false" json:"nodeMetadata"`
 
 	// Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool.
@@ -43,8 +43,11 @@ type NodePool struct {
 	// Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool.
 	NodeImageName *string `mandatory:"false" json:"nodeImageName"`
 
-	// Source running on the nodes in the node pool.
+	// Deprecated. see `nodeSourceDetails`. Source running on the nodes in the node pool.
 	NodeSource NodeSourceOption `mandatory:"false" json:"nodeSource"`
+
+	// Source running on the nodes in the node pool.
+	NodeSourceDetails NodeSourceDetails `mandatory:"false" json:"nodeSourceDetails"`
 
 	// The name of the node shape of the nodes in the node pool.
 	NodeShape *string `mandatory:"false" json:"nodeShape"`
@@ -52,7 +55,7 @@ type NodePool struct {
 	// A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
 	InitialNodeLabels []KeyValue `mandatory:"false" json:"initialNodeLabels"`
 
-	// The SSH public key on each node in the node pool.
+	// The SSH public key on each node in the node pool on launch.
 	SshPublicKey *string `mandatory:"false" json:"sshPublicKey"`
 
 	// The number of nodes in each subnet.
@@ -84,6 +87,7 @@ func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 		NodeImageId       *string                    `json:"nodeImageId"`
 		NodeImageName     *string                    `json:"nodeImageName"`
 		NodeSource        nodesourceoption           `json:"nodeSource"`
+		NodeSourceDetails nodesourcedetails          `json:"nodeSourceDetails"`
 		NodeShape         *string                    `json:"nodeShape"`
 		InitialNodeLabels []KeyValue                 `json:"initialNodeLabels"`
 		SshPublicKey      *string                    `json:"sshPublicKey"`
@@ -122,6 +126,16 @@ func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 		m.NodeSource = nn.(NodeSourceOption)
 	} else {
 		m.NodeSource = nil
+	}
+
+	nn, e = model.NodeSourceDetails.UnmarshalPolymorphicJSON(model.NodeSourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NodeSourceDetails = nn.(NodeSourceDetails)
+	} else {
+		m.NodeSourceDetails = nil
 	}
 
 	m.NodeShape = model.NodeShape
