@@ -35,7 +35,19 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
     hours_of_day = ["4"]
 
     months {
+      name = "JANUARY"
+    }
+
+    months {
       name = "APRIL"
+    }
+
+    months {
+      name = "JULY"
+    }
+
+    months {
+      name = "OCTOBER"
     }
 
     weeks_of_month = ["2"]
@@ -61,7 +73,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   #Optional
   autonomous_container_database_id = "${oci_database_autonomous_container_database.test_autonomous_container_database.id}"
   db_workload                      = "OLTP"
-  display_name                     = "example_autonomous_database"
+  display_name                     = "example_autonomous_database-007"
   freeform_tags                    = "${var.autonomous_database_freeform_tags}"
   is_dedicated                     = "true"
 }
