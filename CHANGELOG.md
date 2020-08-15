@@ -11,6 +11,9 @@
 ### Fixed
 - Fix lifecyclestate logging to provide better feedback to the user with the OCID of the resource
 
+### Discontinued
+- Discontinuing deprecated Autonomous Data Warehouse resources / datasources `oci_database_autonomous_data_warehouse`, `oci_database_autonomous_data_warehouse_backup`
+
 ## 3.89.0 (August 12, 2020)
 
 ### Added
