@@ -127,6 +127,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
 
+	if s.Res.PatchId != nil {
+		s.D.Set("patch_id", *s.Res.PatchId)
+	}
+
 	s.D.Set("patch_model", s.Res.PatchModel)
 
 	s.D.Set("service_level_agreement_type", s.Res.ServiceLevelAgreementType)

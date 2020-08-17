@@ -1,4 +1,9 @@
 ## 3.92.0 (Unreleased)
+
+### Added
+- Support for patching in ADB-D: datasource `oci_database_autonomous_container_patches` for autonomous container databases
+- Support for patching in ADB-D: Retrieving patch info from patchId
+
 ## 3.91.0 (September 02, 2020)
 
 ### Added
@@ -7,7 +12,6 @@
 - Support for VM DB System Cloning
 - Support for DBAAS ADB Serverless Refreshable Clone
 - Support for LBaaS Cipher Suite Configuration
-- Support for patching in ADB-D, datasource `oci_database_autonomous_container_patches` for autonomous container databases
 
 ### Fixed
 - Fix imports when oci_database_db_system is missing a primary db_home. Previous behavior resulted in unusable state file after 
