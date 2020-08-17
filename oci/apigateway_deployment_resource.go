@@ -702,6 +702,427 @@ func ApigatewayDeploymentResource() *schema.Resource {
 														},
 													},
 												},
+												"header_transformations": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"filter_headers": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"items": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"name": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+
+																					// Optional
+
+																					// Computed
+																				},
+																			},
+																		},
+																		"type": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+															"rename_headers": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"items": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"from": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+																					"to": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+
+																					// Optional
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+															"set_headers": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"items": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"name": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+																					"values": {
+																						Type:     schema.TypeList,
+																						Required: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+
+																					// Optional
+																					"if_exists": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Computed
+														},
+													},
+												},
+												"query_parameter_transformations": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"filter_query_parameters": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"items": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"name": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+
+																					// Optional
+
+																					// Computed
+																				},
+																			},
+																		},
+																		"type": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+															"rename_query_parameters": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"items": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"from": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+																					"to": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+
+																					// Optional
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+															"set_query_parameters": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"items": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"name": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+																					"values": {
+																						Type:     schema.TypeList,
+																						Required: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+
+																					// Optional
+																					"if_exists": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+									"response_policies": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"header_transformations": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"filter_headers": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"items": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"name": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+
+																					// Optional
+
+																					// Computed
+																				},
+																			},
+																		},
+																		"type": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+															"rename_headers": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"items": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"from": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+																					"to": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+
+																					// Optional
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+															"set_headers": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"items": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"name": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+																					"values": {
+																						Type:     schema.TypeList,
+																						Required: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+
+																					// Optional
+																					"if_exists": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Optional
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Computed
+														},
+													},
+												},
 
 												// Computed
 											},
@@ -819,6 +1240,18 @@ func (s *ApigatewayDeploymentResourceCrud) CreatedPending() []string {
 }
 
 func (s *ApigatewayDeploymentResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_apigateway.DeploymentLifecycleStateActive),
+	}
+}
+
+func (s *ApigatewayDeploymentResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_apigateway.DeploymentLifecycleStateUpdating),
+	}
+}
+
+func (s *ApigatewayDeploymentResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_apigateway.DeploymentLifecycleStateActive),
 	}
@@ -1381,6 +1814,17 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRoute(fieldKeyFo
 		}
 	}
 
+	if responsePolicies, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_policies")); ok {
+		if tmpList := responsePolicies.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "response_policies"), 0)
+			tmp, err := s.mapToApiSpecificationRouteResponsePolicies(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert response_policies, encountered error: %v", err)
+			}
+			result.ResponsePolicies = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -1407,6 +1851,10 @@ func ApiSpecificationRouteToMap(obj oci_apigateway.ApiSpecificationRoute) map[st
 
 	if obj.RequestPolicies != nil {
 		result["request_policies"] = []interface{}{ApiSpecificationRouteRequestPoliciesToMap(obj.RequestPolicies)}
+	}
+
+	if obj.ResponsePolicies != nil {
+		result["response_policies"] = []interface{}{ApiSpecificationRouteResponsePoliciesToMap(obj.ResponsePolicies)}
 	}
 
 	return result
@@ -1566,6 +2014,28 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteRequestPoli
 		}
 	}
 
+	if headerTransformations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "header_transformations")); ok {
+		if tmpList := headerTransformations.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "header_transformations"), 0)
+			tmp, err := s.mapToHeaderTransformationPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert header_transformations, encountered error: %v", err)
+			}
+			result.HeaderTransformations = &tmp
+		}
+	}
+
+	if queryParameterTransformations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_parameter_transformations")); ok {
+		if tmpList := queryParameterTransformations.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "query_parameter_transformations"), 0)
+			tmp, err := s.mapToQueryParameterTransformationPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert query_parameter_transformations, encountered error: %v", err)
+			}
+			result.QueryParameterTransformations = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -1582,6 +2052,41 @@ func ApiSpecificationRouteRequestPoliciesToMap(obj *oci_apigateway.ApiSpecificat
 
 	if obj.Cors != nil {
 		result["cors"] = []interface{}{CorsPolicyToMap(obj.Cors)}
+	}
+
+	if obj.HeaderTransformations != nil {
+		result["header_transformations"] = []interface{}{HeaderTransformationPolicyToMap(obj.HeaderTransformations)}
+	}
+
+	if obj.QueryParameterTransformations != nil {
+		result["query_parameter_transformations"] = []interface{}{QueryParameterTransformationPolicyToMap(obj.QueryParameterTransformations)}
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteResponsePolicies(fieldKeyFormat string) (oci_apigateway.ApiSpecificationRouteResponsePolicies, error) {
+	result := oci_apigateway.ApiSpecificationRouteResponsePolicies{}
+
+	if headerTransformations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "header_transformations")); ok {
+		if tmpList := headerTransformations.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "header_transformations"), 0)
+			tmp, err := s.mapToHeaderTransformationPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert header_transformations, encountered error: %v", err)
+			}
+			result.HeaderTransformations = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ApiSpecificationRouteResponsePoliciesToMap(obj *oci_apigateway.ApiSpecificationRouteResponsePolicies) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.HeaderTransformations != nil {
+		result["header_transformations"] = []interface{}{HeaderTransformationPolicyToMap(obj.HeaderTransformations)}
 	}
 
 	return result
@@ -1938,6 +2443,130 @@ func ExecutionLogPolicyToMap(obj *oci_apigateway.ExecutionLogPolicy) map[string]
 	return result
 }
 
+func (s *ApigatewayDeploymentResourceCrud) mapToFilterHeaderPolicy(fieldKeyFormat string) (oci_apigateway.FilterHeaderPolicy, error) {
+	result := oci_apigateway.FilterHeaderPolicy{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]oci_apigateway.FilterHeaderPolicyItem, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToFilterHeaderPolicyItem(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_apigateway.FilterHeaderPolicyTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
+
+func FilterHeaderPolicyToMap(obj *oci_apigateway.FilterHeaderPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, FilterHeaderPolicyItemToMap(item))
+	}
+	result["items"] = items
+
+	result["type"] = string(obj.Type)
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToFilterHeaderPolicyItem(fieldKeyFormat string) (oci_apigateway.FilterHeaderPolicyItem, error) {
+	result := oci_apigateway.FilterHeaderPolicyItem{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	return result, nil
+}
+
+func FilterHeaderPolicyItemToMap(obj oci_apigateway.FilterHeaderPolicyItem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToFilterQueryParameterPolicy(fieldKeyFormat string) (oci_apigateway.FilterQueryParameterPolicy, error) {
+	result := oci_apigateway.FilterQueryParameterPolicy{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]oci_apigateway.FilterQueryParameterPolicyItem, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToFilterQueryParameterPolicyItem(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_apigateway.FilterQueryParameterPolicyTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
+
+func FilterQueryParameterPolicyToMap(obj *oci_apigateway.FilterQueryParameterPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, FilterQueryParameterPolicyItemToMap(item))
+	}
+	result["items"] = items
+
+	result["type"] = string(obj.Type)
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToFilterQueryParameterPolicyItem(fieldKeyFormat string) (oci_apigateway.FilterQueryParameterPolicyItem, error) {
+	result := oci_apigateway.FilterQueryParameterPolicyItem{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	return result, nil
+}
+
+func FilterQueryParameterPolicyItemToMap(obj oci_apigateway.FilterQueryParameterPolicyItem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
 func (s *ApigatewayDeploymentResourceCrud) mapToHeaderFieldSpecification(fieldKeyFormat string) (oci_apigateway.HeaderFieldSpecification, error) {
 	result := oci_apigateway.HeaderFieldSpecification{}
 
@@ -1963,6 +2592,63 @@ func HeaderFieldSpecificationToMap(obj oci_apigateway.HeaderFieldSpecification) 
 
 	if obj.Value != nil {
 		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToHeaderTransformationPolicy(fieldKeyFormat string) (oci_apigateway.HeaderTransformationPolicy, error) {
+	result := oci_apigateway.HeaderTransformationPolicy{}
+
+	if filterHeaders, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "filter_headers")); ok {
+		if tmpList := filterHeaders.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "filter_headers"), 0)
+			tmp, err := s.mapToFilterHeaderPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert filter_headers, encountered error: %v", err)
+			}
+			result.FilterHeaders = &tmp
+		}
+	}
+
+	if renameHeaders, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rename_headers")); ok {
+		if tmpList := renameHeaders.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "rename_headers"), 0)
+			tmp, err := s.mapToRenameHeaderPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert rename_headers, encountered error: %v", err)
+			}
+			result.RenameHeaders = &tmp
+		}
+	}
+
+	if setHeaders, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "set_headers")); ok {
+		if tmpList := setHeaders.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "set_headers"), 0)
+			tmp, err := s.mapToSetHeaderPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert set_headers, encountered error: %v", err)
+			}
+			result.SetHeaders = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func HeaderTransformationPolicyToMap(obj *oci_apigateway.HeaderTransformationPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FilterHeaders != nil {
+		result["filter_headers"] = []interface{}{FilterHeaderPolicyToMap(obj.FilterHeaders)}
+	}
+
+	if obj.RenameHeaders != nil {
+		result["rename_headers"] = []interface{}{RenameHeaderPolicyToMap(obj.RenameHeaders)}
+	}
+
+	if obj.SetHeaders != nil {
+		result["set_headers"] = []interface{}{SetHeaderPolicyToMap(obj.SetHeaders)}
 	}
 
 	return result
@@ -2097,6 +2783,63 @@ func PublicKeySetToMap(obj *oci_apigateway.PublicKeySet) map[string]interface{} 
 	return result
 }
 
+func (s *ApigatewayDeploymentResourceCrud) mapToQueryParameterTransformationPolicy(fieldKeyFormat string) (oci_apigateway.QueryParameterTransformationPolicy, error) {
+	result := oci_apigateway.QueryParameterTransformationPolicy{}
+
+	if filterQueryParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "filter_query_parameters")); ok {
+		if tmpList := filterQueryParameters.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "filter_query_parameters"), 0)
+			tmp, err := s.mapToFilterQueryParameterPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert filter_query_parameters, encountered error: %v", err)
+			}
+			result.FilterQueryParameters = &tmp
+		}
+	}
+
+	if renameQueryParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rename_query_parameters")); ok {
+		if tmpList := renameQueryParameters.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "rename_query_parameters"), 0)
+			tmp, err := s.mapToRenameQueryParameterPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert rename_query_parameters, encountered error: %v", err)
+			}
+			result.RenameQueryParameters = &tmp
+		}
+	}
+
+	if setQueryParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "set_query_parameters")); ok {
+		if tmpList := setQueryParameters.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "set_query_parameters"), 0)
+			tmp, err := s.mapToSetQueryParameterPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert set_query_parameters, encountered error: %v", err)
+			}
+			result.SetQueryParameters = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func QueryParameterTransformationPolicyToMap(obj *oci_apigateway.QueryParameterTransformationPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FilterQueryParameters != nil {
+		result["filter_query_parameters"] = []interface{}{FilterQueryParameterPolicyToMap(obj.FilterQueryParameters)}
+	}
+
+	if obj.RenameQueryParameters != nil {
+		result["rename_query_parameters"] = []interface{}{RenameQueryParameterPolicyToMap(obj.RenameQueryParameters)}
+	}
+
+	if obj.SetQueryParameters != nil {
+		result["set_query_parameters"] = []interface{}{SetQueryParameterPolicyToMap(obj.SetQueryParameters)}
+	}
+
+	return result
+}
+
 func (s *ApigatewayDeploymentResourceCrud) mapToRateLimitingPolicy(fieldKeyFormat string) (oci_apigateway.RateLimitingPolicy, error) {
 	result := oci_apigateway.RateLimitingPolicy{}
 
@@ -2120,6 +2863,136 @@ func RateLimitingPolicyToMap(obj *oci_apigateway.RateLimitingPolicy) map[string]
 	}
 
 	result["rate_key"] = string(obj.RateKey)
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToRenameHeaderPolicy(fieldKeyFormat string) (oci_apigateway.RenameHeaderPolicy, error) {
+	result := oci_apigateway.RenameHeaderPolicy{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]oci_apigateway.RenameHeaderPolicyItem, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToRenameHeaderPolicyItem(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func RenameHeaderPolicyToMap(obj *oci_apigateway.RenameHeaderPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, RenameHeaderPolicyItemToMap(item))
+	}
+	result["items"] = items
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToRenameHeaderPolicyItem(fieldKeyFormat string) (oci_apigateway.RenameHeaderPolicyItem, error) {
+	result := oci_apigateway.RenameHeaderPolicyItem{}
+
+	if from, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "from")); ok {
+		tmp := from.(string)
+		result.From = &tmp
+	}
+
+	if to, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "to")); ok {
+		tmp := to.(string)
+		result.To = &tmp
+	}
+
+	return result, nil
+}
+
+func RenameHeaderPolicyItemToMap(obj oci_apigateway.RenameHeaderPolicyItem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.From != nil {
+		result["from"] = string(*obj.From)
+	}
+
+	if obj.To != nil {
+		result["to"] = string(*obj.To)
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToRenameQueryParameterPolicy(fieldKeyFormat string) (oci_apigateway.RenameQueryParameterPolicy, error) {
+	result := oci_apigateway.RenameQueryParameterPolicy{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]oci_apigateway.RenameQueryParameterPolicyItem, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToRenameQueryParameterPolicyItem(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func RenameQueryParameterPolicyToMap(obj *oci_apigateway.RenameQueryParameterPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, RenameQueryParameterPolicyItemToMap(item))
+	}
+	result["items"] = items
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToRenameQueryParameterPolicyItem(fieldKeyFormat string) (oci_apigateway.RenameQueryParameterPolicyItem, error) {
+	result := oci_apigateway.RenameQueryParameterPolicyItem{}
+
+	if from, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "from")); ok {
+		tmp := from.(string)
+		result.From = &tmp
+	}
+
+	if to, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "to")); ok {
+		tmp := to.(string)
+		result.To = &tmp
+	}
+
+	return result, nil
+}
+
+func RenameQueryParameterPolicyItemToMap(obj oci_apigateway.RenameQueryParameterPolicyItem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.From != nil {
+		result["from"] = string(*obj.From)
+	}
+
+	if obj.To != nil {
+		result["to"] = string(*obj.To)
+	}
 
 	return result
 }
@@ -2177,6 +3050,160 @@ func RouteAuthorizationPolicyToMap(obj *oci_apigateway.RouteAuthorizationPolicy)
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil
 	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToSetHeaderPolicy(fieldKeyFormat string) (oci_apigateway.SetHeaderPolicy, error) {
+	result := oci_apigateway.SetHeaderPolicy{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]oci_apigateway.SetHeaderPolicyItem, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToSetHeaderPolicyItem(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func SetHeaderPolicyToMap(obj *oci_apigateway.SetHeaderPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, SetHeaderPolicyItemToMap(item))
+	}
+	result["items"] = items
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToSetHeaderPolicyItem(fieldKeyFormat string) (oci_apigateway.SetHeaderPolicyItem, error) {
+	result := oci_apigateway.SetHeaderPolicyItem{}
+
+	if ifExists, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "if_exists")); ok {
+		result.IfExists = oci_apigateway.SetHeaderPolicyItemIfExistsEnum(ifExists.(string))
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if values, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "values")); ok {
+		interfaces := values.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "values")) {
+			result.Values = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func SetHeaderPolicyItemToMap(obj oci_apigateway.SetHeaderPolicyItem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["if_exists"] = string(obj.IfExists)
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	result["values"] = obj.Values
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToSetQueryParameterPolicy(fieldKeyFormat string) (oci_apigateway.SetQueryParameterPolicy, error) {
+	result := oci_apigateway.SetQueryParameterPolicy{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]oci_apigateway.SetQueryParameterPolicyItem, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToSetQueryParameterPolicyItem(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func SetQueryParameterPolicyToMap(obj *oci_apigateway.SetQueryParameterPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, SetQueryParameterPolicyItemToMap(item))
+	}
+	result["items"] = items
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToSetQueryParameterPolicyItem(fieldKeyFormat string) (oci_apigateway.SetQueryParameterPolicyItem, error) {
+	result := oci_apigateway.SetQueryParameterPolicyItem{}
+
+	if ifExists, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "if_exists")); ok {
+		result.IfExists = oci_apigateway.SetQueryParameterPolicyItemIfExistsEnum(ifExists.(string))
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if values, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "values")); ok {
+		interfaces := values.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "values")) {
+			result.Values = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func SetQueryParameterPolicyItemToMap(obj oci_apigateway.SetQueryParameterPolicyItem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["if_exists"] = string(obj.IfExists)
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	result["values"] = obj.Values
 
 	return result
 }
