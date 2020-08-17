@@ -6,6 +6,9 @@
 - Open mode and Permission level added to autonomous database resource
 - Support for Flexible Infrastructure - Flexible Memory
 
+### Fixed
+- Fix logging to provide better feedback to the user to contact service when there are 401 and 500 status codes as response
+
 ## 3.93.0 (September 16, 2020)
 
 ### Added
