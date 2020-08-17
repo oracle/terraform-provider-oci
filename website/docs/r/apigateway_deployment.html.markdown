@@ -164,6 +164,103 @@ resource "oci_apigateway_deployment" "test_deployment" {
 					is_allow_credentials_enabled = "${var.deployment_specification_routes_request_policies_cors_is_allow_credentials_enabled}"
 					max_age_in_seconds = "${var.deployment_specification_routes_request_policies_cors_max_age_in_seconds}"
 				}
+				header_transformations {
+
+					#Optional
+					filter_headers {
+						#Required
+						items {
+							#Required
+							name = "${var.deployment_specification_routes_request_policies_header_transformations_filter_headers_items_name}"
+						}
+						type = "${var.deployment_specification_routes_request_policies_header_transformations_filter_headers_type}"
+					}
+					rename_headers {
+						#Required
+						items {
+							#Required
+							from = "${var.deployment_specification_routes_request_policies_header_transformations_rename_headers_items_from}"
+							to = "${var.deployment_specification_routes_request_policies_header_transformations_rename_headers_items_to}"
+						}
+					}
+					set_headers {
+						#Required
+						items {
+							#Required
+							name = "${var.deployment_specification_routes_request_policies_header_transformations_set_headers_items_name}"
+							values = "${var.deployment_specification_routes_request_policies_header_transformations_set_headers_items_values}"
+
+							#Optional
+							if_exists = "${var.deployment_specification_routes_request_policies_header_transformations_set_headers_items_if_exists}"
+						}
+					}
+				}
+				query_parameter_transformations {
+
+					#Optional
+					filter_query_parameters {
+						#Required
+						items {
+							#Required
+							name = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_filter_query_parameters_items_name}"
+						}
+						type = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_filter_query_parameters_type}"
+					}
+					rename_query_parameters {
+						#Required
+						items {
+							#Required
+							from = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_rename_query_parameters_items_from}"
+							to = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_rename_query_parameters_items_to}"
+						}
+					}
+					set_query_parameters {
+						#Required
+						items {
+							#Required
+							name = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_name}"
+							values = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_values}"
+
+							#Optional
+							if_exists = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_if_exists}"
+						}
+					}
+				}
+			}
+			response_policies {
+
+				#Optional
+				header_transformations {
+
+					#Optional
+					filter_headers {
+						#Required
+						items {
+							#Required
+							name = "${var.deployment_specification_routes_response_policies_header_transformations_filter_headers_items_name}"
+						}
+						type = "${var.deployment_specification_routes_response_policies_header_transformations_filter_headers_type}"
+					}
+					rename_headers {
+						#Required
+						items {
+							#Required
+							from = "${var.deployment_specification_routes_response_policies_header_transformations_rename_headers_items_from}"
+							to = "${var.deployment_specification_routes_response_policies_header_transformations_rename_headers_items_to}"
+						}
+					}
+					set_headers {
+						#Required
+						items {
+							#Required
+							name = "${var.deployment_specification_routes_response_policies_header_transformations_set_headers_items_name}"
+							values = "${var.deployment_specification_routes_response_policies_header_transformations_set_headers_items_values}"
+
+							#Optional
+							if_exists = "${var.deployment_specification_routes_response_policies_header_transformations_set_headers_items_if_exists}"
+						}
+					}
+				}
 			}
 		}
 	}
@@ -281,6 +378,49 @@ The following arguments are supported:
 				* `exposed_headers` - (Optional) (Updatable) The list of headers that the client will be allowed to see from the response as indicated by the Access-Control-Expose-Headers header. '*' will expose all headers. 
 				* `is_allow_credentials_enabled` - (Optional) (Updatable) Whether to send the Access-Control-Allow-Credentials header to allow CORS requests with cookies. 
 				* `max_age_in_seconds` - (Optional) (Updatable) The time in seconds for the client to cache preflight responses. This is sent as the Access-Control-Max-Age if greater than 0. 
+			* `header_transformations` - (Optional) (Updatable) 
+				* `filter_headers` - (Optional) (Updatable) 
+					* `items` - (Required) (Updatable) The list of headers. 
+						* `name` - (Required) (Updatable) The case-insensitive name of the header.  This name must be unique across transformation policies. 
+					* `type` - (Required) (Updatable) BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_headers` - (Optional) (Updatable) 
+					* `items` - (Required) (Updatable) The list of headers.
+						* `from` - (Required) (Updatable) The original case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `to` - (Required) (Updatable) The new name of the header.  This name must be unique across transformation policies. 
+				* `set_headers` - (Optional) (Updatable) 
+					* `items` - (Required) (Updatable) The list of headers.
+						* `if_exists` - (Optional) (Updatable) If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - (Required) (Updatable) The case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `query_parameter_transformations` - (Optional) (Updatable) 
+				* `filter_query_parameters` - (Optional) (Updatable) 
+					* `items` - (Required) (Updatable) The list of query parameters. 
+						* `name` - (Required) (Updatable) The case-sensitive name of the query parameter. 
+					* `type` - (Required) (Updatable) BLOCK drops any query parameters that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the parameters in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_query_parameters` - (Optional) (Updatable) 
+					* `items` - (Required) (Updatable) The list of query parameters. 
+						* `from` - (Required) (Updatable) The original case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
+						* `to` - (Required) (Updatable) The new name of the query parameter.  This name must be unique across transformation policies. 
+				* `set_query_parameters` - (Optional) (Updatable) 
+					* `items` - (Required) (Updatable) The list of query parameters. 
+						* `if_exists` - (Optional) (Updatable) If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - (Required) (Updatable) The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
+						* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+		* `response_policies` - (Optional) (Updatable) 
+			* `header_transformations` - (Optional) (Updatable) 
+				* `filter_headers` - (Optional) (Updatable) 
+					* `items` - (Required) (Updatable) The list of headers. 
+						* `name` - (Required) (Updatable) The case-insensitive name of the header.  This name must be unique across transformation policies. 
+					* `type` - (Required) (Updatable) BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_headers` - (Optional) (Updatable) 
+					* `items` - (Required) (Updatable) The list of headers.
+						* `from` - (Required) (Updatable) The original case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `to` - (Required) (Updatable) The new name of the header.  This name must be unique across transformation policies. 
+				* `set_headers` - (Optional) (Updatable) 
+					* `items` - (Required) (Updatable) The list of headers.
+						* `if_exists` - (Optional) (Updatable) If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - (Required) (Updatable) The case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
 
 
 ** IMPORTANT **
@@ -395,6 +535,49 @@ The following attributes are exported:
 				* `exposed_headers` - The list of headers that the client will be allowed to see from the response as indicated by the Access-Control-Expose-Headers header. '*' will expose all headers. 
 				* `is_allow_credentials_enabled` - Whether to send the Access-Control-Allow-Credentials header to allow CORS requests with cookies. 
 				* `max_age_in_seconds` - The time in seconds for the client to cache preflight responses. This is sent as the Access-Control-Max-Age if greater than 0. 
+			* `header_transformations` - 
+				* `filter_headers` - 
+					* `items` - The list of headers. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+					* `type` - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_headers` - 
+					* `items` - The list of headers.
+						* `from` - The original case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `to` - The new name of the header.  This name must be unique across transformation policies. 
+				* `set_headers` - 
+					* `items` - The list of headers.
+						* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `query_parameter_transformations` - 
+				* `filter_query_parameters` - 
+					* `items` - The list of query parameters. 
+						* `name` - The case-sensitive name of the query parameter. 
+					* `type` - BLOCK drops any query parameters that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the parameters in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_query_parameters` - 
+					* `items` - The list of query parameters. 
+						* `from` - The original case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
+						* `to` - The new name of the query parameter.  This name must be unique across transformation policies. 
+				* `set_query_parameters` - 
+					* `items` - The list of query parameters. 
+						* `if_exists` - If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
+						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+		* `response_policies` - 
+			* `header_transformations` - 
+				* `filter_headers` - 
+					* `items` - The list of headers. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+					* `type` - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_headers` - 
+					* `items` - The list of headers.
+						* `from` - The original case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `to` - The new name of the header.  This name must be unique across transformation policies. 
+				* `set_headers` - 
+					* `items` - The list of headers.
+						* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
 * `state` - The current state of the deployment.
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.

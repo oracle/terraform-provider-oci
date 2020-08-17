@@ -137,6 +137,49 @@ The following attributes are exported:
 				* `exposed_headers` - The list of headers that the client will be allowed to see from the response as indicated by the Access-Control-Expose-Headers header. '*' will expose all headers. 
 				* `is_allow_credentials_enabled` - Whether to send the Access-Control-Allow-Credentials header to allow CORS requests with cookies. 
 				* `max_age_in_seconds` - The time in seconds for the client to cache preflight responses. This is sent as the Access-Control-Max-Age if greater than 0. 
+			* `header_transformations` - 
+				* `filter_headers` - 
+					* `items` - The list of headers. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+					* `type` - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_headers` - 
+					* `items` - The list of headers.
+						* `from` - The original case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `to` - The new name of the header.  This name must be unique across transformation policies. 
+				* `set_headers` - 
+					* `items` - The list of headers.
+						* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `query_parameter_transformations` - 
+				* `filter_query_parameters` - 
+					* `items` - The list of query parameters. 
+						* `name` - The case-sensitive name of the query parameter. 
+					* `type` - BLOCK drops any query parameters that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the parameters in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_query_parameters` - 
+					* `items` - The list of query parameters. 
+						* `from` - The original case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
+						* `to` - The new name of the query parameter.  This name must be unique across transformation policies. 
+				* `set_query_parameters` - 
+					* `items` - The list of query parameters. 
+						* `if_exists` - If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
+						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+		* `response_policies` - 
+			* `header_transformations` - 
+				* `filter_headers` - 
+					* `items` - The list of headers. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+					* `type` - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_headers` - 
+					* `items` - The list of headers.
+						* `from` - The original case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `to` - The new name of the header.  This name must be unique across transformation policies. 
+				* `set_headers` - 
+					* `items` - The list of headers.
+						* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
 * `state` - The current state of the deployment.
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
