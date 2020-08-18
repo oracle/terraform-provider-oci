@@ -32,7 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `capabilities` - Properties indicating how the user is allowed to authenticate.
+* `capabilities` - 
 	* `can_use_api_keys` - Indicates if the user can use API keys.
 	* `can_use_auth_tokens` - Indicates if the user can use SWIFT passwords / auth tokens.
 	* `can_use_console_password` - Indicates if the user can log in to the console.

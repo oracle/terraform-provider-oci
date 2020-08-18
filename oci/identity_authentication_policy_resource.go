@@ -39,6 +39,30 @@ func IdentityAuthenticationPolicyResource() *schema.Resource {
 			},
 
 			// Optional
+			"network_policy": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"network_source_ids": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"password_policy": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -138,6 +162,17 @@ func (s *IdentityAuthenticationPolicyResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if networkPolicy, ok := s.D.GetOkExists("network_policy"); ok {
+		if tmpList := networkPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_policy", 0)
+			tmp, err := s.mapToNetworkPolicy(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkPolicy = &tmp
+		}
+	}
+
 	if passwordPolicy, ok := s.D.GetOkExists("password_policy"); ok {
 		if tmpList := passwordPolicy.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "password_policy", 0)
@@ -194,6 +229,17 @@ func (s *IdentityAuthenticationPolicyResourceCrud) Update() error {
 		request.CompartmentId = &tmp
 	}
 
+	if networkPolicy, ok := s.D.GetOkExists("network_policy"); ok {
+		if tmpList := networkPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_policy", 0)
+			tmp, err := s.mapToNetworkPolicy(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkPolicy = &tmp
+		}
+	}
+
 	if passwordPolicy, ok := s.D.GetOkExists("password_policy"); ok {
 		if tmpList := passwordPolicy.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "password_policy", 0)
@@ -229,6 +275,12 @@ func (s *IdentityAuthenticationPolicyResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.NetworkPolicy != nil {
+		s.D.Set("network_policy", []interface{}{NetworkPolicyToMap(s.Res.NetworkPolicy)})
+	} else {
+		s.D.Set("network_policy", nil)
+	}
+
 	if s.Res.PasswordPolicy != nil {
 		s.D.Set("password_policy", []interface{}{PasswordPolicyToMap(s.Res.PasswordPolicy)})
 	} else {
@@ -254,6 +306,33 @@ func parseAuthenticationPolicyCompositeId(compositeId string) (compartmentId str
 	compartmentId, _ = url.PathUnescape(parts[1])
 
 	return
+}
+
+func (s *IdentityAuthenticationPolicyResourceCrud) mapToNetworkPolicy(fieldKeyFormat string) (oci_identity.NetworkPolicy, error) {
+	result := oci_identity.NetworkPolicy{}
+
+	if networkSourceIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_source_ids")); ok {
+		interfaces := networkSourceIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "network_source_ids")) {
+			result.NetworkSourceIds = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func NetworkPolicyToMap(obj *oci_identity.NetworkPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["network_source_ids"] = obj.NetworkSourceIds
+
+	return result
 }
 
 func (s *IdentityAuthenticationPolicyResourceCrud) mapToPasswordPolicy(fieldKeyFormat string) (oci_identity.PasswordPolicy, error) {

@@ -167,7 +167,9 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "network_sources.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.description", "description2"),
+					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "network_sources.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.name", "corpnet"),
 					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.public_source_list.#", "2"),

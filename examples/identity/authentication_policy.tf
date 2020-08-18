@@ -43,6 +43,11 @@ resource "oci_identity_authentication_policy" "test_authentication_policy" {
     is_username_containment_allowed  = "${var.authentication_policy_password_policy_is_username_containment_allowed}"
     minimum_password_length          = "${var.authentication_policy_password_policy_minimum_password_length}"
   }
+
+  network_policy {
+    #Optional
+    network_source_ids = ["${oci_identity_network_source.test_network_source.id}"] // remove this before destroy oci_identity_network_source
+  }
 }
 
 data "oci_identity_authentication_policy" "test_authentication_policy" {
