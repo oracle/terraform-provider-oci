@@ -664,6 +664,19 @@ var exportDataflowApplicationHints = &TerraformResourceHints{
 	},
 }
 
+var exportDataflowPrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_dataflow_private_endpoint",
+	datasourceClass:        "oci_dataflow_private_endpoints",
+	datasourceItemsAttr:    "private_endpoint_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "private_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dataflow.PrivateEndpointLifecycleStateActive),
+		string(oci_dataflow.PrivateEndpointLifecycleStateInactive),
+	},
+}
+
 var exportDatascienceProjectHints = &TerraformResourceHints{
 	resourceClass:        "oci_datascience_project",
 	datasourceClass:      "oci_datascience_projects",

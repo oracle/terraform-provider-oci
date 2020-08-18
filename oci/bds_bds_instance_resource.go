@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -84,7 +85,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -120,7 +120,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -155,7 +154,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -923,6 +921,9 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	}
 
 	workerNodeFieldKeyFormat := "worker_node.0.%s"
+	masterNodeFieldKeyFormat := "master_node.0.%s"
+	utilNodeFieldKeyFormat := "util_node.0.%s"
+	cloudSqlNodeFieldKeyFormat := "cloud_sql_details.0.%s"
 
 	_, blockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "block_volume_size_in_gbs"))
 	if blockVolumeSizeInGbsPresent && s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "block_volume_size_in_gbs")) {
@@ -968,6 +969,55 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			}
 		} else {
 			return fmt.Errorf("the new value should be larger than previous one")
+		}
+	}
+
+	result := oci_bds.ChangeShapeNodes{}
+
+	changeShapeRequest := oci_bds.ChangeShapeRequest{}
+	workerNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "shape"))
+	if ok && s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "shape")) {
+		tmp := workerNodeShape.(string)
+		result.Worker = &tmp
+	}
+	masterNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "shape"))
+	if ok && s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "shape")) {
+		tmp := masterNodeShape.(string)
+		result.Master = &tmp
+	}
+
+	utilNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "shape"))
+	if ok && s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "shape")) {
+		tmp := utilNodeShape.(string)
+		result.Utility = &tmp
+	}
+
+	if _, ok := s.D.GetOkExists("is_cloud_sql_configured"); ok {
+		cloudSqlNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(cloudSqlNodeFieldKeyFormat, "shape"))
+		if ok && s.D.HasChange(fmt.Sprintf(cloudSqlNodeFieldKeyFormat, "shape")) {
+			tmp := cloudSqlNodeShape.(string)
+			result.Cloudsql = &tmp
+		}
+	}
+	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+		clusterAdminPasswordTmp := clusterAdminPassword.(string)
+		changeShapeRequest.ClusterAdminPassword = &clusterAdminPasswordTmp
+
+		changeShapeRequest.Nodes = &result
+		if !reflect.DeepEqual(result, oci_bds.ChangeShapeNodes{}) {
+			tmp := s.D.Id()
+			changeShapeRequest.BdsInstanceId = &tmp
+
+			response, err := s.Client.ChangeShape(context.Background(), changeShapeRequest)
+			if err != nil {
+				return err
+			}
+
+			workId := response.OpcWorkRequestId
+			err = s.getBdsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			if err != nil {
+				return err
+			}
 		}
 	}
 

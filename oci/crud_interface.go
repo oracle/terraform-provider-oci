@@ -84,6 +84,8 @@ type ExtraWaitPostDelete interface {
 
 type StatefulResource interface {
 	ResourceReader
+	// ID identifies the resource, or a work request to create the resource.
+	ID() string
 	State() string
 	setState(StatefulResource) error
 }

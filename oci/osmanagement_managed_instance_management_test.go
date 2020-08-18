@@ -62,21 +62,29 @@ var (
 		"source_id":   Representation{repType: Required, create: `${var.OsManagedImageOCID[var.region]}`},
 	}
 
-	ManagedInstanceManagementResourceDependencies = generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_parent_software_source", Required, Create, getUpdatedRepresentationCopy("arch_type", Representation{repType: Required, create: `X86_64`}, softwareSourceRepresentation)) +
+	parentSourceDisplayName = randomString(10, charsetWithoutDigits)
+	childSourceDisplayName  = randomString(10, charsetWithoutDigits)
+	groupDisplayName        = randomString(10, charsetWithoutDigits)
+
+	osmanagementSoftwareSourceRepresentation = generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_parent_software_source", Required, Create, getMultipleUpdatedRepresenationCopy([]string{"arch_type", "display_name"},
+		[]interface{}{
+			Representation{repType: Required, create: `X86_64`},
+			Representation{repType: Required, create: parentSourceDisplayName},
+		}, softwareSourceRepresentation)) +
 		generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_child_software_source", Required, Create, representationCopyWithNewProperties(getMultipleUpdatedRepresenationCopy([]string{"arch_type", "display_name"},
 			[]interface{}{
 				Representation{repType: Required, create: `X86_64`},
-				Representation{repType: Required, create: softwareSourceUpdateDisplayName},
+				Representation{repType: Required, create: childSourceDisplayName},
 			}, softwareSourceRepresentation),
 			map[string]interface{}{
 				"parent_id": Representation{repType: Required, create: `${oci_osmanagement_software_source.test_parent_software_source.id}`},
-			})) +
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-			"create_vnic_details": RepresentationGroup{Required, vnicDetailsRepresentation},
-			"source_details":      RepresentationGroup{Required, sourceDetailsRepresentation},
-			"image":               Representation{repType: Required, create: `${var.OsManagedImageOCID[var.region]}`},
-		})) +
+			})) + generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, getUpdatedRepresentationCopy("display_name", Representation{repType: Required, create: groupDisplayName}, managedInstanceGroupRepresentation))
+
+	ManagedInstanceManagementResourceDependencies = generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"create_vnic_details": RepresentationGroup{Required, vnicDetailsRepresentation},
+		"source_details":      RepresentationGroup{Required, sourceDetailsRepresentation},
+		"image":               Representation{repType: Required, create: `${var.OsManagedImageOCID[var.region]}`},
+	})) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
 			"dns_label":  Representation{repType: Required, create: `testvcn`},
 			"cidr_block": Representation{repType: Required, create: `10.1.0.0/16`},
@@ -107,16 +115,16 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// create dependencies
 			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies,
+				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation,
 				Check: func(s *terraform.State) (err error) {
-					log.Printf("[DEBUG] OS Management Resource should be created after 5 minutes as OS Agent times to activate")
+					log.Printf("[DEBUG] OS Management Resource should be created after 5 minutes as OS Agent takes time to activate")
 					time.Sleep(5 * time.Minute)
 					return nil
 				},
 			},
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies +
+				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
@@ -129,11 +137,11 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 			},
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies,
+				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies +
+				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Optional, Create, ManagedInstanceManagementRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
@@ -141,7 +149,7 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 			},
 			// verify update with optionals
 			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies +
+				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Optional, Create, representationCopyWithNewProperties(ManagedInstanceManagementRepresentation, map[string]interface{}{
 						"child_software_sources":  RepresentationGroup{Optional, childSoftwareSourceRepresentation},
 						"managed_instance_groups": RepresentationGroup{Optional, managedInstanceGroupsRepresentation},
