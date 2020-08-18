@@ -18,7 +18,8 @@ import (
 )
 
 func main() {
-	var command = flag.String("command", "", "Command to run. Supported commands include: 'export' and 'list_export_resources'")
+	var command = flag.String("command", "", "Command to run. Supported commands include: 'export', 'list_export_resources' and 'list_export_services'. 'list_export_services' supports json format.")
+	var listExportServicesPath = flag.String("list_export_services_path", "", "[export] Path to output list of supported services in json format")
 	var compartmentId = flag.String("compartment_id", "", "[export] OCID of a compartment to export. If no compartment id nor name is specified, the root compartment will be used.")
 	var compartmentName = flag.String("compartment_name", "", "[export] The name of a compartment to export.")
 	var outputPath = flag.String("output_path", "", "[export] Path to output generated configurations and state files of the exported compartment")
@@ -86,7 +87,12 @@ func main() {
 
 		case "list_export_resources":
 			if err := provider.RunListExportableResourcesCommand(); err != nil {
-				log.Printf("%v", err)
+				color.Red("%v", err)
+				os.Exit(1)
+			}
+		case "list_export_services":
+			if err := provider.RunListExportableServicesCommand(*listExportServicesPath); err != nil {
+				color.Red("%v", err)
 				os.Exit(1)
 			}
 		default:

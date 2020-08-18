@@ -5,7 +5,9 @@ package oci
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
@@ -122,6 +124,51 @@ func RunListExportableResourcesCommand() error {
 	if err := printResourceGraphResources(compartmentResourceGraphs, "compartment"); err != nil {
 		return err
 	}
+	return nil
+}
+
+type ExportService struct {
+	Name  string
+	Scope string
+}
+
+const (
+	TenancyScope     = "tenancy"
+	CompartmentScope = "compartment"
+)
+
+func RunListExportableServicesCommand(listExportServicesPath string) error {
+
+	Logln("List Discoverable Oracle Cloud Infrastructure Services")
+
+	services := make([]*ExportService, 0)
+	for _, service := range tenancyScopeServices {
+		services = append(services, &ExportService{
+			Name:  service,
+			Scope: TenancyScope,
+		})
+	}
+
+	for _, service := range compartmentScopeServices {
+		services = append(services, &ExportService{
+			Name:  service,
+			Scope: CompartmentScope,
+		})
+	}
+
+	servicesJson, err := json.MarshalIndent(services, "", "")
+	if err != nil {
+		return fmt.Errorf("[ERROR] Error marshalling services to JSON: %v", err)
+	}
+
+	if listExportServicesPath != "" {
+		if err := ioutil.WriteFile(listExportServicesPath, servicesJson, 0644); err != nil {
+			return err
+		} else {
+			Logf("Services written to json file at: %s", listExportServicesPath)
+		}
+	}
+	Logf(string(servicesJson))
 	return nil
 }
 
@@ -329,7 +376,7 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 }
 
 func runExportCommand(ctx *resourceDiscoveryContext) error {
-	log.Printf("Running export command\n")
+	Logf("Running export command\n")
 
 	steps, err := getDiscoverResourceSteps(ctx)
 	if err != nil {

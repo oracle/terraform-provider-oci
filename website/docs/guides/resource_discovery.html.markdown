@@ -85,9 +85,11 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `command` - Command to run. Supported commands include:
     * `export` - Discovers Oracle Cloud Infrastructure resources within your compartment and generates Terraform configuration files for them
     * `list_export_resources` - Lists the Terraform Oracle Cloud Infrastructure resources types that can be discovered by the `export` command
+    * `list_export_services` - Lists the allowed values for services arguments along with scope in json format
 * `compartment_id` - OCID of a compartment to export. If `compartment_id`  or `compartment_name` is not specified, the root compartment will be used.
 * `compartment_name` - The name of a compartment to export. Use this instead of `compartment_id` to provide a compartment name.
 * `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported.
+* `list_export_services_path` - Path to output list of supported services in json format, must include json file name
 * `output_path` - Path to output generated configurations and state files of the exported compartment
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `analytics` - Discovers analytics resources within the specified compartment
@@ -106,7 +108,8 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `datascience` - Discovers datascience resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
-    * `email` - Discovers email resources within the specified compartment
+    * `email` - Discovers email_sender resources within the specified compartment
+    * `email_tenancy` - Discovers email_suppression resources across the entire tenancy
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
@@ -333,6 +336,7 @@ datacatalog
 dataflow
     
 * oci\_dataflow\_application
+* oci\_dataflow\_private\_endpoint
 
 datascience
     
@@ -355,8 +359,11 @@ dns
 
 email
     
-* oci\_email\_suppression
 * oci\_email\_sender
+
+email_tenancy
+
+* oci\_email\_suppression
 
 events
     

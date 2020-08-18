@@ -111,6 +111,8 @@ type LaunchInstanceDetails struct {
 	// default values.
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
 
+	AvailabilityConfig *LaunchInstanceAvailabilityConfigDetails `mandatory:"false" json:"availabilityConfig"`
+
 	// Custom metadata key/value pairs that you provide, such as the SSH public key
 	// required to connect to the instance.
 	// A metadata service runs on every launched instance. The service is an HTTP
@@ -172,26 +174,27 @@ func (m LaunchInstanceDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CreateVnicDetails              *CreateVnicDetails                `json:"createVnicDetails"`
-		DedicatedVmHostId              *string                           `json:"dedicatedVmHostId"`
-		DefinedTags                    map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName                    *string                           `json:"displayName"`
-		ExtendedMetadata               map[string]interface{}            `json:"extendedMetadata"`
-		FaultDomain                    *string                           `json:"faultDomain"`
-		FreeformTags                   map[string]string                 `json:"freeformTags"`
-		HostnameLabel                  *string                           `json:"hostnameLabel"`
-		ImageId                        *string                           `json:"imageId"`
-		IpxeScript                     *string                           `json:"ipxeScript"`
-		LaunchOptions                  *LaunchOptions                    `json:"launchOptions"`
-		Metadata                       map[string]string                 `json:"metadata"`
-		AgentConfig                    *LaunchInstanceAgentConfigDetails `json:"agentConfig"`
-		ShapeConfig                    *LaunchInstanceShapeConfigDetails `json:"shapeConfig"`
-		SourceDetails                  instancesourcedetails             `json:"sourceDetails"`
-		SubnetId                       *string                           `json:"subnetId"`
-		IsPvEncryptionInTransitEnabled *bool                             `json:"isPvEncryptionInTransitEnabled"`
-		AvailabilityDomain             *string                           `json:"availabilityDomain"`
-		CompartmentId                  *string                           `json:"compartmentId"`
-		Shape                          *string                           `json:"shape"`
+		CreateVnicDetails              *CreateVnicDetails                       `json:"createVnicDetails"`
+		DedicatedVmHostId              *string                                  `json:"dedicatedVmHostId"`
+		DefinedTags                    map[string]map[string]interface{}        `json:"definedTags"`
+		DisplayName                    *string                                  `json:"displayName"`
+		ExtendedMetadata               map[string]interface{}                   `json:"extendedMetadata"`
+		FaultDomain                    *string                                  `json:"faultDomain"`
+		FreeformTags                   map[string]string                        `json:"freeformTags"`
+		HostnameLabel                  *string                                  `json:"hostnameLabel"`
+		ImageId                        *string                                  `json:"imageId"`
+		IpxeScript                     *string                                  `json:"ipxeScript"`
+		LaunchOptions                  *LaunchOptions                           `json:"launchOptions"`
+		AvailabilityConfig             *LaunchInstanceAvailabilityConfigDetails `json:"availabilityConfig"`
+		Metadata                       map[string]string                        `json:"metadata"`
+		AgentConfig                    *LaunchInstanceAgentConfigDetails        `json:"agentConfig"`
+		ShapeConfig                    *LaunchInstanceShapeConfigDetails        `json:"shapeConfig"`
+		SourceDetails                  instancesourcedetails                    `json:"sourceDetails"`
+		SubnetId                       *string                                  `json:"subnetId"`
+		IsPvEncryptionInTransitEnabled *bool                                    `json:"isPvEncryptionInTransitEnabled"`
+		AvailabilityDomain             *string                                  `json:"availabilityDomain"`
+		CompartmentId                  *string                                  `json:"compartmentId"`
+		Shape                          *string                                  `json:"shape"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -220,6 +223,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IpxeScript = model.IpxeScript
 
 	m.LaunchOptions = model.LaunchOptions
+
+	m.AvailabilityConfig = model.AvailabilityConfig
 
 	m.Metadata = model.Metadata
 

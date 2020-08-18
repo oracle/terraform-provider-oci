@@ -162,6 +162,16 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 			nodePool["node_source"] = nil
 		}
 
+		if r.NodeSourceDetails != nil {
+			nodeSourceDetailsArray := []interface{}{}
+			if nodeSourceDetailsMap := NodeSourceDetailsToMap(&r.NodeSourceDetails); nodeSourceDetailsMap != nil {
+				nodeSourceDetailsArray = append(nodeSourceDetailsArray, nodeSourceDetailsMap)
+			}
+			nodePool["node_source_details"] = nodeSourceDetailsArray
+		} else {
+			nodePool["node_source_details"] = nil
+		}
+
 		if r.QuantityPerSubnet != nil {
 			nodePool["quantity_per_subnet"] = *r.QuantityPerSubnet
 		}

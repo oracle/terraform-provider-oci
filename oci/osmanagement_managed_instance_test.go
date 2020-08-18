@@ -26,7 +26,23 @@ var (
 		"os_family":      Representation{repType: Optional, create: `ALL`},
 	}
 
-	ManagedInstanceResourceConfig = ManagedInstanceManagementResourceDependencies
+	parentSourceCreateDisplayName = randomString(10, charsetWithoutDigits)
+	childSourceCreateDisplayName  = randomString(10, charsetWithoutDigits)
+	groupCreateDisplayName        = randomString(10, charsetWithoutDigits)
+
+	ManagedInstanceResourceConfig = ManagedInstanceManagementResourceDependencies + generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_parent_software_source", Required, Create, getMultipleUpdatedRepresenationCopy([]string{"arch_type", "display_name"},
+		[]interface{}{
+			Representation{repType: Required, create: `X86_64`},
+			Representation{repType: Required, create: parentSourceCreateDisplayName},
+		}, softwareSourceRepresentation)) +
+		generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_child_software_source", Required, Create, representationCopyWithNewProperties(getMultipleUpdatedRepresenationCopy([]string{"arch_type", "display_name"},
+			[]interface{}{
+				Representation{repType: Required, create: `X86_64`},
+				Representation{repType: Required, create: childSourceCreateDisplayName},
+			}, softwareSourceRepresentation),
+			map[string]interface{}{
+				"parent_id": Representation{repType: Required, create: `${oci_osmanagement_software_source.test_parent_software_source.id}`},
+			})) + generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, getUpdatedRepresentationCopy("display_name", Representation{repType: Required, create: groupCreateDisplayName}, managedInstanceGroupRepresentation))
 )
 
 func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
@@ -54,7 +70,7 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedInstanceResourceConfig,
 				Check: func(s *terraform.State) (err error) {
-					log.Printf("[DEBUG] OS Management Resource should be created after 5 minutes as OS Agent times to activate")
+					log.Printf("[DEBUG] OS Management Resource should be created after 5 minutes as OS Agent takes time to activate")
 					time.Sleep(5 * time.Minute)
 					return nil
 				},
