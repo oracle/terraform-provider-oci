@@ -161,6 +161,9 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
     #Required
     image_id    = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.image_id}"
     source_type = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.source_type}"
+
+    #Optional
+    boot_volume_size_in_gbs = "60"
   }
 
   quantity_per_subnet = 2

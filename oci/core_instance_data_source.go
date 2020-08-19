@@ -75,6 +75,12 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("agent_config", nil)
 	}
 
+	if s.Res.AvailabilityConfig != nil {
+		s.D.Set("availability_config", []interface{}{InstanceAvailabilityConfigToMap(s.Res.AvailabilityConfig)})
+	} else {
+		s.D.Set("availability_config", nil)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}

@@ -61,12 +61,16 @@ The following attributes are exported:
 	* `size` - The number of nodes in the node pool. 
 * `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 
 * `node_image_name` - Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool. 
-* `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool.
+* `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - The name of the node shape of the nodes in the node pool.
-* `node_source` - Source running on the nodes in the node pool.
+* `node_source` - Deprecated. see `nodeSourceDetails`. Source running on the nodes in the node pool.
 	* `image_id` - The OCID of the image.
 	* `source_name` - The user-friendly name of the entity corresponding to the OCID. 
 	* `source_type` - The source type of this option. `IMAGE` means the OCID is of an image. 
+* `node_source_details` - Source running on the nodes in the node pool.
+	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB. See [here](https://docs.cloud.oracle.com/en-us/iaas/Content/Block/Concepts/bootvolumes.htm) for max custom boot volume sizing and OS-specific requirements.
+	* `image_id` - The OCID of the image used to boot the node.
+	* `source_type` - The source type for the node. Use `IMAGE` when specifying an OCID of an image. 
 * `nodes` - The nodes in the node pool.
 	* `availability_domain` - The name of the availability domain in which this node is placed.
 	* `error` - An error that may be associated with the node.
@@ -83,6 +87,6 @@ The following attributes are exported:
 	* `state` - The state of the node.
 	* `subnet_id` - The OCID of the subnet in which this node is placed.
 * `quantity_per_subnet` - The number of nodes in each subnet.
-* `ssh_public_key` - The SSH public key on each node in the node pool.
+* `ssh_public_key` - The SSH public key on each node in the node pool on launch.
 * `subnet_ids` - The OCIDs of the subnets in which to place nodes for this node pool.
 

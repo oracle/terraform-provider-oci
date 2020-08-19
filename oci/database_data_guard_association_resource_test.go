@@ -35,6 +35,32 @@ var (
 		"peer_db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_exadata_db_system2.id}`},
 	})
 
+	ExadataBaseDependenciesForDataGuardWithExistingVMCluster = ExadataBaseDependencies +
+		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+				"activation_file": Representation{repType: Optional, update: activationFilePath},
+				"shape":           Representation{repType: Required, create: `ExadataCC.Quarter2.92`},
+			}),
+		) +
+		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster", Required, Create,
+			representationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
+				"depends_on":   Representation{repType: Required, create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network`}},
+				"display_name": Representation{repType: Required, create: `vmClusterForPrimaryDB`},
+			})) +
+		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster_for_standby_db", Required, Create,
+			representationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
+				"depends_on":   Representation{repType: Required, create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network`}},
+				"display_name": Representation{repType: Required, create: `vmClusterForStandbyDB`},
+			}))
+
+	dataGuardAssociationRepresentationExistingExadataVmCluster = representationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
+		"depends_on":         Representation{repType: Required, create: []string{`oci_database_vm_cluster.test_exadata_vm_cluster`, `oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db`}},
+		"database_id":        Representation{repType: Required, create: `${data.oci_database_databases.exadb.databases.0.id}`},
+		"creation_type":      Representation{repType: Required, create: `ExistingVmCluster`},
+		"peer_vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db.id}`},
+	})
+
 	ExadataBaseDependencies = DefinedTagsDependencies + `
 	#dataguard requires the port to be open on the subnet
 	resource "oci_core_virtual_network" "t" {
@@ -235,6 +261,112 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
 					compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
+				),
+			},
+		},
+	})
+}
+
+func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testing.T) {
+	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig() + ExadataBaseDependenciesForDataGuardWithExistingVMCluster + `
+	data "oci_database_databases" "exadb" {
+		compartment_id = "${var.compartment_id}"
+		db_home_id = "${oci_database_db_home.test_db_home_vm_cluster.id}"
+	}
+
+	resource "oci_database_db_home" "test_db_home_vm_cluster" {
+	  vm_cluster_id = "${oci_database_vm_cluster.test_exadata_vm_cluster.id}"
+	
+	  database {
+		admin_password = "BEstrO0ng_#11"
+		db_name        = "dbVMClus"
+		character_set  = "AL32UTF8"
+		ncharacter_set = "AL16UTF16"
+		db_workload    = "OLTP"
+		pdb_name       = "pdbName"
+	
+		freeform_tags = {
+		  "Department" = "Finance"
+		}
+	  }
+	
+	  source       = "VM_CLUSTER_NEW"
+	  db_version   = "12.1.0.2"
+	  display_name = "TFTestDbHome1"
+	}
+`
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_data_guard_association.test_exadata_data_guard_association"
+	datasourceName := "data.oci_database_data_guard_associations.test_exadata_data_guard_associations"
+	singularDatasourceName := "data.oci_database_data_guard_association.test_exadata_data_guard_association"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			// verify create with optionals Existing VM Cluster
+			{
+				Config: config + compartmentIdVariableStr +
+					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataVmCluster),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingVmCluster"),
+					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_vm_cluster_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
+					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+					resource.TestCheckResourceAttrSet(resourceName, "role"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
+					compartmentIdVariableStr +
+					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
+
+					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
+					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
+					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
+					compartmentIdVariableStr +
+					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),

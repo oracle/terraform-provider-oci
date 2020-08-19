@@ -124,6 +124,8 @@ type Instance struct {
 	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
 
+	AvailabilityConfig *InstanceAvailabilityConfig `mandatory:"false" json:"availabilityConfig"`
+
 	// Custom metadata that you provide.
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
 
@@ -162,6 +164,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		IpxeScript               *string                           `json:"ipxeScript"`
 		LaunchMode               InstanceLaunchModeEnum            `json:"launchMode"`
 		LaunchOptions            *LaunchOptions                    `json:"launchOptions"`
+		AvailabilityConfig       *InstanceAvailabilityConfig       `json:"availabilityConfig"`
 		Metadata                 map[string]string                 `json:"metadata"`
 		ShapeConfig              *InstanceShapeConfig              `json:"shapeConfig"`
 		SourceDetails            instancesourcedetails             `json:"sourceDetails"`
@@ -201,6 +204,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.LaunchMode = model.LaunchMode
 
 	m.LaunchOptions = model.LaunchOptions
+
+	m.AvailabilityConfig = model.AvailabilityConfig
 
 	m.Metadata = model.Metadata
 

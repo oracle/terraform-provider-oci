@@ -42,6 +42,7 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"ExistingDbSystem",
+					"ExistingVmCluster",
 					"NewDbSystem",
 				}, true),
 			},
@@ -110,6 +111,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				},
 			},
 			"peer_db_system_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"peer_vm_cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -367,6 +374,27 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			details.TransportType = oci_database.CreateDataGuardAssociationDetailsTransportTypeEnum(transportType.(string))
 		}
 		request.CreateDataGuardAssociationDetails = details
+	case strings.ToLower("ExistingVmCluster"):
+		details := oci_database.CreateDataGuardAssociationToExistingVmClusterDetails{}
+		if peerVmClusterId, ok := s.D.GetOkExists("peer_vm_cluster_id"); ok {
+			tmp := peerVmClusterId.(string)
+			details.PeerVmClusterId = &tmp
+		}
+		if databaseAdminPassword, ok := s.D.GetOkExists("database_admin_password"); ok {
+			tmp := databaseAdminPassword.(string)
+			details.DatabaseAdminPassword = &tmp
+		}
+		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+			tmp := databaseId.(string)
+			request.DatabaseId = &tmp
+		}
+		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
+			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
+		}
+		if transportType, ok := s.D.GetOkExists("transport_type"); ok {
+			details.TransportType = oci_database.CreateDataGuardAssociationDetailsTransportTypeEnum(transportType.(string))
+		}
+		request.CreateDataGuardAssociationDetails = details
 	case strings.ToLower("NewDbSystem"):
 		details := oci_database.CreateDataGuardAssociationWithNewDbSystemDetails{}
 		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -522,6 +550,39 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 
 		if getDbSystemResponse.LifecycleState == oci_database.DbSystemLifecycleStateAvailable {
 			return fmt.Errorf("could not delete the dataguard association as the dbSystem could not be deleted")
+		}
+
+		return err
+	} else if strings.ToLower(creationType.(string)) == strings.ToLower("ExistingVmCluster") {
+		deleteDBrequest := oci_database.DeleteDatabaseRequest{}
+
+		var standbyDatabaseId *string
+		if s.Res.PeerRole == oci_database.DataGuardAssociationPeerRoleStandby {
+			standbyDatabaseId = s.Res.PeerDatabaseId
+		} else if s.Res.Role == oci_database.DataGuardAssociationRoleStandby {
+			standbyDatabaseId = s.Res.DatabaseId
+		} else {
+			return fmt.Errorf("could not delete the dataguard association as it is not possible to determine the standby database Id")
+		}
+
+		if standbyDatabaseId == nil {
+			return fmt.Errorf("could not delete the dataguard association as the standby Database Id could not be obtained")
+		}
+
+		deleteDBrequest.DatabaseId = standbyDatabaseId
+		deleteDBrequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+		if _, err = s.Client.DeleteDatabase(context.Background(), deleteDBrequest); err != nil {
+			return fmt.Errorf("failed to delete the standby database")
+		}
+
+		getDatabaseRequest := oci_database.GetDatabaseRequest{}
+		getDatabaseRequest.DatabaseId = standbyDatabaseId
+		getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseToTerminateRetryPolicy(2 * time.Hour)
+		getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+
+		if getDatabaseResponse.LifecycleState == oci_database.DatabaseLifecycleStateAvailable {
+			return fmt.Errorf("could not delete the dataguard association as the standby database could not be deleted")
 		}
 
 		return err

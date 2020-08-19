@@ -34,7 +34,7 @@ type CreateNodePoolDetails struct {
 	// The name of the node shape of the nodes in the node pool.
 	NodeShape *string `mandatory:"true" json:"nodeShape"`
 
-	// A list of key/value pairs to add to each underlying OCI instance in the node pool.
+	// A list of key/value pairs to add to each underlying OCI instance in the node pool on launch.
 	NodeMetadata map[string]string `mandatory:"false" json:"nodeMetadata"`
 
 	// Deprecated. Use `nodeSourceDetails` instead.
@@ -48,7 +48,7 @@ type CreateNodePoolDetails struct {
 	// A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
 	InitialNodeLabels []KeyValue `mandatory:"false" json:"initialNodeLabels"`
 
-	// The SSH public key to add to each node in the node pool.
+	// The SSH public key on each node in the node pool on launch.
 	SshPublicKey *string `mandatory:"false" json:"sshPublicKey"`
 
 	// Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property.

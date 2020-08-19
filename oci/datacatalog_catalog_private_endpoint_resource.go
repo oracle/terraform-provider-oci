@@ -390,14 +390,6 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	// Need to detach all Catalog before delete Private Endpoints
-	if attachedCatalog, ok := s.D.GetOkExists("attached_catalogs"); ok {
-		if tmpList := attachedCatalog.([]interface{}); len(tmpList) > 0 {
-			if err := s.detachCatalog(tmpList); err != nil {
-				return err
-			}
-		}
-	}
 	response, err := s.Client.DeleteCatalogPrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
