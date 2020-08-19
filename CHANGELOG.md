@@ -1,4 +1,5 @@
-## 3.90.0 (Unreleased)
+## 3.91.0 (Unreleased)
+## 3.90.0 (August 19, 2020)
 
 ### Added
 - Support to export the allowed values for `services` argument for Resource Discovery in json format
