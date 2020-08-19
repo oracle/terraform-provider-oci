@@ -1,4 +1,19 @@
 ## 3.90.0 (Unreleased)
+
+### Added
+- Support to export the allowed values for `services` argument for Resource Discovery in json format
+- Support for DataGuard -Gen 2 Exadata Cloud at Customer (ExaCC)-V2
+- Support for customer choice to not recover VM on hypervisor reboot
+- Support for OKE Node Pool Boot Volume Sizing
+- Support for data flow private endpoints added
+- Support for change node shape for Big Data Service
+
+### Fixed
+- Fix lifecyclestate logging to provide better feedback to the user with the OCID of the resource
+
+### Discontinued
+- Discontinuing deprecated Autonomous Data Warehouse resources / datasources `oci_database_autonomous_data_warehouse`, `oci_database_autonomous_data_warehouse_backup`
+
 ## 3.89.0 (August 12, 2020)
 
 ### Added

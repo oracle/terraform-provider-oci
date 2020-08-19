@@ -61,24 +61,24 @@ var (
 	}
 
 	bdsInstanceNodesCloudSqlRepresentation = map[string]interface{}{
-		"shape":                    Representation{repType: Required, create: `VM.Standard2.4`},
+		"shape":                    Representation{repType: Required, create: `VM.Standard2.4`, update: `VM.Standard2.8`},
 		"block_volume_size_in_gbs": Representation{repType: Required, create: `1000`},
 	}
 
 	bdsInstanceNodesMasterRepresentation = map[string]interface{}{
-		"shape":                    Representation{repType: Required, create: `VM.Standard2.4`},
+		"shape":                    Representation{repType: Required, create: `VM.Standard2.4`, update: `VM.Standard2.8`},
 		"subnet_id":                Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 		"block_volume_size_in_gbs": Representation{repType: Required, create: `150`},
 		"number_of_nodes":          Representation{repType: Required, create: `1`},
 	}
 	bdsInstanceNodesUtilRepresentation = map[string]interface{}{
-		"shape":                    Representation{repType: Required, create: `VM.Standard2.4`},
+		"shape":                    Representation{repType: Required, create: `VM.Standard2.4`, update: `VM.Standard2.8`},
 		"subnet_id":                Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 		"block_volume_size_in_gbs": Representation{repType: Required, create: `150`},
 		"number_of_nodes":          Representation{repType: Required, create: `1`},
 	}
 	bdsInstanceNodesWorkerRepresentation = map[string]interface{}{
-		"shape":                    Representation{repType: Required, create: `VM.Standard2.1`},
+		"shape":                    Representation{repType: Required, create: `VM.Standard2.1`, update: `VM.Standard2.4`},
 		"subnet_id":                Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 		"block_volume_size_in_gbs": Representation{repType: Required, create: `150`},
 		"number_of_nodes":          Representation{repType: Required, create: `3`, update: `4`},
@@ -272,6 +272,9 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
 					resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "6"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard2.8"),
+					resource.TestCheckResourceAttr(resourceName, "worker_node.0.shape", "VM.Standard2.4"),
+					resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard2.8"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")

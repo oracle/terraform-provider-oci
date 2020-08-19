@@ -36,10 +36,10 @@ Data Sources do not have deprecation guide as one should be able to directly rep
 
 | Version | Type        | Old Deprecated Resource Name            | New Resource Name                   | Migration? | Guide  |
 |---------|-------------|-----------------------------------------|-------------------------------------|------------|--------|
-| 3.18    | Resource    | `oci_autonomous_data_warehouse`         | `oci_autonomous_database`           | Yes        | [Link](../r/database_autonomous_data_warehouse.html#deprecation-guide) |
+| 3.18    | Resource    | `oci_autonomous_data_warehouse`         | `oci_autonomous_database`           | Yes        | N/A    |
 | 3.18    | Data Source | `oci_autonomous_data_warehouse`         | `oci_autonomous_database`           | N/A        | N/A    |
 | 3.18    | Data Source | `oci_autonomous_data_warehouses`        | `oci_autonomous_databases`          | N/A        | N/A    |
-| 3.18    | Resource    | `oci_autonomous_data_warehouse_backup`  | `oci_autonomous_database_backup`    | Yes        | [Link](../r/database_autonomous_data_warehouse_backup.html#deprecation-guide) |
+| 3.18    | Resource    | `oci_autonomous_data_warehouse_backup`  | `oci_autonomous_database_backup`    | Yes        | N/A    |
 | 3.18    | Data Source | `oci_autonomous_data_warehouse_backup`  | `oci_autonomous_database_backup`    | N/A        | N/A    |
 | 3.18    | Data Source | `oci_autonomous_data_warehouse_backups` | `oci_autonomous_database_backups`   | N/A        | N/A    |
 | 2.1.12  | Resource    | `oci_swift_password`                    | `oci_identity_auth_token`           | No         | N/A    |

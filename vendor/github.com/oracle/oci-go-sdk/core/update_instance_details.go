@@ -89,6 +89,8 @@ type UpdateInstanceDetails struct {
 
 	// Options for tuning the compatibility and performance of VM shapes.
 	LaunchOptions *UpdateLaunchOptions `mandatory:"false" json:"launchOptions"`
+
+	AvailabilityConfig *UpdateInstanceAvailabilityConfigDetails `mandatory:"false" json:"availabilityConfig"`
 }
 
 func (m UpdateInstanceDetails) String() string {

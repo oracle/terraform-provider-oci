@@ -127,6 +127,12 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["agent_config"] = nil
 		}
 
+		if r.AvailabilityConfig != nil {
+			instance["availability_config"] = []interface{}{InstanceAvailabilityConfigToMap(r.AvailabilityConfig)}
+		} else {
+			instance["availability_config"] = nil
+		}
+
 		if r.AvailabilityDomain != nil {
 			instance["availability_domain"] = *r.AvailabilityDomain
 		}
