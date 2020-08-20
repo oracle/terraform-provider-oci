@@ -1558,3 +1558,54 @@ func TestRunListExportableServicesCommand(t *testing.T) {
 	}
 	os.RemoveAll(outputDir)
 }
+
+// deleteInvalidReferences removes invalid reference from referenceMap if import fails for any resource
+func Test_deleteInvalidReferences(t *testing.T) {
+	discoveredResources := []*OCIResource{
+		{
+			compartmentId: resourceDiscoveryTestCompartmentOcid,
+			TerraformResource: TerraformResource{
+				id:             "ocid1.a.b.c",
+				terraformClass: "oci_resource_type1",
+				terraformName:  "type1_res1",
+			},
+		},
+		{
+			// resource with import failure
+			compartmentId: resourceDiscoveryTestCompartmentOcid,
+			TerraformResource: TerraformResource{
+				id:             "ocid1.d.e.f",
+				terraformClass: "oci_resource_type2",
+				terraformName:  "type2_res1",
+			},
+			isErrorResource: true,
+		},
+		{
+			compartmentId: resourceDiscoveryTestCompartmentOcid,
+			TerraformResource: TerraformResource{
+				id:             "ocid1.g.h.i",
+				terraformClass: "oci_resource_type2",
+				terraformName:  "type2_res2",
+			},
+		},
+	}
+
+	referenceMap := map[string]string{
+		"ocid1.a.b.c": "oci_resource_type1.type1_res1",
+		"ocid1.d.e.f": "oci_resource_type2.type2_res1", // failed resource
+		"ocid1.g.h.i": "oci_resource_type2.type2_res2",
+		"ocid1.j.k.l": "oci_resource_type2.type2_res1.attribute",  // reference to failed resource
+		"ocid1.m.n.o": "oci_resource_type2.type2_res11.attribute", // similar name to failed resource
+	}
+
+	deleteInvalidReferences(referenceMap, discoveredResources)
+	if _, ok := referenceMap["ocid1.d.e.f"]; ok {
+		t.Logf("failed resource entry not removed from reference map")
+		t.Fail()
+	}
+
+	if _, ok := referenceMap["ocid1.j.k.l"]; ok {
+		t.Logf("reference to failed resource not removed from reference map")
+		t.Fail()
+	}
+}
