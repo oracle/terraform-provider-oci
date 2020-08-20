@@ -45,7 +45,9 @@ These missing attributes are also added to the lifecycle ignore_changes.
 	EnvOCITFLogFile                     = "OCI_TF_LOG_PATH"
 )
 
-var referenceMap map[string]string
+var referenceMap map[string]string             //	stores references to replace the ocids in config
+var referenceResourceNameSet map[string]bool   // this set contains terraform resource names for the references in referenceMap
+var failedResourceReferenceSet map[string]bool // stores the terraform reference name for failed resources, used to remove InterpolationString type values if a resource failed to import
 var vars map[string]string
 var resourceNameCount map[string]int
 var resourcesMap map[string]*schema.Resource
@@ -416,41 +418,16 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 
 	defer ctx.printSummary()
 
-	// Generate HCL configs from all discovered resources
-	for _, step := range steps {
-		if err := step.writeConfiguration(); err != nil {
-			return err
-		}
-	}
-
-	if isMissingRequiredAttributes {
-		ctx.summaryStatements = append(ctx.summaryStatements, "")
-		ctx.summaryStatements = append(ctx.summaryStatements, missingRequiredAttributeWarning)
-		ctx.summaryStatements = append(ctx.summaryStatements, "Missing required attributes:")
-		for key, value := range ctx.missingAttributesPerResource {
-			ctx.summaryStatements = append(ctx.summaryStatements, fmt.Sprintf("%s: %s", key, strings.Join(value, ",")))
-		}
-
-	}
-	region, err := exportConfigProvider.Region()
-	if err != nil {
-		return err
-	}
-	vars["region"] = fmt.Sprintf("\"%s\"", region)
-
-	if err := generateProviderFile(ctx.OutputDir); err != nil {
-		return err
-	}
-
-	if err := generateVarsFile(vars, ctx.OutputDir); err != nil {
-		return err
-	}
-
-	if err := ctx.postValidate(); err != nil {
-		return err
-	}
-
 	if ctx.GenerateState {
+		// Generate temporary HCL configs from all discovered resources to run import
+		// Final configuration will be genrated after import so that we can exclude the resources for which import failed
+		// and also remove the references to failed resources
+		for _, step := range steps {
+			if err := step.writeTmpConfigurationForImport(); err != nil {
+				return err
+			}
+		}
+
 		// Run init and import commands
 		meta := command.Meta{
 			Ui: &cli.BasicUi{
@@ -506,7 +483,13 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 				importId,
 			}
 			if errCode := importCmd.Run(importArgs); errCode != 0 {
-				return fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
+				Logf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
+
+				// mark resource as errored so that it can be skipped while writing configurations
+				resource.isErrorResource = true
+				ctx.isImportError = true
+				err := fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'. Any references to this resource have been replaced with hard coded values in generated configurations", resource.getTerraformReference(), importId)
+				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformTypeInfo.resourceClass, resource.parent.terraformName, err, nil})
 			}
 		}
 
@@ -515,6 +498,48 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 				return err
 			}
 		}
+
+		// remove invalid references from referenceMap for the resources with import error
+		if ctx.isImportError {
+			deleteInvalidReferences(referenceMap, ctx.discoveredResources)
+		}
+	}
+
+	// Reset discovered resources if already set by writeTmpConfigurationForImport
+	ctx.discoveredResources = make([]*OCIResource, 0)
+
+	// Write configuration for imported resources
+	for _, step := range steps {
+		if err := step.writeConfiguration(); err != nil {
+			return err
+		}
+	}
+
+	region, err := exportConfigProvider.Region()
+	if err != nil {
+		return err
+	}
+	vars["region"] = fmt.Sprintf("\"%s\"", region)
+
+	if err := generateProviderFile(ctx.OutputDir); err != nil {
+		return err
+	}
+
+	if err := generateVarsFile(vars, ctx.OutputDir); err != nil {
+		return err
+	}
+
+	if isMissingRequiredAttributes {
+		ctx.summaryStatements = append(ctx.summaryStatements, "")
+		ctx.summaryStatements = append(ctx.summaryStatements, missingRequiredAttributeWarning)
+		ctx.summaryStatements = append(ctx.summaryStatements, "Missing required attributes:")
+		for key, value := range ctx.missingAttributesPerResource {
+			ctx.summaryStatements = append(ctx.summaryStatements, fmt.Sprintf("%s: %s", key, strings.Join(value, ",")))
+		}
+	}
+
+	if err := ctx.postValidate(); err != nil {
+		return err
 	}
 
 	return nil
@@ -697,6 +722,7 @@ type OCIResource struct {
 	sourceAttributes map[string]interface{}
 	getHclStringFn   func(*strings.Builder, *OCIResource, map[string]string) error
 	parent           *OCIResource
+	isErrorResource  bool
 }
 
 type TerraformResource struct {
@@ -738,7 +764,11 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 		if attributeVal, exists := sourceAttributes[tfAttribute]; exists {
 			switch v := attributeVal.(type) {
 			case InterpolationString:
-				builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, v.value))
+				if ok := failedResourceReferenceSet[v.resourceReference]; ok {
+					builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, v.value))
+				} else {
+					builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, v.interpolation))
+				}
 				continue
 			case string:
 				if varOverride, exists := interpolationMap[fmt.Sprintf("%v", v)]; exists {
@@ -782,7 +812,11 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 						for _, item := range v {
 							switch trueListVal := item.(type) {
 							case InterpolationString:
-								builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, trueListVal.value))
+								if ok := failedResourceReferenceSet[trueListVal.resourceReference]; ok {
+									builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, trueListVal.value))
+								} else {
+									builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, trueListVal.interpolation))
+								}
 							case string:
 								if varOverride, exists := interpolationMap[fmt.Sprintf("%v", trueListVal)]; exists {
 									trueListVal = varOverride
@@ -827,7 +861,11 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 					for _, mapKey := range keys {
 						switch mapVal := v[mapKey].(type) {
 						case InterpolationString:
-							builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, mapVal.value))
+							if ok := failedResourceReferenceSet[mapVal.resourceReference]; ok {
+								builder.WriteString(fmt.Sprintf("%s = %q\n", tfAttribute, mapVal.value))
+							} else {
+								builder.WriteString(fmt.Sprintf("%s = %v\n", tfAttribute, mapVal.interpolation))
+							}
 						case string:
 							if varOverride, exists := interpolationMap[fmt.Sprintf("%v", mapVal)]; exists {
 								mapVal = varOverride
@@ -1384,4 +1422,48 @@ func getTenancyOcidFromCompartment(clients *OracleClients, compartmentId string)
 	}
 
 	return "", fmt.Errorf("[ERROR] could not get tenancy ocid from compartment ocid")
+}
+
+func deleteInvalidReferences(referenceMap map[string]string, discoveredResources []*OCIResource) {
+	// intialize referenceResourceNameSet
+	// This set contains unique terraform names for resource references
+	if referenceResourceNameSet == nil {
+		referenceResourceNameSet = make(map[string]bool)
+		for _, value := range referenceMap {
+			valueParts := strings.Split(value, ".")
+			if len(valueParts) < 3 {
+				continue
+			}
+			referenceResourceNameSet[valueParts[1]] = true
+		}
+	}
+	if failedResourceReferenceSet == nil {
+		failedResourceReferenceSet = make(map[string]bool)
+	}
+
+	for _, resource := range discoveredResources {
+
+		// delete the entry if key is an OCID for a failed resource
+		if resource.isErrorResource {
+			// store failed resource reference, will be used later to remove InterpolationString type values when generating config
+			failedResourceReferenceSet[resource.getTerraformReference()] = true
+			if _, ok := referenceMap[resource.id]; ok {
+				delete(referenceMap, resource.id)
+			}
+
+			// delete any entries that have references to a failed resource
+			// e.g. oci_core_instance.instance1.volume_id should be replaced by volume ocid if instance import failed
+			if ok := referenceResourceNameSet[resource.terraformName]; ok {
+				for key, value := range referenceMap {
+					valueParts := strings.Split(value, ".")
+					if len(valueParts) < 3 {
+						continue
+					}
+					if valueParts[1] == resource.terraformName {
+						delete(referenceMap, key)
+					}
+				}
+			}
+		}
+	}
 }
