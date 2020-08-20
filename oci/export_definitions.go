@@ -35,6 +35,7 @@ import (
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
+	oci_sch "github.com/oracle/oci-go-sdk/sch"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
@@ -1525,5 +1526,17 @@ var exportBlockchainOsnHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_blockchain.OsnLifecycleStateActive),
+	},
+}
+
+var exportSchServiceConnectorHints = &TerraformResourceHints{
+	resourceClass:          "oci_sch_service_connector",
+	datasourceClass:        "oci_sch_service_connectors",
+	datasourceItemsAttr:    "service_connector_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "service_connector",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_sch.LifecycleStateActive),
 	},
 }
