@@ -527,6 +527,7 @@ github.com/oracle/oci-go-sdk/oda
 github.com/oracle/oci-go-sdk/ons
 github.com/oracle/oci-go-sdk/osmanagement
 github.com/oracle/oci-go-sdk/resourcemanager
+github.com/oracle/oci-go-sdk/sch
 github.com/oracle/oci-go-sdk/streaming
 github.com/oracle/oci-go-sdk/usageapi
 github.com/oracle/oci-go-sdk/vault
