@@ -22,7 +22,7 @@ func main() {
 	var listExportServicesPath = flag.String("list_export_services_path", "", "[export] Path to output list of supported services in json format")
 	var compartmentId = flag.String("compartment_id", "", "[export] OCID of a compartment to export. If no compartment id nor name is specified, the root compartment will be used.")
 	var compartmentName = flag.String("compartment_name", "", "[export] The name of a compartment to export.")
-	var closure = flag.Bool("closure", false, "[export] Set this flag to discover related resources for the resource OCIDs specified in `ids` argument.")
+	var includeRelatedResources = flag.Bool("include_related_resources", false, "[export] Set this flag to discover related resources for the resource OCIDs specified in `ids` argument.")
 	var outputPath = flag.String("output_path", "", "[export] Path to output generated configurations and state files of the exported compartment")
 	var services = flag.String("services", "", "[export] Comma-separated list of service resources to export. By default, all compartment-scope resources are exported.")
 	var excludeServices = flag.String("exclude_services", "", "[export] [experimental] Comma-separated list of service resources to exclude from export. If a service is present in both 'services' and 'exclude_services' argument, it will be excluded.")
@@ -62,13 +62,13 @@ func main() {
 			}
 
 			args := &provider.ExportCommandArgs{
-				CompartmentId:       compartmentId,
-				CompartmentName:     compartmentName,
-				OutputDir:           outputPath,
-				GenerateState:       *generateStateFile,
-				TFVersion:           &terraformVersion,
-				RetryTimeout:        retryTimeout,
-				IsExportWithClosure: *closure,
+				CompartmentId:                compartmentId,
+				CompartmentName:              compartmentName,
+				OutputDir:                    outputPath,
+				GenerateState:                *generateStateFile,
+				TFVersion:                    &terraformVersion,
+				RetryTimeout:                 retryTimeout,
+				IsExportWithRelatedResources: *includeRelatedResources,
 			}
 
 			if services != nil && *services != "" {
