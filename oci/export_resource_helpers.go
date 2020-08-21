@@ -6,7 +6,6 @@ package oci
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"sort"
 	"strconv"
@@ -83,12 +82,12 @@ type ResourceDiscoveryError struct {
 type ErrorList = []*ResourceDiscoveryError
 
 type resourceDiscoveryContext struct {
-	terraform           *tfexec.Terraform
-	clients             *OracleClients
-	expectedResourceIds map[string]bool
-	tenancyOcid         string
-	discoveredResources []*OCIResource
-	summaryStatements   []string
+	terraform               *tfexec.Terraform
+	clients                 *OracleClients
+	expectedResourceIds     map[string]bool
+	tenancyOcid             string
+	discoveredResources     []*OCIResource
+	summaryStatements       []string
 	targetSpecificResources bool
 	resourceHintsLookup     map[string]*TerraformResourceHints
 	*ExportCommandArgs
@@ -112,7 +111,7 @@ const (
 	ResourceCreatedByInstancePool = "oci:compute:instancepool"
 )
 
-func (ctx *resourceDiscoveryContext) postValidate() error {
+func (ctx *resourceDiscoveryContext) postValidate() {
 	// Check that all expected resource IDs were found, if any were given
 	missingResourceIds := []string{}
 	for resourceId, found := range ctx.expectedResourceIds {
@@ -127,9 +126,12 @@ func (ctx *resourceDiscoveryContext) postValidate() error {
 		for _, resourceId := range missingResourceIds {
 			ctx.summaryStatements = append(ctx.summaryStatements, fmt.Sprintf("- %s", resourceId))
 		}
-		return fmt.Errorf("[ERROR] one or more expected resource ids were not found")
+		ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{
+			"",
+			"",
+			fmt.Errorf("[ERROR] one or more expected resource ids were not found"),
+			nil})
 	}
-	return nil
 }
 
 func (ctx *resourceDiscoveryContext) printSummary() {
@@ -144,14 +146,17 @@ func (ctx *resourceDiscoveryContext) printSummary() {
 func (ctx *resourceDiscoveryContext) printErrors() {
 	Logln(yellow("\n\n[WARN] Resource discovery finished with errors listed below:\n"))
 	for _, resourceDiscoveryError := range ctx.errorList {
-		if resourceDiscoveryError.parentResource == "export" {
+		if resourceDiscoveryError.resourceType == "" || ctx.targetSpecificResources {
+			Logln(yellow(resourceDiscoveryError.error.Error()))
+
+		} else if resourceDiscoveryError.parentResource == "export" {
 			Logln(yellow(fmt.Sprintf("Error discovering `%s` resources: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.error.Error())))
 
 		} else {
 			Logln(yellow(fmt.Sprintf("Error discovering `%s` resources for %s: %s", resourceDiscoveryError.resourceType, resourceDiscoveryError.parentResource, resourceDiscoveryError.error.Error())))
 		}
 		/* log child resources if exist and were not discovered because of error in parent resource discovery*/
-		if resourceDiscoveryError.resourceGraph != nil {
+		if resourceDiscoveryError.resourceGraph != nil && !ctx.targetSpecificResources {
 			var notFoundChildren []string
 			getNotFoundChildren(resourceDiscoveryError.resourceType, resourceDiscoveryError.resourceGraph, &notFoundChildren)
 			if len(notFoundChildren) > 0 {
@@ -391,16 +396,13 @@ func createResourceHintsLookupMap() map[string]*TerraformResourceHints {
 	return result
 }
 
-func (ctx *resourceDiscoveryContext) getResourceHint(resourceClass string) *TerraformResourceHints {
+func (ctx *resourceDiscoveryContext) getResourceHint(resourceClass string) (*TerraformResourceHints, error) {
 	if hints, exists := ctx.resourceHintsLookup[resourceClass]; exists {
-		return hints
+		return hints, nil
 	}
 
 	// If no resource hint could be found, just return a simple hint for now to unblock
-	return &TerraformResourceHints{
-		resourceClass:        resourceClass,
-		resourceAbbreviation: strings.SplitN(resourceClass, "_", 2)[1],
-	}
+	return nil, fmt.Errorf("[ERROR] resource type '%s' is not supported by resource discovery", resourceClass)
 }
 
 func (r *resourceDiscoveryWithTargetIds) discover() error {
@@ -415,33 +417,36 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 	for _, id := range sortedIds {
 		tuple := strings.SplitN(id, ":", 2)
 		if len(tuple) != 2 {
-			log.Printf("[WARN] Encountered invalid ID tuple '%s'", id)
+			Logf("[WARN] Encountered invalid ID tuple '%s'", id)
 			continue
 		}
 
 		resourceClass := tuple[0]
 		resourceId := tuple[1]
 
-		log.Printf("===> Finding resource with ID '%s' and type '%s'", resourceId, resourceClass)
+		Logf("===> Finding resource with ID '%s' and type '%s'", resourceId, resourceClass)
 		resourceSchema, exists := resourcesMap[resourceClass]
 		if !exists || resourceSchema.Read == nil {
-			log.Printf("[WARN] No valid resource schema could be found. Skipping.")
+			Logf("[WARN] No valid resource schema could be found. Skipping.")
 			continue
 		}
 
 		d := resourceSchema.Data(nil)
 		d.SetId(resourceId)
 		if err := resourceSchema.Read(d, r.ctx.clients); err != nil {
-			log.Printf("[WARN] Unable to read resource due to error: %v", err)
+			Logf("[WARN] Unable to read resource due to error: %v", err)
 			continue
 		}
 
 		if d.Id() == "" {
-			log.Printf("[WARN] Resource ID was voided because resource could not be found. Skipping.")
+			Logf("[WARN] Resource ID was voided because resource could not be found. Skipping.")
 			continue
 		}
 
-		resourceHint := r.ctx.getResourceHint(resourceClass)
+		resourceHint, err := r.ctx.getResourceHint(resourceClass)
+		if err != nil {
+			continue
+		}
 		ociResource, err := getOciResource(d, resourceSchema.Schema, *r.ctx.CompartmentId, resourceHint)
 		if err != nil {
 			return err
@@ -454,7 +459,7 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 			}
 
 			if len(processResults) != 1 {
-				log.Printf("[WARN] processing of single resource resulted in %v resources being returned", len(processResults))
+				Logf("[WARN] processing of single resource resulted in %v resources being returned", len(processResults))
 				continue
 			}
 			ociResource = processResults[0]
@@ -478,9 +483,9 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 		//delete(r.ctx.expectedResourceIds, id)
 		//r.ctx.expectedResourceIds[ociResource.id] = true
 
-		if _, hasClosure := resourceClosureGraph[resourceHint.resourceClass]; hasClosure && r.ctx.IsExportWithClosure {
-			log.Printf("[INFO] resource discovery: finding related resources for %s\n", resourceHint.resourceClass)
-			ociResources, err := findResources(r.ctx, ociResource, resourceClosureGraph)
+		if _, hasRelatedResources := exportRelatedResourcesGraph[resourceHint.resourceClass]; hasRelatedResources && r.ctx.IsExportWithRelatedResources {
+			Logf("[INFO] resource discovery: finding related resources for %s\n", resourceHint.resourceClass)
+			ociResources, err := findResources(r.ctx, ociResource, exportRelatedResourcesGraph)
 			if err != nil {
 				return err
 			}
@@ -518,6 +523,7 @@ func init() {
 	exportLoadBalancerCertificateHints.processDiscoveredResourcesFn = processLoadBalancerCertificates
 	exportLoadBalancerHostnameHints.processDiscoveredResourcesFn = processLoadBalancerHostnames
 	exportLoadBalancerListenerHints.findResourcesOverrideFn = findLoadBalancerListeners
+	exportLoadBalancerListenerHints.processDiscoveredResourcesFn = processLoadBalancerListeners
 	exportLoadBalancerPathRouteSetHints.processDiscoveredResourcesFn = processLoadBalancerPathRouteSets
 	exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
 
@@ -629,6 +635,8 @@ func init() {
 	exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
 	exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem
 }
+
+var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
 
 func processDnsRrset(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
 
@@ -1244,6 +1252,19 @@ func processLoadBalancerCertificates(clients *OracleClients, resources []*OCIRes
 
 		certificate.id = getCertificateCompositeId(certificate.sourceAttributes["certificate_name"].(string), certificate.parent.id)
 		certificate.sourceAttributes["load_balancer_id"] = certificate.parent.id
+
+		// add certificate name and interpolation to loadBalancerCertificateNameMap
+		if loadBalancerCertificateNameMap == nil {
+			loadBalancerCertificateNameMap = make(map[string]map[string]string)
+		}
+		_, ok := loadBalancerCertificateNameMap[certificate.parent.id]
+		if !ok {
+			loadBalancerCertificateNameMap[certificate.parent.id] = make(map[string]string)
+		}
+
+		if certificateName, ok := certificate.sourceAttributes["certificate_name"].(string); ok {
+			loadBalancerCertificateNameMap[certificate.parent.id][certificateName] = tfHclVersion.getDoubleExpHclString(certificate.getTerraformReference(), "certificate_name")
+		}
 	}
 
 	return resources, nil
@@ -1502,6 +1523,24 @@ func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformR
 	}
 
 	return results, nil
+}
+
+func processLoadBalancerListeners(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+
+	for _, resource := range resources {
+		if sslConfiguration, ok := resource.sourceAttributes["ssl_configuration"].([]interface{}); ok && len(sslConfiguration) > 0 {
+			if sslConfig, ok := sslConfiguration[0].(map[string]interface{}); ok {
+				if _, ok := sslConfig["certificate_name"]; ok {
+					sslConfig["certificate_name"] = InterpolationString{
+						resource.parent.getTerraformReference(),
+						loadBalancerCertificateNameMap[resource.parent.parent.id][sslConfig["certificate_name"].(string)],
+						sslConfig["certificate_name"].(string),
+					}
+				}
+			}
+		}
+	}
+	return resources, nil
 }
 
 func processTagDefinitions(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {

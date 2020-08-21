@@ -1,13 +1,13 @@
 package oci
 
 import (
-	oci_core "github.com/oracle/oci-go-sdk/v25/core"
+	oci_core "github.com/oracle/oci-go-sdk/v30/core"
 )
 
 /*
- * resourceClosureGraph specify the related resources for a given resource type
+ * exportRelatedResourcesGraph specify the related resources for a given resource type
  */
-var resourceClosureGraph = TerraformResourceGraph{
+var exportRelatedResourcesGraph = TerraformResourceGraph{
 
 	/*
 		INSTANCES
@@ -49,14 +49,17 @@ var resourceClosureGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportLoadBalancerListenerHints},
 	},
 	"oci_load_balancer_load_balancer": {
+		// certificates have to be discovered before listeners in order to populate
+		// the references for certificate_name in listeners (dependency)
+		// If moving to parallel execution in future, this dependency needs to be maintained
 		{
-			TerraformResourceHints: exportLoadBalancerBackendSetHints,
+			TerraformResourceHints: exportLoadBalancerCertificateHints,
 			datasourceQueryParams: map[string]string{
 				"load_balancer_id": "id",
 			},
 		},
 		{
-			TerraformResourceHints: exportLoadBalancerCertificateHints,
+			TerraformResourceHints: exportLoadBalancerBackendSetHints,
 			datasourceQueryParams: map[string]string{
 				"load_balancer_id": "id",
 			},
