@@ -99,6 +99,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `bds` - Discovers big data service resources within the specified compartment
     * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
+    * `cloud_guard` - Discovers cloud guard resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `data_safe` - Discovers data_safe resources within the specified compartment
@@ -258,6 +259,13 @@ budget
     
 * oci\_budget\_budget
 * oci\_budget\_alert\_rule
+
+cloud_guard
+    
+* oci\_cloud\_guard\_target
+* oci\_cloud\_guard\_managed\_list
+* oci\_cloud\_guard\_responder\_recipe
+* oci\_cloud\_guard\_detector\_recipe
 
 containerengine
     

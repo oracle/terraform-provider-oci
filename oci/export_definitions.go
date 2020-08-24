@@ -9,6 +9,7 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/blockchain"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/cloudguard"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -1558,5 +1559,53 @@ var exportSchServiceConnectorHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_sch.LifecycleStateActive),
+	},
+}
+
+var exportCloudGuardTargetHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_target",
+	datasourceClass:        "oci_cloud_guard_targets",
+	datasourceItemsAttr:    "target_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "target",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
+var exportCloudGuardManagedListHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_managed_list",
+	datasourceClass:        "oci_cloud_guard_managed_lists",
+	datasourceItemsAttr:    "managed_list_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "managed_list",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
+var exportCloudGuardResponderRecipeHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_responder_recipe",
+	datasourceClass:        "oci_cloud_guard_responder_recipes",
+	datasourceItemsAttr:    "responder_recipe_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "responder_recipe",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
+var exportCloudGuardDetectorRecipeHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_detector_recipe",
+	datasourceClass:        "oci_cloud_guard_detector_recipes",
+	datasourceItemsAttr:    "detector_recipe_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "detector_recipe",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
 	},
 }

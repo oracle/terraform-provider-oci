@@ -32,6 +32,7 @@
 - Support for VM DB System Cloning
 - Support for DBAAS ADB Serverless Refreshable Clone
 - Support for LBaaS Cipher Suite Configuration
+- Support for CloudGuard
 
 ### Fixed
 - Fix imports when oci_database_db_system is missing a primary db_home. Previous behavior resulted in unusable state file after 
