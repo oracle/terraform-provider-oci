@@ -380,7 +380,6 @@ func CoreInstanceResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -407,7 +406,6 @@ func CoreInstanceResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ForceNew:         true,
 							ValidateFunc:     validateInt64TypeString,
 							DiffSuppressFunc: int64StringDiffSuppressFunction,
 						},
@@ -805,6 +803,16 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
 			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
+		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+			err := s.mapToUpdateInstanceBootVolumeSizeInGbs(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -1751,6 +1759,81 @@ func (s *CoreInstanceResourceCrud) updateCompartment(compartment interface{}) er
 		return err
 	}
 	return nil
+}
+
+func (s *CoreInstanceResourceCrud) mapToUpdateInstanceBootVolumeSizeInGbs(fieldKeyFormat string) error {
+	//discriminator
+	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower("image"):
+		if bootVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")) {
+			oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs"))
+			if newRaw != "" && oldRaw != "" {
+				tmp := bootVolumeSizeInGBs.(string)
+				tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+				if err != nil {
+					return fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+				}
+				err = s.updateBootVolumeSizeInGbs(tmpInt64)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown source_type '%v' was specified", sourceType)
+	}
+	return nil
+}
+
+func (s *CoreInstanceResourceCrud) updateBootVolumeSizeInGbs(bootVolumeSizeInGBs interface{}) error {
+	changeBootVolumeDetailsRequest := oci_core.UpdateBootVolumeRequest{}
+
+	if bootVolumeId, ok := s.D.GetOkExists("boot_volume_id"); ok {
+		tmp := bootVolumeId.(string)
+		changeBootVolumeDetailsRequest.BootVolumeId = &tmp
+	}
+
+	bootVolumeSizeInGBsTmp := bootVolumeSizeInGBs.(int64)
+	changeBootVolumeDetailsRequest.SizeInGBs = &bootVolumeSizeInGBsTmp
+
+	changeBootVolumeDetailsRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.BlockStorageClient.UpdateBootVolume(context.Background(), changeBootVolumeDetailsRequest)
+	if err != nil {
+		return err
+	}
+
+	_, err = waitForBootVolumeIfItIsUpdating(response.Id, s.BlockStorageClient, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func waitForBootVolumeIfItIsUpdating(bootVolumeID *string, client *oci_core.BlockstorageClient, timeout time.Duration) (*oci_core.GetBootVolumeResponse, error) {
+	getBootVolumeRequest := oci_core.GetBootVolumeRequest{}
+
+	getBootVolumeRequest.BootVolumeId = bootVolumeID
+
+	bootVolumeUpdating := func(response common.OCIOperationResponse) bool {
+		if getBootVolumeResponse, ok := response.Response.(oci_core.GetBootVolumeResponse); ok {
+			if getBootVolumeResponse.LifecycleState == oci_core.BootVolumeLifecycleStateProvisioning {
+				return true
+			}
+		}
+		return false
+	}
+
+	getBootVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicyWithAdditionalRetryCondition(timeout, bootVolumeUpdating, "core")
+	getBootVolumeResponse, err := client.GetBootVolume(context.Background(), getBootVolumeRequest)
+	return &getBootVolumeResponse, err
 }
 
 func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {

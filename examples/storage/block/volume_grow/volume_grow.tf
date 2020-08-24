@@ -188,3 +188,27 @@ data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
   ad_number      = 1
 }
+
+resource "null_resource" "remote-exec-boot-volume-rescan" {
+  depends_on = ["oci_core_instance.test_instance"]
+
+  provisioner "remote-exec" {
+    connection {
+      agent       = false
+      timeout     = "30m"
+      host        = "${oci_core_instance.test_instance.public_ip}"
+      user        = "opc"
+      private_key = "${file(var.ssh_private_key)}"
+    }
+
+    inline = [
+      "touch ~/IMadeAFile.Right.Here",
+      "sudo dd iflag=direct if=/dev/sda of=/dev/null count=1",
+      "echo '1' | sudo tee /sys/class/block/sda/device/rescan",
+    ]
+  }
+
+  triggers = {
+    always_run = "${oci_core_instance.test_instance.source_details.0.boot_volume_size_in_gbs}"
+  }
+}
