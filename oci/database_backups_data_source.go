@@ -143,7 +143,7 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 		}
 
 		if r.TimeStarted != nil {
-			backup["time_started"] = r.TimeEnded.Format(time.RFC3339Nano)
+			backup["time_started"] = r.TimeStarted.Format(time.RFC3339Nano)
 		}
 
 		backup["type"] = r.Type
