@@ -64,14 +64,23 @@ var (
 		"preference":     Representation{repType: Required, create: `CUSTOM_PREFERENCE`},
 		"days_of_week":   RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsDaysOfWeekRepresentation},
 		"hours_of_day":   Representation{repType: Optional, create: []string{`4`}, update: []string{`8`}},
-		"months":         RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation},
+		"months":         []RepresentationGroup{{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation}, {Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2}, {Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3}, {Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation4}},
 		"weeks_of_month": Representation{repType: Optional, create: []string{`1`}, update: []string{`2`}},
 	}
 	autonomousContainerDatabaseMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{
 		"name": Representation{repType: Required, create: `MONDAY`, update: `TUESDAY`},
 	}
 	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation = map[string]interface{}{
+		"name": Representation{repType: Required, create: `JANUARY`, update: `FEBRUARY`},
+	}
+	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2 = map[string]interface{}{
 		"name": Representation{repType: Required, create: `APRIL`, update: `MAY`},
+	}
+	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3 = map[string]interface{}{
+		"name": Representation{repType: Required, create: `JULY`, update: `AUGUST`},
+	}
+	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation4 = map[string]interface{}{
+		"name": Representation{repType: Required, create: `OCTOBER`, update: `NOVEMBER`},
 	}
 
 	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig +
@@ -184,8 +193,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "APRIL"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "JANUARY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
@@ -219,8 +228,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
@@ -264,8 +273,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.0.name", "FEBRUARY"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.patch_model", "RELEASE_UPDATE_REVISIONS"),
@@ -295,8 +304,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
