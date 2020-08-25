@@ -4,50 +4,14 @@
 package oci
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
-	"identity":      identityResourceGraph,
-	"limits":        limitsResourceGraph,
 	"budget":        budgetResourceGraph,
 	"email_tenancy": emailTenancyResourceGraph,
-}
-
-var availabilityDomainsGraph = TerraformResourceGraph{
-	"oci_identity_compartment": {
-		{
-			TerraformResourceHints: exportIdentityAvailabilityDomainHints,
-		},
-	},
-	"oci_identity_availability_domain": {
-		{
-			TerraformResourceHints: exportCoreBootVolumeHints,
-			datasourceQueryParams: map[string]string{
-				"availability_domain": "name",
-			},
-		},
-		{
-			TerraformResourceHints: exportFileStorageFileSystemHints,
-			datasourceQueryParams: map[string]string{
-				"availability_domain": "name",
-			},
-		},
-		{
-			TerraformResourceHints: exportFileStorageMountTargetHints,
-			datasourceQueryParams: map[string]string{
-				"availability_domain": "name",
-			},
-		},
-	},
-	"oci_file_storage_file_system": {
-		{
-			TerraformResourceHints: exportFileStorageSnapshotHints,
-			datasourceQueryParams: map[string]string{
-				"file_system_id": "id",
-			},
-		},
-	},
+	"identity":      identityResourceGraph,
+	"limits":        limitsResourceGraph,
 }
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
-	"availability_domain": availabilityDomainsGraph,
+	"availability_domain": availabilityDomainResourceGraph,
 	"analytics":           analyticsResourceGraph,
 	"apigateway":          apigatewayResourceGraph,
 	"auto_scaling":        autoScalingResourceGraph,
@@ -83,6 +47,42 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
 	"waas":                waasResourceGraph,
+}
+
+var availabilityDomainResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{
+			TerraformResourceHints: exportIdentityAvailabilityDomainHints,
+		},
+	},
+	"oci_identity_availability_domain": {
+		{
+			TerraformResourceHints: exportCoreBootVolumeHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "name",
+			},
+		},
+		{
+			TerraformResourceHints: exportFileStorageFileSystemHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "name",
+			},
+		},
+		{
+			TerraformResourceHints: exportFileStorageMountTargetHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "name",
+			},
+		},
+	},
+	"oci_file_storage_file_system": {
+		{
+			TerraformResourceHints: exportFileStorageSnapshotHints,
+			datasourceQueryParams: map[string]string{
+				"file_system_id": "id",
+			},
+		},
+	},
 }
 
 var analyticsResourceGraph = TerraformResourceGraph{
@@ -326,52 +326,6 @@ var databaseResourceGraph = TerraformResourceGraph{
 	},
 }
 
-var dataflowResourceGraph = TerraformResourceGraph{
-	"oci_identity_compartment": {
-		{TerraformResourceHints: exportDataflowApplicationHints},
-		{TerraformResourceHints: exportDataflowPrivateEndpointHints},
-	},
-}
-
-var datascienceResourceGraph = TerraformResourceGraph{
-	"oci_identity_compartment": {
-		{TerraformResourceHints: exportDatascienceProjectHints},
-		{TerraformResourceHints: exportDatascienceNotebookSessionHints},
-		{TerraformResourceHints: exportDatascienceModelHints},
-	},
-	"oci_datascience_model": {
-		{
-			TerraformResourceHints: exportDatascienceModelProvenanceHints,
-			datasourceQueryParams: map[string]string{
-				"model_id": "id",
-			},
-		},
-	},
-}
-
-var dataintegrationResourceGraph = TerraformResourceGraph{
-	"oci_identity_compartment": {
-		{TerraformResourceHints: exportDataintegrationWorkspaceHints},
-	},
-}
-
-var dnsResourceGraph = TerraformResourceGraph{
-	"oci_identity_compartment": {
-		{TerraformResourceHints: exportDnsZoneHints},
-		{TerraformResourceHints: exportDnsSteeringPolicyHints},
-		{TerraformResourceHints: exportDnsSteeringPolicyAttachmentHints},
-		{TerraformResourceHints: exportDnsTsigKeyHints},
-	},
-	"oci_dns_zone": {
-		{
-			TerraformResourceHints: exportDnsRrsetHints,
-			datasourceQueryParams: map[string]string{
-				"zone_name_or_id": "id",
-			},
-		},
-	},
-}
-
 var datacatalogResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatacatalogCatalogHints},
@@ -398,6 +352,52 @@ var datacatalogResourceGraph = TerraformResourceGraph{
 			datasourceQueryParams: map[string]string{
 				"data_asset_key": "key",
 				"catalog_id":     "catalog_id",
+			},
+		},
+	},
+}
+
+var dataflowResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDataflowApplicationHints},
+		{TerraformResourceHints: exportDataflowPrivateEndpointHints},
+	},
+}
+
+var dataintegrationResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDataintegrationWorkspaceHints},
+	},
+}
+
+var datascienceResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDatascienceProjectHints},
+		{TerraformResourceHints: exportDatascienceNotebookSessionHints},
+		{TerraformResourceHints: exportDatascienceModelHints},
+	},
+	"oci_datascience_model": {
+		{
+			TerraformResourceHints: exportDatascienceModelProvenanceHints,
+			datasourceQueryParams: map[string]string{
+				"model_id": "id",
+			},
+		},
+	},
+}
+
+var dnsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDnsZoneHints},
+		{TerraformResourceHints: exportDnsSteeringPolicyHints},
+		{TerraformResourceHints: exportDnsSteeringPolicyAttachmentHints},
+		{TerraformResourceHints: exportDnsTsigKeyHints},
+	},
+	"oci_dns_zone": {
+		{
+			TerraformResourceHints: exportDnsRrsetHints,
+			datasourceQueryParams: map[string]string{
+				"zone_name_or_id": "id",
 			},
 		},
 	},
@@ -451,20 +451,14 @@ var healthChecksResourceGraph = TerraformResourceGraph{
 var identityResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportIdentityAuthenticationPolicyHints},
-		{
-			TerraformResourceHints: exportIdentityCompartmentHints,
-			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
-		},
+		{TerraformResourceHints: exportIdentityCompartmentHints},
 		{TerraformResourceHints: exportIdentityDynamicGroupHints},
 		{TerraformResourceHints: exportIdentityGroupHints},
 		{
 			TerraformResourceHints: exportIdentityIdentityProviderHints,
 			datasourceQueryParams:  map[string]string{"protocol": "'SAML2'"},
 		},
-		{
-			TerraformResourceHints: exportIdentityPolicyHints,
-			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
-		},
+		{TerraformResourceHints: exportIdentityPolicyHints},
 		{TerraformResourceHints: exportIdentityUserHints},
 		{TerraformResourceHints: exportIdentityNetworkSourceHints},
 	},
