@@ -1270,25 +1270,32 @@ func TestUnitGetExportConfig(t *testing.T) {
 }
 
 /*
-This test is used to destroy and re-create resources in a compartment using ORM stack
+This test is used to create or destroy resources in a compartment using ORM stack
+Parameter:
+enable_create_destroy_rd_resources: true/false. Enable this run
+stack_id: stack for the job
+job_operation: APPLY/DESTROY. Job operation for the stack
 DO NOT RUN THIS TEST LOCALLY AS IT WILL DESTROY INFRASTRUCTURE
 */
-func TestResourceDiscoveryCreateResourcesUsingStack(t *testing.T) {
+func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 	// env var check so as to prevent local run of this test.
-	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(getEnvSettingWithDefault("recreate_rd_resources", "false")); !reCreateResourceDiscoveryResources {
-		return
+	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_create_destroy_rd_resources", "false")); !reCreateResourceDiscoveryResources {
+		t.Skip("This run is used to apply/destroy resource for RD")
 	}
 	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
 	stackId := getEnvSettingWithBlankDefault("stack_id")
 	if stackId == "" {
 		t.Skip("Dependency stack_id not defined for test")
 	}
-	// Destroy resources using stack destroy job
+	jobOperation := getEnvSettingWithBlankDefault("job_operation")
+	operation := oci_resourcemanager.JobOperationEnum(jobOperation)
+	// Create resources using stack create job
 	isAutoApproved := true
-	destroyJobRequest := oci_resourcemanager.CreateJobRequest{
+
+	createJobRequest := oci_resourcemanager.CreateJobRequest{
 		CreateJobDetails: oci_resourcemanager.CreateJobDetails{
 			StackId:   &stackId,
-			Operation: oci_resourcemanager.JobOperationDestroy,
+			Operation: operation,
 			ApplyJobPlanResolution: &oci_resourcemanager.ApplyJobPlanResolution{
 				IsAutoApproved: &isAutoApproved,
 			},
@@ -1297,39 +1304,53 @@ func TestResourceDiscoveryCreateResourcesUsingStack(t *testing.T) {
 			RetryPolicy: getRetryPolicy(false, "resourcemanager"),
 		},
 	}
-	destroyJobRequest.RequestMetadata.RetryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
+	job_timeout_in_minutes, err := strconv.Atoi(getEnvSettingWithDefault("job_timeout_in_minutes", "120"))
+	assert.NoError(t, err)
+	timeout := time.Duration(job_timeout_in_minutes) * time.Minute
+	// Many resources require long time to create/destroy
+	createJobRequest.RequestMetadata.RetryPolicy.ShouldRetryOperation = conditionShouldRetry(timeout, jobSuccessWaitCondition, "resourcemanager", false)
 
-	destroyJobResponse, err := resourceManagerClient.CreateJob(context.Background(), destroyJobRequest)
+	createJobResponse, err := resourceManagerClient.CreateJob(context.Background(), createJobRequest)
 
 	if err != nil {
 		log.Fatalf("[ERROR] error in destroy job for stack: %v", err)
 	}
+	assert.NoError(t, err)
 
 	retryPolicy := getRetryPolicy(false, "resourcemanager")
 	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(15*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
 
 	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
-		JobId: destroyJobResponse.Id,
+		JobId: createJobResponse.Id,
 		RequestMetadata: oci_common.RequestMetadata{
 			RetryPolicy: retryPolicy,
 		},
 	})
 	if err != nil {
-		log.Fatalf("[WARN] wait for jobSuccessWaitCondition failed for %s resource with error %v", *destroyJobResponse.Id, err)
+		log.Fatalf("[WARN] wait for jobSuccessWaitCondition failed for %s resource with error %v", *createJobResponse.Id, err)
 	} else {
-		log.Printf("[INFO] end of jobSuccessWaitCondition for resource %s ", *destroyJobResponse.Id)
+		log.Printf("[INFO] end of jobSuccessWaitCondition for resource %s ", *createJobResponse.Id)
 	}
+	assert.NoError(t, err)
+}
 
-	// Update zip file in stack to use the latest `examples/resource_discovery/*`
-
+func TestResourceDiscoveryUpdateStack(t *testing.T) {
+	stackId := getEnvSettingWithBlankDefault("stack_id")
+	if stackId == "" {
+		t.Skip("Dependency stack_id not defined for test")
+	}
+	resourceType := getEnvSettingWithBlankDefault("resource_type")
+	if resourceType == "" {
+		t.Skip("Dependency resource_type not defined for test")
+	}
+	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
+	basePath := "../infrastructure/resource_discovery/" + resourceType + "/"
 	buf := new(bytes.Buffer)
 	zipWriter := zip.NewWriter(buf)
-	basePath := "../examples/resource_discovery/"
 	files, err := ioutil.ReadDir(basePath)
 	if err != nil {
 		log.Fatalf("[ERROR] unable to read files from resource manager example (%s): %v", basePath, err)
 	}
-
 	//Add files to zip
 	for _, file := range files {
 		if !strings.HasSuffix(file.Name(), ".tf") {
@@ -1356,11 +1377,12 @@ func TestResourceDiscoveryCreateResourcesUsingStack(t *testing.T) {
 	}
 
 	encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
-	log.Printf(encoded)
+	terraformVersion := getEnvSettingWithDefault("terraform_version", "0.11.x")
 
 	updateStackRequest := oci_resourcemanager.UpdateStackRequest{
 		StackId: &stackId,
 		UpdateStackDetails: oci_resourcemanager.UpdateStackDetails{
+			TerraformVersion: &terraformVersion,
 			ConfigSource: oci_resourcemanager.UpdateZipUploadConfigSourceDetails{
 				ZipFileBase64Encoded: &encoded,
 			},
@@ -1368,47 +1390,30 @@ func TestResourceDiscoveryCreateResourcesUsingStack(t *testing.T) {
 	}
 	_, err = resourceManagerClient.UpdateStack(context.Background(), updateStackRequest)
 
-	if err != nil {
-		log.Fatalf("[ERROR] cannot update configuration for resource discovery example in stack: %v", err)
-	}
-
-	// recreate resources using stack apply Job
-	applyJobRequest := oci_resourcemanager.CreateJobRequest{
-		CreateJobDetails: oci_resourcemanager.CreateJobDetails{
-			StackId:   &stackId,
-			Operation: oci_resourcemanager.JobOperationApply,
-			ApplyJobPlanResolution: &oci_resourcemanager.ApplyJobPlanResolution{
-				IsAutoApproved: &isAutoApproved,
-			},
-		},
-		RequestMetadata: oci_common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(false, "resourcemanager"),
-		},
-	}
-	applyJobResponse, err := resourceManagerClient.CreateJob(context.Background(), applyJobRequest)
-
-	if err != nil {
-		log.Fatalf("[ERROR] error in apply job for stack: %s", err.Error())
-	}
-
-	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
-		JobId: applyJobResponse.Id,
-		RequestMetadata: oci_common.RequestMetadata{
-			RetryPolicy: retryPolicy,
-		},
-	})
-	if err != nil {
-		log.Fatalf("[WARN] wait for jobSuccessWaitCondition failed for %s resource with error %v", *applyJobResponse.Id, err)
-	} else {
-		log.Printf("[INFO] end of jobSuccessWaitCondition for resource %s ", *applyJobResponse.Id)
-	}
+	assert.NoError(t, err)
 }
-
 func jobSuccessWaitCondition(response oci_common.OCIOperationResponse) bool {
 	if jobResponse, ok := response.Response.(oci_resourcemanager.GetJobResponse); ok {
 		return jobResponse.LifecycleState != oci_resourcemanager.JobLifecycleStateSucceeded
 	}
 	return false
+}
+
+func TestResourceDiscoveryOnCompartment(t *testing.T) {
+	if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); !isEnableExportCompartment {
+		t.Skip("Set enable_export_compartment true to run this test")
+	}
+	var exportCommandArgs ExportCommandArgs
+	for serviceName, _ := range tenancyResourceGraphs {
+		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
+	}
+	for serviceName, _ := range compartmentResourceGraphs {
+		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
+	}
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	exportCommandArgs.GenerateState = true
+	err := testExportCompartment(&compartmentId, &exportCommandArgs)
+	assert.NoError(t, err)
 }
 
 func TestExportCommandArgs_finalizeServices(t *testing.T) {

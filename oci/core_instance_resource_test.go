@@ -1433,11 +1433,10 @@ func TestResourceCoreInstanceTestSuite(t *testing.T) {
 	suite.Run(t, new(ResourceCoreInstanceTestSuite))
 }
 
-func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOptions(t *testing.T) {
+func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOptions() {
 	httpreplay.SetScenario("TestAccResourceCoreInstance_launchOptions")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := `
 		provider oci {
 			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
@@ -1453,11 +1452,8 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
+	resource.Test(s.T(), resource.TestCase{
+		Providers:    s.Providers,
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
 		Steps: []resource.TestStep{
 			// verify create with optionals

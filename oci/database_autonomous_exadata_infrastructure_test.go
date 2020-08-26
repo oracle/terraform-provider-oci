@@ -58,14 +58,23 @@ var (
 		"preference":     Representation{repType: Required, create: `NO_PREFERENCE`, update: `CUSTOM_PREFERENCE`},
 		"days_of_week":   RepresentationGroup{Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation},
 		"hours_of_day":   Representation{repType: Optional, create: []string{`4`}, update: []string{`8`}},
-		"months":         RepresentationGroup{Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation},
+		"months":         []RepresentationGroup{{Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation}, {Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation2}, {Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation3}, {Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation4}},
 		"weeks_of_month": Representation{repType: Optional, create: []string{`1`}, update: []string{`2`}},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{
 		"name": Representation{repType: Required, create: `MONDAY`, update: `TUESDAY`},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation = map[string]interface{}{
+		"name": Representation{repType: Required, create: `JANUARY`, update: `FEBRUARY`},
+	}
+	autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation2 = map[string]interface{}{
 		"name": Representation{repType: Required, create: `APRIL`, update: `MAY`},
+	}
+	autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation3 = map[string]interface{}{
+		"name": Representation{repType: Required, create: `JULY`, update: `AUGUST`},
+	}
+	autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation4 = map[string]interface{}{
+		"name": Representation{repType: Required, create: `OCTOBER`, update: `NOVEMBER`},
 	}
 
 	AutonomousExadataInfrastructureResourceDependencies = ExadataBaseDependencies +
@@ -208,8 +217,8 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),

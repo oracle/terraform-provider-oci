@@ -57,7 +57,19 @@ resource "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exada
     hours_of_day = ["4"]
 
     months {
+      name = "JANUARY"
+    }
+
+    months {
       name = "APRIL"
+    }
+
+    months {
+      name = "JULY"
+    }
+
+    months {
+      name = "OCTOBER"
     }
 
     weeks_of_month = ["2"]
@@ -94,7 +106,19 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
     hours_of_day = ["4"]
 
     months {
+      name = "JANUARY"
+    }
+
+    months {
       name = "APRIL"
+    }
+
+    months {
+      name = "JULY"
+    }
+
+    months {
+      name = "OCTOBER"
     }
 
     weeks_of_month = ["2"]

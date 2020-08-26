@@ -407,7 +407,8 @@ func testExportCompartmentWithResourceName(id *string, compartmentId *string, re
 			for _, hint := range association {
 				if hint.resourceClass == resourceName {
 					exportCommandArgs.Services = []string{serviceName}
-					return testExportCompartment(id, compartmentId, &exportCommandArgs)
+					exportCommandArgs.IDs = []string{*id}
+					return testExportCompartment(compartmentId, &exportCommandArgs)
 				}
 			}
 		}
@@ -418,7 +419,8 @@ func testExportCompartmentWithResourceName(id *string, compartmentId *string, re
 			for _, hint := range association {
 				if hint.resourceClass == resourceName {
 					exportCommandArgs.Services = []string{serviceName}
-					return testExportCompartment(id, compartmentId, &exportCommandArgs)
+					exportCommandArgs.IDs = []string{*id}
+					return testExportCompartment(compartmentId, &exportCommandArgs)
 				}
 			}
 		}
@@ -429,7 +431,7 @@ func testExportCompartmentWithResourceName(id *string, compartmentId *string, re
 	return nil
 }
 
-func testExportCompartment(id *string, compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
+func testExportCompartment(compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
 	dir, _ := os.Getwd()
 	outputDir := fmt.Sprintf(dir + "/exportCompartment")
 	if err := os.RemoveAll(outputDir); err != nil {
@@ -448,7 +450,6 @@ func testExportCompartment(id *string, compartmentId *string, exportCommandArgs 
 	exportCommandArgs.Services = append(exportCommandArgs.Services, "availability_domain")
 	exportCommandArgs.CompartmentId = compartmentId
 	exportCommandArgs.OutputDir = &outputDir
-	exportCommandArgs.IDs = []string{*id}
 	var tfVersion TfHclVersion = &TfHclVersion12{Value: TfVersion12}
 	exportCommandArgs.TFVersion = &tfVersion
 
