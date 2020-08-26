@@ -230,6 +230,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["infrastructure_type"] = r.InfrastructureType
 
+		if r.IsAccessControlEnabled != nil {
+			autonomousDatabase["is_access_control_enabled"] = *r.IsAccessControlEnabled
+		}
+
 		if r.IsAutoScalingEnabled != nil {
 			autonomousDatabase["is_auto_scaling_enabled"] = *r.IsAutoScalingEnabled
 		}

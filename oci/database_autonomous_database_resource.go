@@ -125,6 +125,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_access_control_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_auto_scaling_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -806,6 +811,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
+		tmp := isAccessControlEnabled.(bool)
+		request.IsAccessControlEnabled = &tmp
+	}
+
 	if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok && s.D.HasChange("is_auto_scaling_enabled") {
 		tmp := isAutoScalingEnabled.(bool)
 		request.IsAutoScalingEnabled = &tmp
@@ -964,6 +974,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
+
+	if s.Res.IsAccessControlEnabled != nil {
+		s.D.Set("is_access_control_enabled", *s.Res.IsAccessControlEnabled)
+	}
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
@@ -1580,6 +1594,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
+			tmp := isAccessControlEnabled.(bool)
+			details.IsAccessControlEnabled = &tmp
+		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
@@ -1682,6 +1700,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
+			tmp := isAccessControlEnabled.(bool)
+			details.IsAccessControlEnabled = &tmp
 		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
