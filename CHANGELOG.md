@@ -1,4 +1,4 @@
-## 3.90.1 (Unreleased)
+## 3.90.1 (August 26, 2020)
 
 ### Fixed
 - Fix nil panic error in oci_database_backups data source, which results in discovery errors
