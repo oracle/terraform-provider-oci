@@ -73,6 +73,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("available_upgrade_versions", s.Res.AvailableUpgradeVersions)
 
+	if s.Res.BackupConfig != nil {
+		s.D.Set("backup_config", []interface{}{AutonomousDatabaseBackupConfigToMap(s.Res.BackupConfig)})
+	} else {
+		s.D.Set("backup_config", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -434,6 +434,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.available_upgrade_versions.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.backup_config.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_urls.#", "1"),
@@ -472,6 +473,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "available_upgrade_versions.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.all_connection_strings.%"),
