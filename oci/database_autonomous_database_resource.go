@@ -254,6 +254,29 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"backup_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"manual_backup_bucket_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"manual_backup_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"connection_strings": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -923,6 +946,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("available_upgrade_versions", s.Res.AvailableUpgradeVersions)
 
+	if s.Res.BackupConfig != nil {
+		s.D.Set("backup_config", []interface{}{AutonomousDatabaseBackupConfigToMap(s.Res.BackupConfig)})
+	} else {
+		s.D.Set("backup_config", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -1124,6 +1153,18 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	s.D.Set("whitelisted_ips", schema.NewSet(literalTypeHashCodeForSets, whitelistedIps))
 
 	return nil
+}
+
+func AutonomousDatabaseBackupConfigToMap(obj *oci_database.AutonomousDatabaseBackupConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ManualBackupBucketName != nil {
+		result["manual_backup_bucket_name"] = string(*obj.ManualBackupBucketName)
+	}
+
+	result["manual_backup_type"] = string(obj.ManualBackupType)
+
+	return result
 }
 
 func AutonomousDatabaseConnectionStringsToMap(obj *oci_database.AutonomousDatabaseConnectionStrings) map[string]interface{} {

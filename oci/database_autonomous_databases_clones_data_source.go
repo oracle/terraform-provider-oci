@@ -60,6 +60,29 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"backup_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"manual_backup_bucket_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"manual_backup_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -447,6 +470,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabasesClone["available_upgrade_versions"] = r.AvailableUpgradeVersions
+
+		if r.BackupConfig != nil {
+			autonomousDatabasesClone["backup_config"] = []interface{}{AutonomousDatabaseBackupConfigToMap(r.BackupConfig)}
+		} else {
+			autonomousDatabasesClone["backup_config"] = nil
+		}
 
 		if r.ConnectionStrings != nil {
 			autonomousDatabasesClone["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}

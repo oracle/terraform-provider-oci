@@ -178,6 +178,12 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["available_upgrade_versions"] = r.AvailableUpgradeVersions
 
+		if r.BackupConfig != nil {
+			autonomousDatabase["backup_config"] = []interface{}{AutonomousDatabaseBackupConfigToMap(r.BackupConfig)}
+		} else {
+			autonomousDatabase["backup_config"] = nil
+		}
+
 		if r.ConnectionStrings != nil {
 			autonomousDatabase["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}
 		} else {
