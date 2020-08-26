@@ -125,6 +125,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
+	if s.Res.IsAccessControlEnabled != nil {
+		s.D.Set("is_access_control_enabled", *s.Res.IsAccessControlEnabled)
+	}
+
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
 	}
