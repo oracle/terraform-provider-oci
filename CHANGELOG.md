@@ -7,6 +7,10 @@
 - Support for DBAAS ADB Serverless Refreshable Clone
 - Support for LBaaS Cipher Suite Configuration
 
+### Fixed
+- Fix imports when oci_database_db_system is missing a primary db_home. Previous behavior resulted in unusable state file after 
+importing such db_systems. New behavior will put an empty placeholder in the state file to allow comparison with configs.
+
 ## 3.90.1 (August 26, 2020)
 
 ### Fixed

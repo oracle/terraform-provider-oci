@@ -881,7 +881,7 @@ func (s *DatabaseDbSystemResourceCrud) Create() error {
 
 	err = s.getDbHomeInfo()
 	if err != nil {
-		log.Printf("[ERROR] Could not get info about the first DbHome in the dbSystem: %v", err)
+		log.Printf("[WARN] Could not get info about the first DbHome in the dbSystem: %v", err)
 	}
 
 	return nil
@@ -904,7 +904,7 @@ func (s *DatabaseDbSystemResourceCrud) Get() error {
 
 	err = s.getDbHomeInfo()
 	if err != nil {
-		log.Printf("[ERROR] Could not get info about the first DbHome in the dbSystem: %v", err)
+		log.Printf("[WARN] Could not get info about the first DbHome in the dbSystem: %v", err)
 	}
 
 	return nil
@@ -2622,8 +2622,16 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 }
 
 func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
+	if s.DbHome == nil {
+		s.DbHome = &oci_database.DbHome{}
+	}
+
+	if s.Database == nil {
+		s.Database = &oci_database.Database{}
+	}
+
 	var dbHomeId *string
-	if s.DbHome != nil && s.DbHome.Id != nil {
+	if s.DbHome.Id != nil {
 		dbHomeId = s.DbHome.Id
 	}
 	if dbHomeId == nil || *dbHomeId == "" {
@@ -2665,7 +2673,7 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 	}
 
 	var databaseId *string
-	if s.Database != nil && s.Database.Id != nil {
+	if s.Database.Id != nil {
 		databaseId = s.Database.Id
 	}
 	if databaseId == nil || *databaseId == "" {
