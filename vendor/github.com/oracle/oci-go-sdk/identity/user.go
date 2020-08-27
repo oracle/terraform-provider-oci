@@ -86,7 +86,6 @@ type User struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Properties indicating how the user is allowed to authenticate.
 	Capabilities *UserCapabilities `mandatory:"false" json:"capabilities"`
 }
 

@@ -14,8 +14,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateAutonomousDatabaseFromBackupTimestampDetails Details to create a point-in-time clone of an Oracle Autonomous Database by specifying a timestamp. Point-in-time clones use backups as the source of the data for the clone.
-type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
+// CreateRefreshableAutonomousDatabaseCloneDetails Details to create an Oracle Autonomous Database refreshable clone.
+type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -30,10 +30,7 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	DataStorageSizeInTBs *int `mandatory:"true" json:"dataStorageSizeInTBs"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
-	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
-
-	// The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past.
-	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
+	SourceId *string `mandatory:"true" json:"sourceId"`
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
@@ -95,8 +92,8 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// A valid Oracle Database version for Autonomous Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
-	// The Autonomous Database clone type.
-	CloneType CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
+	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
+	RefreshableMode CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
 
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
@@ -110,146 +107,146 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 }
 
 //GetCompartmentId returns CompartmentId
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetCompartmentId() *string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
 //GetDbName returns DbName
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDbName() *string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbName() *string {
 	return m.DbName
 }
 
 //GetCpuCoreCount returns CpuCoreCount
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetCpuCoreCount() *int {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
 //GetDbWorkload returns DbWorkload
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
 }
 
 //GetDataStorageSizeInTBs returns DataStorageSizeInTBs
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDataStorageSizeInTBs() *int {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
 }
 
 //GetIsFreeTier returns IsFreeTier
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetIsFreeTier() *bool {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsFreeTier() *bool {
 	return m.IsFreeTier
 }
 
 //GetAdminPassword returns AdminPassword
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetAdminPassword() *string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetAdminPassword() *string {
 	return m.AdminPassword
 }
 
 //GetDisplayName returns DisplayName
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDisplayName() *string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 //GetLicenseModel returns LicenseModel
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
 }
 
 //GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
 	return m.IsPreviewVersionWithServiceTermsAccepted
 }
 
 //GetIsAutoScalingEnabled returns IsAutoScalingEnabled
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetIsAutoScalingEnabled() *bool {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
 }
 
 //GetIsDedicated returns IsDedicated
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetIsDedicated() *bool {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsDedicated() *bool {
 	return m.IsDedicated
 }
 
 //GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetAutonomousContainerDatabaseId() *string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
 }
 
 //GetWhitelistedIps returns WhitelistedIps
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetWhitelistedIps() []string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
 }
 
 //GetIsDataGuardEnabled returns IsDataGuardEnabled
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetIsDataGuardEnabled() *bool {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsDataGuardEnabled() *bool {
 	return m.IsDataGuardEnabled
 }
 
 //GetSubnetId returns SubnetId
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetSubnetId() *string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
 //GetNsgIds returns NsgIds
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetNsgIds() []string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
 //GetPrivateEndpointLabel returns PrivateEndpointLabel
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetPrivateEndpointLabel() *string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetPrivateEndpointLabel() *string {
 	return m.PrivateEndpointLabel
 }
 
 //GetFreeformTags returns FreeformTags
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetFreeformTags() map[string]string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 //GetDefinedTags returns DefinedTags
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDefinedTags() map[string]map[string]interface{} {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
 //GetDbVersion returns DbVersion
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDbVersion() *string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbVersion() *string {
 	return m.DbVersion
 }
 
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) String() string {
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
 }
 
 // MarshalJSON marshals to json representation
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateAutonomousDatabaseFromBackupTimestampDetails CreateAutonomousDatabaseFromBackupTimestampDetails
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateRefreshableAutonomousDatabaseCloneDetails CreateRefreshableAutonomousDatabaseCloneDetails
 	s := struct {
 		DiscriminatorParam string `json:"source"`
-		MarshalTypeCreateAutonomousDatabaseFromBackupTimestampDetails
+		MarshalTypeCreateRefreshableAutonomousDatabaseCloneDetails
 	}{
-		"BACKUP_FROM_TIMESTAMP",
-		(MarshalTypeCreateAutonomousDatabaseFromBackupTimestampDetails)(m),
+		"CLONE_TO_REFRESHABLE",
+		(MarshalTypeCreateRefreshableAutonomousDatabaseCloneDetails)(m),
 	}
 
 	return json.Marshal(&s)
 }
 
-// CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum Enum with underlying type: string
-type CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum string
+// CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum Enum with underlying type: string
+type CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum string
 
-// Set of constants representing the allowable values for CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum
+// Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum
 const (
-	CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeFull     CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum = "FULL"
-	CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeMetadata CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum = "METADATA"
+	CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeAutomatic CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum = "AUTOMATIC"
+	CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual    CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum = "MANUAL"
 )
 
-var mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneType = map[string]CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum{
-	"FULL":     CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeFull,
-	"METADATA": CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeMetadata,
+var mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableMode = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum{
+	"AUTOMATIC": CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeAutomatic,
+	"MANUAL":    CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual,
 }
 
-// GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum
-func GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumValues() []CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum {
-	values := make([]CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneType {
+// GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum
+func GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum {
+	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum, 0)
+	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableMode {
 		values = append(values, v)
 	}
 	return values

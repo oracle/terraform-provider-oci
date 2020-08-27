@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateAuthenticationPolicyDetails Update request for authentication policy, describes set of validation rules and their parameters to be updated.
-type UpdateAuthenticationPolicyDetails struct {
-	PasswordPolicy *PasswordPolicy `mandatory:"false" json:"passwordPolicy"`
+// NetworkPolicy Network policy, Consists of a list of Network Source ids.
+type NetworkPolicy struct {
 
-	NetworkPolicy *NetworkPolicy `mandatory:"false" json:"networkPolicy"`
+	// Network Source ids
+	NetworkSourceIds []string `mandatory:"false" json:"networkSourceIds"`
 }
 
-func (m UpdateAuthenticationPolicyDetails) String() string {
+func (m NetworkPolicy) String() string {
 	return common.PointerString(m)
 }

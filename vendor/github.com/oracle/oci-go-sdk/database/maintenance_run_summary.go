@@ -13,40 +13,40 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// MaintenanceRunSummary Details of a Maintenance Run.
+// MaintenanceRunSummary Details of a maintenance run.
 type MaintenanceRunSummary struct {
 
-	// The OCID of the Maintenance Run.
+	// The OCID of the maintenance run.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The user-friendly name for the Maintenance Run.
+	// The user-friendly name for the maintenance run.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The current state of the Maintenance Run.
+	// The current state of the maintenance run.
 	LifecycleState MaintenanceRunSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time the Maintenance Run is scheduled for.
+	// The date and time the maintenance run is scheduled to occur.
 	TimeScheduled *common.SDKTime `mandatory:"true" json:"timeScheduled"`
 
-	// The text describing this Maintenance Run.
+	// Description of the maintenance run.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Additional information about the current lifecycleState.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The date and time the Maintenance Run starts.
+	// The date and time the maintenance run starts.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the Maintenance Run was completed.
+	// The date and time the maintenance run was completed.
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 
-	// The type of the target resource on which the Maintenance Run occurs.
+	// The type of the target resource on which the maintenance run occurs.
 	TargetResourceType MaintenanceRunSummaryTargetResourceTypeEnum `mandatory:"false" json:"targetResourceType,omitempty"`
 
-	// The ID of the target resource on which the Maintenance Run occurs.
+	// The ID of the target resource on which the maintenance run occurs.
 	TargetResourceId *string `mandatory:"false" json:"targetResourceId"`
 
 	// Maintenance type.
