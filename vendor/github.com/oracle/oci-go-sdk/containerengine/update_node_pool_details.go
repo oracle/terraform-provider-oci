@@ -57,6 +57,9 @@ type UpdateNodePoolDetails struct {
 
 	// The name of the node shape of the nodes in the node pool used on launch.
 	NodeShape *string `mandatory:"false" json:"nodeShape"`
+
+	// Specify the configuration of the shape to launch nodes in the node pool.
+	NodeShapeConfig *UpdateNodeShapeConfigDetails `mandatory:"false" json:"nodeShapeConfig"`
 }
 
 func (m UpdateNodePoolDetails) String() string {
@@ -76,6 +79,7 @@ func (m *UpdateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 		NodeSourceDetails nodesourcedetails                `json:"nodeSourceDetails"`
 		SshPublicKey      *string                          `json:"sshPublicKey"`
 		NodeShape         *string                          `json:"nodeShape"`
+		NodeShapeConfig   *UpdateNodeShapeConfigDetails    `json:"nodeShapeConfig"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -116,6 +120,8 @@ func (m *UpdateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SshPublicKey = model.SshPublicKey
 
 	m.NodeShape = model.NodeShape
+
+	m.NodeShapeConfig = model.NodeShapeConfig
 
 	return
 }

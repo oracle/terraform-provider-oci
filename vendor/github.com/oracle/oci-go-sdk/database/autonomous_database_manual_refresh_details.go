@@ -13,19 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateMaintenanceRunDetails Describes the modification parameters for the maintenance run.
-type UpdateMaintenanceRunDetails struct {
+// AutonomousDatabaseManualRefreshDetails Details of manual refresh for an Autonomous Database refreshable clone.
+type AutonomousDatabaseManualRefreshDetails struct {
 
-	// If `FALSE`, skips the maintenance run.
-	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
-
-	// The scheduled date and time of the maintenance run to update.
-	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
-
-	// If set to `TRUE`, starts patching immediately.
-	IsPatchNowEnabled *bool `mandatory:"false" json:"isPatchNowEnabled"`
+	// The timestamp to which the Autonomous Database refreshable clone will be refreshed. Changes made in the primary database after this timestamp are not part of the data refresh.
+	TimeRefreshCutoff *common.SDKTime `mandatory:"false" json:"timeRefreshCutoff"`
 }
 
-func (m UpdateMaintenanceRunDetails) String() string {
+func (m AutonomousDatabaseManualRefreshDetails) String() string {
 	return common.PointerString(m)
 }
