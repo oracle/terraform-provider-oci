@@ -65,6 +65,10 @@ var (
 		"node_pool_id": Representation{repType: Required, create: `${oci_containerengine_node_pool.test_node_pool_node_source_details.id}`},
 	}
 
+	nodePoolSingularDataSourceRepresentationForFlexShapes = map[string]interface{}{
+		"node_pool_id": Representation{repType: Required, create: `${oci_containerengine_node_pool.test_node_pool_flexible_shapes.id}`},
+	}
+
 	nodePoolDataSourceRepresentationForImageId = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"cluster_id":     Representation{repType: Optional, create: `${oci_containerengine_cluster.test_cluster.id}`},
@@ -83,6 +87,16 @@ var (
 	nodePoolDataSourceFilterRepresentationForNodeSourceDetails = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_containerengine_node_pool.test_node_pool_node_source_details.id}`}},
+	}
+
+	nodePoolDataSourceRepresentationForFlexShapes = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"cluster_id":     Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"name":           Representation{repType: Required, create: `flexNodePool`, update: `flexNodePool2`},
+		"filter":         RepresentationGroup{Required, nodePoolDataSourceFilterRepresentationForFlexShapes}}
+	nodePoolDataSourceFilterRepresentationForFlexShapes = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_containerengine_node_pool.test_node_pool_flexible_shapes.id}`}},
 	}
 
 	nodePoolRepresentationForImageId = map[string]interface{}{
@@ -111,9 +125,25 @@ var (
 		"ssh_public_key":      Representation{repType: Optional, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
 	}
 
+	nodePoolRepresentationForFlexShapes = map[string]interface{}{
+		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}`},
+		"name":                Representation{repType: Required, create: `flexNodePool`, update: `flexNodePool2`},
+		"node_source_details": RepresentationGroup{Required, nodePoolNodeSourceDetailsRepresentation},
+		"node_shape":          Representation{repType: Required, create: `VM.Standard.E3.Flex`},
+		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
+		"node_shape_config":   RepresentationGroup{Required, nodePoolNodeShapeConfigRepresentation},
+		"quantity_per_subnet": Representation{repType: Required, create: `1`},
+	}
+
 	nodePoolNodeSourceDetailsRepresentation = map[string]interface{}{
 		"image_id":    Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.image_id}`},
 		"source_type": Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.source_type}`},
+	}
+
+	nodePoolNodeShapeConfigRepresentation = map[string]interface{}{
+		"ocpus": Representation{repType: Required, create: `1.0`, update: `2.0`},
 	}
 
 	NodePoolReginalResourceDependencies = generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
@@ -626,6 +656,122 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceNameForNodeSourceDetails, "quantity_per_subnet", "2"),
 					resource.TestCheckResourceAttr(singularDatasourceNameForNodeSourceDetails, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 					resource.TestCheckResourceAttr(singularDatasourceNameForNodeSourceDetails, "subnet_ids.#", "2"),
+				),
+			},
+		},
+	})
+}
+
+func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
+	httpreplay.SetScenario("TestContainerengineNodePoolResource_basic")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceNameForFlexibleShapes := "oci_containerengine_node_pool.test_node_pool_flexible_shapes"
+
+	datasourceNameForFlexibleShapes := "data.oci_containerengine_node_pools.test_node_pools_flexible_shapes"
+
+	singularDatasourceNameForFlexibleShapes := "data.oci_containerengine_node_pool.test_node_pool_flexible_shapes"
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckContainerengineNodePoolDestroy,
+		Steps: []resource.TestStep{
+			// verify creation of flex node pool
+			{
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Required, Create, nodePoolRepresentationForFlexShapes),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "cluster_id"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "kubernetes_version"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "name", "flexNodePool"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.0.ocpus", "1"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceNameForFlexibleShapes, "id")
+						return err
+					},
+				),
+			},
+
+			// verify flex update
+			{
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Optional, Update, nodePoolRepresentationForFlexShapes),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "cluster_id"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "kubernetes_version"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "name", "flexNodePool2"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.0.ocpus", "2"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceNameForFlexibleShapes, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
+			// verify datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools_flexible_shapes", Optional, Update, nodePoolDataSourceRepresentationForFlexShapes) +
+					compartmentIdVariableStr + NodePoolResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Optional, Update, nodePoolRepresentationForFlexShapes),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					//Asserting Datasource for NodePool created with Flexible Shape
+					resource.TestCheckResourceAttrSet(datasourceNameForFlexibleShapes, "cluster_id"),
+					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "name", "flexNodePool2"),
+
+					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceNameForFlexibleShapes, "node_pools.0.cluster_id"),
+					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(datasourceNameForFlexibleShapes, "node_pools.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceNameForFlexibleShapes, "node_pools.0.kubernetes_version"),
+					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.0.name", "flexNodePool2"),
+					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.0.node_shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.0.node_shape_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.0.node_shape_config.0.ocpus", "2"),
+				),
+			},
+
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Required, Create, nodePoolSingularDataSourceRepresentationForFlexShapes) +
+					compartmentIdVariableStr + NodePoolResourceConfig +
+					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Optional, Update, nodePoolRepresentationForFlexShapes),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					//Asserting Singular Datasource for NodePool created with Flex Shape
+					resource.TestCheckResourceAttrSet(singularDatasourceNameForFlexibleShapes, "cluster_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceNameForFlexibleShapes, "node_pool_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceNameForFlexibleShapes, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceNameForFlexibleShapes, "kubernetes_version"),
+					resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "name", "flexNodePool2"),
+					resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.0.ocpus", "2"),
 				),
 			},
 		},
