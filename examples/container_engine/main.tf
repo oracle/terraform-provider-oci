@@ -170,6 +170,29 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
   ssh_public_key      = "${var.node_pool_ssh_public_key}"
 }
 
+resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
+  #Required
+  cluster_id         = "${oci_containerengine_cluster.test_cluster.id}"
+  compartment_id     = "${var.compartment_ocid}"
+  kubernetes_version = "${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}"
+  name               = "flexShapePool"
+  node_shape         = "VM.Standard.E3.Flex"
+  subnet_ids         = ["${oci_core_subnet.nodePool_Subnet_1.id}", "${oci_core_subnet.nodePool_Subnet_2.id}"]
+
+  node_source_details {
+    #Required
+    image_id    = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.image_id}"
+    source_type = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.source_type}"
+  }
+
+  node_shape_config {
+    ocpus = 2.0
+  }
+
+  quantity_per_subnet = 2
+  ssh_public_key      = "${var.node_pool_ssh_public_key}"
+}
+
 output "cluster" {
   value = {
     id                 = "${oci_containerengine_cluster.test_cluster.id}"
@@ -184,6 +207,14 @@ output "node_pool" {
     kubernetes_version = "${oci_containerengine_node_pool.test_node_pool.kubernetes_version}"
     name               = "${oci_containerengine_node_pool.test_node_pool.name}"
     subnet_ids         = "${oci_containerengine_node_pool.test_node_pool.subnet_ids}"
+  }
+}
+
+output "flex_node_pool" {
+  value = {
+    id                 = "${oci_containerengine_node_pool.test_flex_shape_node_pool.id}"
+    kubernetes_version = "${oci_containerengine_node_pool.test_flex_shape_node_pool.kubernetes_version}"
+    name               = "${oci_containerengine_node_pool.test_flex_shape_node_pool.name}"
   }
 }
 
