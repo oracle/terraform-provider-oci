@@ -313,7 +313,7 @@ $ terraform import oci_database_db_system.test_db_system "id"
 
 Import is only supported for source=NONE
 
-`db_home.0.database.0.admin_password` is not returned by the service for security reasons. To avoid a force new of the db_home on the next apply you can manually modify the statefile to add the field or you can add the following to the resource:
+`db_home.0.database.0.admin_password` is not returned by the service for security reasons. To avoid a force new of the db_home on the next apply, add the following to the resource:
 
 ```
     lifecycle {
@@ -321,3 +321,15 @@ Import is only supported for source=NONE
     }
 ```
 You may also need to add `hostname` to the ignore_changes list if you see a diff on a subsequent apply
+
+If the oci_database_db_system being imported is missing a primary db_home, an empty placeholder for `db_home` will be set in the Terraform state.
+To keep configurations consistent with the imported state, add an empty placeholder for `db_home` to your configuration like this:
+
+```
+  # Add this placeholder into your oci_database_db_system configuration to indicate that the primary db home is empty.
+  db_home {
+    database {
+      admin_password = ""
+    }
+  }
+```
