@@ -2,9 +2,10 @@
 // Licensed under the Mozilla Public License v2.0
 
 output "key_id" {
-  value = "${oci_kms_key.test_key.id}"
+  value = oci_kms_key.test_key.id
 }
 
 output "volumes" {
-  value = "${data.oci_core_volumes.test_volumes.volumes}"
+  value = data.oci_core_volumes.test_volumes.volumes
 }
+

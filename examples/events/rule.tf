@@ -1,19 +1,30 @@
 // Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_id" {}
+variable "tenancy_ocid" {
+}
+
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "region" {
+}
+
+variable "compartment_id" {
+}
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
 }
 
 resource "oci_events_rule" "test_rule" {
@@ -27,7 +38,7 @@ resource "oci_events_rule" "test_rule" {
 
       #Optional
       description = "description"
-      topic_id    = "${oci_ons_notification_topic.test_notification_topic.id}"
+      topic_id    = oci_ons_notification_topic.test_notification_topic.id
     }
 
     actions {
@@ -37,11 +48,11 @@ resource "oci_events_rule" "test_rule" {
 
       #Optional
       description = "description"
-      stream_id   = "${oci_streaming_stream.test_stream.id}"
+      stream_id   = oci_streaming_stream.test_stream.id
     }
   }
 
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
   condition      = "{\"eventType\": \"com.oraclecloud.dbaas.autonomous.database.backup.end\"}"
   display_name   = "This rule sends a notification upon completion of DbaaS backup"
   is_enabled     = true
@@ -49,7 +60,7 @@ resource "oci_events_rule" "test_rule" {
 
 data "oci_events_rules" "test_rules" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
 
   #Optional
   display_name = "This rule sends a notification upon completion of DbaaS backup"
@@ -57,7 +68,7 @@ data "oci_events_rules" "test_rules" {
 }
 
 resource "oci_streaming_stream" "test_stream" {
-  compartment_id     = "${var.tenancy_ocid}"
+  compartment_id     = var.tenancy_ocid
   name               = "testStream"
   partitions         = "1"
   retention_in_hours = "24"
@@ -65,6 +76,7 @@ resource "oci_streaming_stream" "test_stream" {
 
 resource "oci_ons_notification_topic" "test_notification_topic" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
   name           = "testNotificationTopic"
 }
+

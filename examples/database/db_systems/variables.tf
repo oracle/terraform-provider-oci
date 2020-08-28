@@ -1,15 +1,29 @@
 // Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
+variable "tenancy_ocid" {
+}
 
-variable "compartment_ocid" {}
-variable "ssh_public_key" {}
-variable "ssh_private_key" {}
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "region" {
+}
+
+variable "compartment_ocid" {
+}
+
+variable "ssh_public_key" {
+}
+
+variable "ssh_private_key" {
+}
 
 # Choose an Availability Domain
 variable "availability_domain" {
@@ -84,3 +98,4 @@ variable "node_count" {
 variable "data_storage_percentage" {
   default = "40"
 }
+

@@ -2,49 +2,60 @@
 // Licensed under the Mozilla Public License v2.0
 
 // These variables would commonly be defined as environment variables or sourced in a .env file
-variable "tenancy_ocid" {}
+variable "tenancy_ocid" {
+}
 
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "compartment_ocid" {}
-variable "region" {}
+variable "user_ocid" {
+}
 
-variable "idcs_access_token" {}
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "compartment_ocid" {
+}
+
+variable "region" {
+}
+
+variable "idcs_access_token" {
+}
 
 provider "oci" {
-  region           = "${var.region}"
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
+  region           = var.region
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
 }
 
 resource "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   compute_shape  = "ENTERPRISE_MEDIUM"
   display_name   = "displayname3"
   platform_role  = "FOUNDER"
 
   #Optional
-  idcs_access_token = "${var.idcs_access_token}"
+  idcs_access_token = var.idcs_access_token
 }
 
 data "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
   #Required
-  blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+  blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 }
 
 data "oci_blockchain_blockchain_platforms" "test_blockchain_platforms" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
 }
 
 resource "oci_blockchain_osn" "test_osn" {
   #Required
   ad                     = "AD1"
-  blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+  blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 
   ocpu_allocation_param {
     #Required
@@ -54,14 +65,14 @@ resource "oci_blockchain_osn" "test_osn" {
 
 data "oci_blockchain_osn" "test_osn" {
   #Required
-  osn_id                 = "${oci_blockchain_osn.test_osn.id}"
-  blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+  osn_id                 = oci_blockchain_osn.test_osn.id
+  blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 }
 
 resource "oci_blockchain_peer" "test_peer" {
   #Required
   ad                     = "AD1"
-  blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+  blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 
   ocpu_allocation_param {
     #Required
@@ -73,6 +84,7 @@ resource "oci_blockchain_peer" "test_peer" {
 
 data "oci_blockchain_peer" "test_peer" {
   #Required
-  peer_id                = "${oci_blockchain_peer.test_peer.id}"
-  blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+  peer_id                = oci_blockchain_peer.test_peer.id
+  blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 }
+

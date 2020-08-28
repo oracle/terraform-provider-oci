@@ -1,12 +1,23 @@
 // Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_ocid" {}
+variable "tenancy_ocid" {
+}
+
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "region" {
+}
+
+variable "compartment_ocid" {
+}
 
 variable "autonomous_database_defined_tags_value" {
   default = "value"
@@ -29,3 +40,4 @@ variable "autonomous_exadata_infrastructure_domain" {
 variable "autonomous_container_database_backup_config_recovery_window_in_days" {
   default = 10
 }
+

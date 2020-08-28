@@ -68,3 +68,4 @@ variable "virtual_circuit_cross_connect_mappings_vlan_public" {
 variable "virtual_circuit_public_prefix_verification_state" {
   default = "COMPLETED"
 }
+

@@ -2,29 +2,41 @@
 // Licensed under the Mozilla Public License v2.0
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
 }
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_ocid" {}
-variable "ssh_public_key" {}
+variable "tenancy_ocid" {
+}
+
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "region" {
+}
+
+variable "compartment_ocid" {
+}
+
+variable "ssh_public_key" {
+}
 
 variable "instance_image_ocid" {
-  type = "map"
+  type = map(string)
 
   default = {
     # See https://docs.us-phoenix-1.oraclecloud.com/images/
     # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
-
+    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
     us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
     eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
     uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
@@ -32,13 +44,13 @@ variable "instance_image_ocid" {
 }
 
 resource "oci_core_instance" "test_instance" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  compartment_id      = "${var.compartment_ocid}"
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
   display_name        = "TestInstance"
   shape               = "VM.Standard2.1"
 
   create_vnic_details {
-    subnet_id        = "${oci_core_subnet.test_subnet.id}"
+    subnet_id        = oci_core_subnet.test_subnet.id
     display_name     = "Primaryvnic"
     assign_public_ip = true
     hostname_label   = "testinstance"
@@ -46,11 +58,11 @@ resource "oci_core_instance" "test_instance" {
 
   source_details {
     source_type = "image"
-    source_id   = "${var.instance_image_ocid[var.region]}"
+    source_id   = var.instance_image_ocid[var.region]
   }
 
   metadata = {
-    ssh_authorized_keys = "${var.ssh_public_key}"
+    ssh_authorized_keys = var.ssh_public_key
   }
 
   timeouts {
@@ -59,8 +71,8 @@ resource "oci_core_instance" "test_instance" {
 }
 
 resource "oci_core_image" "custom_image" {
-  compartment_id = "${var.compartment_ocid}"
-  instance_id    = "${oci_core_instance.test_instance.id}"
+  compartment_id = var.compartment_ocid
+  instance_id    = oci_core_instance.test_instance.id
 
   launch_mode = "NATIVE"
 
@@ -70,50 +82,49 @@ resource "oci_core_image" "custom_image" {
 }
 
 resource "oci_core_shape_management" "compatible_shape" {
-  compartment_id = "${var.compartment_ocid}"
-  image_id       = "${oci_core_image.custom_image.id}"
+  compartment_id = var.compartment_ocid
+  image_id       = oci_core_image.custom_image.id
   shape_name     = "VM.Standard2.1"
 }
 
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.1.0.0/16"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name   = "TestVcn"
   dns_label      = "testvcn"
 }
 
 resource "oci_core_subnet" "test_subnet" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  availability_domain = data.oci_identity_availability_domain.ad.name
   cidr_block          = "10.1.20.0/24"
   display_name        = "TestSubnet"
   dns_label           = "testsubnet"
-  security_list_ids   = ["${oci_core_vcn.test_vcn.default_security_list_id}"]
-  compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_vcn.test_vcn.id}"
-  route_table_id      = "${oci_core_vcn.test_vcn.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_vcn.test_vcn.default_dhcp_options_id}"
+  security_list_ids   = [oci_core_vcn.test_vcn.default_security_list_id]
+  compartment_id      = var.compartment_ocid
+  vcn_id              = oci_core_vcn.test_vcn.id
+  route_table_id      = oci_core_vcn.test_vcn.default_route_table_id
+  dhcp_options_id     = oci_core_vcn.test_vcn.default_dhcp_options_id
 }
 
 # Gets a list of Availability Domains
 data "oci_identity_availability_domain" "ad" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
   ad_number      = 1
 }
 
 # Gets the custom image that will be created by this Terraform config
 data "oci_core_images" "custom_images" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
 
   filter {
     name   = "id"
-    values = ["${oci_core_image.custom_image.id}"]
+    values = [oci_core_image.custom_image.id]
   }
 }
 
 # Gets a list of images within a tenancy
 data "oci_core_images" "supported_shape_images" {
-  compartment_id = "${var.tenancy_ocid}"
-
+  compartment_id = var.tenancy_ocid
   # Uncomment below to filter images that support a specific instance shape
   #shape                    = "VM.Standard2.1"
 
@@ -136,9 +147,10 @@ data "oci_core_images" "supported_shape_images" {
 
 # Another way to get the custom image that will be created by this Terraform config
 data "oci_core_image" "supported_image" {
-  image_id = "${oci_core_image.custom_image.id}"
+  image_id = oci_core_image.custom_image.id
 }
 
 output "supported_shape_images" {
-  value = "${data.oci_core_images.supported_shape_images.images}"
+  value = data.oci_core_images.supported_shape_images.images
 }
+

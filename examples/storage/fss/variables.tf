@@ -1,20 +1,33 @@
 // Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
+variable "tenancy_ocid" {
+}
 
-variable "compartment_ocid" {}
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "region" {
+}
+
+variable "compartment_ocid" {
+}
 
 # Refer https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm on how to setup SSH key pairs for compute instances
-variable "ssh_public_key" {}
+variable "ssh_public_key" {
+}
 
-variable "ssh_private_key" {}
+variable "ssh_private_key" {
+}
 
-variable "api_public_key" {}
+variable "api_public_key" {
+}
 
 variable "my_vcn-cidr" {
   default = "10.0.0.0/16"
@@ -81,16 +94,15 @@ variable "export_read_only_access_source" {
 }
 
 variable "instance_image_ocid" {
-  type = "map"
+  type = map(string)
 
   default = {
     # See https://docs.us-phoenix-1.oraclecloud.com/images/
     # Oracle-provided image "Oracle-Linux-7.5-2018.05.09-1"
     eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaazregkysspxnktw35k4r5vzwurxk6myu44umqthjeakbkvxvxdlkq"
-
-    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaa6ybn2lkqp2ejhijhehf5i65spqh3igt53iyvncyjmo7uhm5235ca"
-    uk-london-1  = "ocid1.image.oc1.uk-london-1.aaaaaaaayodsld656eh5stds5mo4hrmwuhk2ugin4eyfpgoiiskqfxll6a4a"
-    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaozjbzisykoybkppaiwviyfzusjzokq7jzwxi7nvwdiopk7ligoia"
+    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaa6ybn2lkqp2ejhijhehf5i65spqh3igt53iyvncyjmo7uhm5235ca"
+    uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaayodsld656eh5stds5mo4hrmwuhk2ugin4eyfpgoiiskqfxll6a4a"
+    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaaozjbzisykoybkppaiwviyfzusjzokq7jzwxi7nvwdiopk7ligoia"
   }
 }
 
@@ -99,5 +111,6 @@ variable "instance_shape" {
 }
 
 locals {
-  mount_target_1_ip_address = "${lookup(data.oci_core_private_ips.ip_mount_target1.private_ips[0], "ip_address")}"
+  mount_target_1_ip_address = data.oci_core_private_ips.ip_mount_target1.private_ips[0]["ip_address"]
 }
+

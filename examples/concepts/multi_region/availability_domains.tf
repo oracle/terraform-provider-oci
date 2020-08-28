@@ -7,7 +7,7 @@
  */
 
 data "oci_identity_availability_domains" "ad-phx" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
 
   filter {
     name   = "name"
@@ -17,8 +17,8 @@ data "oci_identity_availability_domains" "ad-phx" {
 }
 
 data "oci_identity_availability_domains" "ad-iad" {
-  provider       = "oci.iad"
-  compartment_id = "${var.tenancy_ocid}"
+  provider       = oci.iad
+  compartment_id = var.tenancy_ocid
 
   filter {
     name   = "name"
@@ -28,9 +28,10 @@ data "oci_identity_availability_domains" "ad-iad" {
 }
 
 output "ad-phx" {
-  value = "${data.oci_identity_availability_domains.ad-phx.availability_domains}"
+  value = data.oci_identity_availability_domains.ad-phx.availability_domains
 }
 
 output "ad-iad" {
-  value = "${data.oci_identity_availability_domains.ad-iad.availability_domains}"
+  value = data.oci_identity_availability_domains.ad-iad.availability_domains
 }
+

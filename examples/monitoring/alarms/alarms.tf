@@ -1,12 +1,23 @@
 // Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_id" {}
+variable "tenancy_ocid" {
+}
+
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "region" {
+}
+
+variable "compartment_id" {
+}
 
 variable "alarm_body" {
   default = "High CPU utilization reached"
@@ -115,11 +126,11 @@ variable "tag_namespace_name" {
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
 }
 
 resource "random_string" "topicname" {
@@ -129,69 +140,70 @@ resource "random_string" "topicname" {
 
 resource "oci_ons_notification_topic" "test_notification_topic" {
   #Required
-  compartment_id = "${var.compartment_id}"
-  name           = "${random_string.topicname.result}"
+  compartment_id = var.compartment_id
+  name           = random_string.topicname.result
 }
 
 resource "oci_monitoring_alarm" "test_alarm" {
   #Required
-  compartment_id        = "${var.compartment_id}"
-  destinations          = ["${oci_ons_notification_topic.test_notification_topic.id}"]
-  display_name          = "${var.alarm_display_name}"
-  is_enabled            = "${var.alarm_is_enabled}"
-  metric_compartment_id = "${var.compartment_id}"
-  namespace             = "${var.alarm_namespace}"
-  query                 = "${var.alarm_query}"
-  severity              = "${var.alarm_severity}"
+  compartment_id        = var.compartment_id
+  destinations          = [oci_ons_notification_topic.test_notification_topic.id]
+  display_name          = var.alarm_display_name
+  is_enabled            = var.alarm_is_enabled
+  metric_compartment_id = var.compartment_id
+  namespace             = var.alarm_namespace
+  query                 = var.alarm_query
+  severity              = var.alarm_severity
 
   #Optional
-  body                             = "${var.alarm_body}"
-  metric_compartment_id_in_subtree = "${var.alarm_metric_compartment_id_in_subtree}"
-  pending_duration                 = "${var.alarm_pending_duration}"
-  repeat_notification_duration     = "${var.alarm_repeat_notification_duration}"
-  resolution                       = "${var.alarm_resolution}"
-  resource_group                   = "${var.alarm_resource_group}"
+  body                             = var.alarm_body
+  metric_compartment_id_in_subtree = var.alarm_metric_compartment_id_in_subtree
+  pending_duration                 = var.alarm_pending_duration
+  repeat_notification_duration     = var.alarm_repeat_notification_duration
+  resolution                       = var.alarm_resolution
+  resource_group                   = var.alarm_resource_group
 
   suppression {
     #Required
-    time_suppress_from  = "${var.alarm_suppression_time_suppress_from}"
-    time_suppress_until = "${var.alarm_suppression_time_suppress_until}"
+    time_suppress_from  = var.alarm_suppression_time_suppress_from
+    time_suppress_until = var.alarm_suppression_time_suppress_until
 
     #Optional
-    description = "${var.alarm_suppression_description}"
+    description = var.alarm_suppression_description
   }
 }
 
 data "oci_monitoring_alarms" "test_alarms" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
 
   #Optional
-  compartment_id_in_subtree = "${var.alarm_compartment_id_in_subtree}"
-  display_name              = "${var.alarm_display_name}"
-  state                     = "${var.alarm_state}"
+  compartment_id_in_subtree = var.alarm_compartment_id_in_subtree
+  display_name              = var.alarm_display_name
+  state                     = var.alarm_state
 }
 
 data "oci_monitoring_alarm_history_collection" "test_alarm_history_collection" {
   #Required
-  alarm_id = "${oci_monitoring_alarm.test_alarm.id}"
+  alarm_id = oci_monitoring_alarm.test_alarm.id
 
   #Optional
-  alarm_historytype                  = "${var.alarm_history_collection_alarm_historytype}"
-  timestamp_greater_than_or_equal_to = "${var.alarm_history_collection_timestamp_greater_than_or_equal_to}"
-  timestamp_less_than                = "${var.alarm_history_collection_timestamp_less_than}"
+  alarm_historytype                  = var.alarm_history_collection_alarm_historytype
+  timestamp_greater_than_or_equal_to = var.alarm_history_collection_timestamp_greater_than_or_equal_to
+  timestamp_less_than                = var.alarm_history_collection_timestamp_less_than
 }
 
 data "oci_monitoring_alarm_statuses" "test_alarm_statuses" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
 
   #Optional
-  compartment_id_in_subtree = "${var.alarm_status_compartment_id_in_subtree}"
-  display_name              = "${var.alarm_status_display_name}"
+  compartment_id_in_subtree = var.alarm_status_compartment_id_in_subtree
+  display_name              = var.alarm_status_display_name
 }
 
 data "oci_monitoring_alarm" "test_alarm" {
   #Required
-  alarm_id = "${oci_monitoring_alarm.test_alarm.id}"
+  alarm_id = oci_monitoring_alarm.test_alarm.id
 }
+

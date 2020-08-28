@@ -1,32 +1,43 @@
 // Copyright (c) 2019, Oracle and/or its affiliates. All rights reserved.
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "compartment_id" {}
-variable "region" {}
+variable "tenancy_ocid" {
+}
+
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "compartment_id" {
+}
+
+variable "region" {
+}
 
 variable "ssh_public_key" {
   default = "ssh-rsa sample"
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
 }
 
 data "oci_identity_availability_domain" "ad" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
   ad_number      = 1
 }
 
 resource "oci_core_security_list" "exadata_shapes_security_list" {
-  compartment_id = "${var.compartment_id}"
-  vcn_id         = "${oci_core_virtual_network.t.id}"
+  compartment_id = var.compartment_id
+  vcn_id         = oci_core_virtual_network.t.id
   display_name   = "TFExampleSecurityList"
 
   // allow outbound tcp traffic on all ports
@@ -43,7 +54,7 @@ resource "oci_core_security_list" "exadata_shapes_security_list" {
 
 #dataguard requires the port to be open on the subnet
 resource "oci_core_virtual_network" "t" {
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
   cidr_block     = "10.1.0.0/16"
   display_name   = "-tf-vcn"
   dns_label      = "tfvcn"
@@ -51,14 +62,14 @@ resource "oci_core_virtual_network" "t" {
 
 // An AD based subnet will supply an Availability Domain
 resource "oci_core_subnet" "test_subnet" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  availability_domain = data.oci_identity_availability_domain.ad.name
   cidr_block          = "10.1.22.0/24"
   display_name        = "ExadataSubnet"
-  compartment_id      = "${var.compartment_id}"
-  vcn_id              = "${oci_core_virtual_network.t.id}"
-  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-  security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}", "${oci_core_security_list.exadata_shapes_security_list.id}"]
+  compartment_id      = var.compartment_id
+  vcn_id              = oci_core_virtual_network.t.id
+  route_table_id      = oci_core_virtual_network.t.default_route_table_id
+  dhcp_options_id     = oci_core_virtual_network.t.default_dhcp_options_id
+  security_list_ids   = [oci_core_virtual_network.t.default_security_list_id, oci_core_security_list.exadata_shapes_security_list.id]
   dns_label           = "subnetexadata"
 }
 
@@ -67,7 +78,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   admin_network_cidr          = "192.168.0.0/16"
   cloud_control_plane_server1 = "192.168.19.1"
   cloud_control_plane_server2 = "192.168.19.2"
-  compartment_id              = "${var.compartment_id}"
+  compartment_id              = var.compartment_id
   display_name                = "tstExaInfra"
   dns_server                  = ["192.168.10.10"]
   gateway                     = "192.168.20.1"
@@ -83,11 +94,11 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 }
 
 resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
 
   display_name              = "testVmClusterNw"
   dns                       = ["192.168.10.12"]
-  exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
+  exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 
   ntp = ["192.168.10.22"]
 
@@ -143,34 +154,34 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 }
 
 resource "oci_database_vm_cluster" "test_exadata_vm_cluster_for_primary_db" {
-  compartment_id            = "${var.compartment_id}"
+  compartment_id            = var.compartment_id
   cpu_core_count            = "4"
-  depends_on                = ["oci_database_vm_cluster_network.test_vm_cluster_network"]
+  depends_on                = [oci_database_vm_cluster_network.test_vm_cluster_network]
   display_name              = "vmClusterForPrimaryDB"
-  exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
+  exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
   gi_version                = "19.1.0.0"
-  ssh_public_keys           = ["${var.ssh_public_key}"]
-  vm_cluster_network_id     = "${oci_database_vm_cluster_network.test_vm_cluster_network.id}"
+  ssh_public_keys           = [var.ssh_public_key]
+  vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network.id
 }
 
 resource "oci_database_vm_cluster" "test_exadata_vm_cluster_for_standby_db" {
-  compartment_id            = "${var.compartment_id}"
+  compartment_id            = var.compartment_id
   cpu_core_count            = "4"
-  depends_on                = ["oci_database_vm_cluster_network.test_vm_cluster_network"]
+  depends_on                = [oci_database_vm_cluster_network.test_vm_cluster_network]
   display_name              = "vmClusterForStandbyDB"
-  exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
+  exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
   gi_version                = "19.1.0.0"
-  ssh_public_keys           = ["${var.ssh_public_key}"]
-  vm_cluster_network_id     = "${oci_database_vm_cluster_network.test_vm_cluster_network.id}"
+  ssh_public_keys           = [var.ssh_public_key]
+  vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network.id
 }
 
 data "oci_database_databases" "exadb" {
-  compartment_id = "${var.compartment_id}"
-  db_home_id     = "${oci_database_db_home.test_db_home_vm_cluster.id}"
+  compartment_id = var.compartment_id
+  db_home_id     = oci_database_db_home.test_db_home_vm_cluster.id
 }
 
 resource "oci_database_db_home" "test_db_home_vm_cluster" {
-  vm_cluster_id = "${oci_database_vm_cluster.test_exadata_vm_cluster_for_primary_db.id}"
+  vm_cluster_id = oci_database_vm_cluster.test_exadata_vm_cluster_for_primary_db.id
 
   database {
     admin_password = "BEstrO0ng_#11"
@@ -189,15 +200,19 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
 resource "oci_database_data_guard_association" "test_exadata_data_guard_association" {
   creation_type                    = "ExistingVmCluster"
   database_admin_password          = "BEstrO0ng_#11"
-  database_id                      = "${data.oci_database_databases.exadb.databases.0.id}"
+  database_id                      = data.oci_database_databases.exadb.databases[0].id
   delete_standby_db_home_on_delete = "true"
-  depends_on                       = ["oci_database_vm_cluster.test_exadata_vm_cluster_for_primary_db", "oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db"]
-  peer_vm_cluster_id               = "${oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db.id}"
-  protection_mode                  = "MAXIMUM_PERFORMANCE"
-  transport_type                   = "ASYNC"
+  depends_on = [
+    oci_database_vm_cluster.test_exadata_vm_cluster_for_primary_db,
+    oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db,
+  ]
+  peer_vm_cluster_id = oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db.id
+  protection_mode    = "MAXIMUM_PERFORMANCE"
+  transport_type     = "ASYNC"
 }
 
 data "oci_database_data_guard_association" "test_exadata_data_guard_association_for_primary" {
-  data_guard_association_id = "${oci_database_data_guard_association.test_exadata_data_guard_association.id}"
-  database_id               = "${data.oci_database_databases.exadb.databases.0.id}"
+  data_guard_association_id = oci_database_data_guard_association.test_exadata_data_guard_association.id
+  database_id               = data.oci_database_databases.exadb.databases[0].id
 }
+
