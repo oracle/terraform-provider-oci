@@ -1,4 +1,8 @@
 ## 3.93.0 (Unreleased)
+
+### Notes
+- Examples updated to Terraform v0.12 syntax
+
 ## 3.92.0 (September 09, 2020)
 
 ### Added

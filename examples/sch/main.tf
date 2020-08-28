@@ -8,11 +8,11 @@ variable "region" {}
 variable "compartment_ocid" {}
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
 }
 
 variable "image" {
@@ -25,9 +25,9 @@ variable defined_tag_namespace_name {
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
   description    = "example tag namespace"
-  name           = "${var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"}"
+  name           = var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"
 
   is_retired = false
 }
@@ -36,43 +36,43 @@ resource "oci_identity_tag" "tag1" {
   #Required
   description      = "example tag"
   name             = "example-tag"
-  tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
+  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
 
   is_retired = false
 }
 
 resource "oci_core_subnet" "test_subnet" {
   cidr_block     = "10.0.0.0/24"
-  compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_vcn.test_vcn.id}"
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.test_vcn.id
 }
 
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.0.0.0/16"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
 }
 
 resource "oci_functions_application" "test_application" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name   = "displayName"
-  subnet_ids     = ["${oci_core_subnet.test_subnet.id}"]
+  subnet_ids     = [oci_core_subnet.test_subnet.id]
 }
 
 resource "oci_functions_function" "test_function" {
-  application_id = "${oci_functions_application.test_application.id}"
+  application_id = oci_functions_application.test_application.id
   display_name   = "displayName"
-  image          = "${var.image}"
+  image          = var.image
   memory_in_mbs  = "128"
 }
 
 resource "oci_streaming_stream" "test_stream" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   name           = "mynewstream"
   partitions     = "1"
 }
 
 resource "oci_logging_log_group" "test_log_group" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name   = "tempDisplayName"
 }
 
@@ -80,28 +80,28 @@ resource "oci_logging_log" "test_log" {
   configuration {
     source {
       category    = "write"
-      resource    = "${oci_objectstorage_bucket.test_bucket.name}"
+      resource    = oci_objectstorage_bucket.test_bucket.name
       service     = "objectstorage"
       source_type = "OCISERVICE"
     }
   }
 
   display_name = "displayName"
-  log_group_id = "${oci_logging_log_group.test_log_group.id}"
+  log_group_id = oci_logging_log_group.test_log_group.id
   log_type     = "SERVICE"
 }
 
 resource "oci_objectstorage_bucket" "test_bucket" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   name           = "newName"
-  namespace      = "${data.oci_objectstorage_namespace.test_namespace.namespace}"
+  namespace      = data.oci_objectstorage_namespace.test_namespace.namespace
 }
 
 data "oci_objectstorage_namespace" "test_namespace" {}
 
 resource "oci_sch_service_connector" "test_service_connector" {
-  compartment_id = "${var.compartment_ocid}"
-  defined_tags   = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}"
+  compartment_id = var.compartment_ocid
+  defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"}
   description    = "description2"
   display_name   = "displayName2"
 
@@ -113,15 +113,15 @@ resource "oci_sch_service_connector" "test_service_connector" {
     kind = "logging"
 
     log_sources {
-      compartment_id = "${var.compartment_ocid}"
-      log_group_id   = "${oci_logging_log_group.test_log_group.id}"
-      log_id         = "${oci_logging_log.test_log.id}"
+      compartment_id = var.compartment_ocid
+      log_group_id   = oci_logging_log_group.test_log_group.id
+      log_id         = oci_logging_log.test_log.id
     }
   }
 
   target {
     kind      = "streaming"
-    stream_id = "${oci_streaming_stream.test_stream.id}"
+    stream_id = oci_streaming_stream.test_stream.id
   }
 
   tasks {
@@ -133,9 +133,9 @@ resource "oci_sch_service_connector" "test_service_connector" {
 }
 
 data "oci_sch_service_connector" "test_service_connector" {
-  service_connector_id = "${oci_sch_service_connector.test_service_connector.id}"
+  service_connector_id = oci_sch_service_connector.test_service_connector.id
 }
 
 output "oci_sch_service_connector_id" {
-  value = ["${data.oci_sch_service_connector.test_service_connector.id}"]
+  value = [data.oci_sch_service_connector.test_service_connector.id]
 }

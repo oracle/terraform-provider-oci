@@ -1,12 +1,23 @@
 // Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_ocid" {}
+variable "tenancy_ocid" {
+}
+
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "region" {
+}
+
+variable "compartment_ocid" {
+}
 
 variable "ping_monitor_defined_tags_value" {
   default = "value"
@@ -51,41 +62,41 @@ variable "ping_monitor_vantage_point_names" {
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
 }
 
 resource "oci_health_checks_ping_monitor" "test_ping_monitor" {
   #Required
-  compartment_id      = "${var.compartment_ocid}"
-  display_name        = "${var.ping_monitor_display_name}"
-  interval_in_seconds = "${var.ping_monitor_interval_in_seconds}"
-  protocol            = "${var.ping_monitor_protocol}"
-  targets             = "${var.ping_monitor_targets}"
+  compartment_id      = var.compartment_ocid
+  display_name        = var.ping_monitor_display_name
+  interval_in_seconds = var.ping_monitor_interval_in_seconds
+  protocol            = var.ping_monitor_protocol
+  targets             = var.ping_monitor_targets
 
   #Optional
-  #defined_tags        = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.ping_monitor_defined_tags_value}")}"
-  freeform_tags = "${var.ping_monitor_freeform_tags}"
+  #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"}
+  freeform_tags = var.ping_monitor_freeform_tags
 
-  is_enabled          = "${var.ping_monitor_is_enabled}"
-  port                = "${var.ping_monitor_port}"
-  timeout_in_seconds  = "${var.ping_monitor_timeout_in_seconds}"
-  vantage_point_names = "${var.ping_monitor_vantage_point_names}"
+  is_enabled          = var.ping_monitor_is_enabled
+  port                = var.ping_monitor_port
+  timeout_in_seconds  = var.ping_monitor_timeout_in_seconds
+  vantage_point_names = var.ping_monitor_vantage_point_names
 }
 
 data "oci_health_checks_ping_probe_results" "test_ping_probe_results" {
   #Required
-  probe_configuration_id = "${oci_health_checks_ping_monitor.test_ping_monitor.id}"
-
+  probe_configuration_id = oci_health_checks_ping_monitor.test_ping_monitor.id
   #Optional
-  #start_time_greater_than_or_equal_to = "${var.ping_probe_result_start_time_greater_than_or_equal_to}"
-  #start_time_less_than_or_equal_to    = "${var.ping_probe_result_start_time_less_than_or_equal_to}"
-  #target                              = "${var.ping_probe_result_target}"
+  #start_time_greater_than_or_equal_to = var.ping_probe_result_start_time_greater_than_or_equal_to
+  #start_time_less_than_or_equal_to    = var.ping_probe_result_start_time_less_than_or_equal_to
+  #target                              = var.ping_probe_result_target
 }
 
-output monitors {
-  value = "${data.oci_health_checks_ping_probe_results.test_ping_probe_results.ping_probe_results}"
+output "monitors" {
+  value = data.oci_health_checks_ping_probe_results.test_ping_probe_results.ping_probe_results
 }
+
