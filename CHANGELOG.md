@@ -9,6 +9,9 @@
 - Support for logging in API Gateway Service
 - Support for Service Connector Hub
 
+### Deprecated
+- The `delete_object_in_destination_bucket` attribute in `oci_objectstorage_replication_policy` is now deprecated
+
 ## 3.91.0 (September 02, 2020)
 
 ### Added

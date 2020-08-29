@@ -22,7 +22,6 @@ resource "oci_objectstorage_replication_policy" "test_replication_policy" {
 	destination_bucket_name = "${oci_objectstorage_bucket.test_bucket.name}"
 	destination_region_name = "${oci_identity_region.test_region.name}"
 	name = "${var.replication_policy_name}"
-	delete_object_in_destination_bucket = "${delete_object_in_destination_bucket}"
 	namespace = "${var.replication_policy_namespace}"
 }
 ```
@@ -35,7 +34,6 @@ The following arguments are supported:
 * `destination_bucket_name` - (Required) The bucket to replicate to in the destination region. Replication policy creation does not automatically create a destination bucket. Create the destination bucket before creating the policy. 
 * `destination_region_name` - (Required) The destination region to replicate to, for example "us-ashburn-1".
 * `name` - (Required) The name of the policy.
-* `delete_object_in_destination_bucket` - (Required) The flag that indicates user understand they will delete the objects in destination bucket, it will be "ACCEPT" or "DECLINE"
 * `namespace` - (Required) The Object Storage namespace used for the request.
 
 
