@@ -79,6 +79,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"database_software_image_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"db_backup_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -241,6 +247,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 			},
 
 			// Optional
+			"database_software_image_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -608,6 +620,10 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DatabaseSoftwareImageId != nil {
+		s.D.Set("database_software_image_id", *s.Res.DatabaseSoftwareImageId)
+	}
+
 	if s.Res.DbHomeLocation != nil {
 		s.D.Set("db_home_location", *s.Res.DbHomeLocation)
 	}
@@ -677,6 +693,11 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 	if characterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "character_set")); ok {
 		tmp := characterSet.(string)
 		result.CharacterSet = &tmp
+	}
+
+	if databaseSoftwareImageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_software_image_id")); ok {
+		tmp := databaseSoftwareImageId.(string)
+		result.DatabaseSoftwareImageId = &tmp
 	}
 
 	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
@@ -855,6 +876,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := dbSystemId.(string)
 			details.DbSystemId = &tmp
 		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -875,6 +900,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
 			tmp := dbSystemId.(string)
 			details.DbSystemId = &tmp
+		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
 		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
@@ -901,6 +930,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
 		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -921,6 +954,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
+		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
@@ -1047,6 +1084,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 
 	if backupId, ok := s.D.GetOkExists("database.0.backup_id"); ok && backupId != nil {
 		result["backup_id"] = backupId.(string)
+	}
+
+	if databaseSoftwareImageId, ok := s.D.GetOkExists("database.0.database_software_image_id"); ok && databaseSoftwareImageId != nil {
+		result["database_software_image_id"] = databaseSoftwareImageId.(string)
 	}
 
 	if backupTDEPassword, ok := s.D.GetOkExists("database.0.backup_tde_password"); ok && backupTDEPassword != nil {

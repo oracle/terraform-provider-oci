@@ -139,6 +139,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["connection_strings"] = nil
 		}
 
+		if r.DatabaseSoftwareImageId != nil {
+			database["database_software_image_id"] = *r.DatabaseSoftwareImageId
+		}
+
 		if r.DbBackupConfig != nil {
 			database["db_backup_config"] = []interface{}{DbBackupConfigToMap(r.DbBackupConfig)}
 		} else {

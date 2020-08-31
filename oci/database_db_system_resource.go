@@ -96,6 +96,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"database_software_image_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"db_backup_config": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -256,6 +262,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 						},
 
 						// Optional
+						"database_software_image_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"db_version": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -1256,6 +1268,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.CharacterSet = &tmp
 	}
 
+	if databaseSoftwareImageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_software_image_id")); ok {
+		tmp := databaseSoftwareImageId.(string)
+		result.DatabaseSoftwareImageId = &tmp
+	}
+
 	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
 		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
@@ -1310,6 +1327,10 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 
 	if obj.CharacterSet != nil {
 		result["character_set"] = string(*obj.CharacterSet)
+	}
+
+	if obj.DatabaseSoftwareImageId != nil {
+		result["database_software_image_id"] = string(*obj.DatabaseSoftwareImageId)
 	}
 
 	if obj.DbBackupConfig != nil {
@@ -1545,6 +1566,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat s
 		}
 	}
 
+	if databaseSoftwareImageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_software_image_id")); ok {
+		tmp := databaseSoftwareImageId.(string)
+		result.DatabaseSoftwareImageId = &tmp
+	}
+
 	if dbVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_version")); ok {
 		tmp := dbVersion.(string)
 		result.DbVersion = &tmp
@@ -1575,6 +1601,10 @@ func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]
 
 	if obj.Database != nil {
 		result["database"] = []interface{}{CreateDatabaseDetailsToMap(obj.Database)}
+	}
+
+	if obj.DatabaseSoftwareImageId != nil {
+		result["database_software_image_id"] = string(*obj.DatabaseSoftwareImageId)
 	}
 
 	if obj.DbVersion != nil {
@@ -2889,6 +2919,10 @@ func (s *DatabaseDbSystemResourceCrud) DbHomeToMap(obj *oci_database.DbHome) map
 		result["db_home_location"] = string(*obj.DbHomeLocation)
 	}
 
+	if obj.DatabaseSoftwareImageId != nil {
+		result["database_software_image_id"] = string(*obj.DatabaseSoftwareImageId)
+	}
+
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
@@ -2931,6 +2965,10 @@ func (s *DatabaseDbSystemResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if obj.ConnectionStrings != nil {
 		result["connection_strings"] = []interface{}{DatabaseConnectionStringsToMap(obj.ConnectionStrings)}
+	}
+
+	if obj.DatabaseSoftwareImageId != nil {
+		result["database_software_image_id"] = string(*obj.DatabaseSoftwareImageId)
 	}
 
 	if obj.DbBackupConfig != nil {

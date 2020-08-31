@@ -138,6 +138,10 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DatabaseSoftwareImageId != nil {
+			dbHome["database_software_image_id"] = *r.DatabaseSoftwareImageId
+		}
+
 		if r.DbHomeLocation != nil {
 			dbHome["db_home_location"] = *r.DbHomeLocation
 		}

@@ -326,6 +326,7 @@ database
 * oci\_database\_exadata\_infrastructure
 * oci\_database\_vm\_cluster\_network
 * oci\_database\_vm\_cluster
+* oci\_database\_database\_software\_image
 
 datacatalog
     
