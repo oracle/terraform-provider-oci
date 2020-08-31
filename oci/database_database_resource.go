@@ -68,6 +68,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"database_software_image_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"db_backup_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -228,6 +234,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"database_software_image_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"db_backup_config": {
 				Type:     schema.TypeList,
@@ -482,6 +492,10 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 		s.D.Set("connection_strings", nil)
 	}
 
+	if s.Res.DatabaseSoftwareImageId != nil {
+		s.D.Set("database_software_image_id", *s.Res.DatabaseSoftwareImageId)
+	}
+
 	if s.Res.DbBackupConfig != nil {
 		s.D.Set("db_backup_config", []interface{}{DbBackupConfigToMap(s.Res.DbBackupConfig)})
 	} else {
@@ -603,6 +617,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 	if characterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "character_set")); ok {
 		tmp := characterSet.(string)
 		result.CharacterSet = &tmp
+	}
+
+	if databaseSoftwareImageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_software_image_id")); ok {
+		tmp := databaseSoftwareImageId.(string)
+		result.DatabaseSoftwareImageId = &tmp
 	}
 
 	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {

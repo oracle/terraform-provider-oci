@@ -2,6 +2,7 @@
 
 ### Added
 - Support for load balancer shape update added
+- Support for DBaaS Custom DB Image
 
 ### Notes
 - Examples updated to Terraform v0.12 syntax

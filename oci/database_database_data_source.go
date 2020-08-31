@@ -81,6 +81,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("connection_strings", nil)
 	}
 
+	if s.Res.DatabaseSoftwareImageId != nil {
+		s.D.Set("database_software_image_id", *s.Res.DatabaseSoftwareImageId)
+	}
+
 	if s.Res.DbBackupConfig != nil {
 		s.D.Set("db_backup_config", []interface{}{DbBackupConfigToMap(s.Res.DbBackupConfig)})
 	} else {

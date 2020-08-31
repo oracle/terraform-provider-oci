@@ -662,6 +662,16 @@ var exportDatabaseVmClusterHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatabaseDatabaseSoftwareImageHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_database_software_image",
+	datasourceClass:      "oci_database_database_software_images",
+	datasourceItemsAttr:  "database_software_images",
+	resourceAbbreviation: "database_software_image",
+	discoverableLifecycleStates: []string{
+		string(oci_database.DatabaseSoftwareImageLifecycleStateAvailable),
+	},
+}
+
 var exportDataflowApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataflow_application",
 	datasourceClass:        "oci_dataflow_applications",

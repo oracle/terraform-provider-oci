@@ -33,7 +33,13 @@ The following arguments are supported:
 
 * `autonomous_database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `base64_encode_content` - (Optional) Encodes the downloaded zipped wallet in base64. It is recommended to set this to `true` to avoid corrupting the zip file in Terraform state. The default value is `false` to preserve backwards compatibility with Terraform v0.11 configurations.
-* `generate_type` - (Optional) The type of wallet to generate. `SINGLE` is used to generate a wallet for a single database. `ALL` is used to generate wallet for all databases in the region. 
+* `generate_type` - (Optional) The type of wallet to generate. 
+
+	**Shared Exadata infrastructure usage:**
+	* `SINGLE` - used to generate a wallet for a single database
+	* `ALL` - used to generate wallet for all databases in the region
+
+	**Dedicated Exadata infrastructure usage:** Value must be `NULL` if attribute is used. 
 * `password` - (Required) The password to encrypt the keys inside the wallet. The password must be at least 8 characters long and must include at least 1 letter and either 1 numeric character or 1 special character.
 
 

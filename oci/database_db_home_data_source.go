@@ -71,6 +71,10 @@ func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DatabaseSoftwareImageId != nil {
+		s.D.Set("database_software_image_id", *s.Res.DatabaseSoftwareImageId)
+	}
+
 	if s.Res.DbHomeLocation != nil {
 		s.D.Set("db_home_location", *s.Res.DbHomeLocation)
 	}
