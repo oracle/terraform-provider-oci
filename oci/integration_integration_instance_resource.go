@@ -56,6 +56,12 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			},
 
 			// Optional
+			"consumption_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -245,6 +251,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if consumptionModel, ok := s.D.GetOkExists("consumption_model"); ok {
+		request.ConsumptionModel = oci_integration.CreateIntegrationInstanceDetailsConsumptionModelEnum(consumptionModel.(string))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -518,6 +528,8 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("consumption_model", s.Res.ConsumptionModel)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))

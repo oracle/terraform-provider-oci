@@ -33,6 +33,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - Compartment Identifier.
+* `consumption_model` - The entitlement used for billing purposes.
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Integration Instance Identifier, can be renamed.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
