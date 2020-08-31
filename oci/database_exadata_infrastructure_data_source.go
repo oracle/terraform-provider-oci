@@ -83,12 +83,22 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	contacts := []interface{}{}
+	for _, item := range s.Res.Contacts {
+		contacts = append(contacts, ExadataInfrastructureContactToMap(item))
+	}
+	s.D.Set("contacts", contacts)
+
 	if s.Res.CorporateProxy != nil {
 		s.D.Set("corporate_proxy", *s.Res.CorporateProxy)
 	}
 
 	if s.Res.CpusEnabled != nil {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)
+	}
+
+	if s.Res.CsiNumber != nil {
+		s.D.Set("csi_number", *s.Res.CsiNumber)
 	}
 
 	if s.Res.DataStorageSizeInTBs != nil {

@@ -1,4 +1,8 @@
 ## 3.94.0 (Unreleased)
+
+### Added
+- Support for ExaCC Customer Contacts
+
 ## 3.93.0 (September 16, 2020)
 
 ### Added
