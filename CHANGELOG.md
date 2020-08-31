@@ -3,6 +3,7 @@
 ### Added
 - Support for load balancer shape update added
 - Support for DBaaS Custom DB Image
+- Support for consumption_model in `oci_integration_integration_instance` resource
 
 ### Notes
 - Examples updated to Terraform v0.12 syntax

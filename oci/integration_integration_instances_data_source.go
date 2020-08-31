@@ -111,6 +111,8 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		integrationInstance["consumption_model"] = r.ConsumptionModel
+
 		if r.DisplayName != nil {
 			integrationInstance["display_name"] = *r.DisplayName
 		}

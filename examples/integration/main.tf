@@ -23,6 +23,10 @@ variable "integration_instance_idcs_access_token" {
   default = "idcsAt"
 }
 
+variable "integration_instance_consumption_model" {
+  default = "UCM"
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -40,6 +44,8 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
   message_packs             = "10"
 
   #Optional
+  consumption_model = "${var.integration_instance_consumption_model}"
+
   freeform_tags = {
     "bar-key" = "value"
   }

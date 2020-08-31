@@ -47,6 +47,7 @@ var (
 		"integration_instance_type": Representation{repType: Required, create: `STANDARD`, update: `ENTERPRISE`},
 		"is_byol":                   Representation{repType: Required, create: `false`, update: `true`},
 		"message_packs":             Representation{repType: Required, create: `10`, update: `11`},
+		"consumption_model":         Representation{repType: Optional, create: `UCM`},
 		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		"idcs_at":                   Representation{repType: Required, create: `${var.idcs_access_token}`},
@@ -118,6 +119,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Create, integrationInstanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -151,6 +153,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -178,6 +181,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -212,6 +216,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.instance_url"),
@@ -233,6 +238,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "integration_instance_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
