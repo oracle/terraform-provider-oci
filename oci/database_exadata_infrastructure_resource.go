@@ -92,6 +92,35 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"contacts": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"email": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"is_primary": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"phone_number": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"corporate_proxy": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -114,6 +143,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 			// Computed
 			"cpus_enabled": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"csi_number": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"data_storage_size_in_tbs": {
@@ -271,6 +304,23 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if contacts, ok := s.D.GetOkExists("contacts"); ok {
+		interfaces := contacts.([]interface{})
+		tmp := make([]oci_database.ExadataInfrastructureContact, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "contacts", stateDataIndex)
+			converted, err := s.mapToExadataInfrastructureContact(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("contacts") {
+			request.Contacts = tmp
+		}
+	}
+
 	if corporateProxy, ok := s.D.GetOkExists("corporate_proxy"); ok {
 		tmp := corporateProxy.(string)
 		request.CorporateProxy = &tmp
@@ -420,6 +470,23 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		request.CloudControlPlaneServer2 = &tmp
 	}
 
+	if contacts, ok := s.D.GetOkExists("contacts"); ok {
+		interfaces := contacts.([]interface{})
+		tmp := make([]oci_database.ExadataInfrastructureContact, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "contacts", stateDataIndex)
+			converted, err := s.mapToExadataInfrastructureContact(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("contacts") {
+			request.Contacts = tmp
+		}
+	}
+
 	if corporateProxy, ok := s.D.GetOkExists("corporate_proxy"); ok && s.D.HasChange("corporate_proxy") {
 		tmp := corporateProxy.(string)
 		request.CorporateProxy = &tmp
@@ -542,12 +609,22 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	contacts := []interface{}{}
+	for _, item := range s.Res.Contacts {
+		contacts = append(contacts, ExadataInfrastructureContactToMap(item))
+	}
+	s.D.Set("contacts", contacts)
+
 	if s.Res.CorporateProxy != nil {
 		s.D.Set("corporate_proxy", *s.Res.CorporateProxy)
 	}
 
 	if s.Res.CpusEnabled != nil {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)
+	}
+
+	if s.Res.CsiNumber != nil {
+		s.D.Set("csi_number", *s.Res.CsiNumber)
 	}
 
 	if s.Res.DataStorageSizeInTBs != nil {
@@ -623,6 +700,54 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DatabaseExadataInfrastructureResourceCrud) mapToExadataInfrastructureContact(fieldKeyFormat string) (oci_database.ExadataInfrastructureContact, error) {
+	result := oci_database.ExadataInfrastructureContact{}
+
+	if email, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "email")); ok {
+		tmp := email.(string)
+		result.Email = &tmp
+	}
+
+	if isPrimary, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_primary")); ok {
+		tmp := isPrimary.(bool)
+		result.IsPrimary = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if phoneNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "phone_number")); ok {
+		tmp := phoneNumber.(string)
+		result.PhoneNumber = &tmp
+	}
+
+	return result, nil
+}
+
+func ExadataInfrastructureContactToMap(obj oci_database.ExadataInfrastructureContact) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Email != nil {
+		result["email"] = string(*obj.Email)
+	}
+
+	if obj.IsPrimary != nil {
+		result["is_primary"] = bool(*obj.IsPrimary)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.PhoneNumber != nil {
+		result["phone_number"] = string(*obj.PhoneNumber)
+	}
+
+	return result
 }
 
 func (s *DatabaseExadataInfrastructureResourceCrud) updateCompartment(compartment interface{}) error {
