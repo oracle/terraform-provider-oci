@@ -145,6 +145,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_preview", *s.Res.IsPreview)
 	}
 
+	if s.Res.IsRefreshableClone != nil {
+		s.D.Set("is_refreshable_clone", *s.Res.IsRefreshableClone)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
@@ -152,6 +156,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)
+
+	s.D.Set("open_mode", s.Res.OpenMode)
 
 	if s.Res.PrivateEndpoint != nil {
 		s.D.Set("private_endpoint", *s.Res.PrivateEndpoint)
@@ -165,8 +171,16 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("private_endpoint_label", *s.Res.PrivateEndpointLabel)
 	}
 
+	s.D.Set("refreshable_mode", s.Res.RefreshableMode)
+
+	s.D.Set("refreshable_status", s.Res.RefreshableStatus)
+
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
+	}
+
+	if s.Res.SourceId != nil {
+		s.D.Set("source_id", *s.Res.SourceId)
 	}
 
 	if s.Res.StandbyDb != nil {
@@ -205,8 +219,20 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("time_of_last_failover", s.Res.TimeOfLastFailover.String())
 	}
 
+	if s.Res.TimeOfLastRefresh != nil {
+		s.D.Set("time_of_last_refresh", s.Res.TimeOfLastRefresh.String())
+	}
+
+	if s.Res.TimeOfLastRefreshPoint != nil {
+		s.D.Set("time_of_last_refresh_point", s.Res.TimeOfLastRefreshPoint.String())
+	}
+
 	if s.Res.TimeOfLastSwitchover != nil {
 		s.D.Set("time_of_last_switchover", s.Res.TimeOfLastSwitchover.String())
+	}
+
+	if s.Res.TimeOfNextRefresh != nil {
+		s.D.Set("time_of_next_refresh", s.Res.TimeOfNextRefresh.String())
 	}
 
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {

@@ -129,6 +129,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("pdb_name", *s.Res.PdbName)
 	}
 
+	if s.Res.SourceDatabasePointInTimeRecoveryTimestamp != nil {
+		s.D.Set("source_database_point_in_time_recovery_timestamp", s.Res.SourceDatabasePointInTimeRecoveryTimestamp.String())
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

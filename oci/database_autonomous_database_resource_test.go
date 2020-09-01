@@ -20,17 +20,19 @@ import (
 )
 
 var (
-	adbDedicatedName       = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adbDedicatedUpdateName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adbDedicatedCloneName  = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adDedicatedName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adDedicatedUpdateName  = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adbBackupSourceName    = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adbBackupIdName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adbBackupTimestampName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adbPreviewDbName       = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adbDataSafeName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adbDbVersionName       = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbDedicatedName                   = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbDedicatedUpdateName             = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbDedicatedCloneName              = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adDedicatedName                    = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adDedicatedUpdateName              = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbBackupSourceName                = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbBackupIdName                    = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbBackupTimestampName             = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbPreviewDbName                   = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbDataSafeName                    = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbDbVersionName                   = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbDbRefreshableCloneName          = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbDbRefreshableCloneSourceADBName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	AutonomousDatabaseDedicatedRequiredOnlyResource = AutonomousDatabaseDedicatedResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseDedicatedRepresentation)
@@ -103,6 +105,31 @@ var (
 	})
 
 	AutonomousDatabaseDedicatedResourceDependencies = AutonomousContainerDatabaseResourceConfig
+
+	autonomousDatabaseRefreshableCloneSourceADBRepresentation = representationCopyWithNewProperties(
+		autonomousDatabaseRepresentation, map[string]interface{}{
+			"db_name":    Representation{repType: Required, create: adbDbRefreshableCloneSourceADBName},
+			"db_version": Representation{repType: Optional, create: `19c`},
+		})
+
+	autonomousDatabaseRefreshableCloneRepresentation = representationCopyWithNewProperties(
+		representationCopyWithRemovedProperties(autonomousDatabaseRepresentation, []string{"timeouts"}), map[string]interface{}{
+			"admin_password":       Representation{repType: Optional, create: ``},
+			"source":               Representation{repType: Required, create: `CLONE_TO_REFRESHABLE`},
+			"db_name":              Representation{repType: Required, create: adbDbRefreshableCloneName},
+			"source_id":            Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
+			"is_refreshable_clone": Representation{repType: Optional, create: `true`},
+			"refreshable_mode":     Representation{repType: Optional, create: `MANUAL`},
+			"db_version":           Representation{repType: Optional, create: `19c`},
+		})
+
+	autonomousDatabasesCloneDataSourceRepresentation2 = map[string]interface{}{
+		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
+		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
+		"clone_type":             Representation{repType: Optional, create: `REFRESHABLE_CLONE`},
+		"display_name":           Representation{repType: Optional, create: `example_autonomous_database`},
+		"state":                  Representation{repType: Optional, create: `AVAILABLE`},
+	}
 
 	autonomousDatabasePrivateEndpointRepresentation = representationCopyWithRemovedProperties(
 		representationCopyWithNewProperties(
@@ -1979,6 +2006,356 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_last_switchover"),
+				),
+			},
+		},
+	})
+}
+
+func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.T) {
+	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_refreshableClone")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	var resId, resId2 string
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+	datasourceName := "data.oci_database_autonomous_databases.test_autonomous_databases"
+	singularDatasourceName := "data.oci_database_autonomous_database.test_autonomous_database"
+	clonesDatasourceName := "data.oci_database_autonomous_databases_clones.test_autonomous_databases_clones"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckDatabaseAutonomousDatabaseDestroy,
+		Steps: []resource.TestStep{
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRefreshableCloneRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDbRefreshableCloneName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_refreshable_clone", "true"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+					resource.TestCheckResourceAttr(resourceName, "refreshable_mode", "MANUAL"),
+					resource.TestCheckResourceAttr(resourceName, "refreshable_status", "REFRESHING"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh_point"),
+					// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh"),
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_next_refresh"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// verify LIST clones given a source ADB
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRefreshableCloneRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_databases_clones", "test_autonomous_databases_clones", Optional, Create, autonomousDatabasesCloneDataSourceRepresentation2),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_database_id"),
+					resource.TestCheckResourceAttr(clonesDatasourceName, "clone_type", "REFRESHABLE_CLONE"),
+					resource.TestCheckResourceAttr(clonesDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(clonesDatasourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(clonesDatasourceName, "state", "AVAILABLE"),
+
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.#"),
+					resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.available_upgrade_versions.#", "0"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.compartment_id"),
+					resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.connection_strings.#", "1"),
+					resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.connection_urls.#", "1"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.cpu_core_count"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.data_safe_status"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.data_storage_size_in_tbs"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.db_name"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.db_version"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.db_workload"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.display_name"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.failed_data_recovery_in_seconds"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.id"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.is_auto_scaling_enabled"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.is_data_guard_enabled"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.is_dedicated"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.is_free_tier"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.is_preview"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.is_refreshable_clone"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.license_model"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.open_mode"),
+					// todo: commented due to a bug in service, to be reverted after they fix it
+					//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.refreshable_mode"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.refreshable_status"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.source_id"),
+					resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.standby_db.#", "0"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_created"),
+					//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_deletion_of_free_autonomous_database"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_maintenance_begin"),
+					resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_maintenance_end"),
+					// values are not available immediately
+					//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_last_failover"),
+					//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_last_refresh"),
+					//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_last_refresh_point"),
+					//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_last_switchover"),
+					//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_next_refresh"),
+					//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_reclamation_of_free_autonomous_database"),
+					resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.whitelisted_ips.#", "1"),
+				),
+			},
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+						representationCopyWithNewProperties(autonomousDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDbRefreshableCloneName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_refreshable_clone", "true"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+					resource.TestCheckResourceAttr(resourceName, "refreshable_mode", "MANUAL"),
+					resource.TestCheckResourceAttr(resourceName, "refreshable_status", "REFRESHING"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh_point"),
+					// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh"),
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_next_refresh"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRefreshableCloneRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDbRefreshableCloneName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_refreshable_clone", "true"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+					resource.TestCheckResourceAttr(resourceName, "refreshable_mode", "MANUAL"),
+					resource.TestCheckResourceAttr(resourceName, "refreshable_status", "REFRESHING"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh_point"),
+					// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh"),
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_next_refresh"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRefreshableCloneRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", Optional, Update,
+						representationCopyWithNewProperties(autonomousDatabaseDataSourceRepresentation, map[string]interface{}{
+							"db_version": Representation{repType: Required, create: `19c`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_name", adbDbRefreshableCloneName),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.db_version"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_data_guard_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_free_tier", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_preview", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_refreshable_clone", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
+					// todo: commented due to a bug in service, to be reverted after they fix it
+					//resource.TestCheckResourceAttr(singularDatasourceName, "refreshable_mode", "MANUAL"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.refreshable_status", "REFRESHING"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.source_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
+					// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_of_last_refresh_point"),
+					// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_of_last_refresh"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_of_next_refresh"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRefreshableCloneRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseSingularDataSourceRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.all_connection_strings.%"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbDbRefreshableCloneName),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_data_guard_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_free_tier", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_preview", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_refreshable_clone", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
+					// todo: commented due to a bug in service, to be reverted after they fix it
+					//resource.TestCheckResourceAttr(singularDatasourceName, "refreshable_mode", "MANUAL"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "refreshable_status", "REFRESHING"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "source_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_databases.0.time_of_last_refresh_point"),
+					// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_databases.0.time_of_last_refresh"),
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_databases.0.time_of_next_refresh"),
+				),
+			},
+			// verify detaching a refreshable clone
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithNewProperties(autonomousDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+							"is_refreshable_clone": Representation{repType: Optional, update: `false`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDbRefreshableCloneName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_refreshable_clone", "false"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+					resource.TestCheckResourceAttr(resourceName, "refreshable_mode", "MANUAL"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh_point"),
+					// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh"),
+					//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_next_refresh"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
 				),
 			},
 		},

@@ -5,6 +5,7 @@ package oci
 
 import (
 	"crypto/md5"
+	"encoding/base64"
 	"encoding/hex"
 	"fmt"
 	"log"
@@ -295,4 +296,19 @@ func getMd5Hash(source interface{}) string {
 	data := source.(string)
 	hexSum := md5.Sum([]byte(data))
 	return hex.EncodeToString(hexSum[:])
+}
+
+func hexToB64(hexEncoded string) (*string, error) {
+	decoded, err := hex.DecodeString(hexEncoded)
+	if err != nil {
+		return nil, err
+	}
+
+	b64Encoded := base64.StdEncoding.EncodeToString(decoded)
+	return &b64Encoded, nil
+}
+
+func isHex(content string) bool {
+	_, err := hex.DecodeString(content)
+	return err == nil
 }

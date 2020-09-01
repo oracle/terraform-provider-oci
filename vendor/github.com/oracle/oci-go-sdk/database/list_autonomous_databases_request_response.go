@@ -53,6 +53,10 @@ type ListAutonomousDatabasesRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Filter on the value of the resource's 'isRefreshableClone' property. A value of `true` returns only refreshable clones.
+	// A value of `false` excludes refreshable clones from the returned results. Omitting this parameter returns both refreshable clones and databases that are not refreshable clones.
+	IsRefreshableClone *bool `mandatory:"false" contributesTo:"query" name:"isRefreshableClone"`
+
 	// A filter to return only resources that have Data Guard enabled.
 	IsDataGuardEnabled *bool `mandatory:"false" contributesTo:"query" name:"isDataGuardEnabled"`
 

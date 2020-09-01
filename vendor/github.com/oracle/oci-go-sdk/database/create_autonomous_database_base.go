@@ -30,9 +30,6 @@ type CreateAutonomousDatabaseBase interface {
 	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
 	GetDataStorageSizeInTBs() *int
 
-	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
-	GetAdminPassword() *string
-
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
@@ -41,6 +38,9 @@ type CreateAutonomousDatabaseBase interface {
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	GetIsFreeTier() *bool
+
+	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+	GetAdminPassword() *string
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	GetDisplayName() *string
@@ -107,9 +107,9 @@ type createautonomousdatabasebase struct {
 	DbName                                   *string                                      `mandatory:"true" json:"dbName"`
 	CpuCoreCount                             *int                                         `mandatory:"true" json:"cpuCoreCount"`
 	DataStorageSizeInTBs                     *int                                         `mandatory:"true" json:"dataStorageSizeInTBs"`
-	AdminPassword                            *string                                      `mandatory:"true" json:"adminPassword"`
 	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum   `mandatory:"false" json:"dbWorkload,omitempty"`
 	IsFreeTier                               *bool                                        `mandatory:"false" json:"isFreeTier"`
+	AdminPassword                            *string                                      `mandatory:"false" json:"adminPassword"`
 	DisplayName                              *string                                      `mandatory:"false" json:"displayName"`
 	LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 	IsPreviewVersionWithServiceTermsAccepted *bool                                        `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
@@ -142,9 +142,9 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DbName = s.Model.DbName
 	m.CpuCoreCount = s.Model.CpuCoreCount
 	m.DataStorageSizeInTBs = s.Model.DataStorageSizeInTBs
-	m.AdminPassword = s.Model.AdminPassword
 	m.DbWorkload = s.Model.DbWorkload
 	m.IsFreeTier = s.Model.IsFreeTier
+	m.AdminPassword = s.Model.AdminPassword
 	m.DisplayName = s.Model.DisplayName
 	m.LicenseModel = s.Model.LicenseModel
 	m.IsPreviewVersionWithServiceTermsAccepted = s.Model.IsPreviewVersionWithServiceTermsAccepted
@@ -175,6 +175,10 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 	switch m.Source {
 	case "DATABASE":
 		mm := CreateAutonomousDatabaseCloneDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLONE_TO_REFRESHABLE":
+		mm := CreateRefreshableAutonomousDatabaseCloneDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "BACKUP_FROM_ID":
@@ -214,11 +218,6 @@ func (m createautonomousdatabasebase) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
 }
 
-//GetAdminPassword returns AdminPassword
-func (m createautonomousdatabasebase) GetAdminPassword() *string {
-	return m.AdminPassword
-}
-
 //GetDbWorkload returns DbWorkload
 func (m createautonomousdatabasebase) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
@@ -227,6 +226,11 @@ func (m createautonomousdatabasebase) GetDbWorkload() CreateAutonomousDatabaseBa
 //GetIsFreeTier returns IsFreeTier
 func (m createautonomousdatabasebase) GetIsFreeTier() *bool {
 	return m.IsFreeTier
+}
+
+//GetAdminPassword returns AdminPassword
+func (m createautonomousdatabasebase) GetAdminPassword() *string {
+	return m.AdminPassword
 }
 
 //GetDisplayName returns DisplayName
@@ -360,6 +364,7 @@ const (
 	CreateAutonomousDatabaseBaseSourceDatabase            CreateAutonomousDatabaseBaseSourceEnum = "DATABASE"
 	CreateAutonomousDatabaseBaseSourceBackupFromId        CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_ID"
 	CreateAutonomousDatabaseBaseSourceBackupFromTimestamp CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_TIMESTAMP"
+	CreateAutonomousDatabaseBaseSourceCloneToRefreshable  CreateAutonomousDatabaseBaseSourceEnum = "CLONE_TO_REFRESHABLE"
 )
 
 var mappingCreateAutonomousDatabaseBaseSource = map[string]CreateAutonomousDatabaseBaseSourceEnum{
@@ -367,6 +372,7 @@ var mappingCreateAutonomousDatabaseBaseSource = map[string]CreateAutonomousDatab
 	"DATABASE":              CreateAutonomousDatabaseBaseSourceDatabase,
 	"BACKUP_FROM_ID":        CreateAutonomousDatabaseBaseSourceBackupFromId,
 	"BACKUP_FROM_TIMESTAMP": CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
+	"CLONE_TO_REFRESHABLE":  CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
 }
 
 // GetCreateAutonomousDatabaseBaseSourceEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseSourceEnum

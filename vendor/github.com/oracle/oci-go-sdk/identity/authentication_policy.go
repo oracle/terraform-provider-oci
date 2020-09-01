@@ -15,12 +15,12 @@ import (
 
 // AuthenticationPolicy Authentication policy, currently set for the given compartment
 type AuthenticationPolicy struct {
-
-	// Password policy.
 	PasswordPolicy *PasswordPolicy `mandatory:"false" json:"passwordPolicy"`
 
 	// Compartment OCID.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	NetworkPolicy *NetworkPolicy `mandatory:"false" json:"networkPolicy"`
 }
 
 func (m AuthenticationPolicy) String() string {

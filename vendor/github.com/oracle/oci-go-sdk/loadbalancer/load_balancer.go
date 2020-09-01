@@ -76,6 +76,8 @@ type LoadBalancer struct {
 
 	Hostnames map[string]Hostname `mandatory:"false" json:"hostnames"`
 
+	SslCipherSuites map[string]SslCipherSuite `mandatory:"false" json:"sslCipherSuites"`
+
 	Certificates map[string]Certificate `mandatory:"false" json:"certificates"`
 
 	BackendSets map[string]BackendSet `mandatory:"false" json:"backendSets"`

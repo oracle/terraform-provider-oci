@@ -319,6 +319,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"source_database_point_in_time_recovery_timestamp": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -524,6 +528,10 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 
 	if s.Res.PdbName != nil {
 		s.D.Set("pdb_name", *s.Res.PdbName)
+	}
+
+	if s.Res.SourceDatabasePointInTimeRecoveryTimestamp != nil {
+		s.D.Set("source_database_point_in_time_recovery_timestamp", s.Res.SourceDatabasePointInTimeRecoveryTimestamp.String())
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

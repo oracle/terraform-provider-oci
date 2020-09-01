@@ -12,10 +12,10 @@ import (
 // UpdateMaintenanceRunRequest wrapper for the UpdateMaintenanceRun operation
 type UpdateMaintenanceRunRequest struct {
 
-	// The Maintenance Run OCID.
+	// The maintenance run OCID.
 	MaintenanceRunId *string `mandatory:"true" contributesTo:"path" name:"maintenanceRunId"`
 
-	// Request to update the properties of a Maintenance Run.
+	// Request to update the properties of a maintenance run.
 	UpdateMaintenanceRunDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

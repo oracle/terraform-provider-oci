@@ -94,9 +94,15 @@ func (s *IdentityNetworkSourcesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			networkSource["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Description != nil {
 			networkSource["description"] = *r.Description
 		}
+
+		networkSource["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			networkSource["id"] = *r.Id
