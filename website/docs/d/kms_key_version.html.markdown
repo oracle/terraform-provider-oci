@@ -45,8 +45,8 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains this key version.
 * `id` - The OCID of the key version.
 * `key_id` - The OCID of the master encryption key associated with this key version.
-* `restored_from_key_version_id` - The OCID of the key version from which this key version is restored.
-* `state` - The key version's current state.  Example: `ENABLED` 
+* `restored_from_key_version_id` - The OCID of the key version from which this key version was restored.
+* `state` - The key version's current lifecycle state.  Example: `ENABLED` 
 * `key_version_id` - The OCID of the key version.
 * `time_created` - The date and time this key version was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: "2018-04-03T21:10:29.600Z" 
 * `time_of_deletion` - An optional property to indicate when to delete the key version, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 

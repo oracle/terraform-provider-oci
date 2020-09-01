@@ -31,6 +31,14 @@ func KmsVaultUsageDataSource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"software_key_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"software_key_version_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -85,6 +93,14 @@ func (s *KmsVaultUsageDataSourceCrud) SetData() error {
 
 	if s.Res.KeyVersionCount != nil {
 		s.D.Set("key_version_count", *s.Res.KeyVersionCount)
+	}
+
+	if s.Res.SoftwareKeyCount != nil {
+		s.D.Set("software_key_count", *s.Res.SoftwareKeyCount)
+	}
+
+	if s.Res.SoftwareKeyVersionCount != nil {
+		s.D.Set("software_key_version_count", *s.Res.SoftwareKeyVersionCount)
 	}
 
 	return nil
