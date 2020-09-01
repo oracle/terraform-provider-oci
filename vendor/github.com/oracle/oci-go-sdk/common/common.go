@@ -41,6 +41,8 @@ const (
 	RegionAPTokyo1 Region = "ap-tokyo-1"
 	//RegionAPOsaka1 region for Osaka
 	RegionAPOsaka1 Region = "ap-osaka-1"
+	//RegionAPChiyoda1 region for Chiyoda
+	RegionAPChiyoda1 Region = "ap-chiyoda-1"
 	//RegionAPSeoul1 region for Seoul
 	RegionAPSeoul1 Region = "ap-seoul-1"
 	//RegionAPChuncheon1 region for Chuncheon
@@ -107,6 +109,7 @@ var shortNameRegion = map[string]Region{
 	"yny": RegionAPChuncheon1,
 	"nrt": RegionAPTokyo1,
 	"kix": RegionAPOsaka1,
+	"nja": RegionAPChiyoda1,
 	"syd": RegionAPSydney1,
 	"yul": RegionCAMontreal1,
 	"yyz": RegionCAToronto1,
@@ -122,6 +125,7 @@ var realm = map[string]string{
 	"oc2": "oraclegovcloud.com",
 	"oc3": "oraclegovcloud.com",
 	"oc4": "oraclegovcloud.uk",
+	"oc8": "oraclecloud8.com",
 }
 
 var regionRealm = map[Region]string{
@@ -152,6 +156,8 @@ var regionRealm = map[Region]string{
 	RegionUSGovPhoenix1: "oc3",
 	RegionUKGovCardiff1: "oc4",
 	RegionUKGovLondon1:  "oc4",
+
+	RegionAPChiyoda1: "oc8",
 }
 
 // External region metadata info flag, used to control adding these metadata region info only once.

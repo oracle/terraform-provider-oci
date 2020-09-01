@@ -212,6 +212,23 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 							Optional: true,
 							Default:  true,
 						},
+						"protocols": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"cipher_suite_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Default:  "oci-default-ssl-cipher-suite-v1",
+						},
+						"server_order_preference": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Default:  "ENABLED",
+						},
 
 						// Computed
 					},
@@ -976,6 +993,24 @@ func (s *LoadBalancerBackendSetResourceCrud) mapToSSLConfigurationDetails(fieldK
 		result.VerifyPeerCertificate = &tmp
 	}
 
+	if protocols, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocols")); ok {
+		interfaces := protocols.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			tmp[i] = fmt.Sprintf("%s", interfaces[i])
+		}
+		result.Protocols = tmp
+	}
+
+	if cipherSuiteName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cipher_suite_name")); ok {
+		tmp := cipherSuiteName.(string)
+		result.CipherSuiteName = &tmp
+	}
+
+	if serverOrderPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_order_preference")); ok {
+		result.ServerOrderPreference = oci_load_balancer.SslConfigurationDetailsServerOrderPreferenceEnum(serverOrderPreference.(string))
+	}
+
 	return result, nil
 }
 
@@ -993,6 +1028,16 @@ func SSLConfigurationToMap(obj *oci_load_balancer.SslConfiguration) map[string]i
 	if obj.VerifyPeerCertificate != nil {
 		result["verify_peer_certificate"] = bool(*obj.VerifyPeerCertificate)
 	}
+
+	if obj.Protocols != nil {
+		result["protocols"] = obj.Protocols
+	}
+
+	if obj.CipherSuiteName != nil {
+		result["cipher_suite_name"] = string(*obj.CipherSuiteName)
+	}
+
+	result["server_order_preference"] = string(obj.ServerOrderPreference)
 
 	return result
 }

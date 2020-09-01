@@ -45,6 +45,9 @@ type CreateNodePoolDetails struct {
 	// Specify the source to use to launch nodes in the node pool. Currently, image is the only supported source.
 	NodeSourceDetails NodeSourceDetails `mandatory:"false" json:"nodeSourceDetails"`
 
+	// Specify the configuration of the shape to launch nodes in the node pool.
+	NodeShapeConfig *CreateNodeShapeConfigDetails `mandatory:"false" json:"nodeShapeConfig"`
+
 	// A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
 	InitialNodeLabels []KeyValue `mandatory:"false" json:"initialNodeLabels"`
 
@@ -75,6 +78,7 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 		NodeMetadata      map[string]string                `json:"nodeMetadata"`
 		NodeImageName     *string                          `json:"nodeImageName"`
 		NodeSourceDetails nodesourcedetails                `json:"nodeSourceDetails"`
+		NodeShapeConfig   *CreateNodeShapeConfigDetails    `json:"nodeShapeConfig"`
 		InitialNodeLabels []KeyValue                       `json:"initialNodeLabels"`
 		SshPublicKey      *string                          `json:"sshPublicKey"`
 		QuantityPerSubnet *int                             `json:"quantityPerSubnet"`
@@ -105,6 +109,8 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.NodeSourceDetails = nil
 	}
+
+	m.NodeShapeConfig = model.NodeShapeConfig
 
 	m.InitialNodeLabels = make([]KeyValue, len(model.InitialNodeLabels))
 	for i, n := range model.InitialNodeLabels {

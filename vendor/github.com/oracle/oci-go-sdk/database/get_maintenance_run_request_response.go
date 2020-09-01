@@ -12,7 +12,7 @@ import (
 // GetMaintenanceRunRequest wrapper for the GetMaintenanceRun operation
 type GetMaintenanceRunRequest struct {
 
-	// The Maintenance Run OCID.
+	// The maintenance run OCID.
 	MaintenanceRunId *string `mandatory:"true" contributesTo:"path" name:"maintenanceRunId"`
 
 	// Unique Oracle-assigned identifier for the request.

@@ -74,6 +74,7 @@ The following attributes are exported:
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `ncharacter_set` - The national character set for the database.
 * `pdb_name` - The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
+* `source_database_point_in_time_recovery_timestamp` - Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339)
 * `state` - The current state of the database.
 * `time_created` - The date and time the database was created.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.

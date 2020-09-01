@@ -326,6 +326,7 @@ func init() {
 
 	exportDatabaseAutonomousContainerDatabaseHints.requireResourceRefresh = true
 	exportDatabaseAutonomousDatabaseHints.requireResourceRefresh = true
+	exportDatabaseAutonomousDatabaseHints.processDiscoveredResourcesFn = processAutonomousDatabaseSource
 
 	exportDatabaseAutonomousExadataInfrastructureHints.requireResourceRefresh = true
 
@@ -1096,6 +1097,15 @@ func processObjectStoragePreauthenticatedRequest(clients *OracleClients, resourc
 			resource.sourceAttributes["time_expires"] = timeExpires.Format(time.RFC3339Nano)
 		}
 
+	}
+	return resources, nil
+}
+
+func processAutonomousDatabaseSource(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		if resource.sourceAttributes["is_refreshable_clone"] == true {
+			resource.sourceAttributes["source"] = "CLONE_TO_REFRESHABLE"
+		}
 	}
 	return resources, nil
 }

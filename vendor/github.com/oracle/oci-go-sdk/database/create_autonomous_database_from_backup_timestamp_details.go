@@ -29,9 +29,6 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
 	DataStorageSizeInTBs *int `mandatory:"true" json:"dataStorageSizeInTBs"`
 
-	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
-	AdminPassword *string `mandatory:"true" json:"adminPassword"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
 	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
 
@@ -40,6 +37,9 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
+
+	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`

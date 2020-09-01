@@ -51,6 +51,10 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"is_refreshable_clone": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -121,6 +125,11 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 		tmp := isFreeTier.(bool)
 		request.IsFreeTier = &tmp
+	}
+
+	if isRefreshableClone, ok := s.D.GetOkExists("is_refreshable_clone"); ok {
+		tmp := isRefreshableClone.(bool)
+		request.IsRefreshableClone = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -241,6 +250,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_preview"] = *r.IsPreview
 		}
 
+		if r.IsRefreshableClone != nil {
+			autonomousDatabase["is_refreshable_clone"] = *r.IsRefreshableClone
+		}
+
 		autonomousDatabase["license_model"] = r.LicenseModel
 
 		if r.LifecycleDetails != nil {
@@ -248,6 +261,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabase["nsg_ids"] = r.NsgIds
+
+		autonomousDatabase["open_mode"] = r.OpenMode
 
 		if r.PrivateEndpoint != nil {
 			autonomousDatabase["private_endpoint"] = *r.PrivateEndpoint
@@ -261,8 +276,16 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["private_endpoint_label"] = *r.PrivateEndpointLabel
 		}
 
+		autonomousDatabase["refreshable_mode"] = r.RefreshableMode
+
+		autonomousDatabase["refreshable_status"] = r.RefreshableStatus
+
 		if r.ServiceConsoleUrl != nil {
 			autonomousDatabase["service_console_url"] = *r.ServiceConsoleUrl
+		}
+
+		if r.SourceId != nil {
+			autonomousDatabase["source_id"] = *r.SourceId
 		}
 
 		if r.StandbyDb != nil {
@@ -301,8 +324,20 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["time_of_last_failover"] = r.TimeOfLastFailover.String()
 		}
 
+		if r.TimeOfLastRefresh != nil {
+			autonomousDatabase["time_of_last_refresh"] = r.TimeOfLastRefresh.String()
+		}
+
+		if r.TimeOfLastRefreshPoint != nil {
+			autonomousDatabase["time_of_last_refresh_point"] = r.TimeOfLastRefreshPoint.String()
+		}
+
 		if r.TimeOfLastSwitchover != nil {
 			autonomousDatabase["time_of_last_switchover"] = r.TimeOfLastSwitchover.String()
+		}
+
+		if r.TimeOfNextRefresh != nil {
+			autonomousDatabase["time_of_next_refresh"] = r.TimeOfNextRefresh.String()
 		}
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {

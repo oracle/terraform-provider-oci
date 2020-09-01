@@ -64,6 +64,7 @@ var (
 		"content_disposition":        Representation{repType: Optional, create: `inline`, update: `attachment; filename=\"filename.html\"`},
 		"content_encoding":           Representation{repType: Optional, create: `identity`},
 		"content_language":           Representation{repType: Optional, create: `en-US`, update: `en-CA`},
+		"content_md5":                Representation{repType: Optional, create: `${md5("content")}`, update: Md5Base64Encoded2},
 		"content_type":               Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
 		"delete_all_object_versions": Representation{repType: Optional, create: `false`, update: `true`},
 		"metadata":                   Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
@@ -71,6 +72,8 @@ var (
 
 	ObjectResourceDependencies = generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
 		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
+
+	Md5Base64Encoded2, _ = hexToB64(getMd5Hash("<a1>content</a1>"))
 )
 
 func TestObjectStorageObjectResource_basic(t *testing.T) {
@@ -92,6 +95,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 	md5sum := hex.EncodeToString(hexSum[:])
 	hexSum2 := md5.Sum([]byte("<a1>content</a1>"))
 	md5sum2 := hex.EncodeToString(hexSum2[:])
+	md5B64Encode, _ := hexToB64(md5sum)
+	md5B64Encode2, _ := hexToB64(md5sum2)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -137,7 +142,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
-					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
+					resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "false"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
@@ -169,7 +174,39 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
-					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
+					resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
+					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+					resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "content"),
+					resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/xml"),
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-2"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						// @CODEGEN 06/2018: Name is part of the id, and hence id will be updated
+						if resId == resId2 {
+							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify either a hex or a base64 equivalent content_md5 makes no diff
+			{
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("content_md5", Representation{repType: Optional, create: Md5Base64Encoded2, update: `${md5("<a1>content</a1>")}`}, objectRepresentation)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
+					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
+					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
+					resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "true"),
@@ -201,7 +238,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
-					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
+					resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "content"),
@@ -234,7 +271,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "content_md5"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_md5", *md5B64Encode2),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
@@ -259,7 +296,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "content_md5"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_md5", *md5B64Encode2),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),

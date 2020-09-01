@@ -67,6 +67,12 @@ func (s *IdentityAuthenticationPolicyDataSourceCrud) SetData() error {
 
 	s.D.SetId(GenerateDataSourceID())
 
+	if s.Res.NetworkPolicy != nil {
+		s.D.Set("network_policy", []interface{}{NetworkPolicyToMap(s.Res.NetworkPolicy)})
+	} else {
+		s.D.Set("network_policy", nil)
+	}
+
 	if s.Res.PasswordPolicy != nil {
 		s.D.Set("password_policy", []interface{}{PasswordPolicyToMap(s.Res.PasswordPolicy)})
 	} else {

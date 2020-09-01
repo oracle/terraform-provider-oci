@@ -40,6 +40,9 @@ type NodePoolSummary struct {
 	// Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool.
 	NodeImageName *string `mandatory:"false" json:"nodeImageName"`
 
+	// The shape configuration of the nodes.
+	NodeShapeConfig *NodeShapeConfig `mandatory:"false" json:"nodeShapeConfig"`
+
 	// Deprecated. see `nodeSourceDetails`. Source running on the nodes in the node pool.
 	NodeSource NodeSourceOption `mandatory:"false" json:"nodeSource"`
 
@@ -79,6 +82,7 @@ func (m *NodePoolSummary) UnmarshalJSON(data []byte) (e error) {
 		KubernetesVersion *string                    `json:"kubernetesVersion"`
 		NodeImageId       *string                    `json:"nodeImageId"`
 		NodeImageName     *string                    `json:"nodeImageName"`
+		NodeShapeConfig   *NodeShapeConfig           `json:"nodeShapeConfig"`
 		NodeSource        nodesourceoption           `json:"nodeSource"`
 		NodeSourceDetails nodesourcedetails          `json:"nodeSourceDetails"`
 		NodeShape         *string                    `json:"nodeShape"`
@@ -107,6 +111,8 @@ func (m *NodePoolSummary) UnmarshalJSON(data []byte) (e error) {
 	m.NodeImageId = model.NodeImageId
 
 	m.NodeImageName = model.NodeImageName
+
+	m.NodeShapeConfig = model.NodeShapeConfig
 
 	nn, e = model.NodeSource.UnmarshalPolymorphicJSON(model.NodeSource.JsonData)
 	if e != nil {
