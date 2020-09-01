@@ -29,6 +29,10 @@ func KmsKeysDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"protection_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"keys": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -70,6 +74,10 @@ func (s *KmsKeysDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
+		request.ProtectionMode = oci_kms.ListKeysProtectionModeEnum(protectionMode.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "kms")
@@ -121,6 +129,8 @@ func (s *KmsKeysDataSourceCrud) SetData() error {
 		if r.Id != nil {
 			key["id"] = *r.Id
 		}
+
+		key["protection_mode"] = r.ProtectionMode
 
 		key["state"] = r.LifecycleState
 

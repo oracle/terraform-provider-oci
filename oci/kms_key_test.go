@@ -34,6 +34,7 @@ var (
 	keyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"protection_mode":     Representation{repType: Optional, create: `SOFTWARE`},
 		"filter":              RepresentationGroup{Required, keyDataSourceFilterRepresentation}}
 	keyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -50,6 +51,7 @@ var (
 		"desired_state":       Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"protection_mode":     Representation{repType: Optional, create: `SOFTWARE`},
 		"time_of_deletion":    Representation{repType: Required, create: deletionTime.Format(time.RFC3339Nano)},
 	}
 	keyKeyShapeRepresentation = map[string]interface{}{
@@ -143,6 +145,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
 					resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
+					resource.TestCheckResourceAttr(resourceName, "protection_mode", "SOFTWARE"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
@@ -176,6 +179,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+					resource.TestCheckResourceAttr(resourceName, "protection_mode", "SOFTWARE"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
@@ -204,6 +208,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+					resource.TestCheckResourceAttr(resourceName, "protection_mode", "SOFTWARE"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
@@ -225,6 +230,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "protection_mode", "SOFTWARE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "keys.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", compartmentId),
@@ -232,6 +238,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "keys.0.protection_mode", "SOFTWARE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.vault_id"),
@@ -254,6 +261,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.algorithm", "AES"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.length", "16"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "SOFTWARE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),

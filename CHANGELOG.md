@@ -2,6 +2,8 @@
 
 ### Added
 - Support for ExaCC Customer Contacts
+- Support for KMS Software Keys added
+- Open mode and Permission level added to autonomous database resource
 
 ## 3.93.0 (September 16, 2020)
 

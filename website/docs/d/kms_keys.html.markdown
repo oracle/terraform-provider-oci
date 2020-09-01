@@ -25,6 +25,9 @@ data "oci_kms_keys" "test_keys" {
 	#Required
 	compartment_id = var.compartment_id
 	management_endpoint = var.key_management_endpoint
+
+	#Optional
+	protection_mode = var.key_protection_mode
 }
 ```
 
@@ -34,6 +37,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `management_endpoint` - (Required) The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
+* `protection_mode` - (Optional) A key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A  protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are  performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's  RSA wrapping key which persists on the HSM. All cryptographic operations that use a key with a protection mode of  `SOFTWARE` are performed on the server. 
 
 
 ## Attributes Reference
@@ -55,6 +59,7 @@ The following attributes are exported:
 * `key_shape` - 
 	* `algorithm` - The algorithm used by a key's key versions to encrypt or decrypt.
 	* `length` - The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
+* `protection_mode` - The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,  a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported. 
 * `state` - The key's current lifecycle state.  Example: `ENABLED` 
 * `time_created` - The date and time the key was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
 * `time_of_deletion` - An optional property indicating when to delete the key, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
