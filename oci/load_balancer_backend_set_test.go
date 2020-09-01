@@ -69,7 +69,10 @@ var (
 	backendSetSslConfigurationRepresentation = map[string]interface{}{
 		"certificate_name":        Representation{repType: Required, create: `${oci_load_balancer_certificate.test_certificate.certificate_name}`},
 		"verify_depth":            Representation{repType: Optional, create: `6`},
+		"server_order_preference": Representation{repType: Optional, create: ``},
 		"verify_peer_certificate": Representation{repType: Optional, create: `false`},
+		"cipher_suite_name":       Representation{repType: Optional, create: `oci-wider-compatible-ssl-cipher-suite-v1`},
+		"protocols":               Representation{repType: Optional, create: []string{`TLSv1`, `TLSv1.1`, `TLSv1.2`}},
 	}
 
 	BackendSetResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
