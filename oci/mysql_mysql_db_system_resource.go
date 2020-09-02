@@ -186,10 +186,11 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				},
 			},
 			"mysql_version": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: mySqlVersionDiffSuppress,
 			},
 			"port": {
 				Type:     schema.TypeInt,

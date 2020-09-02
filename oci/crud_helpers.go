@@ -605,6 +605,23 @@ func dbVersionDiffSuppress(key string, old string, new string, d *schema.Resourc
 	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
 }
 
+func mySqlVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+	if old == "" || new == "" {
+		return false
+	}
+	oldVersion := strings.Split(old, ".")
+	newVersion := strings.Split(new, ".")
+
+	oldMajorVersion := oldVersion[0] + "." + oldVersion[1]
+	newMajorVersion := newVersion[0] + "." + newVersion[1]
+
+	if oldMajorVersion == newMajorVersion {
+		return true
+	}
+
+	return false
+}
+
 func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
 	return strings.EqualFold(old, new)
 }
