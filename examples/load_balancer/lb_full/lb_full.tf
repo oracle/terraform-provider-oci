@@ -345,7 +345,6 @@ resource "oci_load_balancer_listener" "lb-listener2" {
     verify_peer_certificate = false
     protocols               = ["TLSv1.1", "TLSv1.2"]
     cipher_suite_name       = "${oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite.name}"
-    certificate_name        = "${oci_load_balancer_certificate.lb-cert1.certificate_name}"
   }
 }
 
