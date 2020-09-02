@@ -24,6 +24,9 @@ type Node struct {
 	// The name of the node.
 	Name *string `mandatory:"false" json:"name"`
 
+	// The version of Kubernetes this node is running.
+	KubernetesVersion *string `mandatory:"false" json:"kubernetesVersion"`
+
 	// The name of the availability domain in which this node is placed.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 

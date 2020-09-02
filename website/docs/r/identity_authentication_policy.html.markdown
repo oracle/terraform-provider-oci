@@ -21,6 +21,11 @@ resource "oci_identity_authentication_policy" "test_authentication_policy" {
 	compartment_id = "${var.tenancy_ocid}"
 
 	#Optional
+	network_policy {
+
+		#Optional
+		network_source_ids = "${var.authentication_policy_network_policy_network_source_ids}"
+	}
 	password_policy {
 
 		#Optional
@@ -39,7 +44,9 @@ resource "oci_identity_authentication_policy" "test_authentication_policy" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment.
-* `password_policy` - (Optional) (Updatable) Password policy.
+* `network_policy` - (Optional) (Updatable) 
+	* `network_source_ids` - (Optional) (Updatable) Network Source ids 
+* `password_policy` - (Optional) (Updatable) 
 	* `is_lowercase_characters_required` - (Optional) (Updatable) At least one lower case character required.
 	* `is_numeric_characters_required` - (Optional) (Updatable) At least one numeric character required.
 	* `is_special_characters_required` - (Optional) (Updatable) At least one special character required.
@@ -56,7 +63,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - Compartment OCID.
-* `password_policy` - Password policy.
+* `network_policy` - 
+	* `network_source_ids` - Network Source ids 
+* `password_policy` - 
 	* `is_lowercase_characters_required` - At least one lower case character required.
 	* `is_numeric_characters_required` - At least one numeric character required.
 	* `is_special_characters_required` - At least one special character required.

@@ -223,6 +223,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 
 		dbSystem["nsg_ids"] = r.NsgIds
 
+		if r.PointInTimeDataDiskCloneTimestamp != nil {
+			dbSystem["point_in_time_data_disk_clone_timestamp"] = r.PointInTimeDataDiskCloneTimestamp.String()
+		}
+
 		if r.RecoStorageSizeInGB != nil {
 			dbSystem["reco_storage_size_in_gb"] = *r.RecoStorageSizeInGB
 		}
@@ -235,6 +239,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 
 		if r.Shape != nil {
 			dbSystem["shape"] = *r.Shape
+		}
+
+		if r.SourceDbSystemId != nil {
+			dbSystem["source_db_system_id"] = *r.SourceDbSystemId
 		}
 
 		if r.SparseDiskgroup != nil {

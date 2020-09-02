@@ -63,6 +63,8 @@ The following attributes are exported:
 * `node_image_name` - Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool. 
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - The name of the node shape of the nodes in the node pool.
+* `node_shape_config` - The shape configuration of the nodes.
+	* `ocpus` - The total number of OCPUs available to each node in the node pool.  See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `node_source` - Deprecated. see `nodeSourceDetails`. Source running on the nodes in the node pool.
 	* `image_id` - The OCID of the image.
 	* `source_name` - The user-friendly name of the entity corresponding to the OCID. 
@@ -79,6 +81,7 @@ The following attributes are exported:
 		* `status` - The status of the HTTP response encountered in the upstream error.
 	* `fault_domain` - The fault domain of this node.
 	* `id` - The OCID of the compute instance backing this node.
+	* `kubernetes_version` - The version of Kubernetes this node is running.
 	* `lifecycle_details` - Details about the state of the node.
 	* `name` - The name of the node.
 	* `node_pool_id` - The OCID of the node pool to which this node belongs.

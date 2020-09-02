@@ -37,11 +37,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 		Delete: deleteDatabaseAutonomousDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				Sensitive: true,
-			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -61,6 +56,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 
 			// Optional
+			"admin_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				Sensitive: true,
+			},
 			"autonomous_container_database_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -151,6 +152,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_refreshable_clone": {
+				Type:     schema.TypeBool,
+				Computed: true,
+				Optional: true,
+			},
 			"license_model": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -170,6 +176,17 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"refreshable_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_database.CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual),
+					string(oci_database.CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeAutomatic),
+					string(oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeAutomatic),
+					string(oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeManual),
+				}, false),
+			},
 			"source": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -179,6 +196,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{
 					"BACKUP_FROM_ID",
 					"BACKUP_FROM_TIMESTAMP",
+					"CLONE_TO_REFRESHABLE",
 					"DATABASE",
 					"NONE",
 				}, true),
@@ -306,11 +324,19 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"open_mode": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"private_endpoint": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"private_endpoint_ip": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"refreshable_status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -374,7 +400,19 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_of_last_refresh": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_of_last_refresh_point": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_of_last_switchover": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_of_next_refresh": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -622,6 +660,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsFreeTier = &tmp
 	}
 
+	if isRefreshableClone, ok := s.D.GetOkExists("is_refreshable_clone"); ok && s.D.HasChange("is_refreshable_clone") {
+		tmp := isRefreshableClone.(bool)
+		request.IsRefreshableClone = &tmp
+	}
+
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateAutonomousDatabaseDetailsLicenseModelEnum(licenseModel.(string))
 	}
@@ -649,6 +692,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 				return err
 			}
 		}
+	}
+
+	if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok && s.D.HasChange("refreshable_mode") {
+		request.RefreshableMode = oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeEnum(refreshableMode.(string))
 	}
 
 	if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok && s.D.HasChange("whitelisted_ips") {
@@ -777,6 +824,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("is_preview", *s.Res.IsPreview)
 	}
 
+	if s.Res.IsRefreshableClone != nil {
+		s.D.Set("is_refreshable_clone", *s.Res.IsRefreshableClone)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
@@ -788,6 +839,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		nsgIds = append(nsgIds, item)
 	}
 	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+
+	s.D.Set("open_mode", s.Res.OpenMode)
 
 	if s.Res.PrivateEndpoint != nil {
 		s.D.Set("private_endpoint", *s.Res.PrivateEndpoint)
@@ -801,8 +854,18 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("private_endpoint_label", *s.Res.PrivateEndpointLabel)
 	}
 
+	if s.Res.RefreshableMode != "" {
+		s.D.Set("refreshable_mode", s.Res.RefreshableMode)
+	}
+
+	s.D.Set("refreshable_status", s.Res.RefreshableStatus)
+
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
+	}
+
+	if s.Res.SourceId != nil {
+		s.D.Set("source_id", *s.Res.SourceId)
 	}
 
 	if s.Res.StandbyDb != nil {
@@ -841,8 +904,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("time_of_last_failover", s.Res.TimeOfLastFailover.String())
 	}
 
+	if s.Res.TimeOfLastRefresh != nil {
+		s.D.Set("time_of_last_refresh", s.Res.TimeOfLastRefresh.String())
+	}
+
+	if s.Res.TimeOfLastRefreshPoint != nil {
+		s.D.Set("time_of_last_refresh_point", s.Res.TimeOfLastRefreshPoint.String())
+	}
+
 	if s.Res.TimeOfLastSwitchover != nil {
 		s.D.Set("time_of_last_switchover", s.Res.TimeOfLastSwitchover.String())
+	}
+
+	if s.Res.TimeOfNextRefresh != nil {
+		s.D.Set("time_of_next_refresh", s.Res.TimeOfNextRefresh.String())
 	}
 
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {
@@ -1142,6 +1217,121 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
+			set := whitelistedIps.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("whitelisted_ips") {
+				details.WhitelistedIps = tmp
+			}
+		}
+		request.CreateAutonomousDatabaseDetails = details
+	case strings.ToLower("CLONE_TO_REFRESHABLE"):
+		details := oci_database.CreateRefreshableAutonomousDatabaseCloneDetails{}
+		if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok {
+			details.RefreshableMode = oci_database.CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum(refreshableMode.(string))
+		}
+		if sourceId, ok := s.D.GetOkExists("source_id"); ok {
+			tmp := sourceId.(string)
+			details.SourceId = &tmp
+		}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			details.AdminPassword = &tmp
+		}
+		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
+			tmp := autonomousContainerDatabaseId.(string)
+			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+			tmp := dataStorageSizeInTBs.(int)
+			details.DataStorageSizeInTBs = &tmp
+		}
+		if dbName, ok := s.D.GetOkExists("db_name"); ok {
+			tmp := dbName.(string)
+			details.DbName = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
+			tmp := isAutoScalingEnabled.(bool)
+			details.IsAutoScalingEnabled = &tmp
+		}
+		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			tmp := isDataGuardEnabled.(bool)
+			details.IsDataGuardEnabled = &tmp
+		}
+		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
+			tmp := isDedicated.(bool)
+			details.IsDedicated = &tmp
+		}
+		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
+			tmp := isFreeTier.(bool)
+			details.IsFreeTier = &tmp
+		}
+		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
+			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
+			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+			tmp := privateEndpointLabel.(string)
+			details.PrivateEndpointLabel = &tmp
+		}
+		if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok {
+			details.RefreshableMode = oci_database.CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum(refreshableMode.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)

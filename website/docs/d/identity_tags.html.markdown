@@ -53,11 +53,7 @@ The following attributes are exported:
 * `state` - The tag's current state. After creating a tag, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tag, make sure its `lifecycleState` is INACTIVE before using it. If you delete a tag, you cannot delete another tag until the deleted tag's `lifecycleState` changes from DELETING to DELETED.
 * `tag_namespace_id` - The OCID of the namespace that contains the tag definition.
 * `time_created` - Date and time the tag was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
-* `validator` - The tag must have a value type, which is specified with a validator. Tags can use either a  static value or a list of possible values. Static values are entered by a user applying the tag to a resource. Lists are created by you and the user must apply a value from the list. Lists  are validiated. 
-
-	If you use the default validiator (or don't define a validator), the user applying the tag  enters a value. No additional validation is performed.
-
-	To clear the validator, call UpdateTag with  [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
+* `validator` - 
 	* `validator_type` - Specifies the type of validation: a static value (no validation) or a list.  
 	* `values` - The list of allowed values for a definedTag value. 
 

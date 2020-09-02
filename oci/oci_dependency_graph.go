@@ -91,6 +91,7 @@ func initDependencyGraph() {
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerListener")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerPathRouteSet")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerRuleSet")
+	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerSslCipherSuite")
 	DependencyGraph["maintenanceRun"] = append(DependencyGraph["maintenanceRun"], "DatabaseMaintenanceRun")
 	DependencyGraph["managedInstance"] = append(DependencyGraph["managedInstance"], "OsmanagementManagedInstanceManagement")
 	DependencyGraph["metricCompartment"] = append(DependencyGraph["metricCompartment"], "MonitoringAlarm")

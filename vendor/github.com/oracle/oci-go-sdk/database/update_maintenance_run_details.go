@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateMaintenanceRunDetails Describes the modification parameters for the Maintenance Run.
+// UpdateMaintenanceRunDetails Describes the modification parameters for the maintenance run.
 type UpdateMaintenanceRunDetails struct {
 
-	// If set to false, skips the Maintenance Run.
+	// If `FALSE`, skips the maintenance run.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// The scheduled date and time of the Maintenance Run to update.
+	// The scheduled date and time of the maintenance run to update.
 	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
 
 	// If set to `TRUE`, starts patching immediately.

@@ -154,6 +154,12 @@ type DbSystem struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system.
+	SourceDbSystemId *string `mandatory:"false" json:"sourceDbSystemId"`
+
+	// The point in time for a cloned database system when the data disks were cloned from the source database system, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
+	PointInTimeDataDiskCloneTimestamp *common.SDKTime `mandatory:"false" json:"pointInTimeDataDiskCloneTimestamp"`
+
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
 }
 
@@ -193,21 +199,23 @@ type DbSystemLifecycleStateEnum string
 
 // Set of constants representing the allowable values for DbSystemLifecycleStateEnum
 const (
-	DbSystemLifecycleStateProvisioning DbSystemLifecycleStateEnum = "PROVISIONING"
-	DbSystemLifecycleStateAvailable    DbSystemLifecycleStateEnum = "AVAILABLE"
-	DbSystemLifecycleStateUpdating     DbSystemLifecycleStateEnum = "UPDATING"
-	DbSystemLifecycleStateTerminating  DbSystemLifecycleStateEnum = "TERMINATING"
-	DbSystemLifecycleStateTerminated   DbSystemLifecycleStateEnum = "TERMINATED"
-	DbSystemLifecycleStateFailed       DbSystemLifecycleStateEnum = "FAILED"
+	DbSystemLifecycleStateProvisioning          DbSystemLifecycleStateEnum = "PROVISIONING"
+	DbSystemLifecycleStateAvailable             DbSystemLifecycleStateEnum = "AVAILABLE"
+	DbSystemLifecycleStateUpdating              DbSystemLifecycleStateEnum = "UPDATING"
+	DbSystemLifecycleStateTerminating           DbSystemLifecycleStateEnum = "TERMINATING"
+	DbSystemLifecycleStateTerminated            DbSystemLifecycleStateEnum = "TERMINATED"
+	DbSystemLifecycleStateFailed                DbSystemLifecycleStateEnum = "FAILED"
+	DbSystemLifecycleStateMaintenanceInProgress DbSystemLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
 var mappingDbSystemLifecycleState = map[string]DbSystemLifecycleStateEnum{
-	"PROVISIONING": DbSystemLifecycleStateProvisioning,
-	"AVAILABLE":    DbSystemLifecycleStateAvailable,
-	"UPDATING":     DbSystemLifecycleStateUpdating,
-	"TERMINATING":  DbSystemLifecycleStateTerminating,
-	"TERMINATED":   DbSystemLifecycleStateTerminated,
-	"FAILED":       DbSystemLifecycleStateFailed,
+	"PROVISIONING":            DbSystemLifecycleStateProvisioning,
+	"AVAILABLE":               DbSystemLifecycleStateAvailable,
+	"UPDATING":                DbSystemLifecycleStateUpdating,
+	"TERMINATING":             DbSystemLifecycleStateTerminating,
+	"TERMINATED":              DbSystemLifecycleStateTerminated,
+	"FAILED":                  DbSystemLifecycleStateFailed,
+	"MAINTENANCE_IN_PROGRESS": DbSystemLifecycleStateMaintenanceInProgress,
 }
 
 // GetDbSystemLifecycleStateEnumValues Enumerates the set of values for DbSystemLifecycleStateEnum

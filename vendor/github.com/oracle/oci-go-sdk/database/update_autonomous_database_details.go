@@ -66,6 +66,12 @@ type UpdateAutonomousDatabaseDetails struct {
 	// Indicates whether to enable or disable auto scaling for the Autonomous Database OCPU core count. Setting to `true` enables auto scaling. Setting to `false` disables auto scaling. The default value is true. Auto scaling is available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
+	// Indicates whether the Autonomous Database is a refreshable clone.
+	IsRefreshableClone *bool `mandatory:"false" json:"isRefreshableClone"`
+
+	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
+	RefreshableMode UpdateAutonomousDatabaseDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
+
 	// Indicates whether the Autonomous Database has Data Guard enabled.
 	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
 
@@ -138,6 +144,29 @@ var mappingUpdateAutonomousDatabaseDetailsLicenseModel = map[string]UpdateAutono
 func GetUpdateAutonomousDatabaseDetailsLicenseModelEnumValues() []UpdateAutonomousDatabaseDetailsLicenseModelEnum {
 	values := make([]UpdateAutonomousDatabaseDetailsLicenseModelEnum, 0)
 	for _, v := range mappingUpdateAutonomousDatabaseDetailsLicenseModel {
+		values = append(values, v)
+	}
+	return values
+}
+
+// UpdateAutonomousDatabaseDetailsRefreshableModeEnum Enum with underlying type: string
+type UpdateAutonomousDatabaseDetailsRefreshableModeEnum string
+
+// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsRefreshableModeEnum
+const (
+	UpdateAutonomousDatabaseDetailsRefreshableModeAutomatic UpdateAutonomousDatabaseDetailsRefreshableModeEnum = "AUTOMATIC"
+	UpdateAutonomousDatabaseDetailsRefreshableModeManual    UpdateAutonomousDatabaseDetailsRefreshableModeEnum = "MANUAL"
+)
+
+var mappingUpdateAutonomousDatabaseDetailsRefreshableMode = map[string]UpdateAutonomousDatabaseDetailsRefreshableModeEnum{
+	"AUTOMATIC": UpdateAutonomousDatabaseDetailsRefreshableModeAutomatic,
+	"MANUAL":    UpdateAutonomousDatabaseDetailsRefreshableModeManual,
+}
+
+// GetUpdateAutonomousDatabaseDetailsRefreshableModeEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsRefreshableModeEnum
+func GetUpdateAutonomousDatabaseDetailsRefreshableModeEnumValues() []UpdateAutonomousDatabaseDetailsRefreshableModeEnum {
+	values := make([]UpdateAutonomousDatabaseDetailsRefreshableModeEnum, 0)
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsRefreshableMode {
 		values = append(values, v)
 	}
 	return values

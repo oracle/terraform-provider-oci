@@ -128,6 +128,10 @@ type LaunchDbSystemBase interface {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// A private IP address of your choice. Must be an available IP address within the subnet's CIDR.
+	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
+	GetPrivateIp() *string
 }
 
 type launchdbsystembase struct {
@@ -154,6 +158,7 @@ type launchdbsystembase struct {
 	NodeCount                  *int                              `mandatory:"false" json:"nodeCount"`
 	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	PrivateIp                  *string                           `mandatory:"false" json:"privateIp"`
 	Source                     string                            `json:"source"`
 }
 
@@ -190,6 +195,7 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.NodeCount = s.Model.NodeCount
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.PrivateIp = s.Model.PrivateIp
 	m.Source = s.Model.Source
 
 	return err
@@ -206,6 +212,10 @@ func (m *launchdbsystembase) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	switch m.Source {
 	case "NONE":
 		mm := LaunchDbSystemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DB_SYSTEM":
+		mm := LaunchDbSystemFromDbSystemDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DATABASE":
@@ -331,6 +341,11 @@ func (m launchdbsystembase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
+//GetPrivateIp returns PrivateIp
+func (m launchdbsystembase) GetPrivateIp() *string {
+	return m.PrivateIp
+}
+
 func (m launchdbsystembase) String() string {
 	return common.PointerString(m)
 }
@@ -343,12 +358,14 @@ const (
 	LaunchDbSystemBaseSourceNone     LaunchDbSystemBaseSourceEnum = "NONE"
 	LaunchDbSystemBaseSourceDbBackup LaunchDbSystemBaseSourceEnum = "DB_BACKUP"
 	LaunchDbSystemBaseSourceDatabase LaunchDbSystemBaseSourceEnum = "DATABASE"
+	LaunchDbSystemBaseSourceDbSystem LaunchDbSystemBaseSourceEnum = "DB_SYSTEM"
 )
 
 var mappingLaunchDbSystemBaseSource = map[string]LaunchDbSystemBaseSourceEnum{
 	"NONE":      LaunchDbSystemBaseSourceNone,
 	"DB_BACKUP": LaunchDbSystemBaseSourceDbBackup,
 	"DATABASE":  LaunchDbSystemBaseSourceDatabase,
+	"DB_SYSTEM": LaunchDbSystemBaseSourceDbSystem,
 }
 
 // GetLaunchDbSystemBaseSourceEnumValues Enumerates the set of values for LaunchDbSystemBaseSourceEnum

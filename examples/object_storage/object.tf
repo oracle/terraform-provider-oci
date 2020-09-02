@@ -18,6 +18,19 @@ resource "oci_objectstorage_object" "object1" {
   content_disposition = "attachment; filename=\"filename.html\""
 }
 
+resource "oci_objectstorage_object" "object_with_content_md5" {
+  namespace           = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket              = "${oci_objectstorage_bucket.bucket1.name}"
+  object              = "index.html"
+  content_language    = "en-US"
+  content_type        = "text/html"
+  content             = "${file("index.html")}"
+  content_disposition = "attachment; filename=\"filename.html\""
+
+  # we also support the base64 type of the content_md5, for example: G5uedo16+mhIOKSt4h/L2g==
+  content_md5 = "${filemd5("index.html")}"
+}
+
 resource "oci_objectstorage_object" "source_object" {
   namespace           = "${data.oci_objectstorage_namespace.ns.namespace}"
   bucket              = "${oci_objectstorage_bucket.bucket1.name}"

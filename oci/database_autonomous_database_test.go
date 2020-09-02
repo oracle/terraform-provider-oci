@@ -46,11 +46,11 @@ var (
 	adbCloneName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	autonomousDatabaseRepresentation = map[string]interface{}{
-		"admin_password":           Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
 		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
 		"cpu_core_count":           Representation{repType: Required, create: `1`},
 		"data_storage_size_in_tbs": Representation{repType: Required, create: `1`},
 		"db_name":                  Representation{repType: Required, create: adbName},
+		"admin_password":           Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
 		"db_version":               Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
 		"db_workload":              Representation{repType: Optional, create: `OLTP`},
 		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},

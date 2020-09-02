@@ -109,6 +109,12 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 		s.D.Set("node_shape", *s.Res.NodeShape)
 	}
 
+	if s.Res.NodeShapeConfig != nil {
+		s.D.Set("node_shape_config", []interface{}{NodeShapeConfigToMap(s.Res.NodeShapeConfig)})
+	} else {
+		s.D.Set("node_shape_config", nil)
+	}
+
 	if s.Res.NodeSource != nil {
 		nodeSourceArray := []interface{}{}
 		if nodeSourceMap := NodeSourceOptionToMap(&s.Res.NodeSource); nodeSourceMap != nil {
