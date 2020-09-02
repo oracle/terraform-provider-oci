@@ -139,12 +139,12 @@ func LoadBalancerListenerResource() *schema.Resource {
 						"cipher_suite_name": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Default:  "oci-default-ssl-cipher-suite-v1",
+							Computed: true,
 						},
 						"server_order_preference": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Default:  "ENABLED",
+							Computed: true,
 						},
 
 						// Computed

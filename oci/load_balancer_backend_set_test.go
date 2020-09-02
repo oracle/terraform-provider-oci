@@ -69,7 +69,6 @@ var (
 	backendSetSslConfigurationRepresentation = map[string]interface{}{
 		"certificate_name":        Representation{repType: Required, create: `${oci_load_balancer_certificate.test_certificate.certificate_name}`},
 		"verify_depth":            Representation{repType: Optional, create: `6`},
-		"server_order_preference": Representation{repType: Optional, create: ``},
 		"verify_peer_certificate": Representation{repType: Optional, create: `false`},
 	}
 
