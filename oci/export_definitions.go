@@ -184,6 +184,14 @@ var exportCoreClusterNetworkHints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreComputeImageCapabilitySchemaHints = &TerraformResourceHints{
+	resourceClass:          "oci_core_compute_image_capability_schema",
+	datasourceClass:        "oci_core_compute_image_capability_schemas",
+	datasourceItemsAttr:    "compute_image_capability_schemas",
+	resourceAbbreviation:   "compute_image_capability_schema",
+	requireResourceRefresh: true,
+}
+
 var exportCoreCpeHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_cpe",
 	datasourceClass:      "oci_core_cpes",

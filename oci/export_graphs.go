@@ -162,6 +162,7 @@ var coreResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
 		{TerraformResourceHints: exportCoreConsoleHistoryHints},
 		{TerraformResourceHints: exportCoreClusterNetworkHints},
+		{TerraformResourceHints: exportCoreComputeImageCapabilitySchemaHints},
 		{TerraformResourceHints: exportCoreCpeHints},
 		{TerraformResourceHints: exportCoreCrossConnectGroupHints},
 		{TerraformResourceHints: exportCoreCrossConnectHints},
