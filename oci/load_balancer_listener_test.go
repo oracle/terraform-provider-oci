@@ -41,9 +41,6 @@ var (
 		"certificate_name":        Representation{repType: Required, create: `${oci_load_balancer_certificate.test_certificate.certificate_name}`},
 		"verify_depth":            Representation{repType: Optional, create: `10`, update: `11`},
 		"verify_peer_certificate": Representation{repType: Optional, create: `false`, update: `true`},
-		"server_order_preference": Representation{repType: Optional, create: `ENABLED`},
-		"protocols":               Representation{repType: Optional, create: []string{`TLSv1`, `TLSv1.1`, `TLSv1.2`}},
-		"cipher_suite_name":       Representation{repType: Optional, create: `oci-wider-compatible-ssl-cipher-suite-v1`},
 	}
 
 	ListenerResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
