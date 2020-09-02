@@ -28,6 +28,7 @@ data "oci_database_autonomous_databases" "test_autonomous_databases" {
 	infrastructure_type = "${var.autonomous_database_infrastructure_type}"
 	is_data_guard_enabled = "${var.autonomous_database_is_data_guard_enabled}"
 	is_free_tier = "${var.autonomous_database_is_free_tier}"
+	is_refreshable_clone = "${var.autonomous_database_is_refreshable_clone}"
 	state = "${var.autonomous_database_state}"
 }
 ```
@@ -44,6 +45,7 @@ The following arguments are supported:
 * `infrastructure_type` - (Optional) A filter to return only resources that match the given Infrastructure Type.
 * `is_data_guard_enabled` - (Optional) A filter to return only resources that have Data Guard enabled.
 * `is_free_tier` - (Optional) Filter on the value of the resource's 'isFreeTier' property. A value of `true` returns only Always Free resources. A value of `false` excludes Always Free resources from the returned results. Omitting this parameter returns both Always Free and paid resources. 
+* `is_refreshable_clone` - (Optional) Filter on the value of the resource's 'isRefreshableClone' property. A value of `true` returns only refreshable clones. A value of `false` excludes refreshable clones from the returned results. Omitting this parameter returns both refreshable clones and databases that are not refreshable clones. 
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
@@ -90,14 +92,19 @@ The following attributes are exported:
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
 * `is_free_tier` - Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. 
 * `is_preview` - Indicates if the Autonomous Database version is a preview version.
+* `is_refreshable_clone` - Indicates whether the Autonomous Database is a refreshable clone.
 * `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the Autonomous Exadata Infrastructure level. When using [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`. 
 * `lifecycle_details` - Information about the current lifecycle state.
 * `nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
+* `open_mode` - The `DATABASE OPEN` mode. You can open the database in `READ_ONLY` or `READ_WRITE` mode.
 * `private_endpoint` - The private endpoint for the resource.
 * `private_endpoint_ip` - The private endpoint Ip address for the resource.
 * `private_endpoint_label` - The private endpoint label for the resource.
+* `refreshable_mode` - The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
+* `refreshable_status` - The refresh status of the clone. REFRESHING indicates that the clone is currently being refreshed with data from the source Autonomous Database.
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
+* `source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that was cloned to create the current Autonomous Database.
 * `standby_db` - 
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
 	* `lifecycle_details` - Additional information about the current lifecycle state.
@@ -117,7 +124,10 @@ The following attributes are exported:
 * `time_maintenance_begin` - The date and time when maintenance will begin.
 * `time_maintenance_end` - The date and time when maintenance will end.
 * `time_of_last_failover` - The timestamp of the last failover operation.
+* `time_of_last_refresh` - The date and time when last refresh happened.
+* `time_of_last_refresh_point` - The refresh point timestamp (UTC). The refresh point is the time to which the database was most recently refreshed. Data created after the refresh point is not included in the refresh.
 * `time_of_last_switchover` - The timestamp of the last switchover operation for the Autonomous Database.
+* `time_of_next_refresh` - The date and time of next refresh.
 * `time_reclamation_of_free_autonomous_database` - The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state. 
 * `used_data_storage_size_in_tbs` - The amount of storage that has been used, in terabytes.
 * `whitelisted_ips` - The client IP access control list (ACL). This feature is available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only. Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.

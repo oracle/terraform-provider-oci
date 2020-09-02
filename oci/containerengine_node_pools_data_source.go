@@ -152,6 +152,12 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 			nodePool["node_shape"] = *r.NodeShape
 		}
 
+		if r.NodeShapeConfig != nil {
+			nodePool["node_shape_config"] = []interface{}{NodeShapeConfigToMap(r.NodeShapeConfig)}
+		} else {
+			nodePool["node_shape_config"] = nil
+		}
+
 		if r.NodeSource != nil {
 			nodeSourceArray := []interface{}{}
 			if nodeSourceMap := NodeSourceOptionToMap(&r.NodeSource); nodeSourceMap != nil {

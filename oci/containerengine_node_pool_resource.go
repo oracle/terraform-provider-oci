@@ -157,6 +157,27 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"node_shape_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"ocpus": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"node_source_details": {
 				Type:          schema.TypeList,
 				Optional:      true,
@@ -289,6 +310,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Computed: true,
 						},
 						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"kubernetes_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -439,6 +464,17 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	if nodeShape, ok := s.D.GetOkExists("node_shape"); ok {
 		tmp := nodeShape.(string)
 		request.NodeShape = &tmp
+	}
+
+	if nodeShapeConfig, ok := s.D.GetOkExists("node_shape_config"); ok {
+		if tmpList := nodeShapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_shape_config", 0)
+			tmp, err := s.mapToCreateNodeShapeConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodeShapeConfig = &tmp
+		}
 	}
 
 	if nodeSourceDetails, ok := s.D.GetOkExists("node_source_details"); ok {
@@ -690,6 +726,17 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		request.NodeShape = &tmp
 	}
 
+	if nodeShapeConfig, ok := s.D.GetOkExists("node_shape_config"); ok {
+		if tmpList := nodeShapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_shape_config", 0)
+			tmp, err := s.mapToUpdateNodeShapeConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodeShapeConfig = &tmp
+		}
+	}
+
 	if nodeSourceDetails, ok := s.D.GetOkExists("node_source_details"); ok {
 		if tmpList := nodeSourceDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_source_details", 0)
@@ -797,6 +844,12 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("node_shape", *s.Res.NodeShape)
 	}
 
+	if s.Res.NodeShapeConfig != nil {
+		s.D.Set("node_shape_config", []interface{}{NodeShapeConfigToMap(s.Res.NodeShapeConfig)})
+	} else {
+		s.D.Set("node_shape_config", nil)
+	}
+
 	if s.Res.NodeSource != nil {
 		nodeSourceArray := []interface{}{}
 		if nodeSourceMap := NodeSourceOptionToMap(&s.Res.NodeSource); nodeSourceMap != nil {
@@ -893,6 +946,38 @@ func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigD
 	return result
 }
 
+func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodeShapeConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateNodeShapeConfigDetails, error) {
+	result := oci_containerengine.CreateNodeShapeConfigDetails{}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodeShapeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodeShapeConfigDetails, error) {
+	result := oci_containerengine.UpdateNodeShapeConfigDetails{}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func NodeShapeConfigToMap(obj *oci_containerengine.NodeShapeConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	return result
+}
+
 func (s *ContainerengineNodePoolResourceCrud) mapToKeyValue(fieldKeyFormat string) (oci_containerengine.KeyValue, error) {
 	result := oci_containerengine.KeyValue{}
 
@@ -940,6 +1025,10 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.KubernetesVersion != nil {
+		result["kubernetes_version"] = string(*obj.KubernetesVersion)
 	}
 
 	if obj.LifecycleDetails != nil {

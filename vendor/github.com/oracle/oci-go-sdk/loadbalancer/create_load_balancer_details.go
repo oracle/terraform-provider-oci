@@ -67,6 +67,8 @@ type CreateLoadBalancerDetails struct {
 
 	Certificates map[string]CertificateDetails `mandatory:"false" json:"certificates"`
 
+	SslCipherSuites map[string]SslCipherSuiteDetails `mandatory:"false" json:"sslCipherSuites"`
+
 	PathRouteSets map[string]PathRouteSetDetails `mandatory:"false" json:"pathRouteSets"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

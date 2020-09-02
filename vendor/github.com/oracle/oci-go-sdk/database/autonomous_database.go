@@ -143,6 +143,30 @@ type AutonomousDatabase struct {
 	// The date and time when maintenance will end.
 	TimeMaintenanceEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceEnd"`
 
+	// Indicates whether the Autonomous Database is a refreshable clone.
+	IsRefreshableClone *bool `mandatory:"false" json:"isRefreshableClone"`
+
+	// The date and time when last refresh happened.
+	TimeOfLastRefresh *common.SDKTime `mandatory:"false" json:"timeOfLastRefresh"`
+
+	// The refresh point timestamp (UTC). The refresh point is the time to which the database was most recently refreshed. Data created after the refresh point is not included in the refresh.
+	TimeOfLastRefreshPoint *common.SDKTime `mandatory:"false" json:"timeOfLastRefreshPoint"`
+
+	// The date and time of next refresh.
+	TimeOfNextRefresh *common.SDKTime `mandatory:"false" json:"timeOfNextRefresh"`
+
+	// The `DATABASE OPEN` mode. You can open the database in `READ_ONLY` or `READ_WRITE` mode.
+	OpenMode AutonomousDatabaseOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
+
+	// The refresh status of the clone. REFRESHING indicates that the clone is currently being refreshed with data from the source Autonomous Database.
+	RefreshableStatus AutonomousDatabaseRefreshableStatusEnum `mandatory:"false" json:"refreshableStatus,omitempty"`
+
+	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
+	RefreshableMode AutonomousDatabaseRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that was cloned to create the current Autonomous Database.
+	SourceId *string `mandatory:"false" json:"sourceId"`
+
 	// The timestamp of the last switchover operation for the Autonomous Database.
 	TimeOfLastSwitchover *common.SDKTime `mandatory:"false" json:"timeOfLastSwitchover"`
 
@@ -317,6 +341,75 @@ var mappingAutonomousDatabaseDataSafeStatus = map[string]AutonomousDatabaseDataS
 func GetAutonomousDatabaseDataSafeStatusEnumValues() []AutonomousDatabaseDataSafeStatusEnum {
 	values := make([]AutonomousDatabaseDataSafeStatusEnum, 0)
 	for _, v := range mappingAutonomousDatabaseDataSafeStatus {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseOpenModeEnum Enum with underlying type: string
+type AutonomousDatabaseOpenModeEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseOpenModeEnum
+const (
+	AutonomousDatabaseOpenModeOnly  AutonomousDatabaseOpenModeEnum = "READ_ONLY"
+	AutonomousDatabaseOpenModeWrite AutonomousDatabaseOpenModeEnum = "READ_WRITE"
+)
+
+var mappingAutonomousDatabaseOpenMode = map[string]AutonomousDatabaseOpenModeEnum{
+	"READ_ONLY":  AutonomousDatabaseOpenModeOnly,
+	"READ_WRITE": AutonomousDatabaseOpenModeWrite,
+}
+
+// GetAutonomousDatabaseOpenModeEnumValues Enumerates the set of values for AutonomousDatabaseOpenModeEnum
+func GetAutonomousDatabaseOpenModeEnumValues() []AutonomousDatabaseOpenModeEnum {
+	values := make([]AutonomousDatabaseOpenModeEnum, 0)
+	for _, v := range mappingAutonomousDatabaseOpenMode {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseRefreshableStatusEnum Enum with underlying type: string
+type AutonomousDatabaseRefreshableStatusEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseRefreshableStatusEnum
+const (
+	AutonomousDatabaseRefreshableStatusRefreshing    AutonomousDatabaseRefreshableStatusEnum = "REFRESHING"
+	AutonomousDatabaseRefreshableStatusNotRefreshing AutonomousDatabaseRefreshableStatusEnum = "NOT_REFRESHING"
+)
+
+var mappingAutonomousDatabaseRefreshableStatus = map[string]AutonomousDatabaseRefreshableStatusEnum{
+	"REFRESHING":     AutonomousDatabaseRefreshableStatusRefreshing,
+	"NOT_REFRESHING": AutonomousDatabaseRefreshableStatusNotRefreshing,
+}
+
+// GetAutonomousDatabaseRefreshableStatusEnumValues Enumerates the set of values for AutonomousDatabaseRefreshableStatusEnum
+func GetAutonomousDatabaseRefreshableStatusEnumValues() []AutonomousDatabaseRefreshableStatusEnum {
+	values := make([]AutonomousDatabaseRefreshableStatusEnum, 0)
+	for _, v := range mappingAutonomousDatabaseRefreshableStatus {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseRefreshableModeEnum Enum with underlying type: string
+type AutonomousDatabaseRefreshableModeEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseRefreshableModeEnum
+const (
+	AutonomousDatabaseRefreshableModeAutomatic AutonomousDatabaseRefreshableModeEnum = "AUTOMATIC"
+	AutonomousDatabaseRefreshableModeManual    AutonomousDatabaseRefreshableModeEnum = "MANUAL"
+)
+
+var mappingAutonomousDatabaseRefreshableMode = map[string]AutonomousDatabaseRefreshableModeEnum{
+	"AUTOMATIC": AutonomousDatabaseRefreshableModeAutomatic,
+	"MANUAL":    AutonomousDatabaseRefreshableModeManual,
+}
+
+// GetAutonomousDatabaseRefreshableModeEnumValues Enumerates the set of values for AutonomousDatabaseRefreshableModeEnum
+func GetAutonomousDatabaseRefreshableModeEnumValues() []AutonomousDatabaseRefreshableModeEnum {
+	values := make([]AutonomousDatabaseRefreshableModeEnum, 0)
+	for _, v := range mappingAutonomousDatabaseRefreshableMode {
 		values = append(values, v)
 	}
 	return values

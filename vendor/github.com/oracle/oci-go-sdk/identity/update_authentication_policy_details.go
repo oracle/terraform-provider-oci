@@ -15,9 +15,9 @@ import (
 
 // UpdateAuthenticationPolicyDetails Update request for authentication policy, describes set of validation rules and their parameters to be updated.
 type UpdateAuthenticationPolicyDetails struct {
-
-	// Password policy.
 	PasswordPolicy *PasswordPolicy `mandatory:"false" json:"passwordPolicy"`
+
+	NetworkPolicy *NetworkPolicy `mandatory:"false" json:"networkPolicy"`
 }
 
 func (m UpdateAuthenticationPolicyDetails) String() string {
