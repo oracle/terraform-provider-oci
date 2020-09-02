@@ -8,6 +8,7 @@
 - Support for Public logging service
 - Support for logging in API Gateway Service
 - Support for Service Connector Hub
+- Support resource discovery for `Compute Image Capability Schema `
 
 ### Deprecated
 - The `delete_object_in_destination_bucket` attribute in `oci_objectstorage_replication_policy` is now deprecated
