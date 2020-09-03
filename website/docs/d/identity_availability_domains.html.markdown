@@ -22,7 +22,7 @@ create a dependency on the list order.
 ```hcl
 data "oci_identity_availability_domains" "test_availability_domains" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 }
 ```
 

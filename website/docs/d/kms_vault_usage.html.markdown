@@ -18,7 +18,7 @@ Gets the count of keys and key versions in the specified vault to calculate usag
 ```hcl
 data "oci_kms_vault_usage" "test_vault_usage" {
 	#Required
-	vault_id = "${oci_kms_vault.test_vault.id}"
+	vault_id = oci_kms_vault.test_vault.id
 }
 ```
 

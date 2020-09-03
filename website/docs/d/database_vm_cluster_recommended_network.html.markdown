@@ -18,25 +18,25 @@ Generates a recommended VM cluster network configuration.
 ```hcl
 data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_network" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.vm_cluster_recommended_network_display_name}"
-	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
+	compartment_id = var.compartment_id
+	display_name = var.vm_cluster_recommended_network_display_name
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 	networks {
 		#Required
-		cidr = "${var.vm_cluster_recommended_network_networks_cidr}"
-		domain = "${var.vm_cluster_recommended_network_networks_domain}"
-		gateway = "${var.vm_cluster_recommended_network_networks_gateway}"
-		netmask = "${var.vm_cluster_recommended_network_networks_netmask}"
-		network_type = "${var.vm_cluster_recommended_network_networks_network_type}"
-		prefix = "${var.vm_cluster_recommended_network_networks_prefix}"
-		vlan_id = "${oci_core_vlan.test_vlan.id}"
+		cidr = var.vm_cluster_recommended_network_networks_cidr
+		domain = var.vm_cluster_recommended_network_networks_domain
+		gateway = var.vm_cluster_recommended_network_networks_gateway
+		netmask = var.vm_cluster_recommended_network_networks_netmask
+		network_type = var.vm_cluster_recommended_network_networks_network_type
+		prefix = var.vm_cluster_recommended_network_networks_prefix
+		vlan_id = oci_core_vlan.test_vlan.id
 	}
 
 	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.vm_cluster_recommended_network_defined_tags_value}")}"
-	dns = "${var.vm_cluster_recommended_network_dns}"
-	freeform_tags = "${var.vm_cluster_recommended_network_freeform_tags}"
-	ntp = "${var.vm_cluster_recommended_network_ntp}"
+	defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.vm_cluster_recommended_network_defined_tags_value)
+	dns = var.vm_cluster_recommended_network_dns
+	freeform_tags = var.vm_cluster_recommended_network_freeform_tags
+	ntp = var.vm_cluster_recommended_network_ntp
 }
 ```
 

@@ -17,12 +17,12 @@ Creates a new project.
 ```hcl
 resource "oci_datascience_project" "test_project" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	description = "${var.project_description}"
-	display_name = "${var.project_display_name}"
+	description = var.project_description
+	display_name = var.project_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

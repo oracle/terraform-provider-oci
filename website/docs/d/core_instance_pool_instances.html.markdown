@@ -17,11 +17,11 @@ List the instances in the specified instance pool.
 ```hcl
 data "oci_core_instance_pool_instances" "test_instance_pool_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	instance_pool_id = "${oci_core_instance_pool.test_instance_pool.id}"
+	compartment_id = var.compartment_id
+	instance_pool_id = oci_core_instance_pool.test_instance_pool.id
 
 	#Optional
-	display_name = "${var.instance_pool_instance_display_name}"
+	display_name = var.instance_pool_instance_display_name
 }
 ```
 

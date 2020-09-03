@@ -17,13 +17,13 @@ List all work requests in a compartment.
 ```hcl
 data "oci_containerengine_work_requests" "test_work_requests" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-	resource_id = "${oci_containerengine_resource.test_resource.id}"
-	resource_type = "${var.work_request_resource_type}"
-	status = "${var.work_request_status}"
+	cluster_id = oci_containerengine_cluster.test_cluster.id
+	resource_id = oci_containerengine_resource.test_resource.id
+	resource_type = var.work_request_resource_type
+	status = var.work_request_status
 }
 ```
 

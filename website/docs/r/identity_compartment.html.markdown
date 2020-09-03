@@ -35,9 +35,9 @@ not have to be unique, and you can change it anytime with
 ```hcl
 resource "oci_identity_compartment" "test_compartment" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	description = "${var.compartment_description}"
-	name = "${var.compartment_name}"
+	compartment_id = var.compartment_id
+	description = var.compartment_description
+	name = var.compartment_name
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

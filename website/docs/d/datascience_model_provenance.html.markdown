@@ -17,7 +17,7 @@ Gets provenance information for specified model.
 ```hcl
 data "oci_datascience_model_provenance" "test_model_provenance" {
 	#Required
-	model_id = "${oci_datascience_model.test_model.id}"
+	model_id = oci_datascience_model.test_model.id
 }
 ```
 

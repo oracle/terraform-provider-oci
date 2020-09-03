@@ -17,7 +17,7 @@ GET Cloud Guard Configuration Details for a Tenancy.
 ```hcl
 data "oci_cloud_guard_cloud_guard_configuration" "test_cloud_guard_configuration" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

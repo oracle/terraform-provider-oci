@@ -20,12 +20,12 @@ Transactions Per Minute (TPM) per-tenancy limit for this operation: 120.
 ```hcl
 data "oci_ons_notification_topics" "test_notification_topics" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	id = "${var.notification_topic_id}"
-	name = "${var.notification_topic_name}"
-	state = "${var.notification_topic_state}"
+	id = var.notification_topic_id
+	name = var.notification_topic_name
+	state = var.notification_topic_state
 }
 ```
 

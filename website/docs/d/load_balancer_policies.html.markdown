@@ -17,7 +17,7 @@ Lists the available load balancer policies.
 ```hcl
 data "oci_load_balancer_policies" "test_load_balancer_policies" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

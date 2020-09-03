@@ -17,13 +17,13 @@ Updates the properties of a maintenance run, such as the state of a maintenance 
 ```hcl
 resource "oci_database_maintenance_run" "test_maintenance_run" {
 	#Required
-	maintenance_run_id = "${oci_database_maintenance_run.test_maintenance_run.id}"
+	maintenance_run_id = oci_database_maintenance_run.test_maintenance_run.id
 
 	#Optional
-	is_enabled = "${var.maintenance_run_is_enabled}"
-	is_patch_now_enabled = "${var.maintenance_run_is_patch_now_enabled}"
-	patch_id = "${oci_database_patch.test_patch.id}"
-	time_scheduled = "${var.maintenance_run_time_scheduled}"
+	is_enabled = var.maintenance_run_is_enabled
+	is_patch_now_enabled = var.maintenance_run_is_patch_now_enabled
+	patch_id = oci_database_patch.test_patch.id
+	time_scheduled = var.maintenance_run_time_scheduled
 }
 ```
 

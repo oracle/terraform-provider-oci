@@ -18,40 +18,40 @@ Creates a DetectorRecipe
 ```hcl
 resource "oci_cloud_guard_detector_recipe" "test_detector_recipe" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.detector_recipe_display_name}"
-	source_detector_recipe_id = "${oci_cloud_guard_detector_recipe.test_detector_recipe.id}"
+	compartment_id = var.compartment_id
+	display_name = var.detector_recipe_display_name
+	source_detector_recipe_id = oci_cloud_guard_detector_recipe.test_detector_recipe.id
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.detector_recipe_description}"
+	description = var.detector_recipe_description
 	detector_rules {
 		#Required
 		details {
 			#Required
-			is_enabled = "${var.detector_recipe_detector_rules_details_is_enabled}"
-			risk_level = "${var.detector_recipe_detector_rules_details_risk_level}"
+			is_enabled = var.detector_recipe_detector_rules_details_is_enabled
+			risk_level = var.detector_recipe_detector_rules_details_risk_level
 
 			#Optional
-			condition = "${var.detector_recipe_detector_rules_details_condition}"
+			condition = var.detector_recipe_detector_rules_details_condition
 			configurations {
 				#Required
-				config_key = "${var.detector_recipe_detector_rules_details_configurations_config_key}"
-				name = "${var.detector_recipe_detector_rules_details_configurations_name}"
+				config_key = var.detector_recipe_detector_rules_details_configurations_config_key
+				name = var.detector_recipe_detector_rules_details_configurations_name
 
 				#Optional
-				data_type = "${var.detector_recipe_detector_rules_details_configurations_data_type}"
-				value = "${var.detector_recipe_detector_rules_details_configurations_value}"
+				data_type = var.detector_recipe_detector_rules_details_configurations_data_type
+				value = var.detector_recipe_detector_rules_details_configurations_value
 				values {
 					#Required
-					list_type = "${var.detector_recipe_detector_rules_details_configurations_values_list_type}"
-					managed_list_type = "${var.detector_recipe_detector_rules_details_configurations_values_managed_list_type}"
-					value = "${var.detector_recipe_detector_rules_details_configurations_values_value}"
+					list_type = var.detector_recipe_detector_rules_details_configurations_values_list_type
+					managed_list_type = var.detector_recipe_detector_rules_details_configurations_values_managed_list_type
+					value = var.detector_recipe_detector_rules_details_configurations_values_value
 				}
 			}
-			labels = "${var.detector_recipe_detector_rules_details_labels}"
+			labels = var.detector_recipe_detector_rules_details_labels
 		}
-		detector_rule_id = "${oci_events_rule.test_rule.id}"
+		detector_rule_id = oci_events_rule.test_rule.id
 	}
 	freeform_tags = {"bar-key"= "value"}
 }

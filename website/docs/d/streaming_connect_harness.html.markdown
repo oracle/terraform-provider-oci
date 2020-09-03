@@ -17,7 +17,7 @@ Gets detailed information about a connect harness.
 ```hcl
 data "oci_streaming_connect_harness" "test_connect_harness" {
 	#Required
-	connect_harness_id = "${oci_streaming_connect_harnes.test_connect_harnes.id}"
+	connect_harness_id = oci_streaming_connect_harnes.test_connect_harnes.id
 }
 ```
 

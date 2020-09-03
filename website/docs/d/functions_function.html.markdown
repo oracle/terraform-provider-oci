@@ -17,7 +17,7 @@ Retrieves a function.
 ```hcl
 data "oci_functions_function" "test_function" {
 	#Required
-	function_id = "${oci_functions_function.test_function.id}"
+	function_id = oci_functions_function.test_function.id
 }
 ```
 

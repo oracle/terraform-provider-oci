@@ -17,7 +17,7 @@ Lists all rule sets associated with the specified load balancer.
 ```hcl
 data "oci_load_balancer_rule_sets" "test_rule_sets" {
 	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

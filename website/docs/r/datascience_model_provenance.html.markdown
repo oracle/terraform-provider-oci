@@ -17,14 +17,14 @@ Creates provenance information for the specified model.
 ```hcl
 resource "oci_datascience_model_provenance" "test_model_provenance" {
 	#Required
-	model_id = "${oci_datascience_model.test_model.id}"
+	model_id = oci_datascience_model.test_model.id
 
 	#Optional
-	git_branch = "${var.model_provenance_git_branch}"
-	git_commit = "${var.model_provenance_git_commit}"
-	repository_url = "${var.model_provenance_repository_url}"
-	script_dir = "${var.model_provenance_script_dir}"
-	training_script = "${var.model_provenance_training_script}"
+	git_branch = var.model_provenance_git_branch
+	git_commit = var.model_provenance_git_commit
+	repository_url = var.model_provenance_repository_url
+	script_dir = var.model_provenance_script_dir
+	training_script = var.model_provenance_training_script
 }
 ```
 

@@ -17,7 +17,7 @@ Gets information about a specific database.
 ```hcl
 data "oci_database_database" "test_database" {
 	#Required
-	database_id = "${var.database_id}"
+	database_id = var.database_id
 }
 ```
 

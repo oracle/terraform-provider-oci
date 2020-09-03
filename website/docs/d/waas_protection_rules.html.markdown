@@ -18,11 +18,11 @@ The list is sorted by `key`, in ascending order.
 ```hcl
 data "oci_waas_protection_rules" "test_protection_rules" {
 	#Required
-	waas_policy_id = "${oci_waas_waas_policy.test_waas_policy.id}"
+	waas_policy_id = oci_waas_waas_policy.test_waas_policy.id
 
 	#Optional
-	action = "${var.protection_rule_action}"
-	mod_security_rule_id = "${oci_events_rule.test_rule.id}"
+	action = var.protection_rule_action
+	mod_security_rule_id = oci_events_rule.test_rule.id
 }
 ```
 

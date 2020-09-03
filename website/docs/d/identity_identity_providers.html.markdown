@@ -21,8 +21,8 @@ See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.
 ```hcl
 data "oci_identity_identity_providers" "test_identity_providers" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	protocol = "${var.identity_provider_protocol}"
+	compartment_id = var.tenancy_ocid
+	protocol = var.identity_provider_protocol
 }
 ```
 

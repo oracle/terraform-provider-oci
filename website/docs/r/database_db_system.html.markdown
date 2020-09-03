@@ -25,100 +25,100 @@ options. For detailed information about default options, see the following:
 ```hcl
 resource "oci_database_db_system" "test_db_system" {
 	#Required
-	availability_domain = "${var.db_system_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.db_system_availability_domain
+	compartment_id = var.compartment_id
 	db_home {
 		#Required
 		database {
 			#Required
-			admin_password = "${var.db_system_db_home_database_admin_password}"
+			admin_password = var.db_system_db_home_database_admin_password
 
 			#Optional
-			backup_id = "${oci_database_backup.test_backup.id}"
-			backup_tde_password = "${var.db_system_db_home_database_backup_tde_password}"
-			character_set = "${var.db_system_db_home_database_character_set}"
-			database_id = "${oci_database_database.test_database.id}"
-			database_software_image_id = "${oci_database_database_software_image.test_database_software_image.id}"
+			backup_id = oci_database_backup.test_backup.id
+			backup_tde_password = var.db_system_db_home_database_backup_tde_password
+			character_set = var.db_system_db_home_database_character_set
+			database_id = oci_database_database.test_database.id
+			database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 			db_backup_config {
 
 				#Optional
-				auto_backup_enabled = "${var.db_system_db_home_database_db_backup_config_auto_backup_enabled}"
-				auto_backup_window = "${var.db_system_db_home_database_db_backup_config_auto_backup_window}"
+				auto_backup_enabled = var.db_system_db_home_database_db_backup_config_auto_backup_enabled
+				auto_backup_window = var.db_system_db_home_database_db_backup_config_auto_backup_window
 				backup_destination_details {
 
 					#Optional
-					id = "${var.db_system_db_home_database_db_backup_config_backup_destination_details_id}"
-					type = "${var.db_system_db_home_database_db_backup_config_backup_destination_details_type}"
+					id = var.db_system_db_home_database_db_backup_config_backup_destination_details_id
+					type = var.db_system_db_home_database_db_backup_config_backup_destination_details_type
 				}
-				recovery_window_in_days = "${var.db_system_db_home_database_db_backup_config_recovery_window_in_days}"
+				recovery_window_in_days = var.db_system_db_home_database_db_backup_config_recovery_window_in_days
 			}
-			db_domain = "${var.db_system_db_home_database_db_domain}"
-			db_name = "${var.db_system_db_home_database_db_name}"
-			db_workload = "${var.db_system_db_home_database_db_workload}"
-			defined_tags = "${var.db_system_db_home_database_defined_tags}"
-			freeform_tags = "${var.db_system_db_home_database_freeform_tags}"
-			ncharacter_set = "${var.db_system_db_home_database_ncharacter_set}"
-			pdb_name = "${var.db_system_db_home_database_pdb_name}"
-			time_stamp_for_point_in_time_recovery = "${var.db_system_db_home_database_time_stamp_for_point_in_time_recovery}"
+			db_domain = var.db_system_db_home_database_db_domain
+			db_name = var.db_system_db_home_database_db_name
+			db_workload = var.db_system_db_home_database_db_workload
+			defined_tags = var.db_system_db_home_database_defined_tags
+			freeform_tags = var.db_system_db_home_database_freeform_tags
+			ncharacter_set = var.db_system_db_home_database_ncharacter_set
+			pdb_name = var.db_system_db_home_database_pdb_name
+			time_stamp_for_point_in_time_recovery = var.db_system_db_home_database_time_stamp_for_point_in_time_recovery
 		}
 
 		#Optional
-		database_software_image_id = "${oci_database_database_software_image.test_database_software_image.id}"
-		db_version = "${var.db_system_db_home_db_version}"
-		defined_tags = "${var.db_system_db_home_defined_tags}"
-		display_name = "${var.db_system_db_home_display_name}"
-		freeform_tags = "${var.db_system_db_home_freeform_tags}"
+		database_software_image_id = oci_database_database_software_image.test_database_software_image.id
+		db_version = var.db_system_db_home_db_version
+		defined_tags = var.db_system_db_home_defined_tags
+		display_name = var.db_system_db_home_display_name
+		freeform_tags = var.db_system_db_home_freeform_tags
 	}
-	hostname = "${var.db_system_hostname}"
-	shape = "${var.db_system_shape}"
-	ssh_public_keys = "${var.db_system_ssh_public_keys}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	hostname = var.db_system_hostname
+	shape = var.db_system_shape
+	ssh_public_keys = var.db_system_ssh_public_keys
+	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
-	backup_network_nsg_ids = "${var.db_system_backup_network_nsg_ids}"
-	backup_subnet_id = "${oci_core_subnet.test_subnet.id}"
-	cluster_name = "${var.db_system_cluster_name}"
-	cpu_core_count = "${var.db_system_cpu_core_count}"
-	data_storage_percentage = "${var.db_system_data_storage_percentage}"
-	data_storage_size_in_gb = "${var.db_system_data_storage_size_in_gb}"
-	database_edition = "${var.db_system_database_edition}"
+	backup_network_nsg_ids = var.db_system_backup_network_nsg_ids
+	backup_subnet_id = oci_core_subnet.test_subnet.id
+	cluster_name = var.db_system_cluster_name
+	cpu_core_count = var.db_system_cpu_core_count
+	data_storage_percentage = var.db_system_data_storage_percentage
+	data_storage_size_in_gb = var.db_system_data_storage_size_in_gb
+	database_edition = var.db_system_database_edition
 	db_system_options {
 
 		#Optional
-		storage_management = "${var.db_system_db_system_options_storage_management}"
+		storage_management = var.db_system_db_system_options_storage_management
 	}
-	defined_tags = "${var.db_system_defined_tags}"
-	disk_redundancy = "${var.db_system_disk_redundancy}"
-	display_name = "${var.db_system_display_name}"
-	domain = "${var.db_system_domain}"
-	fault_domains = "${var.db_system_fault_domains}"
+	defined_tags = var.db_system_defined_tags
+	disk_redundancy = var.db_system_disk_redundancy
+	display_name = var.db_system_display_name
+	domain = var.db_system_domain
+	fault_domains = var.db_system_fault_domains
 	freeform_tags = {"Department"= "Finance"}
-	license_model = "${var.db_system_license_model}"
+	license_model = var.db_system_license_model
 	maintenance_window_details {
 
 		#Optional
 		days_of_week {
 
 			#Optional
-			name = "${var.db_system_maintenance_window_details_days_of_week_name}"
+			name = var.db_system_maintenance_window_details_days_of_week_name
 		}
-		hours_of_day = "${var.db_system_maintenance_window_details_hours_of_day}"
-		lead_time_in_weeks = "${var.db_system_maintenance_window_details_lead_time_in_weeks}"
+		hours_of_day = var.db_system_maintenance_window_details_hours_of_day
+		lead_time_in_weeks = var.db_system_maintenance_window_details_lead_time_in_weeks
 		months {
 
 			#Optional
-			name = "${var.db_system_maintenance_window_details_months_name}"
+			name = var.db_system_maintenance_window_details_months_name
 		}
-		preference = "${var.db_system_maintenance_window_details_preference}"
-		weeks_of_month = "${var.db_system_maintenance_window_details_weeks_of_month}"
+		preference = var.db_system_maintenance_window_details_preference
+		weeks_of_month = var.db_system_maintenance_window_details_weeks_of_month
 	}
-	node_count = "${var.db_system_node_count}"
-	nsg_ids = "${var.db_system_nsg_ids}"
-	private_ip = "${var.db_system_private_ip}"
-	source = "${var.db_system_source}"
-	source_db_system_id = "${oci_database_db_system.test_db_system.id}"
-	sparse_diskgroup = "${var.db_system_sparse_diskgroup}"
-	time_zone = "${var.db_system_time_zone}"
+	node_count = var.db_system_node_count
+	nsg_ids = var.db_system_nsg_ids
+	private_ip = var.db_system_private_ip
+	source = var.db_system_source
+	source_db_system_id = oci_database_db_system.test_db_system.id
+	sparse_diskgroup = var.db_system_sparse_diskgroup
+	time_zone = var.db_system_time_zone
 }
 ```
 

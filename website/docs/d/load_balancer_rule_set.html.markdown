@@ -17,8 +17,8 @@ Gets the specified set of rules.
 ```hcl
 data "oci_load_balancer_rule_set" "test_rule_set" {
 	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.rule_set_name}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	name = var.rule_set_name
 }
 ```
 

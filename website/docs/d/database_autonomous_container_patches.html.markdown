@@ -18,8 +18,8 @@ Lists the patches applicable to the requested container database.
 ```hcl
 data "oci_database_autonomous_container_patches" "test_autonomous_container_patches" {
 	#Required
-	autonomous_container_database_id = "${oci_database_autonomous_container_database.test_autonomous_container_database.id}"
-	compartment_id = "${var.compartment_id}"
+	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+	compartment_id = var.compartment_id
 }
 ```
 

@@ -19,15 +19,15 @@ can be filtered by name, time created, and zone type.
 ```hcl
 data "oci_dns_zones" "test_zones" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	name = "${var.zone_name}"
-	name_contains = "${var.zone_name_contains}"
-	state = "${var.zone_state}"
-	time_created_greater_than_or_equal_to = "${var.zone_time_created_greater_than_or_equal_to}"
-	time_created_less_than = "${var.zone_time_created_less_than}"
-	zone_type = "${var.zone_zone_type}"
+	name = var.zone_name
+	name_contains = var.zone_name_contains
+	state = var.zone_state
+	time_created_greater_than_or_equal_to = var.zone_time_created_greater_than_or_equal_to
+	time_created_less_than = var.zone_time_created_less_than
+	zone_type = var.zone_zone_type
 }
 ```
 

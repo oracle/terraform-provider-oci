@@ -26,9 +26,9 @@ write operations exceeds 10 requests per second for a given tenancy.
 ```hcl
 resource "oci_kms_vault" "test_vault" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.vault_display_name}"
-	vault_type = "${var.vault_vault_type}"
+	compartment_id = var.compartment_id
+	display_name = var.vault_display_name
+	vault_type = var.vault_vault_type
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

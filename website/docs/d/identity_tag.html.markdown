@@ -17,8 +17,8 @@ Gets the specified tag's information.
 ```hcl
 data "oci_identity_tag" "test_tag" {
 	#Required
-	tag_name = "${oci_identity_tag.test_tag.name}"
-	tag_namespace_id = "${oci_identity_tag_namespace.test_tag_namespace.id}"
+	tag_name = oci_identity_tag.test_tag.name
+	tag_namespace_id = oci_identity_tag_namespace.test_tag_namespace.id
 }
 ```
 

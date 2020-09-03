@@ -35,7 +35,7 @@ resource "oci_core_instance" "TFInstance" {
 }
 
 output "bootVolumeFromInstance" {
-  value = ["${oci_core_instance.TFInstance.boot_volume_id}"]
+  value = [oci_core_instance.TFInstance.boot_volume_id]
 }
 ```
 

@@ -31,13 +31,13 @@ set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIB
 ```hcl
 data "oci_cloud_guard_targets" "test_targets" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	access_level = "${var.target_access_level}"
-	compartment_id_in_subtree = "${var.target_compartment_id_in_subtree}"
-	display_name = "${var.target_display_name}"
-	state = "${var.target_state}"
+	access_level = var.target_access_level
+	compartment_id_in_subtree = var.target_compartment_id_in_subtree
+	display_name = var.target_display_name
+	state = var.target_state
 }
 ```
 

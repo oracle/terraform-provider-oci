@@ -17,7 +17,7 @@ Gets information about the specified Autonomous Exadata Infrastructure.
 ```hcl
 data "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exadata_infrastructure" {
 	#Required
-	autonomous_exadata_infrastructure_id = "${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}"
+	autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
 }
 ```
 

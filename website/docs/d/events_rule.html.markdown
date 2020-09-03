@@ -17,7 +17,7 @@ Retrieves a rule.
 ```hcl
 data "oci_events_rule" "test_rule" {
 	#Required
-	rule_id = "${oci_events_rule.test_rule.id}"
+	rule_id = oci_events_rule.test_rule.id
 }
 ```
 

@@ -20,7 +20,7 @@ Manages the capabilities of the specified user.
 ```hcl
 resource "oci_identity_user_capabilities_management" "test_user_capabilities_management" {
 	#Required
-	user_id = "${oci_identity_user.user1.id}"
+	user_id = oci_identity_user.user1.id
 
 	#Optional 
 	can_use_api_keys             = "true"

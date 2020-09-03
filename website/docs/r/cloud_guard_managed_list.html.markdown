@@ -18,16 +18,16 @@ Creates a new ManagedList.
 ```hcl
 resource "oci_cloud_guard_managed_list" "test_managed_list" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.managed_list_display_name}"
+	compartment_id = var.compartment_id
+	display_name = var.managed_list_display_name
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.managed_list_description}"
+	description = var.managed_list_description
 	freeform_tags = {"bar-key"= "value"}
-	list_items = "${var.managed_list_list_items}"
-	list_type = "${var.managed_list_list_type}"
-	source_managed_list_id = "${oci_cloud_guard_managed_list.test_managed_list.id}"
+	list_items = var.managed_list_list_items
+	list_type = var.managed_list_list_type
+	source_managed_list_id = oci_cloud_guard_managed_list.test_managed_list.id
 }
 ```
 

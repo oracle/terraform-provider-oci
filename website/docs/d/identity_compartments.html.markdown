@@ -35,11 +35,11 @@ See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.
 ```hcl
 data "oci_identity_compartments" "test_compartments" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	access_level = "${var.compartment_access_level}"
-	compartment_id_in_subtree = "${var.compartment_compartment_id_in_subtree}"
+	access_level = var.compartment_access_level
+	compartment_id_in_subtree = var.compartment_compartment_id_in_subtree
 }
 ```
 

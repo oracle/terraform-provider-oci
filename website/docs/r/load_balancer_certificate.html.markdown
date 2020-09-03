@@ -23,14 +23,14 @@ Whenever you change any values on a certificate that causes it to be recreated t
 ```hcl
 resource "oci_load_balancer_certificate" "test_certificate" {
 	#Required
-	certificate_name = "${var.certificate_certificate_name}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	certificate_name = var.certificate_certificate_name
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 
 	#Optional
-	ca_certificate = "${var.certificate_ca_certificate}"
-	passphrase = "${var.certificate_passphrase}"
-	private_key = "${var.certificate_private_key}"
-	public_certificate = "${var.certificate_public_certificate}"
+	ca_certificate = var.certificate_ca_certificate
+	passphrase = var.certificate_passphrase
+	private_key = var.certificate_private_key
+	public_certificate = var.certificate_public_certificate
 
 	lifecycle {
 	    create_before_destroy = true

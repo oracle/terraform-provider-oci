@@ -18,18 +18,18 @@ create database software image in the specified compartment.
 ```hcl
 resource "oci_database_database_software_image" "test_database_software_image" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	database_version = "${var.database_software_image_database_version}"
-	display_name = "${var.database_software_image_display_name}"
-	patch_set = "${var.database_software_image_patch_set}"
+	compartment_id = var.compartment_id
+	database_version = var.database_software_image_database_version
+	display_name = var.database_software_image_display_name
+	patch_set = var.database_software_image_patch_set
 
 	#Optional
-	database_software_image_one_off_patches = "${var.database_software_image_database_software_image_one_off_patches}"
-	defined_tags = "${var.database_software_image_defined_tags}"
+	database_software_image_one_off_patches = var.database_software_image_database_software_image_one_off_patches
+	defined_tags = var.database_software_image_defined_tags
 	freeform_tags = {"Department"= "Finance"}
-	image_shape_family = "${var.database_software_image_image_shape_family}"
-	image_type = "${var.database_software_image_image_type}"
-	ls_inventory = "${var.database_software_image_ls_inventory}"
+	image_shape_family = var.database_software_image_image_shape_family
+	image_type = var.database_software_image_image_type
+	ls_inventory = var.database_software_image_ls_inventory
 }
 ```
 

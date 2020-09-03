@@ -17,7 +17,7 @@ Gets a OceInstance by identifier
 ```hcl
 data "oci_oce_oce_instance" "test_oce_instance" {
 	#Required
-	oce_instance_id = "${oci_oce_oce_instance.test_oce_instance.id}"
+	oce_instance_id = oci_oce_oce_instance.test_oce_instance.id
 }
 ```
 

@@ -18,11 +18,11 @@ Returns a list of Integration Instances.
 ```hcl
 data "oci_integration_integration_instances" "test_integration_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.integration_instance_display_name}"
-	state = "${var.integration_instance_state}"
+	display_name = var.integration_instance_display_name
+	state = var.integration_instance_state
 }
 ```
 

@@ -20,46 +20,46 @@ resource "oci_database_db_home" "test_db_home" {
 	#Required
 	database {
 		#Required
-		admin_password = "${var.db_home_database_admin_password}"
+		admin_password = var.db_home_database_admin_password
 
 		#Optional
-		backup_id = "${oci_database_backup.test_backup.id}"
-		backup_tde_password = "${var.db_home_database_backup_tde_password}"
-		character_set = "${var.db_home_database_character_set}"
-		database_id = "${oci_database_database.test_database.id}"
-		database_software_image_id = "${oci_database_database_software_image.test_database_software_image.id}"
+		backup_id = oci_database_backup.test_backup.id
+		backup_tde_password = var.db_home_database_backup_tde_password
+		character_set = var.db_home_database_character_set
+		database_id = oci_database_database.test_database.id
+		database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 		db_backup_config {
 
 			#Optional
-			auto_backup_enabled = "${var.db_home_database_db_backup_config_auto_backup_enabled}"
-			auto_backup_window = "${var.db_home_database_db_backup_config_auto_backup_window}"
+			auto_backup_enabled = var.db_home_database_db_backup_config_auto_backup_enabled
+			auto_backup_window = var.db_home_database_db_backup_config_auto_backup_window
 			backup_destination_details {
 
 				#Optional
-				id = "${var.db_home_database_db_backup_config_backup_destination_details_id}"
-				type = "${var.db_home_database_db_backup_config_backup_destination_details_type}"
+				id = var.db_home_database_db_backup_config_backup_destination_details_id
+				type = var.db_home_database_db_backup_config_backup_destination_details_type
 			}
-			recovery_window_in_days = "${var.db_home_database_db_backup_config_recovery_window_in_days}"
+			recovery_window_in_days = var.db_home_database_db_backup_config_recovery_window_in_days
 		}
-		db_name = "${var.db_home_database_db_name}"
-		db_workload = "${var.db_home_database_db_workload}"
-		defined_tags = "${var.db_home_database_defined_tags}"
-		freeform_tags = "${var.db_home_database_freeform_tags}"
-		ncharacter_set = "${var.db_home_database_ncharacter_set}"
-		pdb_name = "${var.db_home_database_pdb_name}"
-		time_stamp_for_point_in_time_recovery = "${var.db_home_database_time_stamp_for_point_in_time_recovery}"
+		db_name = var.db_home_database_db_name
+		db_workload = var.db_home_database_db_workload
+		defined_tags = var.db_home_database_defined_tags
+		freeform_tags = var.db_home_database_freeform_tags
+		ncharacter_set = var.db_home_database_ncharacter_set
+		pdb_name = var.db_home_database_pdb_name
+		time_stamp_for_point_in_time_recovery = var.db_home_database_time_stamp_for_point_in_time_recovery
 	}
 
 	#Optional
-	database_software_image_id = "${oci_database_database_software_image.test_database_software_image.id}"
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
+	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
+	db_system_id = oci_database_db_system.test_db_system.id
 	db_version {
 	}
-	defined_tags = "${var.db_home_defined_tags}"
-	display_name = "${var.db_home_display_name}"
+	defined_tags = var.db_home_defined_tags
+	display_name = var.db_home_display_name
 	freeform_tags = {"Department"= "Finance"}
-	source = "${var.db_home_source}"
-	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
+	source = var.db_home_source
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
 ```
 

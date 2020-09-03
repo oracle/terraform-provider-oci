@@ -31,15 +31,15 @@ set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIB
 ```hcl
 data "oci_cloud_guard_managed_lists" "test_managed_lists" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	access_level = "${var.managed_list_access_level}"
-	compartment_id_in_subtree = "${var.managed_list_compartment_id_in_subtree}"
-	display_name = "${var.managed_list_display_name}"
-	list_type = "${var.managed_list_list_type}"
-	resource_metadata_only = "${var.managed_list_resource_metadata_only}"
-	state = "${var.managed_list_state}"
+	access_level = var.managed_list_access_level
+	compartment_id_in_subtree = var.managed_list_compartment_id_in_subtree
+	display_name = var.managed_list_display_name
+	list_type = var.managed_list_list_type
+	resource_metadata_only = var.managed_list_resource_metadata_only
+	state = var.managed_list_state
 }
 ```
 

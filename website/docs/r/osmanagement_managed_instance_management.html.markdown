@@ -28,22 +28,22 @@ Destroying this resource will not delete any associations.
 ```hcl
 resource "oci_osmanagement_managed_instance_management" "test_managed_instance_management" {
 	#Required
-	managed_instance_id = "${oci_osmanagement_managed_instance.test_managed_instance.id}"
+	managed_instance_id = oci_osmanagement_managed_instance.test_managed_instance.id
 	
 	#optional
 	parent_software_source {
-        id   = "${oci_osmanagement_software_source.test_parent_software_source.id}"
-        name = "${oci_osmanagement_software_source.test_parent_software_source.display_name}"
+        id   = oci_osmanagement_software_source.test_parent_software_source.id
+        name = oci_osmanagement_software_source.test_parent_software_source.display_name
     }
     
     managed_instance_groups {
-       id           = "${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}"
-       display_name = "${var.managed_instance_group_display_name}"
+       id           = oci_osmanagement_managed_instance_group.test_managed_instance_group.id
+       display_name = var.managed_instance_group_display_name
     }
     
     child_software_sources {
-       id   = "${oci_osmanagement_software_source.test_software_source_child.id}"
-       name = "${oci_osmanagement_software_source.test_software_source_child.display_name}"
+       id   = oci_osmanagement_software_source.test_software_source_child.id
+       name = oci_osmanagement_software_source.test_software_source_child.display_name
     }
 }
 ```

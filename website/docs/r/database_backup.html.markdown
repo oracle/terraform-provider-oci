@@ -18,8 +18,8 @@ Creates a new backup in the specified database based on the request parameters y
 ```hcl
 resource "oci_database_backup" "test_backup" {
 	#Required
-	database_id = "${oci_database_database.test_database.id}"
-	display_name = "${var.backup_display_name}"
+	database_id = oci_database_database.test_database.id
+	display_name = var.backup_display_name
 }
 ```
 

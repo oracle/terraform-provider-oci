@@ -17,10 +17,10 @@ Gets a list of the shapes that can be used to launch a new DB system. The shape 
 ```hcl
 data "oci_database_db_system_shapes" "test_db_system_shapes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.db_system_shape_availability_domain}"
+	availability_domain = var.db_system_shape_availability_domain
 }
 ```
 

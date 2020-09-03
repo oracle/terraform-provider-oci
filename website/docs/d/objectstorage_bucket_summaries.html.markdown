@@ -23,8 +23,8 @@ talk to an administrator. If you are an administrator who needs to write policie
 ```hcl
 data "oci_objectstorage_bucket_summaries" "test_buckets" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	namespace = "${var.bucket_namespace}"
+	compartment_id = var.compartment_id
+	namespace = var.bucket_namespace
 }
 ```
 

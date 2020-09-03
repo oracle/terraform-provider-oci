@@ -18,7 +18,7 @@ Lists the instance configurations in the specified compartment.
 ```hcl
 data "oci_core_instance_configurations" "test_instance_configurations" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

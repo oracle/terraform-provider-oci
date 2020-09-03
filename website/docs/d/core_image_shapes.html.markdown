@@ -17,7 +17,7 @@ Lists the compatible shapes for the specified image.
 ```hcl
 data "oci_core_image_shapes" "test_image_shapes" {
 	#Required
-	image_id = "${oci_core_image.test_image.id}"
+	image_id = oci_core_image.test_image.id
 }
 ```
 

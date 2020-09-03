@@ -18,21 +18,21 @@ Create a ResponderRecipe.
 ```hcl
 resource "oci_cloud_guard_responder_recipe" "test_responder_recipe" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.responder_recipe_display_name}"
-	source_responder_recipe_id = "${oci_cloud_guard_responder_recipe.test_responder_recipe.id}"
+	compartment_id = var.compartment_id
+	display_name = var.responder_recipe_display_name
+	source_responder_recipe_id = oci_cloud_guard_responder_recipe.test_responder_recipe.id
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.responder_recipe_description}"
+	description = var.responder_recipe_description
 	freeform_tags = {"bar-key"= "value"}
 	responder_rules {
 		#Required
 		details {
 			#Required
-			is_enabled = "${var.responder_recipe_responder_rules_details_is_enabled}"
+			is_enabled = var.responder_recipe_responder_rules_details_is_enabled
 		}
-		responder_rule_id = "${oci_events_rule.test_rule.id}"
+		responder_rule_id = oci_events_rule.test_rule.id
 	}
 }
 ```

@@ -17,11 +17,11 @@ Gets a specific data asset for the given key within a data catalog.
 ```hcl
 data "oci_datacatalog_data_asset" "test_data_asset" {
 	#Required
-	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
-	data_asset_key = "${var.data_asset_data_asset_key}"
+	catalog_id = oci_datacatalog_catalog.test_catalog.id
+	data_asset_key = var.data_asset_data_asset_key
 
 	#Optional
-	fields = "${var.data_asset_fields}"
+	fields = var.data_asset_fields
 }
 ```
 

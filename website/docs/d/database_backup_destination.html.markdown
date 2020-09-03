@@ -18,7 +18,7 @@ Gets information about the specified backup destination.
 ```hcl
 data "oci_database_backup_destination" "test_backup_destination" {
 	#Required
-	backup_destination_id = "${oci_database_backup_destination.test_backup_destination.id}"
+	backup_destination_id = oci_database_backup_destination.test_backup_destination.id
 }
 ```
 

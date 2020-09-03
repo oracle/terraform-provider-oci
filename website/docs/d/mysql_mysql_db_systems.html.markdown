@@ -19,14 +19,14 @@ The default sort order is by timeUpdated, descending.
 ```hcl
 data "oci_mysql_mysql_db_systems" "test_mysql_db_systems" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	configuration_id = "${var.mysql_configuration_id}"
-	db_system_id = "${oci_mysql_mysql_db_system.test_db_system.id}"
-	display_name = "${var.mysql_db_system_display_name}"
-	is_up_to_date = "${var.mysql_db_system_is_up_to_date}"
-	state = "${var.mysql_db_system_state}"
+	configuration_id = var.mysql_configuration_id
+	db_system_id = oci_mysql_mysql_db_system.test_db_system.id
+	display_name = var.mysql_db_system_display_name
+	is_up_to_date = var.mysql_db_system_is_up_to_date
+	state = var.mysql_db_system_state
 }
 ```
 

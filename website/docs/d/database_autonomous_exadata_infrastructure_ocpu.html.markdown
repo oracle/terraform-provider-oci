@@ -18,7 +18,7 @@ Gets details of the available and consumed OCPUs for the specified Autonomous Ex
 ```hcl
 data "oci_database_autonomous_exadata_infrastructure_ocpu" "test_autonomous_exadata_infrastructure_ocpu" {
 	#Required
-	autonomous_exadata_infrastructure_id = "${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}"
+	autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
 }
 ```
 

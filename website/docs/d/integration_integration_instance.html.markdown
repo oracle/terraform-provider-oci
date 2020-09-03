@@ -17,7 +17,7 @@ Gets a IntegrationInstance by identifier
 ```hcl
 data "oci_integration_integration_instance" "test_integration_instance" {
 	#Required
-	integration_instance_id = "${oci_integration_integration_instance.test_integration_instance.id}"
+	integration_instance_id = oci_integration_integration_instance.test_integration_instance.id
 }
 ```
 

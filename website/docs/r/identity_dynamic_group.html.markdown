@@ -32,10 +32,10 @@ have to be unique, and you can change it anytime with [UpdateDynamicGroup](https
 ```hcl
 resource "oci_identity_dynamic_group" "test_dynamic_group" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.dynamic_group_description}"
-	matching_rule = "${var.dynamic_group_matching_rule}"
-	name = "${var.dynamic_group_name}"
+	compartment_id = var.tenancy_ocid
+	description = var.dynamic_group_description
+	matching_rule = var.dynamic_group_matching_rule
+	name = var.dynamic_group_name
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

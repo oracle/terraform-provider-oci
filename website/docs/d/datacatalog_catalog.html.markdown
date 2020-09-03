@@ -17,7 +17,7 @@ Gets a data catalog by identifier.
 ```hcl
 data "oci_datacatalog_catalog" "test_catalog" {
 	#Required
-	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
+	catalog_id = oci_datacatalog_catalog.test_catalog.id
 }
 ```
 

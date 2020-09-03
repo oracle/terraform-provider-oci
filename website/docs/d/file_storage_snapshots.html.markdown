@@ -18,11 +18,11 @@ Lists snapshots of the specified file system.
 ```hcl
 data "oci_file_storage_snapshots" "test_snapshots" {
 	#Required
-	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
+	file_system_id = oci_file_storage_file_system.test_file_system.id
 
 	#Optional
-	id = "${var.snapshot_id}"
-	state = "${var.snapshot_state}"
+	id = var.snapshot_id
+	state = var.snapshot_state
 }
 ```
 

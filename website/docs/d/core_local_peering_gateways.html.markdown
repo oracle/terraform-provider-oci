@@ -19,10 +19,10 @@ If the VCN ID is not provided, then the list includes the LPGs from all VCNs in 
 ```hcl
 data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	vcn_id = oci_core_vcn.test_vcn.id
 }
 ```
 

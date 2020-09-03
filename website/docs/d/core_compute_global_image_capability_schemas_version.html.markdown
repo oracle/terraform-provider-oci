@@ -17,8 +17,8 @@ Gets the specified Compute Global Image Capability Schema Version
 ```hcl
 data "oci_core_compute_global_image_capability_schemas_version" "test_compute_global_image_capability_schemas_version" {
 	#Required
-	compute_global_image_capability_schema_id = "${oci_core_compute_global_image_capability_schema.test_compute_global_image_capability_schema.id}"
-	compute_global_image_capability_schema_version_name = "${var.compute_global_image_capability_schemas_version_compute_global_image_capability_schema_version_name}"
+	compute_global_image_capability_schema_id = oci_core_compute_global_image_capability_schema.test_compute_global_image_capability_schema.id
+	compute_global_image_capability_schema_version_name = var.compute_global_image_capability_schemas_version_compute_global_image_capability_schema_version_name
 }
 ```
 

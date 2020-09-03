@@ -18,8 +18,8 @@ Gets the patch history details for the specified patchHistoryEntryId.
 ```hcl
 data "oci_database_vm_cluster_patch_history_entry" "test_vm_cluster_patch_history_entry" {
 	#Required
-	patch_history_entry_id = "${oci_database_patch_history_entry.test_patch_history_entry.id}"
-	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
+	patch_history_entry_id = oci_database_patch_history_entry.test_patch_history_entry.id
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
 ```
 

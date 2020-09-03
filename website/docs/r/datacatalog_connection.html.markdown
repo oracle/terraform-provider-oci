@@ -17,16 +17,16 @@ Creates a new connection.
 ```hcl
 resource "oci_datacatalog_connection" "test_connection" {
 	#Required
-	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
-	data_asset_key = "${var.connection_data_asset_key}"
-	display_name = "${var.connection_display_name}"
-	properties = "${var.connection_properties}"
-	type_key = "${var.connection_type_key}"
+	catalog_id = oci_datacatalog_catalog.test_catalog.id
+	data_asset_key = var.connection_data_asset_key
+	display_name = var.connection_display_name
+	properties = var.connection_properties
+	type_key = var.connection_type_key
 
 	#Optional
-	description = "${var.connection_description}"
-	enc_properties = "${var.connection_enc_properties}"
-	is_default = "${var.connection_is_default}"
+	description = var.connection_description
+	enc_properties = var.connection_enc_properties
+	is_default = var.connection_is_default
 }
 ```
 

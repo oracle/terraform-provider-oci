@@ -19,7 +19,7 @@ For certain operating systems, users will be forced to change the initial creden
 ```hcl
 data "oci_core_instance_credentials" "test_instance_credential" {
 	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
+	instance_id = oci_core_instance.test_instance.id
 }
 ```
 

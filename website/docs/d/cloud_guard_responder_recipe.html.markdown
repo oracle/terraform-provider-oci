@@ -17,7 +17,7 @@ Get a ResponderRecipe by identifier
 ```hcl
 data "oci_cloud_guard_responder_recipe" "test_responder_recipe" {
 	#Required
-	responder_recipe_id = "${oci_cloud_guard_responder_recipe.test_responder_recipe.id}"
+	responder_recipe_id = oci_cloud_guard_responder_recipe.test_responder_recipe.id
 }
 ```
 

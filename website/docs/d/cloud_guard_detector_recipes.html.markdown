@@ -32,14 +32,14 @@ set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIB
 ```hcl
 data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	access_level = "${var.detector_recipe_access_level}"
-	compartment_id_in_subtree = "${var.detector_recipe_compartment_id_in_subtree}"
-	display_name = "${var.detector_recipe_display_name}"
-	resource_metadata_only = "${var.detector_recipe_resource_metadata_only}"
-	state = "${var.detector_recipe_state}"
+	access_level = var.detector_recipe_access_level
+	compartment_id_in_subtree = var.detector_recipe_compartment_id_in_subtree
+	display_name = var.detector_recipe_display_name
+	resource_metadata_only = var.detector_recipe_resource_metadata_only
+	state = var.detector_recipe_state
 }
 ```
 

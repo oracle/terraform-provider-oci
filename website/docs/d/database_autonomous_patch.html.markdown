@@ -17,7 +17,7 @@ Gets information about the specified Autonomous Patch.
 ```hcl
 data "oci_database_autonomous_patch" "test_autonomous_patch" {
 	#Required
-	autonomous_patch_id = "${oci_database_autonomous_patch.test_autonomous_patch.id}"
+	autonomous_patch_id = oci_database_autonomous_patch.test_autonomous_patch.id
 }
 ```
 

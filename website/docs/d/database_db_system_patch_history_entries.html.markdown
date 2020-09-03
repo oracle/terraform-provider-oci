@@ -18,7 +18,7 @@ Gets the history of the patch actions performed on the specified DB system.
 ```hcl
 data "oci_database_db_system_patch_history_entries" "test_db_system_patch_history_entries" {
 	#Required
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
+	db_system_id = oci_database_db_system.test_db_system.id
 }
 ```
 

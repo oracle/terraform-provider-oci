@@ -18,8 +18,8 @@ Gets information about a specified patch package.
 ```hcl
 data "oci_database_vm_cluster_patch" "test_vm_cluster_patch" {
 	#Required
-	patch_id = "${oci_database_patch.test_patch.id}"
-	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
+	patch_id = oci_database_patch.test_patch.id
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
 ```
 

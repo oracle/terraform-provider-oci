@@ -19,7 +19,7 @@ The default IORM Settings is pre-created in all the Exadata DB System.
 ```hcl
 data "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
 	#Required
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
+	db_system_id = oci_database_db_system.test_db_system.id
 }
 ```
 

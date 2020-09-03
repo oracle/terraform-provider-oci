@@ -17,10 +17,10 @@ Gets a list of supported Autonomous Database versions.
 ```hcl
 data "oci_database_autonomous_db_versions" "test_autonomous_db_versions" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	db_workload = "${var.autonomous_db_version_db_workload}"
+	db_workload = var.autonomous_db_version_db_workload
 }
 ```
 

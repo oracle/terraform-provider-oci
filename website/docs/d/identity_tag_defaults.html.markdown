@@ -19,10 +19,10 @@ Lists the tag defaults for tag definitions in the specified compartment.
 data "oci_identity_tag_defaults" "test_tag_defaults" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	id = "${var.tag_default_id}"
-	state = "${var.tag_default_state}"
-	tag_definition_id = "${oci_identity_tag_definition.test_tag_definition.id}"
+	compartment_id = var.compartment_id
+	id = var.tag_default_id
+	state = var.tag_default_state
+	tag_definition_id = oci_identity_tag_definition.test_tag_definition.id
 }
 ```
 

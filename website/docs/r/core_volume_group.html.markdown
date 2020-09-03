@@ -25,17 +25,17 @@ Note: If the volume group is created from another volume group or from a volume 
 ```hcl
 resource "oci_core_volume_group" "test_volume_group" {
 	#Required
-	availability_domain = "${var.volume_group_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.volume_group_availability_domain
+	compartment_id = var.compartment_id
 	source_details {
 		#Required
 		type = "volumeIds"
-		volume_ids = ["${var.volume_group_source_id}"]
+		volume_ids = [var.volume_group_source_id]
 	}
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.volume_group_display_name}"
+	display_name = var.volume_group_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

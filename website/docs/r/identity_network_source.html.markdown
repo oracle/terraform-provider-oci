@@ -34,16 +34,16 @@ IP address specified in your network source. For more information, see [Managing
 ```hcl
 resource "oci_identity_network_source" "test_network_source" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.network_source_description}"
-	name = "${var.network_source_name}"
+	compartment_id = var.tenancy_ocid
+	description = var.network_source_description
+	name = var.network_source_name
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	public_source_list = "${var.network_source_public_source_list}"
-	services = "${var.network_source_services}"
-	virtual_source_list = "${var.network_source_virtual_source_list}"
+	public_source_list = var.network_source_public_source_list
+	services = var.network_source_services
+	virtual_source_list = var.network_source_virtual_source_list
 }
 ```
 

@@ -18,7 +18,7 @@ Returns a specific Managed Instance.
 ```hcl
 data "oci_osmanagement_managed_instance" "test_managed_instance" {
 	#Required
-	managed_instance_id = "${oci_osmanagement_managed_instance.test_managed_instance.id}"
+	managed_instance_id = oci_osmanagement_managed_instance.test_managed_instance.id
 }
 ```
 

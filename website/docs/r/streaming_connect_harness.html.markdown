@@ -20,11 +20,11 @@ In the response, the `lifecycleState` parameter of the [ConnectHarness](https://
 ```hcl
 resource "oci_streaming_connect_harness" "test_connect_harness" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	name = "${var.connect_harness_name}"
+	compartment_id = var.compartment_id
+	name = var.connect_harness_name
 
 	#Optional
-	defined_tags = "${var.connect_harness_defined_tags}"
+	defined_tags = var.connect_harness_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

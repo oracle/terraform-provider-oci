@@ -20,7 +20,7 @@ one item, since volume can only have one volume backup policy assigned at a time
 ```hcl
 data "oci_core_volume_backup_policy_assignments" "test_volume_backup_policy_assignments" {
 	#Required
-	asset_id = "${oci_core_volume.test_volume.id}"
+	asset_id = oci_core_volume.test_volume.id
 }
 ```
 

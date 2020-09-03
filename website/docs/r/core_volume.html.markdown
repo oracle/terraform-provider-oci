@@ -31,24 +31,24 @@ description. It does not have to be unique, and you can change it. Avoid enterin
 ```hcl
 resource "oci_core_volume" "test_volume" {
 	#Required
-	availability_domain = "${var.volume_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.volume_availability_domain
+	compartment_id = var.compartment_id
 
 	#Optional
-	backup_policy_id = "${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}"
+	backup_policy_id = data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.volume_display_name}"
+	display_name = var.volume_display_name
 	freeform_tags = {"Department"= "Finance"}
-	is_auto_tune_enabled = "${var.volume_is_auto_tune_enabled}"
-	kms_key_id = "${oci_kms_key.test_key.id}"
-	size_in_gbs = "${var.volume_size_in_gbs}"
-	size_in_mbs = "${var.volume_size_in_mbs}"
+	is_auto_tune_enabled = var.volume_is_auto_tune_enabled
+	kms_key_id = oci_kms_key.test_key.id
+	size_in_gbs = var.volume_size_in_gbs
+	size_in_mbs = var.volume_size_in_mbs
 	source_details {
 		#Required
-		id = "${var.volume_source_details_id}"
-		type = "${var.volume_source_details_type}"
+		id = var.volume_source_details_id
+		type = var.volume_source_details_type
 	}
-	vpus_per_gb = "${var.volume_vpus_per_gb}"
+	vpus_per_gb = var.volume_vpus_per_gb
 }
 ```
 

@@ -17,8 +17,8 @@ Gets a list of the shapes that can be used to launch a new Autonomous Exadata In
 ```hcl
 data "oci_database_autonomous_exadata_infrastructure_shapes" "test_autonomous_exadata_infrastructure_shapes" {
 	#Required
-	availability_domain = "${var.autonomous_exadata_infrastructure_shape_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.autonomous_exadata_infrastructure_shape_availability_domain
+	compartment_id = var.compartment_id
 }
 ```
 

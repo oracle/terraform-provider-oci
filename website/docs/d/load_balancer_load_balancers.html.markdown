@@ -21,12 +21,12 @@ Lists all load balancers in the specified compartment.
 ```hcl
 data "oci_load_balancer_load_balancers" "test_load_balancers" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	detail = "${var.load_balancer_detail}"
-	display_name = "${var.load_balancer_display_name}"
-	state = "${var.load_balancer_state}"
+	detail = var.load_balancer_detail
+	display_name = var.load_balancer_display_name
+	state = var.load_balancer_state
 }
 ```
 

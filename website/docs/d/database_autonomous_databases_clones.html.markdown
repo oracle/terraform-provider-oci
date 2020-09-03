@@ -18,13 +18,13 @@ Gets a list of the Autonomous Database clones for the specified Autonomous Datab
 ```hcl
 data "oci_database_autonomous_databases_clones" "test_autonomous_databases_clones" {
 	#Required
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
-	compartment_id = "${var.compartment_id}"
+	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+	compartment_id = var.compartment_id
 
 	#Optional
-	clone_type = "${var.autonomous_databases_clone_clone_type}"
-	display_name = "${var.autonomous_databases_clone_display_name}"
-	state = "${var.autonomous_databases_clone_state}"
+	clone_type = var.autonomous_databases_clone_clone_type
+	display_name = var.autonomous_databases_clone_display_name
+	state = var.autonomous_databases_clone_state
 }
 ```
 

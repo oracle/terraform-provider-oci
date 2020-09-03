@@ -17,7 +17,7 @@ Gets the specified Compute Global Image Capability Schema
 ```hcl
 data "oci_core_compute_global_image_capability_schema" "test_compute_global_image_capability_schema" {
 	#Required
-	compute_global_image_capability_schema_id = "${oci_core_compute_global_image_capability_schema.test_compute_global_image_capability_schema.id}"
+	compute_global_image_capability_schema_id = oci_core_compute_global_image_capability_schema.test_compute_global_image_capability_schema.id
 }
 ```
 

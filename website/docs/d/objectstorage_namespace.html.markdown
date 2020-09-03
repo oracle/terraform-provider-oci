@@ -25,7 +25,7 @@ tenancy, provided the user has access to it.
 data "oci_objectstorage_namespace" "test_namespace" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 
