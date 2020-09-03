@@ -79,6 +79,9 @@ type DatabaseSummary struct {
 
 	// Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339)
 	SourceDatabasePointInTimeRecoveryTimestamp *common.SDKTime `mandatory:"false" json:"sourceDatabasePointInTimeRecoveryTimestamp"`
+
+	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 }
 
 func (m DatabaseSummary) String() string {

@@ -26,7 +26,9 @@ type Gateway struct {
 	// resource is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Gateway endpoint type.
+	// Gateway endpoint type. `PUBLIC` will have a public ip address assigned to it, while `PRIVATE` will only be
+	// accessible on a private IP address on the subnet.
+	// Example: `PUBLIC` or `PRIVATE`
 	EndpointType GatewayEndpointTypeEnum `mandatory:"true" json:"endpointType"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

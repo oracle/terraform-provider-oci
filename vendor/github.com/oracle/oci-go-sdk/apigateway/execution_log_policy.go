@@ -15,14 +15,20 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ExecutionLogPolicy Configures the pushing of execution logs to OCI Public Logging.
+// ExecutionLogPolicy Configures the logging policies for the execution logs of an API Deployment.
 type ExecutionLogPolicy struct {
 
-	// Enables pushing of execution logs to OCI Public Logging.
+	// Enables pushing of execution logs to the legacy OCI Object Storage log archival bucket.
+	// Oracle recommends using the OCI Logging service to enable, retrieve, and query execution logs
+	// for an API Deployment. If there is an active log object for the API Deployment and its
+	// category is set to 'execution' in OCI Logging service, the logs will not be uploaded to the legacy
+	// OCI Object Storage log archival bucket.
+	// Please note that the functionality to push to the legacy OCI Object Storage log
+	// archival bucket has been deprecated and will be removed in the future.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// Specifies the logging level, which affects the log entries pushed to
-	// OCI Public Logging if `isEnabled` is set to True.
+	// Specifies the log level used to control logging output of execution logs.
+	// Enabling logging at a given level also enables logging at all higher levels.
 	LogLevel ExecutionLogPolicyLogLevelEnum `mandatory:"false" json:"logLevel,omitempty"`
 }
 
