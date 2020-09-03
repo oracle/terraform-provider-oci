@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 
@@ -649,7 +650,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) activateExadataInfrastructur
 	if err != nil {
 		return nil, fmt.Errorf("unable to open activation key file: %s", err)
 	}
-	request.ActivationFile = activationKeyFile
+
+	actionKeyFileBase64Encoded := []byte(base64.StdEncoding.EncodeToString(activationKeyFile))
+	request.ActivationFile = actionKeyFileBase64Encoded
 
 	request.ExadataInfrastructureId = &exadataInfrastructureId
 
