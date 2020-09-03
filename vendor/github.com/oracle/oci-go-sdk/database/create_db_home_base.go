@@ -21,6 +21,9 @@ type CreateDbHomeBase interface {
 	// The user-provided name of the Database Home.
 	GetDisplayName() *string
 
+	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	GetDatabaseSoftwareImageId() *string
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -32,11 +35,12 @@ type CreateDbHomeBase interface {
 }
 
 type createdbhomebase struct {
-	JsonData     []byte
-	DisplayName  *string                           `mandatory:"false" json:"displayName"`
-	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	Source       string                            `json:"source"`
+	JsonData                []byte
+	DisplayName             *string                           `mandatory:"false" json:"displayName"`
+	DatabaseSoftwareImageId *string                           `mandatory:"false" json:"databaseSoftwareImageId"`
+	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Source                  string                            `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -51,6 +55,7 @@ func (m *createdbhomebase) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.DisplayName = s.Model.DisplayName
+	m.DatabaseSoftwareImageId = s.Model.DatabaseSoftwareImageId
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.Source = s.Model.Source
@@ -91,6 +96,11 @@ func (m *createdbhomebase) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 //GetDisplayName returns DisplayName
 func (m createdbhomebase) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+//GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
+func (m createdbhomebase) GetDatabaseSoftwareImageId() *string {
+	return m.DatabaseSoftwareImageId
 }
 
 //GetFreeformTags returns FreeformTags

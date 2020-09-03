@@ -66,6 +66,9 @@ type DbHomeSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 }
 
 func (m DbHomeSummary) String() string {
