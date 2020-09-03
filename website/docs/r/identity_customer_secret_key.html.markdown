@@ -28,8 +28,8 @@ tenancy can use this operation to create a secret key for any user, including th
 ```hcl
 resource "oci_identity_customer_secret_key" "test_customer_secret_key" {
 	#Required
-	display_name = "${var.customer_secret_key_display_name}"
-	user_id = "${oci_identity_user.test_user.id}"
+	display_name = var.customer_secret_key_display_name
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

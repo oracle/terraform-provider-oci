@@ -32,7 +32,7 @@ For more information on configuring a VCN's default DHCP options, see [Managing 
 ```hcl
 resource "oci_core_dhcp_options" "test_dhcp_options" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 	options {
         type = "DomainNameServer"
         server_type = "VcnLocalPlusInternet"
@@ -43,10 +43,10 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
         search_domain_names = [ "test.com" ]
     }
 	
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
-	display_name = "${var.dhcp_options_display_name}"
+	display_name = var.dhcp_options_display_name
 }
 ```
 
@@ -55,7 +55,7 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
 ```hcl
 resource "oci_core_dhcp_options" "test_dhcp_options" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 	options {
         type = "DomainNameServer"
         server_type = "CustomDnsServer"
@@ -67,11 +67,11 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
         search_domain_names = [ "test.com" ]
     }
 	
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.dhcp_options_display_name}"
+	display_name = var.dhcp_options_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

@@ -22,7 +22,7 @@ provide the group's OCID as a query parameter in the request.
 ```hcl
 data "oci_identity_group" "test_group" {
 	#Required
-	group_id = "${oci_identity_group.test_group.id}"
+	group_id = oci_identity_group.test_group.id
 }
 ```
 

@@ -35,16 +35,16 @@ It does not have to be unique, and you can change it. Avoid entering confidentia
 ```hcl
 resource "oci_core_ipsec" "test_ip_sec_connection" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	cpe_id = "${oci_core_cpe.test_cpe.id}"
-	drg_id = "${oci_core_drg.test_drg.id}"
-	static_routes = "${var.ip_sec_connection_static_routes}"
+	compartment_id = var.compartment_id
+	cpe_id = oci_core_cpe.test_cpe.id
+	drg_id = oci_core_drg.test_drg.id
+	static_routes = var.ip_sec_connection_static_routes
 
 	#Optional
-	cpe_local_identifier = "${var.ip_sec_connection_cpe_local_identifier}"
-	cpe_local_identifier_type = "${var.ip_sec_connection_cpe_local_identifier_type}"
+	cpe_local_identifier = var.ip_sec_connection_cpe_local_identifier
+	cpe_local_identifier_type = var.ip_sec_connection_cpe_local_identifier_type
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.ip_sec_connection_display_name}"
+	display_name = var.ip_sec_connection_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

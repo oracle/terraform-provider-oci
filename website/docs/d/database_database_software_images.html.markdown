@@ -18,13 +18,13 @@ Gets a list of the database software images in the specified compartment.
 ```hcl
 data "oci_database_database_software_images" "test_database_software_images" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.database_software_image_display_name}"
-	image_shape_family = "${var.database_software_image_image_shape_family}"
-	image_type = "${var.database_software_image_image_type}"
-	state = "${var.database_software_image_state}"
+	display_name = var.database_software_image_display_name
+	image_shape_family = var.database_software_image_image_shape_family
+	image_type = var.database_software_image_image_type
+	state = var.database_software_image_state
 }
 ```
 

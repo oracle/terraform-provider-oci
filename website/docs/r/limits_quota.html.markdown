@@ -17,10 +17,10 @@ Creates a new quota with the details supplied.
 ```hcl
 resource "oci_limits_quota" "test_quota" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.quota_description}"
-	name = "${var.quota_name}"
-	statements = "${var.quota_statements}"
+	compartment_id = var.tenancy_ocid
+	description = var.quota_description
+	name = var.quota_name
+	statements = var.quota_statements
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

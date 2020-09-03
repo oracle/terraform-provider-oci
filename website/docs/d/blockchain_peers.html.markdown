@@ -17,10 +17,10 @@ List Blockchain Platform Peers
 ```hcl
 data "oci_blockchain_peers" "test_peers" {
 	#Required
-	blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+	blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 
 	#Optional
-	display_name = "${var.peer_display_name}"
+	display_name = var.peer_display_name
 }
 ```
 

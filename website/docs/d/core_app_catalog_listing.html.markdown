@@ -17,7 +17,7 @@ Gets the specified listing.
 ```hcl
 data "oci_core_app_catalog_listing" "test_app_catalog_listing" {
 	#Required
-	listing_id = "${data.oci_core_app_catalog_listing.test_listing.id}"
+	listing_id = data.oci_core_app_catalog_listing.test_listing.id
 }
 ```
 

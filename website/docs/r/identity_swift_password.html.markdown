@@ -29,8 +29,8 @@ tenancy can use this operation to create a Swift password for any user, includin
 ```hcl
 resource "oci_identity_swift_password" "test_swift_password" {
 	#Required
-	description = "${var.swift_password_description}"
-	user_id = "${oci_identity_user.test_user.id}"
+	description = var.swift_password_description
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

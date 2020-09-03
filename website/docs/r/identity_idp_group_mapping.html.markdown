@@ -19,9 +19,9 @@ Creates a single mapping between an IdP group and an IAM Service
 ```hcl
 resource "oci_identity_idp_group_mapping" "test_idp_group_mapping" {
 	#Required
-	group_id = "${oci_identity_group.test_group.id}"
-	identity_provider_id = "${oci_identity_identity_provider.test_identity_provider.id}"
-	idp_group_name = "${var.idp_group_mapping_idp_group_name}"
+	group_id = oci_identity_group.test_group.id
+	identity_provider_id = oci_identity_identity_provider.test_identity_provider.id
+	idp_group_name = var.idp_group_mapping_idp_group_name
 }
 ```
 

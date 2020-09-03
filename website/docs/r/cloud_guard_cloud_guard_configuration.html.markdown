@@ -18,12 +18,12 @@ Enable/Disable Cloud Guard. The reporting region cannot be updated once created.
 ```hcl
 resource "oci_cloud_guard_cloud_guard_configuration" "test_cloud_guard_configuration" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	reporting_region = "${var.cloud_guard_configuration_reporting_region}"
-	status = "${var.cloud_guard_configuration_status}"
+	compartment_id = var.compartment_id
+	reporting_region = var.cloud_guard_configuration_reporting_region
+	status = var.cloud_guard_configuration_status
 
 	#Optional
-	self_manage_resources = "${var.cloud_guard_configuration_self_manage_resources}"
+	self_manage_resources = var.cloud_guard_configuration_self_manage_resources
 }
 ```
 

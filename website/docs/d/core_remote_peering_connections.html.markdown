@@ -19,10 +19,10 @@ Lists the remote peering connections (RPCs) for the specified DRG and compartmen
 ```hcl
 data "oci_core_remote_peering_connections" "test_remote_peering_connections" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	drg_id = "${oci_core_drg.test_drg.id}"
+	drg_id = oci_core_drg.test_drg.id
 }
 ```
 

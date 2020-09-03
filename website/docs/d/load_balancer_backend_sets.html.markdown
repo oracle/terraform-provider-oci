@@ -21,7 +21,7 @@ Lists all backend sets associated with a given load balancer.
 ```hcl
 data "oci_load_balancer_backend_sets" "test_backend_sets" {
 	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

@@ -17,7 +17,7 @@ Returns a managed list identified by managedListId
 ```hcl
 data "oci_cloud_guard_managed_list" "test_managed_list" {
 	#Required
-	managed_list_id = "${oci_cloud_guard_managed_list.test_managed_list.id}"
+	managed_list_id = oci_cloud_guard_managed_list.test_managed_list.id
 }
 ```
 

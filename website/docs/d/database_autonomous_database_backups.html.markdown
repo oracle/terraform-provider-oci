@@ -19,10 +19,10 @@ Gets a list of Autonomous Database backups based on either the `autonomousDataba
 data "oci_database_autonomous_database_backups" "test_autonomous_database_backups" {
 
 	#Optional
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.autonomous_database_backup_display_name}"
-	state = "${var.autonomous_database_backup_state}"
+	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+	compartment_id = var.compartment_id
+	display_name = var.autonomous_database_backup_display_name
+	state = var.autonomous_database_backup_state
 }
 ```
 

@@ -18,14 +18,14 @@ Gets a list of Database Homes in the specified DB system and compartment. A Data
 ```hcl
 data "oci_database_db_homes" "test_db_homes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	backup_id = "${oci_database_backup.test_backup.id}"
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-	display_name = "${var.db_home_display_name}"
-	state = "${var.db_home_state}"
-	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
+	backup_id = oci_database_backup.test_backup.id
+	db_system_id = oci_database_db_system.test_db_system.id
+	display_name = var.db_home_display_name
+	state = var.db_home_state
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
 ```
 

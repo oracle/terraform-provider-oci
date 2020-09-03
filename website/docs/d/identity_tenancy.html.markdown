@@ -17,7 +17,7 @@ Get the specified tenancy's information.
 ```hcl
 data "oci_identity_tenancy" "test_tenancy" {
 	#Required
-	tenancy_id = "${var.tenancy_ocid}"
+	tenancy_id = var.tenancy_ocid
 }
 ```
 

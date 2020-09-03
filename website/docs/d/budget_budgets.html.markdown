@@ -27,12 +27,12 @@ or upgrade to latest version of client SDK to handle new targetType.
 ```hcl
 data "oci_budget_budgets" "test_budgets" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 
 	#Optional
-	display_name = "${var.budget_display_name}"
-	state = "${var.budget_state}"
-	target_type = "${var.budget_target_type}"
+	display_name = var.budget_display_name
+	state = var.budget_state
+	target_type = var.budget_target_type
 }
 ```
 

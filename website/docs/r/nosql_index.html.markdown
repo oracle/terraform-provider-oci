@@ -19,18 +19,18 @@ resource "oci_nosql_index" "test_index" {
 	#Required
 	keys {
 		#Required
-		column_name = "${var.index_keys_column_name}"
+		column_name = var.index_keys_column_name
 
 		#Optional
-		json_field_type = "${var.index_keys_json_field_type}"
-		json_path = "${var.index_keys_json_path}"
+		json_field_type = var.index_keys_json_field_type
+		json_path = var.index_keys_json_path
 	}
-	name = "${var.index_name}"
-	table_name_or_id = "${oci_nosql_table_name_or.test_table_name_or.id}"
+	name = var.index_name
+	table_name_or_id = oci_nosql_table_name_or.test_table_name_or.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	is_if_not_exists = "${var.index_is_if_not_exists}"
+	compartment_id = var.compartment_id
+	is_if_not_exists = var.index_is_if_not_exists
 }
 ```
 

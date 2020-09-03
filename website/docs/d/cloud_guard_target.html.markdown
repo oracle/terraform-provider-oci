@@ -17,7 +17,7 @@ Returns a Target identified by targetId
 ```hcl
 data "oci_cloud_guard_target" "test_target" {
 	#Required
-	target_id = "${oci_cloud_guard_target.test_target.id}"
+	target_id = oci_cloud_guard_target.test_target.id
 }
 ```
 

@@ -18,17 +18,17 @@ Creates a new Data Safe private endpoint.
 ```hcl
 resource "oci_data_safe_data_safe_private_endpoint" "test_data_safe_private_endpoint" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.data_safe_private_endpoint_display_name}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	compartment_id = var.compartment_id
+	display_name = var.data_safe_private_endpoint_display_name
+	subnet_id = oci_core_subnet.test_subnet.id
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.data_safe_private_endpoint_description}"
+	description = var.data_safe_private_endpoint_description
 	freeform_tags = {"Department"= "Finance"}
-	nsg_ids = "${var.data_safe_private_endpoint_nsg_ids}"
-	private_endpoint_ip = "${var.data_safe_private_endpoint_private_endpoint_ip}"
+	nsg_ids = var.data_safe_private_endpoint_nsg_ids
+	private_endpoint_ip = var.data_safe_private_endpoint_private_endpoint_ip
 }
 ```
 

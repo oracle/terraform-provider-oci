@@ -18,12 +18,12 @@ Lists the VLANs in the specified VCN and the specified compartment.
 ```hcl
 data "oci_core_vlans" "test_vlans" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	compartment_id = var.compartment_id
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
-	display_name = "${var.vlan_display_name}"
-	state = "${var.vlan_state}"
+	display_name = var.vlan_display_name
+	state = var.vlan_state
 }
 ```
 

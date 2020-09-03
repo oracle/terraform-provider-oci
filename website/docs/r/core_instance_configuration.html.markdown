@@ -19,15 +19,15 @@ settings to use when creating Compute instances.
 ```hcl
 resource "oci_core_instance_configuration" "test_instance_configuration" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.instance_configuration_display_name}"
+	display_name = var.instance_configuration_display_name
 	freeform_tags = {"Department"= "Finance"}
 	instance_details {
 		#Required
-		instance_type = "${var.instance_configuration_instance_details_instance_type}"
+		instance_type = var.instance_configuration_instance_details_instance_type
 
 		#Optional
 		block_volumes {
@@ -35,37 +35,37 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 			#Optional
 			attach_details {
 				#Required
-				type = "${var.instance_configuration_instance_details_block_volumes_attach_details_type}"
+				type = var.instance_configuration_instance_details_block_volumes_attach_details_type
 
 				#Optional
-				device = "${var.instance_configuration_instance_details_block_volumes_attach_details_device}"
-				display_name = "${var.instance_configuration_instance_details_block_volumes_attach_details_display_name}"
-				is_pv_encryption_in_transit_enabled = "${var.instance_configuration_instance_details_block_volumes_attach_details_is_pv_encryption_in_transit_enabled}"
-				is_read_only = "${var.instance_configuration_instance_details_block_volumes_attach_details_is_read_only}"
-				is_shareable = "${var.instance_configuration_instance_details_block_volumes_attach_details_is_shareable}"
-				use_chap = "${var.instance_configuration_instance_details_block_volumes_attach_details_use_chap}"
+				device = var.instance_configuration_instance_details_block_volumes_attach_details_device
+				display_name = var.instance_configuration_instance_details_block_volumes_attach_details_display_name
+				is_pv_encryption_in_transit_enabled = var.instance_configuration_instance_details_block_volumes_attach_details_is_pv_encryption_in_transit_enabled
+				is_read_only = var.instance_configuration_instance_details_block_volumes_attach_details_is_read_only
+				is_shareable = var.instance_configuration_instance_details_block_volumes_attach_details_is_shareable
+				use_chap = var.instance_configuration_instance_details_block_volumes_attach_details_use_chap
 			}
 			create_details {
 
 				#Optional
-				availability_domain = "${var.instance_configuration_instance_details_block_volumes_create_details_availability_domain}"
-				backup_policy_id = "${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}"
-				compartment_id = "${var.compartment_id}"
+				availability_domain = var.instance_configuration_instance_details_block_volumes_create_details_availability_domain
+				backup_policy_id = data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id
+				compartment_id = var.compartment_id
 				defined_tags = {"Operations.CostCenter"= "42"}
-				display_name = "${var.instance_configuration_instance_details_block_volumes_create_details_display_name}"
+				display_name = var.instance_configuration_instance_details_block_volumes_create_details_display_name
 				freeform_tags = {"Department"= "Finance"}
-				kms_key_id = "${oci_kms_key.test_key.id}"
-				size_in_gbs = "${var.instance_configuration_instance_details_block_volumes_create_details_size_in_gbs}"
+				kms_key_id = oci_kms_key.test_key.id
+				size_in_gbs = var.instance_configuration_instance_details_block_volumes_create_details_size_in_gbs
 				source_details {
 					#Required
-					type = "${var.instance_configuration_instance_details_block_volumes_create_details_source_details_type}"
+					type = var.instance_configuration_instance_details_block_volumes_create_details_source_details_type
 
 					#Optional
-					id = "${var.instance_configuration_instance_details_block_volumes_create_details_source_details_id}"
+					id = var.instance_configuration_instance_details_block_volumes_create_details_source_details_id
 				}
-				vpus_per_gb = "${var.instance_configuration_instance_details_block_volumes_create_details_vpus_per_gb}"
+				vpus_per_gb = var.instance_configuration_instance_details_block_volumes_create_details_vpus_per_gb
 			}
-			volume_id = "${oci_core_volume.test_volume.id}"
+			volume_id = oci_core_volume.test_volume.id
 		}
 		launch_details {
 
@@ -73,64 +73,64 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 			agent_config {
 
 				#Optional
-				is_management_disabled = "${var.instance_configuration_instance_details_launch_details_agent_config_is_management_disabled}"
-				is_monitoring_disabled = "${var.instance_configuration_instance_details_launch_details_agent_config_is_monitoring_disabled}"
+				is_management_disabled = var.instance_configuration_instance_details_launch_details_agent_config_is_management_disabled
+				is_monitoring_disabled = var.instance_configuration_instance_details_launch_details_agent_config_is_monitoring_disabled
 			}
 			availability_config {
 
 				#Optional
-				recovery_action = "${var.instance_configuration_instance_details_launch_details_availability_config_recovery_action}"
+				recovery_action = var.instance_configuration_instance_details_launch_details_availability_config_recovery_action
 			}
-			availability_domain = "${var.instance_configuration_instance_details_launch_details_availability_domain}"
-			compartment_id = "${var.compartment_id}"
+			availability_domain = var.instance_configuration_instance_details_launch_details_availability_domain
+			compartment_id = var.compartment_id
 			create_vnic_details {
 
 				#Optional
-				assign_public_ip = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_public_ip}"
+				assign_public_ip = var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_public_ip
 				defined_tags = {"Operations.CostCenter"= "42"}
-				display_name = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_display_name}"
+				display_name = var.instance_configuration_instance_details_launch_details_create_vnic_details_display_name
 				freeform_tags = {"Department"= "Finance"}
-				hostname_label = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_hostname_label}"
-				nsg_ids = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_nsg_ids}"
-				private_ip = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_private_ip}"
-				skip_source_dest_check = "${var.instance_configuration_instance_details_launch_details_create_vnic_details_skip_source_dest_check}"
-				subnet_id = "${oci_core_subnet.test_subnet.id}"
+				hostname_label = var.instance_configuration_instance_details_launch_details_create_vnic_details_hostname_label
+				nsg_ids = var.instance_configuration_instance_details_launch_details_create_vnic_details_nsg_ids
+				private_ip = var.instance_configuration_instance_details_launch_details_create_vnic_details_private_ip
+				skip_source_dest_check = var.instance_configuration_instance_details_launch_details_create_vnic_details_skip_source_dest_check
+				subnet_id = oci_core_subnet.test_subnet.id
 			}
-			dedicated_vm_host_id = "${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}"
+			dedicated_vm_host_id = oci_core_dedicated_vm_host.test_dedicated_vm_host.id
 			defined_tags = {"Operations.CostCenter"= "42"}
-			display_name = "${var.instance_configuration_instance_details_launch_details_display_name}"
-			extended_metadata = "${var.instance_configuration_instance_details_launch_details_extended_metadata}"
-			fault_domain = "${var.instance_configuration_instance_details_launch_details_fault_domain}"
+			display_name = var.instance_configuration_instance_details_launch_details_display_name
+			extended_metadata = var.instance_configuration_instance_details_launch_details_extended_metadata
+			fault_domain = var.instance_configuration_instance_details_launch_details_fault_domain
 			freeform_tags = {"Department"= "Finance"}
-			ipxe_script = "${var.instance_configuration_instance_details_launch_details_ipxe_script}"
-			is_pv_encryption_in_transit_enabled = "${var.instance_configuration_instance_details_launch_details_is_pv_encryption_in_transit_enabled}"
-			launch_mode = "${var.instance_configuration_instance_details_launch_details_launch_mode}"
+			ipxe_script = var.instance_configuration_instance_details_launch_details_ipxe_script
+			is_pv_encryption_in_transit_enabled = var.instance_configuration_instance_details_launch_details_is_pv_encryption_in_transit_enabled
+			launch_mode = var.instance_configuration_instance_details_launch_details_launch_mode
 			launch_options {
 
 				#Optional
-				boot_volume_type = "${var.instance_configuration_instance_details_launch_details_launch_options_boot_volume_type}"
-				firmware = "${var.instance_configuration_instance_details_launch_details_launch_options_firmware}"
-				is_consistent_volume_naming_enabled = "${var.instance_configuration_instance_details_launch_details_launch_options_is_consistent_volume_naming_enabled}"
-				is_pv_encryption_in_transit_enabled = "${var.instance_configuration_instance_details_launch_details_launch_options_is_pv_encryption_in_transit_enabled}"
-				network_type = "${var.instance_configuration_instance_details_launch_details_launch_options_network_type}"
-				remote_data_volume_type = "${var.instance_configuration_instance_details_launch_details_launch_options_remote_data_volume_type}"
+				boot_volume_type = var.instance_configuration_instance_details_launch_details_launch_options_boot_volume_type
+				firmware = var.instance_configuration_instance_details_launch_details_launch_options_firmware
+				is_consistent_volume_naming_enabled = var.instance_configuration_instance_details_launch_details_launch_options_is_consistent_volume_naming_enabled
+				is_pv_encryption_in_transit_enabled = var.instance_configuration_instance_details_launch_details_launch_options_is_pv_encryption_in_transit_enabled
+				network_type = var.instance_configuration_instance_details_launch_details_launch_options_network_type
+				remote_data_volume_type = var.instance_configuration_instance_details_launch_details_launch_options_remote_data_volume_type
 			}
-			metadata = "${var.instance_configuration_instance_details_launch_details_metadata}"
-			preferred_maintenance_action = "${var.instance_configuration_instance_details_launch_details_preferred_maintenance_action}"
-			shape = "${var.instance_configuration_instance_details_launch_details_shape}"
+			metadata = var.instance_configuration_instance_details_launch_details_metadata
+			preferred_maintenance_action = var.instance_configuration_instance_details_launch_details_preferred_maintenance_action
+			shape = var.instance_configuration_instance_details_launch_details_shape
 			shape_config {
 
 				#Optional
-				ocpus = "${var.instance_configuration_instance_details_launch_details_shape_config_ocpus}"
+				ocpus = var.instance_configuration_instance_details_launch_details_shape_config_ocpus
 			}
 			source_details {
 				#Required
-				source_type = "${var.instance_configuration_instance_details_launch_details_source_details_source_type}"
+				source_type = var.instance_configuration_instance_details_launch_details_source_details_source_type
 
 				#Optional
-				boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
-				boot_volume_size_in_gbs = "${var.instance_configuration_instance_details_launch_details_source_details_boot_volume_size_in_gbs}"
-				image_id = "${oci_core_image.test_image.id}"
+				boot_volume_id = oci_core_boot_volume.test_boot_volume.id
+				boot_volume_size_in_gbs = var.instance_configuration_instance_details_launch_details_source_details_boot_volume_size_in_gbs
+				image_id = oci_core_image.test_image.id
 			}
 		}
 		secondary_vnics {
@@ -139,22 +139,22 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 			create_vnic_details {
 
 				#Optional
-				assign_public_ip = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_assign_public_ip}"
+				assign_public_ip = var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_assign_public_ip
 				defined_tags = {"Operations.CostCenter"= "42"}
-				display_name = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_display_name}"
+				display_name = var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_display_name
 				freeform_tags = {"Department"= "Finance"}
-				hostname_label = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_hostname_label}"
-				nsg_ids = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_nsg_ids}"
-				private_ip = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_private_ip}"
-				skip_source_dest_check = "${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_skip_source_dest_check}"
-				subnet_id = "${oci_core_subnet.test_subnet.id}"
+				hostname_label = var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_hostname_label
+				nsg_ids = var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_nsg_ids
+				private_ip = var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_private_ip
+				skip_source_dest_check = var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_skip_source_dest_check
+				subnet_id = oci_core_subnet.test_subnet.id
 			}
-			display_name = "${var.instance_configuration_instance_details_secondary_vnics_display_name}"
-			nic_index = "${var.instance_configuration_instance_details_secondary_vnics_nic_index}"
+			display_name = var.instance_configuration_instance_details_secondary_vnics_display_name
+			nic_index = var.instance_configuration_instance_details_secondary_vnics_nic_index
 		}
 	}
-	instance_id = "${oci_core_instance.test_instance.id}"
-	source = "${var.instance_configuration_source}"
+	instance_id = oci_core_instance.test_instance.id
+	source = var.instance_configuration_source
 }
 ```
 

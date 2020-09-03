@@ -33,22 +33,22 @@ For more information on configuring a VCN's default route table, see [Managing D
 ```hcl
 resource "oci_core_route_table" "test_route_table" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	compartment_id = var.compartment_id
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.route_table_display_name}"
+	display_name = var.route_table_display_name
 	freeform_tags = {"Department"= "Finance"}
 	route_rules {
 		#Required
-		network_entity_id = "${oci_core_internet_gateway.test_internet_gateway.id}"
+		network_entity_id = oci_core_internet_gateway.test_internet_gateway.id
 
 		#Optional
-		cidr_block = "${var.route_table_route_rules_cidr_block}"
-		description = "${var.route_table_route_rules_description}"
-		destination = "${var.route_table_route_rules_destination}"
-		destination_type = "${var.route_table_route_rules_destination_type}"
+		cidr_block = var.route_table_route_rules_cidr_block
+		description = var.route_table_route_rules_description
+		destination = var.route_table_route_rules_destination
+		destination_type = var.route_table_route_rules_destination_type
 	}
 }
 ```

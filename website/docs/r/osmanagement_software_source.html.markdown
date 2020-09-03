@@ -20,19 +20,19 @@ and they must be added later.
 ```hcl
 resource "oci_osmanagement_software_source" "test_software_source" {
 	#Required
-	arch_type = "${var.software_source_arch_type}"
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.software_source_display_name}"
+	arch_type = var.software_source_arch_type
+	compartment_id = var.compartment_id
+	display_name = var.software_source_display_name
 
 	#Optional
-	checksum_type = "${var.software_source_checksum_type}"
+	checksum_type = var.software_source_checksum_type
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.software_source_description}"
+	description = var.software_source_description
 	freeform_tags = {"bar-key"= "value"}
-	maintainer_email = "${var.software_source_maintainer_email}"
-	maintainer_name = "${var.software_source_maintainer_name}"
-	maintainer_phone = "${var.software_source_maintainer_phone}"
-	parent_id = "${oci_osmanagement_parent.test_parent.id}"
+	maintainer_email = var.software_source_maintainer_email
+	maintainer_name = var.software_source_maintainer_name
+	maintainer_phone = var.software_source_maintainer_phone
+	parent_id = oci_osmanagement_parent.test_parent.id
 }
 ```
 

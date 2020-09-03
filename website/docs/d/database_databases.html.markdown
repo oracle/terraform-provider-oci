@@ -18,13 +18,13 @@ Gets a list of the databases in the specified Database Home.
 ```hcl
 data "oci_database_databases" "test_databases" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	db_home_id = "${oci_database_db_home.test_db_home.id}"
-	db_name = "${var.database_db_name}"
-	state = "${var.database_state}"
-	system_id = "${oci_database_system.test_system.id}"
+	db_home_id = oci_database_db_home.test_db_home.id
+	db_name = var.database_db_name
+	state = var.database_state
+	system_id = oci_database_system.test_system.id
 }
 ```
 

@@ -24,8 +24,8 @@ for a given tenancy.
 ```hcl
 data "oci_kms_key_versions" "test_key_versions" {
 	#Required
-	key_id = "${oci_kms_key.test_key.id}"
-	management_endpoint = "${var.key_version_management_endpoint}"
+	key_id = oci_kms_key.test_key.id
+	management_endpoint = var.key_version_management_endpoint
 }
 ```
 

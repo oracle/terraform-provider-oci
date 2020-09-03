@@ -18,19 +18,19 @@ Creates a new Integration Instance.
 ```hcl
 resource "oci_integration_integration_instance" "test_integration_instance" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.integration_instance_display_name}"
-	integration_instance_type = "${var.integration_instance_integration_instance_type}"
-	is_byol = "${var.integration_instance_is_byol}"
-	message_packs = "${var.integration_instance_message_packs}"
+	compartment_id = var.compartment_id
+	display_name = var.integration_instance_display_name
+	integration_instance_type = var.integration_instance_integration_instance_type
+	is_byol = var.integration_instance_is_byol
+	message_packs = var.integration_instance_message_packs
 
 	#Optional
-	consumption_model = "${var.integration_instance_consumption_model}"
+	consumption_model = var.integration_instance_consumption_model
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
-	idcs_at = "${var.integration_instance_idcs_at}"
-	is_file_server_enabled = "${var.integration_instance_is_file_server_enabled}"
-	state = "${var.integration_instance_target_state}"
+	idcs_at = var.integration_instance_idcs_at
+	is_file_server_enabled = var.integration_instance_is_file_server_enabled
+	state = var.integration_instance_target_state
 }
 ```
 

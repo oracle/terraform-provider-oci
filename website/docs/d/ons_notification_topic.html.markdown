@@ -18,7 +18,7 @@ Gets the specified topic's configuration information.
 ```hcl
 data "oci_ons_notification_topic" "test_notification_topic" {
 	#Required
-	topic_id = "${oci_ons_notification_topic.test_notification_topic.id}"
+	topic_id = oci_ons_notification_topic.test_notification_topic.id
 }
 ```
 

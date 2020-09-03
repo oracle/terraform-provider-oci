@@ -17,11 +17,11 @@ Returns a list Blockchain Platform Instances in a compartment
 ```hcl
 data "oci_blockchain_blockchain_platforms" "test_blockchain_platforms" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.blockchain_platform_display_name}"
-	state = "${var.blockchain_platform_state}"
+	display_name = var.blockchain_platform_display_name
+	state = var.blockchain_platform_state
 }
 ```
 

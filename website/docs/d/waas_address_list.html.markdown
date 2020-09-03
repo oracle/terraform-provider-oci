@@ -17,7 +17,7 @@ Gets the details of an address list.
 ```hcl
 data "oci_waas_address_list" "test_address_list" {
 	#Required
-	address_list_id = "${oci_waas_address_list.test_address_list.id}"
+	address_list_id = oci_waas_address_list.test_address_list.id
 }
 ```
 

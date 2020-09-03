@@ -17,12 +17,12 @@ Gets a list of supported Oracle Database versions.
 ```hcl
 data "oci_database_db_versions" "test_db_versions" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-	db_system_shape = "${var.db_version_db_system_shape}"
-	storage_management = "${var.db_version_storage_management}"
+	db_system_id = oci_database_db_system.test_db_system.id
+	db_system_shape = var.db_version_db_system_shape
+	storage_management = var.db_version_storage_management
 }
 ```
 

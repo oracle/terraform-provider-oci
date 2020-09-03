@@ -17,7 +17,7 @@ Get information about the specified DB System.
 ```hcl
 data "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	#Required
-	db_system_id = "${oci_mysql_mysql_db_system.test_db_system.id}"
+	db_system_id = oci_mysql_mysql_db_system.test_db_system.id
 }
 ```
 

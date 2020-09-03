@@ -17,14 +17,14 @@ Gets a list of WAAS policies.
 ```hcl
 data "oci_waas_waas_policies" "test_waas_policies" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_names = "${var.waas_policy_display_names}"
-	ids = "${var.waas_policy_ids}"
-	states = "${var.waas_policy_states}"
-	time_created_greater_than_or_equal_to = "${var.waas_policy_time_created_greater_than_or_equal_to}"
-	time_created_less_than = "${var.waas_policy_time_created_less_than}"
+	display_names = var.waas_policy_display_names
+	ids = var.waas_policy_ids
+	states = var.waas_policy_states
+	time_created_greater_than_or_equal_to = var.waas_policy_time_created_greater_than_or_equal_to
+	time_created_less_than = var.waas_policy_time_created_less_than
 }
 ```
 

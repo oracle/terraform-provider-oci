@@ -17,7 +17,7 @@ Gets the specified Digital Assistant instance.
 ```hcl
 data "oci_oda_oda_instance" "test_oda_instance" {
 	#Required
-	oda_instance_id = "${oci_oda_oda_instance.test_oda_instance.id}"
+	oda_instance_id = oci_oda_oda_instance.test_oda_instance.id
 }
 ```
 

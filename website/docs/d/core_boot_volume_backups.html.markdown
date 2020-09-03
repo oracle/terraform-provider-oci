@@ -18,13 +18,13 @@ Lists the boot volume backups in the specified compartment. You can filter the r
 ```hcl
 data "oci_core_boot_volume_backups" "test_boot_volume_backups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
-	display_name = "${var.boot_volume_backup_display_name}"
-	source_boot_volume_backup_id = "${oci_core_boot_volume_backup.test_boot_volume_backup.id}"
-	state = "${var.boot_volume_backup_state}"
+	boot_volume_id = oci_core_boot_volume.test_boot_volume.id
+	display_name = var.boot_volume_backup_display_name
+	source_boot_volume_backup_id = oci_core_boot_volume_backup.test_boot_volume_backup.id
+	state = var.boot_volume_backup_state
 }
 ```
 

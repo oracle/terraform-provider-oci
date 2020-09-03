@@ -18,10 +18,10 @@ Lists the tag definitions in the specified tag namespace.
 ```hcl
 data "oci_identity_tags" "test_tags" {
 	#Required
-	tag_namespace_id = "${oci_identity_tag_namespace.test_tag_namespace.id}"
+	tag_namespace_id = oci_identity_tag_namespace.test_tag_namespace.id
 
 	#Optional
-	state = "${var.tag_state}"
+	state = var.tag_state
 }
 ```
 

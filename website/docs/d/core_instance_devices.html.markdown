@@ -17,11 +17,11 @@ Gets a list of all the devices for given instance. You can optionally filter res
 ```hcl
 data "oci_core_instance_devices" "test_instance_devices" {
 	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
+	instance_id = oci_core_instance.test_instance.id
 
 	#Optional
-	is_available = "${var.instance_device_is_available}"
-	name = "${var.instance_device_name}"
+	is_available = var.instance_device_is_available
+	name = var.instance_device_name
 }
 ```
 

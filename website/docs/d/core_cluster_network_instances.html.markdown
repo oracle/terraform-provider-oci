@@ -17,11 +17,11 @@ Lists the instances in the specified cluster network.
 ```hcl
 data "oci_core_cluster_network_instances" "test_cluster_network_instances" {
 	#Required
-	cluster_network_id = "${oci_core_cluster_network.test_cluster_network.id}"
-	compartment_id = "${var.compartment_id}"
+	cluster_network_id = oci_core_cluster_network.test_cluster_network.id
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.cluster_network_instance_display_name}"
+	display_name = var.cluster_network_instance_display_name
 }
 ```
 

@@ -17,8 +17,8 @@ Gets the specified Db node console connection's information.
 ```hcl
 data "oci_database_db_node_console_connection" "test_db_node_console_connection" {
 	#Required
-	db_node_id = "${oci_database_db_node.test_db_node.id}"
-	id = "${var.db_node_console_connection_id}"
+	db_node_id = oci_database_db_node.test_db_node.id
+	id = var.db_node_console_connection_id
 }
 ```
 

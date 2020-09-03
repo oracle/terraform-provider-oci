@@ -28,21 +28,21 @@ moved to a different private IP, the service returns the public IP object with
 ### Get a public ip by public ip id
 ```hcl
 data "oci_core_public_ip" "test_oci_core_public_ip_by_id" {
-    id = "${var.test_public_ip_id}"
+    id = var.test_public_ip_id
 }
 ```
 
 ### Get a public ip by private ip id
 ```hcl
 data "oci_core_public_ip" "test_oci_core_public_ip_by_private_ip_id" {
-    private_ip_id = "${var.test_public_ip_private_ip_id}"
+    private_ip_id = var.test_public_ip_private_ip_id
 }
 ```
 
 ### Get a public ip by public ip address
 ```hcl
 data "oci_core_public_ip" "test_oci_core_public_ip_by_ip" {
-    ip_address = "${var.test_public_ip_ip_address}"
+    ip_address = var.test_public_ip_ip_address
 }
 ```
 

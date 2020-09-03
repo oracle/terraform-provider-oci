@@ -20,19 +20,19 @@ specified by `intervalInSeconds`.
 ```hcl
 resource "oci_health_checks_ping_monitor" "test_ping_monitor" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.ping_monitor_display_name}"
-	interval_in_seconds = "${var.ping_monitor_interval_in_seconds}"
-	protocol = "${var.ping_monitor_protocol}"
-	targets = "${var.ping_monitor_targets}"
+	compartment_id = var.compartment_id
+	display_name = var.ping_monitor_display_name
+	interval_in_seconds = var.ping_monitor_interval_in_seconds
+	protocol = var.ping_monitor_protocol
+	targets = var.ping_monitor_targets
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	is_enabled = "${var.ping_monitor_is_enabled}"
-	port = "${var.ping_monitor_port}"
-	timeout_in_seconds = "${var.ping_monitor_timeout_in_seconds}"
-	vantage_point_names = "${var.ping_monitor_vantage_point_names}"
+	is_enabled = var.ping_monitor_is_enabled
+	port = var.ping_monitor_port
+	timeout_in_seconds = var.ping_monitor_timeout_in_seconds
+	vantage_point_names = var.ping_monitor_vantage_point_names
 }
 ```
 

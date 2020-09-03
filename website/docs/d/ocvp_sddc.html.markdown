@@ -17,7 +17,7 @@ Gets the specified SDDC's information.
 ```hcl
 data "oci_ocvp_sddc" "test_sddc" {
 	#Required
-	sddc_id = "${oci_ocvp_sddc.test_sddc.id}"
+	sddc_id = oci_ocvp_sddc.test_sddc.id
 }
 ```
 

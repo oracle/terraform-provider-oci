@@ -22,12 +22,12 @@ Currently, the only supported volume attachment type are [IScsiVolumeAttachment]
 ```hcl
 data "oci_core_volume_attachments" "test_volume_attachments" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.volume_attachment_availability_domain}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-	volume_id = "${oci_core_volume.test_volume.id}"
+	availability_domain = var.volume_attachment_availability_domain
+	instance_id = oci_core_instance.test_instance.id
+	volume_id = oci_core_volume.test_volume.id
 }
 ```
 

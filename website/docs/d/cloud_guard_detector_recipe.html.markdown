@@ -17,7 +17,7 @@ Returns a DetectorRecipe identified by detectorRecipeId
 ```hcl
 data "oci_cloud_guard_detector_recipe" "test_detector_recipe" {
 	#Required
-	detector_recipe_id = "${oci_cloud_guard_detector_recipe.test_detector_recipe.id}"
+	detector_recipe_id = oci_cloud_guard_detector_recipe.test_detector_recipe.id
 }
 ```
 

@@ -18,7 +18,7 @@ Lists the patches applicable to the requested DB system.
 ```hcl
 data "oci_database_db_system_patches" "test_db_system_patches" {
 	#Required
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
+	db_system_id = oci_database_db_system.test_db_system.id
 }
 ```
 

@@ -20,30 +20,30 @@ In the response, the `lifecycleState` parameter of the object tells you its curr
 ```hcl
 resource "oci_streaming_stream_pool" "test_stream_pool" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	name = "${var.stream_pool_name}"
+	compartment_id = var.compartment_id
+	name = var.stream_pool_name
 
 	#Optional
 	custom_encryption_key {
 		#Required
-		kms_key_id = "${oci_kms_key.test_key.id}"
+		kms_key_id = oci_kms_key.test_key.id
 	}
-	defined_tags = "${var.stream_pool_defined_tags}"
+	defined_tags = var.stream_pool_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 	kafka_settings {
 
 		#Optional
-		auto_create_topics_enable = "${var.stream_pool_kafka_settings_auto_create_topics_enable}"
-		bootstrap_servers = "${var.stream_pool_kafka_settings_bootstrap_servers}"
-		log_retention_hours = "${var.stream_pool_kafka_settings_log_retention_hours}"
-		num_partitions = "${var.stream_pool_kafka_settings_num_partitions}"
+		auto_create_topics_enable = var.stream_pool_kafka_settings_auto_create_topics_enable
+		bootstrap_servers = var.stream_pool_kafka_settings_bootstrap_servers
+		log_retention_hours = var.stream_pool_kafka_settings_log_retention_hours
+		num_partitions = var.stream_pool_kafka_settings_num_partitions
 	}
 	private_endpoint_settings {
 
 		#Optional
-		nsg_ids = "${var.stream_pool_private_endpoint_settings_nsg_ids}"
-		private_endpoint_ip = "${var.stream_pool_private_endpoint_settings_private_endpoint_ip}"
-		subnet_id = "${oci_core_subnet.test_subnet.id}"
+		nsg_ids = var.stream_pool_private_endpoint_settings_nsg_ids
+		private_endpoint_ip = var.stream_pool_private_endpoint_settings_private_endpoint_ip
+		subnet_id = oci_core_subnet.test_subnet.id
 	}
 }
 ```

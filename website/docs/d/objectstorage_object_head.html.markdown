@@ -17,9 +17,9 @@ Gets the metadata of an object.
 ```hcl
 data "oci_objectstorage_object_head" "test_object_head" {
 	#Required
-	bucket = "${var.object_bucket}"
-	namespace = "${var.object_namespace}"
-	object = "${var.object_object}"
+	bucket = var.object_bucket
+	namespace = var.object_namespace
+	object = var.object_object
 }
 ```
 

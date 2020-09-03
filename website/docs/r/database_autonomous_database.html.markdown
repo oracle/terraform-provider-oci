@@ -18,37 +18,37 @@ Creates a new Autonomous Database.
 ```hcl
 resource "oci_database_autonomous_database" "test_autonomous_database" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	cpu_core_count = "${var.autonomous_database_cpu_core_count}"
-	data_storage_size_in_tbs = "${var.autonomous_database_data_storage_size_in_tbs}"
-	db_name = "${var.autonomous_database_db_name}"
+	compartment_id = var.compartment_id
+	cpu_core_count = var.autonomous_database_cpu_core_count
+	data_storage_size_in_tbs = var.autonomous_database_data_storage_size_in_tbs
+	db_name = var.autonomous_database_db_name
 
 	#Optional
-	admin_password = "${var.autonomous_database_admin_password}"
-	autonomous_container_database_id = "${oci_database_autonomous_container_database.test_autonomous_container_database.id}"
-	autonomous_database_backup_id = "${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}"
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
-	clone_type = "${var.autonomous_database_clone_type}"
-	data_safe_status = "${var.autonomous_database_data_safe_status}"
-	db_version = "${var.autonomous_database_db_version}"
-	db_workload = "${var.autonomous_database_db_workload}"
-	defined_tags = "${var.autonomous_database_defined_tags}"
-	display_name = "${var.autonomous_database_display_name}"
+	admin_password = var.autonomous_database_admin_password
+	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+	autonomous_database_backup_id = oci_database_autonomous_database_backup.test_autonomous_database_backup.id
+	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+	clone_type = var.autonomous_database_clone_type
+	data_safe_status = var.autonomous_database_data_safe_status
+	db_version = var.autonomous_database_db_version
+	db_workload = var.autonomous_database_db_workload
+	defined_tags = var.autonomous_database_defined_tags
+	display_name = var.autonomous_database_display_name
 	freeform_tags = {"Department"= "Finance"}
-	is_auto_scaling_enabled = "${var.autonomous_database_is_auto_scaling_enabled}"
-	is_data_guard_enabled = "${var.autonomous_database_is_data_guard_enabled}"
-	is_dedicated = "${var.autonomous_database_is_dedicated}"
-	is_free_tier = "${var.autonomous_database_is_free_tier}"
-	is_preview_version_with_service_terms_accepted = "${var.autonomous_database_is_preview_version_with_service_terms_accepted}"
-	license_model = "${var.autonomous_database_license_model}"
-	nsg_ids = "${var.autonomous_database_nsg_ids}"
-	private_endpoint_label = "${var.autonomous_database_private_endpoint_label}"
-	refreshable_mode = "${var.autonomous_database_refreshable_mode}"
-	source = "${var.autonomous_database_source}"
-	source_id = "${oci_database_source.test_source.id}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
-	timestamp = "${var.autonomous_database_timestamp}"
-	whitelisted_ips = "${var.autonomous_database_whitelisted_ips}"
+	is_auto_scaling_enabled = var.autonomous_database_is_auto_scaling_enabled
+	is_data_guard_enabled = var.autonomous_database_is_data_guard_enabled
+	is_dedicated = var.autonomous_database_is_dedicated
+	is_free_tier = var.autonomous_database_is_free_tier
+	is_preview_version_with_service_terms_accepted = var.autonomous_database_is_preview_version_with_service_terms_accepted
+	license_model = var.autonomous_database_license_model
+	nsg_ids = var.autonomous_database_nsg_ids
+	private_endpoint_label = var.autonomous_database_private_endpoint_label
+	refreshable_mode = var.autonomous_database_refreshable_mode
+	source = var.autonomous_database_source
+	source_id = oci_database_source.test_source.id
+	subnet_id = oci_core_subnet.test_subnet.id
+	timestamp = var.autonomous_database_timestamp
+	whitelisted_ips = var.autonomous_database_whitelisted_ips
 }
 ```
 

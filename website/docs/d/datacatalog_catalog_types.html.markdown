@@ -17,17 +17,17 @@ Returns a list of all types within a data catalog.
 ```hcl
 data "oci_datacatalog_catalog_types" "test_catalog_types" {
 	#Required
-	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
+	catalog_id = oci_datacatalog_catalog.test_catalog.id
 
 	#Optional
-	external_type_name = "${var.catalog_type_external_type_name}"
-	fields = "${var.catalog_type_fields}"
-	is_approved = "${var.catalog_type_is_approved}"
-	is_internal = "${var.catalog_type_is_internal}"
-	is_tag = "${var.catalog_type_is_tag}"
-	name = "${var.catalog_type_name}"
-	state = "${var.catalog_type_state}"
-	type_category = "${var.catalog_type_type_category}"
+	external_type_name = var.catalog_type_external_type_name
+	fields = var.catalog_type_fields
+	is_approved = var.catalog_type_is_approved
+	is_internal = var.catalog_type_is_internal
+	is_tag = var.catalog_type_is_tag
+	name = var.catalog_type_name
+	state = var.catalog_type_state
+	type_category = var.catalog_type_type_category
 }
 ```
 

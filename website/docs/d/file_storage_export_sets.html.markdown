@@ -18,13 +18,13 @@ Lists the export set resources in the specified compartment.
 ```hcl
 data "oci_file_storage_export_sets" "test_export_sets" {
 	#Required
-	availability_domain = "${var.export_set_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.export_set_availability_domain
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.export_set_display_name}"
-	id = "${var.export_set_id}"
-	state = "${var.export_set_state}"
+	display_name = var.export_set_display_name
+	id = var.export_set_id
+	state = var.export_set_state
 }
 ```
 

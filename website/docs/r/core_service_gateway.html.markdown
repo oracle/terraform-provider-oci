@@ -26,18 +26,18 @@ It does not have to be unique, and you can change it. Avoid entering confidentia
 ```hcl
 resource "oci_core_service_gateway" "test_service_gateway" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 	services {
 		#Required
-		service_id = "${data.oci_core_services.test_services.services.0.id}"
+		service_id = data.oci_core_services.test_services.services.0.id
 	}
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.service_gateway_display_name}"
+	display_name = var.service_gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
-	route_table_id = "${oci_core_route_table.test_route_table.id}"
+	route_table_id = oci_core_route_table.test_route_table.id
 }
 ```
 

@@ -26,7 +26,7 @@ operations return the merged content:
 ```hcl
 data "oci_core_cpe_device_shape" "test_cpe_device_shape" {
 	#Required
-	cpe_device_shape_id = "${oci_core_cpe_device_shape.test_cpe_device_shape.id}"
+	cpe_device_shape_id = oci_core_cpe_device_shape.test_cpe_device_shape.id
 }
 ```
 

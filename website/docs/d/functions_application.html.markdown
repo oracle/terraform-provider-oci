@@ -17,7 +17,7 @@ Retrieves an application.
 ```hcl
 data "oci_functions_application" "test_application" {
 	#Required
-	application_id = "${oci_functions_application.test_application.id}"
+	application_id = oci_functions_application.test_application.id
 }
 ```
 

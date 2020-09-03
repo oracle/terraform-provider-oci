@@ -19,13 +19,13 @@ Custom protection rules allow you to create rules in addition to the rulesets pr
 ```hcl
 resource "oci_waas_custom_protection_rule" "test_custom_protection_rule" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.custom_protection_rule_display_name}"
-	template = "${var.custom_protection_rule_template}"
+	compartment_id = var.compartment_id
+	display_name = var.custom_protection_rule_display_name
+	template = var.custom_protection_rule_template
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	description = "${var.custom_protection_rule_description}"
+	description = var.custom_protection_rule_description
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

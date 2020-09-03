@@ -19,7 +19,7 @@ response includes the IP address of Oracle's VPN headend and the shared secret.
 ```hcl
 data "oci_core_ipsec_config" "test_ip_sec_connection_device_config" {
 	#Required
-	ipsec_id = "${oci_core_ipsec.test_ipsec.id}"
+	ipsec_id = oci_core_ipsec.test_ipsec.id
 }
 ```
 

@@ -18,18 +18,18 @@ Lists the steering policy attachments in the specified compartment.
 ```hcl
 data "oci_dns_steering_policy_attachments" "test_steering_policy_attachments" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.steering_policy_attachment_display_name}"
-	domain = "${var.steering_policy_attachment_domain}"
-	domain_contains = "${var.steering_policy_attachment_domain_contains}"
-	id = "${var.steering_policy_attachment_id}"
-	state = "${var.steering_policy_attachment_state}"
-	steering_policy_id = "${oci_dns_steering_policy.test_steering_policy.id}"
-	time_created_greater_than_or_equal_to = "${var.steering_policy_attachment_time_created_greater_than_or_equal_to}"
-	time_created_less_than = "${var.steering_policy_attachment_time_created_less_than}"
-	zone_id = "${oci_dns_zone.test_zone.id}"
+	display_name = var.steering_policy_attachment_display_name
+	domain = var.steering_policy_attachment_domain
+	domain_contains = var.steering_policy_attachment_domain_contains
+	id = var.steering_policy_attachment_id
+	state = var.steering_policy_attachment_state
+	steering_policy_id = oci_dns_steering_policy.test_steering_policy.id
+	time_created_greater_than_or_equal_to = var.steering_policy_attachment_time_created_greater_than_or_equal_to
+	time_created_less_than = var.steering_policy_attachment_time_created_less_than
+	zone_id = oci_dns_zone.test_zone.id
 }
 ```
 

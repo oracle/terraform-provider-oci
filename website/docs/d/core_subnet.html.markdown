@@ -17,7 +17,7 @@ Gets the specified subnet's information.
 ```hcl
 data "oci_core_subnet" "test_subnet" {
 	#Required
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	subnet_id = oci_core_subnet.test_subnet.id
 }
 ```
 

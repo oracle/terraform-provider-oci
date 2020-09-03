@@ -21,7 +21,7 @@ organization does not need to write a policy to give users this ability.
 ```hcl
 data "oci_identity_api_keys" "test_api_keys" {
 	#Required
-	user_id = "${oci_identity_user.test_user.id}"
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

@@ -21,11 +21,11 @@ storage for non-VM (or bare metal) shapes.
 ```hcl
 data "oci_mysql_shapes" "test_shapes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.shape_availability_domain}"
-	name = "${var.shape_name}"
+	availability_domain = var.shape_availability_domain
+	name = var.shape_name
 }
 ```
 

@@ -20,11 +20,11 @@ compartment level.
 ```hcl
 data "oci_limits_limit_definitions" "test_limit_definitions" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 
 	#Optional
-	name = "${var.limit_definition_name}"
-	service_name = "${oci_limits_service.test_service.name}"
+	name = var.limit_definition_name
+	service_name = oci_limits_service.test_service.name
 }
 ```
 

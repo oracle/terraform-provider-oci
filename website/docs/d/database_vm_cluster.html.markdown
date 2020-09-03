@@ -17,7 +17,7 @@ Gets information about the specified VM cluster.
 ```hcl
 data "oci_database_vm_cluster" "test_vm_cluster" {
 	#Required
-	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
 ```
 

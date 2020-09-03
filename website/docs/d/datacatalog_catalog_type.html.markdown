@@ -17,11 +17,11 @@ Gets a specific type by key within a data catalog.
 ```hcl
 data "oci_datacatalog_catalog_type" "test_catalog_type" {
 	#Required
-	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
-	type_key = "${var.catalog_type_type_key}"
+	catalog_id = oci_datacatalog_catalog.test_catalog.id
+	type_key = var.catalog_type_type_key
 
 	#Optional
-	fields = "${var.catalog_type_fields}"
+	fields = var.catalog_type_fields
 }
 ```
 

@@ -56,75 +56,75 @@ with the signature. To get the image ID for the LaunchInstance operation, call
 ```hcl
 resource "oci_core_instance" "test_instance" {
 	#Required
-	availability_domain = "${var.instance_availability_domain}"
-	compartment_id = "${var.compartment_id}"
-	shape = "${var.instance_shape}"
+	availability_domain = var.instance_availability_domain
+	compartment_id = var.compartment_id
+	shape = var.instance_shape
 
 	#Optional
 	agent_config {
 
 		#Optional
-		is_management_disabled = "${var.instance_agent_config_is_management_disabled}"
-		is_monitoring_disabled = "${var.instance_agent_config_is_monitoring_disabled}"
+		is_management_disabled = var.instance_agent_config_is_management_disabled
+		is_monitoring_disabled = var.instance_agent_config_is_monitoring_disabled
 	}
 	availability_config {
 
 		#Optional
-		recovery_action = "${var.instance_availability_config_recovery_action}"
+		recovery_action = var.instance_availability_config_recovery_action
 	}
 	create_vnic_details {
 
 		#Optional
-		assign_public_ip = "${var.instance_create_vnic_details_assign_public_ip}"
+		assign_public_ip = var.instance_create_vnic_details_assign_public_ip
 		defined_tags = {"Operations.CostCenter"= "42"}
-		display_name = "${var.instance_create_vnic_details_display_name}"
+		display_name = var.instance_create_vnic_details_display_name
 		freeform_tags = {"Department"= "Finance"}
-		hostname_label = "${var.instance_create_vnic_details_hostname_label}"
-		nsg_ids = "${var.instance_create_vnic_details_nsg_ids}"
-		private_ip = "${var.instance_create_vnic_details_private_ip}"
-		skip_source_dest_check = "${var.instance_create_vnic_details_skip_source_dest_check}"
-		subnet_id = "${oci_core_subnet.test_subnet.id}"
-		vlan_id = "${oci_core_vlan.test_vlan.id}"
+		hostname_label = var.instance_create_vnic_details_hostname_label
+		nsg_ids = var.instance_create_vnic_details_nsg_ids
+		private_ip = var.instance_create_vnic_details_private_ip
+		skip_source_dest_check = var.instance_create_vnic_details_skip_source_dest_check
+		subnet_id = oci_core_subnet.test_subnet.id
+		vlan_id = oci_core_vlan.test_vlan.id
 	}
-	dedicated_vm_host_id = "${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}"
+	dedicated_vm_host_id = oci_core_dedicated_vm_host.test_dedicated_vm_host.id
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.instance_display_name}"
+	display_name = var.instance_display_name
 	extended_metadata = {
 		some_string = "stringA"
 		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
 	}
-	fault_domain = "${var.instance_fault_domain}"
+	fault_domain = var.instance_fault_domain
 	freeform_tags = {"Department"= "Finance"}
-	hostname_label = "${var.instance_hostname_label}"
-	ipxe_script = "${var.instance_ipxe_script}"
-	is_pv_encryption_in_transit_enabled = "${var.instance_is_pv_encryption_in_transit_enabled}"
+	hostname_label = var.instance_hostname_label
+	ipxe_script = var.instance_ipxe_script
+	is_pv_encryption_in_transit_enabled = var.instance_is_pv_encryption_in_transit_enabled
 	launch_options {
 
 		#Optional
-		boot_volume_type = "${var.instance_launch_options_boot_volume_type}"
-		firmware = "${var.instance_launch_options_firmware}"
-		is_consistent_volume_naming_enabled = "${var.instance_launch_options_is_consistent_volume_naming_enabled}"
-		is_pv_encryption_in_transit_enabled = "${var.instance_launch_options_is_pv_encryption_in_transit_enabled}"
-		network_type = "${var.instance_launch_options_network_type}"
-		remote_data_volume_type = "${var.instance_launch_options_remote_data_volume_type}"
+		boot_volume_type = var.instance_launch_options_boot_volume_type
+		firmware = var.instance_launch_options_firmware
+		is_consistent_volume_naming_enabled = var.instance_launch_options_is_consistent_volume_naming_enabled
+		is_pv_encryption_in_transit_enabled = var.instance_launch_options_is_pv_encryption_in_transit_enabled
+		network_type = var.instance_launch_options_network_type
+		remote_data_volume_type = var.instance_launch_options_remote_data_volume_type
 	}
 	shape_config {
 
 		#Optional
-		ocpus = "${var.instance_shape_config_ocpus}"
+		ocpus = var.instance_shape_config_ocpus
 	}
 	metadata = {
-		ssh_authorized_keys = "${var.ssh_public_key}"
-		user_data = "${base64encode(file(var.custom_bootstrap_file_name))}"
+		ssh_authorized_keys = var.ssh_public_key
+		user_data = base64encode(file(var.custom_bootstrap_file_name))
 	}
 	source_details {
 		#Required
-		source_id = "${oci_core_image.test_image.id}"
+		source_id = oci_core_image.test_image.id
 		source_type = "image"
 
 		#Optional
-		boot_volume_size_in_gbs = "${var.instance_source_details_boot_volume_size_in_gbs}"
-		kms_key_id = "${oci_kms_key.test_key.id}"
+		boot_volume_size_in_gbs = var.instance_source_details_boot_volume_size_in_gbs
+		kms_key_id = oci_kms_key.test_key.id
 	}
 	preserve_boot_volume = false
 }

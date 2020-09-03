@@ -18,18 +18,18 @@ Gets a list of Autonomous Databases.
 ```hcl
 data "oci_database_autonomous_databases" "test_autonomous_databases" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	autonomous_container_database_id = "${oci_database_autonomous_container_database.test_autonomous_container_database.id}"
-	db_version = "${var.autonomous_database_db_version}"
-	db_workload = "${var.autonomous_database_db_workload}"
-	display_name = "${var.autonomous_database_display_name}"
-	infrastructure_type = "${var.autonomous_database_infrastructure_type}"
-	is_data_guard_enabled = "${var.autonomous_database_is_data_guard_enabled}"
-	is_free_tier = "${var.autonomous_database_is_free_tier}"
-	is_refreshable_clone = "${var.autonomous_database_is_refreshable_clone}"
-	state = "${var.autonomous_database_state}"
+	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+	db_version = var.autonomous_database_db_version
+	db_workload = var.autonomous_database_db_workload
+	display_name = var.autonomous_database_display_name
+	infrastructure_type = var.autonomous_database_infrastructure_type
+	is_data_guard_enabled = var.autonomous_database_is_data_guard_enabled
+	is_free_tier = var.autonomous_database_is_free_tier
+	is_refreshable_clone = var.autonomous_database_is_refreshable_clone
+	state = var.autonomous_database_state
 }
 ```
 

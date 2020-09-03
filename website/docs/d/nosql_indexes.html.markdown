@@ -17,12 +17,12 @@ Get a list of indexes on a table.
 ```hcl
 data "oci_nosql_indexes" "test_indexes" {
 	#Required
-	table_name_or_id = "${oci_nosql_table_name_or.test_table_name_or.id}"
+	table_name_or_id = oci_nosql_table_name_or.test_table_name_or.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	name = "${var.index_name}"
-	state = "${var.index_state}"
+	compartment_id = var.compartment_id
+	name = var.index_name
+	state = var.index_state
 }
 ```
 

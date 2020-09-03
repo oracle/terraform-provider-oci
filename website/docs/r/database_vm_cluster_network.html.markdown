@@ -18,39 +18,39 @@ Creates the VM cluster network.
 ```hcl
 resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.vm_cluster_network_display_name}"
-	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
+	compartment_id = var.compartment_id
+	display_name = var.vm_cluster_network_display_name
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 	scans {
 		#Required
-		hostname = "${var.vm_cluster_network_scans_hostname}"
-		ips = "${var.vm_cluster_network_scans_ips}"
-		port = "${var.vm_cluster_network_scans_port}"
+		hostname = var.vm_cluster_network_scans_hostname
+		ips = var.vm_cluster_network_scans_ips
+		port = var.vm_cluster_network_scans_port
 	}
 	vm_networks {
 		#Required
-		domain_name = "${var.vm_cluster_network_vm_networks_domain_name}"
-		gateway = "${var.vm_cluster_network_vm_networks_gateway}"
-		netmask = "${var.vm_cluster_network_vm_networks_netmask}"
-		network_type = "${var.vm_cluster_network_vm_networks_network_type}"
+		domain_name = var.vm_cluster_network_vm_networks_domain_name
+		gateway = var.vm_cluster_network_vm_networks_gateway
+		netmask = var.vm_cluster_network_vm_networks_netmask
+		network_type = var.vm_cluster_network_vm_networks_network_type
 		nodes {
 			#Required
-			hostname = "${var.vm_cluster_network_vm_networks_nodes_hostname}"
-			ip = "${var.vm_cluster_network_vm_networks_nodes_ip}"
+			hostname = var.vm_cluster_network_vm_networks_nodes_hostname
+			ip = var.vm_cluster_network_vm_networks_nodes_ip
 
 			#Optional
-			vip = "${var.vm_cluster_network_vm_networks_nodes_vip}"
-			vip_hostname = "${var.vm_cluster_network_vm_networks_nodes_vip_hostname}"
+			vip = var.vm_cluster_network_vm_networks_nodes_vip
+			vip_hostname = var.vm_cluster_network_vm_networks_nodes_vip_hostname
 		}
-		vlan_id = "${var.vm_cluster_network_vm_networks_vlan_id}"
+		vlan_id = var.vm_cluster_network_vm_networks_vlan_id
 	}
 
 	#Optional
-	defined_tags = "${var.vm_cluster_network_defined_tags}"
-	dns = "${var.vm_cluster_network_dns}"
+	defined_tags = var.vm_cluster_network_defined_tags
+	dns = var.vm_cluster_network_dns
 	freeform_tags = {"Department"= "Finance"}
-	ntp = "${var.vm_cluster_network_ntp}"
-	validate_vm_cluster_network = "${var.vm_cluster_network_validate_vm_cluster_network}"
+	ntp = var.vm_cluster_network_ntp
+	validate_vm_cluster_network = var.vm_cluster_network_validate_vm_cluster_network
 }
 ```
 

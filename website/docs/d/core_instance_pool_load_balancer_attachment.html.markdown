@@ -18,8 +18,8 @@ Gets information about a load balancer that is attached to the specified instanc
 ```hcl
 data "oci_core_instance_pool_load_balancer_attachment" "test_instance_pool_load_balancer_attachment" {
 	#Required
-	instance_pool_id = "${oci_core_instance_pool.test_instance_pool.id}"
-	instance_pool_load_balancer_attachment_id = "${oci_core_instance_pool_load_balancer_attachment.test_instance_pool_load_balancer_attachment.id}"
+	instance_pool_id = oci_core_instance_pool.test_instance_pool.id
+	instance_pool_load_balancer_attachment_id = oci_core_instance_pool_load_balancer_attachment.test_instance_pool_load_balancer_attachment.id
 }
 ```
 

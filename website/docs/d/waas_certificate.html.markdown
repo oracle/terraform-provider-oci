@@ -17,7 +17,7 @@ Gets the details of an SSL certificate.
 ```hcl
 data "oci_waas_certificate" "test_certificate" {
 	#Required
-	certificate_id = "${oci_waas_certificate.test_certificate.id}"
+	certificate_id = oci_waas_certificate.test_certificate.id
 }
 ```
 

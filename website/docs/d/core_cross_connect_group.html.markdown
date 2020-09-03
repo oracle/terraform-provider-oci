@@ -17,7 +17,7 @@ Gets the specified cross-connect group's information.
 ```hcl
 data "oci_core_cross_connect_group" "test_cross_connect_group" {
 	#Required
-	cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
+	cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
 }
 ```
 

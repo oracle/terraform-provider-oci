@@ -18,7 +18,7 @@ Lists all SSL cipher suites associated with the specified load balancer.
 data "oci_load_balancer_ssl_cipher_suites" "test_ssl_cipher_suites" {
 
 	#Optional
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

@@ -17,7 +17,7 @@ Gets the specified virtual circuit's information.
 ```hcl
 data "oci_core_virtual_circuit" "test_virtual_circuit" {
 	#Required
-	virtual_circuit_id = "${oci_core_virtual_circuit.test_virtual_circuit.id}"
+	virtual_circuit_id = oci_core_virtual_circuit.test_virtual_circuit.id
 }
 ```
 

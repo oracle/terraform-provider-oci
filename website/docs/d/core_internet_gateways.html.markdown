@@ -19,12 +19,12 @@ If the VCN ID is not provided, then the list includes the internet gateways from
 ```hcl
 data "oci_core_internet_gateways" "test_internet_gateways" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.internet_gateway_display_name}"
-	state = "${var.internet_gateway_state}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	display_name = var.internet_gateway_display_name
+	state = var.internet_gateway_state
+	vcn_id = oci_core_vcn.test_vcn.id
 }
 ```
 

@@ -18,11 +18,11 @@ Returns a list of gateways.
 ```hcl
 data "oci_apigateway_gateways" "test_gateways" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.gateway_display_name}"
-	state = "${var.gateway_state}"
+	display_name = var.gateway_display_name
+	state = var.gateway_state
 }
 ```
 

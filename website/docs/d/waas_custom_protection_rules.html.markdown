@@ -17,14 +17,14 @@ Gets a list of custom protection rules for the specified Web Application Firewal
 ```hcl
 data "oci_waas_custom_protection_rules" "test_custom_protection_rules" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_names = "${var.custom_protection_rule_display_names}"
-	ids = "${var.custom_protection_rule_ids}"
-	states = "${var.custom_protection_rule_states}"
-	time_created_greater_than_or_equal_to = "${var.custom_protection_rule_time_created_greater_than_or_equal_to}"
-	time_created_less_than = "${var.custom_protection_rule_time_created_less_than}"
+	display_names = var.custom_protection_rule_display_names
+	ids = var.custom_protection_rule_ids
+	states = var.custom_protection_rule_states
+	time_created_greater_than_or_equal_to = var.custom_protection_rule_time_created_greater_than_or_equal_to
+	time_created_less_than = var.custom_protection_rule_time_created_less_than
 }
 ```
 

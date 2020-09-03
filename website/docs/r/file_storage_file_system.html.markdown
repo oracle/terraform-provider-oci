@@ -46,14 +46,14 @@ type or by viewing the resource in the Console.
 ```hcl
 resource "oci_file_storage_file_system" "test_file_system" {
 	#Required
-	availability_domain = "${var.file_system_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.file_system_availability_domain
+	compartment_id = var.compartment_id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.file_system_display_name}"
+	display_name = var.file_system_display_name
 	freeform_tags = {"Department"= "Finance"}
-	kms_key_id = "${oci_kms_key.test_key.id}"
+	kms_key_id = oci_kms_key.test_key.id
 }
 ```
 

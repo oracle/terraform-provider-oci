@@ -18,7 +18,7 @@ Gets the specified service connector's configuration information.
 ```hcl
 data "oci_sch_service_connector" "test_service_connector" {
 	#Required
-	service_connector_id = "${oci_sch_service_connector.test_service_connector.id}"
+	service_connector_id = oci_sch_service_connector.test_service_connector.id
 }
 ```
 

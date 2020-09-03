@@ -17,11 +17,11 @@ List all the node pools in a compartment, and optionally filter by cluster.
 ```hcl
 data "oci_containerengine_node_pools" "test_node_pools" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-	name = "${var.node_pool_name}"
+	cluster_id = oci_containerengine_cluster.test_cluster.id
+	name = var.node_pool_name
 }
 ```
 

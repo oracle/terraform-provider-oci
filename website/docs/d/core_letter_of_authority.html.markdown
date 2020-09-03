@@ -17,7 +17,7 @@ Gets the Letter of Authority for the specified cross-connect.
 ```hcl
 data "oci_core_letter_of_authority" "test_letter_of_authority" {
 	#Required
-	cross_connect_id = "${oci_core_cross_connect.test_cross_connect.id}"
+	cross_connect_id = oci_core_cross_connect.test_cross_connect.id
 }
 ```
 

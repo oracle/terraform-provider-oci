@@ -45,17 +45,17 @@ To get the IP address, use the [GetLoadBalancer](https://docs.cloud.oracle.com/i
 ```hcl
 resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.load_balancer_display_name}"
-	shape = "${var.load_balancer_shape}"
-	subnet_ids = "${var.load_balancer_subnet_ids}"
+	compartment_id = var.compartment_id
+	display_name = var.load_balancer_display_name
+	shape = var.load_balancer_shape
+	subnet_ids = var.load_balancer_subnet_ids
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	ip_mode = "${var.load_balancer_ip_mode}"
-	is_private = "${var.load_balancer_is_private}"
-	network_security_group_ids = "${var.load_balancer_network_security_group_ids}"
+	ip_mode = var.load_balancer_ip_mode
+	is_private = var.load_balancer_is_private
+	network_security_group_ids = var.load_balancer_network_security_group_ids
 }
 ```
 

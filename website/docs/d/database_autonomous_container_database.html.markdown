@@ -17,7 +17,7 @@ Gets information about the specified Autonomous Container Database.
 ```hcl
 data "oci_database_autonomous_container_database" "test_autonomous_container_database" {
 	#Required
-	autonomous_container_database_id = "${oci_database_autonomous_container_database.test_autonomous_container_database.id}"
+	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
 }
 ```
 

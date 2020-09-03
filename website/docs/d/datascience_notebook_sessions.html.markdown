@@ -17,14 +17,14 @@ Lists notebook sessions in the specified compartment.
 ```hcl
 data "oci_datascience_notebook_sessions" "test_notebook_sessions" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	created_by = "${var.notebook_session_created_by}"
-	display_name = "${var.notebook_session_display_name}"
-	id = "${var.notebook_session_id}"
-	project_id = "${oci_datascience_project.test_project.id}"
-	state = "${var.notebook_session_state}"
+	created_by = var.notebook_session_created_by
+	display_name = var.notebook_session_display_name
+	id = var.notebook_session_id
+	project_id = oci_datascience_project.test_project.id
+	state = var.notebook_session_state
 }
 ```
 

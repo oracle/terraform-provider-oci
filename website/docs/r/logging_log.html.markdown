@@ -19,28 +19,28 @@ with same displayName or (service, resource, category) triplet.
 ```hcl
 resource "oci_logging_log" "test_log" {
 	#Required
-	display_name = "${var.log_display_name}"
-	log_group_id = "${oci_logging_log_group.test_log_group.id}"
-	log_type = "${var.log_log_type}"
+	display_name = var.log_display_name
+	log_group_id = oci_logging_log_group.test_log_group.id
+	log_type = var.log_log_type
 
 	#Optional
 	configuration {
 		#Required
 		source {
 			#Required
-			category = "${var.log_configuration_source_category}"
-			resource = "${var.log_configuration_source_resource}"
-			service = "${var.log_configuration_source_service}"
-			source_type = "${var.log_configuration_source_source_type}"
+			category = var.log_configuration_source_category
+			resource = var.log_configuration_source_resource
+			service = var.log_configuration_source_service
+			source_type = var.log_configuration_source_source_type
 		}
 
 		#Optional
-		compartment_id = "${var.compartment_id}"
+		compartment_id = var.compartment_id
 	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	is_enabled = "${var.log_is_enabled}"
-	retention_duration = "${var.log_retention_duration}"
+	is_enabled = var.log_is_enabled
+	retention_duration = var.log_retention_duration
 }
 ```
 

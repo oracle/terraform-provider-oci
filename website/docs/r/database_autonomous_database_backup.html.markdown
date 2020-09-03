@@ -18,8 +18,8 @@ Creates a new Autonomous Database backup for the specified database based on the
 ```hcl
 resource "oci_database_autonomous_database_backup" "test_autonomous_database_backup" {
 	#Required
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
-	display_name = "${var.autonomous_database_backup_display_name}"
+	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+	display_name = var.autonomous_database_backup_display_name
 }
 ```
 

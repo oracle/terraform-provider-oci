@@ -17,9 +17,9 @@ Creates an address list in a set compartment and allows it to be used in a WAAS 
 ```hcl
 resource "oci_waas_address_list" "test_address_list" {
 	#Required
-	addresses = "${var.address_list_addresses}"
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.address_list_display_name}"
+	addresses = var.address_list_addresses
+	compartment_id = var.compartment_id
+	display_name = var.address_list_display_name
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

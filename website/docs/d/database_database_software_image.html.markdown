@@ -17,7 +17,7 @@ Gets information about the specified database software image.
 ```hcl
 data "oci_database_database_software_image" "test_database_software_image" {
 	#Required
-	database_software_image_id = "${oci_database_database_software_image.test_database_software_image.id}"
+	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 }
 ```
 

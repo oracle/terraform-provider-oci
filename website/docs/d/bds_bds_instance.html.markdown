@@ -17,7 +17,7 @@ Gets a BDS instance by identifier
 ```hcl
 data "oci_bds_bds_instance" "test_bds_instance" {
 	#Required
-	bds_instance_id = "${oci_bds_bds_instance.test_bds_instance.id}"
+	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
 }
 ```
 

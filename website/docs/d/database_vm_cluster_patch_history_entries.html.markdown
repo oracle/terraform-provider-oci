@@ -18,7 +18,7 @@ Gets the history of the patch actions performed on the specified Vm cluster.
 ```hcl
 data "oci_database_vm_cluster_patch_history_entries" "test_vm_cluster_patch_history_entries" {
 	#Required
-	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
 ```
 

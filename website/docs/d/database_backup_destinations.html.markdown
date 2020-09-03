@@ -18,10 +18,10 @@ Gets a list of backup destinations in the specified compartment.
 ```hcl
 data "oci_database_backup_destinations" "test_backup_destinations" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	type = "${var.backup_destination_type}"
+	type = var.backup_destination_type
 }
 ```
 

@@ -18,7 +18,7 @@ Gets history of the actions taken for patches for the specified Database Home.
 ```hcl
 data "oci_database_db_home_patch_history_entries" "test_db_home_patch_history_entries" {
 	#Required
-	db_home_id = "${oci_database_db_home.test_db_home.id}"
+	db_home_id = oci_database_db_home.test_db_home.id
 }
 ```
 

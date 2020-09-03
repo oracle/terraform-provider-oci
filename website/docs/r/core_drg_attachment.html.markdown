@@ -28,12 +28,12 @@ as the VCN. For more information about compartments and access control, see
 ```hcl
 resource "oci_core_drg_attachment" "test_drg_attachment" {
 	#Required
-	drg_id = "${oci_core_drg.test_drg.id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	drg_id = oci_core_drg.test_drg.id
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
-	display_name = "${var.drg_attachment_display_name}"
-	route_table_id = "${oci_core_route_table.test_route_table.id}"
+	display_name = var.drg_attachment_display_name
+	route_table_id = oci_core_route_table.test_route_table.id
 }
 ```
 
