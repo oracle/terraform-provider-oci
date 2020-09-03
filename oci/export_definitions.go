@@ -1479,6 +1479,7 @@ var exportOcvpSddcHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_ocvp.LifecycleStatesActive),
+		string(oci_ocvp.LifecycleStatesFailed),
 	},
 }
 
@@ -1490,6 +1491,7 @@ var exportOcvpEsxiHostHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_ocvp.LifecycleStatesActive),
+		string(oci_ocvp.LifecycleStatesFailed),
 	},
 }
 
