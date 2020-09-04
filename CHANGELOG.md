@@ -5,6 +5,9 @@
 - Support for patching in ADB-D: Retrieving patch info from patchId
 - Support for Policy based Request/Response transformation
 - Support for Management agent service
+- Support for Public logging service
+- Support for logging in API Gateway Service
+- Support for Service Connector Hub
 
 ## 3.91.0 (September 02, 2020)
 
