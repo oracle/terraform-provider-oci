@@ -49,7 +49,6 @@ func TestManagementAgentManagementAgentPluginResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_plugins.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_plugins.0.description"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_plugins.0.display_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_plugins.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_plugins.0.is_console_deployable"),
