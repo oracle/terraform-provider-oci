@@ -910,6 +910,9 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	vnicOpts := oci_core.UpdateVnicRequest{
 		VnicId:            vnic.Id,
 		UpdateVnicDetails: updateVnicDetails,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+		},
 	}
 
 	_, err = s.VirtualNetworkClient.UpdateVnic(context.Background(), vnicOpts)
@@ -1638,8 +1641,10 @@ func (s *CoreInstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 	request := oci_core.ListVnicAttachmentsRequest{
 		CompartmentId: s.Res.CompartmentId,
 		InstanceId:    s.Res.Id,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+		},
 	}
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 	var attachments []oci_core.VnicAttachment
 
 	for {
@@ -1662,7 +1667,12 @@ func (s *CoreInstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 
 	for _, attachment := range attachments {
 		if attachment.LifecycleState == oci_core.VnicAttachmentLifecycleStateAttached {
-			request := oci_core.GetVnicRequest{VnicId: attachment.VnicId}
+			request := oci_core.GetVnicRequest{
+				VnicId: attachment.VnicId,
+				RequestMetadata: common.RequestMetadata{
+					RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+				},
+			}
 			response, _ := s.VirtualNetworkClient.GetVnic(context.Background(), request)
 			vnic := &response.Vnic
 
@@ -1681,6 +1691,9 @@ func (s *CoreInstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error)
 		AvailabilityDomain: s.Res.AvailabilityDomain,
 		CompartmentId:      s.Res.CompartmentId,
 		InstanceId:         s.Res.Id,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+		},
 	}
 
 	response, err := s.Client.ListBootVolumeAttachments(context.Background(), request)
@@ -1697,7 +1710,12 @@ func (s *CoreInstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error)
 		return nil, fmt.Errorf("Found a boot volume attachment with no boot volume ID")
 	}
 
-	bootVolumeRequest := oci_core.GetBootVolumeRequest{BootVolumeId: bootVolumeId}
+	bootVolumeRequest := oci_core.GetBootVolumeRequest{
+		BootVolumeId: bootVolumeId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+		},
+	}
 	bootVolumeResponse, err := s.BlockStorageClient.GetBootVolume(context.Background(), bootVolumeRequest)
 	if err != nil {
 		return nil, err
