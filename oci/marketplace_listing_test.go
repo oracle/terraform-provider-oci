@@ -68,7 +68,7 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.is_featured"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.name"),
-					resource.TestCheckResourceAttr(datasourceName, "listings.0.regions.#", "2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.regions.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.package_type"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.publisher.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.short_description"),
