@@ -206,6 +206,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
 
+		if r.PatchId != nil {
+			autonomousContainerDatabase["patch_id"] = *r.PatchId
+		}
+
 		autonomousContainerDatabase["patch_model"] = r.PatchModel
 
 		autonomousContainerDatabase["service_level_agreement_type"] = r.ServiceLevelAgreementType

@@ -1,4 +1,19 @@
 ## 3.92.0 (Unreleased)
+
+### Added
+- Support for patching in ADB-D: datasource `oci_database_autonomous_container_patches` for autonomous container databases
+- Support for patching in ADB-D: Retrieving patch info from patchId
+- Support for Policy based Request/Response transformation
+- Support for Management agent service
+- Support for Public logging service
+- Support for logging in API Gateway Service
+- Support for Service Connector Hub
+- Support resource discovery for `Compute Image Capability Schema `
+- Support to configure automatic retries to `core_instance` resource 
+
+### Deprecated
+- The `delete_object_in_destination_bucket` attribute in `oci_objectstorage_replication_policy` is now deprecated
+
 ## 3.91.0 (September 02, 2020)
 
 ### Added

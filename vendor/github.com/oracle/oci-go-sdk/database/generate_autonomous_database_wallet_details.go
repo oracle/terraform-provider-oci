@@ -19,7 +19,11 @@ type GenerateAutonomousDatabaseWalletDetails struct {
 	// The password to encrypt the keys inside the wallet. The password must be at least 8 characters long and must include at least 1 letter and either 1 numeric character or 1 special character.
 	Password *string `mandatory:"true" json:"password"`
 
-	// The type of wallet to generate. `SINGLE` is used to generate a wallet for a single database. `ALL` is used to generate wallet for all databases in the region.
+	// The type of wallet to generate.
+	// **Shared Exadata infrastructure usage:**
+	// * `SINGLE` - used to generate a wallet for a single database
+	// * `ALL` - used to generate wallet for all databases in the region
+	// **Dedicated Exadata infrastructure usage:** Value must be `NULL` if attribute is used.
 	GenerateType GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum `mandatory:"false" json:"generateType,omitempty"`
 }
 

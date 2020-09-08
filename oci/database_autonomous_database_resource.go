@@ -372,8 +372,14 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				},
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_database.AutonomousDatabaseLifecycleStateStopped),
+					string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
+				}, true),
 			},
 			"system_tags": {
 				Type:     schema.TypeMap,
@@ -439,8 +445,20 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		configDataSafeStatus = oci_database.AutonomousDatabaseDataSafeStatusEnum(strings.ToUpper(dataSafeStatus.(string)))
 	}
 
+	var isInactiveRequest = false
+	if configState, ok := sync.D.GetOkExists("state"); ok {
+		wantedState := oci_database.AutonomousDatabaseLifecycleStateEnum(strings.ToUpper(configState.(string)))
+		if wantedState == oci_database.AutonomousDatabaseLifecycleStateStopped {
+			isInactiveRequest = true
+		}
+	}
+
 	if e := CreateResource(d, sync); e != nil {
 		return e
+	}
+
+	if isInactiveRequest {
+		return inactiveAutonomousDatabaseIfNeeded(d, sync)
 	}
 
 	if configDataSafeStatus == oci_database.AutonomousDatabaseDataSafeStatusRegistered {
@@ -473,7 +491,42 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		return err
 	}
 
-	return UpdateResource(d, sync)
+	stateActive, stateInactive := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_database.AutonomousDatabaseLifecycleStateAvailable == oci_database.AutonomousDatabaseLifecycleStateEnum(wantedState) {
+			stateActive = true
+			stateInactive = false
+		} else if oci_database.AutonomousDatabaseLifecycleStateStopped == oci_database.AutonomousDatabaseLifecycleStateEnum(wantedState) {
+			stateInactive = true
+			stateActive = false
+		}
+	}
+
+	if stateActive {
+		if err := sync.StartAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable); err != nil {
+			return err
+		}
+		if err := sync.D.Set("state", oci_database.AutonomousDatabaseLifecycleStateAvailable); err != nil {
+			return err
+		}
+	}
+
+	if err := UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	if stateInactive {
+		if err := sync.StopAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
+			return err
+		}
+		if err := sync.D.Set("state", oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func deleteDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
@@ -525,6 +578,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) DeletedTarget() []string {
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedPending() []string {
 	return []string{
+		string(oci_database.AutonomousDatabaseLifecycleStateStarting),
 		string(oci_database.AutonomousDatabaseLifecycleStateProvisioning),
 		string(oci_database.AutonomousDatabaseLifecycleStateUnavailable),
 		string(oci_database.AutonomousDatabaseLifecycleStateScaleInProgress),
@@ -1787,4 +1841,43 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase() error {
 	}
 
 	return nil
+}
+
+func inactiveAutonomousDatabaseIfNeeded(d *schema.ResourceData, sync *DatabaseAutonomousDatabaseResourceCrud) error {
+	if err := sync.StopAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
+		return err
+	}
+	return ReadResource(sync)
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) StartAutonomousDatabase(state oci_database.AutonomousDatabaseLifecycleStateEnum) error {
+	request := oci_database.StartAutonomousDatabaseRequest{}
+
+	tmp := s.D.Id()
+	request.AutonomousDatabaseId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	if _, err := s.Client.StartAutonomousDatabase(context.Background(), request); err != nil {
+		return err
+	}
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
+
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) StopAutonomousDatabase(state oci_database.AutonomousDatabaseLifecycleStateEnum) error {
+	request := oci_database.StopAutonomousDatabaseRequest{}
+
+	tmp := s.D.Id()
+	request.AutonomousDatabaseId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	if _, err := s.Client.StopAutonomousDatabase(context.Background(), request); err != nil {
+		return err
+	}
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
+
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
