@@ -18,42 +18,38 @@ import (
 )
 
 func init() {
-	RegisterResource("oci_apigateway_gateway", ApigatewayGatewayResource())
+	RegisterResource("oci_apigateway_certificate", ApigatewayCertificateResource())
 }
 
-func ApigatewayGatewayResource() *schema.Resource {
+func ApigatewayCertificateResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createApigatewayGateway,
-		Read:     readApigatewayGateway,
-		Update:   updateApigatewayGateway,
-		Delete:   deleteApigatewayGateway,
+		Create:   createApigatewayCertificate,
+		Read:     readApigatewayCertificate,
+		Update:   updateApigatewayCertificate,
+		Delete:   deleteApigatewayCertificate,
 		Schema: map[string]*schema.Schema{
 			// Required
+			"certificate": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"endpoint_type": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"subnet_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+			"private_key": {
+				Type:      schema.TypeString,
+				Required:  true,
+				ForceNew:  true,
+				Sensitive: true,
 			},
 
 			// Optional
-			"certificate_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -72,29 +68,14 @@ func ApigatewayGatewayResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"intermediate_certificates": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
-			"hostname": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"ip_addresses": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"ip_address": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -103,7 +84,18 @@ func ApigatewayGatewayResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"subject_names": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_not_valid_after": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -115,85 +107,85 @@ func ApigatewayGatewayResource() *schema.Resource {
 	}
 }
 
-func createApigatewayGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &ApigatewayGatewayResourceCrud{}
+func createApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).gatewayClient()
+	sync.Client = m.(*OracleClients).apiGatewayClient()
 	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return CreateResource(d, sync)
 }
 
-func readApigatewayGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &ApigatewayGatewayResourceCrud{}
+func readApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).gatewayClient()
+	sync.Client = m.(*OracleClients).apiGatewayClient()
 	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return ReadResource(sync)
 }
 
-func updateApigatewayGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &ApigatewayGatewayResourceCrud{}
+func updateApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).gatewayClient()
+	sync.Client = m.(*OracleClients).apiGatewayClient()
 	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteApigatewayGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &ApigatewayGatewayResourceCrud{}
+func deleteApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).gatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.Client = m.(*OracleClients).apiGatewayClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return DeleteResource(d, sync)
 }
 
-type ApigatewayGatewayResourceCrud struct {
+type ApigatewayCertificateResourceCrud struct {
 	BaseCrud
-	Client                 *oci_apigateway.GatewayClient
+	Client                 *oci_apigateway.ApiGatewayClient
 	WorkRequestsClient     *oci_apigateway.WorkRequestsClient
-	Res                    *oci_apigateway.Gateway
+	Res                    *oci_apigateway.Certificate
 	DisableNotFoundRetries bool
 }
 
-func (s *ApigatewayGatewayResourceCrud) ID() string {
+func (s *ApigatewayCertificateResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *ApigatewayGatewayResourceCrud) CreatedPending() []string {
+func (s *ApigatewayCertificateResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_apigateway.GatewayLifecycleStateCreating),
+		string(oci_apigateway.CertificateLifecycleStateCreating),
 	}
 }
 
-func (s *ApigatewayGatewayResourceCrud) CreatedTarget() []string {
+func (s *ApigatewayCertificateResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_apigateway.GatewayLifecycleStateActive),
+		string(oci_apigateway.CertificateLifecycleStateActive),
 	}
 }
 
-func (s *ApigatewayGatewayResourceCrud) DeletedPending() []string {
+func (s *ApigatewayCertificateResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_apigateway.GatewayLifecycleStateDeleting),
+		string(oci_apigateway.CertificateLifecycleStateDeleting),
 	}
 }
 
-func (s *ApigatewayGatewayResourceCrud) DeletedTarget() []string {
+func (s *ApigatewayCertificateResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_apigateway.GatewayLifecycleStateDeleted),
+		string(oci_apigateway.CertificateLifecycleStateDeleted),
 	}
 }
 
-func (s *ApigatewayGatewayResourceCrud) Create() error {
-	request := oci_apigateway.CreateGatewayRequest{}
+func (s *ApigatewayCertificateResourceCrud) Create() error {
+	request := oci_apigateway.CreateCertificateRequest{}
 
-	if certificateId, ok := s.D.GetOkExists("certificate_id"); ok {
-		tmp := certificateId.(string)
-		request.CertificateId = &tmp
+	if certificate, ok := s.D.GetOkExists("certificate"); ok {
+		tmp := certificate.(string)
+		request.Certificate = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -214,40 +206,41 @@ func (s *ApigatewayGatewayResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	if endpointType, ok := s.D.GetOkExists("endpoint_type"); ok {
-		request.EndpointType = oci_apigateway.GatewayEndpointTypeEnum(endpointType.(string))
-	}
-
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
-		tmp := subnetId.(string)
-		request.SubnetId = &tmp
+	if intermediateCertificates, ok := s.D.GetOkExists("intermediate_certificates"); ok {
+		tmp := intermediateCertificates.(string)
+		request.IntermediateCertificates = &tmp
+	}
+
+	if privateKey, ok := s.D.GetOkExists("private_key"); ok {
+		tmp := privateKey.(string)
+		request.PrivateKey = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.CreateGateway(context.Background(), request)
+	response, err := s.Client.CreateCertificate(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getGatewayFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCertificateFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ApigatewayGatewayResourceCrud) getGatewayFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ApigatewayCertificateResourceCrud) getCertificateFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_apigateway.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	gatewayId, err := gatewayWaitForWorkRequest(workId, "gateway",
+	certificateId, err := certificateWaitForWorkRequest(workId, "certificate",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestsClient)
 
 	if err != nil {
 		// Try to cancel the work request
-		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, gatewayId)
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, certificateId)
 		_, cancelErr := s.WorkRequestsClient.CancelWorkRequest(context.Background(),
 			oci_apigateway.CancelWorkRequestRequest{
 				WorkRequestId: workId,
@@ -260,12 +253,13 @@ func (s *ApigatewayGatewayResourceCrud) getGatewayFromWorkRequest(workId *string
 		}
 		return err
 	}
-	s.D.SetId(*gatewayId)
+	s.D.SetId(*certificateId)
 
 	return s.Get()
+
 }
 
-func gatewayWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+func certificateWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
 	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
@@ -288,10 +282,11 @@ func gatewayWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func gatewayWaitForWorkRequest(wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
+func certificateWaitForWorkRequest(wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.WorkRequestsClient) (*string, error) {
+
 	retryPolicy := getRetryPolicy(disableFoundRetries, "apigateway")
-	retryPolicy.ShouldRetryOperation = gatewayWorkRequestShouldRetryFunc(timeout)
+	retryPolicy.ShouldRetryOperation = certificateWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_apigateway.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
@@ -336,13 +331,13 @@ func gatewayWaitForWorkRequest(wId *string, entityType string, action oci_apigat
 
 	// The API Gateway workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_apigateway.WorkRequestStatusFailed || response.Status == oci_apigateway.WorkRequestStatusCanceled {
-		return nil, getErrorFromGatewayWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGatewayCertificateWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGatewayWorkRequest(client *oci_apigateway.WorkRequestsClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromGatewayCertificateWorkRequest(client *oci_apigateway.WorkRequestsClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_apigateway.ListWorkRequestErrorsRequest{
 			WorkRequestId: wId,
@@ -365,24 +360,24 @@ func getErrorFromGatewayWorkRequest(client *oci_apigateway.WorkRequestsClient, w
 	return workRequestErr
 }
 
-func (s *ApigatewayGatewayResourceCrud) Get() error {
-	request := oci_apigateway.GetGatewayRequest{}
+func (s *ApigatewayCertificateResourceCrud) Get() error {
+	request := oci_apigateway.GetCertificateRequest{}
 
 	tmp := s.D.Id()
-	request.GatewayId = &tmp
+	request.CertificateId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.GetGateway(context.Background(), request)
+	response, err := s.Client.GetCertificate(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.Gateway
+	s.Res = &response.Certificate
 	return nil
 }
 
-func (s *ApigatewayGatewayResourceCrud) Update() error {
+func (s *ApigatewayCertificateResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -392,12 +387,10 @@ func (s *ApigatewayGatewayResourceCrud) Update() error {
 			}
 		}
 	}
-	request := oci_apigateway.UpdateGatewayRequest{}
+	request := oci_apigateway.UpdateCertificateRequest{}
 
-	if certificateId, ok := s.D.GetOkExists("certificate_id"); ok {
-		tmp := certificateId.(string)
-		request.CertificateId = &tmp
-	}
+	tmp := s.D.Id()
+	request.CertificateId = &tmp
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
@@ -416,43 +409,32 @@ func (s *ApigatewayGatewayResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	tmp := s.D.Id()
-	request.GatewayId = &tmp
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.UpdateGateway(context.Background(), request)
+	response, err := s.Client.UpdateCertificate(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getGatewayFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCertificateFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ApigatewayGatewayResourceCrud) Delete() error {
-	request := oci_apigateway.DeleteGatewayRequest{}
+func (s *ApigatewayCertificateResourceCrud) Delete() error {
+	request := oci_apigateway.DeleteCertificateRequest{}
 
 	tmp := s.D.Id()
-	request.GatewayId = &tmp
+	request.CertificateId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.DeleteGateway(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	// Wait until it finishes
-	_, delWorkRequestErr := gatewayWaitForWorkRequest(workId, "gateway",
-		oci_apigateway.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestsClient)
-	return delWorkRequestErr
+	_, err := s.Client.DeleteCertificate(context.Background(), request)
+	return err
 }
 
-func (s *ApigatewayGatewayResourceCrud) SetData() error {
-	if s.Res.CertificateId != nil {
-		s.D.Set("certificate_id", *s.Res.CertificateId)
+func (s *ApigatewayCertificateResourceCrud) SetData() error {
+	if s.Res.Certificate != nil {
+		s.D.Set("certificate", *s.Res.Certificate)
 	}
 
 	if s.Res.CompartmentId != nil {
@@ -467,19 +449,11 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	s.D.Set("endpoint_type", s.Res.EndpointType)
-
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.Hostname != nil {
-		s.D.Set("hostname", *s.Res.Hostname)
+	if s.Res.IntermediateCertificates != nil {
+		s.D.Set("intermediate_certificates", *s.Res.IntermediateCertificates)
 	}
-
-	ipAddresses := []interface{}{}
-	for _, item := range s.Res.IpAddresses {
-		ipAddresses = append(ipAddresses, GatewayIpAddressToMap(item))
-	}
-	s.D.Set("ip_addresses", ipAddresses)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -487,12 +461,14 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	if s.Res.SubnetId != nil {
-		s.D.Set("subnet_id", *s.Res.SubnetId)
-	}
+	s.D.Set("subject_names", s.Res.SubjectNames)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeNotValidAfter != nil {
+		s.D.Set("time_not_valid_after", s.Res.TimeNotValidAfter.String())
 	}
 
 	if s.Res.TimeUpdated != nil {
@@ -502,26 +478,22 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 	return nil
 }
 
-func GatewaySummaryToMap(obj oci_apigateway.GatewaySummary) map[string]interface{} {
+func CertificateSummaryToMap(obj oci_apigateway.CertificateSummary) map[string]interface{} {
 	result := map[string]interface{}{}
-
-	if obj.CertificateId != nil {
-		result["certificate_id"] = string(*obj.CertificateId)
-	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
 	}
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["endpoint_type"] = string(obj.EndpointType)
-
-	if obj.Hostname != nil {
-		result["hostname"] = string(*obj.Hostname)
-	}
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -533,57 +505,37 @@ func GatewaySummaryToMap(obj oci_apigateway.GatewaySummary) map[string]interface
 
 	result["state"] = string(obj.LifecycleState)
 
-	if obj.SubnetId != nil {
-		result["subnet_id"] = string(*obj.SubnetId)
-	}
+	result["subject_names"] = obj.SubjectNames
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeNotValidAfter != nil {
+		result["time_not_valid_after"] = obj.TimeNotValidAfter.String()
 	}
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
 
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
-	}
-
-	if obj.FreeformTags != nil {
-		result["freeform_tags"] = obj.FreeformTags
-	}
-
 	return result
 }
 
-func GatewayIpAddressToMap(obj oci_apigateway.IpAddress) map[string]interface{} {
-	result := map[string]interface{}{}
+func (s *ApigatewayCertificateResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_apigateway.ChangeCertificateCompartmentRequest{}
 
-	if obj.IpAddress != nil {
-		result["ip_address"] = string(*obj.IpAddress)
-	}
-
-	return result
-}
-
-func (s *ApigatewayGatewayResourceCrud) updateCompartment(compartment interface{}) error {
-	changeCompartmentRequest := oci_apigateway.ChangeGatewayCompartmentRequest{}
+	idTmp := s.D.Id()
+	changeCompartmentRequest.CertificateId = &idTmp
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	idTmp := s.D.Id()
-	changeCompartmentRequest.GatewayId = &idTmp
-
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.ChangeGatewayCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeCertificateCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	workId := response.OpcWorkRequestId
-	// Wait until it finishes
-	_, updateWorkRequestErr := gatewayWaitForWorkRequest(workId, "gateway",
-		oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.WorkRequestsClient)
-	return updateWorkRequestErr
+	return nil
 }
