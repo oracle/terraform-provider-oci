@@ -3,6 +3,7 @@
 ### Added
 - Update document for service `audit`
 - Support for Flexible Load Balancer
+- Support for KMS filter listKeys based on KeyShape added
 
 ## 4.6.0 (December 09, 2020)
 

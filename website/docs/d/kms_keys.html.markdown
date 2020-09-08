@@ -27,6 +27,8 @@ data "oci_kms_keys" "test_keys" {
 	management_endpoint = var.key_management_endpoint
 
 	#Optional
+	algorithm = var.key_algorithm
+	length = var.key_length
 	protection_mode = var.key_protection_mode
 }
 ```
@@ -35,7 +37,9 @@ data "oci_kms_keys" "test_keys" {
 
 The following arguments are supported:
 
+* `algorithm` - (Optional) The algorithm used by a key's key versions to encrypt or decrypt. Currently, only AES is supported. 
 * `compartment_id` - (Required) The OCID of the compartment.
+* `length` - (Optional) The length of the key in bytes, expressed as an integer. Values of 16, 24, or 32 are supported. 
 * `management_endpoint` - (Required) The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
 * `protection_mode` - (Optional) A key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A  protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are  performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's  RSA wrapping key which persists on the HSM. All cryptographic operations that use a key with a protection mode of  `SOFTWARE` are performed on the server. 
 
