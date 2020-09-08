@@ -240,6 +240,7 @@ apigateway
     
 * oci\_apigateway\_gateway
 * oci\_apigateway\_deployment
+* oci\_apigateway\_certificate
 
 auto_scaling
     
