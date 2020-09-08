@@ -22,7 +22,9 @@ type CreateGatewayDetails struct {
 	// resource is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Gateway endpoint type.
+	// Gateway endpoint type. `PUBLIC` will have a public ip address assigned to it, while `PRIVATE` will only be
+	// accessible on a private IP address on the subnet.
+	// Example: `PUBLIC` or `PRIVATE`
 	EndpointType GatewayEndpointTypeEnum `mandatory:"true" json:"endpointType"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet in which

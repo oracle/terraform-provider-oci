@@ -35,7 +35,7 @@ type PatchHistoryEntrySummary struct {
 	// Typically contains additional displayable text.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The date and time when the patch action completed.
+	// The date and time when the patch action completed
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 }
 

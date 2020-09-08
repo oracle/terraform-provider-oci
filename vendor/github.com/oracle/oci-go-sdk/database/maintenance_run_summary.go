@@ -52,6 +52,9 @@ type MaintenanceRunSummary struct {
 	// Maintenance type.
 	MaintenanceType MaintenanceRunSummaryMaintenanceTypeEnum `mandatory:"false" json:"maintenanceType,omitempty"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch to be applied in the maintenance run.
+	PatchId *string `mandatory:"false" json:"patchId"`
+
 	// Maintenance sub-type.
 	MaintenanceSubtype MaintenanceRunSummaryMaintenanceSubtypeEnum `mandatory:"false" json:"maintenanceSubtype,omitempty"`
 }
