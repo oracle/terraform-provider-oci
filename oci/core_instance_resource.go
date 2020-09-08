@@ -325,6 +325,11 @@ func CoreInstanceResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"memory_in_gbs": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
 						"ocpus": {
 							Type:     schema.TypeFloat,
 							Optional: true,
@@ -354,10 +359,6 @@ func CoreInstanceResource() *schema.Resource {
 						},
 						"max_vnic_attachments": {
 							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"memory_in_gbs": {
-							Type:     schema.TypeFloat,
 							Computed: true,
 						},
 						"networking_bandwidth_in_gbps": {
@@ -1507,6 +1508,11 @@ func InstanceAvailabilityConfigToMap(obj *oci_core.InstanceAvailabilityConfig) m
 func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.LaunchInstanceShapeConfigDetails, error) {
 	result := oci_core.LaunchInstanceShapeConfigDetails{}
 
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
 		result.Ocpus = &tmp
@@ -1517,6 +1523,11 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKe
 
 func (s *CoreInstanceResourceCrud) mapToUpdateInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.UpdateInstanceShapeConfigDetails, error) {
 	result := oci_core.UpdateInstanceShapeConfigDetails{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
 
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
