@@ -1,4 +1,4 @@
-## 3.92.0 (Unreleased)
+## 3.92.0 (September 09, 2020)
 
 ### Added
 - Support for patching in ADB-D: datasource `oci_database_autonomous_container_patches` for autonomous container databases
