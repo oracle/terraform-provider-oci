@@ -46,6 +46,11 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"patch_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"time_scheduled": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -153,6 +158,7 @@ func (s *DatabaseMaintenanceRunResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.MaintenanceRunLifecycleStateSucceeded),
 		string(oci_database.MaintenanceRunLifecycleStateSkipped),
+		string(oci_database.MaintenanceRunLifecycleStateScheduled),
 	}
 }
 
@@ -184,6 +190,11 @@ func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 	if maintenanceRunId, ok := s.D.GetOkExists("maintenance_run_id"); ok {
 		tmp := maintenanceRunId.(string)
 		request.MaintenanceRunId = &tmp
+	}
+
+	if patchId, ok := s.D.GetOkExists("patch_id"); ok {
+		tmp := patchId.(string)
+		request.PatchId = &tmp
 	}
 
 	if timeScheduled, ok := s.D.GetOkExists("time_scheduled"); ok {
@@ -243,6 +254,11 @@ func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.MaintenanceRunId = &tmp
 
+	if patchId, ok := s.D.GetOkExists("patch_id"); ok {
+		tmp := patchId.(string)
+		request.PatchId = &tmp
+	}
+
 	if timeScheduled, ok := s.D.GetOkExists("time_scheduled"); ok {
 		tmp, err := time.Parse(time.RFC3339, timeScheduled.(string))
 		if err != nil {
@@ -282,6 +298,10 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 	s.D.Set("maintenance_subtype", s.Res.MaintenanceSubtype)
 
 	s.D.Set("maintenance_type", s.Res.MaintenanceType)
+
+	if s.Res.PatchId != nil {
+		s.D.Set("patch_id", *s.Res.PatchId)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

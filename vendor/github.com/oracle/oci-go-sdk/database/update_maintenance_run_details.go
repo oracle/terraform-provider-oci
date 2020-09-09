@@ -24,6 +24,9 @@ type UpdateMaintenanceRunDetails struct {
 
 	// If set to `TRUE`, starts patching immediately.
 	IsPatchNowEnabled *bool `mandatory:"false" json:"isPatchNowEnabled"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch to be applied in the maintenance run.
+	PatchId *string `mandatory:"false" json:"patchId"`
 }
 
 func (m UpdateMaintenanceRunDetails) String() string {

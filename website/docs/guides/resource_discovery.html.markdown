@@ -129,6 +129,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `oda` - Discovers oda resources within the specified compartment
     * `ons` - Discovers ons resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
+    * `sch` - Discovers sch resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `tagging` - Discovers tag-related resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
@@ -269,6 +270,7 @@ core
 * oci\_core\_boot\_volume
 * oci\_core\_console\_history
 * oci\_core\_cluster\_network
+* oci\_core\_compute\_image\_capability\_schema
 * oci\_core\_cpe
 * oci\_core\_cross\_connect\_group
 * oci\_core\_cross\_connect
@@ -477,6 +479,10 @@ osmanagement
     
 * oci\_osmanagement\_managed\_instance\_group
 * oci\_osmanagement\_software\_source
+
+sch
+    
+* oci\_sch\_service\_connector
 
 streaming
     

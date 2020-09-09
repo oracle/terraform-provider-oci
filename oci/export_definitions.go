@@ -35,6 +35,7 @@ import (
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
+	oci_sch "github.com/oracle/oci-go-sdk/sch"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
@@ -181,6 +182,14 @@ var exportCoreClusterNetworkHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_core.ClusterNetworkLifecycleStateRunning),
 	},
+}
+
+var exportCoreComputeImageCapabilitySchemaHints = &TerraformResourceHints{
+	resourceClass:          "oci_core_compute_image_capability_schema",
+	datasourceClass:        "oci_core_compute_image_capability_schemas",
+	datasourceItemsAttr:    "compute_image_capability_schemas",
+	resourceAbbreviation:   "compute_image_capability_schema",
+	requireResourceRefresh: true,
 }
 
 var exportCoreCpeHints = &TerraformResourceHints{
@@ -1478,6 +1487,7 @@ var exportOcvpSddcHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_ocvp.LifecycleStatesActive),
+		string(oci_ocvp.LifecycleStatesFailed),
 	},
 }
 
@@ -1489,6 +1499,7 @@ var exportOcvpEsxiHostHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_ocvp.LifecycleStatesActive),
+		string(oci_ocvp.LifecycleStatesFailed),
 	},
 }
 
@@ -1525,5 +1536,17 @@ var exportBlockchainOsnHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_blockchain.OsnLifecycleStateActive),
+	},
+}
+
+var exportSchServiceConnectorHints = &TerraformResourceHints{
+	resourceClass:          "oci_sch_service_connector",
+	datasourceClass:        "oci_sch_service_connectors",
+	datasourceItemsAttr:    "service_connector_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "service_connector",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_sch.LifecycleStateActive),
 	},
 }

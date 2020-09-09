@@ -21,6 +21,9 @@ type PatchDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch.
 	PatchId *string `mandatory:"false" json:"patchId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database software image.
+	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
+
 	// The action to perform on the patch.
 	Action PatchDetailsActionEnum `mandatory:"false" json:"action,omitempty"`
 }

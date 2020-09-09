@@ -362,9 +362,6 @@ func init() {
 	exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
 	exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
 	exportObjectStorageNamespaceHints.alwaysExportable = true
-	exportObjectStorageReplicationPolicyHints.defaultValuesForMissingAttributes = map[string]interface{}{
-		"delete_object_in_destination_bucket": deleteObjectInDestinationBucketStateEnumDecline,
-	}
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
