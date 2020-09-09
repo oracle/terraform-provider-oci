@@ -21,6 +21,10 @@ type ApiSpecificationRouteRequestPolicies struct {
 	Authorization RouteAuthorizationPolicy `mandatory:"false" json:"authorization"`
 
 	Cors *CorsPolicy `mandatory:"false" json:"cors"`
+
+	HeaderTransformations *HeaderTransformationPolicy `mandatory:"false" json:"headerTransformations"`
+
+	QueryParameterTransformations *QueryParameterTransformationPolicy `mandatory:"false" json:"queryParameterTransformations"`
 }
 
 func (m ApiSpecificationRouteRequestPolicies) String() string {
@@ -30,8 +34,10 @@ func (m ApiSpecificationRouteRequestPolicies) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *ApiSpecificationRouteRequestPolicies) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Authorization routeauthorizationpolicy `json:"authorization"`
-		Cors          *CorsPolicy              `json:"cors"`
+		Authorization                 routeauthorizationpolicy            `json:"authorization"`
+		Cors                          *CorsPolicy                         `json:"cors"`
+		HeaderTransformations         *HeaderTransformationPolicy         `json:"headerTransformations"`
+		QueryParameterTransformations *QueryParameterTransformationPolicy `json:"queryParameterTransformations"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -50,6 +56,10 @@ func (m *ApiSpecificationRouteRequestPolicies) UnmarshalJSON(data []byte) (e err
 	}
 
 	m.Cors = model.Cors
+
+	m.HeaderTransformations = model.HeaderTransformations
+
+	m.QueryParameterTransformations = model.QueryParameterTransformations
 
 	return
 }

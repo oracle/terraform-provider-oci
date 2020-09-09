@@ -26,6 +26,9 @@ type CreateDbHomeWithVmClusterIdDetails struct {
 	// The user-provided name of the Database Home.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -41,6 +44,11 @@ type CreateDbHomeWithVmClusterIdDetails struct {
 //GetDisplayName returns DisplayName
 func (m CreateDbHomeWithVmClusterIdDetails) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+//GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
+func (m CreateDbHomeWithVmClusterIdDetails) GetDatabaseSoftwareImageId() *string {
+	return m.DatabaseSoftwareImageId
 }
 
 //GetFreeformTags returns FreeformTags

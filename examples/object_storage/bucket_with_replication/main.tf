@@ -114,10 +114,9 @@ output objects {
 }
 
 resource "oci_objectstorage_replication_policy" "bucket_rp" {
-  namespace                           = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket                              = "${oci_objectstorage_bucket.bucket1.name}"
-  name                                = "rpOnBucket"
-  destination_region_name             = "${var.region}"
-  delete_object_in_destination_bucket = "ACCEPT"
-  destination_bucket_name             = "${oci_objectstorage_bucket.bucket2.name}"
+  namespace               = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket                  = "${oci_objectstorage_bucket.bucket1.name}"
+  name                    = "rpOnBucket"
+  destination_region_name = "${var.region}"
+  destination_bucket_name = "${oci_objectstorage_bucket.bucket2.name}"
 }

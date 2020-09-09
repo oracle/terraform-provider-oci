@@ -59,12 +59,12 @@ func ObjectStorageReplicationPolicyResource() *schema.Resource {
 			},
 			"delete_object_in_destination_bucket": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 				ForceNew: true,
 				ValidateFunc: validation.StringInSlice([]string{
 					"ACCEPT",
-					"DECLINE",
 				}, true),
+				Deprecated: FieldDeprecated("delete_object_in_destination_bucket"),
 			},
 
 			// Optional
@@ -127,13 +127,6 @@ func (s *ObjectStorageReplicationPolicyResourceCrud) ID() string {
 }
 
 func (s *ObjectStorageReplicationPolicyResourceCrud) Create() error {
-	if state, ok := s.D.GetOkExists("delete_object_in_destination_bucket"); ok {
-		if deleteObjectInDestinationBucketStateEnum(state.(string)) != deleteObjectInDestinationBucketStateEnumAccept {
-			return fmt.Errorf(`If you have 'delete_object_in_destination_bucket' set to 'DECLINE',
-Objects in the destination bucket will not be deleted and therefore you can not create the replication policy. If you 
-are sure to deleted all the objects in the destination buckets, change 'delete_object_in_destination_bucket' set to 'ACCEPT'`)
-		}
-	}
 	request := oci_object_storage.CreateReplicationPolicyRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {

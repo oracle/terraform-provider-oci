@@ -44,6 +44,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"oda":                 odaResourceGraph,
 	"ons":                 onsResourceGraph,
 	"osmanagement":        osmanagementResourceGraph,
+	"sch":                 schResourceGraph,
 	"streaming":           streamingResourceGraph,
 	"tagging":             taggingResourceGraph,
 	"waas":                waasResourceGraph,
@@ -161,6 +162,7 @@ var coreResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
 		{TerraformResourceHints: exportCoreConsoleHistoryHints},
 		{TerraformResourceHints: exportCoreClusterNetworkHints},
+		{TerraformResourceHints: exportCoreComputeImageCapabilitySchemaHints},
 		{TerraformResourceHints: exportCoreCpeHints},
 		{TerraformResourceHints: exportCoreCrossConnectGroupHints},
 		{TerraformResourceHints: exportCoreCrossConnectHints},
@@ -723,6 +725,12 @@ var osmanagementResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOsmanagementManagedInstanceGroupHints},
 		{TerraformResourceHints: exportOsmanagementSoftwareSourceHints},
+	},
+}
+
+var schResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportSchServiceConnectorHints},
 	},
 }
 

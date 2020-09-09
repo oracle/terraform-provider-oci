@@ -36,12 +36,11 @@ var (
 	}
 
 	replicationPolicyRepresentation = map[string]interface{}{
-		"bucket":                              Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"destination_bucket_name":             Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket_replication.name}`},
-		"destination_region_name":             Representation{repType: Required, create: `${var.region}`},
-		"name":                                Representation{repType: Required, create: `mypolicy`},
-		"delete_object_in_destination_bucket": Representation{repType: Required, create: `ACCEPT`},
-		"namespace":                           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"bucket":                  Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"destination_bucket_name": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket_replication.name}`},
+		"destination_region_name": Representation{repType: Required, create: `${var.region}`},
+		"name":                    Representation{repType: Required, create: `mypolicy`},
+		"namespace":               Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 	}
 
 	ReplicationPolicyResourceDependencies = generateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
@@ -143,7 +142,7 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 				Config:                  config,
 				ImportState:             true,
 				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"delete_object_in_destination_bucket"},
+				ImportStateVerifyIgnore: []string{},
 				ResourceName:            resourceName,
 			},
 		},
