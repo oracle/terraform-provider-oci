@@ -529,6 +529,8 @@ func cleanupResourceDiscoveryTests() {
 	delete(datasourcesMap, "oci_test_parents")
 	delete(datasourcesMap, "oci_test_children")
 	delete(datasourcesMap, "oci_test_error_children")
+	delete(tenancyResourceGraphs, "tenancy_testing")
+	delete(compartmentResourceGraphs, "compartment_testing")
 }
 
 func initTestResources() {
@@ -1420,14 +1422,17 @@ func TestResourceDiscoveryOnCompartment(t *testing.T) {
 }
 
 func TestExportCommandArgs_finalizeServices(t *testing.T) {
-	compartmentResourceGraphs = map[string]TerraformResourceGraph{
-		"compartment_testing":   compartmentTestingResourceGraph,
-		"compartment_testing_2": compartmentTestingResourceGraph,
-	}
-	tenancyResourceGraphs = map[string]TerraformResourceGraph{
-		"tenancy_testing":   tenancyTestingResourceGraph,
-		"tenancy_testing_2": tenancyTestingResourceGraph,
-	}
+	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
+	compartmentResourceGraphs["compartment_testing_2"] = compartmentTestingResourceGraph
+	tenancyResourceGraphs["tenancy_testing"] = tenancyTestingResourceGraph
+	tenancyResourceGraphs["tenancy_testing_2"] = tenancyTestingResourceGraph
+
+	defer func() {
+		delete(compartmentResourceGraphs, "compartment_testing")
+		delete(compartmentResourceGraphs, "compartment_testing_2")
+		delete(compartmentResourceGraphs, "tenancy_testing")
+		delete(compartmentResourceGraphs, "tenancy_testing_2")
+	}()
 
 	compartmentScopeServices = []string{"compartment_testing", "compartment_testing_2"}
 	tenancyScopeServices = []string{"tenancy_testing", "tenancy_testing_2"}
