@@ -1249,6 +1249,9 @@ func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 }
 
 func TestUnitGetExportConfig(t *testing.T) {
+	if os.Getenv("TF_HOME_OVERRIDE") == "" {
+		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
+	}
 
 	providerConfigTest(t, true, true, authAPIKeySetting, "", getExportConfig)              // ApiKey with required fields + disable auto-retries
 	providerConfigTest(t, false, true, authAPIKeySetting, "", getExportConfig)             // ApiKey without required fields
