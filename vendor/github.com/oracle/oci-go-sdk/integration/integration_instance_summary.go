@@ -51,6 +51,9 @@ type IntegrationInstanceSummary struct {
 
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
+
+	// The entitlement used for billing purposes.
+	ConsumptionModel IntegrationInstanceSummaryConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
 }
 
 func (m IntegrationInstanceSummary) String() string {
@@ -108,6 +111,31 @@ var mappingIntegrationInstanceSummaryLifecycleState = map[string]IntegrationInst
 func GetIntegrationInstanceSummaryLifecycleStateEnumValues() []IntegrationInstanceSummaryLifecycleStateEnum {
 	values := make([]IntegrationInstanceSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingIntegrationInstanceSummaryLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// IntegrationInstanceSummaryConsumptionModelEnum Enum with underlying type: string
+type IntegrationInstanceSummaryConsumptionModelEnum string
+
+// Set of constants representing the allowable values for IntegrationInstanceSummaryConsumptionModelEnum
+const (
+	IntegrationInstanceSummaryConsumptionModelUcm      IntegrationInstanceSummaryConsumptionModelEnum = "UCM"
+	IntegrationInstanceSummaryConsumptionModelGov      IntegrationInstanceSummaryConsumptionModelEnum = "GOV"
+	IntegrationInstanceSummaryConsumptionModelOic4saas IntegrationInstanceSummaryConsumptionModelEnum = "OIC4SAAS"
+)
+
+var mappingIntegrationInstanceSummaryConsumptionModel = map[string]IntegrationInstanceSummaryConsumptionModelEnum{
+	"UCM":      IntegrationInstanceSummaryConsumptionModelUcm,
+	"GOV":      IntegrationInstanceSummaryConsumptionModelGov,
+	"OIC4SAAS": IntegrationInstanceSummaryConsumptionModelOic4saas,
+}
+
+// GetIntegrationInstanceSummaryConsumptionModelEnumValues Enumerates the set of values for IntegrationInstanceSummaryConsumptionModelEnum
+func GetIntegrationInstanceSummaryConsumptionModelEnumValues() []IntegrationInstanceSummaryConsumptionModelEnum {
+	values := make([]IntegrationInstanceSummaryConsumptionModelEnum, 0)
+	for _, v := range mappingIntegrationInstanceSummaryConsumptionModel {
 		values = append(values, v)
 	}
 	return values
