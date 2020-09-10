@@ -44,6 +44,9 @@ type CreateIntegrationInstanceDetails struct {
 	// IDCS Authentication token. This is is required for pre-UCPIS cloud accounts, but not UCPIS, hence not a required parameter
 	IdcsAt *string `mandatory:"false" json:"idcsAt"`
 
+	// Optional parameter specifying which entitlement to use for billing purposes. Only required if the account possesses more than one entitlement.
+	ConsumptionModel CreateIntegrationInstanceDetailsConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
+
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 }
@@ -70,6 +73,31 @@ var mappingCreateIntegrationInstanceDetailsIntegrationInstanceType = map[string]
 func GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumValues() []CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum {
 	values := make([]CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum, 0)
 	for _, v := range mappingCreateIntegrationInstanceDetailsIntegrationInstanceType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// CreateIntegrationInstanceDetailsConsumptionModelEnum Enum with underlying type: string
+type CreateIntegrationInstanceDetailsConsumptionModelEnum string
+
+// Set of constants representing the allowable values for CreateIntegrationInstanceDetailsConsumptionModelEnum
+const (
+	CreateIntegrationInstanceDetailsConsumptionModelUcm      CreateIntegrationInstanceDetailsConsumptionModelEnum = "UCM"
+	CreateIntegrationInstanceDetailsConsumptionModelGov      CreateIntegrationInstanceDetailsConsumptionModelEnum = "GOV"
+	CreateIntegrationInstanceDetailsConsumptionModelOic4saas CreateIntegrationInstanceDetailsConsumptionModelEnum = "OIC4SAAS"
+)
+
+var mappingCreateIntegrationInstanceDetailsConsumptionModel = map[string]CreateIntegrationInstanceDetailsConsumptionModelEnum{
+	"UCM":      CreateIntegrationInstanceDetailsConsumptionModelUcm,
+	"GOV":      CreateIntegrationInstanceDetailsConsumptionModelGov,
+	"OIC4SAAS": CreateIntegrationInstanceDetailsConsumptionModelOic4saas,
+}
+
+// GetCreateIntegrationInstanceDetailsConsumptionModelEnumValues Enumerates the set of values for CreateIntegrationInstanceDetailsConsumptionModelEnum
+func GetCreateIntegrationInstanceDetailsConsumptionModelEnumValues() []CreateIntegrationInstanceDetailsConsumptionModelEnum {
+	values := make([]CreateIntegrationInstanceDetailsConsumptionModelEnum, 0)
+	for _, v := range mappingCreateIntegrationInstanceDetailsConsumptionModel {
 		values = append(values, v)
 	}
 	return values

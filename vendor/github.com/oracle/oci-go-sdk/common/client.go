@@ -105,6 +105,16 @@ type BaseClient struct {
 	BasePath string
 }
 
+// Endpoint returns the enpoint configured for client
+func (client *BaseClient) Endpoint() string {
+	host := client.Host
+	if !strings.Contains(host, "http") &&
+		!strings.Contains(host, "https") {
+		host = fmt.Sprintf("%s://%s", defaultScheme, host)
+	}
+	return host
+}
+
 func defaultUserAgent() string {
 	userAgent := fmt.Sprintf(defaultUserAgentTemplate, defaultSDKMarker, Version(), runtime.GOOS, runtime.GOARCH, runtime.Version())
 	return userAgent

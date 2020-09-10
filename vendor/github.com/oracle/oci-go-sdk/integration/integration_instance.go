@@ -61,6 +61,9 @@ type IntegrationInstance struct {
 
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
+
+	// The entitlement used for billing purposes.
+	ConsumptionModel IntegrationInstanceConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
 }
 
 func (m IntegrationInstance) String() string {
@@ -118,6 +121,31 @@ var mappingIntegrationInstanceLifecycleState = map[string]IntegrationInstanceLif
 func GetIntegrationInstanceLifecycleStateEnumValues() []IntegrationInstanceLifecycleStateEnum {
 	values := make([]IntegrationInstanceLifecycleStateEnum, 0)
 	for _, v := range mappingIntegrationInstanceLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// IntegrationInstanceConsumptionModelEnum Enum with underlying type: string
+type IntegrationInstanceConsumptionModelEnum string
+
+// Set of constants representing the allowable values for IntegrationInstanceConsumptionModelEnum
+const (
+	IntegrationInstanceConsumptionModelUcm      IntegrationInstanceConsumptionModelEnum = "UCM"
+	IntegrationInstanceConsumptionModelGov      IntegrationInstanceConsumptionModelEnum = "GOV"
+	IntegrationInstanceConsumptionModelOic4saas IntegrationInstanceConsumptionModelEnum = "OIC4SAAS"
+)
+
+var mappingIntegrationInstanceConsumptionModel = map[string]IntegrationInstanceConsumptionModelEnum{
+	"UCM":      IntegrationInstanceConsumptionModelUcm,
+	"GOV":      IntegrationInstanceConsumptionModelGov,
+	"OIC4SAAS": IntegrationInstanceConsumptionModelOic4saas,
+}
+
+// GetIntegrationInstanceConsumptionModelEnumValues Enumerates the set of values for IntegrationInstanceConsumptionModelEnum
+func GetIntegrationInstanceConsumptionModelEnumValues() []IntegrationInstanceConsumptionModelEnum {
+	values := make([]IntegrationInstanceConsumptionModelEnum, 0)
+	for _, v := range mappingIntegrationInstanceConsumptionModel {
 		values = append(values, v)
 	}
 	return values

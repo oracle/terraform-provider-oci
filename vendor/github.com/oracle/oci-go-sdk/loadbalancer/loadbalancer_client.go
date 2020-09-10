@@ -2578,6 +2578,63 @@ func (client LoadBalancerClient) updateLoadBalancer(ctx context.Context, request
 	return response, err
 }
 
+// UpdateLoadBalancerShape Update the shape of a load balancer. The new shape can be larger or smaller compared to existing shape of the
+// LB. The service will try to perform this operation in the least disruptive way to existing connections, but
+// there is a possibility that they might be lost during the LB resizing process. The new shape becomes effective
+// as soon as the related work request completes successfully, i.e. when reshaping to a larger shape, the LB will
+// start accepting larger bandwidth and when reshaping to a smaller one, the LB will be accepting smaller
+// bandwidth.
+func (client LoadBalancerClient) UpdateLoadBalancerShape(ctx context.Context, request UpdateLoadBalancerShapeRequest) (response UpdateLoadBalancerShapeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateLoadBalancerShape, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateLoadBalancerShapeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateLoadBalancerShapeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateLoadBalancerShapeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateLoadBalancerShapeResponse")
+	}
+	return
+}
+
+// updateLoadBalancerShape implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updateLoadBalancerShape(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/updateShape")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateLoadBalancerShapeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateNetworkSecurityGroups Updates the network security groups associated with the specified load balancer.
 func (client LoadBalancerClient) UpdateNetworkSecurityGroups(ctx context.Context, request UpdateNetworkSecurityGroupsRequest) (response UpdateNetworkSecurityGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
