@@ -520,6 +520,9 @@ func TestUnitProviderConfig(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestProviderConfig in HttpReplay mode.")
 	}
+	if os.Getenv("TF_HOME_OVERRIDE") == "" {
+		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
+	}
 	providerConfigTest(t, true, true, authAPIKeySetting, "", nil)              // ApiKey with required fields + disable auto-retries
 	providerConfigTest(t, false, true, authAPIKeySetting, "", nil)             // ApiKey without required fields
 	providerConfigTest(t, false, false, authInstancePrincipalSetting, "", nil) // InstancePrincipal
