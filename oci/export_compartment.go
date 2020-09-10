@@ -1104,6 +1104,8 @@ func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResour
 		if !ok {
 			return results, fmt.Errorf("[ERROR] element schema is not of a resource")
 		}
+		datasourceItemsAttribute := tfMeta.datasourceItemsAttr
+
 		if tfMeta.isDatasourceCollection {
 			collectionItemSchema := elemResource.Schema["items"]
 
@@ -1111,10 +1113,10 @@ func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResour
 			if !ok {
 				return results, fmt.Errorf("[ERROR] collection element schema is not of a resource")
 			}
-			tfMeta.datasourceItemsAttr = tfMeta.datasourceItemsAttr + ".0.items"
+			datasourceItemsAttribute = tfMeta.datasourceItemsAttr + ".0.items"
 		}
 
-		foundItems, _ := d.GetOkExists(tfMeta.datasourceItemsAttr)
+		foundItems, _ := d.GetOkExists(datasourceItemsAttribute)
 		for idx, item := range foundItems.([]interface{}) {
 			if itemMap, ok := item.(map[string]interface{}); ok {
 				if state, exists := itemMap["state"].(string); exists && len(tfMeta.discoverableLifecycleStates) > 0 {
@@ -1139,7 +1141,7 @@ func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResour
 
 				// Use resource to fill in all attributes (likely because the datasource doesn't return complete info)
 				if tfMeta.getIdFn != nil {
-					tmpResource, err := generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", tfMeta.datasourceItemsAttr, idx), tfMeta, parent)
+					tmpResource, err := generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", datasourceItemsAttribute, idx), tfMeta, parent)
 					if err != nil {
 						ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating temporary resource from resource data returned in list datasource read: %v ", err), resourceGraph})
 						continue
@@ -1174,7 +1176,7 @@ func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResour
 					continue
 				}
 			} else {
-				resource, err = generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", tfMeta.datasourceItemsAttr, idx), tfMeta, parent)
+				resource, err = generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", datasourceItemsAttribute, idx), tfMeta, parent)
 				if err != nil {
 					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating resource from resource data returned in list datasource read: %v ", err), resourceGraph})
 					continue
