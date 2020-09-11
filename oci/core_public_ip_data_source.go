@@ -73,6 +73,10 @@ func CorePublicIpDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"public_ip_pool_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"scope": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -213,6 +217,10 @@ func (s *CorePublicIpDataSourceCrud) SetData() error {
 
 	if s.Res.PrivateIpId != nil {
 		s.D.Set("private_ip_id", *s.Res.PrivateIpId)
+	}
+
+	if s.Res.PublicIpPoolId != nil {
+		s.D.Set("public_ip_pool_id", *s.Res.PublicIpPoolId)
 	}
 
 	s.D.Set("scope", s.Res.Scope)

@@ -12,37 +12,27 @@ import (
 )
 
 func init() {
-	RegisterResource("oci_core_nat_gateway", CoreNatGatewayResource())
+	RegisterResource("oci_core_public_ip_pool", CorePublicIpPoolResource())
 }
 
-func CoreNatGatewayResource() *schema.Resource {
+func CorePublicIpPoolResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createCoreNatGateway,
-		Read:     readCoreNatGateway,
-		Update:   updateCoreNatGateway,
-		Delete:   deleteCoreNatGateway,
+		Create:   createCorePublicIpPool,
+		Read:     readCorePublicIpPool,
+		Update:   updateCorePublicIpPool,
+		Delete:   deleteCorePublicIpPool,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
-			"block_traffic": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -61,17 +51,14 @@ func CoreNatGatewayResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"public_ip_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-			},
 
 			// Computed
-			"nat_ip": {
-				Type:     schema.TypeString,
+			"cidr_blocks": {
+				Type:     schema.TypeList,
 				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -85,32 +72,32 @@ func CoreNatGatewayResource() *schema.Resource {
 	}
 }
 
-func createCoreNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreNatGatewayResourceCrud{}
+func createCorePublicIpPool(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
 
-func readCoreNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreNatGatewayResourceCrud{}
+func readCorePublicIpPool(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
 
-func updateCoreNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreNatGatewayResourceCrud{}
+func updateCorePublicIpPool(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
 
-func deleteCoreNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreNatGatewayResourceCrud{}
+func deleteCorePublicIpPool(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
@@ -118,48 +105,41 @@ func deleteCoreNatGateway(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type CoreNatGatewayResourceCrud struct {
+type CorePublicIpPoolResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
-	Res                    *oci_core.NatGateway
+	Res                    *oci_core.PublicIpPool
 	DisableNotFoundRetries bool
 }
 
-func (s *CoreNatGatewayResourceCrud) ID() string {
+func (s *CorePublicIpPoolResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *CoreNatGatewayResourceCrud) CreatedPending() []string {
+func (s *CorePublicIpPoolResourceCrud) CreatedPending() []string {
+	return []string{}
+}
+
+func (s *CorePublicIpPoolResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_core.NatGatewayLifecycleStateProvisioning),
+		string(oci_core.PublicIpPoolLifecycleStateActive),
 	}
 }
 
-func (s *CoreNatGatewayResourceCrud) CreatedTarget() []string {
+func (s *CorePublicIpPoolResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_core.NatGatewayLifecycleStateAvailable),
+		string(oci_core.PublicIpPoolLifecycleStateDeleting),
 	}
 }
 
-func (s *CoreNatGatewayResourceCrud) DeletedPending() []string {
+func (s *CorePublicIpPoolResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_core.NatGatewayLifecycleStateTerminating),
+		string(oci_core.PublicIpPoolLifecycleStateDeleted),
 	}
 }
 
-func (s *CoreNatGatewayResourceCrud) DeletedTarget() []string {
-	return []string{
-		string(oci_core.NatGatewayLifecycleStateTerminated),
-	}
-}
-
-func (s *CoreNatGatewayResourceCrud) Create() error {
-	request := oci_core.CreateNatGatewayRequest{}
-
-	if blockTraffic, ok := s.D.GetOkExists("block_traffic"); ok {
-		tmp := blockTraffic.(bool)
-		request.BlockTraffic = &tmp
-	}
+func (s *CorePublicIpPoolResourceCrud) Create() error {
+	request := oci_core.CreatePublicIpPoolRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -183,45 +163,35 @@ func (s *CoreNatGatewayResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if publicIpId, ok := s.D.GetOkExists("public_ip_id"); ok {
-		tmp := publicIpId.(string)
-		request.PublicIpId = &tmp
-	}
-
-	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
-		tmp := vcnId.(string)
-		request.VcnId = &tmp
-	}
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateNatGateway(context.Background(), request)
+	response, err := s.Client.CreatePublicIpPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.NatGateway
+	s.Res = &response.PublicIpPool
 	return nil
 }
 
-func (s *CoreNatGatewayResourceCrud) Get() error {
-	request := oci_core.GetNatGatewayRequest{}
+func (s *CorePublicIpPoolResourceCrud) Get() error {
+	request := oci_core.GetPublicIpPoolRequest{}
 
 	tmp := s.D.Id()
-	request.NatGatewayId = &tmp
+	request.PublicIpPoolId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetNatGateway(context.Background(), request)
+	response, err := s.Client.GetPublicIpPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.NatGateway
+	s.Res = &response.PublicIpPool
 	return nil
 }
 
-func (s *CoreNatGatewayResourceCrud) Update() error {
+func (s *CorePublicIpPoolResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -231,12 +201,7 @@ func (s *CoreNatGatewayResourceCrud) Update() error {
 			}
 		}
 	}
-	request := oci_core.UpdateNatGatewayRequest{}
-
-	if blockTraffic, ok := s.D.GetOkExists("block_traffic"); ok {
-		tmp := blockTraffic.(bool)
-		request.BlockTraffic = &tmp
-	}
+	request := oci_core.UpdatePublicIpPoolRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
@@ -256,35 +221,33 @@ func (s *CoreNatGatewayResourceCrud) Update() error {
 	}
 
 	tmp := s.D.Id()
-	request.NatGatewayId = &tmp
+	request.PublicIpPoolId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateNatGateway(context.Background(), request)
+	response, err := s.Client.UpdatePublicIpPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.NatGateway
+	s.Res = &response.PublicIpPool
 	return nil
 }
 
-func (s *CoreNatGatewayResourceCrud) Delete() error {
-	request := oci_core.DeleteNatGatewayRequest{}
+func (s *CorePublicIpPoolResourceCrud) Delete() error {
+	request := oci_core.DeletePublicIpPoolRequest{}
 
 	tmp := s.D.Id()
-	request.NatGatewayId = &tmp
+	request.PublicIpPoolId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DeleteNatGateway(context.Background(), request)
+	_, err := s.Client.DeletePublicIpPool(context.Background(), request)
 	return err
 }
 
-func (s *CoreNatGatewayResourceCrud) SetData() error {
-	if s.Res.BlockTraffic != nil {
-		s.D.Set("block_traffic", *s.Res.BlockTraffic)
-	}
+func (s *CorePublicIpPoolResourceCrud) SetData() error {
+	s.D.Set("cidr_blocks", s.Res.CidrBlocks)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -300,39 +263,57 @@ func (s *CoreNatGatewayResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.NatIp != nil {
-		s.D.Set("nat_ip", *s.Res.NatIp)
-	}
-
-	if s.Res.PublicIpId != nil {
-		s.D.Set("public_ip_id", *s.Res.PublicIpId)
-	}
-
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
-	if s.Res.VcnId != nil {
-		s.D.Set("vcn_id", *s.Res.VcnId)
-	}
-
 	return nil
 }
 
-func (s *CoreNatGatewayResourceCrud) updateCompartment(compartment interface{}) error {
-	changeCompartmentRequest := oci_core.ChangeNatGatewayCompartmentRequest{}
+func PublicIpPoolSummaryToMap(obj oci_core.PublicIpPoolSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
+}
+
+func (s *CorePublicIpPoolResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangePublicIpPoolCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
 	idTmp := s.D.Id()
-	changeCompartmentRequest.NatGatewayId = &idTmp
+	changeCompartmentRequest.PublicIpPoolId = &idTmp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.ChangeNatGatewayCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangePublicIpPoolCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
