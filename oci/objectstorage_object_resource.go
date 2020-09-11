@@ -99,9 +99,10 @@ func ObjectStorageObjectResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"content_language": {
-				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"content_length": {
 				Type: schema.TypeString,
