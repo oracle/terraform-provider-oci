@@ -17,6 +17,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/common"
+	"github.com/oracle/oci-go-sdk/common/auth"
 	"net/http"
 )
 
@@ -29,12 +30,13 @@ type ComputeManagementClient struct {
 // NewComputeManagementClientWithConfigurationProvider Creates a new default ComputeManagement client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewComputeManagementClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ComputeManagementClient, err error) {
-	baseClient, err := common.NewClientWithConfig(configProvider)
-	if err != nil {
-		return
+	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
+		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
+			return newComputeManagementClientFromBaseClient(baseClient, configProvider)
+		}
 	}
 
-	return newComputeManagementClientFromBaseClient(baseClient, configProvider)
+	return
 }
 
 // NewComputeManagementClientWithOboToken Creates a new default ComputeManagement client with the given configuration provider.

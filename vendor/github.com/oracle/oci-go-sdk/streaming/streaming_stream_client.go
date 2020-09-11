@@ -13,6 +13,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/common"
+	"github.com/oracle/oci-go-sdk/common/auth"
 	"net/http"
 )
 
@@ -25,12 +26,13 @@ type StreamClient struct {
 // NewStreamClientWithConfigurationProvider Creates a new default Stream client with the given configuration provider.
 // the configuration provider will be used for the default signer
 func NewStreamClientWithConfigurationProvider(configProvider common.ConfigurationProvider, endpoint string) (client StreamClient, err error) {
-	baseClient, err := common.NewClientWithConfig(configProvider)
-	if err != nil {
-		return
+	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
+		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
+			return newStreamClientFromBaseClient(baseClient, configProvider, endpoint)
+		}
 	}
 
-	return newStreamClientFromBaseClient(baseClient, configProvider, endpoint)
+	return
 }
 
 // NewStreamClientWithOboToken Creates a new default Stream client with the given configuration provider.

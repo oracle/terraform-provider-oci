@@ -14,6 +14,28 @@ import (
 	"strings"
 )
 
+// AuthenticationType for auth
+type AuthenticationType string
+
+const (
+	// UserPrincipal is default auth type
+	UserPrincipal AuthenticationType = "user_principal"
+	// InstancePrincipal is used for instance principle auth type
+	InstancePrincipal AuthenticationType = "instance_principal"
+	// InstancePrincipalDelegationToken is used for instance principle delegation token auth type
+	InstancePrincipalDelegationToken AuthenticationType = "instance_principle_delegation_token"
+	// UnknownAuthenticationType is used for none meaningful auth type
+	UnknownAuthenticationType AuthenticationType = "unknown_auth_type"
+)
+
+// AuthConfig is used for getting auth related paras in config file
+type AuthConfig struct {
+	AuthType AuthenticationType
+	// IsFromConfigFile is used to point out if the authConfig is from configuration file
+	IsFromConfigFile bool
+	OboToken         *string
+}
+
 // ConfigurationProvider wraps information about the account owner
 type ConfigurationProvider interface {
 	KeyProvider
@@ -21,9 +43,12 @@ type ConfigurationProvider interface {
 	UserOCID() (string, error)
 	KeyFingerprint() (string, error)
 	Region() (string, error)
+	// AuthType() is used for specify the needed auth type, like UserPrincipal, InstancePrincipal, etc.
+	AuthType() (AuthConfig, error)
 }
 
-// IsConfigurationProviderValid Tests all parts of the configuration provider do not return an error
+// IsConfigurationProviderValid Tests all parts of the configuration provider do not return an error, this method will
+// not check AuthType(), since authType() is not required to be there.
 func IsConfigurationProviderValid(conf ConfigurationProvider) (ok bool, err error) {
 	baseFn := []func() (string, error){conf.TenancyOCID, conf.UserOCID, conf.KeyFingerprint, conf.Region, conf.KeyID}
 	for _, fn := range baseFn {
@@ -103,6 +128,10 @@ func (p rawConfigurationProvider) KeyFingerprint() (string, error) {
 
 func (p rawConfigurationProvider) Region() (string, error) {
 	return canStringBeRegion(p.region)
+}
+
+func (p rawConfigurationProvider) AuthType() (AuthConfig, error) {
+	return AuthConfig{UnknownAuthenticationType, false, nil}, nil
 }
 
 // environmentConfigurationProvider reads configuration from environment variables
@@ -199,6 +228,11 @@ func (p environmentConfigurationProvider) Region() (value string, err error) {
 	return canStringBeRegion(value)
 }
 
+func (p environmentConfigurationProvider) AuthType() (AuthConfig, error) {
+	return AuthConfig{UnknownAuthenticationType, false, nil},
+		fmt.Errorf("unsupported, keep the interface")
+}
+
 // fileConfigurationProvider. reads configuration information from a file
 type fileConfigurationProvider struct {
 	//The path to the configuration file
@@ -241,8 +275,9 @@ func ConfigurationProviderFromFileWithProfile(configFilePath, profile, privateKe
 }
 
 type configFileInfo struct {
-	UserOcid, Fingerprint, KeyFilePath, TenancyOcid, Region, Passphrase, SecurityTokenFilePath string
-	PresentConfiguration                                                                       byte
+	UserOcid, Fingerprint, KeyFilePath, TenancyOcid, Region, Passphrase, SecurityTokenFilePath, DelegationTokenFilePath,
+	AuthenticationType string
+	PresentConfiguration rune
 }
 
 const (
@@ -253,6 +288,8 @@ const (
 	hasKeyFile
 	hasPassphrase
 	hasSecurityTokenFile
+	hasDelegationTokenFile
+	hasAuthenticationType
 	none
 )
 
@@ -279,7 +316,7 @@ func parseConfigFile(data []byte, profile string) (info *configFileInfo, err err
 }
 
 func parseConfigAtLine(start int, content []string) (info *configFileInfo, err error) {
-	var configurationPresent byte
+	var configurationPresent rune
 	info = &configFileInfo{}
 	for i := start; i < len(content); i++ {
 		line := content[i]
@@ -314,6 +351,12 @@ func parseConfigAtLine(start int, content []string) (info *configFileInfo, err e
 		case "security_token_file":
 			configurationPresent = configurationPresent | hasSecurityTokenFile
 			info.SecurityTokenFilePath = value
+		case "delegation_token_file":
+			configurationPresent = configurationPresent | hasDelegationTokenFile
+			info.DelegationTokenFilePath = value
+		case "authentication_type":
+			configurationPresent = configurationPresent | hasAuthenticationType
+			info.AuthenticationType = value
 		}
 	}
 	info.PresentConfiguration = configurationPresent
@@ -366,7 +409,7 @@ func (p fileConfigurationProvider) readAndParseConfigFile() (info *configFileInf
 	return p.FileInfo, err
 }
 
-func presentOrError(value string, expectedConf, presentConf byte, confMissing string) (string, error) {
+func presentOrError(value string, expectedConf, presentConf rune, confMissing string) (string, error) {
 	if presentConf&expectedConf == expectedConf {
 		return value, nil
 	}
@@ -421,7 +464,11 @@ func (p fileConfigurationProvider) KeyID() (keyID string, err error) {
 		return fmt.Sprintf("%s/%s/%s", info.TenancyOcid, info.UserOcid, info.Fingerprint), nil
 	}
 	if filePath, err := presentOrError(info.SecurityTokenFilePath, hasSecurityTokenFile, info.PresentConfiguration, "securityTokenFilePath"); err == nil {
-		return getSecurityToken(filePath)
+		rawString, err := getTokenContent(filePath)
+		if err != nil {
+			return "", err
+		}
+		return "ST$" + rawString, nil
 	}
 	err = fmt.Errorf("can not read SecurityTokenFilePath from configuration file due to: %s", err.Error())
 	return
@@ -476,14 +523,39 @@ func (p fileConfigurationProvider) Region() (value string, err error) {
 	return canStringBeRegion(value)
 }
 
-func getSecurityToken(filePath string) (string, error) {
+func (p fileConfigurationProvider) AuthType() (AuthConfig, error) {
+	info, err := p.readAndParseConfigFile()
+	if err != nil {
+		err = fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())
+		return AuthConfig{UnknownAuthenticationType, true, nil}, err
+	}
+	val, err := presentOrError(info.AuthenticationType, hasAuthenticationType, info.PresentConfiguration, "authentication_type")
+
+	if val == "instance_principal" {
+		if filePath, err := presentOrError(info.DelegationTokenFilePath, hasDelegationTokenFile, info.PresentConfiguration, "delegationTokenFilePath"); err == nil {
+			if delegationToken, err := getTokenContent(filePath); err == nil && delegationToken != "" {
+				Debugf("delegation token content is %s, and error is %s ", delegationToken, err)
+				return AuthConfig{InstancePrincipalDelegationToken, true, &delegationToken}, nil
+			}
+			return AuthConfig{UnknownAuthenticationType, true, nil}, err
+
+		}
+		// normal instance principle
+		return AuthConfig{InstancePrincipal, true, nil}, nil
+	}
+
+	// by default, if no "authentication_type" is provided, just treated as user principle type, and will not return error
+	return AuthConfig{UserPrincipal, true, nil}, nil
+}
+
+func getTokenContent(filePath string) (string, error) {
 	expandedPath := expandPath(filePath)
 	tokenFileContent, err := ioutil.ReadFile(expandedPath)
 	if err != nil {
-		err = fmt.Errorf("can not read PrivateKey  from configuration file due to: %s", err.Error())
+		err = fmt.Errorf("can not read token content from configuration file due to: %s", err.Error())
 		return "", err
 	}
-	return fmt.Sprintf("ST$%s", tokenFileContent), nil
+	return fmt.Sprintf("%s", tokenFileContent), nil
 }
 
 // A configuration provider that look for information in  multiple configuration providers
@@ -567,6 +639,15 @@ func (c composingConfigurationProvider) PrivateRSAKey() (*rsa.PrivateKey, error)
 		}
 	}
 	return nil, fmt.Errorf("did not find a proper configuration for private key")
+}
+
+func (c composingConfigurationProvider) AuthType() (AuthConfig, error) {
+	// only check the first default fileConfigProvider
+	authConfig, err := c.Providers[0].AuthType()
+	if err == nil && authConfig.AuthType != UnknownAuthenticationType {
+		return authConfig, nil
+	}
+	return AuthConfig{UnknownAuthenticationType, false, nil}, fmt.Errorf("did not find a proper configuration for auth type")
 }
 
 func getRegionFromEnvVar() (string, error) {

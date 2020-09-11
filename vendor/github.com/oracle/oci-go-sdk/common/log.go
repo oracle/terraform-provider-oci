@@ -80,7 +80,7 @@ func newSDKLogger() (defaultSDKLogger, error) {
 
 	configured, isLogEnabled := os.LookupEnv("OCI_GO_SDK_DEBUG")
 
-	// If env variable not present turn logging of
+	// If env variable not present turn logging off
 	if !isLogEnabled {
 		logger.currentLoggingLevel = noLogging
 	} else {
@@ -132,7 +132,7 @@ func (l defaultSDKLogger) getLoggerForLevel(logLevel int) *log.Logger {
 // Output mode is switched based on environment variable "OCI_GO_SDK_LOG_OUPUT_MODE"
 // "file" outputs log to a specific file
 // "combine" outputs log to both stderr and specific file
-// other unsupported value ouputs log to stderr
+// other unsupported value outputs log to stderr
 // output file can be set via environment variable "OCI_GO_SDK_LOG_FILE"
 // if this environment variable is not set, a default log file will be created under project root path
 func logOutputModeConfig(logger defaultSDKLogger) {

@@ -13,6 +13,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/common"
+	"github.com/oracle/oci-go-sdk/common/auth"
 	"net/http"
 )
 
@@ -25,12 +26,13 @@ type UsageapiClient struct {
 // NewUsageapiClientWithConfigurationProvider Creates a new default Usageapi client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewUsageapiClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client UsageapiClient, err error) {
-	baseClient, err := common.NewClientWithConfig(configProvider)
-	if err != nil {
-		return
+	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
+		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
+			return newUsageapiClientFromBaseClient(baseClient, configProvider)
+		}
 	}
 
-	return newUsageapiClientFromBaseClient(baseClient, configProvider)
+	return
 }
 
 // NewUsageapiClientWithOboToken Creates a new default Usageapi client with the given configuration provider.

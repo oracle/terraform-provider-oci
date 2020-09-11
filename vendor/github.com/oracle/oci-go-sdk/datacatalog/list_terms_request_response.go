@@ -192,12 +192,12 @@ var mappingListTermsFields = map[string]ListTermsFieldsEnum{
 	"glossaryKey":               ListTermsFieldsGlossarykey,
 	"parentTermKey":             ListTermsFieldsParenttermkey,
 	"isAllowedToHaveChildTerms": ListTermsFieldsIsallowedtohavechildterms,
-	"path":                  ListTermsFieldsPath,
-	"lifecycleState":        ListTermsFieldsLifecyclestate,
-	"timeCreated":           ListTermsFieldsTimecreated,
-	"workflowStatus":        ListTermsFieldsWorkflowstatus,
-	"associatedObjectCount": ListTermsFieldsAssociatedobjectcount,
-	"uri": ListTermsFieldsUri,
+	"path":                      ListTermsFieldsPath,
+	"lifecycleState":            ListTermsFieldsLifecyclestate,
+	"timeCreated":               ListTermsFieldsTimecreated,
+	"workflowStatus":            ListTermsFieldsWorkflowstatus,
+	"associatedObjectCount":     ListTermsFieldsAssociatedobjectcount,
+	"uri":                       ListTermsFieldsUri,
 }
 
 // GetListTermsFieldsEnumValues Enumerates the set of values for ListTermsFieldsEnum

@@ -71,8 +71,9 @@ const (
 	defaultConfigFileName    = "config"
 	defaultConfigDirName     = ".oci"
 	configFilePathEnvVarName = "OCI_CONFIG_FILE"
-	secondaryConfigDirName   = ".oraclebmc"
-	maxBodyLenForDebug       = 1024 * 1000
+
+	secondaryConfigDirName = ".oraclebmc"
+	maxBodyLenForDebug     = 1024 * 1000
 )
 
 // RequestInterceptor function used to customize the request before calling the underlying service
@@ -168,6 +169,11 @@ func NewClientWithConfig(configProvider ConfigurationProvider) (client BaseClien
 
 	client = defaultBaseClient(configProvider)
 
+	if authConfig, e := configProvider.AuthType(); e == nil && authConfig.OboToken != nil {
+		Debugf("authConfig's authType is %s, and token content is %s", authConfig.AuthType, *authConfig.OboToken)
+		signOboToken(&client, *authConfig.OboToken, configProvider)
+	}
+
 	return
 }
 
@@ -178,6 +184,13 @@ func NewClientWithOboToken(configProvider ConfigurationProvider, oboToken string
 		return
 	}
 
+	signOboToken(&client, oboToken, configProvider)
+
+	return
+}
+
+// Add obo token header to Interceptor and sign to client
+func signOboToken(client *BaseClient, oboToken string, configProvider ConfigurationProvider) {
 	// Interceptor to add obo token header
 	client.Interceptor = func(request *http.Request) error {
 		request.Header.Add(requestHeaderOpcOboToken, oboToken)
@@ -186,8 +199,6 @@ func NewClientWithOboToken(configProvider ConfigurationProvider, oboToken string
 	// Obo token will also be signed
 	defaultHeaders := append(DefaultGenericHeaders(), requestHeaderOpcOboToken)
 	client.Signer = RequestSigner(configProvider, defaultHeaders, DefaultBodyHeaders())
-
-	return
 }
 
 func getHomeFolder() string {
