@@ -4,6 +4,7 @@
 - Support for load balancer shape update added
 - Support for DBaaS Custom DB Image
 - Support for consumption_model in `oci_integration_integration_instance` resource
+- Support for CloudGuard
 
 ### Notes
 - Examples updated to Terraform v0.12 syntax
@@ -32,7 +33,6 @@
 - Support for VM DB System Cloning
 - Support for DBAAS ADB Serverless Refreshable Clone
 - Support for LBaaS Cipher Suite Configuration
-- Support for CloudGuard
 
 ### Fixed
 - Fix imports when oci_database_db_system is missing a primary db_home. Previous behavior resulted in unusable state file after 
