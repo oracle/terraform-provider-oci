@@ -11,47 +11,47 @@ import (
 )
 
 func init() {
-	RegisterDatasource("oci_core_nat_gateway", CoreNatGatewayDataSource())
+	RegisterDatasource("oci_core_public_ip_pool", CorePublicIpPoolDataSource())
 }
 
-func CoreNatGatewayDataSource() *schema.Resource {
+func CorePublicIpPoolDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
-	fieldMap["nat_gateway_id"] = &schema.Schema{
+	fieldMap["public_ip_pool_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return GetSingularDataSourceItemSchema(CoreNatGatewayResource(), fieldMap, readSingularCoreNatGateway)
+	return GetSingularDataSourceItemSchema(CorePublicIpPoolResource(), fieldMap, readSingularCorePublicIpPool)
 }
 
-func readSingularCoreNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreNatGatewayDataSourceCrud{}
+func readSingularCorePublicIpPool(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpPoolDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
 
-type CoreNatGatewayDataSourceCrud struct {
+type CorePublicIpPoolDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
-	Res    *oci_core.GetNatGatewayResponse
+	Res    *oci_core.GetPublicIpPoolResponse
 }
 
-func (s *CoreNatGatewayDataSourceCrud) VoidState() {
+func (s *CorePublicIpPoolDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreNatGatewayDataSourceCrud) Get() error {
-	request := oci_core.GetNatGatewayRequest{}
+func (s *CorePublicIpPoolDataSourceCrud) Get() error {
+	request := oci_core.GetPublicIpPoolRequest{}
 
-	if natGatewayId, ok := s.D.GetOkExists("nat_gateway_id"); ok {
-		tmp := natGatewayId.(string)
-		request.NatGatewayId = &tmp
+	if publicIpPoolId, ok := s.D.GetOkExists("public_ip_pool_id"); ok {
+		tmp := publicIpPoolId.(string)
+		request.PublicIpPoolId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
 
-	response, err := s.Client.GetNatGateway(context.Background(), request)
+	response, err := s.Client.GetPublicIpPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -60,16 +60,14 @@ func (s *CoreNatGatewayDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreNatGatewayDataSourceCrud) SetData() error {
+func (s *CorePublicIpPoolDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
 
-	if s.Res.BlockTraffic != nil {
-		s.D.Set("block_traffic", *s.Res.BlockTraffic)
-	}
+	s.D.Set("cidr_blocks", s.Res.CidrBlocks)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -85,22 +83,10 @@ func (s *CoreNatGatewayDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.NatIp != nil {
-		s.D.Set("nat_ip", *s.Res.NatIp)
-	}
-
-	if s.Res.PublicIpId != nil {
-		s.D.Set("public_ip_id", *s.Res.PublicIpId)
-	}
-
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
-	}
-
-	if s.Res.VcnId != nil {
-		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
 	return nil

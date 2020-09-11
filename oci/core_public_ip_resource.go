@@ -60,6 +60,12 @@ func CorePublicIpResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"public_ip_pool_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"assigned_entity_id": {
@@ -215,6 +221,11 @@ func (s *CorePublicIpResourceCrud) Create() error {
 		request.PrivateIpId = &tmp
 	}
 
+	if publicIpPoolId, ok := s.D.GetOkExists("public_ip_pool_id"); ok {
+		tmp := publicIpPoolId.(string)
+		request.PublicIpPoolId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreatePublicIp(context.Background(), request)
@@ -341,6 +352,10 @@ func (s *CorePublicIpResourceCrud) SetData() error {
 
 	if s.Res.PrivateIpId != nil {
 		s.D.Set("private_ip_id", *s.Res.PrivateIpId)
+	}
+
+	if s.Res.PublicIpPoolId != nil {
+		s.D.Set("public_ip_pool_id", *s.Res.PublicIpPoolId)
 	}
 
 	s.D.Set("scope", s.Res.Scope)
