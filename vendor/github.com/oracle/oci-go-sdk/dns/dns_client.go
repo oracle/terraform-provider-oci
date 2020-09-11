@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/common"
+	"github.com/oracle/oci-go-sdk/common/auth"
 	"net/http"
 )
 
@@ -26,12 +27,13 @@ type DnsClient struct {
 // NewDnsClientWithConfigurationProvider Creates a new default Dns client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDnsClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DnsClient, err error) {
-	baseClient, err := common.NewClientWithConfig(configProvider)
-	if err != nil {
-		return
+	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
+		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
+			return newDnsClientFromBaseClient(baseClient, configProvider)
+		}
 	}
 
-	return newDnsClientFromBaseClient(baseClient, configProvider)
+	return
 }
 
 // NewDnsClientWithOboToken Creates a new default Dns client with the given configuration provider.

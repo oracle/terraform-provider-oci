@@ -104,3 +104,7 @@ func (p instancePrincipalConfigurationProvider) Region() (string, error) {
 	}
 	return string(*p.region), nil
 }
+
+func (p instancePrincipalConfigurationProvider) AuthType() (common.AuthConfig, error) {
+	return common.AuthConfig{common.InstancePrincipal, false, nil}, fmt.Errorf("unsupported, keep the interface")
+}

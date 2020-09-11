@@ -671,6 +671,15 @@ type ResourceDataConfigProvider struct {
 // since it only checks whether an error exists or not.
 // The ComposingConfigurationProvider in SDK should log the errors as debug statements instead.
 
+func (p ResourceDataConfigProvider) AuthType() (oci_common.AuthConfig, error) {
+	return oci_common.AuthConfig{
+			AuthType:         oci_common.UnknownAuthenticationType,
+			IsFromConfigFile: false,
+			OboToken:         nil,
+		},
+		fmt.Errorf("unsupported, keep the interface")
+}
+
 func (p ResourceDataConfigProvider) TenancyOCID() (string, error) {
 	if tenancyOCID, ok := p.D.GetOkExists(tenancyOcidAttrName); ok {
 		return tenancyOCID.(string), nil

@@ -32,7 +32,7 @@ var mappingWorkRequestActionResult = map[string]WorkRequestActionResultEnum{
 	"STOPPED":                  WorkRequestActionResultStopped,
 	"SCALED":                   WorkRequestActionResultScaled,
 	"NETWORK_ENDPOINT_CHANGED": WorkRequestActionResultNetworkEndpointChanged,
-	"NONE": WorkRequestActionResultNone,
+	"NONE":                     WorkRequestActionResultNone,
 }
 
 // GetWorkRequestActionResultEnumValues Enumerates the set of values for WorkRequestActionResultEnum

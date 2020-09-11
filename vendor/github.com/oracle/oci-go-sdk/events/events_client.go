@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/common"
+	"github.com/oracle/oci-go-sdk/common/auth"
 	"net/http"
 )
 
@@ -26,12 +27,13 @@ type EventsClient struct {
 // NewEventsClientWithConfigurationProvider Creates a new default Events client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewEventsClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client EventsClient, err error) {
-	baseClient, err := common.NewClientWithConfig(configProvider)
-	if err != nil {
-		return
+	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
+		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
+			return newEventsClientFromBaseClient(baseClient, configProvider)
+		}
 	}
 
-	return newEventsClientFromBaseClient(baseClient, configProvider)
+	return
 }
 
 // NewEventsClientWithOboToken Creates a new default Events client with the given configuration provider.
