@@ -128,6 +128,22 @@ provider "oci" {
 _Note: this configuration will only work when run from an OCI instance. For more information on using Instance 
 Principals, see [this document](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm)._
 
+Most of the OCI resources need `compartment_id` i.e. the OCID of the parent compartment as a mandatory input argument for provisioning resource in that compartment. Compartment OCID of the instance can be obtained from the [instance metadata](https://docs.cloud.oracle.com/en-us/iaas/Content/Compute/Tasks/gettingmetadata.htm) endpoint as shown below:
+```
+data "http" "instance-metadata" {
+  url = "http://169.254.169.254/opc/v1/instance/"
+}
+
+locals {
+  blob = "${replace(data.http.instance-metadata.body, "/\n*/", "")}"
+  compartment_id = "${replace(local.blob, "/.*compartmentId\" : \"(.*?)\",.*/", "$1")}"
+}
+   
+output "instance-compartment" {
+  value = "${local.compartment_id}"
+}
+```
+
 ### Security Token Authentication
 Security Token authentication allows you to run Terraform using a token generated with [Token-based Authentication for the CLI](https://docs.cloud.oracle.com/en-us/iaas/Content/API/SDKDocs/clitoken.htm).
 To enable Security Token authentication, set the `auth` attribute to "SecurityToken" and provide a value for `config_file_profile` in the provider definition. For example:
