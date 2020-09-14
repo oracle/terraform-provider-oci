@@ -126,3 +126,9 @@ module "ssm_network" {
   ...
 }
 ```
+
+### Sensitive Data in State
+
+The state contains all resource attributes that are specified as part of configuration files. If you manage any sensitive data with Terraform (like database or user passwords, instance or load balancer private keys, etc), treat the state itself as sensitive data. 
+Please refer to [Sensitive Data in State](https://www.terraform.io/docs/state/sensitive-data.html) for more details.
+ 
