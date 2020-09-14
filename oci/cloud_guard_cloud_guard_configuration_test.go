@@ -26,7 +26,7 @@ var (
 	}
 
 	//Has to be a valid reporting region where the tenant is subscribed to
-	reportingRegion                       = "us-phoenix-1"
+	reportingRegion                       = getEnvSettingWithDefault("region", "us-phoenix-1")
 	cloudGuardConfigurationRepresentation = map[string]interface{}{
 		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
 		"reporting_region": Representation{repType: Required, create: reportingRegion, update: reportingRegion},
