@@ -6,12 +6,14 @@ package oci
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
 	"runtime"
+	"runtime/debug"
 	"sort"
 	"strings"
 	"syscall"
@@ -185,7 +187,15 @@ type ExportCommandArgs struct {
 	ExcludeServices []string
 }
 
-func RunExportCommand(args *ExportCommandArgs) (error, Status) {
+func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
+	defer func() {
+		if r := recover(); r != nil {
+			Logf("[ERROR] panic in RunExportCommand, exiting with status %v", StatusFail)
+			debug.PrintStack()
+			err = errors.New("[ERROR] panic in RunExportCommand: unknown error occurred in export")
+			status = StatusFail
+		}
+	}()
 	resourcesMap = ResourcesMap()
 	datasourcesMap = DataSourcesMap()
 
@@ -200,7 +210,7 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 	}
 	d := r.Data(nil)
 
-	err := readEnvironmentVars(d)
+	err = readEnvironmentVars(d)
 	if err != nil {
 		Logln(err.Error())
 		return err, StatusFail
@@ -600,11 +610,11 @@ func getDiscoverResourceWithGraphSteps(ctx *resourceDiscoveryContext) ([]resourc
 	return result, nil
 }
 
-func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGraph TerraformResourceGraph) ([]*OCIResource, error) {
+func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGraph TerraformResourceGraph) (foundResources []*OCIResource, err error) {
 	// findResources will never return error, it will add the errors encountered to the errorList and print those after the discovery finishes
 	// If find resources needs to fail in some scenario, this func needs to be modified to return error instead of continuing discovery
 	// Errors so far are API errors or the errors when service/feature is not available
-	foundResources := []*OCIResource{}
+	foundResources = []*OCIResource{}
 
 	childResourceTypes, exists := resourceGraph[root.terraformClass]
 	if !exists {
@@ -614,44 +624,48 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 	Logf("[INFO] resource discovery: visiting %s\n", root.getTerraformReference())
 
 	for _, childType := range childResourceTypes {
-		findResourceFn := findResourcesGeneric
-		if childType.findResourcesOverrideFn != nil {
-			findResourceFn = childType.findResourcesOverrideFn
-		}
-		results, err := findResourceFn(ctx, &childType, root, &resourceGraph)
-		if err != nil {
-			// add error to the errorList and continue discovering rest of the resources
-			ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{childType.resourceClass, root.terraformName, err, &resourceGraph})
-			continue
-		}
+		func() {
+			defer handlePanicFindResources(&childType, &err)
 
-		if childType.processDiscoveredResourcesFn != nil {
-			results, err = childType.processDiscoveredResourcesFn(ctx.clients, results)
+			findResourceFn := findResourcesGeneric
+			if childType.findResourcesOverrideFn != nil {
+				findResourceFn = childType.findResourcesOverrideFn
+			}
+			results, err := findResourceFn(ctx, &childType, root, &resourceGraph)
 			if err != nil {
 				// add error to the errorList and continue discovering rest of the resources
 				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{childType.resourceClass, root.terraformName, err, &resourceGraph})
-				continue
+				return
 			}
-		}
-		foundResources = append(foundResources, results...)
 
-		for _, resource := range results {
-			//referenceMap[resource.id] = resource.getHclReferenceIdString()
-			if ctx.expectedResourceIds != nil && len(ctx.expectedResourceIds) > 0 {
-				if _, shouldExport := ctx.expectedResourceIds[resource.id]; shouldExport {
-					resource.omitFromExport = false
-					ctx.expectedResourceIds[resource.id] = true
-				} else {
-					resource.omitFromExport = !childType.alwaysExportable
+			if childType.processDiscoveredResourcesFn != nil {
+				results, err = childType.processDiscoveredResourcesFn(ctx.clients, results)
+				if err != nil {
+					// add error to the errorList and continue discovering rest of the resources
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{childType.resourceClass, root.terraformName, err, &resourceGraph})
+					return
 				}
 			}
+			foundResources = append(foundResources, results...)
 
-			subResources, err := findResources(ctx, resource, resourceGraph)
-			if err != nil {
-				continue
+			for _, resource := range results {
+				//referenceMap[resource.id] = resource.getHclReferenceIdString()
+				if ctx.expectedResourceIds != nil && len(ctx.expectedResourceIds) > 0 {
+					if _, shouldExport := ctx.expectedResourceIds[resource.id]; shouldExport {
+						resource.omitFromExport = false
+						ctx.expectedResourceIds[resource.id] = true
+					} else {
+						resource.omitFromExport = !childType.alwaysExportable
+					}
+				}
+
+				subResources, err := findResources(ctx, resource, resourceGraph)
+				if err != nil {
+					continue
+				}
+				foundResources = append(foundResources, subResources...)
 			}
-			foundResources = append(foundResources, subResources...)
-		}
+		}()
 	}
 
 	return foundResources, nil
@@ -1461,5 +1475,14 @@ func deleteInvalidReferences(referenceMap map[string]string, discoveredResources
 				}
 			}
 		}
+	}
+}
+
+func handlePanicFindResources(tfMeta *TerraformResourceAssociation, err *error) {
+	if r := recover(); r != nil {
+		Logf("[WARN] recovered from panic in findResourcesGeneric for resource: %s \n continuing discovery...", tfMeta.resourceClass)
+		returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s", tfMeta.resourceClass)
+		*err = returnErr
+		debug.PrintStack()
 	}
 }
