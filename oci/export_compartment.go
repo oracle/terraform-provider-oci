@@ -23,8 +23,8 @@ import (
 
 	"github.com/hashicorp/terraform/command"
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/common"
-	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"
 )
 
 const (

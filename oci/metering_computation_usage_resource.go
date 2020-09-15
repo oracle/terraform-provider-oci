@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/hashicorp/terraform/helper/structure"
-	oci_common "github.com/oracle/oci-go-sdk/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/usageapi"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v25/usageapi"
 )
 
 func init() {
