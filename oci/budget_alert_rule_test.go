@@ -129,7 +129,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 						budgetId, _ := fromInstanceState(s, resourceName, "budget_id")
 						compositeId = "budgets/" + budgetId + "/alertRules/" + resId
 						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
 								return errExport
 							}

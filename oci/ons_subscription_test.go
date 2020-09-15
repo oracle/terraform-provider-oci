@@ -164,7 +164,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&resId2, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
