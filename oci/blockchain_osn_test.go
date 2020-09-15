@@ -111,7 +111,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						blockchainPlatformId, _ := fromInstanceState(s, resourceName, "blockchain_platform_id")
 						compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/osns/" + resId
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}

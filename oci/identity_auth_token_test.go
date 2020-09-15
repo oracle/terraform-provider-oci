@@ -71,7 +71,7 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 						userId, _ := fromInstanceState(s, resourceName, "user_id")
 						compositeId = "users/" + userId + "/authTokens/" + resId
 						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
