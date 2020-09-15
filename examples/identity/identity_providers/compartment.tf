@@ -15,7 +15,7 @@ resource "oci_identity_compartment" "compartment1" {
 }
 
 data "oci_identity_compartments" "compartments1" {
-  compartment_id = "${oci_identity_compartment.compartment1.compartment_id}"
+  compartment_id = oci_identity_compartment.compartment1.compartment_id
 
   filter {
     name   = "name"
@@ -24,5 +24,6 @@ data "oci_identity_compartments" "compartments1" {
 }
 
 output "compartments" {
-  value = "${data.oci_identity_compartments.compartments1.compartments}"
+  value = data.oci_identity_compartments.compartments1.compartments
 }
+

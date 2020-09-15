@@ -45,17 +45,17 @@ To get the IP address, use the [GetLoadBalancer](https://docs.cloud.oracle.com/i
 ```hcl
 resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.load_balancer_display_name}"
-	shape = "${var.load_balancer_shape}"
-	subnet_ids = "${var.load_balancer_subnet_ids}"
+	compartment_id = var.compartment_id
+	display_name = var.load_balancer_display_name
+	shape = var.load_balancer_shape
+	subnet_ids = var.load_balancer_subnet_ids
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	ip_mode = "${var.load_balancer_ip_mode}"
-	is_private = "${var.load_balancer_is_private}"
-	network_security_group_ids = "${var.load_balancer_network_security_group_ids}"
+	ip_mode = var.load_balancer_ip_mode
+	is_private = var.load_balancer_is_private
+	network_security_group_ids = var.load_balancer_network_security_group_ids
 }
 ```
 
@@ -92,7 +92,7 @@ The following arguments are supported:
 	*  The network security rules of other resources can reference the NSGs associated with the load balancer to ensure access.
 
 	Example: `["ocid1.nsg.oc1.phx.unique_ID"]` 
-* `shape` - (Required) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `100Mbps` 
+* `shape` - (Required) (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `100Mbps` *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also `10Mbps-micro` shape cannot be updated to any other shape nor can any other shape be updated to `10Mbps-micro`.
 * `subnet_ids` - (Required) An array of subnet [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 

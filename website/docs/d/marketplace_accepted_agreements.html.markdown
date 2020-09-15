@@ -19,13 +19,13 @@ You can filter results by specifying query parameters.
 ```hcl
 data "oci_marketplace_accepted_agreements" "test_accepted_agreements" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	accepted_agreement_id = "${oci_marketplace_accepted_agreement.test_accepted_agreement.id}"
-	display_name = "${var.accepted_agreement_display_name}"
-	listing_id = "${oci_marketplace_listing.test_listing.id}"
-	package_version = "${var.accepted_agreement_package_version}"
+	accepted_agreement_id = oci_marketplace_accepted_agreement.test_accepted_agreement.id
+	display_name = var.accepted_agreement_display_name
+	listing_id = oci_marketplace_listing.test_listing.id
+	package_version = var.accepted_agreement_package_version
 }
 ```
 

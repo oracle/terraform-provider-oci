@@ -18,11 +18,11 @@ Returns a list of all the catalog private endpoints in the specified compartment
 ```hcl
 data "oci_datacatalog_catalog_private_endpoints" "test_catalog_private_endpoints" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.catalog_private_endpoint_display_name}"
-	state = "${var.catalog_private_endpoint_state}"
+	display_name = var.catalog_private_endpoint_display_name
+	state = var.catalog_private_endpoint_state
 }
 ```
 

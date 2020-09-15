@@ -17,11 +17,11 @@ List all the cluster objects in a compartment.
 ```hcl
 data "oci_containerengine_clusters" "test_clusters" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	name = "${var.cluster_name}"
-	state = "${var.cluster_state}"
+	name = var.cluster_name
+	state = var.cluster_state
 }
 ```
 

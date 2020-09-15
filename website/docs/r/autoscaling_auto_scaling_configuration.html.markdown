@@ -19,60 +19,60 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 	#Required
 	auto_scaling_resources {
 		#Required
-		id = "${var.auto_scaling_configuration_auto_scaling_resources_id}"
-		type = "${var.auto_scaling_configuration_auto_scaling_resources_type}"
+		id = var.auto_scaling_configuration_auto_scaling_resources_id
+		type = var.auto_scaling_configuration_auto_scaling_resources_type
 	}
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 	policies {
 		#Required
 		capacity {
 
 			#Optional
-			initial = "${var.auto_scaling_configuration_policies_capacity_initial}"
-			max = "${var.auto_scaling_configuration_policies_capacity_max}"
-			min = "${var.auto_scaling_configuration_policies_capacity_min}"
+			initial = var.auto_scaling_configuration_policies_capacity_initial
+			max = var.auto_scaling_configuration_policies_capacity_max
+			min = var.auto_scaling_configuration_policies_capacity_min
 		}
-		policy_type = "${var.auto_scaling_configuration_policies_policy_type}"
+		policy_type = var.auto_scaling_configuration_policies_policy_type
 
 		#Optional
-		display_name = "${var.auto_scaling_configuration_policies_display_name}"
+		display_name = var.auto_scaling_configuration_policies_display_name
 		execution_schedule {
 			#Required
-			expression = "${var.auto_scaling_configuration_policies_execution_schedule_expression}"
-			timezone = "${var.auto_scaling_configuration_policies_execution_schedule_timezone}"
-			type = "${var.auto_scaling_configuration_policies_execution_schedule_type}"
+			expression = var.auto_scaling_configuration_policies_execution_schedule_expression
+			timezone = var.auto_scaling_configuration_policies_execution_schedule_timezone
+			type = var.auto_scaling_configuration_policies_execution_schedule_type
 		}
-		is_enabled = "${var.auto_scaling_configuration_policies_is_enabled}"
+		is_enabled = var.auto_scaling_configuration_policies_is_enabled
 		rules {
 
 			#Optional
 			action {
 
 				#Optional
-				type = "${var.auto_scaling_configuration_policies_rules_action_type}"
-				value = "${var.auto_scaling_configuration_policies_rules_action_value}"
+				type = var.auto_scaling_configuration_policies_rules_action_type
+				value = var.auto_scaling_configuration_policies_rules_action_value
 			}
-			display_name = "${var.auto_scaling_configuration_policies_rules_display_name}"
+			display_name = var.auto_scaling_configuration_policies_rules_display_name
 			metric {
 
 				#Optional
-				metric_type = "${var.auto_scaling_configuration_policies_rules_metric_metric_type}"
+				metric_type = var.auto_scaling_configuration_policies_rules_metric_metric_type
 				threshold {
 
 					#Optional
-					operator = "${var.auto_scaling_configuration_policies_rules_metric_threshold_operator}"
-					value = "${var.auto_scaling_configuration_policies_rules_metric_threshold_value}"
+					operator = var.auto_scaling_configuration_policies_rules_metric_threshold_operator
+					value = var.auto_scaling_configuration_policies_rules_metric_threshold_value
 				}
 			}
 		}
 	}
 
 	#Optional
-	cool_down_in_seconds = "${var.auto_scaling_configuration_cool_down_in_seconds}"
+	cool_down_in_seconds = var.auto_scaling_configuration_cool_down_in_seconds
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.auto_scaling_configuration_display_name}"
+	display_name = var.auto_scaling_configuration_display_name
 	freeform_tags = {"Department"= "Finance"}
-	is_enabled = "${var.auto_scaling_configuration_is_enabled}"
+	is_enabled = var.auto_scaling_configuration_is_enabled
 }
 ```
 

@@ -17,7 +17,7 @@ Gets detailed information about a stream, including the number of partitions.
 ```hcl
 data "oci_streaming_stream" "test_stream" {
 	#Required
-	stream_id = "${oci_streaming_stream.test_stream.id}"
+	stream_id = oci_streaming_stream.test_stream.id
 }
 ```
 

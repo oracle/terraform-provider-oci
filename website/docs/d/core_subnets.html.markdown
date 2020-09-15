@@ -19,12 +19,12 @@ If the VCN ID is not provided, then the list includes the subnets from all VCNs 
 ```hcl
 data "oci_core_subnets" "test_subnets" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.subnet_display_name}"
-	state = "${var.subnet_state}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	display_name = var.subnet_display_name
+	state = var.subnet_state
+	vcn_id = oci_core_vcn.test_vcn.id
 }
 ```
 

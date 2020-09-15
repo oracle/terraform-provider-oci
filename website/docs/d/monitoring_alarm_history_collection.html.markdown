@@ -23,12 +23,12 @@ or transactions, per second (TPS) for a given tenancy.
 ```hcl
 data "oci_monitoring_alarm_history_collection" "test_alarm_history_collection" {
 	#Required
-	alarm_id = "${oci_monitoring_alarm.test_alarm.id}"
+	alarm_id = oci_monitoring_alarm.test_alarm.id
 
 	#Optional
-	alarm_historytype = "${var.alarm_history_collection_alarm_historytype}"
-	timestamp_greater_than_or_equal_to = "${var.alarm_history_collection_timestamp_greater_than_or_equal_to}"
-	timestamp_less_than = "${var.alarm_history_collection_timestamp_less_than}"
+	alarm_historytype = var.alarm_history_collection_alarm_historytype
+	timestamp_greater_than_or_equal_to = var.alarm_history_collection_timestamp_greater_than_or_equal_to
+	timestamp_less_than = var.alarm_history_collection_timestamp_less_than
 }
 ```
 

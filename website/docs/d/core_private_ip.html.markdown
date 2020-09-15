@@ -21,7 +21,7 @@ with the private IP address (for example, 10.0.3.3) and subnet OCID.
 ```hcl
 data "oci_core_private_ip" "test_private_ip" {
 	#Required
-	private_ip_id = "${oci_core_private_ip.test_private_ip.id}"
+	private_ip_id = oci_core_private_ip.test_private_ip.id
 }
 ```
 

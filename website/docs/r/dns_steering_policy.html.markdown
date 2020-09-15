@@ -19,27 +19,27 @@ creating policies with templates, see [Traffic Management API Guide](https://doc
 ```hcl
 resource "oci_dns_steering_policy" "test_steering_policy" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.steering_policy_display_name}"
-	template = "${var.steering_policy_template}"
+	compartment_id = var.compartment_id
+	display_name = var.steering_policy_display_name
+	template = var.steering_policy_template
 
 	#Optional
 	answers {
 		#Required
-		name = "${var.steering_policy_answers_name}"
-		rdata = "${var.steering_policy_answers_rdata}"
-		rtype = "${var.steering_policy_answers_rtype}"
+		name = var.steering_policy_answers_name
+		rdata = var.steering_policy_answers_rdata
+		rtype = var.steering_policy_answers_rtype
 
 		#Optional
-		is_disabled = "${var.steering_policy_answers_is_disabled}"
-		pool = "${var.steering_policy_answers_pool}"
+		is_disabled = var.steering_policy_answers_is_disabled
+		pool = var.steering_policy_answers_pool
 	}
-	defined_tags = "${var.steering_policy_defined_tags}"
-	freeform_tags = "${var.steering_policy_freeform_tags}"
-	health_check_monitor_id = "${oci_health_checks_http_monitor.test_http_monitor.id}"
+	defined_tags = var.steering_policy_defined_tags
+	freeform_tags = var.steering_policy_freeform_tags
+	health_check_monitor_id = oci_health_checks_http_monitor.test_http_monitor.id
 	rules {
 		#Required
-		rule_type = "${var.steering_policy_rules_rule_type}"
+		rule_type = var.steering_policy_rules_rule_type
 
 		#Optional
 		cases {
@@ -48,24 +48,24 @@ resource "oci_dns_steering_policy" "test_steering_policy" {
 			answer_data {
 
 				#Optional
-				answer_condition = "${var.steering_policy_rules_cases_answer_data_answer_condition}"
-				should_keep = "${var.steering_policy_rules_cases_answer_data_should_keep}"
-				value = "${var.steering_policy_rules_cases_answer_data_value}"
+				answer_condition = var.steering_policy_rules_cases_answer_data_answer_condition
+				should_keep = var.steering_policy_rules_cases_answer_data_should_keep
+				value = var.steering_policy_rules_cases_answer_data_value
 			}
-			case_condition = "${var.steering_policy_rules_cases_case_condition}"
-			count = "${var.steering_policy_rules_cases_count}"
+			case_condition = var.steering_policy_rules_cases_case_condition
+			count = var.steering_policy_rules_cases_count
 		}
 		default_answer_data {
 
 			#Optional
-			answer_condition = "${var.steering_policy_rules_default_answer_data_answer_condition}"
-			should_keep = "${var.steering_policy_rules_default_answer_data_should_keep}"
-			value = "${var.steering_policy_rules_default_answer_data_value}"
+			answer_condition = var.steering_policy_rules_default_answer_data_answer_condition
+			should_keep = var.steering_policy_rules_default_answer_data_should_keep
+			value = var.steering_policy_rules_default_answer_data_value
 		}
-		default_count = "${var.steering_policy_rules_default_count}"
-		description = "${var.steering_policy_rules_description}"
+		default_count = var.steering_policy_rules_default_count
+		description = var.steering_policy_rules_description
 	}
-	ttl = "${var.steering_policy_ttl}"
+	ttl = var.steering_policy_ttl
 }
 ```
 

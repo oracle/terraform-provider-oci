@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v25/loadbalancer"
 )
 
 func init() {
@@ -40,7 +40,6 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 			"shape": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"subnet_ids": {
 				Type:     schema.TypeList,
@@ -345,6 +344,16 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
 		}
 	}
 
+	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
+		oldRaw, newRaw := s.D.GetChange("shape")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateShape(shape)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	if s.D.HasChange("network_security_group_ids") {
 		err := s.updateNetworkSecurityGroups()
 		if err != nil {
@@ -557,6 +566,37 @@ func (s *LoadBalancerLoadBalancerResourceCrud) updateNetworkSecurityGroups() err
 		return err
 	}
 
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *LoadBalancerLoadBalancerResourceCrud) updateShape(shape interface{}) error {
+	changeShapeRequest := oci_load_balancer.UpdateLoadBalancerShapeRequest{}
+
+	shapeTmp := shape.(string)
+	changeShapeRequest.ShapeName = &shapeTmp
+
+	idTmp := s.D.Id()
+	changeShapeRequest.LoadBalancerId = &idTmp
+
+	changeShapeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	response, err := s.Client.UpdateLoadBalancerShape(context.Background(), changeShapeRequest)
+	if err != nil {
+		return err
+	}
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID

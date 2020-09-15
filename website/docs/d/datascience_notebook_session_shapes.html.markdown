@@ -17,7 +17,7 @@ Lists the valid notebook session shapes.
 ```hcl
 data "oci_datascience_notebook_session_shapes" "test_notebook_session_shapes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

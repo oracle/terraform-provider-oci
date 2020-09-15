@@ -3,16 +3,16 @@
 
 data "oci_core_fast_connect_provider_services" "fast_connect_provider_services" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
 }
 
 output "fast_connect_provider_services" {
-  value = "${data.oci_core_fast_connect_provider_services.fast_connect_provider_services.fast_connect_provider_services}"
+  value = data.oci_core_fast_connect_provider_services.fast_connect_provider_services.fast_connect_provider_services
 }
 
 data "oci_core_fast_connect_provider_services" "fast_connect_provider_services_private_layer2" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
 
   filter {
     name   = "type"
@@ -26,7 +26,7 @@ data "oci_core_fast_connect_provider_services" "fast_connect_provider_services_p
 
   filter {
     name   = "supported_virtual_circuit_types"
-    values = ["${var.virtual_circuit_type_private}"]
+    values = [var.virtual_circuit_type_private]
   }
 
   filter {
@@ -36,16 +36,16 @@ data "oci_core_fast_connect_provider_services" "fast_connect_provider_services_p
 }
 
 output "fast_connect_provider_services_layer2" {
-  value = "${data.oci_core_fast_connect_provider_services.fast_connect_provider_services_private_layer2.fast_connect_provider_services}"
+  value = data.oci_core_fast_connect_provider_services.fast_connect_provider_services_private_layer2.fast_connect_provider_services
 }
 
 data "oci_core_fast_connect_provider_services" "fast_connect_provider_services_public_layer3" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
 
   filter {
     name   = "supported_virtual_circuit_types"
-    values = ["${var.virtual_circuit_type_public}"]
+    values = [var.virtual_circuit_type_public]
   }
 
   filter {
@@ -65,5 +65,6 @@ data "oci_core_fast_connect_provider_services" "fast_connect_provider_services_p
 }
 
 output "fast_connect_provider_services_public_layer3" {
-  value = "${data.oci_core_fast_connect_provider_services.fast_connect_provider_services_public_layer3.fast_connect_provider_services}"
+  value = data.oci_core_fast_connect_provider_services.fast_connect_provider_services_public_layer3.fast_connect_provider_services
 }
+

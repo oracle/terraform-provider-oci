@@ -38,35 +38,35 @@ traffic will not flow. For more information, see
 ```hcl
 resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	type = "${var.virtual_circuit_type}"
+	compartment_id = var.compartment_id
+	type = var.virtual_circuit_type
 
 	#Optional
-	bandwidth_shape_name = "${var.virtual_circuit_bandwidth_shape_name}"
+	bandwidth_shape_name = var.virtual_circuit_bandwidth_shape_name
 	cross_connect_mappings {
 
 		#Optional
-		bgp_md5auth_key = "${var.virtual_circuit_cross_connect_mappings_bgp_md5auth_key}"
-		cross_connect_or_cross_connect_group_id = "${oci_core_cross_connect_or_cross_connect_group.test_cross_connect_or_cross_connect_group.id}"
-		customer_bgp_peering_ip = "${var.virtual_circuit_cross_connect_mappings_customer_bgp_peering_ip}"
-		customer_bgp_peering_ipv6 = "${var.virtual_circuit_cross_connect_mappings_customer_bgp_peering_ipv6}"
-		oracle_bgp_peering_ip = "${var.virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ip}"
-		oracle_bgp_peering_ipv6 = "${var.virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ipv6}"
-		vlan = "${var.virtual_circuit_cross_connect_mappings_vlan}"
+		bgp_md5auth_key = var.virtual_circuit_cross_connect_mappings_bgp_md5auth_key
+		cross_connect_or_cross_connect_group_id = oci_core_cross_connect_or_cross_connect_group.test_cross_connect_or_cross_connect_group.id
+		customer_bgp_peering_ip = var.virtual_circuit_cross_connect_mappings_customer_bgp_peering_ip
+		customer_bgp_peering_ipv6 = var.virtual_circuit_cross_connect_mappings_customer_bgp_peering_ipv6
+		oracle_bgp_peering_ip = var.virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ip
+		oracle_bgp_peering_ipv6 = var.virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ipv6
+		vlan = var.virtual_circuit_cross_connect_mappings_vlan
 	}
-	customer_asn = "${var.virtual_circuit_customer_asn}"
-	customer_bgp_asn = "${var.virtual_circuit_customer_bgp_asn}"
+	customer_asn = var.virtual_circuit_customer_asn
+	customer_bgp_asn = var.virtual_circuit_customer_bgp_asn
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.virtual_circuit_display_name}"
+	display_name = var.virtual_circuit_display_name
 	freeform_tags = {"Department"= "Finance"}
-	gateway_id = "${oci_core_gateway.test_gateway.id}"
-	provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}"
-	provider_service_key_name = "${var.virtual_circuit_provider_service_key_name}"
+	gateway_id = oci_core_gateway.test_gateway.id
+	provider_service_id = data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id
+	provider_service_key_name = var.virtual_circuit_provider_service_key_name
 	public_prefixes {
 		#Required
-		cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block}"
+		cidr_block = var.virtual_circuit_public_prefixes_cidr_block
 	}
-	region = "${var.virtual_circuit_region}"
+	region = var.virtual_circuit_region
 }
 ```
 

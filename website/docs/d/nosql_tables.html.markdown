@@ -17,11 +17,11 @@ Get a list of tables in a compartment.
 ```hcl
 data "oci_nosql_tables" "test_tables" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	name = "${var.table_name}"
-	state = "${var.table_state}"
+	name = var.table_name
+	state = var.table_state
 }
 ```
 

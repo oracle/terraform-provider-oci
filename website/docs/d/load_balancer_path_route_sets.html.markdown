@@ -17,7 +17,7 @@ Lists all path route sets associated with the specified load balancer.
 ```hcl
 data "oci_load_balancer_path_route_sets" "test_path_route_sets" {
 	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

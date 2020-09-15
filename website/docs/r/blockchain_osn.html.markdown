@@ -17,13 +17,13 @@ Create Blockchain Platform Osn
 ```hcl
 resource "oci_blockchain_osn" "test_osn" {
 	#Required
-	ad = "${var.osn_ad}"
-	blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+	ad = var.osn_ad
+	blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 
 	#Optional
 	ocpu_allocation_param {
 		#Required
-		ocpu_allocation_number = "${var.osn_ocpu_allocation_param_ocpu_allocation_number}"
+		ocpu_allocation_number = var.osn_ocpu_allocation_param_ocpu_allocation_number
 	}
 }
 ```

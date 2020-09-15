@@ -1,12 +1,23 @@
 // Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_id" {}
+variable "tenancy_ocid" {
+}
+
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "region" {
+}
+
+variable "compartment_id" {
+}
 
 variable "bds_instance_cluster_admin_password" {
   default = "V2VsY29tZTE="
@@ -79,30 +90,30 @@ variable "tag_namespace_name" {
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
 }
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
-  description    = "${var.tag_namespace_description}"
-  name           = "${var.tag_namespace_name}"
+  compartment_id = var.tenancy_ocid
+  description    = var.tag_namespace_description
+  name           = var.tag_namespace_name
 }
 
 resource "oci_identity_tag" "tag1" {
   #Required
   description      = "tf example tag"
   name             = "tf-example-tag"
-  tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
+  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
 }
 
 resource "oci_core_vcn" "vcn_bds" {
   cidr_block     = "111.111.0.0/16"
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
   display_name   = "BDS_VCN"
   dns_label      = "bdsvcn"
 }
@@ -111,47 +122,47 @@ resource "oci_core_subnet" "regional_subnet_bds" {
   cidr_block        = "111.111.0.0/24"
   display_name      = "regionalSubnetBds"
   dns_label         = "regionalbds"
-  compartment_id    = "${var.compartment_id}"
-  vcn_id            = "${oci_core_vcn.vcn_bds.id}"
-  security_list_ids = ["${oci_core_vcn.vcn_bds.default_security_list_id}"]
-  route_table_id    = "${oci_core_vcn.vcn_bds.default_route_table_id}"
-  dhcp_options_id   = "${oci_core_vcn.vcn_bds.default_dhcp_options_id}"
+  compartment_id    = var.compartment_id
+  vcn_id            = oci_core_vcn.vcn_bds.id
+  security_list_ids = [oci_core_vcn.vcn_bds.default_security_list_id]
+  route_table_id    = oci_core_vcn.vcn_bds.default_route_table_id
+  dhcp_options_id   = oci_core_vcn.vcn_bds.default_dhcp_options_id
 }
 
 resource "oci_bds_bds_instance" "test_bds_instance" {
   #Required
-  cluster_admin_password = "${var.bds_instance_cluster_admin_password}"
-  cluster_public_key     = "${var.bds_instance_cluster_public_key}"
-  cluster_version        = "${var.bds_instance_cluster_version}"
-  compartment_id         = "${var.compartment_id}"
-  display_name           = "${var.bds_instance_display_name}"
-  is_high_availability   = "${var.bds_instance_is_high_availability}"
-  is_secure              = "${var.bds_instance_is_secure}"
+  cluster_admin_password = var.bds_instance_cluster_admin_password
+  cluster_public_key     = var.bds_instance_cluster_public_key
+  cluster_version        = var.bds_instance_cluster_version
+  compartment_id         = var.compartment_id
+  display_name           = var.bds_instance_display_name
+  is_high_availability   = var.bds_instance_is_high_availability
+  is_secure              = var.bds_instance_is_secure
 
   master_node {
     #Required
-    shape = "${var.bds_instance_nodes_shape}"
+    shape = var.bds_instance_nodes_shape
 
-    subnet_id                = "${oci_core_subnet.regional_subnet_bds.id}"
-    block_volume_size_in_gbs = "${var.bds_instance_nodes_block_volume_size_in_gbs}"
+    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     number_of_nodes          = 1
   }
 
   util_node {
     #Required
-    shape = "${var.bds_instance_nodes_shape}"
+    shape = var.bds_instance_nodes_shape
 
-    subnet_id                = "${oci_core_subnet.regional_subnet_bds.id}"
-    block_volume_size_in_gbs = "${var.bds_instance_nodes_block_volume_size_in_gbs}"
+    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     number_of_nodes          = 1
   }
 
   worker_node {
     #Required
-    shape = "${var.bds_instance_worker_node_shape}"
+    shape = var.bds_instance_worker_node_shape
 
-    subnet_id                = "${oci_core_subnet.regional_subnet_bds.id}"
-    block_volume_size_in_gbs = "${var.bds_instance_worker_nodes_block_volume_size_in_gbs}"
+    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
     number_of_nodes          = 4
   }
 
@@ -161,26 +172,30 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   #   }
 
   is_cloud_sql_configured = false
+
   #Optional
-  defined_tags  = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.bds_instance_defined_tags_value}")}"
-  freeform_tags = "${var.bds_instance_freeform_tags}"
+  defined_tags = {
+    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.bds_instance_defined_tags_value
+  }
+  freeform_tags = var.bds_instance_freeform_tags
   network_config {
     #Optional
-    cidr_block              = "${var.bds_instance_network_config_cidr_block}"
-    is_nat_gateway_required = "${var.bds_instance_network_config_is_nat_gateway_required}"
+    cidr_block              = var.bds_instance_network_config_cidr_block
+    is_nat_gateway_required = var.bds_instance_network_config_is_nat_gateway_required
   }
 }
 
 data "oci_bds_bds_instances" "test_bds_instances" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
 
   #Optional
-  display_name = "${oci_bds_bds_instance.test_bds_instance.display_name}"
+  display_name = oci_bds_bds_instance.test_bds_instance.display_name
   state        = "ACTIVE"
 }
 
 data "oci_bds_bds_instance" "test_bds_instance" {
   #Required
-  bds_instance_id = "${oci_bds_bds_instance.test_bds_instance.id}"
+  bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
 }
+

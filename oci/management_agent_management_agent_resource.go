@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/managementagent"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v25/managementagent"
 )
 
 func init() {

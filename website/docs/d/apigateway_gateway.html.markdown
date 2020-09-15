@@ -17,7 +17,7 @@ Gets a gateway by identifier.
 ```hcl
 data "oci_apigateway_gateway" "test_gateway" {
 	#Required
-	gateway_id = "${oci_apigateway_gateway.test_gateway.id}"
+	gateway_id = oci_apigateway_gateway.test_gateway.id
 }
 ```
 

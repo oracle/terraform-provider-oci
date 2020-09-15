@@ -18,7 +18,7 @@ Gets the details of a specific, previously accepted terms of use agreement.
 ```hcl
 data "oci_marketplace_accepted_agreement" "test_accepted_agreement" {
 	#Required
-	accepted_agreement_id = "${oci_marketplace_accepted_agreement.test_accepted_agreement.id}"
+	accepted_agreement_id = oci_marketplace_accepted_agreement.test_accepted_agreement.id
 }
 ```
 

@@ -18,15 +18,15 @@ Gets a list of the Autonomous Container Databases in the specified compartment.
 ```hcl
 data "oci_database_autonomous_container_databases" "test_autonomous_container_databases" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	autonomous_exadata_infrastructure_id = "${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}"
-	autonomous_vm_cluster_id = "${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}"
-	availability_domain = "${var.autonomous_container_database_availability_domain}"
-	display_name = "${var.autonomous_container_database_display_name}"
-	infrastructure_type = "${var.autonomous_container_database_infrastructure_type}"
-	state = "${var.autonomous_container_database_state}"
+	autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
+	autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
+	availability_domain = var.autonomous_container_database_availability_domain
+	display_name = var.autonomous_container_database_display_name
+	infrastructure_type = var.autonomous_container_database_infrastructure_type
+	state = var.autonomous_container_database_state
 }
 ```
 

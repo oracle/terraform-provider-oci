@@ -24,7 +24,7 @@ For more information, see [FastConnect Overview](https://docs.cloud.oracle.com/i
 ```hcl
 data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_services" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

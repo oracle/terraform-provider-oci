@@ -6,12 +6,20 @@
  */
 
 // These variables would commonly be defined as environment variables or sourced in a .env file
-variable "tenancy_ocid" {}
+variable "tenancy_ocid" {
+}
 
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "compartment_ocid" {}
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "compartment_ocid" {
+}
 
 variable "region" {
   default = "us-ashburn-1"
@@ -19,13 +27,14 @@ variable "region" {
 
 //the object can be created from the object data in the other region
 locals {
-  source_region = "${var.region}"
+  source_region = var.region
 }
 
 provider "oci" {
-  region           = "${var.region}"
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
+  region           = var.region
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
 }
+

@@ -17,16 +17,16 @@ Create Blockchain Platform Peer
 ```hcl
 resource "oci_blockchain_peer" "test_peer" {
 	#Required
-	ad = "${var.peer_ad}"
-	blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+	ad = var.peer_ad
+	blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 	ocpu_allocation_param {
 		#Required
-		ocpu_allocation_number = "${var.peer_ocpu_allocation_param_ocpu_allocation_number}"
+		ocpu_allocation_number = var.peer_ocpu_allocation_param_ocpu_allocation_number
 	}
-	role = "${var.peer_role}"
+	role = var.peer_role
 
 	#Optional
-	alias = "${var.peer_alias}"
+	alias = var.peer_alias
 }
 ```
 

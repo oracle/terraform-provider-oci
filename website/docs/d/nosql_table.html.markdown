@@ -17,10 +17,10 @@ Get table info by identifier.
 ```hcl
 data "oci_nosql_table" "test_table" {
 	#Required
-	table_name_or_id = "${oci_nosql_table_name_or.test_table_name_or.id}"
+	table_name_or_id = oci_nosql_table_name_or.test_table_name_or.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

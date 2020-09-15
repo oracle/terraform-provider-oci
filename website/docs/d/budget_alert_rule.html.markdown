@@ -17,8 +17,8 @@ Gets an Alert Rule for a specified Budget.
 ```hcl
 data "oci_budget_alert_rule" "test_alert_rule" {
 	#Required
-	alert_rule_id = "${oci_budget_alert_rule.test_alert_rule.id}"
-	budget_id = "${oci_budget_budget.test_budget.id}"
+	alert_rule_id = oci_budget_alert_rule.test_alert_rule.id
+	budget_id = oci_budget_budget.test_budget.id
 }
 ```
 

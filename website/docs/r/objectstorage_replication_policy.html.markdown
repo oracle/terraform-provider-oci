@@ -18,11 +18,11 @@ Creates a replication policy for the specified bucket.
 ```hcl
 resource "oci_objectstorage_replication_policy" "test_replication_policy" {
 	#Required
-	bucket = "${var.replication_policy_bucket}"
-	destination_bucket_name = "${oci_objectstorage_bucket.test_bucket.name}"
-	destination_region_name = "${oci_identity_region.test_region.name}"
-	name = "${var.replication_policy_name}"
-	namespace = "${var.replication_policy_namespace}"
+	bucket = var.replication_policy_bucket
+	destination_bucket_name = oci_objectstorage_bucket.test_bucket.name
+	destination_region_name = oci_identity_region.test_region.name
+	name = var.replication_policy_name
+	namespace = var.replication_policy_namespace
 }
 ```
 

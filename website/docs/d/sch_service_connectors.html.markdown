@@ -18,11 +18,11 @@ Lists service connectors in the specified compartment.
 ```hcl
 data "oci_sch_service_connectors" "test_service_connectors" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.service_connector_display_name}"
-	state = "${var.service_connector_state}"
+	display_name = var.service_connector_display_name
+	state = var.service_connector_state
 }
 ```
 

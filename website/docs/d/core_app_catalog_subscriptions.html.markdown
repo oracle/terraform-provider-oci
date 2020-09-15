@@ -17,10 +17,10 @@ Lists subscriptions for a compartment.
 ```hcl
 data "oci_core_app_catalog_subscriptions" "test_app_catalog_subscriptions" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	listing_id = "${data.oci_core_app_catalog_listing.test_listing.id}"
+	listing_id = data.oci_core_app_catalog_listing.test_listing.id
 }
 ```
 

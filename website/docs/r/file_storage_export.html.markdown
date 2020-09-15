@@ -19,21 +19,21 @@ file system.
 ```hcl
 resource "oci_file_storage_export" "test_export" {
 	#Required
-	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
-	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
-	path = "${var.export_path}"
+	export_set_id = oci_file_storage_export_set.test_export_set.id
+	file_system_id = oci_file_storage_file_system.test_file_system.id
+	path = var.export_path
 
 	#Optional
 	export_options {
 		#Required
-		source = "${var.export_export_options_source}"
+		source = var.export_export_options_source
 
 		#Optional
-		access = "${var.export_export_options_access}"
-		anonymous_gid = "${var.export_export_options_anonymous_gid}"
-		anonymous_uid = "${var.export_export_options_anonymous_uid}"
-		identity_squash = "${var.export_export_options_identity_squash}"
-		require_privileged_source_port = "${var.export_export_options_require_privileged_source_port}"
+		access = var.export_export_options_access
+		anonymous_gid = var.export_export_options_anonymous_gid
+		anonymous_uid = var.export_export_options_anonymous_uid
+		identity_squash = var.export_export_options_identity_squash
+		require_privileged_source_port = var.export_export_options_require_privileged_source_port
 	}
 }
 ```

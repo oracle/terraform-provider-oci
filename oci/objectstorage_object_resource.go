@@ -19,7 +19,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v25/objectstorage"
 )
 
 const (
@@ -99,9 +99,10 @@ func ObjectStorageObjectResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"content_language": {
-				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"content_length": {
 				Type: schema.TypeString,

@@ -18,11 +18,11 @@ Returns a list of managementAgentPlugins.
 ```hcl
 data "oci_management_agent_management_agent_plugins" "test_management_agent_plugins" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.management_agent_plugin_display_name}"
-	state = "${var.management_agent_plugin_state}"
+	display_name = var.management_agent_plugin_display_name
+	state = var.management_agent_plugin_state
 }
 ```
 

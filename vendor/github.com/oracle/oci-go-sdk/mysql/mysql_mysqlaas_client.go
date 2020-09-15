@@ -13,6 +13,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/common"
+	"github.com/oracle/oci-go-sdk/common/auth"
 	"net/http"
 )
 
@@ -25,12 +26,13 @@ type MysqlaasClient struct {
 // NewMysqlaasClientWithConfigurationProvider Creates a new default Mysqlaas client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewMysqlaasClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client MysqlaasClient, err error) {
-	baseClient, err := common.NewClientWithConfig(configProvider)
-	if err != nil {
-		return
+	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
+		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
+			return newMysqlaasClientFromBaseClient(baseClient, configProvider)
+		}
 	}
 
-	return newMysqlaasClientFromBaseClient(baseClient, configProvider)
+	return
 }
 
 // NewMysqlaasClientWithOboToken Creates a new default Mysqlaas client with the given configuration provider.

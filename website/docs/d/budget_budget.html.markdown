@@ -17,7 +17,7 @@ Gets a Budget by identifier
 ```hcl
 data "oci_budget_budget" "test_budget" {
 	#Required
-	budget_id = "${oci_budget_budget.test_budget.id}"
+	budget_id = oci_budget_budget.test_budget.id
 }
 ```
 

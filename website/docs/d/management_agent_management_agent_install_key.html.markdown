@@ -17,7 +17,7 @@ Gets complete details of the Agent install Key for a given key id
 ```hcl
 data "oci_management_agent_management_agent_install_key" "test_management_agent_install_key" {
 	#Required
-	management_agent_install_key_id = "${oci_management_agent_management_agent_install_key.test_management_agent_install_key.id}"
+	management_agent_install_key_id = oci_management_agent_management_agent_install_key.test_management_agent_install_key.id
 }
 ```
 

@@ -20,22 +20,22 @@ specified by `intervalInSeconds`.
 ```hcl
 resource "oci_health_checks_http_monitor" "test_http_monitor" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.http_monitor_display_name}"
-	interval_in_seconds = "${var.http_monitor_interval_in_seconds}"
-	protocol = "${var.http_monitor_protocol}"
-	targets = "${var.http_monitor_targets}"
+	compartment_id = var.compartment_id
+	display_name = var.http_monitor_display_name
+	interval_in_seconds = var.http_monitor_interval_in_seconds
+	protocol = var.http_monitor_protocol
+	targets = var.http_monitor_targets
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	headers = "${var.http_monitor_headers}"
-	is_enabled = "${var.http_monitor_is_enabled}"
-	method = "${var.http_monitor_method}"
-	path = "${var.http_monitor_path}"
-	port = "${var.http_monitor_port}"
-	timeout_in_seconds = "${var.http_monitor_timeout_in_seconds}"
-	vantage_point_names = "${var.http_monitor_vantage_point_names}"
+	headers = var.http_monitor_headers
+	is_enabled = var.http_monitor_is_enabled
+	method = var.http_monitor_method
+	path = var.http_monitor_path
+	port = var.http_monitor_port
+	timeout_in_seconds = var.http_monitor_timeout_in_seconds
+	vantage_point_names = var.http_monitor_vantage_point_names
 }
 ```
 

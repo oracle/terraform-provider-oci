@@ -19,7 +19,7 @@ For more information, see [FastConnect Overview](https://docs.cloud.oracle.com/i
 ```hcl
 data "oci_core_fast_connect_provider_service" "test_fast_connect_provider_service" {
 	#Required
-	provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}"
+	provider_service_id = data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id
 }
 ```
 

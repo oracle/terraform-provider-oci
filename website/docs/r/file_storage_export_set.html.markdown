@@ -25,10 +25,10 @@ Only one export set resource should be created per mount target.
 ```hcl
 resource "oci_file_storage_export_set" "test_export_set" {
     #Required
-    mount_target_id = "${oci_file_storage_mount_target.test_mount_target.id}"
+    mount_target_id = oci_file_storage_mount_target.test_mount_target.id
   
     #Optional
-    display_name = "${var.export_set_name}"
+    display_name = var.export_set_name
     max_fs_stat_bytes = 23843202333
     max_fs_stat_files = 223442
 }

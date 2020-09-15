@@ -18,10 +18,10 @@ Lists Compute Global Image Capability Schema versions in the specified compartme
 ```hcl
 data "oci_core_compute_global_image_capability_schemas_versions" "test_compute_global_image_capability_schemas_versions" {
 	#Required
-	compute_global_image_capability_schema_id = "${oci_core_compute_global_image_capability_schema.test_compute_global_image_capability_schema.id}"
+	compute_global_image_capability_schema_id = oci_core_compute_global_image_capability_schema.test_compute_global_image_capability_schema.id
 
 	#Optional
-	display_name = "${var.compute_global_image_capability_schemas_version_display_name}"
+	display_name = var.compute_global_image_capability_schemas_version_display_name
 }
 ```
 

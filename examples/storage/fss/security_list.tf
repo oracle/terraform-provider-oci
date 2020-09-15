@@ -5,9 +5,9 @@
 # http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 
 resource "oci_core_security_list" "my_security_list" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name   = "my_security_list"
-  vcn_id         = "${oci_core_vcn.my_vcn.id}"
+  vcn_id         = oci_core_vcn.my_vcn.id
 
   // Allow all outbound requests
   egress_security_rules {
@@ -19,7 +19,7 @@ resource "oci_core_security_list" "my_security_list" {
   # Specific security list rules are required to allow mount targets to work properly.
   ingress_security_rules {
     protocol = "6"
-    source   = "${var.my_vcn-cidr}"
+    source   = var.my_vcn-cidr
 
     tcp_options {
       min = 2048
@@ -29,7 +29,7 @@ resource "oci_core_security_list" "my_security_list" {
 
   ingress_security_rules {
     protocol = "6"
-    source   = "${var.my_vcn-cidr}"
+    source   = var.my_vcn-cidr
 
     tcp_options {
       source_port_range {
@@ -41,7 +41,7 @@ resource "oci_core_security_list" "my_security_list" {
 
   ingress_security_rules {
     protocol = "6"
-    source   = "${var.my_vcn-cidr}"
+    source   = var.my_vcn-cidr
 
     tcp_options {
       min = 111
@@ -74,10 +74,11 @@ resource "oci_core_security_list" "my_security_list" {
   ingress_security_rules {
     // Allowing inbound ICMP traffic of a specific type from within our VCN
     protocol = 1
-    source   = "${var.my_vcn-cidr}"
+    source   = var.my_vcn-cidr
 
     icmp_options {
       type = 3
     }
   }
 }
+

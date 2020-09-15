@@ -19,8 +19,8 @@ Protection rules can be updated by changing the properties of the protection rul
 ```hcl
 resource "oci_waas_protection_rule" "test_protection_rule" {
 	#Required
-	waas_policy_id = "${oci_waas_waas_policy.test_waas_policy.id}"
-    key            = "${var.key}"
+	waas_policy_id = oci_waas_waas_policy.test_waas_policy.id
+    key            = var.key
     
     #Optional
     action         = "DETECT"

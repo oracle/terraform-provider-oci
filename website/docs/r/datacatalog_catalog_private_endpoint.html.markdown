@@ -17,13 +17,13 @@ Create a new private reverse connection endpoint.
 ```hcl
 resource "oci_datacatalog_catalog_private_endpoint" "test_catalog_private_endpoint" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	dns_zones = "${var.catalog_private_endpoint_dns_zones}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	compartment_id = var.compartment_id
+	dns_zones = var.catalog_private_endpoint_dns_zones
+	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	display_name = "${var.catalog_private_endpoint_display_name}"
+	display_name = var.catalog_private_endpoint_display_name
 	freeform_tags = {"bar-key"= "value"}
 }
 ```

@@ -24,8 +24,8 @@ the rules in the following order:
 ```hcl
 data "oci_load_balancer_listener_rules" "test_listener_rules" {
 	#Required
-	listener_name = "${oci_load_balancer_listener.test_listener.name}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	listener_name = oci_load_balancer_listener.test_listener.name
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

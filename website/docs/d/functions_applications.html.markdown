@@ -17,12 +17,12 @@ Lists applications for a compartment.
 ```hcl
 data "oci_functions_applications" "test_applications" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.application_display_name}"
-	id = "${var.application_id}"
-	state = "${var.application_state}"
+	display_name = var.application_display_name
+	id = var.application_id
+	state = var.application_state
 }
 ```
 

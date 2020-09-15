@@ -19,12 +19,12 @@ by specifying the OCID of a cross-connect group.
 ```hcl
 data "oci_core_cross_connects" "test_cross_connects" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
-	display_name = "${var.cross_connect_display_name}"
-	state = "${var.cross_connect_state}"
+	cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
+	display_name = var.cross_connect_display_name
+	state = var.cross_connect_state
 }
 ```
 

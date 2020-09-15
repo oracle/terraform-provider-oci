@@ -19,7 +19,7 @@ but not the password itself. The actual password is returned only when created o
 ```hcl
 data "oci_identity_ui_password" "test_ui_password" {
 	#Required
-	user_id = "${oci_identity_user.test_user.id}"
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

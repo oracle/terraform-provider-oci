@@ -17,32 +17,32 @@ Adds a listener to a load balancer.
 ```hcl
 resource "oci_load_balancer_listener" "test_listener" {
 	#Required
-	default_backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.listener_name}"
-	port = "${var.listener_port}"
-	protocol = "${var.listener_protocol}"
+	default_backend_set_name = oci_load_balancer_backend_set.test_backend_set.name
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	name = var.listener_name
+	port = var.listener_port
+	protocol = var.listener_protocol
 
 	#Optional
 	connection_configuration {
 		#Required
-		idle_timeout_in_seconds = "${var.listener_connection_configuration_idle_timeout_in_seconds}"
+		idle_timeout_in_seconds = var.listener_connection_configuration_idle_timeout_in_seconds
 
 		#Optional
-		backend_tcp_proxy_protocol_version = "${var.listener_connection_configuration_backend_tcp_proxy_protocol_version}"
+		backend_tcp_proxy_protocol_version = var.listener_connection_configuration_backend_tcp_proxy_protocol_version
 	}
-	hostname_names = ["${oci_load_balancer_hostname.test_hostname.name}"]
-	path_route_set_name = "${oci_load_balancer_path_route_set.test_path_route_set.name}"
-	rule_set_names = ["${oci_load_balancer_rule_set.test_rule_set.name}"]
+	hostname_names = [oci_load_balancer_hostname.test_hostname.name]
+	path_route_set_name = oci_load_balancer_path_route_set.test_path_route_set.name
+	rule_set_names = [oci_load_balancer_rule_set.test_rule_set.name]
 	ssl_configuration {
 		#Required
-		certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
+		certificate_name = oci_load_balancer_certificate.test_certificate.name
 
 		#Optional
-		verify_depth = "${var.listener_ssl_configuration_verify_depth}"
-		verify_peer_certificate = "${var.listener_ssl_configuration_verify_peer_certificate}"
+		verify_depth = var.listener_ssl_configuration_verify_depth
+		verify_peer_certificate = var.listener_ssl_configuration_verify_peer_certificate
         protocols = ["TLSv1.1", "TLSv1.2"]
-        cipher_suite_name = "${oci_load_balancer_ssl_cipher_suite.example_ssl_cipher_suite.name}"
+        cipher_suite_name = oci_load_balancer_ssl_cipher_suite.example_ssl_cipher_suite.name
         server_order_preference = ENABLED
 	}
 }

@@ -18,49 +18,49 @@ Create a new Autonomous Container Database in the specified Autonomous Exadata I
 ```hcl
 resource "oci_database_autonomous_container_database" "test_autonomous_container_database" {
 	#Required
-	display_name = "${var.autonomous_container_database_display_name}"
-	patch_model = "${var.autonomous_container_database_patch_model}"
+	display_name = var.autonomous_container_database_display_name
+	patch_model = var.autonomous_container_database_patch_model
 
 	#Optional
-	autonomous_exadata_infrastructure_id = "${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}"
-	autonomous_vm_cluster_id = "${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}"
+	autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
+	autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
 	backup_config {
 
 		#Optional
 		backup_destination_details {
 			#Required
-			type = "${var.autonomous_container_database_backup_config_backup_destination_details_type}"
+			type = var.autonomous_container_database_backup_config_backup_destination_details_type
 
 			#Optional
-			id = "${var.autonomous_container_database_backup_config_backup_destination_details_id}"
-			internet_proxy = "${var.autonomous_container_database_backup_config_backup_destination_details_internet_proxy}"
-			vpc_password = "${var.autonomous_container_database_backup_config_backup_destination_details_vpc_password}"
-			vpc_user = "${var.autonomous_container_database_backup_config_backup_destination_details_vpc_user}"
+			id = var.autonomous_container_database_backup_config_backup_destination_details_id
+			internet_proxy = var.autonomous_container_database_backup_config_backup_destination_details_internet_proxy
+			vpc_password = var.autonomous_container_database_backup_config_backup_destination_details_vpc_password
+			vpc_user = var.autonomous_container_database_backup_config_backup_destination_details_vpc_user
 		}
-		recovery_window_in_days = "${var.autonomous_container_database_backup_config_recovery_window_in_days}"
+		recovery_window_in_days = var.autonomous_container_database_backup_config_recovery_window_in_days
 	}
-	compartment_id = "${var.compartment_id}"
-	db_unique_name = "${var.autonomous_container_database_db_unique_name}"
+	compartment_id = var.compartment_id
+	db_unique_name = var.autonomous_container_database_db_unique_name
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 	maintenance_window_details {
 		#Required
-		preference = "${var.autonomous_container_database_maintenance_window_details_preference}"
+		preference = var.autonomous_container_database_maintenance_window_details_preference
 
 		#Optional
 		days_of_week {
 			#Required
-			name = "${var.autonomous_container_database_maintenance_window_details_days_of_week_name}"
+			name = var.autonomous_container_database_maintenance_window_details_days_of_week_name
 		}
-		hours_of_day = "${var.autonomous_container_database_maintenance_window_details_hours_of_day}"
-		lead_time_in_weeks = "${var.autonomous_container_database_maintenance_window_details_lead_time_in_weeks}"
+		hours_of_day = var.autonomous_container_database_maintenance_window_details_hours_of_day
+		lead_time_in_weeks = var.autonomous_container_database_maintenance_window_details_lead_time_in_weeks
 		months {
 			#Required
-			name = "${var.autonomous_container_database_maintenance_window_details_months_name}"
+			name = var.autonomous_container_database_maintenance_window_details_months_name
 		}
-		weeks_of_month = "${var.autonomous_container_database_maintenance_window_details_weeks_of_month}"
+		weeks_of_month = var.autonomous_container_database_maintenance_window_details_weeks_of_month
 	}
-	service_level_agreement_type = "${var.autonomous_container_database_service_level_agreement_type}"
+	service_level_agreement_type = var.autonomous_container_database_service_level_agreement_type
 }
 ```
 

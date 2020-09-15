@@ -17,7 +17,7 @@ Returns the Terraform state for the specified stack.
 ```hcl
 data "oci_resourcemanager_stack_tf_state" "test_stack_tf_state" {
 	#Required
-	stack_id = "${oci_resourcemanager_stack.test_stack.id}"
+	stack_id = oci_resourcemanager_stack.test_stack.id
 }
 ```
 

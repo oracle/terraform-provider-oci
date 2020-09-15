@@ -17,7 +17,7 @@ Gets information for the specified boot volume.
 ```hcl
 data "oci_core_boot_volume" "test_boot_volume" {
 	#Required
-	boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
+	boot_volume_id = oci_core_boot_volume.test_boot_volume.id
 }
 ```
 

@@ -33,14 +33,14 @@ Lastly, to launch the instance, use the image ID of the listing resource version
 data "oci_marketplace_listings" "test_listings" {
 
 	#Optional
-	category = "${var.listing_category}"
-	compartment_id = "${var.compartment_id}"
-	is_featured = "${var.listing_is_featured}"
-	listing_id = "${oci_marketplace_listing.test_listing.id}"
-	name = "${var.listing_name}"
-	package_type = "${var.listing_package_type}"
-	pricing = "${var.listing_pricing}"
-	publisher_id = "${oci_marketplace_publisher.test_publisher.id}"
+	category = var.listing_category
+	compartment_id = var.compartment_id
+	is_featured = var.listing_is_featured
+	listing_id = oci_marketplace_listing.test_listing.id
+	name = var.listing_name
+	package_type = var.listing_package_type
+	pricing = var.listing_pricing
+	publisher_id = oci_marketplace_publisher.test_publisher.id
 }
 ```
 

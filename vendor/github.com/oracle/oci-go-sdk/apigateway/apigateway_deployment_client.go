@@ -15,6 +15,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/common"
+	"github.com/oracle/oci-go-sdk/common/auth"
 	"net/http"
 )
 
@@ -27,12 +28,13 @@ type DeploymentClient struct {
 // NewDeploymentClientWithConfigurationProvider Creates a new default Deployment client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDeploymentClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DeploymentClient, err error) {
-	baseClient, err := common.NewClientWithConfig(configProvider)
-	if err != nil {
-		return
+	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
+		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
+			return newDeploymentClientFromBaseClient(baseClient, configProvider)
+		}
 	}
 
-	return newDeploymentClientFromBaseClient(baseClient, configProvider)
+	return
 }
 
 // NewDeploymentClientWithOboToken Creates a new default Deployment client with the given configuration provider.

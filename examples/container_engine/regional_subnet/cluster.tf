@@ -3,65 +3,65 @@
 
 resource "oci_containerengine_cluster" "test_cluster" {
   #Required
-  compartment_id     = "${var.compartment_ocid}"
-  kubernetes_version = "${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions.0}"
-  name               = "${var.cluster_name}"
-  vcn_id             = "${oci_core_vcn.test_vcn.id}"
+  compartment_id     = var.compartment_ocid
+  kubernetes_version = data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[0]
+  name               = var.cluster_name
+  vcn_id             = oci_core_vcn.test_vcn.id
 
   #Optional
   options {
-    service_lb_subnet_ids = ["${oci_core_subnet.clusterSubnet_1.id}", "${oci_core_subnet.clusterSubnet_2.id}"]
+    service_lb_subnet_ids = [oci_core_subnet.clusterSubnet_1.id, oci_core_subnet.clusterSubnet_2.id]
 
     #Optional
     add_ons {
       #Optional
-      is_kubernetes_dashboard_enabled = "${var.cluster_options_add_ons_is_kubernetes_dashboard_enabled}"
-      is_tiller_enabled               = "${var.cluster_options_add_ons_is_tiller_enabled}"
+      is_kubernetes_dashboard_enabled = var.cluster_options_add_ons_is_kubernetes_dashboard_enabled
+      is_tiller_enabled               = var.cluster_options_add_ons_is_tiller_enabled
     }
 
     kubernetes_network_config {
       #Optional
-      pods_cidr     = "${var.cluster_options_kubernetes_network_config_pods_cidr}"
-      services_cidr = "${var.cluster_options_kubernetes_network_config_services_cidr}"
+      pods_cidr     = var.cluster_options_kubernetes_network_config_pods_cidr
+      services_cidr = var.cluster_options_kubernetes_network_config_services_cidr
     }
   }
 }
 
 resource "oci_containerengine_node_pool" "test_node_pool" {
   #Required
-  cluster_id         = "${oci_containerengine_cluster.test_cluster.id}"
-  compartment_id     = "${var.compartment_ocid}"
-  kubernetes_version = "${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}"
-  name               = "${var.node_pool_name}"
-  node_shape         = "${var.node_pool_node_shape}"
+  cluster_id         = oci_containerengine_cluster.test_cluster.id
+  compartment_id     = var.compartment_ocid
+  kubernetes_version = data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions[0]
+  name               = var.node_pool_name
+  node_shape         = var.node_pool_node_shape
 
   #Optional
   initial_node_labels {
     #Optional
-    key   = "${var.node_pool_initial_node_labels_key}"
-    value = "${var.node_pool_initial_node_labels_value}"
+    key   = var.node_pool_initial_node_labels_key
+    value = var.node_pool_initial_node_labels_value
   }
 
   node_source_details {
     #Required
-    image_id    = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.image_id}"
-    source_type = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.source_type}"
+    image_id    = data.oci_containerengine_node_pool_option.test_node_pool_option.sources[0].image_id
+    source_type = data.oci_containerengine_node_pool_option.test_node_pool_option.sources[0].source_type
 
     #Optional
-    boot_volume_size_in_gbs = "${var.node_pool_boot_volume_size_in_gbs}"
+    boot_volume_size_in_gbs = var.node_pool_boot_volume_size_in_gbs
   }
 
-  ssh_public_key = "${var.node_pool_ssh_public_key}"
+  ssh_public_key = var.node_pool_ssh_public_key
 
   node_config_details {
     placement_configs {
-      availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
-      subnet_id           = "${oci_core_subnet.node_pool_regional_subnet_2.id}"
+      availability_domain = data.oci_identity_availability_domain.ad2.name
+      subnet_id           = oci_core_subnet.node_pool_regional_subnet_2.id
     }
 
     placement_configs {
-      availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
-      subnet_id           = "${oci_core_subnet.node_pool_regional_subnet_1.id}"
+      availability_domain = data.oci_identity_availability_domain.ad1.name
+      subnet_id           = oci_core_subnet.node_pool_regional_subnet_1.id
     }
 
     size = 4
@@ -70,16 +70,17 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 
 output "cluster" {
   value = {
-    id                 = "${oci_containerengine_cluster.test_cluster.id}"
-    kubernetes_version = "${oci_containerengine_cluster.test_cluster.kubernetes_version}"
-    name               = "${oci_containerengine_cluster.test_cluster.name}"
+    id                 = oci_containerengine_cluster.test_cluster.id
+    kubernetes_version = oci_containerengine_cluster.test_cluster.kubernetes_version
+    name               = oci_containerengine_cluster.test_cluster.name
   }
 }
 
 output "node_pool" {
   value = {
-    id                 = "${oci_containerengine_node_pool.test_node_pool.id}"
-    kubernetes_version = "${oci_containerengine_node_pool.test_node_pool.kubernetes_version}"
-    name               = "${oci_containerengine_node_pool.test_node_pool.name}"
+    id                 = oci_containerengine_node_pool.test_node_pool.id
+    kubernetes_version = oci_containerengine_node_pool.test_node_pool.kubernetes_version
+    name               = oci_containerengine_node_pool.test_node_pool.name
   }
 }
+

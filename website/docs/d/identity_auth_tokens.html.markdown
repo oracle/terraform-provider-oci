@@ -19,7 +19,7 @@ the token itself. The actual token is returned only upon creation.
 ```hcl
 data "oci_identity_auth_tokens" "test_auth_tokens" {
 	#Required
-	user_id = "${oci_identity_user.test_user.id}"
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

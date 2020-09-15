@@ -19,10 +19,10 @@ public virtual circuit.
 ```hcl
 data "oci_core_virtual_circuit_public_prefixes" "test_virtual_circuit_public_prefixes" {
 	#Required
-	virtual_circuit_id = "${oci_core_virtual_circuit.test_virtual_circuit.id}"
+	virtual_circuit_id = oci_core_virtual_circuit.test_virtual_circuit.id
 
 	#Optional
-	verification_state = "${var.virtual_circuit_public_prefix_verification_state}"
+	verification_state = var.virtual_circuit_public_prefix_verification_state
 }
 ```
 

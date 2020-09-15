@@ -18,11 +18,11 @@ Returns a list of Data Integration Workspaces.
 ```hcl
 data "oci_dataintegration_workspaces" "test_workspaces" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	name = "${var.workspace_name}"
-	state = "${var.workspace_state}"
+	name = var.workspace_name
+	state = var.workspace_state
 }
 ```
 

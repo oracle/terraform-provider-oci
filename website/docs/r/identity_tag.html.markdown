@@ -39,18 +39,18 @@ of values that you supply with [EnumTagDefinitionValidator](https://docs.cloud.o
 ```hcl
 resource "oci_identity_tag" "test_tag" {
 	#Required
-	description = "${var.tag_description}"
-	name = "${var.tag_name}"
-	tag_namespace_id = "${oci_identity_tag_namespace.test_tag_namespace.id}"
+	description = var.tag_description
+	name = var.tag_name
+	tag_namespace_id = oci_identity_tag_namespace.test_tag_namespace.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	is_cost_tracking = "${var.tag_is_cost_tracking}"
+	is_cost_tracking = var.tag_is_cost_tracking
 	validator {
 		#Required
-		validator_type = "${var.tag_validator_validator_type}"
-		values = "${var.tag_validator_values}"
+		validator_type = var.tag_validator_validator_type
+		values = var.tag_validator_values
 	}
 	is_retired = false
 }

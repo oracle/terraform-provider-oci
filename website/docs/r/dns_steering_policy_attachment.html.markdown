@@ -23,12 +23,12 @@ into the same compartment as the domain's zone.
 ```hcl
 resource "oci_dns_steering_policy_attachment" "test_steering_policy_attachment" {
 	#Required
-	domain_name = "${var.steering_policy_attachment_domain_name}"
-	steering_policy_id = "${oci_dns_steering_policy.test_steering_policy.id}"
-	zone_id = "${oci_dns_zone.test_zone.id}"
+	domain_name = var.steering_policy_attachment_domain_name
+	steering_policy_id = oci_dns_steering_policy.test_steering_policy.id
+	zone_id = oci_dns_zone.test_zone.id
 
 	#Optional
-	display_name = "${var.steering_policy_attachment_display_name}"
+	display_name = var.steering_policy_attachment_display_name
 }
 ```
 

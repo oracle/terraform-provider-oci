@@ -18,18 +18,18 @@ Creates a new Budget.
 ```hcl
 resource "oci_budget_budget" "test_budget" {
 	#Required
-	amount = "${var.budget_amount}"
-	compartment_id = "${var.tenancy_ocid}"
-	reset_period = "${var.budget_reset_period}"
+	amount = var.budget_amount
+	compartment_id = var.tenancy_ocid
+	reset_period = var.budget_reset_period
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	description = "${var.budget_description}"
-	display_name = "${var.budget_display_name}"
+	description = var.budget_description
+	display_name = var.budget_display_name
 	freeform_tags = {"Department"= "Finance"}
-	target_compartment_id = "${oci_identity_compartment.test_compartment.id}"
-	target_type = "${var.budget_target_type}"
-	targets = "${var.budget_targets}"
+	target_compartment_id = oci_identity_compartment.test_compartment.id
+	target_type = var.budget_target_type
+	targets = var.budget_targets
 }
 ```
 

@@ -2,23 +2,23 @@
 // Licensed under the Mozilla Public License v2.0
 
 resource "oci_core_instance" "my_instance" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  compartment_id      = "${var.compartment_ocid}"
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
   display_name        = "my instance with FSS access"
-  shape               = "${var.instance_shape}"
+  shape               = var.instance_shape
 
   metadata = {
-    ssh_authorized_keys = "${var.ssh_public_key}"
+    ssh_authorized_keys = var.ssh_public_key
   }
 
   create_vnic_details {
-    subnet_id      = "${oci_core_subnet.my_subnet.id}"
+    subnet_id      = oci_core_subnet.my_subnet.id
     hostname_label = "myinstance"
   }
 
   source_details {
     source_type = "image"
-    source_id   = "${var.instance_image_ocid[var.region]}"
+    source_id   = var.instance_image_ocid[var.region]
   }
 
   timeouts {
@@ -27,17 +27,18 @@ resource "oci_core_instance" "my_instance" {
 }
 
 resource "null_resource" "mount_fss_on_instance" {
-  depends_on = ["oci_core_instance.my_instance",
-    "oci_file_storage_export.my_export_fs1_mt1",
+  depends_on = [
+    oci_core_instance.my_instance,
+    oci_file_storage_export.my_export_fs1_mt1,
   ]
 
   provisioner "remote-exec" {
     connection {
       agent       = false
       timeout     = "15m"
-      host        = "${oci_core_instance.my_instance.public_ip}"
+      host        = oci_core_instance.my_instance.public_ip
       user        = "opc"
-      private_key = "${var.ssh_private_key}"
+      private_key = var.ssh_private_key
     }
 
     inline = [
@@ -47,3 +48,4 @@ resource "null_resource" "mount_fss_on_instance" {
     ]
   }
 }
+

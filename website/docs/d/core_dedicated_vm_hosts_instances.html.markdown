@@ -18,11 +18,11 @@ Returns the list of instances on the dedicated virtual machine hosts that match 
 ```hcl
 data "oci_core_dedicated_vm_hosts_instances" "test_dedicated_vm_hosts_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	dedicated_vm_host_id = "${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}"
+	compartment_id = var.compartment_id
+	dedicated_vm_host_id = oci_core_dedicated_vm_host.test_dedicated_vm_host.id
 
 	#Optional
-	availability_domain = "${var.dedicated_vm_hosts_instance_availability_domain}"
+	availability_domain = var.dedicated_vm_hosts_instance_availability_domain
 }
 ```
 

@@ -17,13 +17,13 @@ Lists projects in the specified compartment.
 ```hcl
 data "oci_datascience_projects" "test_projects" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	created_by = "${var.project_created_by}"
-	display_name = "${var.project_display_name}"
-	id = "${var.project_id}"
-	state = "${var.project_state}"
+	created_by = var.project_created_by
+	display_name = var.project_display_name
+	id = var.project_id
+	state = var.project_state
 }
 ```
 

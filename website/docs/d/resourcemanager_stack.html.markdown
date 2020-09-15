@@ -17,7 +17,7 @@ Gets a stack using the stack ID.
 ```hcl
 data "oci_resourcemanager_stack" "test_stack" {
 	#Required
-	stack_id = "${oci_resourcemanager_stack.test_stack.id}"
+	stack_id = oci_resourcemanager_stack.test_stack.id
 }
 ```
 

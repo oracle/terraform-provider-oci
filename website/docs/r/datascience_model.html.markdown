@@ -17,16 +17,16 @@ Creates a new model.
 ```hcl
 resource "oci_datascience_model" "test_model" {
 	#Required
-	artifact_content_length = "${var.artifact_content_length}"
-    model_artifact = "${var.model_artifact}"
-	compartment_id = "${var.compartment_id}"
-	project_id = "${oci_datascience_project.test_project.id}"
+	artifact_content_length = var.artifact_content_length
+    model_artifact = var.model_artifact
+	compartment_id = var.compartment_id
+	project_id = oci_datascience_project.test_project.id
 
 	#Optional
-	artifact_content_disposition = "${var.content_disposition}" 
+	artifact_content_disposition = var.content_disposition 
 	defined_tags = {"Operations.CostCenter"= "42"}
-	description = "${var.model_description}"
-	display_name = "${var.model_display_name}"
+	description = var.model_description
+	display_name = var.model_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

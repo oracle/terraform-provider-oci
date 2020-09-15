@@ -18,13 +18,13 @@ Create a subscription for listing resource version for a compartment. It will ta
 ```hcl
 resource "oci_core_app_catalog_subscription" "test_app_catalog_subscription" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	eula_link = "${var.app_catalog_subscription_eula_link}"
-	listing_id = "${data.oci_core_app_catalog_listing.test_listing.id}"
-	listing_resource_version = "${var.app_catalog_subscription_listing_resource_version}"
-	oracle_terms_of_use_link = "${var.app_catalog_subscription_oracle_terms_of_use_link}"
-	signature = "${var.app_catalog_subscription_signature}"
-	time_retrieved = "${var.app_catalog_subscription_time_retrieved}"
+	compartment_id = var.compartment_id
+	eula_link = var.app_catalog_subscription_eula_link
+	listing_id = data.oci_core_app_catalog_listing.test_listing.id
+	listing_resource_version = var.app_catalog_subscription_listing_resource_version
+	oracle_terms_of_use_link = var.app_catalog_subscription_oracle_terms_of_use_link
+	signature = var.app_catalog_subscription_signature
+	time_retrieved = var.app_catalog_subscription_time_retrieved
 }
 ```
 

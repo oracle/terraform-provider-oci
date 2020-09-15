@@ -17,7 +17,7 @@ Gets information about the specified dedicated virtual machine host.
 ```hcl
 data "oci_core_dedicated_vm_host" "test_dedicated_vm_host" {
 	#Required
-	dedicated_vm_host_id = "${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}"
+	dedicated_vm_host_id = oci_core_dedicated_vm_host.test_dedicated_vm_host.id
 }
 ```
 

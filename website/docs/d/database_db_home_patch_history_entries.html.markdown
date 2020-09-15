@@ -18,7 +18,7 @@ Gets history of the actions taken for patches for the specified Database Home.
 ```hcl
 data "oci_database_db_home_patch_history_entries" "test_db_home_patch_history_entries" {
 	#Required
-	db_home_id = "${oci_database_db_home.test_db_home.id}"
+	db_home_id = oci_database_db_home.test_db_home.id
 }
 ```
 
@@ -44,6 +44,6 @@ The following attributes are exported:
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically contains additional displayable text. 
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
 * `state` - The current state of the action.
-* `time_ended` - The date and time when the patch action completed.
+* `time_ended` - The date and time when the patch action completed
 * `time_started` - The date and time when the patch action started.
 

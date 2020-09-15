@@ -18,10 +18,10 @@ Lists the security rules in the specified network security group.
 ```hcl
 data "oci_core_network_security_group_security_rules" "test_network_security_group_security_rules" {
 	#Required
-	network_security_group_id = "${oci_core_network_security_group.test_network_security_group.id}"
+	network_security_group_id = oci_core_network_security_group.test_network_security_group.id
 
 	#Optional
-	direction = "${var.network_security_group_security_rule_direction}"
+	direction = var.network_security_group_security_rule_direction
 }
 ```
 

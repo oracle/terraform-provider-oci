@@ -18,12 +18,12 @@ Gets a list of the VM cluster networks in the specified compartment.
 ```hcl
 data "oci_database_vm_cluster_networks" "test_vm_cluster_networks" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
+	compartment_id = var.compartment_id
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 
 	#Optional
-	display_name = "${var.vm_cluster_network_display_name}"
-	state = "${var.vm_cluster_network_state}"
+	display_name = var.vm_cluster_network_display_name
+	state = var.vm_cluster_network_state
 }
 ```
 

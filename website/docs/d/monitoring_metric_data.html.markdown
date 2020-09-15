@@ -22,16 +22,16 @@ Transactions Per Second (TPS) per-tenancy limit for this operation: 10.
 ```hcl
 data "oci_monitoring_metric_data" "test_metric_data" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	namespace = "${var.metric_data_namespace}"
-	query = "${var.metric_data_query}"
+	compartment_id = var.compartment_id
+	namespace = var.metric_data_namespace
+	query = var.metric_data_query
 
 	#Optional
-	compartment_id_in_subtree = "${var.metric_data_compartment_id_in_subtree}"
-	end_time = "${var.metric_data_end_time}"
-	resolution = "${var.metric_data_resolution}"
-	resource_group = "${var.metric_data_resource_group}"
-	start_time = "${var.metric_data_start_time}"
+	compartment_id_in_subtree = var.metric_data_compartment_id_in_subtree
+	end_time = var.metric_data_end_time
+	resolution = var.metric_data_resolution
+	resource_group = var.metric_data_resource_group
+	start_time = var.metric_data_start_time
 }
 ```
 

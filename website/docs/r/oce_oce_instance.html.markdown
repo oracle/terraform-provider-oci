@@ -18,23 +18,23 @@ Creates a new OceInstance.
 ```hcl
 resource "oci_oce_oce_instance" "test_oce_instance" {
 	#Required
-	admin_email = "${var.oce_instance_admin_email}"
-	compartment_id = "${var.compartment_id}"
-	idcs_access_token = "${var.oce_instance_idcs_access_token}"
-	name = "${var.oce_instance_name}"
-	object_storage_namespace = "${var.oce_instance_object_storage_namespace}"
-	tenancy_id = "${oci_identity_tenancy.test_tenancy.id}"
-	tenancy_name = "${oci_identity_tenancy.test_tenancy.name}"
+	admin_email = var.oce_instance_admin_email
+	compartment_id = var.compartment_id
+	idcs_access_token = var.oce_instance_idcs_access_token
+	name = var.oce_instance_name
+	object_storage_namespace = var.oce_instance_object_storage_namespace
+	tenancy_id = oci_identity_tenancy.test_tenancy.id
+	tenancy_name = oci_identity_tenancy.test_tenancy.name
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.oce_instance_description}"
+	description = var.oce_instance_description
 	freeform_tags = {"bar-key"= "value"}
-	instance_access_type = "${var.oce_instance_instance_access_type}"
-	instance_license_type = "${var.oce_instance_instance_license_type}"
-	instance_usage_type = "${var.oce_instance_instance_usage_type}"
-	upgrade_schedule = "${var.oce_instance_upgrade_schedule}"
-	waf_primary_domain = "${var.oce_instance_waf_primary_domain}"
+	instance_access_type = var.oce_instance_instance_access_type
+	instance_license_type = var.oce_instance_instance_license_type
+	instance_usage_type = var.oce_instance_instance_usage_type
+	upgrade_schedule = var.oce_instance_upgrade_schedule
+	waf_primary_domain = var.oce_instance_waf_primary_domain
 }
 ```
 

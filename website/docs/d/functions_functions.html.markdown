@@ -17,12 +17,12 @@ Lists functions for an application.
 ```hcl
 data "oci_functions_functions" "test_functions" {
 	#Required
-	application_id = "${oci_functions_application.test_application.id}"
+	application_id = oci_functions_application.test_application.id
 
 	#Optional
-	display_name = "${var.function_display_name}"
-	id = "${var.function_id}"
-	state = "${var.function_state}"
+	display_name = var.function_display_name
+	id = var.function_id
+	state = var.function_state
 }
 ```
 

@@ -18,11 +18,11 @@ Lists rules for this compartment.
 ```hcl
 data "oci_events_rules" "test_rules" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.rule_display_name}"
-	state = "${var.rule_state}"
+	display_name = var.rule_display_name
+	state = var.rule_state
 }
 ```
 

@@ -20,8 +20,8 @@ import (
 	"testing"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/common"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v25/resourcemanager"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -529,6 +529,8 @@ func cleanupResourceDiscoveryTests() {
 	delete(datasourcesMap, "oci_test_parents")
 	delete(datasourcesMap, "oci_test_children")
 	delete(datasourcesMap, "oci_test_error_children")
+	delete(tenancyResourceGraphs, "tenancy_testing")
+	delete(compartmentResourceGraphs, "compartment_testing")
 }
 
 func initTestResources() {
@@ -1249,6 +1251,9 @@ func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 }
 
 func TestUnitGetExportConfig(t *testing.T) {
+	if os.Getenv("TF_HOME_OVERRIDE") == "" {
+		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
+	}
 
 	providerConfigTest(t, true, true, authAPIKeySetting, "", getExportConfig)              // ApiKey with required fields + disable auto-retries
 	providerConfigTest(t, false, true, authAPIKeySetting, "", getExportConfig)             // ApiKey without required fields
@@ -1417,14 +1422,17 @@ func TestResourceDiscoveryOnCompartment(t *testing.T) {
 }
 
 func TestExportCommandArgs_finalizeServices(t *testing.T) {
-	compartmentResourceGraphs = map[string]TerraformResourceGraph{
-		"compartment_testing":   compartmentTestingResourceGraph,
-		"compartment_testing_2": compartmentTestingResourceGraph,
-	}
-	tenancyResourceGraphs = map[string]TerraformResourceGraph{
-		"tenancy_testing":   tenancyTestingResourceGraph,
-		"tenancy_testing_2": tenancyTestingResourceGraph,
-	}
+	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
+	compartmentResourceGraphs["compartment_testing_2"] = compartmentTestingResourceGraph
+	tenancyResourceGraphs["tenancy_testing"] = tenancyTestingResourceGraph
+	tenancyResourceGraphs["tenancy_testing_2"] = tenancyTestingResourceGraph
+
+	defer func() {
+		delete(compartmentResourceGraphs, "compartment_testing")
+		delete(compartmentResourceGraphs, "compartment_testing_2")
+		delete(compartmentResourceGraphs, "tenancy_testing")
+		delete(compartmentResourceGraphs, "tenancy_testing_2")
+	}()
 
 	compartmentScopeServices = []string{"compartment_testing", "compartment_testing_2"}
 	tenancyScopeServices = []string{"tenancy_testing", "tenancy_testing_2"}
@@ -1554,4 +1562,55 @@ func TestRunListExportableServicesCommand(t *testing.T) {
 		t.Fail()
 	}
 	os.RemoveAll(outputDir)
+}
+
+// deleteInvalidReferences removes invalid reference from referenceMap if import fails for any resource
+func Test_deleteInvalidReferences(t *testing.T) {
+	discoveredResources := []*OCIResource{
+		{
+			compartmentId: resourceDiscoveryTestCompartmentOcid,
+			TerraformResource: TerraformResource{
+				id:             "ocid1.a.b.c",
+				terraformClass: "oci_resource_type1",
+				terraformName:  "type1_res1",
+			},
+		},
+		{
+			// resource with import failure
+			compartmentId: resourceDiscoveryTestCompartmentOcid,
+			TerraformResource: TerraformResource{
+				id:             "ocid1.d.e.f",
+				terraformClass: "oci_resource_type2",
+				terraformName:  "type2_res1",
+			},
+			isErrorResource: true,
+		},
+		{
+			compartmentId: resourceDiscoveryTestCompartmentOcid,
+			TerraformResource: TerraformResource{
+				id:             "ocid1.g.h.i",
+				terraformClass: "oci_resource_type2",
+				terraformName:  "type2_res2",
+			},
+		},
+	}
+
+	referenceMap := map[string]string{
+		"ocid1.a.b.c": "oci_resource_type1.type1_res1",
+		"ocid1.d.e.f": "oci_resource_type2.type2_res1", // failed resource
+		"ocid1.g.h.i": "oci_resource_type2.type2_res2",
+		"ocid1.j.k.l": "oci_resource_type2.type2_res1.attribute",  // reference to failed resource
+		"ocid1.m.n.o": "oci_resource_type2.type2_res11.attribute", // similar name to failed resource
+	}
+
+	deleteInvalidReferences(referenceMap, discoveredResources)
+	if _, ok := referenceMap["ocid1.d.e.f"]; ok {
+		t.Logf("failed resource entry not removed from reference map")
+		t.Fail()
+	}
+
+	if _, ok := referenceMap["ocid1.j.k.l"]; ok {
+		t.Logf("reference to failed resource not removed from reference map")
+		t.Fail()
+	}
 }

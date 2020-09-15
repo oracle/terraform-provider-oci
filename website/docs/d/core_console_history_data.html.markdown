@@ -20,11 +20,11 @@ for details about using the console history operations.
 ```hcl
 data "oci_core_console_history_data" "test_console_history_data" {
 	#Required
-	console_history_id = "${oci_core_console_history.test_console_history.id}"
+	console_history_id = oci_core_console_history.test_console_history.id
 
 	#Optional
-	length = "${var.console_history_content_length}"
-	offset = "${var.console_history_content_offset}"
+	length = var.console_history_content_length
+	offset = var.console_history_content_offset
 }
 ```
 

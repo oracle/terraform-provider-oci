@@ -19,11 +19,11 @@ For more information, please see the documentation.
 ```hcl
 resource "oci_datacatalog_catalog" "test_catalog" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	display_name = "${var.catalog_display_name}"
+	display_name = var.catalog_display_name
 	freeform_tags = {"bar-key"= "value"}
 }
 ```

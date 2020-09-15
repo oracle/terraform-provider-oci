@@ -17,7 +17,7 @@ Gets the specified instance configuration
 ```hcl
 data "oci_core_instance_configuration" "test_instance_configuration" {
 	#Required
-	instance_configuration_id = "${oci_core_instance_configuration.test_instance_configuration.id}"
+	instance_configuration_id = oci_core_instance_configuration.test_instance_configuration.id
 }
 ```
 

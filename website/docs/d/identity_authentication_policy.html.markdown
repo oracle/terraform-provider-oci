@@ -19,7 +19,7 @@ the compartment ID (remember that the tenancy is simply the root compartment).
 ```hcl
 data "oci_identity_authentication_policy" "test_authentication_policy" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 }
 ```
 

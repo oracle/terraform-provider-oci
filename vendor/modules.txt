@@ -486,7 +486,7 @@ github.com/modern-go/reflect2
 github.com/nu7hatch/gouuid
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk v24.3.0+incompatible
+# github.com/oracle/oci-go-sdk v24.3.0+incompatible => ../../oracle/oci-go-sdk
 github.com/oracle/oci-go-sdk/analytics
 github.com/oracle/oci-go-sdk/apigateway
 github.com/oracle/oci-go-sdk/audit
@@ -494,6 +494,7 @@ github.com/oracle/oci-go-sdk/autoscaling
 github.com/oracle/oci-go-sdk/bds
 github.com/oracle/oci-go-sdk/blockchain
 github.com/oracle/oci-go-sdk/budget
+github.com/oracle/oci-go-sdk/cloudguard
 github.com/oracle/oci-go-sdk/common
 github.com/oracle/oci-go-sdk/common/auth
 github.com/oracle/oci-go-sdk/containerengine
@@ -550,7 +551,7 @@ github.com/satori/go.uuid
 # github.com/spf13/afero v1.2.1
 github.com/spf13/afero
 github.com/spf13/afero/mem
-# github.com/stretchr/testify v1.3.0
+# github.com/stretchr/testify v1.6.1
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/suite
 github.com/stretchr/testify/require
@@ -731,3 +732,5 @@ google.golang.org/grpc/internal/syscall
 gopkg.in/ini.v1
 # gopkg.in/yaml.v2 v2.2.2
 gopkg.in/yaml.v2
+# gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
+gopkg.in/yaml.v3

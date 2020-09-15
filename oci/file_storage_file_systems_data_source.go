@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v25/filestorage"
 )
 
 func init() {
