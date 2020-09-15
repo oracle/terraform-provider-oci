@@ -80,6 +80,14 @@ var exportResourceDefinitionWith404Error = &TerraformResourceHints{
 	requireResourceRefresh:      true,
 }
 
+var exportResourceDefinitionWithPanic = &TerraformResourceHints{
+	resourceClass:               "oci_test_child",
+	datasourceClass:             "oci_test_panic_children",
+	resourceAbbreviation:        "child",
+	datasourceItemsAttr:         "item_summaries",
+	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+}
+
 var tenancyTestingResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{
@@ -139,6 +147,24 @@ var compartmentTestingResourceGraphWith404ErrorResource = TerraformResourceGraph
 	"oci_test_parent": {
 		{
 			TerraformResourceHints: exportResourceDefinitionWith404Error,
+			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+		},
+	},
+}
+
+var compartmentTestingResourceGraphWithPanicResource = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{
+			TerraformResourceHints: exportParentDefinition,
+		},
+	},
+	"oci_test_parent": {
+		{
+			TerraformResourceHints: exportResourceDefinitionWithPanic,
+			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+		},
+		{
+			TerraformResourceHints: exportChildDefinition,
 			datasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 	},
@@ -345,6 +371,23 @@ func testParentsDatasourceWithError() *schema.Resource {
 	}
 }
 
+func testParentsDatasourceWithPanic() *schema.Resource {
+	return &schema.Resource{
+		Read: listTestParentsWithPanic,
+		Schema: map[string]*schema.Schema{
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"items": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     GetDataSourceItemSchema(testParentResource()),
+			},
+		},
+	}
+}
+
 func testChildResourceWithError() *schema.Resource {
 	// Reuse the parent schema and add a parent dependency attribute
 	childResourceSchema := testParentResource().Schema
@@ -398,6 +441,10 @@ func listTestParents(d *schema.ResourceData, m interface{}) error {
 
 func listTestParentsWithError(d *schema.ResourceData, m interface{}) error {
 	return fmt.Errorf("could not find resources: error in listTestParentsWithError")
+}
+
+func listTestParentsWithPanic(d *schema.ResourceData, m interface{}) error {
+	panic("panic from listTestParentsWithPanic")
 }
 
 func deleteTestParent(d *schema.ResourceData, m interface{}) error {
@@ -516,6 +563,8 @@ func initResourceDiscoveryTests() {
 	datasourcesMap["oci_test_children"] = testChildrenDatasource()
 	datasourcesMap["oci_test_error_parents"] = testParentsDatasourceWithError()
 
+	datasourcesMap["oci_test_panic_children"] = testParentsDatasourceWithPanic()
+
 	tenancyResourceGraphs["tenancy_testing"] = tenancyTestingResourceGraph
 	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
 
@@ -529,6 +578,7 @@ func cleanupResourceDiscoveryTests() {
 	delete(datasourcesMap, "oci_test_parents")
 	delete(datasourcesMap, "oci_test_children")
 	delete(datasourcesMap, "oci_test_error_children")
+	delete(datasourcesMap, "oci_test_panic_children")
 	delete(tenancyResourceGraphs, "tenancy_testing")
 	delete(compartmentResourceGraphs, "compartment_testing")
 }
@@ -710,6 +760,23 @@ func TestUnitRunExportCommand_error(t *testing.T) {
 	os.RemoveAll(outputDir)
 }
 
+func TestUnitRunExportCommand_panic(t *testing.T) {
+	//compartmentId := resourceDiscoveryTestCompartmentOcid
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+
+	tfHclVersion = &TfHclVersion12{}
+
+	// nil args will cause panic and if panic is not handled test will fail else it will pass
+	_, _ = RunExportCommand(nil)
+
+	os.RemoveAll(outputDir)
+}
+
 // Test exit status in case of partial success
 func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 	initResourceDiscoveryTests()
@@ -823,6 +890,32 @@ func TestUnitFindResources_404Error(t *testing.T) {
 
 	// Check that we got all child resources except 1 that had 404 error
 	if len(results) != len(parentResources)+len(childrenResources)-1 {
+		t.Logf("got %d results but expected %d results", len(results), len(parentResources)+len(childrenResources)-1)
+		t.Fail()
+	}
+}
+
+// Test that discovery continues after panic
+func TestUnitFindResources_panic(t *testing.T) {
+	// env var export_enable_tenancy_lookup=false needed for this test
+	initResourceDiscoveryTests()
+	// Replace compartmentResourceGraphs with the one having resource that will panic
+
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+
+	ctx := &resourceDiscoveryContext{
+		errorList: ErrorList{},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraphWithPanicResource)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+
+	// Check that we got all child resources except the ones that panicked
+	// since we don't actually need the panic resources in result as we will never get to that point so we are not initializing those
+	if len(results) != len(parentResources)+len(childrenResources) {
 		t.Logf("got %d results but expected %d results", len(results), len(parentResources)+len(childrenResources)-1)
 		t.Fail()
 	}
