@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
-	"github.com/oracle/oci-go-sdk/common"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/v25/autoscaling"
+	"github.com/oracle/oci-go-sdk/v25/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

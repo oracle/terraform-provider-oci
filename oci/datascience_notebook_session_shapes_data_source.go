@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v25/datascience"
 )
 
 func init() {

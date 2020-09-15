@@ -10,7 +10,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v25/dataflow"
 )
 
 func init() {

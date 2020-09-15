@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
-	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_database "github.com/oracle/oci-go-sdk/v25/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

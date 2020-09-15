@@ -19,7 +19,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v25/objectstorage"
 )
 
 const (

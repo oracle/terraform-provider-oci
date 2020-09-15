@@ -9,14 +9,14 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/oracle/oci-go-sdk/common"
+	"github.com/oracle/oci-go-sdk/v25/common"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_dns "github.com/oracle/oci-go-sdk/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v25/dns"
 )
 
 var (
