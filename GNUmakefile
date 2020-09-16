@@ -30,7 +30,7 @@ sweep: fmtcheck gomodenv
 	@echo "WARNING: This will destroy infrastructure. Use only in development accounts."
 	TF_ACC=1 $(prefix) go test $(TEST) -v -run TestMain -sweep=$(sweep) -sweep-run=$(sweep-run) -timeout $(timeout)
 
-testacc: fmtcheck gomodenv
+testacc: build
 	TF_ACC=1 $(prefix) go test $(TEST) -v $(TESTARGS) $(run_regex) $(test_tags) -timeout $(timeout)
 
 vet:
