@@ -20,12 +20,12 @@ of a UTF-8 string.
 ```hcl
 data "oci_kms_encrypted_data" "test_encrypted_data" {
 	#Required
-	crypto_endpoint = "${var.encrypted_data_crypto_endpoint}"
-	key_id = "${oci_kms_key.test_key.id}"
-	plaintext = "${var.encrypted_data_plaintext}"
+	crypto_endpoint = var.encrypted_data_crypto_endpoint
+	key_id = oci_kms_key.test_key.id
+	plaintext = var.encrypted_data_plaintext
 
 	#Optional
-	associated_data = "${var.encrypted_data_associated_data}"
+	associated_data = var.encrypted_data_associated_data
 }
 ```
 

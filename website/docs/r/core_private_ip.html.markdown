@@ -22,12 +22,12 @@ resource "oci_core_private_ip" "test_private_ip" {
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.private_ip_display_name}"
+	display_name = var.private_ip_display_name
 	freeform_tags = {"Department"= "Finance"}
-	hostname_label = "${var.private_ip_hostname_label}"
-	ip_address = "${var.private_ip_ip_address}"
-	vlan_id = "${oci_core_vlan.test_vlan.id}"
-	vnic_id = "${oci_core_vnic_attachment.test_vnic_attachment.id}"
+	hostname_label = var.private_ip_hostname_label
+	ip_address = var.private_ip_ip_address
+	vlan_id = oci_core_vlan.test_vlan.id
+	vnic_id = oci_core_vnic_attachment.test_vnic_attachment.id
 }
 ```
 

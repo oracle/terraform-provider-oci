@@ -32,13 +32,13 @@ be unique, and you can change it. Avoid entering confidential information.
 ```hcl
 resource "oci_core_cpe" "test_cpe" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	ip_address = "${var.cpe_ip_address}"
+	compartment_id = var.compartment_id
+	ip_address = var.cpe_ip_address
 
 	#Optional
-	cpe_device_shape_id = "${data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id}"
+	cpe_device_shape_id = data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.cpe_display_name}"
+	display_name = var.cpe_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

@@ -20,12 +20,12 @@ filtered by instance, VNIC, or availability domain.
 ```hcl
 data "oci_core_vnic_attachments" "test_vnic_attachments" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.vnic_attachment_availability_domain}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-	vnic_id = "${oci_core_vnic.test_vnic.id}"
+	availability_domain = var.vnic_attachment_availability_domain
+	instance_id = oci_core_instance.test_instance.id
+	vnic_id = oci_core_vnic.test_vnic.id
 }
 ```
 

@@ -18,12 +18,12 @@ Decrypts data using the given DecryptDataDetails resource.
 ```hcl
 data "oci_kms_decrypted_data" "test_decrypted_data" {
 	#Required
-	ciphertext = "${var.decrypted_data_ciphertext}"
-	crypto_endpoint = "${var.decrypted_data_crypto_endpoint}"
-	key_id = "${oci_kms_key.test_key.id}"
+	ciphertext = var.decrypted_data_ciphertext
+	crypto_endpoint = var.decrypted_data_crypto_endpoint
+	key_id = oci_kms_key.test_key.id
 
 	#Optional
-	associated_data = "${var.decrypted_data_associated_data}"
+	associated_data = var.decrypted_data_associated_data
 }
 ```
 

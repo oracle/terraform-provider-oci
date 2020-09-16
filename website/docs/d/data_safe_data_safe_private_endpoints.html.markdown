@@ -19,10 +19,10 @@ Gets a list of Data Safe private endpoints.
 data "oci_data_safe_data_safe_private_endpoints" "test_data_safe_private_endpoints" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.data_safe_private_endpoint_display_name}"
-	state = "${var.data_safe_private_endpoint_state}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	compartment_id = var.compartment_id
+	display_name = var.data_safe_private_endpoint_display_name
+	state = var.data_safe_private_endpoint_state
+	vcn_id = oci_core_vcn.test_vcn.id
 }
 ```
 

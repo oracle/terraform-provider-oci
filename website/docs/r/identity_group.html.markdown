@@ -34,9 +34,9 @@ See [AddUserToGroup](https://docs.cloud.oracle.com/iaas/api/#/en/identity/201609
 ```hcl
 resource "oci_identity_group" "test_group" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.group_description}"
-	name = "${var.group_name}"
+	compartment_id = var.tenancy_ocid
+	description = var.group_description
+	name = var.group_name
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

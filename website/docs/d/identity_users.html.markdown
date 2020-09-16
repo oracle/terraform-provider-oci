@@ -20,11 +20,11 @@ See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.
 ```hcl
 data "oci_identity_users" "test_users" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 
 	#Optional
-	external_identifier = "${var.user_external_identifier}"
-	identity_provider_id = "${oci_identity_identity_provider.test_identity_provider.id}"
+	external_identifier = var.user_external_identifier
+	identity_provider_id = oci_identity_identity_provider.test_identity_provider.id
 }
 ```
 

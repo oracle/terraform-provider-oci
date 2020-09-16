@@ -18,8 +18,8 @@ Gets the specified Data Guard association's configuration information.
 ```hcl
 data "oci_database_data_guard_association" "test_data_guard_association" {
 	#Required
-	data_guard_association_id = "${oci_database_data_guard_association.test_data_guard_association.id}"
-	database_id = "${oci_database_database.test_database.id}"
+	data_guard_association_id = oci_database_data_guard_association.test_data_guard_association.id
+	database_id = oci_database_database.test_database.id
 }
 ```
 

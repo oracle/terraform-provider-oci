@@ -18,22 +18,22 @@ Creates compute image capability schema.
 ```hcl
 resource "oci_core_compute_image_capability_schema" "test_compute_image_capability_schema" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	compute_global_image_capability_schema_version_name = "${var.compute_image_capability_schema_compute_global_image_capability_schema_version_name}"
-	image_id = "${oci_core_image.test_image.id}"
+	compartment_id = var.compartment_id
+	compute_global_image_capability_schema_version_name = var.compute_image_capability_schema_compute_global_image_capability_schema_version_name
+	image_id = oci_core_image.test_image.id
 	schema_data {
 		#Required
-		descriptor_type = "${var.compute_image_capability_schema_schema_data_descriptor_type}"
-		source = "${var.compute_image_capability_schema_schema_data_source}"
+		descriptor_type = var.compute_image_capability_schema_schema_data_descriptor_type
+		source = var.compute_image_capability_schema_schema_data_source
 
 		#Optional
-		default_value = "${var.compute_image_capability_schema_schema_data_default_value}"
-		values = "${var.compute_image_capability_schema_schema_data_values}"
+		default_value = var.compute_image_capability_schema_schema_data_default_value
+		values = var.compute_image_capability_schema_schema_data_values
 	}
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.compute_image_capability_schema_display_name}"
+	display_name = var.compute_image_capability_schema_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

@@ -17,7 +17,7 @@ Gets detailed information about the stream pool, such as Kafka settings.
 ```hcl
 data "oci_streaming_stream_pool" "test_stream_pool" {
 	#Required
-	stream_pool_id = "${oci_streaming_stream_pool.test_stream_pool.id}"
+	stream_pool_id = oci_streaming_stream_pool.test_stream_pool.id
 }
 ```
 

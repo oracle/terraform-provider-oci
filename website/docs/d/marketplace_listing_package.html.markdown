@@ -31,11 +31,11 @@ Lastly, to launch the instance, use the image ID of the listing resource version
 ```hcl
 data "oci_marketplace_listing_package" "test_listing_package" {
 	#Required
-	listing_id = "${oci_marketplace_listing.test_listing.id}"
-	package_version = "${var.listing_package_package_version}"
+	listing_id = oci_marketplace_listing.test_listing.id
+	package_version = var.listing_package_package_version
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

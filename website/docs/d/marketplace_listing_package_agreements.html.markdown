@@ -18,11 +18,11 @@ Returns the terms of use agreements that must be accepted before you can deploy 
 ```hcl
 data "oci_marketplace_listing_package_agreements" "test_listing_package_agreements" {
 	#Required
-	listing_id = "${oci_marketplace_listing.test_listing.id}"
-	package_version = "${var.listing_package_agreement_package_version}"
+	listing_id = oci_marketplace_listing.test_listing.id
+	package_version = var.listing_package_agreement_package_version
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

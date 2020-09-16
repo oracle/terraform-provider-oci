@@ -18,14 +18,14 @@ Creates a pre-authenticated request specific to the bucket.
 ```hcl
 resource "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
 	#Required
-	access_type = "${var.preauthenticated_request_access_type}"
-	bucket = "${var.preauthenticated_request_bucket}"
-	name = "${var.preauthenticated_request_name}"
-	namespace = "${var.preauthenticated_request_namespace}"
-	time_expires = "${var.preauthenticated_request_time_expires}"
+	access_type = var.preauthenticated_request_access_type
+	bucket = var.preauthenticated_request_bucket
+	name = var.preauthenticated_request_name
+	namespace = var.preauthenticated_request_namespace
+	time_expires = var.preauthenticated_request_time_expires
 
 	#Optional
-	object = "${var.preauthenticated_request_object}"
+	object = var.preauthenticated_request_object
 }
 ```
 

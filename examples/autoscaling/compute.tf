@@ -2,13 +2,13 @@
 // Licensed under the Mozilla Public License v2.0
 
 resource "oci_core_instance" "TFInstance" {
-  availability_domain = "${data.oci_identity_availability_domain.AD.name}"
-  compartment_id      = "${var.compartment_ocid}"
+  availability_domain = data.oci_identity_availability_domain.AD.name
+  compartment_id      = var.compartment_ocid
   display_name        = "TFInstanceForInstancePool"
-  shape               = "${var.instance_shape}"
+  shape               = var.instance_shape
 
   create_vnic_details {
-    subnet_id        = "${oci_core_subnet.ExampleSubnet.id}"
+    subnet_id        = oci_core_subnet.ExampleSubnet.id
     display_name     = "primaryvnic"
     assign_public_ip = true
     hostname_label   = "tfexampleinstance"
@@ -16,7 +16,7 @@ resource "oci_core_instance" "TFInstance" {
 
   source_details {
     source_type = "image"
-    source_id   = "${var.instance_image_ocid[var.region]}"
+    source_id   = var.instance_image_ocid[var.region]
   }
 
   timeouts {
@@ -25,16 +25,16 @@ resource "oci_core_instance" "TFInstance" {
 }
 
 resource "oci_core_instance_configuration" "TFInstanceConfiguration" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name   = "TFExampleInstanceConfiguration"
 
   instance_details {
     instance_type = "compute"
 
     launch_details {
-      compartment_id = "${var.compartment_ocid}"
+      compartment_id = var.compartment_ocid
       ipxe_script    = "ipxeScript"
-      shape          = "${var.instance_shape}"
+      shape          = var.instance_shape
       display_name   = "TFExampleInstanceConfigurationLaunchDetails"
 
       create_vnic_details {
@@ -50,40 +50,40 @@ resource "oci_core_instance_configuration" "TFInstanceConfiguration" {
 
       source_details {
         source_type = "image"
-        image_id    = "${var.instance_image_ocid[var.region]}"
+        image_id    = var.instance_image_ocid[var.region]
       }
     }
   }
 }
 
 resource "oci_core_instance_pool" "TFInstancePool" {
-  compartment_id            = "${var.compartment_ocid}"
-  instance_configuration_id = "${oci_core_instance_configuration.TFInstanceConfiguration.id}"
+  compartment_id            = var.compartment_ocid
+  instance_configuration_id = oci_core_instance_configuration.TFInstanceConfiguration.id
   size                      = 2
   state                     = "RUNNING"
   display_name              = "TFInstancePool"
 
   placement_configurations {
-    availability_domain = "${data.oci_identity_availability_domain.AD.name}"
-    primary_subnet_id   = "${oci_core_subnet.ExampleSubnet.id}"
+    availability_domain = data.oci_identity_availability_domain.AD.name
+    primary_subnet_id   = oci_core_subnet.ExampleSubnet.id
   }
 }
 
 resource "oci_core_instance_pool" "TFInstancePoolForScheduledPolicy" {
-  compartment_id            = "${var.compartment_ocid}"
-  instance_configuration_id = "${oci_core_instance_configuration.TFInstanceConfiguration.id}"
+  compartment_id            = var.compartment_ocid
+  instance_configuration_id = oci_core_instance_configuration.TFInstanceConfiguration.id
   size                      = 2
   state                     = "RUNNING"
   display_name              = "TFInstancePoolForScheduledPolicy"
 
   placement_configurations {
-    availability_domain = "${data.oci_identity_availability_domain.AD.name}"
-    primary_subnet_id   = "${oci_core_subnet.ExampleSubnet.id}"
+    availability_domain = data.oci_identity_availability_domain.AD.name
+    primary_subnet_id   = oci_core_subnet.ExampleSubnet.id
   }
 }
 
 resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguration" {
-  compartment_id       = "${var.compartment_ocid}"
+  compartment_id       = var.compartment_ocid
   cool_down_in_seconds = "300"
   display_name         = "TFAutoScalingConfiguration"
   is_enabled           = "true"
@@ -136,13 +136,13 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
   }
 
   auto_scaling_resources {
-    id   = "${oci_core_instance_pool.TFInstancePool.id}"
+    id   = oci_core_instance_pool.TFInstancePool.id
     type = "instancePool"
   }
 }
 
 resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationScheduledPolicy" {
-  compartment_id       = "${var.compartment_ocid}"
+  compartment_id       = var.compartment_ocid
   cool_down_in_seconds = "300"
   display_name         = "TFAutoScalingConfigurationScheduledPolicy"
   is_enabled           = "true"
@@ -165,7 +165,8 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
   }
 
   auto_scaling_resources {
-    id   = "${oci_core_instance_pool.TFInstancePoolForScheduledPolicy.id}"
+    id   = oci_core_instance_pool.TFInstancePoolForScheduledPolicy.id
     type = "instancePool"
   }
 }
+

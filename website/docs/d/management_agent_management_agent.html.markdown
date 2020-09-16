@@ -17,7 +17,7 @@ Gets complete details of the inventory of a given agent id
 ```hcl
 data "oci_management_agent_management_agent" "test_management_agent" {
 	#Required
-	management_agent_id = "${oci_management_agent_management_agent.test_management_agent.id}"
+	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
 }
 ```
 

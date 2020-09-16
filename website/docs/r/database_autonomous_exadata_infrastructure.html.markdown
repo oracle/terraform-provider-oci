@@ -18,35 +18,35 @@ Launches a new Autonomous Exadata Infrastructure in the specified compartment an
 ```hcl
 resource "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exadata_infrastructure" {
 	#Required
-	availability_domain = "${var.autonomous_exadata_infrastructure_availability_domain}"
-	compartment_id = "${var.compartment_id}"
-	shape = "${var.autonomous_exadata_infrastructure_shape}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	availability_domain = var.autonomous_exadata_infrastructure_availability_domain
+	compartment_id = var.compartment_id
+	shape = var.autonomous_exadata_infrastructure_shape
+	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.autonomous_exadata_infrastructure_display_name}"
-	domain = "${var.autonomous_exadata_infrastructure_domain}"
+	display_name = var.autonomous_exadata_infrastructure_display_name
+	domain = var.autonomous_exadata_infrastructure_domain
 	freeform_tags = {"Department"= "Finance"}
-	license_model = "${var.autonomous_exadata_infrastructure_license_model}"
+	license_model = var.autonomous_exadata_infrastructure_license_model
 	maintenance_window_details {
 		#Required
-		preference = "${var.autonomous_exadata_infrastructure_maintenance_window_details_preference}"
+		preference = var.autonomous_exadata_infrastructure_maintenance_window_details_preference
 
 		#Optional
 		days_of_week {
 			#Required
-			name = "${var.autonomous_exadata_infrastructure_maintenance_window_details_days_of_week_name}"
+			name = var.autonomous_exadata_infrastructure_maintenance_window_details_days_of_week_name
 		}
-		hours_of_day = "${var.autonomous_exadata_infrastructure_maintenance_window_details_hours_of_day}"
-		lead_time_in_weeks = "${var.autonomous_exadata_infrastructure_maintenance_window_details_lead_time_in_weeks}"
+		hours_of_day = var.autonomous_exadata_infrastructure_maintenance_window_details_hours_of_day
+		lead_time_in_weeks = var.autonomous_exadata_infrastructure_maintenance_window_details_lead_time_in_weeks
 		months {
 			#Required
-			name = "${var.autonomous_exadata_infrastructure_maintenance_window_details_months_name}"
+			name = var.autonomous_exadata_infrastructure_maintenance_window_details_months_name
 		}
-		weeks_of_month = "${var.autonomous_exadata_infrastructure_maintenance_window_details_weeks_of_month}"
+		weeks_of_month = var.autonomous_exadata_infrastructure_maintenance_window_details_weeks_of_month
 	}
-	nsg_ids = "${var.autonomous_exadata_infrastructure_nsg_ids}"
+	nsg_ids = var.autonomous_exadata_infrastructure_nsg_ids
 }
 ```
 

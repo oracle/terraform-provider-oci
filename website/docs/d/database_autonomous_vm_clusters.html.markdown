@@ -18,12 +18,12 @@ Gets a list of Autonomous VM clusters in the specified compartment.
 ```hcl
 data "oci_database_autonomous_vm_clusters" "test_autonomous_vm_clusters" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.autonomous_vm_cluster_display_name}"
-	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
-	state = "${var.autonomous_vm_cluster_state}"
+	display_name = var.autonomous_vm_cluster_display_name
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+	state = var.autonomous_vm_cluster_state
 }
 ```
 

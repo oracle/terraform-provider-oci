@@ -21,12 +21,12 @@ each VCN in the specified compartment, plus any route tables you've created.
 ```hcl
 data "oci_core_route_tables" "test_route_tables" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.route_table_display_name}"
-	state = "${var.route_table_state}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	display_name = var.route_table_display_name
+	state = var.route_table_state
+	vcn_id = oci_core_vcn.test_vcn.id
 }
 ```
 

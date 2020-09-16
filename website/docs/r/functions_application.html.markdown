@@ -19,12 +19,12 @@ Creates a new application.
 ```hcl
 resource "oci_functions_application" "test_application" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.application_display_name}"
-	subnet_ids = "${var.application_subnet_ids}"
+	compartment_id = var.compartment_id
+	display_name = var.application_display_name
+	subnet_ids = var.application_subnet_ids
 
 	#Optional
-	config = "${var.application_config}"
+	config = var.application_config
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 }

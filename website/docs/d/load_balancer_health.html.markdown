@@ -17,7 +17,7 @@ Gets the health status for the specified load balancer.
 ```hcl
 data "oci_load_balancer_health" "test_load_balancer_health" {
 	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

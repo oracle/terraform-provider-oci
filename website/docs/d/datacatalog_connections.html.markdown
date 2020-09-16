@@ -17,21 +17,21 @@ Returns a list of all Connections for a data asset.
 ```hcl
 data "oci_datacatalog_connections" "test_connections" {
 	#Required
-	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
-	data_asset_key = "${var.connection_data_asset_key}"
+	catalog_id = oci_datacatalog_catalog.test_catalog.id
+	data_asset_key = var.connection_data_asset_key
 
 	#Optional
-	created_by_id = "${oci_datacatalog_created_by.test_created_by.id}"
-	display_name = "${var.connection_display_name}"
-	display_name_contains = "${var.connection_display_name_contains}"
-	external_key = "${var.connection_external_key}"
-	fields = "${var.connection_fields}"
-	is_default = "${var.connection_is_default}"
-	state = "${var.connection_state}"
-	time_created = "${var.connection_time_created}"
-	time_status_updated = "${var.connection_time_status_updated}"
-	time_updated = "${var.connection_time_updated}"
-	updated_by_id = "${oci_datacatalog_updated_by.test_updated_by.id}"
+	created_by_id = oci_datacatalog_created_by.test_created_by.id
+	display_name = var.connection_display_name
+	display_name_contains = var.connection_display_name_contains
+	external_key = var.connection_external_key
+	fields = var.connection_fields
+	is_default = var.connection_is_default
+	state = var.connection_state
+	time_created = var.connection_time_created
+	time_status_updated = var.connection_time_status_updated
+	time_updated = var.connection_time_updated
+	updated_by_id = oci_datacatalog_updated_by.test_updated_by.id
 }
 ```
 

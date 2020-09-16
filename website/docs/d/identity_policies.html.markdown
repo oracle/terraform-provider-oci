@@ -22,7 +22,7 @@ statements inside all your policies. There isn't a way to automatically obtain t
 ```hcl
 data "oci_identity_policies" "test_policies" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 }
 ```
 

@@ -17,14 +17,14 @@ Lists the specified log group's log objects.
 ```hcl
 data "oci_logging_logs" "test_logs" {
 	#Required
-	log_group_id = "${oci_logging_log_group.test_log_group.id}"
+	log_group_id = oci_logging_log_group.test_log_group.id
 
 	#Optional
-	display_name = "${var.log_display_name}"
-	log_type = "${var.log_log_type}"
-	source_resource = "${var.log_source_resource}"
-	source_service = "${var.log_source_service}"
-	state = "${var.log_state}"
+	display_name = var.log_display_name
+	log_type = var.log_log_type
+	source_resource = var.log_source_resource
+	source_service = var.log_source_service
+	state = var.log_state
 }
 ```
 

@@ -18,7 +18,7 @@ Gets the status of the specified IPSec connection (whether it's up or down).
 ```hcl
 data "oci_core_ipsec_status" "test_ip_sec_connection_device_status" {
 	#Required
-	ipsec_id = "${oci_core_ipsec.test_ipsec.id}"
+	ipsec_id = oci_core_ipsec.test_ipsec.id
 }
 ```
 

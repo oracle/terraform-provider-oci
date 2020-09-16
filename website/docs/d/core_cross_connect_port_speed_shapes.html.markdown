@@ -20,7 +20,7 @@ cross-connect.
 ```hcl
 data "oci_core_cross_connect_port_speed_shapes" "test_cross_connect_port_speed_shapes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

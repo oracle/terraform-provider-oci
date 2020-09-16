@@ -17,17 +17,17 @@ Creates a new function.
 ```hcl
 resource "oci_functions_function" "test_function" {
 	#Required
-	application_id = "${oci_functions_application.test_application.id}"
-	display_name = "${var.function_display_name}"
-	image = "${var.function_image}"
-	memory_in_mbs = "${var.function_memory_in_mbs}"
+	application_id = oci_functions_application.test_application.id
+	display_name = var.function_display_name
+	image = var.function_image
+	memory_in_mbs = var.function_memory_in_mbs
 
 	#Optional
-	config = "${var.function_config}"
+	config = var.function_config
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	image_digest = "${var.function_image_digest}"
-	timeout_in_seconds = "${var.function_timeout_in_seconds}"
+	image_digest = var.function_image_digest
+	timeout_in_seconds = var.function_timeout_in_seconds
 }
 ```
 

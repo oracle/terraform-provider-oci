@@ -17,12 +17,12 @@ List the stream pools for a given compartment ID.
 ```hcl
 data "oci_streaming_stream_pools" "test_stream_pools" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	id = "${var.stream_pool_id}"
-	name = "${var.stream_pool_name}"
-	state = "${var.stream_pool_state}"
+	id = var.stream_pool_id
+	name = var.stream_pool_name
+	state = var.stream_pool_state
 }
 ```
 

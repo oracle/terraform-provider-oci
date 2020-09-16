@@ -19,11 +19,11 @@ results by DRG or CPE.
 ```hcl
 data "oci_core_ipsec_connections" "test_ip_sec_connections" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	cpe_id = "${oci_core_cpe.test_cpe.id}"
-	drg_id = "${oci_core_drg.test_drg.id}"
+	cpe_id = oci_core_cpe.test_cpe.id
+	drg_id = oci_core_drg.test_drg.id
 }
 ```
 

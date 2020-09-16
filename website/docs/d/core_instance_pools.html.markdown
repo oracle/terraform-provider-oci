@@ -17,11 +17,11 @@ Lists the instance pools in the specified compartment.
 ```hcl
 data "oci_core_instance_pools" "test_instance_pools" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.instance_pool_display_name}"
-	state = "${var.instance_pool_state}"
+	display_name = var.instance_pool_display_name
+	state = var.instance_pool_state
 }
 ```
 

@@ -17,14 +17,14 @@ Gets a list of HTTP Redirects.
 ```hcl
 data "oci_waas_http_redirects" "test_http_redirects" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_names = "${var.http_redirect_display_names}"
-	ids = "${var.http_redirect_ids}"
-	states = "${var.http_redirect_states}"
-	time_created_greater_than_or_equal_to = "${var.http_redirect_time_created_greater_than_or_equal_to}"
-	time_created_less_than = "${var.http_redirect_time_created_less_than}"
+	display_names = var.http_redirect_display_names
+	ids = var.http_redirect_ids
+	states = var.http_redirect_states
+	time_created_greater_than_or_equal_to = var.http_redirect_time_created_greater_than_or_equal_to
+	time_created_less_than = var.http_redirect_time_created_less_than
 }
 ```
 

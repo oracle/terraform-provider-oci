@@ -18,11 +18,11 @@ Lists the boot volumes in the specified compartment and availability domain.
 ```hcl
 data "oci_core_boot_volumes" "test_boot_volumes" {
 	#Required
-	availability_domain = "${var.boot_volume_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.boot_volume_availability_domain
+	compartment_id = var.compartment_id
 
 	#Optional
-	volume_group_id = "${oci_core_volume_group.test_volume_group.id}"
+	volume_group_id = oci_core_volume_group.test_volume_group.id
 }
 ```
 

@@ -19,7 +19,7 @@ cost-tracking tags, see [Using Cost-tracking Tags](https://docs.cloud.oracle.com
 ```hcl
 data "oci_identity_cost_tracking_tags" "test_cost_tracking_tags" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

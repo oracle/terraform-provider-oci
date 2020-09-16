@@ -23,8 +23,8 @@ for a given tenancy.
 ```hcl
 data "oci_kms_keys" "test_keys" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	management_endpoint = "${var.key_management_endpoint}"
+	compartment_id = var.compartment_id
+	management_endpoint = var.key_management_endpoint
 }
 ```
 

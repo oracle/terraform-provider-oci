@@ -17,12 +17,12 @@ Lists the connectharness.
 ```hcl
 data "oci_streaming_connect_harnesses" "test_connect_harnesses" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	id = "${var.connect_harness_id}"
-	name = "${var.connect_harness_name}"
-	state = "${var.connect_harness_state}"
+	id = var.connect_harness_id
+	name = var.connect_harness_name
+	state = var.connect_harness_state
 }
 ```
 

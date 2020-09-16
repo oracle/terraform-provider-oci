@@ -18,7 +18,7 @@ Lists the patches applicable to the requested Vm cluster.
 ```hcl
 data "oci_database_vm_cluster_patches" "test_vm_cluster_patches" {
 	#Required
-	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
 ```
 

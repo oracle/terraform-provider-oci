@@ -18,15 +18,15 @@ Lists all runs of an application in the specified compartment.
 ```hcl
 data "oci_dataflow_invoke_runs" "test_invoke_runs" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	application_id = "${oci_dataflow_application.test_application.id}"
-	display_name = "${var.invoke_run_display_name}"
-	display_name_starts_with = "${var.invoke_run_display_name_starts_with}"
-	owner_principal_id = "${oci_dataflow_owner_principal.test_owner_principal.id}"
-	state = "${var.invoke_run_state}"
-	time_created_greater_than = "${var.invoke_run_time_created_greater_than}"
+	application_id = oci_dataflow_application.test_application.id
+	display_name = var.invoke_run_display_name
+	display_name_starts_with = var.invoke_run_display_name_starts_with
+	owner_principal_id = oci_dataflow_owner_principal.test_owner_principal.id
+	state = var.invoke_run_state
+	time_created_greater_than = var.invoke_run_time_created_greater_than
 }
 ```
 

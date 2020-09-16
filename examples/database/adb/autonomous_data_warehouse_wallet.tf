@@ -7,16 +7,17 @@ resource "random_string" "autonomous_data_warehouse_wallet_password" {
 }
 
 data "oci_database_autonomous_database_wallet" "autonomous_data_warehouse_wallet" {
-  autonomous_database_id = "${oci_database_autonomous_database.autonomous_data_warehouse.id}"
-  password               = "${random_string.autonomous_data_warehouse_wallet_password.result}"
+  autonomous_database_id = oci_database_autonomous_database.autonomous_data_warehouse.id
+  password               = random_string.autonomous_data_warehouse_wallet_password.result
   base64_encode_content  = "true"
 }
 
 resource "local_file" "autonomous_data_warehouse_wallet_file" {
-  content_base64 = "${data.oci_database_autonomous_database_wallet.autonomous_data_warehouse_wallet.content}"
+  content_base64 = data.oci_database_autonomous_database_wallet.autonomous_data_warehouse_wallet.content
   filename       = "${path.module}/autonomous_data_warehouse_wallet.zip"
 }
 
 output "autonomous_data_warehouse_wallet_password" {
-  value = "${random_string.autonomous_data_warehouse_wallet_password.result}"
+  value = random_string.autonomous_data_warehouse_wallet_password.result
 }
+

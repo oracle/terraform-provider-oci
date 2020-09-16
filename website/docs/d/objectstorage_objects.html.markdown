@@ -22,15 +22,15 @@ talk to an administrator. If you are an administrator who needs to write policie
 ```hcl
 data "oci_objectstorage_objects" "test_objects" {
 	#Required
-	bucket = "${var.object_bucket}"
-	namespace = "${var.object_namespace}"
+	bucket = var.object_bucket
+	namespace = var.object_namespace
 
 	#Optional
-	delimiter = "${var.object_delimiter}"
-	end = "${var.object_end}"
-	prefix = "${var.object_prefix}"
-	start = "${var.object_start}"
-	start_after = "${var.object_start_after}"
+	delimiter = var.object_delimiter
+	end = var.object_end
+	prefix = var.object_prefix
+	start = var.object_start
+	start_after = var.object_start_after
 }
 ```
 

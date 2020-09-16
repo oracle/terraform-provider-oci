@@ -19,12 +19,12 @@ list by specifying an instance OCID, boot volume OCID, or both.
 ```hcl
 data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
 	#Required
-	availability_domain = "${var.boot_volume_attachment_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.boot_volume_attachment_availability_domain
+	compartment_id = var.compartment_id
 
 	#Optional
-	boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
-	instance_id = "${oci_core_instance.test_instance.id}"
+	boot_volume_id = oci_core_boot_volume.test_boot_volume.id
+	instance_id = oci_core_instance.test_instance.id
 }
 ```
 For more detailed implementation refer the [instance example](https://github.com/oracle/terraform-provider-oci/tree/master/examples/compute/instance)

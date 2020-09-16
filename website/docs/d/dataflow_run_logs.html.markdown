@@ -18,7 +18,7 @@ Retrieves summaries of the run's logs.
 ```hcl
 data "oci_dataflow_run_logs" "test_run_logs" {
 	#Required
-	run_id = "${oci_dataflow_run.test_run.id}"
+	run_id = oci_dataflow_run.test_run.id
 }
 ```
 

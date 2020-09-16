@@ -17,10 +17,10 @@ Gets the specified SSL cipher suite's configuration information.
 ```hcl
 data "oci_load_balancer_ssl_cipher_suite" "test_ssl_cipher_suite" {
 	#Required
-	name = "${var.ssl_cipher_suite_name}"
+	name = var.ssl_cipher_suite_name
 
 	#Optional
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

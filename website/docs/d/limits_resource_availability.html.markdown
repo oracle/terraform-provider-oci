@@ -21,12 +21,12 @@ For a given compartmentId, resource limit name, and scope, returns the following
 ```hcl
 data "oci_limits_resource_availability" "test_resource_availability" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	limit_name = "${var.resource_availability_limit_name}"
-	service_name = "${oci_limits_service.test_service.name}"
+	compartment_id = var.tenancy_ocid
+	limit_name = var.resource_availability_limit_name
+	service_name = oci_limits_service.test_service.name
 
 	#Optional
-	availability_domain = "${var.resource_availability_availability_domain}"
+	availability_domain = var.resource_availability_availability_domain
 }
 ```
 

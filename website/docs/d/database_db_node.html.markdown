@@ -17,7 +17,7 @@ Gets information about the specified database node.
 ```hcl
 data "oci_database_db_node" "test_db_node" {
 	#Required
-	db_node_id = "${var.db_node_id}"
+	db_node_id = var.db_node_id
 }
 ```
 

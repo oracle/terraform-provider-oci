@@ -17,16 +17,16 @@ Adds a backend server to a backend set.
 ```hcl
 resource "oci_load_balancer_backend" "test_backend" {
 	#Required
-	backendset_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
-	ip_address = "${var.backend_ip_address}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	port = "${var.backend_port}"
+	backendset_name = oci_load_balancer_backend_set.test_backend_set.name
+	ip_address = var.backend_ip_address
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	port = var.backend_port
 
 	#Optional
-	backup = "${var.backend_backup}"
-	drain = "${var.backend_drain}"
-	offline = "${var.backend_offline}"
-	weight = "${var.backend_weight}"
+	backup = var.backend_backup
+	drain = var.backend_drain
+	offline = var.backend_offline
+	weight = var.backend_weight
 }
 ```
 

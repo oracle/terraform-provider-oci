@@ -23,22 +23,22 @@ resource "oci_core_vnic_attachment" "test_vnic_attachment" {
 	create_vnic_details {
 
 		#Optional
-		assign_public_ip = "${var.vnic_attachment_create_vnic_details_assign_public_ip}"
-		defined_tags = "${var.vnic_attachment_create_vnic_details_defined_tags}"
-		display_name = "${var.vnic_attachment_create_vnic_details_display_name}"
-		freeform_tags = "${var.vnic_attachment_create_vnic_details_freeform_tags}"
-		hostname_label = "${var.vnic_attachment_create_vnic_details_hostname_label}"
-		nsg_ids = "${var.vnic_attachment_create_vnic_details_nsg_ids}"
-		private_ip = "${var.vnic_attachment_create_vnic_details_private_ip}"
-		skip_source_dest_check = "${var.vnic_attachment_create_vnic_details_skip_source_dest_check}"
-		subnet_id = "${oci_core_subnet.test_subnet.id}"
-		vlan_id = "${oci_core_vlan.test_vlan.id}"
+		assign_public_ip = var.vnic_attachment_create_vnic_details_assign_public_ip
+		defined_tags = var.vnic_attachment_create_vnic_details_defined_tags
+		display_name = var.vnic_attachment_create_vnic_details_display_name
+		freeform_tags = var.vnic_attachment_create_vnic_details_freeform_tags
+		hostname_label = var.vnic_attachment_create_vnic_details_hostname_label
+		nsg_ids = var.vnic_attachment_create_vnic_details_nsg_ids
+		private_ip = var.vnic_attachment_create_vnic_details_private_ip
+		skip_source_dest_check = var.vnic_attachment_create_vnic_details_skip_source_dest_check
+		subnet_id = oci_core_subnet.test_subnet.id
+		vlan_id = oci_core_vlan.test_vlan.id
 	}
-	instance_id = "${oci_core_instance.test_instance.id}"
+	instance_id = oci_core_instance.test_instance.id
 
 	#Optional
-	display_name = "${var.vnic_attachment_display_name}"
-	nic_index = "${var.vnic_attachment_nic_index}"
+	display_name = var.vnic_attachment_display_name
+	nic_index = var.vnic_attachment_nic_index
 }
 ```
 

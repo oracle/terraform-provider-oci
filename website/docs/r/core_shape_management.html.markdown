@@ -17,9 +17,9 @@ Add/Remove the specified shape from the compatible shapes list for the image.
 ```hcl
 "oci_core_shape_management" "test_shape" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	image_id = "${oci_core_image.test_image.id}"
-	shape_name = "${var.shape_name}"
+	compartment_id = var.compartment_id
+	image_id = oci_core_image.test_image.id
+	shape_name = var.shape_name
 }
 ```
 

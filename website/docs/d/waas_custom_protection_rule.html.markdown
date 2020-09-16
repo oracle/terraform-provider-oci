@@ -17,7 +17,7 @@ Gets the details of a custom protection rule.
 ```hcl
 data "oci_waas_custom_protection_rule" "test_custom_protection_rule" {
 	#Required
-	custom_protection_rule_id = "${oci_waas_custom_protection_rule.test_custom_protection_rule.id}"
+	custom_protection_rule_id = oci_waas_custom_protection_rule.test_custom_protection_rule.id
 }
 ```
 

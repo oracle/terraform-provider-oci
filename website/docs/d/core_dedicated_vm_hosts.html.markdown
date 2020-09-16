@@ -21,13 +21,13 @@ dedicated virtual machine hosts in the compartment.
 ```hcl
 data "oci_core_dedicated_vm_hosts" "test_dedicated_vm_hosts" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.dedicated_vm_host_availability_domain}"
-	display_name = "${var.dedicated_vm_host_display_name}"
-	instance_shape_name = "${var.dedicated_vm_host_instance_shape_name}"
-	state = "${var.dedicated_vm_host_state}"
+	availability_domain = var.dedicated_vm_host_availability_domain
+	display_name = var.dedicated_vm_host_display_name
+	instance_shape_name = var.dedicated_vm_host_instance_shape_name
+	state = var.dedicated_vm_host_state
 }
 ```
 

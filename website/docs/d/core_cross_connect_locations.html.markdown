@@ -19,7 +19,7 @@ this information so you can specify your desired location when you create a cros
 ```hcl
 data "oci_core_cross_connect_locations" "test_cross_connect_locations" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

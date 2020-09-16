@@ -17,7 +17,7 @@ Gets a deployment by identifier.
 ```hcl
 data "oci_apigateway_deployment" "test_deployment" {
 	#Required
-	deployment_id = "${oci_apigateway_deployment.test_deployment.id}"
+	deployment_id = oci_apigateway_deployment.test_deployment.id
 }
 ```
 

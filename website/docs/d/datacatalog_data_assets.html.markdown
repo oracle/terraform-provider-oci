@@ -17,19 +17,19 @@ Returns a list of data assets within a data catalog.
 ```hcl
 data "oci_datacatalog_data_assets" "test_data_assets" {
 	#Required
-	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
+	catalog_id = oci_datacatalog_catalog.test_catalog.id
 
 	#Optional
-	created_by_id = "${oci_datacatalog_created_by.test_created_by.id}"
-	display_name = "${var.data_asset_display_name}"
-	display_name_contains = "${var.data_asset_display_name_contains}"
-	external_key = "${var.data_asset_external_key}"
-	fields = "${var.data_asset_fields}"
-	state = "${var.data_asset_state}"
-	time_created = "${var.data_asset_time_created}"
-	time_updated = "${var.data_asset_time_updated}"
-	type_key = "${var.data_asset_type_key}"
-	updated_by_id = "${oci_datacatalog_updated_by.test_updated_by.id}"
+	created_by_id = oci_datacatalog_created_by.test_created_by.id
+	display_name = var.data_asset_display_name
+	display_name_contains = var.data_asset_display_name_contains
+	external_key = var.data_asset_external_key
+	fields = var.data_asset_fields
+	state = var.data_asset_state
+	time_created = var.data_asset_time_created
+	time_updated = var.data_asset_time_updated
+	type_key = var.data_asset_type_key
+	updated_by_id = oci_datacatalog_updated_by.test_updated_by.id
 }
 ```
 

@@ -17,7 +17,7 @@ Gets the quota for the OCID specified.
 ```hcl
 data "oci_limits_quota" "test_quota" {
 	#Required
-	quota_id = "${oci_limits_quota.test_quota.id}"
+	quota_id = oci_limits_quota.test_quota.id
 }
 ```
 

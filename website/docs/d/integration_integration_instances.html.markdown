@@ -18,11 +18,11 @@ Returns a list of Integration Instances.
 ```hcl
 data "oci_integration_integration_instances" "test_integration_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.integration_instance_display_name}"
-	state = "${var.integration_instance_state}"
+	display_name = var.integration_instance_display_name
+	state = var.integration_instance_state
 }
 ```
 
@@ -46,6 +46,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - Compartment Identifier.
+* `consumption_model` - The entitlement used for billing purposes.
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Integration Instance Identifier, can be renamed.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 

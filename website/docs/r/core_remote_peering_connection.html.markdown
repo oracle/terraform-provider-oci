@@ -18,15 +18,15 @@ Creates a new remote peering connection (RPC) for the specified DRG.
 ```hcl
 resource "oci_core_remote_peering_connection" "test_remote_peering_connection" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	drg_id = "${oci_core_drg.test_drg.id}"
+	compartment_id = var.compartment_id
+	drg_id = oci_core_drg.test_drg.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.remote_peering_connection_display_name}"
+	display_name = var.remote_peering_connection_display_name
 	freeform_tags = {"Department"= "Finance"}
-	peer_id = "${oci_core_remote_peering_connection.test_remote_peering_connection2.id}"
-	peer_region_name = "${var.remote_peering_connection_peer_region_name}"
+	peer_id = oci_core_remote_peering_connection.test_remote_peering_connection2.id
+	peer_region_name = var.remote_peering_connection_peer_region_name
 }
 ```
 

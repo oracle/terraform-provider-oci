@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/core"
+	oci_core "github.com/oracle/oci-go-sdk/v25/core"
 )
 
 func getPublicIpIdsForRegionScope(compartmentId string, listPublicIpsRequest oci_core.ListPublicIpsRequest) ([]oci_core.PublicIp, error) {

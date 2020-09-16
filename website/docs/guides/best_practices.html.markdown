@@ -40,7 +40,7 @@ A Compute instance can use this in the following way:
 
 ```hcl
 resource "oci_core_instance" "TFInstance" {
-  image = "${var.image_id[var.region]}"
+  image = var.image_id[var.region]
   ...
 }
 ```
@@ -53,19 +53,19 @@ With respect to Availability Domains, we caution against the common pattern of i
 ```hcl
 // Get all availability domains for the region
 data "oci_identity_availability_domains" "ads" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
 }
   
 // Then either use it to get a single AD name based on the index:
 resource "oci_core_instance" "nat" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ads.availability_domains[var.nat_instance_ad],"name")}"
+  availability_domain = lookup(data.oci_identity_availability_domains.ads.availability_domains[var.nat_instance_ad],"name")
   ...
 }
   
 // Or iterate through all the ADs:
 resource "oci_core_subnet" "nat" {
-  count = "${length(data.oci_identity_availability_domains.ads.availability_domains)}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index], "name")}"
+  count = length(data.oci_identity_availability_domains.ads.availability_domains)
+  availability_domain = lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index], "name")
   ...
 }
 ```
@@ -83,14 +83,14 @@ You can then use the variable as shown here:
 ```hcl
 // Index:
 resource "oci_core_instance" "nat" {
-  availability_domain = "${var.ad_list[var.nat_instance_ad_index]}"
+  availability_domain = var.ad_list[var.nat_instance_ad_index]
   ...
 }
   
 // Or iterate through all the ADs:
 resource "oci_core_subnet" "nat" {
-  count = "${length(var.ad_list)}"
-  availability_domain = "${var.ad_list[count.index]}"
+  count = length(var.ad_list)
+  availability_domain = var.ad_list[count.index]
   ...
 }
 ```
@@ -113,16 +113,22 @@ making it is easy to switch to an explicit list later, should that become necess
 
 ```hcl
 data "oci_identity_availability_domains" "ad" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
 }
  
 data "template_file" "ad_names" {
-  count = "${length(data.oci_identity_availability_domains.ad.availability_domains)}"
-  template = "${lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index], "name")}"
+  count = length(data.oci_identity_availability_domains.ad.availability_domains)
+  template = lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index], "name")
 }
   
 module "ssm_network" {
-  ad_list = "${data.template_file.ad_names.*.rendered}"
+  ad_list = data.template_file.ad_names.*.rendered
   ...
 }
 ```
+
+### Sensitive Data in State
+
+The state contains all resource attributes that are specified as part of configuration files. If you manage any sensitive data with Terraform (like database or user passwords, instance or load balancer private keys, etc), treat the state itself as sensitive data. 
+Please refer to [Sensitive Data in State](https://www.terraform.io/docs/state/sensitive-data.html) for more details.
+ 

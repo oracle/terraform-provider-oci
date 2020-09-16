@@ -17,7 +17,7 @@ Get the configuration
 ```hcl
 data "oci_audit_configuration" "test_configuration" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 }
 ```
 

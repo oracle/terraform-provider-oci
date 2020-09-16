@@ -19,11 +19,11 @@ For more information, see [Volume Groups](https://docs.cloud.oracle.com/iaas/Con
 ```hcl
 data "oci_core_volume_group_backups" "test_volume_group_backups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.volume_group_backup_display_name}"
-	volume_group_id = "${oci_core_volume_group.test_volume_group.id}"
+	display_name = var.volume_group_backup_display_name
+	volume_group_id = oci_core_volume_group.test_volume_group.id
 }
 ```
 

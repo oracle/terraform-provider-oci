@@ -18,11 +18,11 @@ Lists the virtual circuits in the specified compartment.
 ```hcl
 data "oci_core_virtual_circuits" "test_virtual_circuits" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.virtual_circuit_display_name}"
-	state = "${var.virtual_circuit_state}"
+	display_name = var.virtual_circuit_display_name
+	state = var.virtual_circuit_state
 }
 ```
 

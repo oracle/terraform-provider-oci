@@ -17,8 +17,8 @@ Retrieves an image shape compatibility entry.
 ```hcl
 data "oci_core_image_shape" "test_image_shape" {
 	#Required
-	image_id = "${oci_core_image.test_image.id}"
-	shape_name = "${oci_core_shape.test_shape.name}"
+	image_id = oci_core_image.test_image.id
+	shape_name = oci_core_shape.test_shape.name
 }
 ```
 

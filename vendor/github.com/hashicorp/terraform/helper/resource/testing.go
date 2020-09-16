@@ -524,6 +524,7 @@ func Test(t TestT, c TestCase) {
 				continue
 			}
 		}
+
 		if step.Config == "" && !step.ImportState {
 			err = fmt.Errorf(
 				"unknown test mode for step. Please see TestStep docs\n\n%#v",

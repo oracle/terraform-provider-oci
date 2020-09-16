@@ -17,7 +17,7 @@ Gets the details of a HTTP Redirect.
 ```hcl
 data "oci_waas_http_redirect" "test_http_redirect" {
 	#Required
-	http_redirect_id = "${oci_waas_http_redirect.test_http_redirect.id}"
+	http_redirect_id = oci_waas_http_redirect.test_http_redirect.id
 }
 ```
 

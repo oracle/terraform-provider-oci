@@ -18,7 +18,7 @@ Retrieves an private endpoint using a `privateEndpointId`.
 ```hcl
 data "oci_dataflow_private_endpoint" "test_private_endpoint" {
 	#Required
-	private_endpoint_id = "${oci_dataflow_private_endpoint.test_private_endpoint.id}"
+	private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 }
 ```
 

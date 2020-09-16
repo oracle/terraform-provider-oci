@@ -18,11 +18,11 @@ Gets a list of the Exadata infrastructure in the specified compartment.
 ```hcl
 data "oci_database_exadata_infrastructures" "test_exadata_infrastructures" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.exadata_infrastructure_display_name}"
-	state = "${var.exadata_infrastructure_state}"
+	display_name = var.exadata_infrastructure_display_name
+	state = var.exadata_infrastructure_state
 }
 ```
 

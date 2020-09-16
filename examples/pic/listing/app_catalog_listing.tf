@@ -9,5 +9,6 @@ data "oci_core_app_catalog_listings" "test_app_catalog_listings" {
 }
 
 output "listings" {
-  value = ["${data.oci_core_app_catalog_listings.test_app_catalog_listings.app_catalog_listings}"]
+  value = [data.oci_core_app_catalog_listings.test_app_catalog_listings.app_catalog_listings]
 }
+

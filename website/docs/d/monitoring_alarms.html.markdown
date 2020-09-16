@@ -23,12 +23,12 @@ or transactions, per second (TPS) for a given tenancy.
 ```hcl
 data "oci_monitoring_alarms" "test_alarms" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	compartment_id_in_subtree = "${var.alarm_compartment_id_in_subtree}"
-	display_name = "${var.alarm_display_name}"
-	state = "${var.alarm_state}"
+	compartment_id_in_subtree = var.alarm_compartment_id_in_subtree
+	display_name = var.alarm_display_name
+	state = var.alarm_state
 }
 ```
 

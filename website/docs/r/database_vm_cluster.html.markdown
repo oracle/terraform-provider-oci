@@ -18,24 +18,24 @@ Creates a VM cluster.
 ```hcl
 resource "oci_database_vm_cluster" "test_vm_cluster" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	cpu_core_count = "${var.vm_cluster_cpu_core_count}"
-	display_name = "${var.vm_cluster_display_name}"
-	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
-	gi_version = "${var.vm_cluster_gi_version}"
-	ssh_public_keys = "${var.vm_cluster_ssh_public_keys}"
-	vm_cluster_network_id = "${oci_database_vm_cluster_network.test_vm_cluster_network.id}"
+	compartment_id = var.compartment_id
+	cpu_core_count = var.vm_cluster_cpu_core_count
+	display_name = var.vm_cluster_display_name
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+	gi_version = var.vm_cluster_gi_version
+	ssh_public_keys = var.vm_cluster_ssh_public_keys
+	vm_cluster_network_id = oci_database_vm_cluster_network.test_vm_cluster_network.id
 
 	#Optional
-	data_storage_size_in_tbs = "${var.vm_cluster_data_storage_size_in_tbs}"
-	db_node_storage_size_in_gbs = "${var.vm_cluster_db_node_storage_size_in_gbs}"
-	defined_tags = "${var.vm_cluster_defined_tags}"
+	data_storage_size_in_tbs = var.vm_cluster_data_storage_size_in_tbs
+	db_node_storage_size_in_gbs = var.vm_cluster_db_node_storage_size_in_gbs
+	defined_tags = var.vm_cluster_defined_tags
 	freeform_tags = {"Department"= "Finance"}
-	is_local_backup_enabled = "${var.vm_cluster_is_local_backup_enabled}"
-	is_sparse_diskgroup_enabled = "${var.vm_cluster_is_sparse_diskgroup_enabled}"
-	license_model = "${var.vm_cluster_license_model}"
-	memory_size_in_gbs = "${var.vm_cluster_memory_size_in_gbs}"
-	time_zone = "${var.vm_cluster_time_zone}"
+	is_local_backup_enabled = var.vm_cluster_is_local_backup_enabled
+	is_sparse_diskgroup_enabled = var.vm_cluster_is_sparse_diskgroup_enabled
+	license_model = var.vm_cluster_license_model
+	memory_size_in_gbs = var.vm_cluster_memory_size_in_gbs
+	time_zone = var.vm_cluster_time_zone
 }
 ```
 

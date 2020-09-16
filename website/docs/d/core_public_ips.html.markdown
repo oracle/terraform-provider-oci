@@ -37,12 +37,12 @@ is always in the same availability domain and compartment as the private IP.
 ```hcl
 data "oci_core_public_ips" "test_public_ips" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	scope = "${var.public_ip_scope}"
+	compartment_id = var.compartment_id
+	scope = var.public_ip_scope
 
 	#Optional
-	availability_domain = "${var.public_ip_availability_domain}"
-	lifetime = "${var.public_ip_lifetime}"
+	availability_domain = var.public_ip_availability_domain
+	lifetime = var.public_ip_lifetime
 }
 ```
 

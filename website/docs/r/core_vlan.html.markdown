@@ -18,18 +18,18 @@ Creates a VLAN in the specified VCN and the specified compartment.
 ```hcl
 resource "oci_core_vlan" "test_vlan" {
 	#Required
-	availability_domain = "${var.vlan_availability_domain}"
-	cidr_block = "${var.vlan_cidr_block}"
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	availability_domain = var.vlan_availability_domain
+	cidr_block = var.vlan_cidr_block
+	compartment_id = var.compartment_id
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.vlan_display_name}"
+	display_name = var.vlan_display_name
 	freeform_tags = {"Department"= "Finance"}
-	nsg_ids = "${var.vlan_nsg_ids}"
-	route_table_id = "${oci_core_route_table.test_route_table.id}"
-	vlan_tag = "${var.vlan_vlan_tag}"
+	nsg_ids = var.vlan_nsg_ids
+	route_table_id = oci_core_route_table.test_route_table.id
+	vlan_tag = var.vlan_vlan_tag
 }
 ```
 

@@ -23,9 +23,9 @@ Setting the flag makes it so that when a hostname is recreated, the new hostname
 ```hcl
 resource "oci_load_balancer_hostname" "test_hostname" {
 	#Required
-	hostname = "${var.hostname_hostname}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.hostname_name}"
+	hostname = var.hostname_hostname
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	name = var.hostname_name
 
     #Optional
     lifecycle {

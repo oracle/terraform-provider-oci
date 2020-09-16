@@ -19,7 +19,7 @@ This will include the programmatic service name, along with the friendly service
 ```hcl
 data "oci_limits_services" "test_services" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 }
 ```
 

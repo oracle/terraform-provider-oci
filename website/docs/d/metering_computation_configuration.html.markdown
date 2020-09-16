@@ -18,7 +18,7 @@ Returns the list of config for UI dropdown list
 ```hcl
 data "oci_metering_computation_configuration" "test_configuration" {
 	#Required
-	tenant_id = "${oci_metering_computation_tenant.test_tenant.id}"
+	tenant_id = oci_metering_computation_tenant.test_tenant.id
 }
 ```
 

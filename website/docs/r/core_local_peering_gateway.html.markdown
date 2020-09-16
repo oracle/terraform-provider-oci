@@ -18,21 +18,21 @@ Creates a new local peering gateway (LPG) for the specified VCN.
 ```hcl
 resource "oci_core_local_peering_gateway" "test_local_peering_gateway" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	compartment_id = var.compartment_id
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.local_peering_gateway_display_name}"
+	display_name = var.local_peering_gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
-	peer_id = "${oci_core_local_peering_gateway.test_local_peering_gateway2.id}"
-	route_table_id = "${oci_core_route_table.test_route_table.id}"
+	peer_id = oci_core_local_peering_gateway.test_local_peering_gateway2.id
+	route_table_id = oci_core_route_table.test_route_table.id
 }
 ```
 
 ## Argument Reference
 
-* Specifying a peer_id creates a connection to the specified LPG ID. 
+* Specifying a peer_id creates a connection to the specified LPG ID. `peer_id` should only be specified in one of the LPGs.
 * If the specified peer_id is also a resource in the terraform config you will have do a `terraform refresh` after the `terraform apply` in order to get the latest connection information on that resource.
 * To disconnect the peering connection at least one of the LPG resources in the connection will have to be destroyed, however in terraform we recommend that when one LPG is destroyed the peer should also be destroyed. If one of them is not destroyed it will have a `REVOKED` peering_status. If another LPG resource tries to connect to this LPG resource it will get a `400 Error: The Local Peering Gateway with ID X has already been connected`. To solve this you will have to run `terraform taint oci_core_local_peering_gateway.test_local_peering_gateway` on that resource or target delete it `terraform destroy -target="oci_core_local_peering_gateway.test_local_peering_gateway"`.
 

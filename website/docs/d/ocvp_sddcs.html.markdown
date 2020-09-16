@@ -19,12 +19,12 @@ filtered by display name or availability domain.
 ```hcl
 data "oci_ocvp_sddcs" "test_sddcs" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	compute_availability_domain = "${var.sddc_compute_availability_domain}"
-	display_name = "${var.sddc_display_name}"
-	state = "${var.sddc_state}"
+	compute_availability_domain = var.sddc_compute_availability_domain
+	display_name = var.sddc_display_name
+	state = var.sddc_state
 }
 ```
 

@@ -17,7 +17,7 @@ Gets the specified model's information.
 ```hcl
 data "oci_datascience_model" "test_model" {
 	#Required
-	model_id = "${oci_datascience_model.test_model.id}"
+	model_id = oci_datascience_model.test_model.id
 }
 ```
 

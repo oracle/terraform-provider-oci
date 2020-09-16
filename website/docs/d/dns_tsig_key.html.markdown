@@ -18,7 +18,7 @@ Gets information about the specified TSIG key.
 ```hcl
 data "oci_dns_tsig_key" "test_tsig_key" {
 	#Required
-	tsig_key_id = "${oci_dns_tsig_key.test_tsig_key.id}"
+	tsig_key_id = oci_dns_tsig_key.test_tsig_key.id
 }
 ```
 

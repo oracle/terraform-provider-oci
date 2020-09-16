@@ -18,11 +18,11 @@ Lists the tag namespaces in the specified compartment.
 ```hcl
 data "oci_identity_tag_namespaces" "test_tag_namespaces" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	include_subcompartments = "${var.tag_namespace_include_subcompartments}"
-	state = "${var.tag_namespace_state}"
+	include_subcompartments = var.tag_namespace_include_subcompartments
+	state = var.tag_namespace_state
 }
 ```
 

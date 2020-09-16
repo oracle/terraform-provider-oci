@@ -23,11 +23,11 @@ creation of the ESXi host.
 ```hcl
 resource "oci_ocvp_esxi_host" "test_esxi_host" {
 	#Required
-	sddc_id = "${oci_ocvp_sddc.test_sddc.id}"
+	sddc_id = oci_ocvp_sddc.test_sddc.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.esxi_host_display_name}"
+	display_name = var.esxi_host_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

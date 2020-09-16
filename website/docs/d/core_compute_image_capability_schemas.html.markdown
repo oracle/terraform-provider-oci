@@ -19,9 +19,9 @@ Lists Compute Image Capability Schema in the specified compartment. You can also
 data "oci_core_compute_image_capability_schemas" "test_compute_image_capability_schemas" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.compute_image_capability_schema_display_name}"
-	image_id = "${oci_core_image.test_image.id}"
+	compartment_id = var.compartment_id
+	display_name = var.compute_image_capability_schema_display_name
+	image_id = oci_core_image.test_image.id
 }
 ```
 

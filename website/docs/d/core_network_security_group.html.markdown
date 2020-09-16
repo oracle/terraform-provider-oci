@@ -24,7 +24,7 @@ To list the security rules in an NSG, see
 ```hcl
 data "oci_core_network_security_group" "test_network_security_group" {
 	#Required
-	network_security_group_id = "${oci_core_network_security_group.test_network_security_group.id}"
+	network_security_group_id = oci_core_network_security_group.test_network_security_group.id
 }
 ```
 

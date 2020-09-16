@@ -17,11 +17,11 @@ Lists the cluster networks in the specified compartment.
 ```hcl
 data "oci_core_cluster_networks" "test_cluster_networks" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.cluster_network_display_name}"
-	state = "${var.cluster_network_state}"
+	display_name = var.cluster_network_display_name
+	state = var.cluster_network_state
 }
 ```
 

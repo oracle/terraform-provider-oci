@@ -36,18 +36,18 @@ It does not have to be unique, and you can change it. Avoid entering confidentia
 ```hcl
 resource "oci_core_cross_connect" "test_cross_connect" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	location_name = "${var.cross_connect_location_name}"
-	port_speed_shape_name = "${var.cross_connect_port_speed_shape_name}"
+	compartment_id = var.compartment_id
+	location_name = var.cross_connect_location_name
+	port_speed_shape_name = var.cross_connect_port_speed_shape_name
 
 	#Optional
-	cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
-	customer_reference_name = "${var.cross_connect_customer_reference_name}"
+	cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
+	customer_reference_name = var.cross_connect_customer_reference_name
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.cross_connect_display_name}"
-	far_cross_connect_or_cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
+	display_name = var.cross_connect_display_name
+	far_cross_connect_or_cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
 	freeform_tags = {"Department"= "Finance"}
-	near_cross_connect_or_cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
+	near_cross_connect_or_cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
 }
 ```
 

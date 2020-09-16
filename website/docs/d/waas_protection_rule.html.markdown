@@ -17,8 +17,8 @@ Gets the details of a protection rule in the Web Application Firewall configurat
 ```hcl
 data "oci_waas_protection_rule" "test_protection_rule" {
 	#Required
-	protection_rule_key = "${var.protection_rule_protection_rule_key}"
-	waas_policy_id = "${oci_waas_waas_policy.test_waas_policy.id}"
+	protection_rule_key = var.protection_rule_protection_rule_key
+	waas_policy_id = oci_waas_waas_policy.test_waas_policy.id
 }
 ```
 

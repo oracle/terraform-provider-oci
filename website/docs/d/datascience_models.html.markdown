@@ -17,14 +17,14 @@ Lists models in the specified compartment.
 ```hcl
 data "oci_datascience_models" "test_models" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	created_by = "${var.model_created_by}"
-	display_name = "${var.model_display_name}"
-	id = "${var.model_id}"
-	project_id = "${oci_datascience_project.test_project.id}"
-	state = "${var.model_state}"
+	created_by = var.model_created_by
+	display_name = var.model_display_name
+	id = var.model_id
+	project_id = oci_datascience_project.test_project.id
+	state = var.model_state
 }
 ```
 

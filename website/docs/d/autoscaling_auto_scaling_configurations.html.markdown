@@ -18,10 +18,10 @@ Lists autoscaling configurations in the specifed compartment.
 ```hcl
 data "oci_autoscaling_auto_scaling_configurations" "test_auto_scaling_configurations" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.auto_scaling_configuration_display_name}"
+	display_name = var.auto_scaling_configuration_display_name
 }
 ```
 

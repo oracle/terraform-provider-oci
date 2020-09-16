@@ -18,11 +18,11 @@ Gets a list of HTTP monitors.
 ```hcl
 data "oci_health_checks_http_monitors" "test_http_monitors" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.http_monitor_display_name}"
-	home_region = "${var.http_monitor_home_region}"
+	display_name = var.http_monitor_display_name
+	home_region = var.http_monitor_home_region
 }
 ```
 

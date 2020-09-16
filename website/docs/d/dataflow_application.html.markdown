@@ -18,7 +18,7 @@ Retrieves an application using an `applicationId`.
 ```hcl
 data "oci_dataflow_application" "test_application" {
 	#Required
-	application_id = "${oci_dataflow_application.test_application.id}"
+	application_id = oci_dataflow_application.test_application.id
 }
 ```
 
