@@ -196,6 +196,14 @@ func MeteringComputationUsageResource() *schema.Resource {
 								},
 							},
 						},
+						"tenant_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"tenant_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_usage_ended": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -439,6 +447,14 @@ func UsageSummaryToMap(obj oci_metering_computation.UsageSummary) map[string]int
 		tags = append(tags, TagToMap(item))
 	}
 	result["tags"] = tags
+
+	if obj.TenantId != nil {
+		result["tenant_id"] = string(*obj.TenantId)
+	}
+
+	if obj.TenantName != nil {
+		result["tenant_name"] = string(*obj.TenantName)
+	}
 
 	if obj.TimeUsageEnded != nil {
 		result["time_usage_ended"] = obj.TimeUsageEnded.String()
