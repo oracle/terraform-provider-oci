@@ -89,6 +89,11 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"database_software_image_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -373,6 +378,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := databaseId.(string)
 			request.DatabaseId = &tmp
 		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
+		}
 		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
 		}
@@ -397,6 +406,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
 			tmp := databaseId.(string)
 			request.DatabaseId = &tmp
+		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
 		}
 		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
@@ -460,6 +473,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
 			tmp := databaseId.(string)
 			request.DatabaseId = &tmp
+		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
 		}
 		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))

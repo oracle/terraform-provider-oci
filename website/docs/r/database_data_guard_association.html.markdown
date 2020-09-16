@@ -35,6 +35,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	#Optional
 	availability_domain = var.data_guard_association_availability_domain
 	backup_network_nsg_ids = var.data_guard_association_backup_network_nsg_ids
+	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 	display_name = var.data_guard_association_display_name
 	hostname = var.data_guard_association_hostname
 	nsg_ids = var.data_guard_association_nsg_ids
@@ -63,6 +64,7 @@ The following arguments are supported:
 
 	**The password MUST be the same as the primary admin password.** 
 * `database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `database_software_image_id` - (Optional) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Applicable only when creationType=`ExistingDbSystem` and when the existing database has Exadata shape.
 * `delete_standby_db_home_on_delete` - (Required) (Updatable) if set to true the destroy operation will destroy the standby dbHome/dbSystem that is referenced in the Data Guard Association. The Data Guard Association gets destroyed when standby dbHome/dbSystem is terminated. Only `true` is supported at this time. If you change an argument that is used during the delete operation you must run `terraform apply` first so that that the change in the value is registered in the statefile before running `terraform destroy`. `terraform destroy` only looks at what is currently on the statefile and ignores the terraform configuration files. 
 * `display_name` - (Applicable when creation_type=NewDbSystem) The user-friendly name of the DB system that will contain the the standby database. The display name does not have to be unique.
 * `hostname` - (Applicable when creation_type=NewDbSystem) The hostname for the DB node.
