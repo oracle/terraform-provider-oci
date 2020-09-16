@@ -1,4 +1,4 @@
-## 3.93.0 (Unreleased)
+## 3.93.0 (September 16, 2020)
 
 ### Added
 - Support for load balancer shape update added
