@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -48,6 +49,8 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 	resourceName := "oci_core_volume_backup_policy_assignment.test_volume_backup_policy_assignment"
 	datasourceName := "data.oci_core_volume_backup_policy_assignments.test_volume_backup_policy_assignments"
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -62,6 +65,15 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "asset_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "policy_id"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 
