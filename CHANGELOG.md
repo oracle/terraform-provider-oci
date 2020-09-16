@@ -1,4 +1,14 @@
 ## 3.93.0 (Unreleased)
+
+### Added
+- Support for load balancer shape update added
+- Support for DBaaS Custom DB Image
+- Support for consumption_model in `oci_integration_integration_instance` resource
+- Support for CloudGuard
+
+### Notes
+- Examples updated to Terraform v0.12 syntax
+
 ## 3.92.0 (September 09, 2020)
 
 ### Added

@@ -17,10 +17,10 @@ Get options available for node pools.
 ```hcl
 data "oci_containerengine_node_pool_option" "test_node_pool_option" {
 	#Required
-	node_pool_option_id = "${oci_containerengine_node_pool_option.test_node_pool_option.id}"
+	node_pool_option_id = oci_containerengine_node_pool_option.test_node_pool_option.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

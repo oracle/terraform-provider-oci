@@ -23,14 +23,14 @@ requests per second for a given tenancy.
 ```hcl
 resource "oci_kms_key" "test_key" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.key_display_name}"
+	compartment_id = var.compartment_id
+	display_name = var.key_display_name
 	key_shape {
 		#Required
-		algorithm = "${var.key_key_shape_algorithm}"
-		length = "${var.key_key_shape_length}"
+		algorithm = var.key_key_shape_algorithm
+		length = var.key_key_shape_length
 	}
-	management_endpoint = "${var.key_management_endpoint}"
+	management_endpoint = var.key_management_endpoint
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

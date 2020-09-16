@@ -18,7 +18,7 @@ Lists the DRGs in the specified compartment.
 ```hcl
 data "oci_core_drgs" "test_drgs" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

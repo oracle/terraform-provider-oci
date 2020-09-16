@@ -19,7 +19,7 @@ VMware Solution.
 ```hcl
 data "oci_ocvp_supported_vmware_software_versions" "test_supported_vmware_software_versions" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

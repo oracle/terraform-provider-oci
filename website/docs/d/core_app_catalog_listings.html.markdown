@@ -18,9 +18,9 @@ Lists the published listings.
 data "oci_core_app_catalog_listings" "test_app_catalog_listings" {
 
 	#Optional
-	display_name = "${var.app_catalog_listing_display_name}"
-	publisher_name = "${var.app_catalog_listing_publisher_name}"
-	publisher_type = "${var.app_catalog_listing_publisher_type}"
+	display_name = var.app_catalog_listing_display_name
+	publisher_name = var.app_catalog_listing_publisher_name
+	publisher_type = var.app_catalog_listing_publisher_type
 }
 ```
 

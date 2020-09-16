@@ -15,25 +15,26 @@ variable "suppression_time_created_less_than" {
 
 resource "oci_email_suppression" "test_suppression" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
-  email_address  = "${var.suppression_email_address}"
+  compartment_id = var.tenancy_ocid
+  email_address  = var.suppression_email_address
 }
 
 data "oci_email_suppressions" "test_suppressions" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
 
   #Optional
-  email_address                         = "${var.suppression_email_address}"
-  time_created_greater_than_or_equal_to = "${var.suppression_time_created_greater_than_or_equal_to}"
-  time_created_less_than                = "${var.suppression_time_created_less_than}"
+  email_address                         = var.suppression_email_address
+  time_created_greater_than_or_equal_to = var.suppression_time_created_greater_than_or_equal_to
+  time_created_less_than                = var.suppression_time_created_less_than
 
   filter {
     name   = "id"
-    values = ["${oci_email_suppression.test_suppression.id}"]
+    values = [oci_email_suppression.test_suppression.id]
   }
 }
 
 output "emailSuppressions" {
-  value = "${data.oci_email_suppressions.test_suppressions.suppressions}"
+  value = data.oci_email_suppressions.test_suppressions.suppressions
 }
+

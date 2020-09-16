@@ -17,7 +17,7 @@ Lists all SSL certificates bundles associated with a given load balancer.
 ```hcl
 data "oci_load_balancer_certificates" "test_certificates" {
 	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

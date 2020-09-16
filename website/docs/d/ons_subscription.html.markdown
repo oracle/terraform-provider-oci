@@ -20,7 +20,7 @@ Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 ```hcl
 data "oci_ons_subscription" "test_subscription" {
 	#Required
-	subscription_id = "${oci_ons_subscription.test_subscription.id}"
+	subscription_id = oci_ons_subscription.test_subscription.id
 }
 ```
 

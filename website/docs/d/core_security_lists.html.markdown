@@ -19,12 +19,12 @@ If the VCN ID is not provided, then the list includes the security lists from al
 ```hcl
 data "oci_core_security_lists" "test_security_lists" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.security_list_display_name}"
-	state = "${var.security_list_state}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	display_name = var.security_list_display_name
+	state = var.security_list_state
+	vcn_id = oci_core_vcn.test_vcn.id
 }
 ```
 

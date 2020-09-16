@@ -21,13 +21,13 @@ header value and use it to call `GET /workRequests/{workRequestID}`.
 ```hcl
 resource "oci_oda_oda_instance" "test_oda_instance" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 	shape_name = "DEVELOPMENT"
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.oda_instance_description}"
-	display_name = "${var.oda_instance_display_name}"
+	description = var.oda_instance_description
+	display_name = var.oda_instance_display_name
 	freeform_tags = {"bar-key"= "value"}
 }
 ```

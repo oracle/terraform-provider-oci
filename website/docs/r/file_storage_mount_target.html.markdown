@@ -49,17 +49,17 @@ type, or by viewing the resource in the Console.
 ```hcl
 resource "oci_file_storage_mount_target" "test_mount_target" {
 	#Required
-	availability_domain = "${var.mount_target_availability_domain}"
-	compartment_id = "${var.compartment_id}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	availability_domain = var.mount_target_availability_domain
+	compartment_id = var.compartment_id
+	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.mount_target_display_name}"
+	display_name = var.mount_target_display_name
 	freeform_tags = {"Department"= "Finance"}
-	hostname_label = "${var.mount_target_hostname_label}"
-	ip_address = "${var.mount_target_ip_address}"
-	nsg_ids = "${var.mount_target_nsg_ids}"
+	hostname_label = var.mount_target_hostname_label
+	ip_address = var.mount_target_ip_address
+	nsg_ids = var.mount_target_nsg_ids
 }
 ```
 

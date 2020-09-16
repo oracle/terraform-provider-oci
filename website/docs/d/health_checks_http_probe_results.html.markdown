@@ -20,12 +20,12 @@ on-demand probe.
 ```hcl
 data "oci_health_checks_http_probe_results" "test_http_probe_results" {
 	#Required
-	probe_configuration_id = "${oci_health_checks_probe_configuration.test_probe_configuration.id}"
+	probe_configuration_id = oci_health_checks_probe_configuration.test_probe_configuration.id
 
 	#Optional
-	start_time_greater_than_or_equal_to = "${var.http_probe_result_start_time_greater_than_or_equal_to}"
-	start_time_less_than_or_equal_to = "${var.http_probe_result_start_time_less_than_or_equal_to}"
-	target = "${var.http_probe_result_target}"
+	start_time_greater_than_or_equal_to = var.http_probe_result_start_time_greater_than_or_equal_to
+	start_time_less_than_or_equal_to = var.http_probe_result_start_time_less_than_or_equal_to
+	target = var.http_probe_result_target
 }
 ```
 

@@ -21,7 +21,7 @@ operation.
 ```hcl
 data "oci_core_vnic" "test_vnic" {
 	#Required
-	vnic_id = "${oci_core_vnic.test_vnic.id}"
+	vnic_id = oci_core_vnic.test_vnic.id
 }
 ```
 

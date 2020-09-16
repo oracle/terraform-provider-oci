@@ -17,7 +17,7 @@ Gets the specified project's information.
 ```hcl
 data "oci_datascience_project" "test_project" {
 	#Required
-	project_id = "${oci_datascience_project.test_project.id}"
+	project_id = oci_datascience_project.test_project.id
 }
 ```
 

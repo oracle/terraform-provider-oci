@@ -21,10 +21,10 @@ Returns a list of stacks.
 data "oci_resourcemanager_stacks" "test_stacks" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.stack_display_name}"
-	id = "${var.stack_id}"
-	state = "${var.stack_state}"
+	compartment_id = var.compartment_id
+	display_name = var.stack_display_name
+	id = var.stack_id
+	state = var.stack_state
 }
 ```
 

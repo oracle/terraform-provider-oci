@@ -18,8 +18,8 @@ Downloads the configuration file for the specified VM Cluster Network.
 ```hcl
 data "oci_database_vm_cluster_network_download_config_file" "test_vm_cluster_network_download_config_file" {
 	#Required
-	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
-	vm_cluster_network_id = "${oci_database_vm_cluster_network.test_vm_cluster_network.id}"
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+	vm_cluster_network_id = oci_database_vm_cluster_network.test_vm_cluster_network.id
 
 	#Optional
 	base64_encode_content = "false"

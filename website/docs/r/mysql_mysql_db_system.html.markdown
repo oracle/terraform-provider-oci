@@ -18,13 +18,13 @@ Creates and launches a DB System.
 ```hcl
 resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	#Required
-	admin_password = "${var.mysql_db_system_admin_password}"
-	admin_username = "${var.mysql_db_system_admin_username}"
-	availability_domain = "${var.mysql_db_system_availability_domain}"
-	compartment_id = "${var.compartment_id}"
-	configuration_id = "${var.mysql_configuration_id}"
-	shape_name = "${var.mysql_shape_name}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	admin_password = var.mysql_db_system_admin_password
+	admin_username = var.mysql_db_system_admin_username
+	availability_domain = var.mysql_db_system_availability_domain
+	compartment_id = var.compartment_id
+	configuration_id = var.mysql_configuration_id
+	shape_name = var.mysql_shape_name
+	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
 	backup_policy {
@@ -32,31 +32,31 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		#Optional
 		defined_tags = {"foo-namespace.bar-key"= "value"}
 		freeform_tags = {"bar-key"= "value"}
-		is_enabled = "${var.mysql_db_system_backup_policy_is_enabled}"
-		retention_in_days = "${var.mysql_db_system_backup_policy_retention_in_days}"
-		window_start_time = "${var.mysql_db_system_backup_policy_window_start_time}"
+		is_enabled = var.mysql_db_system_backup_policy_is_enabled
+		retention_in_days = var.mysql_db_system_backup_policy_retention_in_days
+		window_start_time = var.mysql_db_system_backup_policy_window_start_time
 	}
-	data_storage_size_in_gb = "${var.mysql_db_system_data_storage_size_in_gb}"
+	data_storage_size_in_gb = var.mysql_db_system_data_storage_size_in_gb
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.mysql_db_system_description}"
-	display_name = "${var.mysql_db_system_display_name}"
-	fault_domain = "${var.mysql_db_system_fault_domain}"
+	description = var.mysql_db_system_description
+	display_name = var.mysql_db_system_display_name
+	fault_domain = var.mysql_db_system_fault_domain
 	freeform_tags = {"bar-key"= "value"}
-	hostname_label = "${var.mysql_db_system_hostname_label}"
-	ip_address = "${var.mysql_db_system_ip_address}"
+	hostname_label = var.mysql_db_system_hostname_label
+	ip_address = var.mysql_db_system_ip_address
 	maintenance {
 		#Required
-		window_start_time = "${var.mysql_db_system_maintenance_window_start_time}"
+		window_start_time = var.mysql_db_system_maintenance_window_start_time
 	}
-	mysql_version = "${var.mysql_db_system_mysql_version}"
-	port = "${var.mysql_db_system_port}"
-	port_x = "${var.mysql_db_system_port_x}"
+	mysql_version = var.mysql_db_system_mysql_version
+	port = var.mysql_db_system_port
+	port_x = var.mysql_db_system_port_x
 	source {
 		#Required
-		source_type = "${var.mysql_db_system_source_source_type}"
+		source_type = var.mysql_db_system_source_source_type
 
 		#Optional
-		backup_id = "${oci_mysql_mysql_backup.test_backup.id}"
+		backup_id = oci_mysql_mysql_backup.test_backup.id
 	}
 }
 ```

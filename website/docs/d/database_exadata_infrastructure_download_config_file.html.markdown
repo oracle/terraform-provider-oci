@@ -18,7 +18,7 @@ Downloads the configuration file for the specified Exadata infrastructure.
 ```hcl
 data "oci_database_exadata_infrastructure_download_config_file" "test_exadata_infrastructure_download_config_file" {
 	#Required
-	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 
 	#Optional
 	base64_encode_content = "false"

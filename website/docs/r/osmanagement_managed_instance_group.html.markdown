@@ -20,14 +20,14 @@ and they must be added later.
 ```hcl
 resource "oci_osmanagement_managed_instance_group" "test_managed_instance_group" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.managed_instance_group_display_name}"
+	compartment_id = var.compartment_id
+	display_name = var.managed_instance_group_display_name
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.managed_instance_group_description}"
+	description = var.managed_instance_group_description
 	freeform_tags = {"bar-key"= "value"}
-	os_family = "${var.managed_instance_group_os_family}"
+	os_family = var.managed_instance_group_os_family
 }
 ```
 

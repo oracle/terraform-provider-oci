@@ -17,8 +17,8 @@ Lists the backend servers for a given load balancer and backend set.
 ```hcl
 data "oci_load_balancer_backends" "test_backends" {
 	#Required
-	backendset_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	backendset_name = oci_load_balancer_backend_set.test_backend_set.name
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

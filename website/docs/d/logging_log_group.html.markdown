@@ -17,7 +17,7 @@ Get the specified log group's information.
 ```hcl
 data "oci_logging_log_group" "test_log_group" {
 	#Required
-	log_group_id = "${oci_logging_log_group.test_log_group.id}"
+	log_group_id = oci_logging_log_group.test_log_group.id
 }
 ```
 

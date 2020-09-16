@@ -18,10 +18,10 @@ Updates the wallet for the specified Autonomous Database.
 ```hcl
 resource "oci_database_autonomous_database_instance_wallet_management" "test_autonomous_database_instance_wallet_management" {
 	#Required
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
+	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
 
 	#Optional
-	should_rotate = "${var.autonomous_database_instance_wallet_management_should_rotate}"
+	should_rotate = var.autonomous_database_instance_wallet_management_should_rotate
 }
 ```
 

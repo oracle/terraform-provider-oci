@@ -17,10 +17,10 @@ Get options available for clusters.
 ```hcl
 data "oci_containerengine_cluster_option" "test_cluster_option" {
 	#Required
-	cluster_option_id = "${oci_containerengine_cluster_option.test_cluster_option.id}"
+	cluster_option_id = oci_containerengine_cluster_option.test_cluster_option.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

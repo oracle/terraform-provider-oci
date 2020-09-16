@@ -18,12 +18,12 @@ Gets the metadata and body of an object.
 ```hcl
 data "oci_objectstorage_object" "test_object" {
 	#Required
-	bucket = "${var.object_bucket}"
-	namespace = "${var.object_namespace}"
-	object = "${var.object_object}"
+	bucket = var.object_bucket
+	namespace = var.object_namespace
+	object = var.object_object
 
 	#Optional
-	version_id = "${oci_objectstorage_version.test_version.id}"
+	version_id = oci_objectstorage_version.test_version.id
 }
 ```
 

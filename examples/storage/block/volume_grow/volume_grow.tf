@@ -20,11 +20,11 @@ variable "ssh_private_key" {
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
 }
 
 variable "instance_shape" {
@@ -50,17 +50,17 @@ variable "size" {
 }
 
 resource "oci_core_instance" "test_instance" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  compartment_id      = "${var.compartment_ocid}"
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
   display_name        = "TestInstance1"
-  shape               = "${var.instance_shape}"
+  shape               = var.instance_shape
 
   shape_config {
     ocpus = 1
   }
 
   create_vnic_details {
-    subnet_id        = "${oci_core_subnet.test_subnet.id}"
+    subnet_id        = oci_core_subnet.test_subnet.id
     display_name     = "Primaryvnic"
     assign_public_ip = true
     hostname_label   = "tfexampleinstance1"
@@ -68,7 +68,7 @@ resource "oci_core_instance" "test_instance" {
 
   source_details {
     source_type = "image"
-    source_id   = "${var.instance_image_ocid[var.region]}"
+    source_id   = var.instance_image_ocid[var.region]
 
     # Apply this to set the size of the boot volume that's created for this instance.
     # Otherwise, the default boot volume size of the image is used.
@@ -77,8 +77,8 @@ resource "oci_core_instance" "test_instance" {
   }
 
   metadata = {
-    ssh_authorized_keys = "${var.ssh_public_key}"
-    user_data           = "${base64encode(file("./userdata/bootstrap"))}"
+    ssh_authorized_keys = var.ssh_public_key
+    user_data           = base64encode(file("./userdata/bootstrap"))
   }
 
   # Apply the following flag only if you wish to preserve the attached boot volume upon destroying this instance
@@ -93,16 +93,16 @@ resource "oci_core_instance" "test_instance" {
 # Define the volumes that are attached to the compute instances.
 
 resource "oci_core_volume" "test_block_volume" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  compartment_id      = "${var.compartment_ocid}"
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
   display_name        = "TestBlock0"
-  size_in_gbs         = "${var.size}"
+  size_in_gbs         = var.size
 }
 
 resource "oci_core_volume_attachment" "test_block_attach" {
   attachment_type = "iscsi"
-  instance_id     = "${oci_core_instance.test_instance.*.id[0]}"
-  volume_id       = "${oci_core_volume.test_block_volume.*.id[0]}"
+  instance_id     = oci_core_instance.test_instance.*.id[0]
+  volume_id       = oci_core_volume.test_block_volume.*.id[0]
   device          = "/dev/oracleoci/oraclevdb"
 
   # Set this to enable CHAP authentication for an ISCSI volume attachment. The oci_core_volume_attachment resource will
@@ -120,9 +120,9 @@ resource "null_resource" "remote-exec" {
     connection {
       agent       = false
       timeout     = "30m"
-      host        = "${oci_core_instance.test_instance.*.public_ip[0]}"
+      host        = oci_core_instance.test_instance.*.public_ip[0]
       user        = "opc"
-      private_key = "${file(var.ssh_private_key)}"
+      private_key = file(var.ssh_private_key)
     }
 
     inline = [
@@ -144,47 +144,47 @@ resource "null_resource" "remote-exec" {
   }
 
   triggers = {
-    always_run = "${oci_core_volume.test_block_volume.size_in_gbs}"
+    always_run = oci_core_volume.test_block_volume.size_in_gbs
   }
 }
 
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.1.0.0/16"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name   = "TestVcn"
   dns_label      = "testvcn"
 }
 
 resource "oci_core_internet_gateway" "test_internet_gateway" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name   = "TestInternetGateway"
-  vcn_id         = "${oci_core_vcn.test_vcn.id}"
+  vcn_id         = oci_core_vcn.test_vcn.id
 }
 
 resource "oci_core_default_route_table" "default_route_table" {
-  manage_default_resource_id = "${oci_core_vcn.test_vcn.default_route_table_id}"
+  manage_default_resource_id = oci_core_vcn.test_vcn.default_route_table_id
   display_name               = "DefaultRouteTable"
 
   route_rules {
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
-    network_entity_id = "${oci_core_internet_gateway.test_internet_gateway.id}"
+    network_entity_id = oci_core_internet_gateway.test_internet_gateway.id
   }
 }
 
 resource "oci_core_subnet" "test_subnet" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  availability_domain = data.oci_identity_availability_domain.ad.name
   cidr_block          = "10.1.20.0/24"
   display_name        = "TestSubnet"
   dns_label           = "testsubnet"
-  security_list_ids   = ["${oci_core_vcn.test_vcn.default_security_list_id}"]
-  compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_vcn.test_vcn.id}"
-  route_table_id      = "${oci_core_vcn.test_vcn.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_vcn.test_vcn.default_dhcp_options_id}"
+  security_list_ids   = [oci_core_vcn.test_vcn.default_security_list_id]
+  compartment_id      = var.compartment_ocid
+  vcn_id              = oci_core_vcn.test_vcn.id
+  route_table_id      = oci_core_vcn.test_vcn.default_route_table_id
+  dhcp_options_id     = oci_core_vcn.test_vcn.default_dhcp_options_id
 }
 
 data "oci_identity_availability_domain" "ad" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
   ad_number      = 1
 }

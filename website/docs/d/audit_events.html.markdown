@@ -19,9 +19,9 @@ time range.
 ```hcl
 data "oci_audit_events" "test_audit_events" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	end_time = "${var.audit_event_end_time}"
-	start_time = "${var.audit_event_start_time}"
+	compartment_id = var.compartment_id
+	end_time = var.audit_event_end_time
+	start_time = var.audit_event_start_time
 }
 ```
 

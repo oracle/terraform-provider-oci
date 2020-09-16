@@ -21,8 +21,8 @@ suppression list are normalized to include only lowercase letters.
 ```hcl
 resource "oci_email_suppression" "test_suppression" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	email_address = "${var.suppression_email_address}"
+	compartment_id = var.tenancy_ocid
+	email_address = var.suppression_email_address
 }
 ```
 

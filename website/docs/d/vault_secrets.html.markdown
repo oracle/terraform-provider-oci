@@ -17,12 +17,12 @@ Lists all secrets in the specified vault and compartment.
 ```hcl
 data "oci_vault_secrets" "test_secrets" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	name = "${var.secret_name}"
-	state = "${var.secret_state}"
-	vault_id = "${oci_kms_vault.test_vault.id}"
+	name = var.secret_name
+	state = var.secret_state
+	vault_id = oci_kms_vault.test_vault.id
 }
 ```
 

@@ -19,12 +19,12 @@ For more information, see [Volume Groups](https://docs.cloud.oracle.com/iaas/Con
 ```hcl
 data "oci_core_volume_groups" "test_volume_groups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.volume_group_availability_domain}"
-	display_name = "${var.volume_group_display_name}"
-	state = "${var.volume_group_state}"
+	availability_domain = var.volume_group_availability_domain
+	display_name = var.volume_group_display_name
+	state = var.volume_group_state
 }
 ```
 

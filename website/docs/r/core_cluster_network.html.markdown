@@ -19,35 +19,35 @@ Creates a cluster network. For more information about cluster networks, see
 ```hcl
 resource "oci_core_cluster_network" "test_cluster_network" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 	instance_pools {
 		#Required
-		instance_configuration_id = "${oci_core_instance_configuration.test_instance_configuration.id}"
-		size = "${var.cluster_network_instance_pools_size}"
+		instance_configuration_id = oci_core_instance_configuration.test_instance_configuration.id
+		size = var.cluster_network_instance_pools_size
 
 		#Optional
 		defined_tags = {"Operations.CostCenter"= "42"}
-		display_name = "${var.cluster_network_instance_pools_display_name}"
+		display_name = var.cluster_network_instance_pools_display_name
 		freeform_tags = {"Department"= "Finance"}
 	}
 	placement_configuration {
 		#Required
-		availability_domain = "${var.cluster_network_placement_configuration_availability_domain}"
-		primary_subnet_id = "${oci_core_subnet.test_subnet.id}"
+		availability_domain = var.cluster_network_placement_configuration_availability_domain
+		primary_subnet_id = oci_core_subnet.test_subnet.id
 
 		#Optional
 		secondary_vnic_subnets {
 			#Required
-			subnet_id = "${oci_core_subnet.test_subnet.id}"
+			subnet_id = oci_core_subnet.test_subnet.id
 
 			#Optional
-			display_name = "${var.cluster_network_placement_configuration_secondary_vnic_subnets_display_name}"
+			display_name = var.cluster_network_placement_configuration_secondary_vnic_subnets_display_name
 		}
 	}
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.cluster_network_display_name}"
+	display_name = var.cluster_network_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

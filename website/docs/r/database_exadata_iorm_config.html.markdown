@@ -20,10 +20,10 @@ resource "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
 	#Required
 	db_plans {
 		#Required
-		db_name = "${var.exadata_iorm_config_db_plans_db_name}"
-		share = "${var.exadata_iorm_config_db_plans_share}"
+		db_name = var.exadata_iorm_config_db_plans_db_name
+		share = var.exadata_iorm_config_db_plans_share
 	}
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
+	db_system_id = oci_database_db_system.test_db_system.id
 
 	#Optional
 	objective = "AUTO"

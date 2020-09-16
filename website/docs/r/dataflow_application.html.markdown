@@ -18,31 +18,31 @@ Creates an application.
 ```hcl
 resource "oci_dataflow_application" "test_application" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.application_display_name}"
-	driver_shape = "${var.application_driver_shape}"
-	executor_shape = "${var.application_executor_shape}"
-	file_uri = "${var.application_file_uri}"
-	language = "${var.application_language}"
-	num_executors = "${var.application_num_executors}"
-	spark_version = "${var.application_spark_version}"
+	compartment_id = var.compartment_id
+	display_name = var.application_display_name
+	driver_shape = var.application_driver_shape
+	executor_shape = var.application_executor_shape
+	file_uri = var.application_file_uri
+	language = var.application_language
+	num_executors = var.application_num_executors
+	spark_version = var.application_spark_version
 
 	#Optional
-	archive_uri = "${var.application_archive_uri}"
-	arguments = "${var.application_arguments}"
-	class_name = "${var.application_class_name}"
-	configuration = "${var.application_configuration}"
+	archive_uri = var.application_archive_uri
+	arguments = var.application_arguments
+	class_name = var.application_class_name
+	configuration = var.application_configuration
 	defined_tags = {"Operations.CostCenter"= "42"}
-	description = "${var.application_description}"
+	description = var.application_description
 	freeform_tags = {"Department"= "Finance"}
-	logs_bucket_uri = "${var.application_logs_bucket_uri}"
+	logs_bucket_uri = var.application_logs_bucket_uri
 	parameters {
 		#Required
-		name = "${var.application_parameters_name}"
-		value = "${var.application_parameters_value}"
+		name = var.application_parameters_name
+		value = var.application_parameters_value
 	}
-	private_endpoint_id = "${oci_dataflow_private_endpoint.test_private_endpoint.id}"
-	warehouse_bucket_uri = "${var.application_warehouse_bucket_uri}"
+	private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
+	warehouse_bucket_uri = var.application_warehouse_bucket_uri
 }
 ```
 

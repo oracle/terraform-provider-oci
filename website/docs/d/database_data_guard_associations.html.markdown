@@ -18,7 +18,7 @@ Lists all Data Guard associations for the specified database.
 ```hcl
 data "oci_database_data_guard_associations" "test_data_guard_associations" {
 	#Required
-	database_id = "${oci_database_database.test_database.id}"
+	database_id = oci_database_database.test_database.id
 }
 ```
 

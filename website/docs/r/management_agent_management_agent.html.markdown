@@ -17,7 +17,7 @@ This resource provides the Management Agent resource in Oracle Cloud Infrastruct
 ```hcl
 resource "oci_management_agent_management_agent" "test_management_agent" {
 	#Required
-	managed_agent_id = "${oci_management_agent_managed_agent.test_managed_agent.id}"
+	managed_agent_id = oci_management_agent_managed_agent.test_managed_agent.id
 }
 ```
 

@@ -18,8 +18,8 @@ Gets the log object config for log object OCID.
 ```hcl
 data "oci_logging_log" "test_log" {
 	#Required
-	log_group_id = "${oci_logging_log_group.test_log_group.id}"
-	log_id = "${oci_logging_log.test_log.id}"
+	log_group_id = oci_logging_log_group.test_log_group.id
+	log_id = oci_logging_log.test_log.id
 }
 ```
 

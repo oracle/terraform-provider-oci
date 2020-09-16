@@ -18,12 +18,12 @@ Gets a list of the Autonomous Exadata Infrastructures in the specified compartme
 ```hcl
 data "oci_database_autonomous_exadata_infrastructures" "test_autonomous_exadata_infrastructures" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.autonomous_exadata_infrastructure_availability_domain}"
-	display_name = "${var.autonomous_exadata_infrastructure_display_name}"
-	state = "${var.autonomous_exadata_infrastructure_state}"
+	availability_domain = var.autonomous_exadata_infrastructure_availability_domain
+	display_name = var.autonomous_exadata_infrastructure_display_name
+	state = var.autonomous_exadata_infrastructure_state
 }
 ```
 

@@ -10,7 +10,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v25/keymanagement"
 )
 
 func init() {

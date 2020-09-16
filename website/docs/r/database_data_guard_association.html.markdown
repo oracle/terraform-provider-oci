@@ -25,23 +25,23 @@ resource in the Console. For more information, see
 ```hcl
 resource "oci_database_data_guard_association" "test_data_guard_association" {
 	#Required
-	creation_type = "${var.data_guard_association_creation_type}"
-	database_admin_password = "${var.data_guard_association_database_admin_password}"
-	database_id = "${oci_database_database.test_database.id}"
-	delete_standby_db_home_on_delete = "${var.data_guard_association_delete_standby_db_home_on_delete}"
-	protection_mode = "${var.data_guard_association_protection_mode}"
-	transport_type = "${var.data_guard_association_transport_type}"
+	creation_type = var.data_guard_association_creation_type
+	database_admin_password = var.data_guard_association_database_admin_password
+	database_id = oci_database_database.test_database.id
+	delete_standby_db_home_on_delete = var.data_guard_association_delete_standby_db_home_on_delete
+	protection_mode = var.data_guard_association_protection_mode
+	transport_type = var.data_guard_association_transport_type
 
 	#Optional
-	availability_domain = "${var.data_guard_association_availability_domain}"
-	backup_network_nsg_ids = "${var.data_guard_association_backup_network_nsg_ids}"
-	display_name = "${var.data_guard_association_display_name}"
-	hostname = "${var.data_guard_association_hostname}"
-	nsg_ids = "${var.data_guard_association_nsg_ids}"
-	peer_db_system_id = "${oci_database_db_system.test_db_system.id}"
-	peer_vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
-	shape = "${var.data_guard_association_shape}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	availability_domain = var.data_guard_association_availability_domain
+	backup_network_nsg_ids = var.data_guard_association_backup_network_nsg_ids
+	display_name = var.data_guard_association_display_name
+	hostname = var.data_guard_association_hostname
+	nsg_ids = var.data_guard_association_nsg_ids
+	peer_db_system_id = oci_database_db_system.test_db_system.id
+	peer_vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
+	shape = var.data_guard_association_shape
+	subnet_id = oci_core_subnet.test_subnet.id
 }
 ```
 

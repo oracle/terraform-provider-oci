@@ -20,7 +20,7 @@ The list is sorted by version family.
 ```hcl
 data "oci_mysql_mysql_versions" "test_mysql_versions" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

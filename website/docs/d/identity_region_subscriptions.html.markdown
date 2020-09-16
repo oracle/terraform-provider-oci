@@ -17,7 +17,7 @@ Lists the region subscriptions for the specified tenancy.
 ```hcl
 data "oci_identity_region_subscriptions" "test_region_subscriptions" {
 	#Required
-	tenancy_id = "${oci_identity_tenancy.test_tenancy.id}"
+	tenancy_id = oci_identity_tenancy.test_tenancy.id
 }
 ```
 

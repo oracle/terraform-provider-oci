@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	oci_blockchain "github.com/oracle/oci-go-sdk/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v25/blockchain"
 
 	"github.com/hashicorp/terraform/helper/schema"
 )

@@ -18,10 +18,10 @@ Gets the specified Compute Image Capability Schema
 ```hcl
 data "oci_core_compute_image_capability_schema" "test_compute_image_capability_schema" {
 	#Required
-	compute_image_capability_schema_id = "${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id}"
+	compute_image_capability_schema_id = oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id
 
 	#Optional
-	is_merge_enabled = "${var.compute_image_capability_schema_is_merge_enabled}"
+	is_merge_enabled = var.compute_image_capability_schema_is_merge_enabled
 }
 ```
 

@@ -18,11 +18,11 @@ Lists the cross-connect groups in the specified compartment.
 ```hcl
 data "oci_core_cross_connect_groups" "test_cross_connect_groups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.cross_connect_group_display_name}"
-	state = "${var.cross_connect_group_state}"
+	display_name = var.cross_connect_group_display_name
+	state = var.cross_connect_group_state
 }
 ```
 

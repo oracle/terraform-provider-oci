@@ -18,7 +18,7 @@ Get the full details of the specified Configuration, including the list of MySQL
 ```hcl
 data "oci_mysql_mysql_configuration" "test_mysql_configuration" {
 	#Required
-	configuration_id = "${var.mysql_configuration_id}"
+	configuration_id = var.mysql_configuration_id
 }
 ```
 

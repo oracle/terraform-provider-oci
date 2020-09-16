@@ -17,8 +17,8 @@ Gets information about a peer identified by the specific id
 ```hcl
 data "oci_blockchain_peer" "test_peer" {
 	#Required
-	blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
-	peer_id = "${oci_blockchain_peer.test_peer.id}"
+	blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
+	peer_id = oci_blockchain_peer.test_peer.id
 }
 ```
 

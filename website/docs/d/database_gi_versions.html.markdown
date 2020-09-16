@@ -17,10 +17,10 @@ Gets a list of supported GI versions for VM Cluster.
 ```hcl
 data "oci_database_gi_versions" "test_gi_versions" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	shape = "${var.gi_version_shape}"
+	shape = var.gi_version_shape
 }
 ```
 

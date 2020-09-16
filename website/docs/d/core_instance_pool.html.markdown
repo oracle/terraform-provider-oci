@@ -17,7 +17,7 @@ Gets the specified instance pool
 ```hcl
 data "oci_core_instance_pool" "test_instance_pool" {
 	#Required
-	instance_pool_id = "${oci_core_instance_pool.test_instance_pool.id}"
+	instance_pool_id = oci_core_instance_pool.test_instance_pool.id
 }
 ```
 

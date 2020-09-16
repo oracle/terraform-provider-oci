@@ -18,11 +18,11 @@ Returns a list of all Managed Instances.
 ```hcl
 data "oci_osmanagement_managed_instances" "test_managed_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.managed_instance_display_name}"
-	os_family = "${var.managed_instance_os_family}"
+	display_name = var.managed_instance_display_name
+	os_family = var.managed_instance_os_family
 }
 ```
 

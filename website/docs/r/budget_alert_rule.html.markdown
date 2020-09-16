@@ -18,18 +18,18 @@ Creates a new Alert Rule.
 ```hcl
 resource "oci_budget_alert_rule" "test_alert_rule" {
 	#Required
-	budget_id = "${oci_budget_budget.test_budget.id}"
-	threshold = "${var.alert_rule_threshold}"
-	threshold_type = "${var.alert_rule_threshold_type}"
-	type = "${var.alert_rule_type}"
+	budget_id = oci_budget_budget.test_budget.id
+	threshold = var.alert_rule_threshold
+	threshold_type = var.alert_rule_threshold_type
+	type = var.alert_rule_type
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	description = "${var.alert_rule_description}"
-	display_name = "${var.alert_rule_display_name}"
+	description = var.alert_rule_description
+	display_name = var.alert_rule_display_name
 	freeform_tags = {"Department"= "Finance"}
-	message = "${var.alert_rule_message}"
-	recipients = "${var.alert_rule_recipients}"
+	message = var.alert_rule_message
+	recipients = var.alert_rule_recipients
 }
 ```
 

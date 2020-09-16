@@ -19,15 +19,15 @@ Adds a path route set to a load balancer. For more information, see
 ```hcl
 resource "oci_load_balancer_path_route_set" "test_path_route_set" {
 	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.path_route_set_name}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	name = var.path_route_set_name
 	path_routes {
 		#Required
-		backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
-		path = "${var.path_route_set_path_routes_path}"
+		backend_set_name = oci_load_balancer_backend_set.test_backend_set.name
+		path = var.path_route_set_path_routes_path
 		path_match_type {
 			#Required
-			match_type = "${var.path_route_set_path_routes_path_match_type_match_type}"
+			match_type = var.path_route_set_path_routes_path_match_type_match_type
 		}
 	}
 }

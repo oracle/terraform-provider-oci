@@ -22,10 +22,10 @@ Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 ```hcl
 resource "oci_ons_subscription" "test_subscription" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	endpoint = "${var.subscription_endpoint}"
-	protocol = "${var.subscription_protocol}"
-	topic_id = "${oci_ons_notification_topic.test_notification_topic.id}"
+	compartment_id = var.compartment_id
+	endpoint = var.subscription_endpoint
+	protocol = var.subscription_protocol
+	topic_id = oci_ons_notification_topic.test_notification_topic.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

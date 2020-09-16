@@ -29,8 +29,8 @@ you have. Also confirm you're working in the correct compartment.
 ```hcl
 resource "oci_identity_api_key" "test_api_key" {
 	#Required
-	key_value = "${var.api_key_key_value}"
-	user_id = "${oci_identity_user.test_user.id}"
+	key_value = var.api_key_key_value
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

@@ -18,13 +18,13 @@ List Analytics instances.
 ```hcl
 data "oci_analytics_analytics_instances" "test_analytics_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	capacity_type = "${var.analytics_instance_capacity_type}"
-	feature_set = "${var.analytics_instance_feature_set}"
-	name = "${var.analytics_instance_name}"
-	state = "${var.analytics_instance_state}"
+	capacity_type = var.analytics_instance_capacity_type
+	feature_set = var.analytics_instance_feature_set
+	name = var.analytics_instance_name
+	state = var.analytics_instance_state
 }
 ```
 

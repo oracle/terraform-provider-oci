@@ -17,6 +17,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"auto_scaling":        autoScalingResourceGraph,
 	"bds":                 bdsResourceGraph,
 	"blockchain":          blockchainResourceGraph,
+	"cloud_guard":         cloudGuardResourceGraph,
 	"containerengine":     containerengineResourceGraph,
 	"core":                coreResourceGraph,
 	"data_safe":           dataSafeResourceGraph,
@@ -147,6 +148,15 @@ var budgetResourceGraph = TerraformResourceGraph{
 				"budget_id": "id",
 			},
 		},
+	},
+}
+
+var cloudGuardResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportCloudGuardTargetHints},
+		{TerraformResourceHints: exportCloudGuardManagedListHints},
+		{TerraformResourceHints: exportCloudGuardResponderRecipeHints},
+		{TerraformResourceHints: exportCloudGuardDetectorRecipeHints},
 	},
 }
 
@@ -293,6 +303,7 @@ var databaseResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseDbSystemHints},
 		{TerraformResourceHints: exportDatabaseExadataInfrastructureHints},
 		{TerraformResourceHints: exportDatabaseVmClusterHints},
+		{TerraformResourceHints: exportDatabaseDatabaseSoftwareImageHints},
 	},
 	"oci_database_db_home": {
 		{

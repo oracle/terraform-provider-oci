@@ -18,14 +18,14 @@ Gets a list of the maintenance runs in the specified compartment.
 ```hcl
 data "oci_database_maintenance_runs" "test_maintenance_runs" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.maintenance_run_availability_domain}"
-	maintenance_type = "${var.maintenance_run_maintenance_type}"
-	state = "${var.maintenance_run_state}"
-	target_resource_id = "${oci_database_target_resource.test_target_resource.id}"
-	target_resource_type = "${var.maintenance_run_target_resource_type}"
+	availability_domain = var.maintenance_run_availability_domain
+	maintenance_type = var.maintenance_run_maintenance_type
+	state = var.maintenance_run_state
+	target_resource_id = oci_database_target_resource.test_target_resource.id
+	target_resource_type = var.maintenance_run_target_resource_type
 }
 ```
 

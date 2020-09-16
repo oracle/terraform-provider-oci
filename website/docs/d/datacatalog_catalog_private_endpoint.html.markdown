@@ -17,7 +17,7 @@ Gets a specific private reverse connection by identifier.
 ```hcl
 data "oci_datacatalog_catalog_private_endpoint" "test_catalog_private_endpoint" {
 	#Required
-	catalog_private_endpoint_id = "${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}"
+	catalog_private_endpoint_id = oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id
 }
 ```
 

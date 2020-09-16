@@ -18,13 +18,13 @@ Lists all private endpoints in the specified compartment.
 ```hcl
 data "oci_dataflow_private_endpoints" "test_private_endpoints" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.private_endpoint_display_name}"
-	display_name_starts_with = "${var.private_endpoint_display_name_starts_with}"
-	owner_principal_id = "${var.owner_principal_id}"
-	state = "${var.private_endpoint_state}"
+	display_name = var.private_endpoint_display_name
+	display_name_starts_with = var.private_endpoint_display_name_starts_with
+	owner_principal_id = var.owner_principal_id
+	state = var.private_endpoint_state
 }
 ```
 

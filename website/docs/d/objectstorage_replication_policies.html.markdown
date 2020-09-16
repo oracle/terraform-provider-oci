@@ -18,8 +18,8 @@ List the replication policies associated with a bucket.
 ```hcl
 data "oci_objectstorage_replication_policies" "test_replication_policies" {
 	#Required
-	bucket = "${var.replication_policy_bucket}"
-	namespace = "${var.replication_policy_namespace}"
+	bucket = var.replication_policy_bucket
+	namespace = var.replication_policy_namespace
 }
 ```
 

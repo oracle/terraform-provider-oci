@@ -18,9 +18,9 @@ Creates a new deployment.
 ```hcl
 resource "oci_apigateway_deployment" "test_deployment" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	gateway_id = "${oci_apigateway_gateway.test_gateway.id}"
-	path_prefix = "${var.deployment_path_prefix}"
+	compartment_id = var.compartment_id
+	gateway_id = oci_apigateway_gateway.test_gateway.id
+	path_prefix = var.deployment_path_prefix
 	specification {
 
 		#Optional
@@ -30,13 +30,13 @@ resource "oci_apigateway_deployment" "test_deployment" {
 			access_log {
 
 				#Optional
-				is_enabled = "${var.deployment_specification_logging_policies_access_log_is_enabled}"
+				is_enabled = var.deployment_specification_logging_policies_access_log_is_enabled
 			}
 			execution_log {
 
 				#Optional
-				is_enabled = "${var.deployment_specification_logging_policies_execution_log_is_enabled}"
-				log_level = "${var.deployment_specification_logging_policies_execution_log_log_level}"
+				is_enabled = var.deployment_specification_logging_policies_execution_log_is_enabled
+				log_level = var.deployment_specification_logging_policies_execution_log_log_level
 			}
 		}
 		request_policies {
@@ -44,88 +44,88 @@ resource "oci_apigateway_deployment" "test_deployment" {
 			#Optional
 			authentication {
 				#Required
-				type = "${var.deployment_specification_request_policies_authentication_type}"
+				type = var.deployment_specification_request_policies_authentication_type
 
 				#Optional
-				audiences = "${var.deployment_specification_request_policies_authentication_audiences}"
-				function_id = "${oci_functions_function.test_function.id}"
-				is_anonymous_access_allowed = "${var.deployment_specification_request_policies_authentication_is_anonymous_access_allowed}"
-				issuers = "${var.deployment_specification_request_policies_authentication_issuers}"
-				max_clock_skew_in_seconds = "${var.deployment_specification_request_policies_authentication_max_clock_skew_in_seconds}"
+				audiences = var.deployment_specification_request_policies_authentication_audiences
+				function_id = oci_functions_function.test_function.id
+				is_anonymous_access_allowed = var.deployment_specification_request_policies_authentication_is_anonymous_access_allowed
+				issuers = var.deployment_specification_request_policies_authentication_issuers
+				max_clock_skew_in_seconds = var.deployment_specification_request_policies_authentication_max_clock_skew_in_seconds
 				public_keys {
 					#Required
-					type = "${var.deployment_specification_request_policies_authentication_public_keys_type}"
+					type = var.deployment_specification_request_policies_authentication_public_keys_type
 
 					#Optional
-					is_ssl_verify_disabled = "${var.deployment_specification_request_policies_authentication_public_keys_is_ssl_verify_disabled}"
+					is_ssl_verify_disabled = var.deployment_specification_request_policies_authentication_public_keys_is_ssl_verify_disabled
 					keys {
 						#Required
-						format = "${var.deployment_specification_request_policies_authentication_public_keys_keys_format}"
+						format = var.deployment_specification_request_policies_authentication_public_keys_keys_format
 
 						#Optional
-						alg = "${var.deployment_specification_request_policies_authentication_public_keys_keys_alg}"
-						e = "${var.deployment_specification_request_policies_authentication_public_keys_keys_e}"
-						key = "${var.deployment_specification_request_policies_authentication_public_keys_keys_key}"
-						key_ops = "${var.deployment_specification_request_policies_authentication_public_keys_keys_key_ops}"
-						kid = "${var.deployment_specification_request_policies_authentication_public_keys_keys_kid}"
-						kty = "${var.deployment_specification_request_policies_authentication_public_keys_keys_kty}"
-						n = "${var.deployment_specification_request_policies_authentication_public_keys_keys_n}"
-						use = "${var.deployment_specification_request_policies_authentication_public_keys_keys_use}"
+						alg = var.deployment_specification_request_policies_authentication_public_keys_keys_alg
+						e = var.deployment_specification_request_policies_authentication_public_keys_keys_e
+						key = var.deployment_specification_request_policies_authentication_public_keys_keys_key
+						key_ops = var.deployment_specification_request_policies_authentication_public_keys_keys_key_ops
+						kid = var.deployment_specification_request_policies_authentication_public_keys_keys_kid
+						kty = var.deployment_specification_request_policies_authentication_public_keys_keys_kty
+						n = var.deployment_specification_request_policies_authentication_public_keys_keys_n
+						use = var.deployment_specification_request_policies_authentication_public_keys_keys_use
 					}
-					max_cache_duration_in_hours = "${var.deployment_specification_request_policies_authentication_public_keys_max_cache_duration_in_hours}"
-					uri = "${var.deployment_specification_request_policies_authentication_public_keys_uri}"
+					max_cache_duration_in_hours = var.deployment_specification_request_policies_authentication_public_keys_max_cache_duration_in_hours
+					uri = var.deployment_specification_request_policies_authentication_public_keys_uri
 				}
-				token_auth_scheme = "${var.deployment_specification_request_policies_authentication_token_auth_scheme}"
-				token_header = "${var.deployment_specification_request_policies_authentication_token_header}"
-				token_query_param = "${var.deployment_specification_request_policies_authentication_token_query_param}"
+				token_auth_scheme = var.deployment_specification_request_policies_authentication_token_auth_scheme
+				token_header = var.deployment_specification_request_policies_authentication_token_header
+				token_query_param = var.deployment_specification_request_policies_authentication_token_query_param
 				verify_claims {
 
 					#Optional
-					is_required = "${var.deployment_specification_request_policies_authentication_verify_claims_is_required}"
-					key = "${var.deployment_specification_request_policies_authentication_verify_claims_key}"
-					values = "${var.deployment_specification_request_policies_authentication_verify_claims_values}"
+					is_required = var.deployment_specification_request_policies_authentication_verify_claims_is_required
+					key = var.deployment_specification_request_policies_authentication_verify_claims_key
+					values = var.deployment_specification_request_policies_authentication_verify_claims_values
 				}
 			}
 			cors {
 				#Required
-				allowed_origins = "${var.deployment_specification_request_policies_cors_allowed_origins}"
+				allowed_origins = var.deployment_specification_request_policies_cors_allowed_origins
 
 				#Optional
-				allowed_headers = "${var.deployment_specification_request_policies_cors_allowed_headers}"
-				allowed_methods = "${var.deployment_specification_request_policies_cors_allowed_methods}"
-				exposed_headers = "${var.deployment_specification_request_policies_cors_exposed_headers}"
-				is_allow_credentials_enabled = "${var.deployment_specification_request_policies_cors_is_allow_credentials_enabled}"
-				max_age_in_seconds = "${var.deployment_specification_request_policies_cors_max_age_in_seconds}"
+				allowed_headers = var.deployment_specification_request_policies_cors_allowed_headers
+				allowed_methods = var.deployment_specification_request_policies_cors_allowed_methods
+				exposed_headers = var.deployment_specification_request_policies_cors_exposed_headers
+				is_allow_credentials_enabled = var.deployment_specification_request_policies_cors_is_allow_credentials_enabled
+				max_age_in_seconds = var.deployment_specification_request_policies_cors_max_age_in_seconds
 			}
 			rate_limiting {
 				#Required
-				rate_in_requests_per_second = "${var.deployment_specification_request_policies_rate_limiting_rate_in_requests_per_second}"
-				rate_key = "${var.deployment_specification_request_policies_rate_limiting_rate_key}"
+				rate_in_requests_per_second = var.deployment_specification_request_policies_rate_limiting_rate_in_requests_per_second
+				rate_key = var.deployment_specification_request_policies_rate_limiting_rate_key
 			}
 		}
 		routes {
 			#Required
 			backend {
 				#Required
-				type = "${var.deployment_specification_routes_backend_type}"
+				type = var.deployment_specification_routes_backend_type
 
 				#Optional
-				body = "${var.deployment_specification_routes_backend_body}"
-				connect_timeout_in_seconds = "${var.deployment_specification_routes_backend_connect_timeout_in_seconds}"
-				function_id = "${oci_functions_function.test_function.id}"
+				body = var.deployment_specification_routes_backend_body
+				connect_timeout_in_seconds = var.deployment_specification_routes_backend_connect_timeout_in_seconds
+				function_id = oci_functions_function.test_function.id
 				headers {
 
 					#Optional
-					name = "${var.deployment_specification_routes_backend_headers_name}"
-					value = "${var.deployment_specification_routes_backend_headers_value}"
+					name = var.deployment_specification_routes_backend_headers_name
+					value = var.deployment_specification_routes_backend_headers_value
 				}
-				is_ssl_verify_disabled = "${var.deployment_specification_routes_backend_is_ssl_verify_disabled}"
-				read_timeout_in_seconds = "${var.deployment_specification_routes_backend_read_timeout_in_seconds}"
-				send_timeout_in_seconds = "${var.deployment_specification_routes_backend_send_timeout_in_seconds}"
-				status = "${var.deployment_specification_routes_backend_status}"
-				url = "${var.deployment_specification_routes_backend_url}"
+				is_ssl_verify_disabled = var.deployment_specification_routes_backend_is_ssl_verify_disabled
+				read_timeout_in_seconds = var.deployment_specification_routes_backend_read_timeout_in_seconds
+				send_timeout_in_seconds = var.deployment_specification_routes_backend_send_timeout_in_seconds
+				status = var.deployment_specification_routes_backend_status
+				url = var.deployment_specification_routes_backend_url
 			}
-			path = "${var.deployment_specification_routes_path}"
+			path = var.deployment_specification_routes_path
 
 			#Optional
 			logging_policies {
@@ -134,35 +134,35 @@ resource "oci_apigateway_deployment" "test_deployment" {
 				access_log {
 
 					#Optional
-					is_enabled = "${var.deployment_specification_routes_logging_policies_access_log_is_enabled}"
+					is_enabled = var.deployment_specification_routes_logging_policies_access_log_is_enabled
 				}
 				execution_log {
 
 					#Optional
-					is_enabled = "${var.deployment_specification_routes_logging_policies_execution_log_is_enabled}"
-					log_level = "${var.deployment_specification_routes_logging_policies_execution_log_log_level}"
+					is_enabled = var.deployment_specification_routes_logging_policies_execution_log_is_enabled
+					log_level = var.deployment_specification_routes_logging_policies_execution_log_log_level
 				}
 			}
-			methods = "${var.deployment_specification_routes_methods}"
+			methods = var.deployment_specification_routes_methods
 			request_policies {
 
 				#Optional
 				authorization {
 
 					#Optional
-					allowed_scope = "${var.deployment_specification_routes_request_policies_authorization_allowed_scope}"
-					type = "${var.deployment_specification_routes_request_policies_authorization_type}"
+					allowed_scope = var.deployment_specification_routes_request_policies_authorization_allowed_scope
+					type = var.deployment_specification_routes_request_policies_authorization_type
 				}
 				cors {
 					#Required
-					allowed_origins = "${var.deployment_specification_routes_request_policies_cors_allowed_origins}"
+					allowed_origins = var.deployment_specification_routes_request_policies_cors_allowed_origins
 
 					#Optional
-					allowed_headers = "${var.deployment_specification_routes_request_policies_cors_allowed_headers}"
-					allowed_methods = "${var.deployment_specification_routes_request_policies_cors_allowed_methods}"
-					exposed_headers = "${var.deployment_specification_routes_request_policies_cors_exposed_headers}"
-					is_allow_credentials_enabled = "${var.deployment_specification_routes_request_policies_cors_is_allow_credentials_enabled}"
-					max_age_in_seconds = "${var.deployment_specification_routes_request_policies_cors_max_age_in_seconds}"
+					allowed_headers = var.deployment_specification_routes_request_policies_cors_allowed_headers
+					allowed_methods = var.deployment_specification_routes_request_policies_cors_allowed_methods
+					exposed_headers = var.deployment_specification_routes_request_policies_cors_exposed_headers
+					is_allow_credentials_enabled = var.deployment_specification_routes_request_policies_cors_is_allow_credentials_enabled
+					max_age_in_seconds = var.deployment_specification_routes_request_policies_cors_max_age_in_seconds
 				}
 				header_transformations {
 
@@ -171,27 +171,27 @@ resource "oci_apigateway_deployment" "test_deployment" {
 						#Required
 						items {
 							#Required
-							name = "${var.deployment_specification_routes_request_policies_header_transformations_filter_headers_items_name}"
+							name = var.deployment_specification_routes_request_policies_header_transformations_filter_headers_items_name
 						}
-						type = "${var.deployment_specification_routes_request_policies_header_transformations_filter_headers_type}"
+						type = var.deployment_specification_routes_request_policies_header_transformations_filter_headers_type
 					}
 					rename_headers {
 						#Required
 						items {
 							#Required
-							from = "${var.deployment_specification_routes_request_policies_header_transformations_rename_headers_items_from}"
-							to = "${var.deployment_specification_routes_request_policies_header_transformations_rename_headers_items_to}"
+							from = var.deployment_specification_routes_request_policies_header_transformations_rename_headers_items_from
+							to = var.deployment_specification_routes_request_policies_header_transformations_rename_headers_items_to
 						}
 					}
 					set_headers {
 						#Required
 						items {
 							#Required
-							name = "${var.deployment_specification_routes_request_policies_header_transformations_set_headers_items_name}"
-							values = "${var.deployment_specification_routes_request_policies_header_transformations_set_headers_items_values}"
+							name = var.deployment_specification_routes_request_policies_header_transformations_set_headers_items_name
+							values = var.deployment_specification_routes_request_policies_header_transformations_set_headers_items_values
 
 							#Optional
-							if_exists = "${var.deployment_specification_routes_request_policies_header_transformations_set_headers_items_if_exists}"
+							if_exists = var.deployment_specification_routes_request_policies_header_transformations_set_headers_items_if_exists
 						}
 					}
 				}
@@ -202,27 +202,27 @@ resource "oci_apigateway_deployment" "test_deployment" {
 						#Required
 						items {
 							#Required
-							name = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_filter_query_parameters_items_name}"
+							name = var.deployment_specification_routes_request_policies_query_parameter_transformations_filter_query_parameters_items_name
 						}
-						type = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_filter_query_parameters_type}"
+						type = var.deployment_specification_routes_request_policies_query_parameter_transformations_filter_query_parameters_type
 					}
 					rename_query_parameters {
 						#Required
 						items {
 							#Required
-							from = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_rename_query_parameters_items_from}"
-							to = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_rename_query_parameters_items_to}"
+							from = var.deployment_specification_routes_request_policies_query_parameter_transformations_rename_query_parameters_items_from
+							to = var.deployment_specification_routes_request_policies_query_parameter_transformations_rename_query_parameters_items_to
 						}
 					}
 					set_query_parameters {
 						#Required
 						items {
 							#Required
-							name = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_name}"
-							values = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_values}"
+							name = var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_name
+							values = var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_values
 
 							#Optional
-							if_exists = "${var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_if_exists}"
+							if_exists = var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_if_exists
 						}
 					}
 				}
@@ -237,27 +237,27 @@ resource "oci_apigateway_deployment" "test_deployment" {
 						#Required
 						items {
 							#Required
-							name = "${var.deployment_specification_routes_response_policies_header_transformations_filter_headers_items_name}"
+							name = var.deployment_specification_routes_response_policies_header_transformations_filter_headers_items_name
 						}
-						type = "${var.deployment_specification_routes_response_policies_header_transformations_filter_headers_type}"
+						type = var.deployment_specification_routes_response_policies_header_transformations_filter_headers_type
 					}
 					rename_headers {
 						#Required
 						items {
 							#Required
-							from = "${var.deployment_specification_routes_response_policies_header_transformations_rename_headers_items_from}"
-							to = "${var.deployment_specification_routes_response_policies_header_transformations_rename_headers_items_to}"
+							from = var.deployment_specification_routes_response_policies_header_transformations_rename_headers_items_from
+							to = var.deployment_specification_routes_response_policies_header_transformations_rename_headers_items_to
 						}
 					}
 					set_headers {
 						#Required
 						items {
 							#Required
-							name = "${var.deployment_specification_routes_response_policies_header_transformations_set_headers_items_name}"
-							values = "${var.deployment_specification_routes_response_policies_header_transformations_set_headers_items_values}"
+							name = var.deployment_specification_routes_response_policies_header_transformations_set_headers_items_name
+							values = var.deployment_specification_routes_response_policies_header_transformations_set_headers_items_values
 
 							#Optional
-							if_exists = "${var.deployment_specification_routes_response_policies_header_transformations_set_headers_items_if_exists}"
+							if_exists = var.deployment_specification_routes_response_policies_header_transformations_set_headers_items_if_exists
 						}
 					}
 				}
@@ -267,7 +267,7 @@ resource "oci_apigateway_deployment" "test_deployment" {
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.deployment_display_name}"
+	display_name = var.deployment_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

@@ -27,8 +27,8 @@ tenancy can use this operation to create an auth token for any user, including t
 ```hcl
 resource "oci_identity_auth_token" "test_auth_token" {
 	#Required
-	description = "${var.auth_token_description}"
-	user_id = "${oci_identity_user.test_user.id}"
+	description = var.auth_token_description
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

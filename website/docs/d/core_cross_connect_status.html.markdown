@@ -18,7 +18,7 @@ Gets the status of the specified cross-connect.
 ```hcl
 data "oci_core_cross_connect_status" "test_cross_connect_status" {
 	#Required
-	cross_connect_id = "${oci_core_cross_connect.test_cross_connect.id}"
+	cross_connect_id = oci_core_cross_connect.test_cross_connect.id
 }
 ```
 

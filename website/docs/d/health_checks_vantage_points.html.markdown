@@ -19,8 +19,8 @@ Gets information about all vantage points available to the user.
 data "oci_health_checks_vantage_points" "test_vantage_points" {
 
 	#Optional
-	display_name = "${var.vantage_point_display_name}"
-	name = "${var.vantage_point_name}"
+	display_name = var.vantage_point_display_name
+	name = var.vantage_point_name
 }
 ```
 

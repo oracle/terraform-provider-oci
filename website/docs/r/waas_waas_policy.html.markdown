@@ -29,278 +29,278 @@ All Oracle Cloud Infrastructure resources, including WAAS policies, receive a un
 ```hcl
 resource "oci_waas_waas_policy" "test_waas_policy" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	domain = "${var.waas_policy_domain}"
+	compartment_id = var.compartment_id
+	domain = var.waas_policy_domain
 
 	#Optional
-	additional_domains = "${var.waas_policy_additional_domains}"
+	additional_domains = var.waas_policy_additional_domains
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.waas_policy_display_name}"
+	display_name = var.waas_policy_display_name
 	freeform_tags = {"Department"= "Finance"}
 	origin_groups {
 
 		#Optional
-		origins = "${var.waas_policy_origin_groups_origins}"
+		origins = var.waas_policy_origin_groups_origins
 	}
 	origins {
 		#Required
-		uri = "${var.waas_policy_origins_uri}"
+		uri = var.waas_policy_origins_uri
 
 		#Optional
 		custom_headers {
 			#Required
-			name = "${var.waas_policy_origins_custom_headers_name}"
-			value = "${var.waas_policy_origins_custom_headers_value}"
+			name = var.waas_policy_origins_custom_headers_name
+			value = var.waas_policy_origins_custom_headers_value
 		}
-		http_port = "${var.waas_policy_origins_http_port}"
-		https_port = "${var.waas_policy_origins_https_port}"
+		http_port = var.waas_policy_origins_http_port
+		https_port = var.waas_policy_origins_https_port
 	}
 	policy_config {
 
 		#Optional
-		certificate_id = "${oci_waas_certificate.test_certificate.id}"
-		cipher_group = "${var.waas_policy_policy_config_cipher_group}"
-		client_address_header = "${var.waas_policy_policy_config_client_address_header}"
+		certificate_id = oci_waas_certificate.test_certificate.id
+		cipher_group = var.waas_policy_policy_config_cipher_group
+		client_address_header = var.waas_policy_policy_config_client_address_header
 		health_checks {
 
 			#Optional
-			expected_response_code_group = "${var.waas_policy_policy_config_health_checks_expected_response_code_group}"
-			expected_response_text = "${var.waas_policy_policy_config_health_checks_expected_response_text}"
-			headers = "${var.waas_policy_policy_config_health_checks_headers}"
-			healthy_threshold = "${var.waas_policy_policy_config_health_checks_healthy_threshold}"
-			interval_in_seconds = "${var.waas_policy_policy_config_health_checks_interval_in_seconds}"
-			is_enabled = "${var.waas_policy_policy_config_health_checks_is_enabled}"
-			is_response_text_check_enabled = "${var.waas_policy_policy_config_health_checks_is_response_text_check_enabled}"
-			method = "${var.waas_policy_policy_config_health_checks_method}"
-			path = "${var.waas_policy_policy_config_health_checks_path}"
-			timeout_in_seconds = "${var.waas_policy_policy_config_health_checks_timeout_in_seconds}"
-			unhealthy_threshold = "${var.waas_policy_policy_config_health_checks_unhealthy_threshold}"
+			expected_response_code_group = var.waas_policy_policy_config_health_checks_expected_response_code_group
+			expected_response_text = var.waas_policy_policy_config_health_checks_expected_response_text
+			headers = var.waas_policy_policy_config_health_checks_headers
+			healthy_threshold = var.waas_policy_policy_config_health_checks_healthy_threshold
+			interval_in_seconds = var.waas_policy_policy_config_health_checks_interval_in_seconds
+			is_enabled = var.waas_policy_policy_config_health_checks_is_enabled
+			is_response_text_check_enabled = var.waas_policy_policy_config_health_checks_is_response_text_check_enabled
+			method = var.waas_policy_policy_config_health_checks_method
+			path = var.waas_policy_policy_config_health_checks_path
+			timeout_in_seconds = var.waas_policy_policy_config_health_checks_timeout_in_seconds
+			unhealthy_threshold = var.waas_policy_policy_config_health_checks_unhealthy_threshold
 		}
-		is_behind_cdn = "${var.waas_policy_policy_config_is_behind_cdn}"
-		is_cache_control_respected = "${var.waas_policy_policy_config_is_cache_control_respected}"
-		is_https_enabled = "${var.waas_policy_policy_config_is_https_enabled}"
-		is_https_forced = "${var.waas_policy_policy_config_is_https_forced}"
-		is_origin_compression_enabled = "${var.waas_policy_policy_config_is_origin_compression_enabled}"
-		is_response_buffering_enabled = "${var.waas_policy_policy_config_is_response_buffering_enabled}"
-		is_sni_enabled = "${var.waas_policy_policy_config_is_sni_enabled}"
+		is_behind_cdn = var.waas_policy_policy_config_is_behind_cdn
+		is_cache_control_respected = var.waas_policy_policy_config_is_cache_control_respected
+		is_https_enabled = var.waas_policy_policy_config_is_https_enabled
+		is_https_forced = var.waas_policy_policy_config_is_https_forced
+		is_origin_compression_enabled = var.waas_policy_policy_config_is_origin_compression_enabled
+		is_response_buffering_enabled = var.waas_policy_policy_config_is_response_buffering_enabled
+		is_sni_enabled = var.waas_policy_policy_config_is_sni_enabled
 		load_balancing_method {
 			#Required
-			method = "${var.waas_policy_policy_config_load_balancing_method_method}"
+			method = var.waas_policy_policy_config_load_balancing_method_method
 
 			#Optional
-			domain = "${var.waas_policy_policy_config_load_balancing_method_domain}"
-			expiration_time_in_seconds = "${var.waas_policy_policy_config_load_balancing_method_expiration_time_in_seconds}"
-			name = "${var.waas_policy_policy_config_load_balancing_method_name}"
+			domain = var.waas_policy_policy_config_load_balancing_method_domain
+			expiration_time_in_seconds = var.waas_policy_policy_config_load_balancing_method_expiration_time_in_seconds
+			name = var.waas_policy_policy_config_load_balancing_method_name
 		}
-		tls_protocols = "${var.waas_policy_policy_config_tls_protocols}"
-		websocket_path_prefixes = "${var.waas_policy_policy_config_websocket_path_prefixes}"
+		tls_protocols = var.waas_policy_policy_config_tls_protocols
+		websocket_path_prefixes = var.waas_policy_policy_config_websocket_path_prefixes
 	}
 	waf_config {
 
 		#Optional
 		access_rules {
 			#Required
-			action = "${var.waas_policy_waf_config_access_rules_action}"
+			action = var.waas_policy_waf_config_access_rules_action
 			criteria {
 				#Required
-				condition = "${var.waas_policy_waf_config_access_rules_criteria_condition}"
-				value = "${var.waas_policy_waf_config_access_rules_criteria_value}"
+				condition = var.waas_policy_waf_config_access_rules_criteria_condition
+				value = var.waas_policy_waf_config_access_rules_criteria_value
 
 				#Optional
-				is_case_sensitive = "${var.waas_policy_waf_config_access_rules_criteria_is_case_sensitive}"
+				is_case_sensitive = var.waas_policy_waf_config_access_rules_criteria_is_case_sensitive
 			}
-			name = "${var.waas_policy_waf_config_access_rules_name}"
+			name = var.waas_policy_waf_config_access_rules_name
 
 			#Optional
-			block_action = "${var.waas_policy_waf_config_access_rules_block_action}"
-			block_error_page_code = "${var.waas_policy_waf_config_access_rules_block_error_page_code}"
-			block_error_page_description = "${var.waas_policy_waf_config_access_rules_block_error_page_description}"
-			block_error_page_message = "${var.waas_policy_waf_config_access_rules_block_error_page_message}"
-			block_response_code = "${var.waas_policy_waf_config_access_rules_block_response_code}"
-			bypass_challenges = "${var.waas_policy_waf_config_access_rules_bypass_challenges}"
-			captcha_footer = "${var.waas_policy_waf_config_access_rules_captcha_footer}"
-			captcha_header = "${var.waas_policy_waf_config_access_rules_captcha_header}"
-			captcha_submit_label = "${var.waas_policy_waf_config_access_rules_captcha_submit_label}"
-			captcha_title = "${var.waas_policy_waf_config_access_rules_captcha_title}"
-			redirect_response_code = "${var.waas_policy_waf_config_access_rules_redirect_response_code}"
-			redirect_url = "${var.waas_policy_waf_config_access_rules_redirect_url}"
+			block_action = var.waas_policy_waf_config_access_rules_block_action
+			block_error_page_code = var.waas_policy_waf_config_access_rules_block_error_page_code
+			block_error_page_description = var.waas_policy_waf_config_access_rules_block_error_page_description
+			block_error_page_message = var.waas_policy_waf_config_access_rules_block_error_page_message
+			block_response_code = var.waas_policy_waf_config_access_rules_block_response_code
+			bypass_challenges = var.waas_policy_waf_config_access_rules_bypass_challenges
+			captcha_footer = var.waas_policy_waf_config_access_rules_captcha_footer
+			captcha_header = var.waas_policy_waf_config_access_rules_captcha_header
+			captcha_submit_label = var.waas_policy_waf_config_access_rules_captcha_submit_label
+			captcha_title = var.waas_policy_waf_config_access_rules_captcha_title
+			redirect_response_code = var.waas_policy_waf_config_access_rules_redirect_response_code
+			redirect_url = var.waas_policy_waf_config_access_rules_redirect_url
 			response_header_manipulation {
 				#Required
-				action = "${var.waas_policy_waf_config_access_rules_response_header_manipulation_action}"
-				header = "${var.waas_policy_waf_config_access_rules_response_header_manipulation_header}"
+				action = var.waas_policy_waf_config_access_rules_response_header_manipulation_action
+				header = var.waas_policy_waf_config_access_rules_response_header_manipulation_header
 
 				#Optional
-				value = "${var.waas_policy_waf_config_access_rules_response_header_manipulation_value}"
+				value = var.waas_policy_waf_config_access_rules_response_header_manipulation_value
 			}
 		}
 		address_rate_limiting {
 			#Required
-			is_enabled = "${var.waas_policy_waf_config_address_rate_limiting_is_enabled}"
+			is_enabled = var.waas_policy_waf_config_address_rate_limiting_is_enabled
 
 			#Optional
-			allowed_rate_per_address = "${var.waas_policy_waf_config_address_rate_limiting_allowed_rate_per_address}"
-			block_response_code = "${var.waas_policy_waf_config_address_rate_limiting_block_response_code}"
-			max_delayed_count_per_address = "${var.waas_policy_waf_config_address_rate_limiting_max_delayed_count_per_address}"
+			allowed_rate_per_address = var.waas_policy_waf_config_address_rate_limiting_allowed_rate_per_address
+			block_response_code = var.waas_policy_waf_config_address_rate_limiting_block_response_code
+			max_delayed_count_per_address = var.waas_policy_waf_config_address_rate_limiting_max_delayed_count_per_address
 		}
 		caching_rules {
 			#Required
-			action = "${var.waas_policy_waf_config_caching_rules_action}"
+			action = var.waas_policy_waf_config_caching_rules_action
 			criteria {
 				#Required
-				condition = "${var.waas_policy_waf_config_caching_rules_criteria_condition}"
-				value = "${var.waas_policy_waf_config_caching_rules_criteria_value}"
+				condition = var.waas_policy_waf_config_caching_rules_criteria_condition
+				value = var.waas_policy_waf_config_caching_rules_criteria_value
 			}
-			name = "${var.waas_policy_waf_config_caching_rules_name}"
+			name = var.waas_policy_waf_config_caching_rules_name
 
 			#Optional
-			caching_duration = "${var.waas_policy_waf_config_caching_rules_caching_duration}"
-			client_caching_duration = "${var.waas_policy_waf_config_caching_rules_client_caching_duration}"
-			is_client_caching_enabled = "${var.waas_policy_waf_config_caching_rules_is_client_caching_enabled}"
-			key = "${var.waas_policy_waf_config_caching_rules_key}"
+			caching_duration = var.waas_policy_waf_config_caching_rules_caching_duration
+			client_caching_duration = var.waas_policy_waf_config_caching_rules_client_caching_duration
+			is_client_caching_enabled = var.waas_policy_waf_config_caching_rules_is_client_caching_enabled
+			key = var.waas_policy_waf_config_caching_rules_key
 		}
 		captchas {
 			#Required
-			failure_message = "${var.waas_policy_waf_config_captchas_failure_message}"
-			session_expiration_in_seconds = "${var.waas_policy_waf_config_captchas_session_expiration_in_seconds}"
-			submit_label = "${var.waas_policy_waf_config_captchas_submit_label}"
-			title = "${var.waas_policy_waf_config_captchas_title}"
-			url = "${var.waas_policy_waf_config_captchas_url}"
+			failure_message = var.waas_policy_waf_config_captchas_failure_message
+			session_expiration_in_seconds = var.waas_policy_waf_config_captchas_session_expiration_in_seconds
+			submit_label = var.waas_policy_waf_config_captchas_submit_label
+			title = var.waas_policy_waf_config_captchas_title
+			url = var.waas_policy_waf_config_captchas_url
 
 			#Optional
-			footer_text = "${var.waas_policy_waf_config_captchas_footer_text}"
-			header_text = "${var.waas_policy_waf_config_captchas_header_text}"
+			footer_text = var.waas_policy_waf_config_captchas_footer_text
+			header_text = var.waas_policy_waf_config_captchas_header_text
 		}
 		custom_protection_rules {
 
 			#Optional
-			action = "${var.waas_policy_waf_config_custom_protection_rules_action}"
+			action = var.waas_policy_waf_config_custom_protection_rules_action
 			exclusions {
 
 				#Optional
-				exclusions = "${var.waas_policy_waf_config_custom_protection_rules_exclusions_exclusions}"
-				target = "${var.waas_policy_waf_config_custom_protection_rules_exclusions_target}"
+				exclusions = var.waas_policy_waf_config_custom_protection_rules_exclusions_exclusions
+				target = var.waas_policy_waf_config_custom_protection_rules_exclusions_target
 			}
-			id = "${var.waas_policy_waf_config_custom_protection_rules_id}"
+			id = var.waas_policy_waf_config_custom_protection_rules_id
 		}
 		device_fingerprint_challenge {
 			#Required
-			is_enabled = "${var.waas_policy_waf_config_device_fingerprint_challenge_is_enabled}"
+			is_enabled = var.waas_policy_waf_config_device_fingerprint_challenge_is_enabled
 
 			#Optional
-			action = "${var.waas_policy_waf_config_device_fingerprint_challenge_action}"
-			action_expiration_in_seconds = "${var.waas_policy_waf_config_device_fingerprint_challenge_action_expiration_in_seconds}"
+			action = var.waas_policy_waf_config_device_fingerprint_challenge_action
+			action_expiration_in_seconds = var.waas_policy_waf_config_device_fingerprint_challenge_action_expiration_in_seconds
 			challenge_settings {
 
 				#Optional
-				block_action = "${var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_action}"
-				block_error_page_code = "${var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_error_page_code}"
-				block_error_page_description = "${var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_error_page_description}"
-				block_error_page_message = "${var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_error_page_message}"
-				block_response_code = "${var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_response_code}"
-				captcha_footer = "${var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_footer}"
-				captcha_header = "${var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_header}"
-				captcha_submit_label = "${var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_submit_label}"
-				captcha_title = "${var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_title}"
+				block_action = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_action
+				block_error_page_code = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_error_page_code
+				block_error_page_description = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_error_page_description
+				block_error_page_message = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_error_page_message
+				block_response_code = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_response_code
+				captcha_footer = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_footer
+				captcha_header = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_header
+				captcha_submit_label = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_submit_label
+				captcha_title = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_title
 			}
-			failure_threshold = "${var.waas_policy_waf_config_device_fingerprint_challenge_failure_threshold}"
-			failure_threshold_expiration_in_seconds = "${var.waas_policy_waf_config_device_fingerprint_challenge_failure_threshold_expiration_in_seconds}"
-			max_address_count = "${var.waas_policy_waf_config_device_fingerprint_challenge_max_address_count}"
-			max_address_count_expiration_in_seconds = "${var.waas_policy_waf_config_device_fingerprint_challenge_max_address_count_expiration_in_seconds}"
+			failure_threshold = var.waas_policy_waf_config_device_fingerprint_challenge_failure_threshold
+			failure_threshold_expiration_in_seconds = var.waas_policy_waf_config_device_fingerprint_challenge_failure_threshold_expiration_in_seconds
+			max_address_count = var.waas_policy_waf_config_device_fingerprint_challenge_max_address_count
+			max_address_count_expiration_in_seconds = var.waas_policy_waf_config_device_fingerprint_challenge_max_address_count_expiration_in_seconds
 		}
 		human_interaction_challenge {
 			#Required
-			is_enabled = "${var.waas_policy_waf_config_human_interaction_challenge_is_enabled}"
+			is_enabled = var.waas_policy_waf_config_human_interaction_challenge_is_enabled
 
 			#Optional
-			action = "${var.waas_policy_waf_config_human_interaction_challenge_action}"
-			action_expiration_in_seconds = "${var.waas_policy_waf_config_human_interaction_challenge_action_expiration_in_seconds}"
+			action = var.waas_policy_waf_config_human_interaction_challenge_action
+			action_expiration_in_seconds = var.waas_policy_waf_config_human_interaction_challenge_action_expiration_in_seconds
 			challenge_settings {
 
 				#Optional
-				block_action = "${var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_action}"
-				block_error_page_code = "${var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_error_page_code}"
-				block_error_page_description = "${var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_error_page_description}"
-				block_error_page_message = "${var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_error_page_message}"
-				block_response_code = "${var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_response_code}"
-				captcha_footer = "${var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_footer}"
-				captcha_header = "${var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_header}"
-				captcha_submit_label = "${var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_submit_label}"
-				captcha_title = "${var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_title}"
+				block_action = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_action
+				block_error_page_code = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_error_page_code
+				block_error_page_description = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_error_page_description
+				block_error_page_message = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_error_page_message
+				block_response_code = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_response_code
+				captcha_footer = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_footer
+				captcha_header = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_header
+				captcha_submit_label = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_submit_label
+				captcha_title = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_title
 			}
-			failure_threshold = "${var.waas_policy_waf_config_human_interaction_challenge_failure_threshold}"
-			failure_threshold_expiration_in_seconds = "${var.waas_policy_waf_config_human_interaction_challenge_failure_threshold_expiration_in_seconds}"
-			interaction_threshold = "${var.waas_policy_waf_config_human_interaction_challenge_interaction_threshold}"
-			is_nat_enabled = "${var.waas_policy_waf_config_human_interaction_challenge_is_nat_enabled}"
-			recording_period_in_seconds = "${var.waas_policy_waf_config_human_interaction_challenge_recording_period_in_seconds}"
+			failure_threshold = var.waas_policy_waf_config_human_interaction_challenge_failure_threshold
+			failure_threshold_expiration_in_seconds = var.waas_policy_waf_config_human_interaction_challenge_failure_threshold_expiration_in_seconds
+			interaction_threshold = var.waas_policy_waf_config_human_interaction_challenge_interaction_threshold
+			is_nat_enabled = var.waas_policy_waf_config_human_interaction_challenge_is_nat_enabled
+			recording_period_in_seconds = var.waas_policy_waf_config_human_interaction_challenge_recording_period_in_seconds
 			set_http_header {
 				#Required
-				name = "${var.waas_policy_waf_config_human_interaction_challenge_set_http_header_name}"
-				value = "${var.waas_policy_waf_config_human_interaction_challenge_set_http_header_value}"
+				name = var.waas_policy_waf_config_human_interaction_challenge_set_http_header_name
+				value = var.waas_policy_waf_config_human_interaction_challenge_set_http_header_value
 			}
 		}
 		js_challenge {
 			#Required
-			is_enabled = "${var.waas_policy_waf_config_js_challenge_is_enabled}"
+			is_enabled = var.waas_policy_waf_config_js_challenge_is_enabled
 
 			#Optional
-			action = "${var.waas_policy_waf_config_js_challenge_action}"
-			action_expiration_in_seconds = "${var.waas_policy_waf_config_js_challenge_action_expiration_in_seconds}"
-			are_redirects_challenged = "${var.waas_policy_waf_config_js_challenge_are_redirects_challenged}"
+			action = var.waas_policy_waf_config_js_challenge_action
+			action_expiration_in_seconds = var.waas_policy_waf_config_js_challenge_action_expiration_in_seconds
+			are_redirects_challenged = var.waas_policy_waf_config_js_challenge_are_redirects_challenged
 			challenge_settings {
 
 				#Optional
-				block_action = "${var.waas_policy_waf_config_js_challenge_challenge_settings_block_action}"
-				block_error_page_code = "${var.waas_policy_waf_config_js_challenge_challenge_settings_block_error_page_code}"
-				block_error_page_description = "${var.waas_policy_waf_config_js_challenge_challenge_settings_block_error_page_description}"
-				block_error_page_message = "${var.waas_policy_waf_config_js_challenge_challenge_settings_block_error_page_message}"
-				block_response_code = "${var.waas_policy_waf_config_js_challenge_challenge_settings_block_response_code}"
-				captcha_footer = "${var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_footer}"
-				captcha_header = "${var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_header}"
-				captcha_submit_label = "${var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_submit_label}"
-				captcha_title = "${var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_title}"
+				block_action = var.waas_policy_waf_config_js_challenge_challenge_settings_block_action
+				block_error_page_code = var.waas_policy_waf_config_js_challenge_challenge_settings_block_error_page_code
+				block_error_page_description = var.waas_policy_waf_config_js_challenge_challenge_settings_block_error_page_description
+				block_error_page_message = var.waas_policy_waf_config_js_challenge_challenge_settings_block_error_page_message
+				block_response_code = var.waas_policy_waf_config_js_challenge_challenge_settings_block_response_code
+				captcha_footer = var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_footer
+				captcha_header = var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_header
+				captcha_submit_label = var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_submit_label
+				captcha_title = var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_title
 			}
 			criteria {
 				#Required
-				condition = "${var.waas_policy_waf_config_js_challenge_criteria_condition}"
-				value = "${var.waas_policy_waf_config_js_challenge_criteria_value}"
+				condition = var.waas_policy_waf_config_js_challenge_criteria_condition
+				value = var.waas_policy_waf_config_js_challenge_criteria_value
 
 				#Optional
-				is_case_sensitive = "${var.waas_policy_waf_config_js_challenge_criteria_is_case_sensitive}"
+				is_case_sensitive = var.waas_policy_waf_config_js_challenge_criteria_is_case_sensitive
 			}
-			failure_threshold = "${var.waas_policy_waf_config_js_challenge_failure_threshold}"
-			is_nat_enabled = "${var.waas_policy_waf_config_js_challenge_is_nat_enabled}"
+			failure_threshold = var.waas_policy_waf_config_js_challenge_failure_threshold
+			is_nat_enabled = var.waas_policy_waf_config_js_challenge_is_nat_enabled
 			set_http_header {
 				#Required
-				name = "${var.waas_policy_waf_config_js_challenge_set_http_header_name}"
-				value = "${var.waas_policy_waf_config_js_challenge_set_http_header_value}"
+				name = var.waas_policy_waf_config_js_challenge_set_http_header_name
+				value = var.waas_policy_waf_config_js_challenge_set_http_header_value
 			}
 		}
-		origin = "${var.waas_policy_waf_config_origin}"
-		origin_groups = "${var.waas_policy_waf_config_origin_groups}"
+		origin = var.waas_policy_waf_config_origin
+		origin_groups = var.waas_policy_waf_config_origin_groups
 		protection_settings {
 
 			#Optional
-			allowed_http_methods = "${var.waas_policy_waf_config_protection_settings_allowed_http_methods}"
-			block_action = "${var.waas_policy_waf_config_protection_settings_block_action}"
-			block_error_page_code = "${var.waas_policy_waf_config_protection_settings_block_error_page_code}"
-			block_error_page_description = "${var.waas_policy_waf_config_protection_settings_block_error_page_description}"
-			block_error_page_message = "${var.waas_policy_waf_config_protection_settings_block_error_page_message}"
-			block_response_code = "${var.waas_policy_waf_config_protection_settings_block_response_code}"
-			is_response_inspected = "${var.waas_policy_waf_config_protection_settings_is_response_inspected}"
-			max_argument_count = "${var.waas_policy_waf_config_protection_settings_max_argument_count}"
-			max_name_length_per_argument = "${var.waas_policy_waf_config_protection_settings_max_name_length_per_argument}"
-			max_response_size_in_ki_b = "${var.waas_policy_waf_config_protection_settings_max_response_size_in_ki_b}"
-			max_total_name_length_of_arguments = "${var.waas_policy_waf_config_protection_settings_max_total_name_length_of_arguments}"
-			media_types = "${var.waas_policy_waf_config_protection_settings_media_types}"
-			recommendations_period_in_days = "${var.waas_policy_waf_config_protection_settings_recommendations_period_in_days}"
+			allowed_http_methods = var.waas_policy_waf_config_protection_settings_allowed_http_methods
+			block_action = var.waas_policy_waf_config_protection_settings_block_action
+			block_error_page_code = var.waas_policy_waf_config_protection_settings_block_error_page_code
+			block_error_page_description = var.waas_policy_waf_config_protection_settings_block_error_page_description
+			block_error_page_message = var.waas_policy_waf_config_protection_settings_block_error_page_message
+			block_response_code = var.waas_policy_waf_config_protection_settings_block_response_code
+			is_response_inspected = var.waas_policy_waf_config_protection_settings_is_response_inspected
+			max_argument_count = var.waas_policy_waf_config_protection_settings_max_argument_count
+			max_name_length_per_argument = var.waas_policy_waf_config_protection_settings_max_name_length_per_argument
+			max_response_size_in_ki_b = var.waas_policy_waf_config_protection_settings_max_response_size_in_ki_b
+			max_total_name_length_of_arguments = var.waas_policy_waf_config_protection_settings_max_total_name_length_of_arguments
+			media_types = var.waas_policy_waf_config_protection_settings_media_types
+			recommendations_period_in_days = var.waas_policy_waf_config_protection_settings_recommendations_period_in_days
 		}
 		whitelists {
 			#Required
-			name = "${var.waas_policy_waf_config_whitelists_name}"
+			name = var.waas_policy_waf_config_whitelists_name
 
 			#Optional
-			address_lists = "${var.waas_policy_waf_config_whitelists_address_lists}"
-			addresses = "${var.waas_policy_waf_config_whitelists_addresses}"
+			address_lists = var.waas_policy_waf_config_whitelists_address_lists
+			addresses = var.waas_policy_waf_config_whitelists_addresses
 		}
 	}
 }

@@ -19,11 +19,11 @@ filter the list by compatibility with a specific image.
 ```hcl
 data "oci_core_shapes" "test_shapes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.shape_availability_domain}"
-	image_id = "${oci_core_image.test_image.id}"
+	availability_domain = var.shape_availability_domain
+	image_id = oci_core_image.test_image.id
 }
 ```
 

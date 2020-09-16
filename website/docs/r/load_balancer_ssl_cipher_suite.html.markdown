@@ -17,11 +17,11 @@ Creates a custom SSL cipher suite.
 ```hcl
 resource "oci_load_balancer_ssl_cipher_suite" "test_ssl_cipher_suite" {
 	#Required
-	ciphers = "${var.ssl_cipher_suite_ciphers}"
-	name = "${var.ssl_cipher_suite_name}"
+	ciphers = var.ssl_cipher_suite_ciphers
+	name = var.ssl_cipher_suite_name
 
 	#Optional
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
 

@@ -18,7 +18,7 @@ Retrieves the run for the specified `runId`.
 ```hcl
 data "oci_dataflow_invoke_run" "test_invoke_run" {
 	#Required
-	run_id = "${oci_dataflow_run.test_run.id}"
+	run_id = oci_dataflow_run.test_run.id
 }
 ```
 
