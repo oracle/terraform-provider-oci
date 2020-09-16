@@ -27,6 +27,30 @@ func ObjectStorageObjectDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"http_response_cache_control": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"http_response_content_disposition": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"http_response_content_encoding": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"http_response_content_language": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"http_response_content_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"http_response_expires": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"namespace": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -160,6 +184,36 @@ func (s *ObjectStorageObjectDataSourceCrud) Get() error {
 	if versionId, ok := s.D.GetOkExists("version_id"); ok {
 		tmp := versionId.(string)
 		request.VersionId = &tmp
+	}
+
+	if httpResponseCacheControl, ok := s.D.GetOkExists("http_response_cache_control"); ok {
+		tmp := httpResponseCacheControl.(string)
+		request.HttpResponseCacheControl = &tmp
+	}
+
+	if httpResponseContentDisposition, ok := s.D.GetOkExists("http_response_content_disposition"); ok {
+		tmp := httpResponseContentDisposition.(string)
+		request.HttpResponseContentDisposition = &tmp
+	}
+
+	if httpResponseContentEncoding, ok := s.D.GetOkExists("http_response_content_encoding"); ok {
+		tmp := httpResponseContentEncoding.(string)
+		request.HttpResponseContentEncoding = &tmp
+	}
+
+	if httpResponseContentLanguage, ok := s.D.GetOkExists("http_response_content_language"); ok {
+		tmp := httpResponseContentLanguage.(string)
+		request.HttpResponseContentLanguage = &tmp
+	}
+
+	if httpResponseContentType, ok := s.D.GetOkExists("http_response_content_type"); ok {
+		tmp := httpResponseContentType.(string)
+		request.HttpResponseContentType = &tmp
+	}
+
+	if httpResponseExpires, ok := s.D.GetOkExists("http_response_expires"); ok {
+		tmp := httpResponseExpires.(string)
+		request.HttpResponseExpires = &tmp
 	}
 
 	response, err := s.Client.GetObject(context.Background(), request)
