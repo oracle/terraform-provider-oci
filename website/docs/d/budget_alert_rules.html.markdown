@@ -18,11 +18,11 @@ Returns a list of Alert Rules for a specified Budget.
 ```hcl
 data "oci_budget_alert_rules" "test_alert_rules" {
 	#Required
-	budget_id = "${oci_budget_budget.test_budget.id}"
+	budget_id = oci_budget_budget.test_budget.id
 
 	#Optional
-	display_name = "${var.alert_rule_display_name}"
-	state = "${var.alert_rule_state}"
+	display_name = var.alert_rule_display_name
+	state = var.alert_rule_state
 }
 ```
 

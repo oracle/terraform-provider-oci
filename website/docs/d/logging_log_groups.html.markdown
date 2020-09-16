@@ -17,11 +17,11 @@ Lists all log groups for the specified compartment or tenancy.
 ```hcl
 data "oci_logging_log_groups" "test_log_groups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.log_group_display_name}"
-	is_compartment_id_in_subtree = "${var.log_group_is_compartment_id_in_subtree}"
+	display_name = var.log_group_display_name
+	is_compartment_id_in_subtree = var.log_group_is_compartment_id_in_subtree
 }
 ```
 

@@ -19,7 +19,7 @@ Updates the Autonomous Database regional wallet.
 resource "oci_database_autonomous_database_regional_wallet_management" "test_autonomous_database_regional_wallet_management" {
 
 	#Optional
-	should_rotate = "${var.autonomous_database_regional_wallet_management_should_rotate}"
+	should_rotate = var.autonomous_database_regional_wallet_management_should_rotate
 }
 ```
 

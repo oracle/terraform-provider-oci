@@ -18,7 +18,7 @@ Lists the customer-premises equipment objects (CPEs) in the specified compartmen
 ```hcl
 data "oci_core_cpes" "test_cpes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

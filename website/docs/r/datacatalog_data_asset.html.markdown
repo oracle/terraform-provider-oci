@@ -17,13 +17,13 @@ Create a new data asset.
 ```hcl
 resource "oci_datacatalog_data_asset" "test_data_asset" {
 	#Required
-	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
-	display_name = "${var.data_asset_display_name}"
-	type_key = "${var.data_asset_type_key}"
+	catalog_id = oci_datacatalog_catalog.test_catalog.id
+	display_name = var.data_asset_display_name
+	type_key = var.data_asset_type_key
 
 	#Optional
-	description = "${var.data_asset_description}"
-	properties = "${var.data_asset_properties}"
+	description = var.data_asset_description
+	properties = var.data_asset_properties
 }
 ```
 

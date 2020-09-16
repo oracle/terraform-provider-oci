@@ -18,7 +18,7 @@ Gets the wallet details for the specified Autonomous Database.
 ```hcl
 data "oci_database_autonomous_database_instance_wallet_management" "test_autonomous_database_instance_wallet_management" {
 	#Required
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
+	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
 }
 ```
 

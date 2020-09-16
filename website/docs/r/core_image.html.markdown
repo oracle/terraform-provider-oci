@@ -41,13 +41,13 @@ Avoid entering confidential information.
 ```hcl
 resource "oci_core_image" "test_image" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	instance_id = "${oci_core_instance.test_instance.id}"
+	compartment_id = var.compartment_id
+	instance_id = oci_core_instance.test_instance.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.image_display_name}"
-	launch_mode = "${var.image_launch_mode}"
+	display_name = var.image_display_name
+	launch_mode = var.image_launch_mode
 	freeform_tags = {"Department"= "Finance"}
 }
 ```
@@ -56,22 +56,22 @@ resource "oci_core_image" "test_image" {
 ```hcl
 resource "oci_core_image" "test_image" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.image_display_name}"
-	launch_mode = "${var.image_launch_mode}"
+	display_name = var.image_display_name
+	launch_mode = var.image_launch_mode
 	
 	image_source_details {
 		source_type = "objectStorageTuple"
-		bucket_name = "${var.bucket_name}"
-		namespace_name = "${var.namespace}"
-		object_name = "${var.object_name}" # exported image name
+		bucket_name = var.bucket_name
+		namespace_name = var.namespace
+		object_name = var.object_name # exported image name
         
 		#Optional
-		operating_system = "${var.image_image_source_details_operating_system}"
-		operating_system_version = "${var.image_image_source_details_operating_system_version}"
-		source_image_type = "${var.source_image_type}"
+		operating_system = var.image_image_source_details_operating_system
+		operating_system_version = var.image_image_source_details_operating_system_version
+		source_image_type = var.source_image_type
 	}
 }
 ```
@@ -80,20 +80,20 @@ resource "oci_core_image" "test_image" {
 ```hcl
 resource "oci_core_image" "test_image" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.image_display_name}"
-	launch_mode = "${var.image_launch_mode}"
+	display_name = var.image_display_name
+	launch_mode = var.image_launch_mode
 	
 	image_source_details {
 		source_type = "objectStorageUri"
-		source_uri = "${var.source_uri}" 
+		source_uri = var.source_uri 
 
 		#Optional
-		operating_system = "${var.image_image_source_details_operating_system}"
-		operating_system_version = "${var.image_image_source_details_operating_system_version}"
-		source_image_type = "${var.source_image_type}"
+		operating_system = var.image_image_source_details_operating_system
+		operating_system_version = var.image_image_source_details_operating_system_version
+		source_image_type = var.source_image_type
     }
 }
 ```

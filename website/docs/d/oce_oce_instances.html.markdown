@@ -18,11 +18,11 @@ Returns a list of OceInstances.
 ```hcl
 data "oci_oce_oce_instances" "test_oce_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.oce_instance_display_name}"
-	state = "${var.oce_instance_state}"
+	display_name = var.oce_instance_display_name
+	state = var.oce_instance_state
 }
 ```
 

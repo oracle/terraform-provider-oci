@@ -18,25 +18,25 @@ Creates a run for an application.
 ```hcl
 resource "oci_dataflow_invoke_run" "test_invoke_run" {
 	#Required
-	application_id = "${oci_dataflow_application.test_application.id}"
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.invoke_run_display_name}"
+	application_id = oci_dataflow_application.test_application.id
+	compartment_id = var.compartment_id
+	display_name = var.invoke_run_display_name
 
 	#Optional
-	arguments = "${var.invoke_run_arguments}"
-	configuration = "${var.invoke_run_configuration}"
+	arguments = var.invoke_run_arguments
+	configuration = var.invoke_run_configuration
 	defined_tags = {"Operations.CostCenter"= "42"}
-	driver_shape = "${var.invoke_run_driver_shape}"
-	executor_shape = "${var.invoke_run_executor_shape}"
+	driver_shape = var.invoke_run_driver_shape
+	executor_shape = var.invoke_run_executor_shape
 	freeform_tags = {"Department"= "Finance"}
-	logs_bucket_uri = "${var.invoke_run_logs_bucket_uri}"
-	num_executors = "${var.invoke_run_num_executors}"
+	logs_bucket_uri = var.invoke_run_logs_bucket_uri
+	num_executors = var.invoke_run_num_executors
 	parameters {
 		#Required
-		name = "${var.invoke_run_parameters_name}"
-		value = "${var.invoke_run_parameters_value}"
+		name = var.invoke_run_parameters_name
+		value = var.invoke_run_parameters_value
 	}
-	warehouse_bucket_uri = "${var.invoke_run_warehouse_bucket_uri}"
+	warehouse_bucket_uri = var.invoke_run_warehouse_bucket_uri
 }
 ```
 

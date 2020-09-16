@@ -20,12 +20,12 @@ instances in the compartment).
 ```hcl
 data "oci_core_instances" "test_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.instance_availability_domain}"
-	display_name = "${var.instance_display_name}"
-	state = "${var.instance_state}"
+	availability_domain = var.instance_availability_domain
+	display_name = var.instance_display_name
+	state = var.instance_state
 }
 ```
 

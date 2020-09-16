@@ -17,7 +17,7 @@ Gets the specified notebook session's information.
 ```hcl
 data "oci_datascience_notebook_session" "test_notebook_session" {
 	#Required
-	notebook_session_id = "${oci_datascience_notebook_session.test_notebook_session.id}"
+	notebook_session_id = oci_datascience_notebook_session.test_notebook_session.id
 }
 ```
 

@@ -17,7 +17,7 @@ Gets information about the specified cluster network.
 ```hcl
 data "oci_core_cluster_network" "test_cluster_network" {
 	#Required
-	cluster_network_id = "${oci_core_cluster_network.test_cluster_network.id}"
+	cluster_network_id = oci_core_cluster_network.test_cluster_network.id
 }
 ```
 

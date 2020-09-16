@@ -19,8 +19,8 @@ Gets a list of backups based on the databaseId or compartmentId specified. Eithe
 data "oci_database_backups" "test_backups" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	database_id = "${oci_database_database.test_database.id}"
+	compartment_id = var.compartment_id
+	database_id = oci_database_database.test_database.id
 }
 ```
 

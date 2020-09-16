@@ -17,10 +17,10 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/common"
-	oci_identity "github.com/oracle/oci-go-sdk/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
-	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v25/loadbalancer"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v25/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/metrics"

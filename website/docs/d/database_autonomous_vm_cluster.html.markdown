@@ -17,7 +17,7 @@ Gets information about the specified Autonomous VM cluster.
 ```hcl
 data "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
 	#Required
-	autonomous_vm_cluster_id = "${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}"
+	autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
 }
 ```
 

@@ -17,7 +17,7 @@ Gets the details of the specified Data Safe private endpoint.
 ```hcl
 data "oci_data_safe_data_safe_private_endpoint" "test_data_safe_private_endpoint" {
 	#Required
-	data_safe_private_endpoint_id = "${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}"
+	data_safe_private_endpoint_id = oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id
 }
 ```
 

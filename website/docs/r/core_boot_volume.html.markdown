@@ -21,23 +21,23 @@ description. It does not have to be unique, and you can change it. Avoid enterin
 ```hcl
 resource "oci_core_boot_volume" "test_boot_volume" {
 	#Required
-	availability_domain = "${var.boot_volume_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.boot_volume_availability_domain
+	compartment_id = var.compartment_id
 	source_details {
 		#Required
-		id = "${var.boot_volume_source_details_id}"
-		type = "${var.boot_volume_source_details_type}"
+		id = var.boot_volume_source_details_id
+		type = var.boot_volume_source_details_type
 	}
 
 	#Optional
-	backup_policy_id = "${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}"
+	backup_policy_id = data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.boot_volume_display_name}"
+	display_name = var.boot_volume_display_name
 	freeform_tags = {"Department"= "Finance"}
-	is_auto_tune_enabled = "${var.boot_volume_is_auto_tune_enabled}"
-	kms_key_id = "${oci_kms_key.test_key.id}"
-	size_in_gbs = "${var.boot_volume_size_in_gbs}"
-	vpus_per_gb = "${var.boot_volume_vpus_per_gb}"
+	is_auto_tune_enabled = var.boot_volume_is_auto_tune_enabled
+	kms_key_id = oci_kms_key.test_key.id
+	size_in_gbs = var.boot_volume_size_in_gbs
+	vpus_per_gb = var.boot_volume_vpus_per_gb
 }
 ```
 

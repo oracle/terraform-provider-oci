@@ -19,11 +19,11 @@ results by VCN or DRG.
 ```hcl
 data "oci_core_drg_attachments" "test_drg_attachments" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	drg_id = "${oci_core_drg.test_drg.id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	drg_id = oci_core_drg.test_drg.id
+	vcn_id = oci_core_vcn.test_vcn.id
 }
 ```
 

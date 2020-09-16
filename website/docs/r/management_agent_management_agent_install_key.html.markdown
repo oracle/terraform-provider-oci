@@ -18,12 +18,12 @@ User creates a new install key as part of this API.
 ```hcl
 resource "oci_management_agent_management_agent_install_key" "test_management_agent_install_key" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.management_agent_install_key_display_name}"
+	compartment_id = var.compartment_id
+	display_name = var.management_agent_install_key_display_name
 
 	#Optional
-	allowed_key_install_count = "${var.management_agent_install_key_allowed_key_install_count}"
-	time_expires = "${var.management_agent_install_key_time_expires}"
+	allowed_key_install_count = var.management_agent_install_key_allowed_key_install_count
+	time_expires = var.management_agent_install_key_time_expires
 }
 ```
 

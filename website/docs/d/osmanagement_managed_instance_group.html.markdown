@@ -18,7 +18,7 @@ Returns a specific Managed Instance Group.
 ```hcl
 data "oci_osmanagement_managed_instance_group" "test_managed_instance_group" {
 	#Required
-	managed_instance_group_id = "${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}"
+	managed_instance_group_id = oci_osmanagement_managed_instance_group.test_managed_instance_group.id
 }
 ```
 

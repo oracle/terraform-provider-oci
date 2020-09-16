@@ -18,11 +18,11 @@ Get supported agent image information
 ```hcl
 data "oci_management_agent_management_agent_images" "test_management_agent_images" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	name = "${var.management_agent_image_name}"
-	state = "${var.management_agent_image_state}"
+	name = var.management_agent_image_name
+	state = var.management_agent_image_state
 }
 ```
 

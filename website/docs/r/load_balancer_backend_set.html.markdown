@@ -23,49 +23,49 @@ resource "oci_load_balancer_backend_set" "test_backend_set" {
 	#Required
 	health_checker {
 		#Required
-		protocol = "${var.backend_set_health_checker_protocol}"
+		protocol = var.backend_set_health_checker_protocol
 
 		#Optional
-		interval_ms = "${var.backend_set_health_checker_interval_ms}"
-		port = "${var.backend_set_health_checker_port}"
-		response_body_regex = "${var.backend_set_health_checker_response_body_regex}"
-		retries = "${var.backend_set_health_checker_retries}"
-		return_code = "${var.backend_set_health_checker_return_code}"
-		timeout_in_millis = "${var.backend_set_health_checker_timeout_in_millis}"
-		url_path = "${var.backend_set_health_checker_url_path}"
+		interval_ms = var.backend_set_health_checker_interval_ms
+		port = var.backend_set_health_checker_port
+		response_body_regex = var.backend_set_health_checker_response_body_regex
+		retries = var.backend_set_health_checker_retries
+		return_code = var.backend_set_health_checker_return_code
+		timeout_in_millis = var.backend_set_health_checker_timeout_in_millis
+		url_path = var.backend_set_health_checker_url_path
 	}
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.backend_set_name}"
-	policy = "${var.backend_set_policy}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	name = var.backend_set_name
+	policy = var.backend_set_policy
 
 	#Optional
 	lb_cookie_session_persistence_configuration {
 
 		#Optional
-		cookie_name = "${var.backend_set_lb_cookie_session_persistence_configuration_cookie_name}"
-		disable_fallback = "${var.backend_set_lb_cookie_session_persistence_configuration_disable_fallback}"
-		domain = "${var.backend_set_lb_cookie_session_persistence_configuration_domain}"
-		is_http_only = "${var.backend_set_lb_cookie_session_persistence_configuration_is_http_only}"
-		is_secure = "${var.backend_set_lb_cookie_session_persistence_configuration_is_secure}"
-		max_age_in_seconds = "${var.backend_set_lb_cookie_session_persistence_configuration_max_age_in_seconds}"
-		path = "${var.backend_set_lb_cookie_session_persistence_configuration_path}"
+		cookie_name = var.backend_set_lb_cookie_session_persistence_configuration_cookie_name
+		disable_fallback = var.backend_set_lb_cookie_session_persistence_configuration_disable_fallback
+		domain = var.backend_set_lb_cookie_session_persistence_configuration_domain
+		is_http_only = var.backend_set_lb_cookie_session_persistence_configuration_is_http_only
+		is_secure = var.backend_set_lb_cookie_session_persistence_configuration_is_secure
+		max_age_in_seconds = var.backend_set_lb_cookie_session_persistence_configuration_max_age_in_seconds
+		path = var.backend_set_lb_cookie_session_persistence_configuration_path
 	}
 	session_persistence_configuration {
 		#Required
-		cookie_name = "${var.backend_set_session_persistence_configuration_cookie_name}"
+		cookie_name = var.backend_set_session_persistence_configuration_cookie_name
 
 		#Optional
-		disable_fallback = "${var.backend_set_session_persistence_configuration_disable_fallback}"
+		disable_fallback = var.backend_set_session_persistence_configuration_disable_fallback
 	}
 	ssl_configuration {
 		#Required
-		certificate_name = "${oci_load_balancer_certificate.test_certificate.certificate_name}"
+		certificate_name = oci_load_balancer_certificate.test_certificate.certificate_name
 
 		#Optional
-		verify_depth = "${var.backend_set_ssl_configuration_verify_depth}"
-		verify_peer_certificate = "${var.backend_set_ssl_configuration_verify_peer_certificate}"
+		verify_depth = var.backend_set_ssl_configuration_verify_depth
+		verify_peer_certificate = var.backend_set_ssl_configuration_verify_peer_certificate
 		protocols = ["TLSv1.1", "TLSv1.2"]
-		cipher_suite_name = "${oci_load_balancer_ssl_cipher_suite.example_ssl_cipher_suite.name}"
+		cipher_suite_name = oci_load_balancer_ssl_cipher_suite.example_ssl_cipher_suite.name
 		server_order_preference = ENABLED
 	}
 }

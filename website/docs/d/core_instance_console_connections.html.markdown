@@ -20,10 +20,10 @@ For more information about console access, see [Accessing the Console](https://d
 ```hcl
 data "oci_core_instance_console_connections" "test_instance_console_connections" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	instance_id = "${oci_core_instance.test_instance.id}"
+	instance_id = oci_core_instance.test_instance.id
 }
 ```
 

@@ -34,11 +34,11 @@ and the console history data.
 ```hcl
 resource "oci_core_console_history" "test_console_history" {
 	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
+	instance_id = oci_core_instance.test_instance.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.console_history_display_name}"
+	display_name = var.console_history_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

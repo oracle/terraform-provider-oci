@@ -17,21 +17,21 @@ Use the navigation to the left to read about the available resources.
 ```hcl
 # Configure the Oracle Cloud Infrastructure provider with an API Key
 provider "oci" {
-  tenancy_ocid = "${var.tenancy_ocid}"
-  user_ocid = "${var.user_ocid}"
-  fingerprint = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region = "${var.region}"
+  tenancy_ocid = var.tenancy_ocid
+  user_ocid = var.user_ocid
+  fingerprint = var.fingerprint
+  private_key_path = var.private_key_path
+  region = var.region
 }
 
 # Get a list of Availability Domains
 data "oci_identity_availability_domains" "ads" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
 }
 
 # Output the result
 output "show-ads" {
-  value = "${data.oci_identity_availability_domains.ads.availability_domains}"
+  value = data.oci_identity_availability_domains.ads.availability_domains
 }
 
 ```
@@ -108,8 +108,8 @@ _Note: the parameter names are slightly different. Provider block from terraform
  
 ```
 provider "oci" {
-  tenancy_ocid = "${var.tenancy_ocid}"
-  config_file_profile= "${var.config_file_profile}"
+  tenancy_ocid = var.tenancy_ocid
+  config_file_profile= var.config_file_profile
 }
 ```
 
@@ -121,12 +121,28 @@ Principal authentication, set the `auth` attribute to "InstancePrincipal" in the
 # Configure the Oracle Cloud Infrastructure provider to use Instance Principal based authentication
 provider "oci" {
   auth = "InstancePrincipal"
-  region = "${var.region}"
+  region = var.region
 }
 ```
 
 _Note: this configuration will only work when run from an OCI instance. For more information on using Instance 
 Principals, see [this document](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm)._
+
+Most of the OCI resources need `compartment_id` i.e. the OCID of the parent compartment as a mandatory input argument for provisioning resource in that compartment. Compartment OCID of the instance can be obtained from the [instance metadata](https://docs.cloud.oracle.com/en-us/iaas/Content/Compute/Tasks/gettingmetadata.htm) endpoint as shown below:
+```
+data "http" "instance-metadata" {
+  url = "http://169.254.169.254/opc/v1/instance/"
+}
+
+locals {
+  blob = "${replace(data.http.instance-metadata.body, "/\n*/", "")}"
+  compartment_id = "${replace(local.blob, "/.*compartmentId\" : \"(.*?)\",.*/", "$1")}"
+}
+   
+output "instance-compartment" {
+  value = "${local.compartment_id}"
+}
+```
 
 ### Security Token Authentication
 Security Token authentication allows you to run Terraform using a token generated with [Token-based Authentication for the CLI](https://docs.cloud.oracle.com/en-us/iaas/Content/API/SDKDocs/clitoken.htm).

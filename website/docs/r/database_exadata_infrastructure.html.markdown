@@ -17,23 +17,23 @@ Create Exadata infrastructure.
 ```hcl
 resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 	#Required
-	admin_network_cidr = "${var.exadata_infrastructure_admin_network_cidr}"
-	cloud_control_plane_server1 = "${var.exadata_infrastructure_cloud_control_plane_server1}"
-	cloud_control_plane_server2 = "${var.exadata_infrastructure_cloud_control_plane_server2}"
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.exadata_infrastructure_display_name}"
-	dns_server = "${var.exadata_infrastructure_dns_server}"
-	gateway = "${var.exadata_infrastructure_gateway}"
-	infini_band_network_cidr = "${var.exadata_infrastructure_infini_band_network_cidr}"
-	netmask = "${var.exadata_infrastructure_netmask}"
-	ntp_server = "${var.exadata_infrastructure_ntp_server}"
-	shape = "${var.exadata_infrastructure_shape}"
-	time_zone = "${var.exadata_infrastructure_time_zone}"
+	admin_network_cidr = var.exadata_infrastructure_admin_network_cidr
+	cloud_control_plane_server1 = var.exadata_infrastructure_cloud_control_plane_server1
+	cloud_control_plane_server2 = var.exadata_infrastructure_cloud_control_plane_server2
+	compartment_id = var.compartment_id
+	display_name = var.exadata_infrastructure_display_name
+	dns_server = var.exadata_infrastructure_dns_server
+	gateway = var.exadata_infrastructure_gateway
+	infini_band_network_cidr = var.exadata_infrastructure_infini_band_network_cidr
+	netmask = var.exadata_infrastructure_netmask
+	ntp_server = var.exadata_infrastructure_ntp_server
+	shape = var.exadata_infrastructure_shape
+	time_zone = var.exadata_infrastructure_time_zone
 
 	#Optional
-	activation_file = "${var.exadata_infrastructure_activation_file}"
-	corporate_proxy = "${var.exadata_infrastructure_corporate_proxy}"
-	defined_tags = "${var.exadata_infrastructure_defined_tags}"
+	activation_file = var.exadata_infrastructure_activation_file
+	corporate_proxy = var.exadata_infrastructure_corporate_proxy
+	defined_tags = var.exadata_infrastructure_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

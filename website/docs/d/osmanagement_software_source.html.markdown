@@ -18,7 +18,7 @@ Returns a specific Software Source.
 ```hcl
 data "oci_osmanagement_software_source" "test_software_source" {
 	#Required
-	software_source_id = "${oci_osmanagement_software_source.test_software_source.id}"
+	software_source_id = oci_osmanagement_software_source.test_software_source.id
 }
 ```
 

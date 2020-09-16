@@ -17,7 +17,7 @@ Lists the identity provider groups.
 ```hcl
 data "oci_identity_identity_provider_groups" "test_identity_provider_groups" {
 	#Required
-	identity_provider_id = "${oci_identity_identity_provider.test_identity_provider.id}"
+	identity_provider_id = oci_identity_identity_provider.test_identity_provider.id
 }
 ```
 

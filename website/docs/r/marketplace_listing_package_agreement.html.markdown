@@ -19,9 +19,9 @@ accept the agreement.
 ```hcl
 resource "oci_marketplace_listing_package_agreement" "test_listing_package_agreement" {
 	#Required
-	agreement_id = "${oci_marketplace_agreement.test_agreement.id}"
-	listing_id = "${oci_marketplace_listing.test_listing.id}"
-	package_version = "${var.listing_package_agreement_package_version}"
+	agreement_id = oci_marketplace_agreement.test_agreement.id
+	listing_id = oci_marketplace_listing.test_listing.id
+	package_version = var.listing_package_agreement_package_version
 }
 ```
 

@@ -21,8 +21,8 @@ have to be unique, and you can change it anytime with
 ```hcl
 resource "oci_identity_smtp_credential" "test_smtp_credential" {
 	#Required
-	description = "${var.smtp_credential_description}"
-	user_id = "${oci_identity_user.test_user.id}"
+	description = var.smtp_credential_description
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

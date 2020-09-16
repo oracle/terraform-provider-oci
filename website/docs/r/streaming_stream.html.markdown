@@ -22,15 +22,15 @@ In the response, the `lifecycleState` parameter of the [Stream](https://docs.clo
 ```hcl
 resource "oci_streaming_stream" "test_stream" {
 	#Required
-	name = "${var.stream_name}"
-	partitions = "${var.stream_partitions}"
+	name = var.stream_name
+	partitions = var.stream_partitions
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	defined_tags = "${var.stream_defined_tags}"
+	compartment_id = var.compartment_id
+	defined_tags = var.stream_defined_tags
 	freeform_tags = {"Department"= "Finance"}
-	retention_in_hours = "${var.stream_retention_in_hours}"
-	stream_pool_id = "${oci_streaming_stream_pool.test_stream_pool.id}"
+	retention_in_hours = var.stream_retention_in_hours
+	stream_pool_id = oci_streaming_stream_pool.test_stream_pool.id
 }
 ```
 

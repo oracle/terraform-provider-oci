@@ -18,13 +18,13 @@ Gets a list of the DB systems in the specified compartment. You can specify a ba
 ```hcl
 data "oci_database_db_systems" "test_db_systems" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.db_system_availability_domain}"
-	backup_id = "${oci_database_backup.test_backup.id}"
-	display_name = "${var.db_system_display_name}"
-	state = "${var.db_system_state}"
+	availability_domain = var.db_system_availability_domain
+	backup_id = oci_database_backup.test_backup.id
+	display_name = var.db_system_display_name
+	state = var.db_system_state
 }
 ```
 

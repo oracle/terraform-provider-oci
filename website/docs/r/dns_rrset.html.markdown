@@ -17,18 +17,18 @@ Replaces records in the specified RRSet. RRSet with a `domain` and `rtype` is un
 ```hcl
 resource "oci_dns_rrset" "test_rrset" {
 	#Required
-	domain = "${var.rrset_domain}"
-	rtype = "${var.rrset_rtype}"
-	zone_name_or_id = "${oci_dns_zone.test_zone.id}"
+	domain = var.rrset_domain
+	rtype = var.rrset_rtype
+	zone_name_or_id = oci_dns_zone.test_zone.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 	items {
 		#Required
-		domain = "${var.rrset_items_domain}"
-		rdata = "${var.rrset_items_rdata}"
-		rtype = "${var.rrset_items_rtype}"
-		ttl = "${var.rrset_items_ttl}"
+		domain = var.rrset_items_domain
+		rdata = var.rrset_items_rdata
+		rtype = var.rrset_items_rtype
+		ttl = var.rrset_items_ttl
 	}
 }
 ```

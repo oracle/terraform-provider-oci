@@ -18,7 +18,7 @@ Lists the group mappings for the specified identity provider.
 ```hcl
 data "oci_identity_idp_group_mappings" "test_idp_group_mappings" {
 	#Required
-	identity_provider_id = "${oci_identity_identity_provider.test_identity_provider.id}"
+	identity_provider_id = oci_identity_identity_provider.test_identity_provider.id
 }
 ```
 

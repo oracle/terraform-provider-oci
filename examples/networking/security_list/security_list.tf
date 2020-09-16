@@ -3,12 +3,23 @@
 
 # This example demonstrates some basic security list options.
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "compartment_ocid" {}
-variable "region" {}
+variable "tenancy_ocid" {
+}
+
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "compartment_ocid" {
+}
+
+variable "region" {
+}
 
 variable "security_list_egress_security_rules_description" {
   default = "description"
@@ -19,17 +30,17 @@ variable "security_list_ingress_security_rules_description" {
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
 }
 
 resource "oci_core_vcn" "example_vcn" {
   cidr_block     = "10.0.0.0/16"
   dns_label      = "examplevcn"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name   = "exampleVCN"
 }
 
@@ -37,8 +48,8 @@ resource "oci_core_vcn" "example_vcn" {
 # http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 
 resource "oci_core_security_list" "example_security_list" {
-  compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_vcn.example_vcn.id}"
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.example_vcn.id
   display_name   = "exampleSecurityList"
 
   // allow outbound tcp traffic on all ports
@@ -49,9 +60,9 @@ resource "oci_core_security_list" "example_security_list" {
 
   // allow outbound udp traffic on a port range
   egress_security_rules {
-    description = "${var.security_list_egress_security_rules_description}"
+    description = var.security_list_egress_security_rules_description
     destination = "0.0.0.0/0"
-    protocol    = "17"                                                     // udp
+    protocol    = "17" // udp
     stateless   = true
 
     udp_options {
@@ -63,7 +74,7 @@ resource "oci_core_security_list" "example_security_list" {
 
   // allow inbound ssh traffic from a specific port
   ingress_security_rules {
-    protocol  = "6"         // tcp
+    protocol  = "6" // tcp
     source    = "0.0.0.0/0"
     stateless = false
 
@@ -81,7 +92,7 @@ resource "oci_core_security_list" "example_security_list" {
 
   // allow inbound icmp traffic of a specific type
   ingress_security_rules {
-    description = "${var.security_list_ingress_security_rules_description}"
+    description = var.security_list_ingress_security_rules_description
     protocol    = 1
     source      = "0.0.0.0/0"
     stateless   = true
@@ -92,3 +103,4 @@ resource "oci_core_security_list" "example_security_list" {
     }
   }
 }
+

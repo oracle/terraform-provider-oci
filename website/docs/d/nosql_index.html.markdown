@@ -17,11 +17,11 @@ Get information about a single index.
 ```hcl
 data "oci_nosql_index" "test_index" {
 	#Required
-	index_name = "${oci_nosql_index.test_index.name}"
-	table_name_or_id = "${oci_nosql_table_name_or.test_table_name_or.id}"
+	index_name = oci_nosql_index.test_index.name
+	table_name_or_id = oci_nosql_table_name_or.test_table_name_or.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

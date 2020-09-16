@@ -18,12 +18,12 @@ Returns a list of deployments.
 ```hcl
 data "oci_apigateway_deployments" "test_deployments" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.deployment_display_name}"
-	gateway_id = "${oci_apigateway_gateway.test_gateway.id}"
-	state = "${var.deployment_state}"
+	display_name = var.deployment_display_name
+	gateway_id = oci_apigateway_gateway.test_gateway.id
+	state = var.deployment_state
 }
 ```
 

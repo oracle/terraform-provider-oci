@@ -18,18 +18,19 @@ Creates a new Integration Instance.
 ```hcl
 resource "oci_integration_integration_instance" "test_integration_instance" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.integration_instance_display_name}"
-	integration_instance_type = "${var.integration_instance_integration_instance_type}"
-	is_byol = "${var.integration_instance_is_byol}"
-	message_packs = "${var.integration_instance_message_packs}"
+	compartment_id = var.compartment_id
+	display_name = var.integration_instance_display_name
+	integration_instance_type = var.integration_instance_integration_instance_type
+	is_byol = var.integration_instance_is_byol
+	message_packs = var.integration_instance_message_packs
 
 	#Optional
+	consumption_model = var.integration_instance_consumption_model
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
-	idcs_at = "${var.integration_instance_idcs_at}"
-	is_file_server_enabled = "${var.integration_instance_is_file_server_enabled}"
-	state = "${var.integration_instance_target_state}"
+	idcs_at = var.integration_instance_idcs_at
+	is_file_server_enabled = var.integration_instance_is_file_server_enabled
+	state = var.integration_instance_target_state
 }
 ```
 
@@ -38,6 +39,7 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier.
+* `consumption_model` - (Optional) Optional parameter specifying which entitlement to use for billing purposes. Only required if the account possesses more than one entitlement.
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) (Updatable) Integration Instance Identifier.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
@@ -57,6 +59,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - Compartment Identifier.
+* `consumption_model` - The entitlement used for billing purposes.
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Integration Instance Identifier, can be renamed.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 

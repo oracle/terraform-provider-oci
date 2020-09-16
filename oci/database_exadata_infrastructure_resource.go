@@ -5,12 +5,13 @@ package oci
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_database "github.com/oracle/oci-go-sdk/v25/database"
 )
 
 func init() {
@@ -649,7 +650,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) activateExadataInfrastructur
 	if err != nil {
 		return nil, fmt.Errorf("unable to open activation key file: %s", err)
 	}
-	request.ActivationFile = activationKeyFile
+
+	actionKeyFileBase64Encoded := []byte(base64.StdEncoding.EncodeToString(activationKeyFile))
+	request.ActivationFile = actionKeyFileBase64Encoded
 
 	request.ExadataInfrastructureId = &exadataInfrastructureId
 

@@ -19,13 +19,13 @@ NAT gateway as the rule's target. See [Route Table](https://docs.cloud.oracle.co
 ```hcl
 resource "oci_core_nat_gateway" "test_nat_gateway" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	compartment_id = var.compartment_id
+	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
-	block_traffic = "${var.nat_gateway_block_traffic}"
+	block_traffic = var.nat_gateway_block_traffic
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.nat_gateway_display_name}"
+	display_name = var.nat_gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

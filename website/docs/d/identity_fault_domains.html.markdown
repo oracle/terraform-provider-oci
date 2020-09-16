@@ -20,8 +20,8 @@ See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.
 ```hcl
 data "oci_identity_fault_domains" "test_fault_domains" {
 	#Required
-	availability_domain = "${var.fault_domain_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.fault_domain_availability_domain
+	compartment_id = var.compartment_id
 }
 ```
 

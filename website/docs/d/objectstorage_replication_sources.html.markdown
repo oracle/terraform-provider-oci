@@ -18,8 +18,8 @@ List the replication sources of a destination bucket.
 ```hcl
 data "oci_objectstorage_replication_sources" "test_replication_sources" {
 	#Required
-	bucket = "${var.replication_source_bucket}"
-	namespace = "${var.replication_source_namespace}"
+	bucket = var.replication_source_bucket
+	namespace = var.replication_source_namespace
 }
 ```
 

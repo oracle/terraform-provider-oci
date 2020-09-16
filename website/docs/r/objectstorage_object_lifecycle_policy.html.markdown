@@ -18,27 +18,27 @@ Creates or replaces the object lifecycle policy for the bucket.
 ```hcl
 resource "oci_objectstorage_object_lifecycle_policy" "test_object_lifecycle_policy" {
 	#Required
-	bucket = "${var.object_lifecycle_policy_bucket}"
-	namespace = "${var.object_lifecycle_policy_namespace}"
+	bucket = var.object_lifecycle_policy_bucket
+	namespace = var.object_lifecycle_policy_namespace
 
 	#Optional
 	rules {
 		#Required
-		action = "${var.object_lifecycle_policy_rules_action}"
-		is_enabled = "${var.object_lifecycle_policy_rules_is_enabled}"
-		name = "${var.object_lifecycle_policy_rules_name}"
-		time_amount = "${var.object_lifecycle_policy_rules_time_amount}"
-		time_unit = "${var.object_lifecycle_policy_rules_time_unit}"
+		action = var.object_lifecycle_policy_rules_action
+		is_enabled = var.object_lifecycle_policy_rules_is_enabled
+		name = var.object_lifecycle_policy_rules_name
+		time_amount = var.object_lifecycle_policy_rules_time_amount
+		time_unit = var.object_lifecycle_policy_rules_time_unit
 
 		#Optional
 		object_name_filter {
 
 			#Optional
-			exclusion_patterns = "${var.object_lifecycle_policy_rules_object_name_filter_exclusion_patterns}"
-			inclusion_patterns = "${var.object_lifecycle_policy_rules_object_name_filter_inclusion_patterns}"
-			inclusion_prefixes = "${var.object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes}"
+			exclusion_patterns = var.object_lifecycle_policy_rules_object_name_filter_exclusion_patterns
+			inclusion_patterns = var.object_lifecycle_policy_rules_object_name_filter_inclusion_patterns
+			inclusion_prefixes = var.object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes
 		}
-		target = "${var.object_lifecycle_policy_rules_target}"
+		target = var.object_lifecycle_policy_rules_target
 	}
 }
 ```

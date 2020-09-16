@@ -30,9 +30,9 @@ It does not have to be unique, and you can change it with
 ```hcl
 resource "oci_identity_tag_namespace" "test_tag_namespace" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	description = "${var.tag_namespace_description}"
-	name = "${var.tag_namespace_name}"
+	compartment_id = var.compartment_id
+	description = var.tag_namespace_description
+	name = var.tag_namespace_name
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

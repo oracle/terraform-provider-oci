@@ -20,12 +20,12 @@ is sorted by creation time in descending order.
 ```hcl
 data "oci_email_suppressions" "test_suppressions" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 
 	#Optional
-	email_address = "${var.suppression_email_address}"
-	time_created_greater_than_or_equal_to = "${var.suppression_time_created_greater_than_or_equal_to}"
-	time_created_less_than = "${var.suppression_time_created_less_than}"
+	email_address = var.suppression_email_address
+	time_created_greater_than_or_equal_to = var.suppression_time_created_greater_than_or_equal_to
+	time_created_less_than = var.suppression_time_created_less_than
 }
 ```
 

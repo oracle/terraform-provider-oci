@@ -27,10 +27,10 @@ ESXi host OCID.
 data "oci_ocvp_esxi_hosts" "test_esxi_hosts" {
 
 	#Optional
-	compute_instance_id = "${oci_core_instance.test_instance.id}"
-	display_name = "${var.esxi_host_display_name}"
-	sddc_id = "${oci_ocvp_sddc.test_sddc.id}"
-	state = "${var.esxi_host_state}"
+	compute_instance_id = oci_core_instance.test_instance.id
+	display_name = var.esxi_host_display_name
+	sddc_id = oci_ocvp_sddc.test_sddc.id
+	state = var.esxi_host_state
 }
 ```
 

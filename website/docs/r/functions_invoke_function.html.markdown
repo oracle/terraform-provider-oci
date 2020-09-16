@@ -17,12 +17,12 @@ Invokes a function
 ```hcl
 resource "oci_functions_invoke_function" "test_invoke_function" {
 	#Required
-	function_id = "${oci_functions_function.test_function.id}"
+	function_id = oci_functions_function.test_function.id
 
 	#Optional
-	invoke_function_body = "${var.invoke_function_invoke_function_body}"
-	fn_intent = "${var.invoke_function_fn_intent}"
-	fn_invoke_type = "${var.invoke_function_fn_invoke_type}"
+	invoke_function_body = var.invoke_function_invoke_function_body
+	fn_intent = var.invoke_function_fn_intent
+	fn_invoke_type = var.invoke_function_fn_invoke_type
 	base64_encode_content = false
 }
 ```

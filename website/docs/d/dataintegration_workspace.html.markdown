@@ -17,7 +17,7 @@ Gets a Data Integration Workspace by identifier
 ```hcl
 data "oci_dataintegration_workspace" "test_workspace" {
 	#Required
-	workspace_id = "${oci_dataintegration_workspace.test_workspace.id}"
+	workspace_id = oci_dataintegration_workspace.test_workspace.id
 }
 ```
 

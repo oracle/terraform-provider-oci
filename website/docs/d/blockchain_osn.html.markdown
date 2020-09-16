@@ -17,8 +17,8 @@ Gets information about an OSN identified by the specific id
 ```hcl
 data "oci_blockchain_osn" "test_osn" {
 	#Required
-	blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
-	osn_id = "${oci_blockchain_osn.test_osn.id}"
+	blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
+	osn_id = oci_blockchain_osn.test_osn.id
 }
 ```
 

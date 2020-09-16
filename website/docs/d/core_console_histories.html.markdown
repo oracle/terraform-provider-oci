@@ -18,12 +18,12 @@ Lists the console history metadata for the specified compartment or instance.
 ```hcl
 data "oci_core_console_histories" "test_console_histories" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.console_history_availability_domain}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-	state = "${var.console_history_state}"
+	availability_domain = var.console_history_availability_domain
+	instance_id = oci_core_instance.test_instance.id
+	state = var.console_history_state
 }
 ```
 

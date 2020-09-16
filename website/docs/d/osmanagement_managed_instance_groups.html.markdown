@@ -18,12 +18,12 @@ Returns a list of all Managed Instance Groups.
 ```hcl
 data "oci_osmanagement_managed_instance_groups" "test_managed_instance_groups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.managed_instance_group_display_name}"
-	os_family = "${var.managed_instance_group_os_family}"
-	state = "${var.managed_instance_group_state}"
+	display_name = var.managed_instance_group_display_name
+	os_family = var.managed_instance_group_os_family
+	state = var.managed_instance_group_state
 }
 ```
 

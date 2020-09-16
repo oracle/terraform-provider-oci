@@ -18,8 +18,8 @@ Retrieves the content of an run log.
 ```hcl
 data "oci_dataflow_run_log" "test_run_log" {
 	#Required
-	name = "${var.run_log_name}"
-	run_id = "${oci_dataflow_run.test_run.id}"
+	name = var.run_log_name
+	run_id = oci_dataflow_run.test_run.id
 }
 ```
 

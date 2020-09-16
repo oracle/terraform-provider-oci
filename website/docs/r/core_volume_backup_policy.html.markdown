@@ -21,27 +21,27 @@ see [Policy-Based Backups](https://docs.cloud.oracle.com/iaas/Content/Block/Task
 ```hcl
 resource "oci_core_volume_backup_policy" "test_volume_backup_policy" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	destination_region = "${var.volume_backup_policy_destination_region}"
-	display_name = "${var.volume_backup_policy_display_name}"
+	destination_region = var.volume_backup_policy_destination_region
+	display_name = var.volume_backup_policy_display_name
 	freeform_tags = {"Department"= "Finance"}
 	schedules {
 		#Required
-		backup_type = "${var.volume_backup_policy_schedules_backup_type}"
-		period = "${var.volume_backup_policy_schedules_period}"
-		retention_seconds = "${var.volume_backup_policy_schedules_retention_seconds}"
+		backup_type = var.volume_backup_policy_schedules_backup_type
+		period = var.volume_backup_policy_schedules_period
+		retention_seconds = var.volume_backup_policy_schedules_retention_seconds
 
 		#Optional
-		day_of_month = "${var.volume_backup_policy_schedules_day_of_month}"
-		day_of_week = "${var.volume_backup_policy_schedules_day_of_week}"
-		hour_of_day = "${var.volume_backup_policy_schedules_hour_of_day}"
-		month = "${var.volume_backup_policy_schedules_month}"
-		offset_seconds = "${var.volume_backup_policy_schedules_offset_seconds}"
-		offset_type = "${var.volume_backup_policy_schedules_offset_type}"
-		time_zone = "${var.volume_backup_policy_schedules_time_zone}"
+		day_of_month = var.volume_backup_policy_schedules_day_of_month
+		day_of_week = var.volume_backup_policy_schedules_day_of_week
+		hour_of_day = var.volume_backup_policy_schedules_hour_of_day
+		month = var.volume_backup_policy_schedules_month
+		offset_seconds = var.volume_backup_policy_schedules_offset_seconds
+		offset_type = var.volume_backup_policy_schedules_offset_type
+		time_zone = var.volume_backup_policy_schedules_time_zone
 	}
 }
 ```

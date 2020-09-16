@@ -11,7 +11,7 @@ resource "oci_identity_user" "user1" {
 }
 
 data "oci_identity_users" "users1" {
-  compartment_id = "${oci_identity_user.user1.compartment_id}"
+  compartment_id = oci_identity_user.user1.compartment_id
 
   filter {
     name   = "name"
@@ -20,20 +20,20 @@ data "oci_identity_users" "users1" {
 }
 
 output "users1" {
-  value = "${data.oci_identity_users.users1.users}"
+  value = data.oci_identity_users.users1.users
 }
 
 resource "oci_identity_ui_password" "password1" {
-  user_id = "${oci_identity_user.user1.id}"
+  user_id = oci_identity_user.user1.id
 }
 
 output "user-password" {
   sensitive = false
-  value     = "${oci_identity_ui_password.password1.password}"
+  value     = oci_identity_ui_password.password1.password
 }
 
 resource "oci_identity_api_key" "api-key1" {
-  user_id = "${oci_identity_user.user1.id}"
+  user_id = oci_identity_user.user1.id
 
   key_value = <<EOF
 -----BEGIN PUBLIC KEY-----
@@ -46,35 +46,37 @@ mXlrQB7nNKsJrrv5fHwaPDrAY4iNP2W0q3LRpyNigJ6cgRuGJhHa82iHPmxgIx8m
 fwIDAQAB
 -----END PUBLIC KEY-----
 EOF
+
 }
 
 output "user-api-key" {
-  value = "${oci_identity_api_key.api-key1.key_value}"
+  value = oci_identity_api_key.api-key1.key_value
 }
 
 # SwiftPassword has been deprecated. Use AuthToken instead.
 resource "oci_identity_auth_token" "auth-token1" {
   #Required
-  user_id     = "${oci_identity_user.user1.id}"
+  user_id     = oci_identity_user.user1.id
   description = "user auth token created by terraform"
 }
 
 output "auth-token" {
-  value = "${oci_identity_auth_token.auth-token1.token}"
+  value = oci_identity_auth_token.auth-token1.token
 }
 
 resource "oci_identity_customer_secret_key" "customer-secret-key1" {
-  user_id      = "${oci_identity_user.user1.id}"
+  user_id      = oci_identity_user.user1.id
   display_name = "tf-example-customer-secret-key"
 }
 
 data "oci_identity_customer_secret_keys" "customer-secret-keys1" {
-  user_id = "${oci_identity_user.user1.id}"
+  user_id = oci_identity_user.user1.id
 }
 
 output "customer-secret-key" {
   value = [
-    "${oci_identity_customer_secret_key.customer-secret-key1.key}",
-    "${data.oci_identity_customer_secret_keys.customer-secret-keys1.customer_secret_keys}",
+    oci_identity_customer_secret_key.customer-secret-key1.key,
+    data.oci_identity_customer_secret_keys.customer-secret-keys1.customer_secret_keys,
   ]
 }
+

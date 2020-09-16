@@ -22,14 +22,14 @@ request body, the record will be removed from the zone.
 ```hcl
 resource "oci_dns_record" "test_record" {
 	#Required
-	zone_name_or_id = "${oci_dns_zone_name_or.test_zone_name_or.id}"
-	domain = "${var.record_items_domain}"
-	rtype = "${var.record_items_rtype}"
+	zone_name_or_id = oci_dns_zone_name_or.test_zone_name_or.id
+	domain = var.record_items_domain
+	rtype = var.record_items_rtype
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	rdata = "${var.record_items_rdata}"
-	ttl = "${var.record_items_ttl}"
+	compartment_id = var.compartment_id
+	rdata = var.record_items_rdata
+	ttl = var.record_items_ttl
 }
 ```
 

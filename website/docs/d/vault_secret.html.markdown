@@ -17,7 +17,7 @@ Gets information about the specified secret.
 ```hcl
 data "oci_vault_secret" "test_secret" {
 	#Required
-	secret_id = "${oci_vault_secret.test_secret.id}"
+	secret_id = oci_vault_secret.test_secret.id
 }
 ```
 

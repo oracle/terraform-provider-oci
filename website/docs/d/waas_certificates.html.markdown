@@ -17,14 +17,14 @@ Gets a list of SSL certificates that can be used in a WAAS policy.
 ```hcl
 data "oci_waas_certificates" "test_certificates" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_names = "${var.certificate_display_names}"
-	ids = "${var.certificate_ids}"
-	states = "${var.certificate_states}"
-	time_created_greater_than_or_equal_to = "${var.certificate_time_created_greater_than_or_equal_to}"
-	time_created_less_than = "${var.certificate_time_created_less_than}"
+	display_names = var.certificate_display_names
+	ids = var.certificate_ids
+	states = var.certificate_states
+	time_created_greater_than_or_equal_to = var.certificate_time_created_greater_than_or_equal_to
+	time_created_less_than = var.certificate_time_created_less_than
 }
 ```
 

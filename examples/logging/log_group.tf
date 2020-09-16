@@ -21,35 +21,38 @@ variable "tag_namespace_name" {
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
-  description    = "${var.tag_namespace_description}"
-  name           = "${var.tag_namespace_name}"
+  compartment_id = var.tenancy_ocid
+  description    = var.tag_namespace_description
+  name           = var.tag_namespace_name
 }
 
 resource "oci_identity_tag" "tag1" {
   #Required
   description      = "tf example tag"
   name             = "tf-example-tag"
-  tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
+  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
 }
 
 resource "oci_logging_log_group" "test_log_group" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name   = "exampleLogGroup"
 
   #Optional
-  defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.log_group_defined_tags_value}")}"
-  description  = "description"
+  defined_tags = {
+    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.log_group_defined_tags_value
+  }
+  description = "description"
 
-  freeform_tags = "${var.log_group_freeform_tags}"
+  freeform_tags = var.log_group_freeform_tags
 }
 
 data "oci_logging_log_groups" "test_log_groups" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
 
   #Optional
   display_name                 = "exampleLogGroup"
   is_compartment_id_in_subtree = "false"
 }
+

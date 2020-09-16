@@ -18,8 +18,8 @@ Gets the current representation of the given bucket in the given Object Storage 
 ```hcl
 data "oci_objectstorage_bucket" "test_bucket" {
 	#Required
-	name = "${var.bucket_name}"
-	namespace = "${var.bucket_namespace}"
+	name = var.bucket_name
+	namespace = var.bucket_namespace
 }
 ```
 

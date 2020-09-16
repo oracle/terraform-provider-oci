@@ -19,7 +19,7 @@ the SMTP user name but not the SMTP password. The SMTP password is returned only
 ```hcl
 data "oci_identity_smtp_credentials" "test_smtp_credentials" {
 	#Required
-	user_id = "${oci_identity_user.test_user.id}"
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

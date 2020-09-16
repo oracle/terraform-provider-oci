@@ -18,7 +18,7 @@ Gets information about the specified steering policy.
 ```hcl
 data "oci_dns_steering_policy" "test_steering_policy" {
 	#Required
-	steering_policy_id = "${oci_dns_steering_policy.test_steering_policy.id}"
+	steering_policy_id = oci_dns_steering_policy.test_steering_policy.id
 }
 ```
 

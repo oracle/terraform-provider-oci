@@ -17,7 +17,7 @@ Gets information for the specified volume.
 ```hcl
 data "oci_core_volume" "test_volume" {
 	#Required
-	volume_id = "${oci_core_volume.test_volume.id}"
+	volume_id = oci_core_volume.test_volume.id
 }
 ```
 

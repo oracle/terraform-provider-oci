@@ -10,8 +10,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/common"
-	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v25/monitoring"
 )
 
 func init() {

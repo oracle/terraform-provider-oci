@@ -18,11 +18,11 @@ Lists the shapes that can be used to launch a dedicated virtual machine host wit
 ```hcl
 data "oci_core_dedicated_vm_host_shapes" "test_dedicated_vm_host_shapes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.dedicated_vm_host_shape_availability_domain}"
-	instance_shape_name = "${var.dedicated_vm_host_shape_instance_shape_name}"
+	availability_domain = var.dedicated_vm_host_shape_availability_domain
+	instance_shape_name = var.dedicated_vm_host_shape_instance_shape_name
 }
 ```
 

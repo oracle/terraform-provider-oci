@@ -20,7 +20,7 @@ See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.
 ```hcl
 data "oci_identity_network_sources" "test_network_sources" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 }
 ```
 

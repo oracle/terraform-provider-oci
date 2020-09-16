@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_integration "github.com/oracle/oci-go-sdk/integration"
+	oci_integration "github.com/oracle/oci-go-sdk/v25/integration"
 )
 
 func init() {
@@ -70,6 +70,8 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("consumption_model", s.Res.ConsumptionModel)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))

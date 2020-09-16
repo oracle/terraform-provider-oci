@@ -18,7 +18,7 @@ Info for a specific Analytics instance.
 ```hcl
 data "oci_analytics_analytics_instance" "test_analytics_instance" {
 	#Required
-	analytics_instance_id = "${oci_analytics_analytics_instance.test_analytics_instance.id}"
+	analytics_instance_id = oci_analytics_analytics_instance.test_analytics_instance.id
 }
 ```
 

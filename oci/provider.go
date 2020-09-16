@@ -28,8 +28,8 @@ import (
 	"net/http"
 	"runtime"
 
-	oci_common "github.com/oracle/oci-go-sdk/common"
-	oci_common_auth "github.com/oracle/oci-go-sdk/common/auth"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
+	oci_common_auth "github.com/oracle/oci-go-sdk/v25/common/auth"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -670,6 +670,15 @@ type ResourceDataConfigProvider struct {
 // TODO: The error messages returned by following methods get swallowed up by the ComposingConfigurationProvider,
 // since it only checks whether an error exists or not.
 // The ComposingConfigurationProvider in SDK should log the errors as debug statements instead.
+
+func (p ResourceDataConfigProvider) AuthType() (oci_common.AuthConfig, error) {
+	return oci_common.AuthConfig{
+			AuthType:         oci_common.UnknownAuthenticationType,
+			IsFromConfigFile: false,
+			OboToken:         nil,
+		},
+		fmt.Errorf("unsupported, keep the interface")
+}
 
 func (p ResourceDataConfigProvider) TenancyOCID() (string, error) {
 	if tenancyOCID, ok := p.D.GetOkExists(tenancyOcidAttrName); ok {

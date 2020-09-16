@@ -17,7 +17,7 @@ Gets information about the specified Database Home.
 ```hcl
 data "oci_database_db_home" "test_db_home" {
 	#Required
-	db_home_id = "${var.db_home_id}"
+	db_home_id = var.db_home_id
 }
 ```
 
@@ -33,6 +33,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `database_software_image_id` - The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 * `db_home_location` - The location of the Oracle Database Home.
 * `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `db_version` - The Oracle Database version.

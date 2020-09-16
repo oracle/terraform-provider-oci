@@ -22,7 +22,7 @@ see [Policy-Based Backups](https://docs.cloud.oracle.com/iaas/Content/Block/Task
 data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

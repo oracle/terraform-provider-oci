@@ -18,13 +18,13 @@ Returns a list of Management Agent installed Keys.
 ```hcl
 data "oci_management_agent_management_agent_install_keys" "test_management_agent_install_keys" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	access_level = "${var.management_agent_install_key_access_level}"
-	compartment_id_in_subtree = "${var.management_agent_install_key_compartment_id_in_subtree}"
-	display_name = "${var.management_agent_install_key_display_name}"
-	state = "${var.management_agent_install_key_state}"
+	access_level = var.management_agent_install_key_access_level
+	compartment_id_in_subtree = var.management_agent_install_key_compartment_id_in_subtree
+	display_name = var.management_agent_install_key_display_name
+	state = var.management_agent_install_key_state
 }
 ```
 
