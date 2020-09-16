@@ -19,13 +19,13 @@ Plaintext included in the example request is a base64-encoded value of a UTF-8 s
 ```hcl
 resource "oci_kms_encrypted_data" "test_encrypted_data" {
 	#Required
-	crypto_endpoint = "${var.encrypted_data_crypto_endpoint}"
-	key_id = "${oci_kms_key.test_key.id}"
-	plaintext = "${var.encrypted_data_plaintext}"
+	crypto_endpoint = var.encrypted_data_crypto_endpoint
+	key_id = oci_kms_key.test_key.id
+	plaintext = var.encrypted_data_plaintext
 
 	#Optional
-	associated_data = "${var.encrypted_data_associated_data}"
-	logging_context = "${var.encrypted_data_logging_context}"
+	associated_data = var.encrypted_data_associated_data
+	logging_context = var.encrypted_data_logging_context
 }
 ```
 

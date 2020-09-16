@@ -19,8 +19,8 @@ can access the snapshot at `.snapshot/<name>`.
 ```hcl
 resource "oci_file_storage_snapshot" "test_snapshot" {
 	#Required
-	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
-	name = "${var.snapshot_name}"
+	file_system_id = oci_file_storage_file_system.test_file_system.id
+	name = var.snapshot_name
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

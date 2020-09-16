@@ -18,17 +18,17 @@ Attaches the specified storage volume to the specified instance.
 ```hcl
 resource "oci_core_volume_attachment" "test_volume_attachment" {
 	#Required
-	attachment_type = "${var.volume_attachment_attachment_type}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-	volume_id = "${oci_core_volume.test_volume.id}"
+	attachment_type = var.volume_attachment_attachment_type
+	instance_id = oci_core_instance.test_instance.id
+	volume_id = oci_core_volume.test_volume.id
 
 	#Optional
-	device = "${var.volume_attachment_device}"
-	display_name = "${var.volume_attachment_display_name}"
-	is_pv_encryption_in_transit_enabled = "${var.volume_attachment_is_pv_encryption_in_transit_enabled}"
-	is_read_only = "${var.volume_attachment_is_read_only}"
-	is_shareable = "${var.volume_attachment_is_shareable}"
-	use_chap = "${var.volume_attachment_use_chap}"
+	device = var.volume_attachment_device
+	display_name = var.volume_attachment_display_name
+	is_pv_encryption_in_transit_enabled = var.volume_attachment_is_pv_encryption_in_transit_enabled
+	is_read_only = var.volume_attachment_is_read_only
+	is_shareable = var.volume_attachment_is_shareable
+	use_chap = var.volume_attachment_use_chap
 }
 ```
 

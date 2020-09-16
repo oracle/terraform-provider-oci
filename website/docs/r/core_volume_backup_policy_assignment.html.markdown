@@ -20,8 +20,8 @@ has a different backup policy assigned, the prior backup policy will be silently
 ```hcl
 resource "oci_core_volume_backup_policy_assignment" "test_volume_backup_policy_assignment" {
 	#Required
-	asset_id = "${oci_core_volume.test_volume.id}"
-	policy_id = "${oci_core_volume_backup_policy.test_volume_backup_policy.id}"
+	asset_id = oci_core_volume.test_volume.id
+	policy_id = oci_core_volume_backup_policy.test_volume_backup_policy.id
 }
 ```
 

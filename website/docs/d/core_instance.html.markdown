@@ -17,7 +17,7 @@ Gets information about the specified instance.
 ```hcl
 data "oci_core_instance" "test_instance" {
 	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
+	instance_id = oci_core_instance.test_instance.id
 }
 ```
 

@@ -17,11 +17,11 @@ Lists all quotas on resources from the given compartment
 ```hcl
 data "oci_limits_quotas" "test_quotas" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 
 	#Optional
-	name = "${var.quota_name}"
-	state = "${var.quota_state}"
+	name = var.quota_name
+	state = var.quota_state
 }
 ```
 

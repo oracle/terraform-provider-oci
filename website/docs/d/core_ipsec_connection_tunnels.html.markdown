@@ -18,7 +18,7 @@ Lists the tunnel information for the specified IPSec connection.
 ```hcl
 data "oci_core_ipsec_connection_tunnels" "test_ip_sec_connection_tunnels" {
 	#Required
-	ipsec_id = "${oci_core_ipsec.test_ipsec.id}"
+	ipsec_id = oci_core_ipsec.test_ipsec.id
 }
 ```
 

@@ -17,7 +17,7 @@ Gets the details of a WAAS policy.
 ```hcl
 data "oci_waas_waas_policy" "test_waas_policy" {
 	#Required
-	waas_policy_id = "${oci_waas_waas_policy.test_waas_policy.id}"
+	waas_policy_id = oci_waas_waas_policy.test_waas_policy.id
 }
 ```
 

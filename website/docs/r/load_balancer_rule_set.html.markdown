@@ -21,39 +21,39 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 	#Required
 	items {
 		#Required
-		action = "${var.rule_set_items_action}"
+		action = var.rule_set_items_action
 
 		#Optional
-		allowed_methods = "${var.rule_set_items_allowed_methods}"
-		are_invalid_characters_allowed = "${var.rule_set_items_are_invalid_characters_allowed}"
+		allowed_methods = var.rule_set_items_allowed_methods
+		are_invalid_characters_allowed = var.rule_set_items_are_invalid_characters_allowed
 		conditions {
 			#Required
-			attribute_name = "${var.rule_set_items_conditions_attribute_name}"
-			attribute_value = "${var.rule_set_items_conditions_attribute_value}"
+			attribute_name = var.rule_set_items_conditions_attribute_name
+			attribute_value = var.rule_set_items_conditions_attribute_value
 
 			#Optional
-			operator = "${var.rule_set_items_conditions_operator}"
+			operator = var.rule_set_items_conditions_operator
 		}
-		description = "${var.rule_set_items_description}"
-		header = "${var.rule_set_items_header}"
-		http_large_header_size_in_kb = "${var.rule_set_items_http_large_header_size_in_kb}"
-		prefix = "${var.rule_set_items_prefix}"
+		description = var.rule_set_items_description
+		header = var.rule_set_items_header
+		http_large_header_size_in_kb = var.rule_set_items_http_large_header_size_in_kb
+		prefix = var.rule_set_items_prefix
 		redirect_uri {
 
 			#Optional
-			host = "${var.rule_set_items_redirect_uri_host}"
-			path = "${var.rule_set_items_redirect_uri_path}"
-			port = "${var.rule_set_items_redirect_uri_port}"
-			protocol = "${var.rule_set_items_redirect_uri_protocol}"
-			query = "${var.rule_set_items_redirect_uri_query}"
+			host = var.rule_set_items_redirect_uri_host
+			path = var.rule_set_items_redirect_uri_path
+			port = var.rule_set_items_redirect_uri_port
+			protocol = var.rule_set_items_redirect_uri_protocol
+			query = var.rule_set_items_redirect_uri_query
 		}
-		response_code = "${var.rule_set_items_response_code}"
-		status_code = "${var.rule_set_items_status_code}"
-		suffix = "${var.rule_set_items_suffix}"
-		value = "${var.rule_set_items_value}"
+		response_code = var.rule_set_items_response_code
+		status_code = var.rule_set_items_status_code
+		suffix = var.rule_set_items_suffix
+		value = var.rule_set_items_value
 	}
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.rule_set_name}"
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	name = var.rule_set_name
 }
 ```
 

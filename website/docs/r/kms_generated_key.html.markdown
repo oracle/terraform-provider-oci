@@ -18,18 +18,18 @@ Generates a key that you can use to encrypt or decrypt data.
 ```hcl
 resource "oci_kms_generated_key" "test_generated_key" {
 	#Required
-	crypto_endpoint = "${var.generated_key_crypto_endpoint}"
-	include_plaintext_key = "${var.generated_key_include_plaintext_key}"
-	key_id = "${oci_kms_key.test_key.id}"
+	crypto_endpoint = var.generated_key_crypto_endpoint
+	include_plaintext_key = var.generated_key_include_plaintext_key
+	key_id = oci_kms_key.test_key.id
 	key_shape {
 		#Required
-		algorithm = "${var.generated_key_key_shape_algorithm}"
-		length = "${var.generated_key_key_shape_length}"
+		algorithm = var.generated_key_key_shape_algorithm
+		length = var.generated_key_key_shape_length
 	}
 
 	#Optional
-	associated_data = "${var.generated_key_associated_data}"
-	logging_context = "${var.generated_key_logging_context}"
+	associated_data = var.generated_key_associated_data
+	logging_context = var.generated_key_logging_context
 }
 ```
 

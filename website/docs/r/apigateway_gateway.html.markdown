@@ -18,13 +18,13 @@ Creates a new gateway.
 ```hcl
 resource "oci_apigateway_gateway" "test_gateway" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	endpoint_type = "${var.gateway_endpoint_type}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	compartment_id = var.compartment_id
+	endpoint_type = var.gateway_endpoint_type
+	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.gateway_display_name}"
+	display_name = var.gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

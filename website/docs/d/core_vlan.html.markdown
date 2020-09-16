@@ -17,7 +17,7 @@ Gets the specified VLAN's information.
 ```hcl
 data "oci_core_vlan" "test_vlan" {
 	#Required
-	vlan_id = "${oci_core_vlan.test_vlan.id}"
+	vlan_id = oci_core_vlan.test_vlan.id
 }
 ```
 

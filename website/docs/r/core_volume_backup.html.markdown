@@ -23,13 +23,13 @@ After the backup is fully uploaded to the cloud, it goes into an AVAILABLE state
 ```hcl
 resource "oci_core_volume_backup" "test_volume_backup" {
 	#Required
-	volume_id = "${oci_core_volume.test_volume.id}"
+	volume_id = oci_core_volume.test_volume.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.volume_backup_display_name}"
+	display_name = var.volume_backup_display_name
 	freeform_tags = {"Department"= "Finance"}
-	type = "${var.volume_backup_type}"
+	type = var.volume_backup_type
 }
 ```
 

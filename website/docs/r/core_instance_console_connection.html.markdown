@@ -22,8 +22,8 @@ For more information about console access, see [Accessing the Console](https://d
 ```hcl
 resource "oci_core_instance_console_connection" "test_instance_console_connection" {
 	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
-	public_key = "${var.instance_console_connection_public_key}"
+	instance_id = oci_core_instance.test_instance.id
+	public_key = var.instance_console_connection_public_key
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

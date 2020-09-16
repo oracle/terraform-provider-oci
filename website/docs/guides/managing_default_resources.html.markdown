@@ -42,12 +42,12 @@ Consequently, the `compartment_id` and `vcn_id` are no longer necessary for defa
 resource "oci_core_vcn" "vcn1" {
   cidr_block = "10.0.0.0/16"
   dns_label = "vcn1"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   display_name = "vcn1"
 }
 
 resource "oci_core_default_dhcp_options" "default-dhcp-options" {
-  manage_default_resource_id = "${oci_core_vcn.vcn1.default_dhcp_options_id}"
+  manage_default_resource_id = oci_core_vcn.vcn1.default_dhcp_options_id
 
   // required
   options {

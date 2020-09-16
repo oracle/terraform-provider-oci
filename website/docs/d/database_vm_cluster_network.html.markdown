@@ -17,8 +17,8 @@ Gets information about the specified VM cluster network.
 ```hcl
 data "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 	#Required
-	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
-	vm_cluster_network_id = "${oci_database_vm_cluster_network.test_vm_cluster_network.id}"
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+	vm_cluster_network_id = oci_database_vm_cluster_network.test_vm_cluster_network.id
 }
 ```
 

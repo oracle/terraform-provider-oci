@@ -18,13 +18,13 @@ Includes a full list of resource limits belonging to a given service.
 ```hcl
 data "oci_limits_limit_values" "test_limit_values" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	service_name = "${oci_limits_service.test_service.name}"
+	compartment_id = var.tenancy_ocid
+	service_name = oci_limits_service.test_service.name
 
 	#Optional
-	availability_domain = "${var.limit_value_availability_domain}"
-	name = "${var.limit_value_name}"
-	scope_type = "${var.limit_value_scope_type}"
+	availability_domain = var.limit_value_availability_domain
+	name = var.limit_value_name
+	scope_type = var.limit_value_scope_type
 }
 ```
 

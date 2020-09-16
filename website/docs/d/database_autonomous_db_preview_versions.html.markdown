@@ -19,7 +19,7 @@ databases with [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaa
 ```hcl
 data "oci_database_autonomous_db_preview_versions" "test_autonomous_db_preview_versions" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

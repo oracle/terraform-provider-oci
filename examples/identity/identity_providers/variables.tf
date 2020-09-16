@@ -10,7 +10,7 @@ variable "identity_provider_description" {
 }
 
 variable "identity_provider_freeform_tags" {
-  type = "map"
+  type = map(string)
 
   default = {
     Department = "Finance"
@@ -22,7 +22,7 @@ variable "identity_provider_metadata" {
 }
 
 variable "identity_provider_metadata_file" {
-  default = "sampleFederationMetadata.xml"
+
 }
 
 variable "identity_provider_metadata_url" {
@@ -44,3 +44,4 @@ variable "identity_provider_protocol" {
 variable "idp_group_mapping_idp_group_name" {
   default = "test-idp-group-name"
 }
+

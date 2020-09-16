@@ -21,12 +21,12 @@ plus any other sets you've created.
 ```hcl
 data "oci_core_dhcp_options" "test_dhcp_options" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.dhcp_options_display_name}"
-	state = "${var.dhcp_options_state}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	display_name = var.dhcp_options_display_name
+	state = var.dhcp_options_state
+	vcn_id = oci_core_vcn.test_vcn.id
 }
 ```
 

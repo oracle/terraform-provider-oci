@@ -27,11 +27,11 @@ If the answer is no, the response is an empty list.
 ```hcl
 data "oci_identity_user_group_memberships" "test_user_group_memberships" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 
 	#Optional
-	group_id = "${oci_identity_group.test_group.id}"
-	user_id = "${oci_identity_user.test_user.id}"
+	group_id = oci_identity_group.test_group.id
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

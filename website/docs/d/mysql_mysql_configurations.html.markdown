@@ -25,14 +25,14 @@ The default sort order is a multi-part sort by:
 ```hcl
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	configuration_id = "${var.mysql_configuration_id}"
-	display_name = "${var.mysql_configuration_display_name}"
-	shape_name = "${var.mysql_shape_name}"
-	state = "${var.mysql_configuration_state}"
-	type = "${var.mysql_configuration_type}"
+	configuration_id = var.mysql_configuration_id
+	display_name = var.mysql_configuration_display_name
+	shape_name = var.mysql_shape_name
+	state = var.mysql_configuration_state
+	type = var.mysql_configuration_type
 }
 ```
 

@@ -23,7 +23,7 @@ read operations exceeds 10 requests per second for a given tenancy.
 ```hcl
 data "oci_kms_vaults" "test_vaults" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

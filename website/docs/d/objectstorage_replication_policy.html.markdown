@@ -18,9 +18,9 @@ Get the replication policy.
 ```hcl
 data "oci_objectstorage_replication_policy" "test_replication_policy" {
 	#Required
-	bucket = "${var.replication_policy_bucket}"
-	namespace = "${var.replication_policy_namespace}"
-	replication_id = "${oci_objectstorage_replication.test_replication.id}"
+	bucket = var.replication_policy_bucket
+	namespace = var.replication_policy_namespace
+	replication_id = oci_objectstorage_replication.test_replication.id
 }
 ```
 

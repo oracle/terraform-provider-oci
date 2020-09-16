@@ -21,11 +21,11 @@ set. You must specify an export set ID, a file system ID, and
 data "oci_file_storage_exports" "test_exports" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
-	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
-	id = "${var.export_id}"
-	state = "${var.export_state}"
+	compartment_id = var.compartment_id
+	export_set_id = oci_file_storage_export_set.test_export_set.id
+	file_system_id = oci_file_storage_file_system.test_file_system.id
+	id = var.export_id
+	state = var.export_state
 }
 ```
 

@@ -23,7 +23,7 @@ or transactions, per second (TPS) for a given tenancy.
 ```hcl
 data "oci_monitoring_alarm" "test_alarm" {
 	#Required
-	alarm_id = "${oci_monitoring_alarm.test_alarm.id}"
+	alarm_id = oci_monitoring_alarm.test_alarm.id
 }
 ```
 

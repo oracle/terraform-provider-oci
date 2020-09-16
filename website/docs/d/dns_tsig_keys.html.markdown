@@ -18,12 +18,12 @@ Gets a list of all TSIG keys in the specified compartment.
 ```hcl
 data "oci_dns_tsig_keys" "test_tsig_keys" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	id = "${var.tsig_key_id}"
-	name = "${var.tsig_key_name}"
-	state = "${var.tsig_key_state}"
+	id = var.tsig_key_id
+	name = var.tsig_key_name
+	state = var.tsig_key_state
 }
 ```
 

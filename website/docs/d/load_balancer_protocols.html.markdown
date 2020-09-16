@@ -17,7 +17,7 @@ Lists all supported traffic protocols.
 ```hcl
 data "oci_load_balancer_protocols" "test_load_balancer_protocols" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

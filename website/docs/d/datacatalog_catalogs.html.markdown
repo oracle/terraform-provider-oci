@@ -18,11 +18,11 @@ Returns a list of all the data catalogs in the specified compartment.
 ```hcl
 data "oci_datacatalog_catalogs" "test_catalogs" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.catalog_display_name}"
-	state = "${var.catalog_state}"
+	display_name = var.catalog_display_name
+	state = var.catalog_state
 }
 ```
 

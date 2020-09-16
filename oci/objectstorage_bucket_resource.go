@@ -16,8 +16,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v25/objectstorage"
 )
 
 func init() {

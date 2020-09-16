@@ -22,11 +22,11 @@ The compartment id and stream pool id cannot be specified at the same time.
 data "oci_streaming_streams" "test_streams" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	id = "${var.stream_id}"
-	name = "${var.stream_name}"
-	state = "${var.stream_state}"
-	stream_pool_id = "${oci_streaming_stream_pool.test_stream_pool.id}"
+	compartment_id = var.compartment_id
+	id = var.stream_id
+	name = var.stream_name
+	state = var.stream_state
+	stream_pool_id = oci_streaming_stream_pool.test_stream_pool.id
 }
 ```
 

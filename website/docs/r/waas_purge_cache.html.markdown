@@ -18,10 +18,10 @@ For more information, see [Caching Rules](https://docs.cloud.oracle.com/iaas/Con
 ```hcl
 resource "oci_waas_purge_cache" "test_purge_cache" {
 	#Required
-	waas_policy_id = "${oci_waas_waas_policy.test_waas_policy.id}"
+	waas_policy_id = oci_waas_waas_policy.test_waas_policy.id
 
 	#Optional
-	resources = "${var.purge_cache_resources}"
+	resources = var.purge_cache_resources
 }
 ```
 

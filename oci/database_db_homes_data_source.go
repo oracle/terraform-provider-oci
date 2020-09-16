@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_database "github.com/oracle/oci-go-sdk/v25/database"
 )
 
 func init() {
@@ -136,6 +136,10 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		dbHome := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
+		}
+
+		if r.DatabaseSoftwareImageId != nil {
+			dbHome["database_software_image_id"] = *r.DatabaseSoftwareImageId
 		}
 
 		if r.DbHomeLocation != nil {

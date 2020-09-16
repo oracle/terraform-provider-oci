@@ -35,44 +35,44 @@ activating service connectors, see
 ```hcl
 resource "oci_sch_service_connector" "test_service_connector" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.service_connector_display_name}"
+	compartment_id = var.compartment_id
+	display_name = var.service_connector_display_name
 	source {
 		#Required
-		kind = "${var.service_connector_source_kind}"
+		kind = var.service_connector_source_kind
 		log_sources {
 			#Required
-			compartment_id = "${var.compartment_id}"
+			compartment_id = var.compartment_id
 
 			#Optional
-			log_group_id = "${oci_logging_log_group.test_log_group.id}"
-			log_id = "${oci_logging_log.test_log.id}"
+			log_group_id = oci_logging_log_group.test_log_group.id
+			log_id = oci_logging_log.test_log.id
 		}
 	}
 	target {
 		#Required
-		kind = "${var.service_connector_target_kind}"
+		kind = var.service_connector_target_kind
 
 		#Optional
-		bucket = "${var.service_connector_target_bucket}"
-		compartment_id = "${var.compartment_id}"
-		function_id = "${oci_functions_function.test_function.id}"
-		metric = "${var.service_connector_target_metric}"
-		metric_namespace = "${var.service_connector_target_metric_namespace}"
-		namespace = "${var.service_connector_target_namespace}"
-		object_name_prefix = "${var.service_connector_target_object_name_prefix}"
-		stream_id = "${oci_streaming_stream.test_stream.id}"
-		topic_id = "${oci_ons_notification_topic.test_notification_topic.id}"
+		bucket = var.service_connector_target_bucket
+		compartment_id = var.compartment_id
+		function_id = oci_functions_function.test_function.id
+		metric = var.service_connector_target_metric
+		metric_namespace = var.service_connector_target_metric_namespace
+		namespace = var.service_connector_target_namespace
+		object_name_prefix = var.service_connector_target_object_name_prefix
+		stream_id = oci_streaming_stream.test_stream.id
+		topic_id = oci_ons_notification_topic.test_notification_topic.id
 	}
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.service_connector_description}"
+	description = var.service_connector_description
 	freeform_tags = {"bar-key"= "value"}
 	tasks {
 		#Required
-		condition = "${var.service_connector_tasks_condition}"
-		kind = "${var.service_connector_tasks_kind}"
+		condition = var.service_connector_tasks_condition
+		kind = var.service_connector_tasks_kind
 	}
 }
 ```

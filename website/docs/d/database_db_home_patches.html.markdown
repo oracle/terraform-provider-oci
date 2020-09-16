@@ -18,7 +18,7 @@ Lists patches applicable to the requested Database Home.
 ```hcl
 data "oci_database_db_home_patches" "test_db_home_patches" {
 	#Required
-	db_home_id = "${oci_database_db_home.test_db_home.id}"
+	db_home_id = oci_database_db_home.test_db_home.id
 }
 ```
 

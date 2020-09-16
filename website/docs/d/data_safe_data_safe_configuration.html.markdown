@@ -18,7 +18,7 @@ Gets the details of the Data Safe configuration.
 data "oci_data_safe_data_safe_configuration" "test_data_safe_configuration" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

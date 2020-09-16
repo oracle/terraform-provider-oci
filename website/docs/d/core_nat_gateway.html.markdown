@@ -17,7 +17,7 @@ Gets the specified NAT gateway's information.
 ```hcl
 data "oci_core_nat_gateway" "test_nat_gateway" {
 	#Required
-	nat_gateway_id = "${oci_core_nat_gateway.test_nat_gateway.id}"
+	nat_gateway_id = oci_core_nat_gateway.test_nat_gateway.id
 }
 ```
 

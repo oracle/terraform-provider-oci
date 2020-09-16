@@ -18,7 +18,7 @@ Gets information about the specified steering policy attachment.
 ```hcl
 data "oci_dns_steering_policy_attachment" "test_steering_policy_attachment" {
 	#Required
-	steering_policy_attachment_id = "${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}"
+	steering_policy_attachment_id = oci_dns_steering_policy_attachment.test_steering_policy_attachment.id
 }
 ```
 

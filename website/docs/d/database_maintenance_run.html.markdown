@@ -17,7 +17,7 @@ Gets information about the specified maintenance run.
 ```hcl
 data "oci_database_maintenance_run" "test_maintenance_run" {
 	#Required
-	maintenance_run_id = "${oci_database_maintenance_run.test_maintenance_run.id}"
+	maintenance_run_id = oci_database_maintenance_run.test_maintenance_run.id
 }
 ```
 

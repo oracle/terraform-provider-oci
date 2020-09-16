@@ -18,11 +18,11 @@ Returns a list of all Software Sources.
 ```hcl
 data "oci_osmanagement_software_sources" "test_software_sources" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.software_source_display_name}"
-	state = "${var.software_source_state}"
+	display_name = var.software_source_display_name
+	state = var.software_source_state
 }
 ```
 

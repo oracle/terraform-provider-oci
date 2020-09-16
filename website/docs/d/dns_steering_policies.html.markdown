@@ -18,17 +18,17 @@ Gets a list of all steering policies in the specified compartment.
 ```hcl
 data "oci_dns_steering_policies" "test_steering_policies" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.steering_policy_display_name}"
-	display_name_contains = "${var.steering_policy_display_name_contains}"
-	health_check_monitor_id = "${oci_health_checks_http_monitor.test_http_monitor.id}"
-	id = "${var.steering_policy_id}"
-	state = "${var.steering_policy_state}"
-	template = "${var.steering_policy_template}"
-	time_created_greater_than_or_equal_to = "${var.steering_policy_time_created_greater_than_or_equal_to}"
-	time_created_less_than = "${var.steering_policy_time_created_less_than}"
+	display_name = var.steering_policy_display_name
+	display_name_contains = var.steering_policy_display_name_contains
+	health_check_monitor_id = oci_health_checks_http_monitor.test_http_monitor.id
+	id = var.steering_policy_id
+	state = var.steering_policy_state
+	template = var.steering_policy_template
+	time_created_greater_than_or_equal_to = var.steering_policy_time_created_greater_than_or_equal_to
+	time_created_less_than = var.steering_policy_time_created_less_than
 }
 ```
 

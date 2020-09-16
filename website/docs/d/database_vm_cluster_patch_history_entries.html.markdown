@@ -18,7 +18,7 @@ Gets the history of the patch actions performed on the specified Vm cluster.
 ```hcl
 data "oci_database_vm_cluster_patch_history_entries" "test_vm_cluster_patch_history_entries" {
 	#Required
-	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
 ```
 
@@ -44,6 +44,6 @@ The following attributes are exported:
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically contains additional displayable text. 
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
 * `state` - The current state of the action.
-* `time_ended` - The date and time when the patch action completed.
+* `time_ended` - The date and time when the patch action completed
 * `time_started` - The date and time when the patch action started.
 

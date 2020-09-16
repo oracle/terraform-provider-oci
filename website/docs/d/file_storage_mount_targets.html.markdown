@@ -18,14 +18,14 @@ Lists the mount target resources in the specified compartment.
 ```hcl
 data "oci_file_storage_mount_targets" "test_mount_targets" {
 	#Required
-	availability_domain = "${var.mount_target_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.mount_target_availability_domain
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.mount_target_display_name}"
-	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
-	id = "${var.mount_target_id}"
-	state = "${var.mount_target_state}"
+	display_name = var.mount_target_display_name
+	export_set_id = oci_file_storage_export_set.test_export_set.id
+	id = var.mount_target_id
+	state = var.mount_target_state
 }
 ```
 

@@ -18,17 +18,17 @@ Creates an Autonomous VM cluster.
 ```hcl
 resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.autonomous_vm_cluster_display_name}"
-	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
-	vm_cluster_network_id = "${oci_database_vm_cluster_network.test_vm_cluster_network.id}"
+	compartment_id = var.compartment_id
+	display_name = var.autonomous_vm_cluster_display_name
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+	vm_cluster_network_id = oci_database_vm_cluster_network.test_vm_cluster_network.id
 
 	#Optional
-	defined_tags = "${var.autonomous_vm_cluster_defined_tags}"
+	defined_tags = var.autonomous_vm_cluster_defined_tags
 	freeform_tags = {"Department"= "Finance"}
-	is_local_backup_enabled = "${var.autonomous_vm_cluster_is_local_backup_enabled}"
-	license_model = "${var.autonomous_vm_cluster_license_model}"
-	time_zone = "${var.autonomous_vm_cluster_time_zone}"
+	is_local_backup_enabled = var.autonomous_vm_cluster_is_local_backup_enabled
+	license_model = var.autonomous_vm_cluster_license_model
+	time_zone = var.autonomous_vm_cluster_time_zone
 }
 ```
 

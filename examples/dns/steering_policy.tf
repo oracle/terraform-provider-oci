@@ -155,42 +155,42 @@ variable "steering_policy_ttl" {
 
 resource "oci_health_checks_http_monitor" "test_http_monitor" {
   #Required
-  compartment_id      = "${var.compartment_ocid}"
-  display_name        = "${var.http_monitor_display_name}"
-  interval_in_seconds = "${var.http_monitor_interval_in_seconds}"
-  protocol            = "${var.http_monitor_protocol}"
-  targets             = "${var.http_monitor_targets}"
+  compartment_id      = var.compartment_ocid
+  display_name        = var.http_monitor_display_name
+  interval_in_seconds = var.http_monitor_interval_in_seconds
+  protocol            = var.http_monitor_protocol
+  targets             = var.http_monitor_targets
 
   #Optional
-  freeform_tags       = "${var.http_monitor_freeform_tags}"
-  is_enabled          = "${var.http_monitor_is_enabled}"
-  method              = "${var.http_monitor_method}"
-  path                = "${var.http_monitor_path}"
-  port                = "${var.http_monitor_port}"
-  timeout_in_seconds  = "${var.http_monitor_timeout_in_seconds}"
-  vantage_point_names = "${var.http_monitor_vantage_point_names}"
+  freeform_tags       = var.http_monitor_freeform_tags
+  is_enabled          = var.http_monitor_is_enabled
+  method              = var.http_monitor_method
+  path                = var.http_monitor_path
+  port                = var.http_monitor_port
+  timeout_in_seconds  = var.http_monitor_timeout_in_seconds
+  vantage_point_names = var.http_monitor_vantage_point_names
 }
 
 resource "oci_dns_steering_policy" "test_steering_policy" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
-  display_name   = "${var.steering_policy_display_name}"
-  template       = "${var.steering_policy_template}"
+  compartment_id = var.compartment_ocid
+  display_name   = var.steering_policy_display_name
+  template       = var.steering_policy_template
 
   #Optional
   answers {
     #Required
-    name  = "${var.steering_policy_answers_name}"
-    rdata = "${var.steering_policy_answers_rdata}"
-    rtype = "${var.steering_policy_answers_rtype}"
+    name  = var.steering_policy_answers_name
+    rdata = var.steering_policy_answers_rdata
+    rtype = var.steering_policy_answers_rtype
 
     #Optional
-    is_disabled = "${var.steering_policy_answers_is_disabled}"
-    pool        = "${var.steering_policy_answers_pool}"
+    is_disabled = var.steering_policy_answers_is_disabled
+    pool        = var.steering_policy_answers_pool
   }
 
-  freeform_tags           = "${var.steering_policy_freeform_tags}"
-  health_check_monitor_id = "${oci_health_checks_http_monitor.test_http_monitor.id}"
+  freeform_tags           = var.steering_policy_freeform_tags
+  health_check_monitor_id = oci_health_checks_http_monitor.test_http_monitor.id
 
   rules {
     #Required
@@ -201,17 +201,17 @@ resource "oci_dns_steering_policy" "test_steering_policy" {
       #Optional
       answer_data {
         #Optional
-        answer_condition = "${var.steering_policy_rules_cases_answer_data_answer_condition}"
-        should_keep      = "${var.steering_policy_rules_cases_answer_data_should_keep}"
+        answer_condition = var.steering_policy_rules_cases_answer_data_answer_condition
+        should_keep      = var.steering_policy_rules_cases_answer_data_should_keep
       }
 
-      case_condition = "${var.steering_policy_rules_cases_case_condition}"
+      case_condition = var.steering_policy_rules_cases_case_condition
     }
 
     default_answer_data {
       #Optional
-      answer_condition = "${var.steering_policy_rules_default_answer_data_answer_condition}"
-      should_keep      = "${var.steering_policy_rules_default_answer_data_should_keep}"
+      answer_condition = var.steering_policy_rules_default_answer_data_answer_condition
+      should_keep      = var.steering_policy_rules_default_answer_data_should_keep
     }
   }
 
@@ -222,7 +222,7 @@ resource "oci_dns_steering_policy" "test_steering_policy" {
     #Optional
     cases {
       #Optional
-      case_condition = "${var.steering_policy_rules_cases_case_condition}"
+      case_condition = var.steering_policy_rules_cases_case_condition
     }
   }
 
@@ -232,11 +232,11 @@ resource "oci_dns_steering_policy" "test_steering_policy" {
 
     #Optional
     cases {
-      case_condition = "${var.steering_policy_rules_cases_case_condition}"
-      count          = "${var.steering_policy_rules_cases_count}"
+      case_condition = var.steering_policy_rules_cases_case_condition
+      count          = var.steering_policy_rules_cases_count
     }
 
-    default_count = "${var.steering_policy_rules_default_count}"
+    default_count = var.steering_policy_rules_default_count
   }
 
   rules {
@@ -248,58 +248,59 @@ resource "oci_dns_steering_policy" "test_steering_policy" {
       #Optional
       answer_data {
         #Optional
-        answer_condition = "${var.steering_policy_rules_cases_answer_data_answer_condition}"
-        value            = "${var.steering_policy_rules_cases_answer_data_value}"
+        answer_condition = var.steering_policy_rules_cases_answer_data_answer_condition
+        value            = var.steering_policy_rules_cases_answer_data_value
       }
 
-      case_condition = "${var.steering_policy_rules_cases_case_condition}"
+      case_condition = var.steering_policy_rules_cases_case_condition
     }
 
     default_answer_data {
       #Optional
-      answer_condition = "${var.steering_policy_rules_default_answer_data_answer_condition}"
-      value            = "${var.steering_policy_rules_default_answer_data_value}"
+      answer_condition = var.steering_policy_rules_default_answer_data_answer_condition
+      value            = var.steering_policy_rules_default_answer_data_value
     }
   }
 
   rules {
     #Required
-    rule_type = "${var.steering_policy_rules_rule_type}"
+    rule_type = var.steering_policy_rules_rule_type
 
     #Optional
     cases {
       #Optional
       answer_data {
         #Optional
-        answer_condition = "${var.steering_policy_rules_cases_answer_data_answer_condition}"
-        value            = "${var.steering_policy_rules_cases_answer_data_value}"
+        answer_condition = var.steering_policy_rules_cases_answer_data_answer_condition
+        value            = var.steering_policy_rules_cases_answer_data_value
       }
 
-      case_condition = "${var.steering_policy_rules_cases_case_condition}"
+      case_condition = var.steering_policy_rules_cases_case_condition
     }
 
     default_answer_data {
       #Optional
-      answer_condition = "${var.steering_policy_rules_default_answer_data_answer_condition}"
-      value            = "${var.steering_policy_rules_default_answer_data_value}"
+      answer_condition = var.steering_policy_rules_default_answer_data_answer_condition
+      value            = var.steering_policy_rules_default_answer_data_value
     }
   }
 
-  ttl = "${var.steering_policy_ttl}"
+  ttl = var.steering_policy_ttl
 }
 
 data "oci_dns_steering_policies" "test_steering_policies" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
 
   #Optional
-  display_name = "${var.steering_policy_display_name}"
+  display_name = var.steering_policy_display_name
 
-  #display_name_contains                 = "${var.steering_policy_display_name_contains}"
-  health_check_monitor_id               = "${oci_health_checks_http_monitor.test_http_monitor.id}"
-  id                                    = "${oci_dns_steering_policy.test_steering_policy.id}"
-  state                                 = "${var.steering_policy_state}"
-  template                              = "${var.steering_policy_template}"
-  time_created_greater_than_or_equal_to = "${var.steering_policy_time_created_greater_than_or_equal_to}"
-  time_created_less_than                = "${var.steering_policy_time_created_less_than}"
+  #display_name_contains                 = var.steering_policy_display_name_contains
+  health_check_monitor_id               = oci_health_checks_http_monitor.test_http_monitor.id
+  id                                    = oci_dns_steering_policy.test_steering_policy.id
+  state                                 = var.steering_policy_state
+  template                              = var.steering_policy_template
+  time_created_greater_than_or_equal_to = var.steering_policy_time_created_greater_than_or_equal_to
+  time_created_less_than                = var.steering_policy_time_created_less_than
 }
+

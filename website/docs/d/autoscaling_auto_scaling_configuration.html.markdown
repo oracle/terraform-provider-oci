@@ -17,7 +17,7 @@ Gets information about the specified autoscaling configuration.
 ```hcl
 data "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configuration" {
 	#Required
-	auto_scaling_configuration_id = "${oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration.id}"
+	auto_scaling_configuration_id = oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration.id
 }
 ```
 

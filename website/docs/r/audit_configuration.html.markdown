@@ -16,8 +16,8 @@ This resource provides the Configuration resource in Oracle Cloud Infrastructure
 ```hcl
 resource "oci_audit_configuration" "test_configuration" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	retention_period_days = "${var.configuration_retention_period_days}"
+	compartment_id = var.tenancy_ocid
+	retention_period_days = var.configuration_retention_period_days
 }
 ```
 

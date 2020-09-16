@@ -17,8 +17,8 @@ Get the errors of a work request.
 ```hcl
 data "oci_containerengine_work_request_errors" "test_work_request_errors" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	work_request_id = "${oci_containerengine_work_request.test_work_request.id}"
+	compartment_id = var.compartment_id
+	work_request_id = oci_containerengine_work_request.test_work_request.id
 }
 ```
 

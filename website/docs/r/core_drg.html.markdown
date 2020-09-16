@@ -29,11 +29,11 @@ It does not have to be unique, and you can change it. Avoid entering confidentia
 ```hcl
 resource "oci_core_drg" "test_drg" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.drg_display_name}"
+	display_name = var.drg_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

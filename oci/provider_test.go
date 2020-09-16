@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	oci_budget "github.com/oracle/oci-go-sdk/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v25/budget"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -25,7 +25,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/common"
+	oci_common "github.com/oracle/oci-go-sdk/v25/common"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -519,6 +519,9 @@ func removeFile(file string) {
 func TestUnitProviderConfig(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestProviderConfig in HttpReplay mode.")
+	}
+	if os.Getenv("TF_HOME_OVERRIDE") == "" {
+		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
 	}
 	providerConfigTest(t, true, true, authAPIKeySetting, "", nil)              // ApiKey with required fields + disable auto-retries
 	providerConfigTest(t, false, true, authAPIKeySetting, "", nil)             // ApiKey without required fields

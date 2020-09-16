@@ -18,7 +18,7 @@ Retrieves the specified tag default.
 ```hcl
 data "oci_identity_tag_default" "test_tag_default" {
 	#Required
-	tag_default_id = "${oci_identity_tag_default.test_tag_default.id}"
+	tag_default_id = oci_identity_tag_default.test_tag_default.id
 }
 ```
 

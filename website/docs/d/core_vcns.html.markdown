@@ -22,11 +22,11 @@ Lists the virtual cloud networks (VCNs) in the specified compartment.
 ```hcl
 data "oci_core_vcns" "test_vcns" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.vcn_display_name}"
-	state = "${var.vcn_state}"
+	display_name = var.vcn_display_name
+	state = var.vcn_state
 }
 ```
 

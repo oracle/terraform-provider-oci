@@ -18,25 +18,25 @@ Creates a backup destination.
 ```hcl
 resource "oci_database_backup_destination" "test_backup_destination" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.backup_destination_display_name}"
-	type = "${var.backup_destination_type}"
+	compartment_id = var.compartment_id
+	display_name = var.backup_destination_display_name
+	type = var.backup_destination_type
 
 	#Optional
-	connection_string = "${var.backup_destination_connection_string}"
-	defined_tags = "${var.backup_destination_defined_tags}"
+	connection_string = var.backup_destination_connection_string
+	defined_tags = var.backup_destination_defined_tags
 	freeform_tags = {"Department"= "Finance"}
-	local_mount_point_path = "${var.backup_destination_local_mount_point_path}"
+	local_mount_point_path = var.backup_destination_local_mount_point_path
 	mount_type_details {
 		#Required
-		mount_type = "${var.backup_destination_mount_type_details_mount_type}"
+		mount_type = var.backup_destination_mount_type_details_mount_type
 
 		#Optional
-		local_mount_point_path = "${var.backup_destination_mount_type_details_local_mount_point_path}"
-		nfs_server = "${var.backup_destination_mount_type_details_nfs_server}"
-		nfs_server_export = "${var.backup_destination_mount_type_details_nfs_server_export}"
+		local_mount_point_path = var.backup_destination_mount_type_details_local_mount_point_path
+		nfs_server = var.backup_destination_mount_type_details_nfs_server
+		nfs_server_export = var.backup_destination_mount_type_details_nfs_server_export
 	}
-	vpc_users = "${var.backup_destination_vpc_users}"
+	vpc_users = var.backup_destination_vpc_users
 }
 ```
 

@@ -25,12 +25,12 @@ is blocked.
 ```hcl
 resource "oci_identity_tag_default" "test_tag_default" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	tag_definition_id = "${oci_identity_tag_definition.test_tag_definition.id}"
-	value = "${var.tag_default_value}"
+	compartment_id = var.compartment_id
+	tag_definition_id = oci_identity_tag_definition.test_tag_definition.id
+	value = var.tag_default_value
 
 	#Optional
-	is_required = "${var.tag_default_is_required}"
+	is_required = var.tag_default_is_required
 }
 ```
 

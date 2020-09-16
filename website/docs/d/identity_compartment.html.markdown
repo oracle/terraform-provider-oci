@@ -25,7 +25,7 @@ Service or the [ListVolumes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20
 ```hcl
 data "oci_identity_compartment" "test_compartment" {
 	#Required
-	id = "${var.compartment_ocid}"
+	id = var.compartment_ocid
 }
 ```
 

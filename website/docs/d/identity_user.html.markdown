@@ -17,7 +17,7 @@ Gets the specified user's information.
 ```hcl
 data "oci_identity_user" "test_user" {
 	#Required
-	user_id = "${oci_identity_user.test_user.id}"
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

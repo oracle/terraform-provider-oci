@@ -18,7 +18,7 @@ Lists the VNICs in the specified network security group.
 ```hcl
 data "oci_core_network_security_group_vnics" "test_network_security_group_vnics" {
 	#Required
-	network_security_group_id = "${oci_core_network_security_group.test_network_security_group.id}"
+	network_security_group_id = oci_core_network_security_group.test_network_security_group.id
 }
 ```
 

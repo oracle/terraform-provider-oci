@@ -21,14 +21,14 @@ fetching probe results.
 ```hcl
 resource "oci_health_checks_ping_probe" "test_ping_probe" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	protocol = "${var.ping_probe_protocol}"
-	targets = "${var.ping_probe_targets}"
+	compartment_id = var.compartment_id
+	protocol = var.ping_probe_protocol
+	targets = var.ping_probe_targets
 
 	#Optional
-	port = "${var.ping_probe_port}"
-	timeout_in_seconds = "${var.ping_probe_timeout_in_seconds}"
-	vantage_point_names = "${var.ping_probe_vantage_point_names}"
+	port = var.ping_probe_port
+	timeout_in_seconds = var.ping_probe_timeout_in_seconds
+	vantage_point_names = var.ping_probe_vantage_point_names
 }
 ```
 

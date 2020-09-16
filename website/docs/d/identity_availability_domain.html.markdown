@@ -16,11 +16,11 @@ This data source provides the details of a single Availability Domain in Oracle 
 ```hcl
 data "oci_identity_availability_domain" "test_compartment" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = var.tenancy_ocid
 	
 	#Optional (one or the other is required)
-	id = "${var.id}"
-	ad_number = "${var.ad_number}"
+	id = var.id
+	ad_number = var.ad_number
 }
 ```
 

@@ -18,11 +18,11 @@ Returns a list of BDS instances.
 ```hcl
 data "oci_bds_bds_instances" "test_bds_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.bds_instance_display_name}"
-	state = "${var.bds_instance_state}"
+	display_name = var.bds_instance_display_name
+	state = var.bds_instance_state
 }
 ```
 

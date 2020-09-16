@@ -17,8 +17,8 @@ Attaches the specified `route table` to the specified `subnet`.
 ```hcl
 resource "oci_core_route_table_attachment" "test_route_table_attachment" {
   #Required	
-  subnet_id = "${oci_core_subnet.test_subnet.id}"
-  route_table_id ="${oci_core_route_table.test_route_table.id}"
+  subnet_id = oci_core_subnet.test_subnet.id
+  route_table_id =oci_core_route_table.test_route_table.id
 }
 ```
 

@@ -17,10 +17,10 @@ List Blockchain Platform OSNs
 ```hcl
 data "oci_blockchain_osns" "test_osns" {
 	#Required
-	blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+	blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 
 	#Optional
-	display_name = "${var.osn_display_name}"
+	display_name = var.osn_display_name
 }
 ```
 

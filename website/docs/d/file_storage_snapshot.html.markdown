@@ -17,7 +17,7 @@ Gets the specified snapshot's information.
 ```hcl
 data "oci_file_storage_snapshot" "test_snapshot" {
 	#Required
-	snapshot_id = "${oci_file_storage_snapshot.test_snapshot.id}"
+	snapshot_id = oci_file_storage_snapshot.test_snapshot.id
 }
 ```
 

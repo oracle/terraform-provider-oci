@@ -17,20 +17,20 @@ Creates a new notebook session.
 ```hcl
 resource "oci_datascience_notebook_session" "test_notebook_session" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 	notebook_session_configuration_details {
 		#Required
-		shape = "${var.notebook_session_notebook_session_configuration_details_shape}"
-		subnet_id = "${oci_core_subnet.test_subnet.id}"
+		shape = var.notebook_session_notebook_session_configuration_details_shape
+		subnet_id = oci_core_subnet.test_subnet.id
 
 		#Optional
-		block_storage_size_in_gbs = "${var.notebook_session_notebook_session_configuration_details_block_storage_size_in_gbs}"
+		block_storage_size_in_gbs = var.notebook_session_notebook_session_configuration_details_block_storage_size_in_gbs
 	}
-	project_id = "${oci_datascience_project.test_project.id}"
+	project_id = oci_datascience_project.test_project.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.notebook_session_display_name}"
+	display_name = var.notebook_session_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

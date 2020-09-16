@@ -19,8 +19,8 @@ Enables Data Safe in the tenancy and region.
 resource "oci_data_safe_data_safe_configuration" "test_data_safe_configuration" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	is_enabled = "${var.data_safe_configuration_is_enabled}"
+	compartment_id = var.compartment_id
+	is_enabled = var.data_safe_configuration_is_enabled
 }
 ```
 

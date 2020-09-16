@@ -34,24 +34,24 @@ in your VCN, you can filter the list by VLAN OCID. See [Vlan](https://docs.cloud
 # Filter on Subnet OCID
 data "oci_core_private_ips" "test_private_ips_by_subnet" {
 	#Optional
-	subnet_id = "${var.private_ip_subnet_id}"
+	subnet_id = var.private_ip_subnet_id
 }
 ```
 ```hcl
 # Filter on VNIC OCID
 data "oci_core_private_ips" "test_private_ips_by_vnic" {
 	#Optional
-	vnic_id = "${oci_core_vnic.test_vnic.id}"
+	vnic_id = oci_core_vnic.test_vnic.id
 }
 ```
 ```hcl
 # Filter on private IP address and Subnet OCID
 data "oci_core_private_ips" "test_private_ips_by_ip_address" {
 	#Optional
-	ip_address = "${var.private_ip_ip_address}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
-	vlan_id = "${oci_core_vlan.test_vlan.id}"
-	vnic_id = "${oci_core_vnic_attachment.test_vnic_attachment.id}"
+	ip_address = var.private_ip_ip_address
+	subnet_id = oci_core_subnet.test_subnet.id
+	vlan_id = oci_core_vlan.test_vlan.id
+	vnic_id = oci_core_vnic_attachment.test_vnic_attachment.id
 }
 ```
 

@@ -17,12 +17,12 @@ Gets a specific data asset connection by key.
 ```hcl
 data "oci_datacatalog_connection" "test_connection" {
 	#Required
-	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
-	connection_key = "${var.connection_connection_key}"
-	data_asset_key = "${var.connection_data_asset_key}"
+	catalog_id = oci_datacatalog_catalog.test_catalog.id
+	connection_key = var.connection_connection_key
+	data_asset_key = var.connection_data_asset_key
 
 	#Optional
-	fields = "${var.connection_fields}"
+	fields = var.connection_fields
 }
 ```
 

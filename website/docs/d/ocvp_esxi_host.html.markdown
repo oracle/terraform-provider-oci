@@ -17,7 +17,7 @@ Gets the specified ESXi host's information.
 ```hcl
 data "oci_ocvp_esxi_host" "test_esxi_host" {
 	#Required
-	esxi_host_id = "${oci_ocvp_esxi_host.test_esxi_host.id}"
+	esxi_host_id = oci_ocvp_esxi_host.test_esxi_host.id
 }
 ```
 

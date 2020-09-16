@@ -18,7 +18,7 @@ Gets the specified network source's information.
 ```hcl
 data "oci_identity_network_source" "test_network_source" {
 	#Required
-	network_source_id = "${oci_identity_network_source.test_network_source.id}"
+	network_source_id = oci_identity_network_source.test_network_source.id
 }
 ```
 

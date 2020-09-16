@@ -17,8 +17,8 @@ Creates a sender for a tenancy in a given compartment.
 ```hcl
 resource "oci_email_sender" "test_sender" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	email_address = "${var.sender_email_address}"
+	compartment_id = var.compartment_id
+	email_address = var.sender_email_address
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

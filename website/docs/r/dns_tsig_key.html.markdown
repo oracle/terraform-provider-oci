@@ -19,14 +19,14 @@ Creates a new TSIG key in the specified compartment. There is no
 ```hcl
 resource "oci_dns_tsig_key" "test_tsig_key" {
 	#Required
-	algorithm = "${var.tsig_key_algorithm}"
-	compartment_id = "${var.compartment_id}"
-	name = "${var.tsig_key_name}"
-	secret = "${var.tsig_key_secret}"
+	algorithm = var.tsig_key_algorithm
+	compartment_id = var.compartment_id
+	name = var.tsig_key_name
+	secret = var.tsig_key_secret
 
 	#Optional
-	defined_tags = "${var.tsig_key_defined_tags}"
-	freeform_tags = "${var.tsig_key_freeform_tags}"
+	defined_tags = var.tsig_key_defined_tags
+	freeform_tags = var.tsig_key_freeform_tags
 }
 ```
 

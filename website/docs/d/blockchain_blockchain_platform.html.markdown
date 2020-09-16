@@ -17,7 +17,7 @@ Gets information about a Blockchain Platform identified by the specific id
 ```hcl
 data "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
 	#Required
-	blockchain_platform_id = "${oci_blockchain_blockchain_platform.test_blockchain_platform.id}"
+	blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
 }
 ```
 

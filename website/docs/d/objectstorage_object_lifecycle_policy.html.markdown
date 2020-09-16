@@ -18,8 +18,8 @@ Gets the object lifecycle policy for the bucket.
 ```hcl
 data "oci_objectstorage_object_lifecycle_policy" "test_object_lifecycle_policy" {
 	#Required
-	bucket = "${var.object_lifecycle_policy_bucket}"
-	namespace = "${var.object_lifecycle_policy_namespace}"
+	bucket = var.object_lifecycle_policy_bucket
+	namespace = var.object_lifecycle_policy_namespace
 }
 ```
 

@@ -17,18 +17,18 @@ Create a new table.
 ```hcl
 resource "oci_nosql_table" "test_table" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	ddl_statement = "${var.table_ddl_statement}"
-	name = "${var.table_name}"
+	compartment_id = var.compartment_id
+	ddl_statement = var.table_ddl_statement
+	name = var.table_name
 	table_limits {
 		#Required
-		max_read_units = "${var.table_table_limits_max_read_units}"
-		max_storage_in_gbs = "${var.table_table_limits_max_storage_in_gbs}"
-		max_write_units = "${var.table_table_limits_max_write_units}"
+		max_read_units = var.table_table_limits_max_read_units
+		max_storage_in_gbs = var.table_table_limits_max_storage_in_gbs
+		max_write_units = var.table_table_limits_max_write_units
 	}
 
 	#Optional
-	defined_tags = "${var.table_defined_tags}"
+	defined_tags = var.table_defined_tags
 	freeform_tags = {"bar-key"= "value"}
 }
 ```

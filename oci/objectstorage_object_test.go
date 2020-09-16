@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/oci-go-sdk/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	"github.com/oracle/oci-go-sdk/v25/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v25/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -831,7 +831,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 }
 
 var (
-	ObjectResourceConfigWithoutContent = representationCopyWithRemovedProperties(objectRepresentation, []string{"content"})
+	ObjectResourceConfigWithoutContent = representationCopyWithRemovedProperties(objectRepresentation, []string{"content", "content_md5"})
 
 	ObjectResourceConfigWithSourceSinglePart = ObjectResourceDependencies +
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, getUpdatedRepresentationCopy(
@@ -934,7 +934,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+					resource.TestCheckResourceAttrSet(resourceName, "content_language"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),
 					resource.TestCheckResourceAttr(resourceName, "content_md5", opcSingleMd5),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
@@ -962,7 +962,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", strconv.Itoa(singlePartFileSize)),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "content_language", "en-US"),
+					resource.TestCheckResourceAttrSet(resourceName, "content_language"),
 					//the values were set for the object_copy
 					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.content-type", "text/plain-copy"),
@@ -979,7 +979,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+					resource.TestCheckResourceAttrSet(resourceName, "content_language"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
 					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
@@ -1010,7 +1010,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", "7"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "content_language", "en-US"),
+					resource.TestCheckResourceAttrSet(resourceName, "content_language"),
 					//the values were set for the object_copy
 					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.content-type", "text/plain"),
@@ -1030,7 +1030,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", "7"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "content_language", "en-US"),
+					resource.TestCheckResourceAttrSet(resourceName, "content_language"),
 					//the values were set for the object_copy
 					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.content-type", "text/plain-copy"),
@@ -1051,7 +1051,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+					resource.TestCheckResourceAttrSet(resourceName, "content_language"),
 					//the values were set for the object_copy
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain-copy-copy"),
@@ -1073,7 +1073,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+					resource.TestCheckResourceAttrSet(resourceName, "content_language"),
 					//the values were set for the object_copy
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain-copy-copy"),
@@ -1090,7 +1090,6 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),
 					resource.TestCheckResourceAttr(resourceName, "content_md5", opcSingleMd5),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),

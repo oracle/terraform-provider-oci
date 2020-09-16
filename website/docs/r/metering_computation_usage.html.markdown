@@ -18,16 +18,16 @@ Returns the usage for the given account
 ```hcl
 resource "oci_metering_computation_usage" "test_usage" {
 	#Required
-	granularity = "${var.usage_granularity}"
-	tenant_id = "${oci_metering_computation_tenant.test_tenant.id}"
-	time_usage_ended = "${var.usage_time_usage_ended}"
-	time_usage_started = "${var.usage_time_usage_started}"
+	granularity = var.usage_granularity
+	tenant_id = oci_metering_computation_tenant.test_tenant.id
+	time_usage_ended = var.usage_time_usage_ended
+	time_usage_started = var.usage_time_usage_started
 
 	#Optional
-	compartment_depth = "${var.usage_compartment_depth}"
-	filter = "${var.usage_filter}"
-	group_by = "${var.usage_group_by}"
-	query_type = "${var.usage_query_type}"
+	compartment_depth = var.usage_compartment_depth
+	filter = var.usage_filter
+	group_by = var.usage_group_by
+	query_type = var.usage_query_type
 }
 ```
 

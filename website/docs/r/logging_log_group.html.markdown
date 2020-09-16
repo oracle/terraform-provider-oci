@@ -19,12 +19,12 @@ if log group is already created with same displayName in the compartment.
 ```hcl
 resource "oci_logging_log_group" "test_log_group" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.log_group_display_name}"
+	compartment_id = var.compartment_id
+	display_name = var.log_group_display_name
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	description = "${var.log_group_description}"
+	description = var.log_group_description
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

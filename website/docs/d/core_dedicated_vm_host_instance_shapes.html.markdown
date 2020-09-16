@@ -19,11 +19,11 @@ You can filter the list by compatibility with a specific dedicated virtual machi
 ```hcl
 data "oci_core_dedicated_vm_host_instance_shapes" "test_dedicated_vm_host_instance_shapes" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	availability_domain = "${var.dedicated_vm_host_instance_shape_availability_domain}"
-	dedicated_vm_host_shape = "${var.dedicated_vm_host_instance_shape_dedicated_vm_host_shape}"
+	availability_domain = var.dedicated_vm_host_instance_shape_availability_domain
+	dedicated_vm_host_shape = var.dedicated_vm_host_instance_shape_dedicated_vm_host_shape
 }
 ```
 

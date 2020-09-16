@@ -18,19 +18,19 @@ Creates a new Blockchain Platform.
 ```hcl
 resource "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	compute_shape = "${var.blockchain_platform_compute_shape}"
-	display_name = "${var.blockchain_platform_display_name}"
-	platform_role = "${var.blockchain_platform_platform_role}"
+	compartment_id = var.compartment_id
+	compute_shape = var.blockchain_platform_compute_shape
+	display_name = var.blockchain_platform_display_name
+	platform_role = var.blockchain_platform_platform_role
 
 	#Optional
-	ca_cert_archive_text = "${var.blockchain_platform_ca_cert_archive_text}"
+	ca_cert_archive_text = var.blockchain_platform_ca_cert_archive_text
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = "${var.blockchain_platform_description}"
-	federated_user_id = "${oci_identity_user.test_user.id}"
+	description = var.blockchain_platform_description
+	federated_user_id = oci_identity_user.test_user.id
 	freeform_tags = {"bar-key"= "value"}
-	idcs_access_token = "${var.blockchain_platform_idcs_access_token}"
-	is_byol = "${var.blockchain_platform_is_byol}"
+	idcs_access_token = var.blockchain_platform_idcs_access_token
+	is_byol = var.blockchain_platform_is_byol
 }
 ```
 

@@ -18,13 +18,13 @@ Get a list of DB System backups.
 ```hcl
 data "oci_mysql_mysql_backups" "test_mysql_backups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	backup_id = "${oci_mysql_mysql_backup.test_backup.id}"
-	db_system_id = "${oci_mysql_mysql_db_system.test_db_system.id}"
-	display_name = "${var.mysql_backup_display_name}"
-	state = "${var.mysql_backup_state}"
+	backup_id = oci_mysql_mysql_backup.test_backup.id
+	db_system_id = oci_mysql_mysql_db_system.test_db_system.id
+	display_name = var.mysql_backup_display_name
+	state = var.mysql_backup_state
 }
 ```
 

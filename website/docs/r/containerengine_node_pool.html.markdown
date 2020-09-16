@@ -17,37 +17,37 @@ Create a new node pool.
 ```hcl
 resource "oci_containerengine_node_pool" "test_node_pool" {
 	#Required
-	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-	compartment_id = "${var.compartment_id}"
-	kubernetes_version = "${var.node_pool_kubernetes_version}"
-	name = "${var.node_pool_name}"
-	node_shape = "${var.node_pool_node_shape}"
-	subnet_ids = "${var.node_pool_subnet_ids}"
+	cluster_id = oci_containerengine_cluster.test_cluster.id
+	compartment_id = var.compartment_id
+	kubernetes_version = var.node_pool_kubernetes_version
+	name = var.node_pool_name
+	node_shape = var.node_pool_node_shape
+	subnet_ids = var.node_pool_subnet_ids
 
 	#Optional
 	initial_node_labels {
 
 		#Optional
-		key = "${var.node_pool_initial_node_labels_key}"
-		value = "${var.node_pool_initial_node_labels_value}"
+		key = var.node_pool_initial_node_labels_key
+		value = var.node_pool_initial_node_labels_value
 	}
-	node_image_name = "${oci_core_image.test_image.name}"
-	node_metadata = "${var.node_pool_node_metadata}"
+	node_image_name = oci_core_image.test_image.name
+	node_metadata = var.node_pool_node_metadata
 	node_shape_config {
 
 		#Optional
-		ocpus = "${var.node_pool_node_shape_config_ocpus}"
+		ocpus = var.node_pool_node_shape_config_ocpus
 	}
 	node_source_details {
 		#Required
-		image_id = "${oci_core_image.test_image.id}"
-		source_type = "${var.node_pool_node_source_details_source_type}"
+		image_id = oci_core_image.test_image.id
+		source_type = var.node_pool_node_source_details_source_type
 
 		#Optional
-		boot_volume_size_in_gbs = "${var.node_pool_node_source_details_boot_volume_size_in_gbs}"
+		boot_volume_size_in_gbs = var.node_pool_node_source_details_boot_volume_size_in_gbs
 	}
-	quantity_per_subnet = "${var.node_pool_quantity_per_subnet}"
-	ssh_public_key = "${var.node_pool_ssh_public_key}"
+	quantity_per_subnet = var.node_pool_quantity_per_subnet
+	ssh_public_key = var.node_pool_ssh_public_key
 }
 ```
 

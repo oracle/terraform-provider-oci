@@ -19,14 +19,14 @@ For more information, see [Volume Groups](https://docs.cloud.oracle.com/iaas/Con
 ```hcl
 resource "oci_core_volume_group_backup" "test_volume_group_backup" {
 	#Required
-	volume_group_id = "${oci_core_volume_group.test_volume_group.id}"
+	volume_group_id = oci_core_volume_group.test_volume_group.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.volume_group_backup_display_name}"
+	display_name = var.volume_group_backup_display_name
 	freeform_tags = {"Department"= "Finance"}
-	type = "${var.volume_group_backup_type}"
+	type = var.volume_group_backup_type
 }
 ```
 

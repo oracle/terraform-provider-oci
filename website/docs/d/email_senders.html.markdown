@@ -18,11 +18,11 @@ Gets a collection of approved sender email addresses and sender IDs.
 ```hcl
 data "oci_email_senders" "test_senders" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	email_address = "${var.sender_email_address}"
-	state = "${var.sender_state}"
+	email_address = var.sender_email_address
+	state = var.sender_state
 }
 ```
 

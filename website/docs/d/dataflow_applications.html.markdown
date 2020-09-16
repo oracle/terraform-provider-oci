@@ -18,12 +18,12 @@ Lists all applications in the specified compartment.
 ```hcl
 data "oci_dataflow_applications" "test_applications" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.application_display_name}"
-	display_name_starts_with = "${var.application_display_name_starts_with}"
-	owner_principal_id = "${oci_dataflow_owner_principal.test_owner_principal.id}"
+	display_name = var.application_display_name
+	display_name_starts_with = var.application_display_name_starts_with
+	owner_principal_id = oci_dataflow_owner_principal.test_owner_principal.id
 }
 ```
 

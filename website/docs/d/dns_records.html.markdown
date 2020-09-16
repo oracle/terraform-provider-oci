@@ -20,14 +20,14 @@ information about records, see [Resource Record (RR) TYPEs](https://www.iana.org
 ```hcl
 data "oci_dns_records" "test_records" {
 	#Required
-	zone_name_or_id = "${oci_dns_zone_name_or.test_zone_name_or.id}"
+	zone_name_or_id = oci_dns_zone_name_or.test_zone_name_or.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	domain = "${var.record_domain}"
-	domain_contains = "${var.record_domain_contains}"
-	rtype = "${var.record_rtype}"
-	zone_version = "${var.record_zone_version}"
+	compartment_id = var.compartment_id
+	domain = var.record_domain
+	domain_contains = var.record_domain_contains
+	rtype = var.record_rtype
+	zone_version = var.record_zone_version
 }
 ```
 

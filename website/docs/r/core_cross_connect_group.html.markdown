@@ -32,12 +32,12 @@ It does not have to be unique, and you can change it. Avoid entering confidentia
 ```hcl
 resource "oci_core_cross_connect_group" "test_cross_connect_group" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	customer_reference_name = "${var.cross_connect_group_customer_reference_name}"
+	customer_reference_name = var.cross_connect_group_customer_reference_name
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.cross_connect_group_display_name}"
+	display_name = var.cross_connect_group_display_name
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

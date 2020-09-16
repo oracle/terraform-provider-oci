@@ -19,8 +19,8 @@ Lists Compute Global Image Capability Schema in the specified compartment.
 data "oci_core_compute_global_image_capability_schemas" "test_compute_global_image_capability_schemas" {
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.compute_global_image_capability_schema_display_name}"
+	compartment_id = var.compartment_id
+	display_name = var.compute_global_image_capability_schema_display_name
 }
 ```
 

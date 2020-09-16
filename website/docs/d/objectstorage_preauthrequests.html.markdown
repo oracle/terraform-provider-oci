@@ -18,11 +18,11 @@ Lists pre-authenticated requests for the bucket.
 ```hcl
 data "oci_objectstorage_preauthrequests" "test_preauthenticated_requests" {
 	#Required
-	bucket = "${var.preauthenticated_request_bucket}"
-	namespace = "${var.preauthenticated_request_namespace}"
+	bucket = var.preauthenticated_request_bucket
+	namespace = var.preauthenticated_request_namespace
 
 	#Optional
-	object_name_prefix = "${var.preauthenticated_request_object_name_prefix}"
+	object_name_prefix = var.preauthenticated_request_object_name_prefix
 }
 ```
 

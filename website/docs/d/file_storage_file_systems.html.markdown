@@ -18,13 +18,13 @@ Lists the file system resources in the specified compartment.
 ```hcl
 data "oci_file_storage_file_systems" "test_file_systems" {
 	#Required
-	availability_domain = "${var.file_system_availability_domain}"
-	compartment_id = "${var.compartment_id}"
+	availability_domain = var.file_system_availability_domain
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.file_system_display_name}"
-	id = "${var.file_system_id}"
-	state = "${var.file_system_state}"
+	display_name = var.file_system_display_name
+	id = var.file_system_id
+	state = var.file_system_state
 }
 ```
 

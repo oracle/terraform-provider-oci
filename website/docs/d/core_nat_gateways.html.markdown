@@ -19,12 +19,12 @@ to filter the results by VCN.
 ```hcl
 data "oci_core_nat_gateways" "test_nat_gateways" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.nat_gateway_display_name}"
-	state = "${var.nat_gateway_state}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	display_name = var.nat_gateway_display_name
+	state = var.nat_gateway_state
+	vcn_id = oci_core_vcn.test_vcn.id
 }
 ```
 

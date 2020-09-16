@@ -17,14 +17,14 @@ Gets a list of address lists that can be used in a WAAS policy.
 ```hcl
 data "oci_waas_address_lists" "test_address_lists" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	ids = "${var.address_list_ids}"
-	names = "${var.address_list_names}"
-	states = "${var.address_list_states}"
-	time_created_greater_than_or_equal_to = "${var.address_list_time_created_greater_than_or_equal_to}"
-	time_created_less_than = "${var.address_list_time_created_less_than}"
+	ids = var.address_list_ids
+	names = var.address_list_names
+	states = var.address_list_states
+	time_created_greater_than_or_equal_to = var.address_list_time_created_greater_than_or_equal_to
+	time_created_less_than = var.address_list_time_created_less_than
 }
 ```
 

@@ -18,8 +18,8 @@ Gets information about the specified version of a secret.
 ```hcl
 data "oci_vault_secret_version" "test_secret_version" {
 	#Required
-	secret_id = "${oci_vault_secret.test_secret.id}"
-	secret_version_number = "${var.secret_version_secret_version_number}"
+	secret_id = oci_vault_secret.test_secret.id
+	secret_version_number = var.secret_version_secret_version_number
 }
 ```
 

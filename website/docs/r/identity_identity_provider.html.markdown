@@ -31,17 +31,17 @@ it anytime with
 ```hcl
 resource "oci_identity_identity_provider" "test_identity_provider" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.identity_provider_description}"
-	metadata = "${var.identity_provider_metadata}"
-	metadata_url = "${var.identity_provider_metadata_url}"
-	name = "${var.identity_provider_name}"
-	product_type = "${var.identity_provider_product_type}"
-	protocol = "${var.identity_provider_protocol}"
+	compartment_id = var.tenancy_ocid
+	description = var.identity_provider_description
+	metadata = var.identity_provider_metadata
+	metadata_url = var.identity_provider_metadata_url
+	name = var.identity_provider_name
+	product_type = var.identity_provider_product_type
+	protocol = var.identity_provider_protocol
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	freeform_attributes = "${var.identity_provider_freeform_attributes}"
+	freeform_attributes = var.identity_provider_freeform_attributes
 	freeform_tags = {"Department"= "Finance"}
 }
 ```

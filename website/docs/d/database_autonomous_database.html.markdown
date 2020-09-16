@@ -18,7 +18,7 @@ Gets the details of the specified Autonomous Database.
 ```hcl
 data "oci_database_autonomous_database" "test_autonomous_database" {
 	#Required
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
+	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
 }
 ```
 

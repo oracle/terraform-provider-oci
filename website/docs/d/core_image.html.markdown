@@ -17,7 +17,7 @@ Gets the specified image.
 ```hcl
 data "oci_core_image" "test_image" {
 	#Required
-	image_id = "${oci_core_image.test_image.id}"
+	image_id = oci_core_image.test_image.id
 }
 ```
 

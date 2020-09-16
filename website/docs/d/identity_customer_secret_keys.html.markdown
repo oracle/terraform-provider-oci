@@ -19,7 +19,7 @@ the secret key itself. The actual secret key is returned only upon creation.
 ```hcl
 data "oci_identity_customer_secret_keys" "test_customer_secret_keys" {
 	#Required
-	user_id = "${oci_identity_user.test_user.id}"
+	user_id = oci_identity_user.test_user.id
 }
 ```
 

@@ -19,12 +19,12 @@ sorted by `recordHash` by default.
 ```hcl
 data "oci_dns_rrset" "test_rrset" {
 	#Required
-	domain = "${var.rrset_domain}"
-	rtype = "${var.rrset_rtype}"
-	zone_name_or_id = "${oci_dns_zone.test_zone.id}"
+	domain = var.rrset_domain
+	rtype = var.rrset_rtype
+	zone_name_or_id = oci_dns_zone.test_zone.id
 
 	#Optional
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 }
 ```
 

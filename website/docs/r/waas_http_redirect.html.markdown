@@ -17,24 +17,24 @@ Creates a new HTTP Redirect on the WAF edge.
 ```hcl
 resource "oci_waas_http_redirect" "test_http_redirect" {
 	#Required
-	compartment_id = "${var.compartment_id}"
-	domain = "${var.http_redirect_domain}"
+	compartment_id = var.compartment_id
+	domain = var.http_redirect_domain
 	target {
 		#Required
-		host = "${var.http_redirect_target_host}"
-		path = "${var.http_redirect_target_path}"
-		protocol = "${var.http_redirect_target_protocol}"
-		query = "${var.http_redirect_target_query}"
+		host = var.http_redirect_target_host
+		path = var.http_redirect_target_path
+		protocol = var.http_redirect_target_protocol
+		query = var.http_redirect_target_query
 
 		#Optional
-		port = "${var.http_redirect_target_port}"
+		port = var.http_redirect_target_port
 	}
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.http_redirect_display_name}"
+	display_name = var.http_redirect_display_name
 	freeform_tags = {"Department"= "Finance"}
-	response_code = "${var.http_redirect_response_code}"
+	response_code = var.http_redirect_response_code
 }
 ```
 

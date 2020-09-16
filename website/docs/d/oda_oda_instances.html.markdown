@@ -23,11 +23,11 @@ GET request, include the header's value as the `page` query parameter.
 ```hcl
 data "oci_oda_oda_instances" "test_oda_instances" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = var.compartment_id
 
 	#Optional
-	display_name = "${var.oda_instance_display_name}"
-	state = "${var.oda_instance_state}"
+	display_name = var.oda_instance_display_name
+	state = var.oda_instance_state
 }
 ```
 
