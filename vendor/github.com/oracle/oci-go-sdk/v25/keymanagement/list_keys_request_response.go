@@ -35,6 +35,13 @@ type ListKeysRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListKeysSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// A key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A
+	// protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are
+	// performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's
+	// RSA wrapping key which persists on the HSM. All cryptographic operations that use a key with a protection mode of
+	// `SOFTWARE` are performed on the server.
+	ProtectionMode ListKeysProtectionModeEnum `mandatory:"false" contributesTo:"query" name:"protectionMode" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -124,6 +131,29 @@ var mappingListKeysSortOrder = map[string]ListKeysSortOrderEnum{
 func GetListKeysSortOrderEnumValues() []ListKeysSortOrderEnum {
 	values := make([]ListKeysSortOrderEnum, 0)
 	for _, v := range mappingListKeysSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListKeysProtectionModeEnum Enum with underlying type: string
+type ListKeysProtectionModeEnum string
+
+// Set of constants representing the allowable values for ListKeysProtectionModeEnum
+const (
+	ListKeysProtectionModeHsm      ListKeysProtectionModeEnum = "HSM"
+	ListKeysProtectionModeSoftware ListKeysProtectionModeEnum = "SOFTWARE"
+)
+
+var mappingListKeysProtectionMode = map[string]ListKeysProtectionModeEnum{
+	"HSM":      ListKeysProtectionModeHsm,
+	"SOFTWARE": ListKeysProtectionModeSoftware,
+}
+
+// GetListKeysProtectionModeEnumValues Enumerates the set of values for ListKeysProtectionModeEnum
+func GetListKeysProtectionModeEnumValues() []ListKeysProtectionModeEnum {
+	values := make([]ListKeysProtectionModeEnum, 0)
+	for _, v := range mappingListKeysProtectionMode {
 		values = append(values, v)
 	}
 	return values

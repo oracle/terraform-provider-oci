@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Key Management Service API
+// Vault Service Key Management API
 //
-// API for managing and performing operations with keys and vaults.
+// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
+// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
 //
 
 package keymanagement
@@ -20,8 +21,8 @@ type Vault struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The service endpoint to perform cryptographic operations against. Cryptographic operations include
-	// Encrypt (https://docs.cloud.oracle.com/api/#/en/key/release/EncryptedData/Encrypt), Decrypt (https://docs.cloud.oracle.com/api/#/en/key/release/DecryptedData/Decrypt),
-	// and GenerateDataEncryptionKey (https://docs.cloud.oracle.com/api/#/en/key/release/GeneratedKey/GenerateDataEncryptionKey) operations.
+	// Encrypt (https://docs.cloud.oracle.com/api/#/en/key/latest/EncryptedData/Encrypt), Decrypt (https://docs.cloud.oracle.com/api/#/en/key/latest/DecryptedData/Decrypt),
+	// and GenerateDataEncryptionKey (https://docs.cloud.oracle.com/api/#/en/key/latest/GeneratedKey/GenerateDataEncryptionKey) operations.
 	CryptoEndpoint *string `mandatory:"true" json:"cryptoEndpoint"`
 
 	// A user-friendly name for the vault. It does not have to be unique, and it is changeable.

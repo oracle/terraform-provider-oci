@@ -486,7 +486,7 @@ github.com/modern-go/reflect2
 github.com/nu7hatch/gouuid
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v25 v25.0.0
+# github.com/oracle/oci-go-sdk/v25 v25.0.0 => ../../oracle/oci-go-sdk
 github.com/oracle/oci-go-sdk/v25/analytics
 github.com/oracle/oci-go-sdk/v25/apigateway
 github.com/oracle/oci-go-sdk/v25/audit

@@ -37,6 +37,9 @@ type UpdateExadataInfrastructureDetails struct {
 	// The corporate network proxy for access to the control plane network.
 	CorporateProxy *string `mandatory:"false" json:"corporateProxy"`
 
+	// The list of contacts for the Exadata Infrastructure.
+	Contacts []ExadataInfrastructureContact `mandatory:"false" json:"contacts"`
+
 	// The list of DNS server IP addresses. Maximum of 3 allowed.
 	DnsServer []string `mandatory:"false" json:"dnsServer"`
 
