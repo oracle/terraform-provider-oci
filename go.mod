@@ -9,7 +9,7 @@ require (
 	github.com/mitchellh/cli v1.0.0
 	github.com/oracle/oci-go-sdk/v25 v25.0.0
 	github.com/stretchr/objx v0.1.1 // indirect
-	github.com/stretchr/testify v1.3.0
+	github.com/stretchr/testify v1.6.1
 	gopkg.in/yaml.v2 v2.2.2
 )
 
