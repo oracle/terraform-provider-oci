@@ -15,3 +15,5 @@ require (
 
 // Uncomment this line to get OCI Go SDK from local source instead of github
 //replace github.com/oracle/oci-go-sdk => ../../oracle/oci-go-sdk
+
+replace github.com/oracle/oci-go-sdk/v25 => ../../oracle/oci-go-sdk

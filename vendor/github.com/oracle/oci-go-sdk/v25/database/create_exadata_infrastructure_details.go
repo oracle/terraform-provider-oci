@@ -56,6 +56,9 @@ type CreateExadataInfrastructureDetails struct {
 	// for enhanced security.
 	CorporateProxy *string `mandatory:"false" json:"corporateProxy"`
 
+	// The list of contacts for the Exadata Infrastructure.
+	Contacts []ExadataInfrastructureContact `mandatory:"false" json:"contacts"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

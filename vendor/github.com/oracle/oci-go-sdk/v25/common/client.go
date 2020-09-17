@@ -5,8 +5,11 @@
 package common
 
 import (
+	"bytes"
 	"context"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"net/http/httputil"
@@ -308,13 +311,15 @@ func (client BaseClient) intercept(request *http.Request) (err error) {
 
 // checkForSuccessfulResponse checks if the response is successful
 // If Error Code is 4XX/5XX and debug level is set to info, will log the request and response
-func checkForSuccessfulResponse(res *http.Response) error {
+func checkForSuccessfulResponse(res *http.Response, requestBody *io.ReadCloser) error {
 	familyStatusCode := res.StatusCode / 100
 	if familyStatusCode == 4 || familyStatusCode == 5 {
 		IfInfo(func() {
 			// If debug level is set to verbose, the request and request body will be dumped and logged under debug level, this is to avoid duplicate logging
 			if defaultLogger.LogLevel() < verboseLogging {
 				logRequest(res.Request, Logf, noLogging)
+				bodyContent, _ := ioutil.ReadAll(*requestBody)
+				Logf("Dump Request Body: \n%s", string(bodyContent))
 			}
 			logResponse(res, Logf, infoLogging)
 		})
@@ -406,32 +411,44 @@ func (client BaseClient) Call(ctx context.Context, request *http.Request) (respo
 func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Request, details ClientCallDetails) (response *http.Response, err error) {
 	Debugln("Atempting to call downstream service")
 	request = request.WithContext(ctx)
+
 	err = client.prepareRequest(request)
 	if err != nil {
 		return
 	}
+
 	//Intercept
 	err = client.intercept(request)
 	if err != nil {
 		return
 	}
+
 	//Sign the request
 	err = details.Signer.Sign(request)
 	if err != nil {
 		return
 	}
+
+	//Copy request body and save for logging
+	dumpRequestBody := ioutil.NopCloser(bytes.NewBuffer(nil))
+	if request.Body != nil && !checkBodyLengthExceedLimit(request.ContentLength) {
+		dumpRequestBody, _ = request.GetBody()
+	}
 	IfDebug(func() {
 		logRequest(request, Debugf, verboseLogging)
 	})
+
 	//Execute the http request
 	response, err = client.HTTPClient.Do(request)
+
 	if err != nil {
 		IfInfo(func() {
 			Logf("%v\n", err)
 		})
 		return
 	}
-	err = checkForSuccessfulResponse(response)
+
+	err = checkForSuccessfulResponse(response, &dumpRequestBody)
 	return
 }
 
