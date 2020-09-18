@@ -4,6 +4,7 @@
 - Support for ExaCC Customer Contacts
 - Support for KMS Software Keys added
 - Open mode and Permission level added to autonomous database resource
+- Support for Flexible Infrastructure - Flexible Memory
 
 ## 3.93.0 (September 16, 2020)
 
