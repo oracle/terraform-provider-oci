@@ -66,41 +66,41 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + `
-   data "oci_identity_availability_domains" "ADs" {
-      compartment_id = "${var.compartment_id}"
-   }
-   
-   resource "oci_core_virtual_network" "t" {
-      compartment_id = "${var.compartment_id}"
-      cidr_block = "10.0.0.0/16"
-      display_name = "-tf-vcn"
-      dns_label = "examplevcn"
-   }
-   
-   resource "oci_core_subnet" "t" {
-      compartment_id      = "${var.compartment_id}"
-      vcn_id              = "${oci_core_virtual_network.t.id}"
-      availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
-      route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
-      security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
-      dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-      cidr_block          = "10.0.1.0/24"
-      display_name        = "-tf-subnet"
-      dns_label = "examplesubnet"
-   }
+	data "oci_identity_availability_domains" "ADs" {
+		compartment_id = "${var.compartment_id}"
+	}
+	
+	resource "oci_core_virtual_network" "t" {
+		compartment_id = "${var.compartment_id}"
+		cidr_block = "10.0.0.0/16"
+		display_name = "-tf-vcn"
+		dns_label = "examplevcn"
+	}
+	
+	resource "oci_core_subnet" "t" {
+		compartment_id      = "${var.compartment_id}"
+		vcn_id              = "${oci_core_virtual_network.t.id}"
+		availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+		route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+		security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
+		dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
+		cidr_block          = "10.0.1.0/24"
+		display_name        = "-tf-subnet"
+		dns_label = "examplesubnet"
+	}
 
-   variable "InstanceImageOCID" {
-     type = "map"
-     default = {
-      // See https://docs.us-phoenix-1.oraclecloud.com/images/
-      // Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
-      us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
-      us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
-      eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
-      uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
-     }
-   }
-   ` + DefinedTagsDependencies + FlexVmImageIdsVariable
+	variable "InstanceImageOCID" {
+	  type = "map"
+	  default = {
+		// See https://docs.us-phoenix-1.oraclecloud.com/images/
+		// Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
+		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
+	  }
+	}
+	` + DefinedTagsDependencies + FlexVmImageIdsVariable
 
 	s.ResourceName = "oci_core_instance.t"
 }
@@ -116,30 +116,30 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// verify create
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname1"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               defined_tags = "${map(
-                           "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
-                           )}"
-               freeform_tags = { "Department" = "Accounting"}
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               timeouts {
-                  create = "15m"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+									)}"
+					freeform_tags = { "Department" = "Accounting"}
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
@@ -191,29 +191,29 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// Changing the defined and freeform tags should
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  hostname_label = "hostNAME1"
-               }
-               image = "${var.InstanceImageOCID[var.region]}"
-               hostname_label = "HOSTName1"
-               shape = "VM.Standard2.1"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               timeouts {
-                  create = "15m"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						hostname_label = "hostNAME1"
+					}
+					image = "${var.InstanceImageOCID[var.region]}"
+					hostname_label = "HOSTName1"
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
 				ExpectNonEmptyPlan: false,
 				PlanOnly:           true,
 			},
@@ -221,57 +221,57 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// Also, check that source_type is case insensitive.
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname1"
-               source_details {
-                  source_type = "ImAgE"
-                  source_id = "${var.InstanceImageOCID[var.region]}"
-               }
-               shape = "VM.Standard2.1"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               timeouts {
-                  create = "15m"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					source_details {
+						source_type = "ImAgE"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+					}
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
 				ExpectNonEmptyPlan: false,
 				PlanOnly:           true,
 			},
 			// verify update - adds display name, update tags
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname1"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               defined_tags = "${map(
-                           "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value2"
-                           )}"
-               freeform_tags = { "CostCenter" = "42"}
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value2"
+									)}"
+					freeform_tags = { "CostCenter" = "42"}
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					func(ts *terraform.State) (err error) {
@@ -286,33 +286,33 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// Adding create_vnic_details with the same subnet_id and an updatable fields should cause an update only.
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
@@ -334,71 +334,71 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// Adding create_vnic_details flags with default values should not lead to a change.
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  skip_source_dest_check = false
-                  assign_public_ip = true
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				ExpectNonEmptyPlan: false,
 				PlanOnly:           true,
 			},
 			// Update create_vnic_details
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  display_name = "-tf-vnic-2"
-                  skip_source_dest_check = true
-                  hostname_label = "mytftesthostname"
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic-2"
+						skip_source_dest_check = true
+						hostname_label = "mytftesthostname"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
@@ -419,40 +419,40 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// verify force new by setting non-updateable VNIC details and also add tags to the VNIC details
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  display_name = "-tf-vnic-2"
-                  assign_public_ip = false
-                  private_ip = "10.0.1.20"
-                  skip_source_dest_check = true
-                  defined_tags = "${map(
-                     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
-                     )}"
-                  freeform_tags = { "Department" = "Accounting" }
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic-2"
+						assign_public_ip = false
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
+						defined_tags = "${map(
+							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+							)}"
+						freeform_tags = { "Department" = "Accounting" }
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
@@ -474,40 +474,40 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// verify updating vnic tags result in an update only
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  display_name = "-tf-vnic-2"
-                  assign_public_ip = false
-                  private_ip = "10.0.1.20"
-                  skip_source_dest_check = true
-                  defined_tags = "${map(
-                     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-                     )}"
-                  freeform_tags = { "Department" = "Finance" }
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic-2"
+						assign_public_ip = false
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
+						defined_tags = "${map(
+							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+							)}"
+						freeform_tags = { "Department" = "Finance" }
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.%", "1"),
@@ -524,40 +524,40 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// changing order of map elements within JSON strings should not result in diff
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB2\": {\"keyB2\": \"valB2\"}, \"keyB1\": \"valB1\"}" # Order has been changed here, no diff expected
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  display_name = "-tf-vnic-2"
-                  assign_public_ip = false
-                  private_ip = "10.0.1.20"
-                  skip_source_dest_check = true
-                  defined_tags = "${map(
-                     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-                     )}"
-                  freeform_tags = { "Department" = "Finance" }
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB2\": {\"keyB2\": \"valB2\"}, \"keyB1\": \"valB1\"}" # Order has been changed here, no diff expected
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic-2"
+						assign_public_ip = false
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
+						defined_tags = "${map(
+							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+							)}"
+						freeform_tags = { "Department" = "Finance" }
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				PlanOnly: true,
 			},
 		},
@@ -574,48 +574,48 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 			// create a new instance with metadata interpolations so that no state exists
 			{
 				Config: s.Config + `
-            locals {
-              nat_offset          = "4"
-            }
+				locals {
+				  nat_offset          = "4"
+				}
 
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               metadata = {
-                  should_observe_dependency = "${jsonencode(cidrhost(oci_core_subnet.t.cidr_block, local.nat_offset))}"
-                  this_should_also = "${oci_core_subnet.t.time_created}"
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-                  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-                  subnet_id = "${oci_core_subnet.t.id}"
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  display_name = "-tf-vnic-2"
-                  assign_public_ip = false
-                  private_ip = "10.0.1.20"
-                  skip_source_dest_check = true
-                  defined_tags = "${map(
-                     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-                     )}"
-                  freeform_tags = { "Department" = "Finance" }
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					metadata = {
+						should_observe_dependency = "${jsonencode(cidrhost(oci_core_subnet.t.cidr_block, local.nat_offset))}"
+						this_should_also = "${oci_core_subnet.t.time_created}"
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						subnet_id = "${oci_core_subnet.t.id}"
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic-2"
+						assign_public_ip = false
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
+						defined_tags = "${map(
+							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+							)}"
+						freeform_tags = { "Department" = "Finance" }
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
@@ -631,48 +631,48 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 			// verify force new by changing ssh_authorized_keys and user_data in metadata
 			{
 				Config: s.Config + `
-            locals {
-              nat_offset          = "4"
-            }
+				locals {
+				  nat_offset          = "4"
+				}
 
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               metadata = {
-                  should_observe_dependency = "${jsonencode(cidrhost(oci_core_subnet.t.cidr_block, local.nat_offset + 1))}"
-                  this_should_also = "${oci_core_subnet.t.time_created}"
-                  ssh_authorized_keys = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"
-                  user_data = "ZWNobyB3b3JsZA=="
-                  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-                  subnet_id = "${oci_core_subnet.t.id}"
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  display_name = "-tf-vnic-2"
-                  assign_public_ip = false
-                  private_ip = "10.0.1.20"
-                  skip_source_dest_check = true
-                  defined_tags = "${map(
-                     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-                     )}"
-                  freeform_tags = { "Department" = "Finance" }
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					metadata = {
+						should_observe_dependency = "${jsonencode(cidrhost(oci_core_subnet.t.cidr_block, local.nat_offset + 1))}"
+						this_should_also = "${oci_core_subnet.t.time_created}"
+						ssh_authorized_keys = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"
+						user_data = "ZWNobyB3b3JsZA=="
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						subnet_id = "${oci_core_subnet.t.id}"
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic-2"
+						assign_public_ip = false
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
+						defined_tags = "${map(
+							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+							)}"
+						freeform_tags = { "Department" = "Finance" }
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
@@ -709,24 +709,24 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 		// verify create of an instance with source_details and that we can get a boot volume id
 		{
 			Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname1"
-               source_details {
-                  source_type = "image"
-                  source_id = "${var.InstanceImageOCID[var.region]}"
-               }
-               shape = "VM.Standard2.1"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               timeouts {
-                  create = "15m"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					source_details {
+						source_type = "image"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+					}
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
@@ -773,46 +773,46 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 		// Switching from source_details back to image ID should not lead to a change.
 		{
 			Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname1"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               timeouts {
-                  create = "15m"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
 			ExpectNonEmptyPlan: false,
 			PlanOnly:           true,
 		},
 		// verify the preserve_boot_volume setting can be applied and doesn't cause a ForceNew instance
 		{
 			Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname1"
-               source_details {
-                  source_type = "image"
-                  source_id = "${var.InstanceImageOCID[var.region]}"
-               }
-               preserve_boot_volume = "true"
-               shape = "VM.Standard2.1"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               timeouts {
-                  create = "15m"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					source_details {
+						source_type = "image"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+					}
+					preserve_boot_volume = "true"
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "true"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "boot_volume_id"),
@@ -843,33 +843,33 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 		// Also verify that the new boot volume size is being used.
 		{
 			Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname2"
-               source_details {
-                  source_type = "image"
-                  source_id = "${var.InstanceImageOCID[var.region]}"
-                  boot_volume_size_in_gbs = "60"
-               }
-               preserve_boot_volume = "false"
-               shape = "VM.Standard2.1"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               timeouts {
-                  create = "15m"
-               }
-            }
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname2"
+					source_details {
+						source_type = "image"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+						boot_volume_size_in_gbs = "60"
+					}
+					preserve_boot_volume = "false"
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}
 
-            resource "oci_core_volume_attachment" "volume_attach" {
-               attachment_type = "iscsi"
-               instance_id = "${oci_core_instance.t.id}"
-               volume_id = "{{.preservedBootVolumeId}}"
-            }
-            `,
+				resource "oci_core_volume_attachment" "volume_attach" {
+					attachment_type = "iscsi"
+					instance_id = "${oci_core_instance.t.id}"
+					volume_id = "{{.preservedBootVolumeId}}"
+				}
+				`,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
 				TestCheckResourceAttributesEqual("oci_core_volume_attachment.volume_attach", "instance_id", s.ResourceName, "id"),
@@ -901,25 +901,25 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 		// Detach the boot volume and force a new instance by attaching preserved boot volume in the source details.
 		{
 			Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname2"
-               source_details {
-                  source_type = "bootVolume"
-                  source_id = "{{.preservedBootVolumeId}}"
-               }
-               preserve_boot_volume = "false"
-               shape = "VM.Standard2.1"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               timeouts {
-                  create = "15m"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname2"
+					source_details {
+						source_type = "bootVolume"
+						source_id = "{{.preservedBootVolumeId}}"
+					}
+					preserve_boot_volume = "false"
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
 				// Verify that we got a new Instance
@@ -956,25 +956,25 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					bootVolumeSweepResponseFetchOperation, "core", true)
 			},
 			Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname1"
-               source_details {
-                  source_type = "bootVolume"
-                  source_id = "{{.preservedBootVolumeId}}"
-               }
-               preserve_boot_volume = "false"
-               shape = "VM.Standard2.1"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               timeouts {
-                  create = "15m"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					source_details {
+						source_type = "bootVolume"
+						source_id = "{{.preservedBootVolumeId}}"
+					}
+					preserve_boot_volume = "false"
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
 			ExpectError: regexp.MustCompile("One or more of the specified volumes are not found"),
 		},
 	}
@@ -992,24 +992,24 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_failedByTime
 		// verify create of an instance with source_details and that we can get a boot volume id
 		{
 			Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname1"
-               source_details {
-                  source_type = "image"
-                  source_id = "${var.InstanceImageOCID[var.region]}"
-               }
-               shape = "VM.Standard2.1"
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
-               }
-               timeouts {
-                  create = "15s"
-               }
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					source_details {
+						source_type = "image"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+					}
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					timeouts {
+						create = "15s"
+					}
+				}`,
 			ExpectError: regexp.MustCompile("timeout while waiting for state"),
 		},
 	}
@@ -1024,31 +1024,31 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 
 	resourceName := "oci_core_instance.t"
 	config := s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               subnet_id = "${oci_core_subnet.t.id}"
-               hostname_label = "hostname1"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               defined_tags = "${map(
-                           "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
-                           )}"
-               freeform_tags = { "Department" = "Accounting"}
-               metadata = {
-                  ssh_authorized_keys = "${var.ssh_public_key}"
-                  user_data = "ZWNobyBoZWxsbw=="
-               }
-               extended_metadata = {
-                  keyA = "valA"
-                  keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-                  keyC = "[\"valC1\", \"valC2\"]"
-               }
-               timeouts {
-                  create = "15m"
-               }
-               state = "STOPPED"
-            }`
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+									)}"
+					freeform_tags = { "Department" = "Accounting"}
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					timeouts {
+						create = "15m"
+					}
+					state = "STOPPED"
+				}`
 
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -1128,26 +1128,26 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 			// create with assign_public_ip
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  skip_source_dest_check = false
-                  assign_public_ip = true
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
@@ -1161,26 +1161,26 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 			// update assign_public_ip to false
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  skip_source_dest_check = false
-                  assign_public_ip = false
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = false
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "public_ip", ""),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
@@ -1197,27 +1197,27 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 			// update assign_public_ip to true with freeform_tags
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.InstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.1"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  skip_source_dest_check = false
-                  assign_public_ip = true
-                  freeform_tags = { "Department" = "Accounting"}
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+						freeform_tags = { "Department" = "Accounting"}
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
@@ -1246,29 +1246,29 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 			// create with flex shape and shape config
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.FlexInstanceImageOCID[var.region]}"
-               shape = "VM.Standard.E3.Flex"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  skip_source_dest_check = false
-                  assign_public_ip = true
-               }
-               shape_config {
-                  ocpus = "1"
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard.E3.Flex"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "1"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
@@ -1283,29 +1283,29 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 			// update shape config
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.FlexInstanceImageOCID[var.region]}"
-               shape = "VM.Standard.E3.Flex"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  skip_source_dest_check = false
-                  assign_public_ip = true
-               }
-               shape_config {
-                  ocpus = "2"
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard.E3.Flex"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "2"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
@@ -1323,29 +1323,29 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 			// update shape_config and displayName
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.FlexInstanceImageOCID[var.region]}"
-               shape = "VM.Standard.E3.Flex"
-               display_name = "-tf-instance-1"
-               subnet_id = "${oci_core_subnet.t.id}"
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  skip_source_dest_check = false
-                  assign_public_ip = true
-               }
-               shape_config {
-                  ocpus = "1"
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard.E3.Flex"
+					display_name = "-tf-instance-1"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "1"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
@@ -1363,29 +1363,29 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 			// update displayName
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.FlexInstanceImageOCID[var.region]}"
-               shape = "VM.Standard.E3.Flex"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  skip_source_dest_check = false
-                  assign_public_ip = true
-               }
-               shape_config {
-                  ocpus = "1"
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard.E3.Flex"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "1"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
@@ -1403,29 +1403,29 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 			// update shape and shape_config
 			{
 				Config: s.Config + `
-            resource "oci_core_instance" "t" {
-               availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-               compartment_id = "${var.compartment_id}"
-               image = "${var.FlexInstanceImageOCID[var.region]}"
-               shape = "VM.Standard2.2"
-               display_name = "-tf-instance"
-               subnet_id = "${oci_core_subnet.t.id}"
-               create_vnic_details {
-                  subnet_id = "${oci_core_subnet.t.id}"
-                  skip_source_dest_check = false
-                  assign_public_ip = true
-               }
-               shape_config {
-                  ocpus = "2"
-               }
-            }
-            data "oci_core_vnic_attachments" "t" {
-               compartment_id = "${var.compartment_id}"
-               instance_id = "${oci_core_instance.t.id}"
-            }
-            data "oci_core_vnic" "t" {
-               vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-            }`,
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.FlexInstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.2"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+					shape_config {
+						ocpus = "2"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard2.2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
@@ -1456,10 +1456,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 	defer httpreplay.SaveScenario()
 
 	config := `
-      provider oci {
-         test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
-      }
-   ` + commonTestVariables()
+		provider oci {
+			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+		}
+	` + commonTestVariables()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
