@@ -176,7 +176,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_management_agent_management_agent", "test_management_agent"),
 				ImportState:             true,
 				ImportStateVerify:       false,
 				ImportStateVerifyIgnore: []string{},

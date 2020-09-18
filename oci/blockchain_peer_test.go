@@ -188,7 +188,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_blockchain_peer", "test_peer"),
 				ImportState:             true,
 				ImportStateIdFunc:       getBlockchainPeerCompositeId(resourceName),
 				ImportStateVerify:       true,

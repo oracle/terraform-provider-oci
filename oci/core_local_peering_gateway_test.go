@@ -228,7 +228,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_core_local_peering_gateway", "test_local_peering_gateway"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

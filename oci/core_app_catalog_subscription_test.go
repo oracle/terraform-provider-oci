@@ -107,7 +107,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_core_app_catalog_subscription", "test_app_catalog_subscription"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

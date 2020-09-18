@@ -198,7 +198,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_marketplace_accepted_agreement", "test_accepted_agreement"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

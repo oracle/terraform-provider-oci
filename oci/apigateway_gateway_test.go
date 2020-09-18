@@ -222,7 +222,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_apigateway_gateway", "test_gateway"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

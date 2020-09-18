@@ -238,7 +238,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				),
 			},
 			// verify resource import
-			{Config: config,
+			{Config: config + generateResourceImportConfig("oci_datascience_model", "test_model"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

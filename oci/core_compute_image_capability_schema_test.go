@@ -262,7 +262,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

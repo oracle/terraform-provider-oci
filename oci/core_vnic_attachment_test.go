@@ -154,7 +154,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_core_vnic_attachment", "test_vnic_attachment"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

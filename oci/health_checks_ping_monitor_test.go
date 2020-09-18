@@ -245,7 +245,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_health_checks_ping_monitor", "test_ping_monitor"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

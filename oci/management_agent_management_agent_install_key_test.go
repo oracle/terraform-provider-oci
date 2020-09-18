@@ -191,7 +191,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_management_agent_management_agent_install_key", "test_management_agent_install_key"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

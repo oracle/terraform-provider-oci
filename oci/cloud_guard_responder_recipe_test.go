@@ -270,7 +270,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_cloud_guard_responder_recipe", "test_responder_recipe"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

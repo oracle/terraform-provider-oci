@@ -248,7 +248,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_osmanagement_software_source", "test_software_source"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

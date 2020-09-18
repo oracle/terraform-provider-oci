@@ -244,7 +244,7 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_core_dedicated_vm_host", "test_dedicated_vm_host"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

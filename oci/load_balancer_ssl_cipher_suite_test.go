@@ -118,7 +118,7 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

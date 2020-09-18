@@ -200,7 +200,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

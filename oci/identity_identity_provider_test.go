@@ -207,7 +207,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_identity_identity_provider", "test_identity_provider"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

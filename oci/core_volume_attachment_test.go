@@ -149,7 +149,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_core_volume_attachment", "test_volume_attachment"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

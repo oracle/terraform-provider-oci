@@ -225,7 +225,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_dataintegration_workspace", "test_workspace"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"is_private_network_enabled", "state_message"},

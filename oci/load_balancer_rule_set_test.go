@@ -334,7 +334,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config + compartmentIdVariableStr + RuleSetResourceConfig,
+				Config:            config + generateResourceImportConfig("oci_load_balancer_rule_set", "test_rule_set"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

@@ -409,7 +409,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config + compartmentIdVariableStr + InstancePoolResourceConfig,
+				Config:                  config + generateResourceImportConfig("oci_core_instance_pool", "test_instance_pool"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

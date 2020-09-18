@@ -222,7 +222,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_mysql_mysql_backup", "test_mysql_backup"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

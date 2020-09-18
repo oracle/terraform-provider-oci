@@ -201,7 +201,7 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_database_backup_destination", "test_backup_destination"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

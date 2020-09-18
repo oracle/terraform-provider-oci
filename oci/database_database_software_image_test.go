@@ -263,7 +263,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_database_database_software_image", "test_database_software_image"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

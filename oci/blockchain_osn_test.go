@@ -176,7 +176,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_blockchain_osn", "test_osn"),
 				ImportState:             true,
 				ImportStateIdFunc:       getBlockchainOsnCompositeId(resourceName),
 				ImportStateVerify:       true,

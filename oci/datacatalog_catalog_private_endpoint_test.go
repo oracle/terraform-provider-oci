@@ -222,7 +222,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
