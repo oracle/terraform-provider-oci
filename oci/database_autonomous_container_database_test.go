@@ -86,7 +86,7 @@ var (
 	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig +
 		generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
-			representationCopyWithNewProperties(exadataInfrastructureRepresentation, map[string]interface{}{"activation_file": Representation{repType: Required, create: activationFilePath}})) +
+			representationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": Representation{repType: Required, create: activationFilePath}})) +
 		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
 			representationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{repType: Required, create: "true"}}))
 )
