@@ -221,7 +221,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_osmanagement_managed_instance_group", "test_managed_instance_group"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

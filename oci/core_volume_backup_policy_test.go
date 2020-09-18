@@ -207,7 +207,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_core_volume_backup_policy", "test_volume_backup_policy"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

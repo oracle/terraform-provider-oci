@@ -89,7 +89,7 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_identity_user_group_membership", "test_user_group_membership"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

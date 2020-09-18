@@ -228,7 +228,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_budget_alert_rule", "test_alert_rule"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateIdFunc:       getAlertRuleImportId(resourceName),

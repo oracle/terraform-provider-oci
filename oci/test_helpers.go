@@ -303,6 +303,12 @@ func updateNestedRepresentationRemoveProperty(currIndex int, propertyNames []str
 	return nil
 }
 
+func generateResourceImportConfig(resourceType string, resourceName string) string {
+	var buffer bytes.Buffer
+	buffer.WriteString(fmt.Sprintf(`%sresource "%s" "%s" {}`, lineSeparator, resourceType, resourceName))
+	return buffer.String()
+}
+
 func generateDataSourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
 	buffer.WriteString(fmt.Sprintf(`%sdata "%s" "%s" %s`, lineSeparator, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))

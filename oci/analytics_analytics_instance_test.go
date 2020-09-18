@@ -438,7 +438,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_analytics_analytics_instance", "test_analytics_instance"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

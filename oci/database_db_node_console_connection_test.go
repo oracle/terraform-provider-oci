@@ -135,7 +135,7 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_database_db_node_console_connection", "test_db_node_console_connection"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

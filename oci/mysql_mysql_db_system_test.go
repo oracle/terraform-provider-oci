@@ -296,7 +296,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_mysql_mysql_db_system", "test_mysql_db_system"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

@@ -351,7 +351,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_cloud_guard_detector_recipe", "test_detector_recipe"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

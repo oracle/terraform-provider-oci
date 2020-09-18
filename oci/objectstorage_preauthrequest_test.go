@@ -171,7 +171,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 			},
 			//verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_objectstorage_preauthrequest", "test_preauthenticated_request"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

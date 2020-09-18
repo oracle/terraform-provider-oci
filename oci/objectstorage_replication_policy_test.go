@@ -139,7 +139,7 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_objectstorage_replication_policy", "test_replication_policy"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

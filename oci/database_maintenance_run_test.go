@@ -162,7 +162,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_database_maintenance_run", "test_maintenance_run"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

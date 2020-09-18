@@ -193,7 +193,7 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_core_remote_peering_connection", "test_remote_peering_connection"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

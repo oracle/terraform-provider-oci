@@ -241,7 +241,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_dataflow_private_endpoint", "test_private_endpoint"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

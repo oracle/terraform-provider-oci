@@ -198,7 +198,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_datacatalog_data_asset", "test_data_asset"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateIdFunc:       getDataAssetImportId(resourceName),

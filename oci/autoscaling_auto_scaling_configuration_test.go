@@ -446,7 +446,7 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

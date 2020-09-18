@@ -259,7 +259,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_integration_integration_instance", "test_integration_instance"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

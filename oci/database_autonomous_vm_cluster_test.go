@@ -257,7 +257,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

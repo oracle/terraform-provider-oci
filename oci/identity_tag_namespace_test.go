@@ -191,7 +191,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_identity_tag_namespace", "test_tag_namespace"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

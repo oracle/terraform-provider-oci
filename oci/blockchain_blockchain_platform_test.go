@@ -268,7 +268,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_blockchain_blockchain_platform", "test_blockchain_platform"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

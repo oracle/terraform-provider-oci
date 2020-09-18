@@ -7,8 +7,11 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/acctest"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
@@ -38,7 +41,11 @@ For example: vcn can have default dhcpOptions, routeTables and securityLists whi
 var SweeperDefaultResourceId = make(map[string]bool)
 
 func TestMain(m *testing.M) {
+	acctest.UseBinaryDriver("oci", Provider)
 	resource.TestMain(m)
+
+	log.SetOutput(os.Stderr)
+
 }
 
 func addResourceIdToSweeperResourceIdMap(compartmentId string, resourceType string, resourceId string) {

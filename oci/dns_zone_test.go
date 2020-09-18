@@ -304,7 +304,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            tokenFn(config, nil),
+				Config:            tokenFn(config+generateResourceImportConfig("oci_dns_zone", "test_zone"), nil),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ResourceName:      resourceName,

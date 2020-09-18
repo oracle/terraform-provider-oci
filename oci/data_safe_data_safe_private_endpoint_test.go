@@ -239,7 +239,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

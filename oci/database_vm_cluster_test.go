@@ -276,7 +276,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_database_vm_cluster", "test_vm_cluster"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

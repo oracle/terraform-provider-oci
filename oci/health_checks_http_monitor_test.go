@@ -260,7 +260,7 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_health_checks_http_monitor", "test_http_monitor"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

@@ -289,7 +289,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_kms_key", "test_key"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateIdFunc: keyImportId,

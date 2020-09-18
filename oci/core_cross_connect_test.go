@@ -229,7 +229,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			// verify resource import
 			// import requires full configuration to handle cross connect dependency on cross connect group during destroy
 			{
-				Config:            config + compartmentIdVariableStr + CrossConnectResourceConfig,
+				Config:            config + generateResourceImportConfig("oci_core_cross_connect", "test_cross_connect"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

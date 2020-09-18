@@ -136,7 +136,7 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_load_balancer_path_route_set", "test_path_route_set"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

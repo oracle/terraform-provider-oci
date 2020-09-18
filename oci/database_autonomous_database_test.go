@@ -508,7 +508,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_database_autonomous_database", "test_autonomous_database"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

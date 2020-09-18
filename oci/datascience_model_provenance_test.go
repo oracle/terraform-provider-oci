@@ -139,7 +139,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_datascience_model_provenance", "test_model_provenance"),
 				ImportStateIdFunc:       getDatascienceModelProvenanceCompositeIdForImport(resourceName),
 				ImportState:             true,
 				ImportStateVerify:       true,

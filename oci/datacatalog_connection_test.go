@@ -219,7 +219,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_datacatalog_connection", "test_connection"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateIdFunc: getDataAssetConnectionImportId(resourceName),
