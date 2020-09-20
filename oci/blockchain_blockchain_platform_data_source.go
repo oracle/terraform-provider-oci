@@ -113,6 +113,8 @@ func (s *BlockchainBlockchainPlatformDataSourceCrud) SetData() error {
 
 	s.D.Set("platform_role", s.Res.PlatformRole)
 
+	s.D.Set("platform_shape_type", s.Res.PlatformShapeType)
+
 	if s.Res.Replicas != nil {
 		s.D.Set("replicas", []interface{}{ReplicaDetailsToMap(s.Res.Replicas)})
 	} else {

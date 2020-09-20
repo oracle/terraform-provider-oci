@@ -196,14 +196,8 @@ func (s *BlockchainPeerResourceCrud) Create() error {
 func (s *BlockchainPeerResourceCrud) getPeerFromWorkRequest(blockchainPlatformId *string, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_blockchain.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
-	// Service not return peer directly from work request.
-	// So to get the osn, we compare list before and after new peer creation
-	listPeerBefore, err := getListPeerFromBlockChainPlatform(blockchainPlatformId, s.Client)
-	if err != nil {
-		return err
-	}
 	// Wait until it finishes
-	_, err = peerWaitForWorkRequest(workId, "instance",
+	peerId, err := peerWaitForWorkRequest(workId, "instance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -221,11 +215,7 @@ func (s *BlockchainPeerResourceCrud) getPeerFromWorkRequest(blockchainPlatformId
 		}
 		return err
 	}
-	listPeerAfter, err := getListPeerFromBlockChainPlatform(blockchainPlatformId, s.Client)
-	if err != nil {
-		return err
-	}
-	peerId, err := difference(listPeerAfter, listPeerBefore)
+
 	if err != nil {
 		return err
 	}
@@ -292,12 +282,14 @@ func peerWaitForWorkRequest(wId *string, entityType string, action oci_blockchai
 		return nil, e
 	}
 
-	var identifier *string
+	var subTypeKey *string
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
 			if res.ActionType == action {
-				identifier = res.Identifier
+				for _, subTypeDetail := range res.SubTypeDetails {
+					subTypeKey = subTypeDetail.SubTypeKey
+				}
 				break
 			}
 		}
@@ -310,7 +302,7 @@ func peerWaitForWorkRequest(wId *string, entityType string, action oci_blockchai
 		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 	}
 
-	return identifier, workRequestErr
+	return subTypeKey, workRequestErr
 }
 
 func (s *BlockchainPeerResourceCrud) Get() error {

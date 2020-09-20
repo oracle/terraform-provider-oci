@@ -45,7 +45,7 @@ var (
 		"ocpu_allocation_param":  RepresentationGroup{Optional, osnOcpuAllocationParamRepresentation},
 	}
 	osnOcpuAllocationParamRepresentation = map[string]interface{}{
-		"ocpu_allocation_number": Representation{repType: Required, create: `1.0`, update: `1.1`},
+		"ocpu_allocation_number": Representation{repType: Required, create: `0.0`, update: `0.0`},
 	}
 
 	OsnResourceDependencies = generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)

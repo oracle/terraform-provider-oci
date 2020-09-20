@@ -164,15 +164,8 @@ func (s *BlockchainOsnResourceCrud) Create() error {
 func (s *BlockchainOsnResourceCrud) getOsnFromWorkRequest(blockchainPlatformId *string, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_blockchain.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
-	// Service not return osn directly from work request.
-	// So to get the osn, we compare list before and after new osn creation
-	listOsnBefore, err := getListOsnFromBlockChainPlatform(blockchainPlatformId, s.Client)
-	if err != nil {
-		return err
-	}
-	log.Printf("[DEBUG] listOsnBefore length: %v\n", len(listOsnBefore))
 	// Wait until it finishes
-	_, err = osnWaitForWorkRequest(workId, "instance",
+	osnId, err := osnWaitForWorkRequest(workId, "instance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -190,15 +183,7 @@ func (s *BlockchainOsnResourceCrud) getOsnFromWorkRequest(blockchainPlatformId *
 		}
 		return err
 	}
-	listOsnAfter, err := getListOsnFromBlockChainPlatform(blockchainPlatformId, s.Client)
-	if err != nil {
-		return err
-	}
-	log.Printf("[DEBUG] listOsnAfter length: %v\n", len(listOsnAfter))
-	osnId, err := difference(listOsnAfter, listOsnBefore)
-	if err != nil {
-		return err
-	}
+
 	log.Printf("[DEBUG] new osn keyId create: %v\n", *osnId)
 	s.D.SetId(*osnId)
 
@@ -263,12 +248,15 @@ func osnWaitForWorkRequest(wId *string, entityType string, action oci_blockchain
 		return nil, e
 	}
 
-	var identifier *string
+	var subTypeKey *string
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
 			if res.ActionType == action {
-				identifier = res.Identifier
+				for _, subTypeDetail := range res.SubTypeDetails {
+					subTypeKey = subTypeDetail.SubTypeKey
+				}
+
 				break
 			}
 		}
@@ -281,7 +269,7 @@ func osnWaitForWorkRequest(wId *string, entityType string, action oci_blockchain
 		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 	}
 
-	return identifier, workRequestErr
+	return subTypeKey, workRequestErr
 }
 
 func (s *BlockchainOsnResourceCrud) Get() error {
