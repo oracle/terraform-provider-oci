@@ -370,6 +370,9 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				ImportStateVerifyIgnore: []string{
 					"rotate_key_trigger",
 					"maintenance_window_details",
+					"peer_autonomous_container_database_display_name",
+					"peer_autonomous_exadata_infrastructure_id",
+					"protection_mode",
 				},
 				ResourceName: resourceName,
 			},

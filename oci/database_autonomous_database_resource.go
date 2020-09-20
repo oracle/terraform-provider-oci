@@ -350,6 +350,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"role": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"service_console_url": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -981,6 +985,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("refreshable_status", s.Res.RefreshableStatus)
+
+	s.D.Set("role", s.Res.Role)
 
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)

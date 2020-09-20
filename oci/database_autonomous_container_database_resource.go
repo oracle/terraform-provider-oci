@@ -224,6 +224,24 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"peer_autonomous_container_database_display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"peer_autonomous_exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"protection_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"service_level_agreement_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -241,6 +259,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Optional: true,
 			},
 
+			"standby_maintenance_buffer_in_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			// Computed
 			"availability_domain": {
 				Type:     schema.TypeString,
@@ -342,6 +365,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"patch_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"role": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -531,6 +558,20 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.PatchModel = oci_database.CreateAutonomousContainerDatabaseDetailsPatchModelEnum(patchModel.(string))
 	}
 
+	if peerAutonomousContainerDatabaseDisplayName, ok := s.D.GetOkExists("peer_autonomous_container_database_display_name"); ok {
+		tmp := peerAutonomousContainerDatabaseDisplayName.(string)
+		request.PeerAutonomousContainerDatabaseDisplayName = &tmp
+	}
+
+	if peerAutonomousExadataInfrastructureId, ok := s.D.GetOkExists("peer_autonomous_exadata_infrastructure_id"); ok {
+		tmp := peerAutonomousExadataInfrastructureId.(string)
+		request.PeerAutonomousExadataInfrastructureId = &tmp
+	}
+
+	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
+		request.ProtectionMode = oci_database.CreateAutonomousContainerDatabaseDetailsProtectionModeEnum(protectionMode.(string))
+	}
+
 	if serviceLevelAgreementType, ok := s.D.GetOkExists("service_level_agreement_type"); ok {
 		request.ServiceLevelAgreementType = oci_database.CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum(serviceLevelAgreementType.(string))
 	}
@@ -538,6 +579,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 		tmp := vaultId.(string)
 		request.VaultId = &tmp
+	}
+
+	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
+		tmp := standbyMaintenanceBufferInDays.(int)
+		request.StandbyMaintenanceBufferInDays = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -624,6 +670,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 
 	if patchModel, ok := s.D.GetOkExists("patch_model"); ok {
 		request.PatchModel = oci_database.UpdateAutonomousContainerDatabaseDetailsPatchModelEnum(patchModel.(string))
+	}
+
+	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
+		tmp := standbyMaintenanceBufferInDays.(int)
+		request.StandbyMaintenanceBufferInDays = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -720,7 +771,13 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("patch_model", s.Res.PatchModel)
 
+	s.D.Set("role", s.Res.Role)
+
 	s.D.Set("service_level_agreement_type", s.Res.ServiceLevelAgreementType)
+
+	if s.Res.StandbyMaintenanceBufferInDays != nil {
+		s.D.Set("standby_maintenance_buffer_in_days", *s.Res.StandbyMaintenanceBufferInDays)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

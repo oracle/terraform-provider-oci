@@ -240,6 +240,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"role": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"service_console_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -533,6 +537,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		autonomousDatabasesClone["refreshable_mode"] = r.RefreshableMode
 
 		autonomousDatabasesClone["refreshable_status"] = r.RefreshableStatus
+
+		autonomousDatabasesClone["role"] = r.Role
 
 		if r.ServiceConsoleUrl != nil {
 			autonomousDatabasesClone["service_console_url"] = *r.ServiceConsoleUrl

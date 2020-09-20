@@ -137,7 +137,13 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("patch_model", s.Res.PatchModel)
 
+	s.D.Set("role", s.Res.Role)
+
 	s.D.Set("service_level_agreement_type", s.Res.ServiceLevelAgreementType)
+
+	if s.Res.StandbyMaintenanceBufferInDays != nil {
+		s.D.Set("standby_maintenance_buffer_in_days", *s.Res.StandbyMaintenanceBufferInDays)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
