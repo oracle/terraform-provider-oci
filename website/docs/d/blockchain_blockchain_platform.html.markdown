@@ -49,7 +49,7 @@ The following attributes are exported:
 		* `peer_key` - peer identifier
 		* `role` - Peer role
 		* `state` - The current state of the peer.
-* `compute_shape` - Type of compute shape - one of Standard, (Enterprise) Small, Medium, Large or Extra Large
+* `compute_shape` - Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE or ENTERPRISE_CUSTOM
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - Platform Instance Description
 * `display_name` - Platform Instance Display name, can be renamed
@@ -62,7 +62,8 @@ The following attributes are exported:
 * `is_byol` - Bring your own license
 * `is_multi_ad` - True for multi-AD blockchain plaforms, false for single-AD
 * `lifecycle_details` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `platform_role` - Role of platform - founder or participant
+* `platform_role` - Role of platform - FOUNDER or PARTICIPANT
+* `platform_shape_type` - Type of Platform shape - DEFAULT or CUSTOM
 * `replicas` - Number of replicas of service components like Rest Proxy, CA and Console
 	* `ca_count` - Number of CA replicas
 	* `console_count` - Number of console replicas

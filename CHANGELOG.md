@@ -3,7 +3,7 @@
 ### Added
 - Support for management agent availability histories and status
 - Support for MySQL `db_system_snapshot` added
-
+- Support for Blockchain Platforms API updates
 
 ## 4.4.0 (November 18, 2020)
 

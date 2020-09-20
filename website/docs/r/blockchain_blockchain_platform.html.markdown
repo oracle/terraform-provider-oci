@@ -40,13 +40,13 @@ The following arguments are supported:
 
 * `ca_cert_archive_text` - (Optional) Base64 encoded text in ASCII character set of a Thirdparty CA Certificates archive file. The Archive file is a zip file containing third part CA Certificates, the ca key and certificate files used when issuing enrollment certificates (ECerts) and transaction certificates (TCerts). The chainfile (if it exists) contains the certificate chain which should be trusted for this CA, where the 1st in the chain is always the root CA certificate. File list in zip file [ca-cert.pem,ca-key.pem,ca-chain.pem(optional)]. 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier
-* `compute_shape` - (Required) Type of compute shape - one of Standard, (Enterprise) Small, Medium, Large or Extra Large
+* `compute_shape` - (Required) Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) Platform Instance Description
 * `display_name` - (Required) Platform Instance Display name, can be renamed
 * `federated_user_id` - (Optional) Identifier for a federated user
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `idcs_access_token` - (Optional) IDCS access token
+* `idcs_access_token` - (Optional) IDCS access token with Identity Domain Administrator role
 * `is_byol` - (Optional) Bring your own license
 * `platform_role` - (Required) Role of platform - founder or participant
 
@@ -75,7 +75,7 @@ The following attributes are exported:
 		* `peer_key` - peer identifier
 		* `role` - Peer role
 		* `state` - The current state of the peer.
-* `compute_shape` - Type of compute shape - one of Standard, (Enterprise) Small, Medium, Large or Extra Large
+* `compute_shape` - Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE or ENTERPRISE_CUSTOM
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - Platform Instance Description
 * `display_name` - Platform Instance Display name, can be renamed
@@ -88,7 +88,8 @@ The following attributes are exported:
 * `is_byol` - Bring your own license
 * `is_multi_ad` - True for multi-AD blockchain plaforms, false for single-AD
 * `lifecycle_details` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `platform_role` - Role of platform - founder or participant
+* `platform_role` - Role of platform - FOUNDER or PARTICIPANT
+* `platform_shape_type` - Type of Platform shape - DEFAULT or CUSTOM
 * `replicas` - Number of replicas of service components like Rest Proxy, CA and Console
 	* `ca_count` - Number of CA replicas
 	* `console_count` - Number of console replicas
