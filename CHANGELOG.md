@@ -4,6 +4,7 @@
 - Support for Setting up standby in an existing DB home
 - Support for logging saved search added
 - OpenAPI Support in API Gateway
+- Support for Autonomous Database with Dedicated Infrastructure - Autonomous Data Guard
 
 ## 3.96.0 (October 07, 2020)
 

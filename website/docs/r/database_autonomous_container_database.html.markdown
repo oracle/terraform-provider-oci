@@ -61,8 +61,15 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 		}
 		weeks_of_month = var.autonomous_container_database_maintenance_window_details_weeks_of_month
 	}
+	peer_autonomous_container_database_display_name = var.autonomous_container_database_peer_autonomous_container_database_display_name
+	peer_autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
+	protection_mode = var.autonomous_container_database_protection_mode
 	service_level_agreement_type = var.autonomous_container_database_service_level_agreement_type
+<<<<<<< HEAD
 	vault_id = oci_kms_vault.test_vault.id
+=======
+	standby_maintenance_buffer_in_days = var.autonomous_container_database_standby_maintenance_buffer_in_days
+>>>>>>> Auto-generated seed code for DEXREQ-1573
 }
 ```
 
@@ -97,9 +104,16 @@ The following arguments are supported:
 	* `preference` - (Required) (Updatable) The maintenance window scheduling preference.
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `patch_model` - (Required) (Updatable) Database Patch model preference.
+* `peer_autonomous_container_database_display_name` - (Optional) The display name for the peer Autonomous Container Database.
+* `peer_autonomous_exadata_infrastructure_id` - (Optional) The OCID of the peer Autonomous Exadata Infrastructure for autonomous dataguard.
+* `protection_mode` - (Optional) The protection mode of this Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 * `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
+<<<<<<< HEAD
 * `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 * `rotate_key_trigger` - (Optional) (Updatable) An optional property when flipped triggers rotation of KMS key. It is only applicable on dedicated container databases i.e. where `autonomous_exadata_infrastructure_id` is set.
+=======
+* `standby_maintenance_buffer_in_days` - (Optional) (Updatable) The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database. This value represents the number of days before the primary database maintenance schedule. 
+>>>>>>> Auto-generated seed code for DEXREQ-1573
 
 
 ** IMPORTANT **
@@ -144,7 +158,9 @@ The following attributes are exported:
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch applied on the system.
 * `patch_model` - Database patch model preference.
+* `role` - The role of the dataguard enabled Autonomous Container Database.
 * `service_level_agreement_type` - The service level agreement type of the container database. The default is STANDARD.
+* `standby_maintenance_buffer_in_days` - The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database. This value represents the number of days before the primary database maintenance schedule. 
 * `state` - The current state of the Autonomous Container Database.
 * `time_created` - The date and time the Autonomous Container Database was created.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).

@@ -26,6 +26,7 @@ data "oci_database_autonomous_container_databases" "test_autonomous_container_da
 	availability_domain = var.autonomous_container_database_availability_domain
 	display_name = var.autonomous_container_database_display_name
 	infrastructure_type = var.autonomous_container_database_infrastructure_type
+	service_level_agreement_type = var.autonomous_container_database_service_level_agreement_type
 	state = var.autonomous_container_database_state
 }
 ```
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `infrastructure_type` - (Optional) A filter to return only resources that match the given Infrastructure Type.
+* `service_level_agreement_type` - (Optional) A filter to return only resources that match the given service level agreement type exactly.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
@@ -88,7 +90,9 @@ The following attributes are exported:
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch applied on the system.
 * `patch_model` - Database patch model preference.
+* `role` - The role of the dataguard enabled Autonomous Container Database.
 * `service_level_agreement_type` - The service level agreement type of the container database. The default is STANDARD.
+* `standby_maintenance_buffer_in_days` - The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database. This value represents the number of days before the primary database maintenance schedule. 
 * `state` - The current state of the Autonomous Container Database.
 * `time_created` - The date and time the Autonomous Container Database was created.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).

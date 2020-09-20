@@ -282,6 +282,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["refreshable_status"] = r.RefreshableStatus
 
+		autonomousDatabase["role"] = r.Role
+
 		if r.ServiceConsoleUrl != nil {
 			autonomousDatabase["service_console_url"] = *r.ServiceConsoleUrl
 		}
