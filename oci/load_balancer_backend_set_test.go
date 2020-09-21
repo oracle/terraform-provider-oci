@@ -239,7 +239,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_load_balancer_backend_set", "test_backend_set"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

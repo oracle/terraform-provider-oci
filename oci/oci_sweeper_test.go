@@ -4,10 +4,11 @@
 package oci
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
-	"os"
+	"os/exec"
 	"strings"
 	"testing"
 
@@ -41,11 +42,22 @@ For example: vcn can have default dhcpOptions, routeTables and securityLists whi
 var SweeperDefaultResourceId = make(map[string]bool)
 
 func TestMain(m *testing.M) {
+	fmt.Println("Getting terraform version.........")
+
+	stdout := new(bytes.Buffer)
+	stderr := new(bytes.Buffer)
+	tfCmd := exec.Command("terraform", "version")
+	tfCmd.Stdout = stdout
+	tfCmd.Stderr = stderr
+	if err := tfCmd.Run(); err != nil {
+		log.Printf("Error running terraform: %s", err)
+		return
+	}
+	terraformVersion := strings.SplitN(stdout.String(), "\n", 2)[0]
+	log.Printf("  + " + terraformVersion)
+
 	acctest.UseBinaryDriver("oci", Provider)
 	resource.TestMain(m)
-
-	log.SetOutput(os.Stderr)
-
 }
 
 func addResourceIdToSweeperResourceIdMap(compartmentId string, resourceType string, resourceId string) {

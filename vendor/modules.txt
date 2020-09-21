@@ -263,10 +263,6 @@ github.com/oracle/oci-go-sdk/v25/usageapi
 github.com/oracle/oci-go-sdk/v25/vault
 github.com/oracle/oci-go-sdk/v25/waas
 github.com/oracle/oci-go-sdk/v25/workrequests
-# github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58
-github.com/packer-community/winrmcp/winrmcp
-# github.com/pkg/errors v0.0.0-20170505043639-c605e284fe17
-github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
 # github.com/posener/complete v1.2.1

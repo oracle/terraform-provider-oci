@@ -136,7 +136,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 			},
 			// verify resource import
 			{
-				Config:                  s.Config,
+				Config:                  s.Config + generateResourceImportConfig("oci_identity_policy", "p"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
