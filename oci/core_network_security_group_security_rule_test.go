@@ -239,7 +239,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateIdFunc:       getNetworkSecurityGroupSecurityRuleImportId(resourceName),

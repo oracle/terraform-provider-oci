@@ -82,7 +82,7 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_core_route_table_attachment", "test_route_table_attachment"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

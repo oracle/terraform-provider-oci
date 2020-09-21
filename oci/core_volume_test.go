@@ -345,12 +345,12 @@ variable "volume_state" { default = "AVAILABLE" }
 variable "volume_defined_tags_value" { default = "updatedValue" }
 variable "volume_display_name" { default = "displayName2" }
 variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = "abc" }
+variable "volume_size_in_gbs" { default = "50" }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + VolumeResourceDependencies + generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create,
-					getUpdatedRepresentationCopy("size_in_gbs", Representation{repType: Required, create: "abc"}, volumeRepresentation)),
+					getUpdatedRepresentationCopy("size_in_gbs", Representation{repType: Required, create: "50"}, volumeRepresentation)),
 				PlanOnly:    true,
 				ExpectError: regexp.MustCompile("must be a 64-bit integer"),
 			},

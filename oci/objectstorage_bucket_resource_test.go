@@ -600,7 +600,7 @@ func TestObjectStorageBucketResource_retentionRules(t *testing.T) {
 			},
 			//verify resource import
 			{
-				Config:                  config,
+				Config:                  config + generateResourceImportConfig("oci_objectstorage_bucket", "test_bucket"),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

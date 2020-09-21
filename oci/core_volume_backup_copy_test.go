@@ -147,7 +147,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_core_volume_backup", "test_volume_backup_copy"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
