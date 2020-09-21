@@ -76,21 +76,26 @@ resource "oci_core_subnet" "test_subnet" {
 resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   #Required
   admin_network_cidr          = "192.168.0.0/16"
-  cloud_control_plane_server1 = "192.168.19.1"
-  cloud_control_plane_server2 = "192.168.19.2"
+  cloud_control_plane_server1 = "10.32.88.1"
+  cloud_control_plane_server2 = "10.32.88.3"
   compartment_id              = var.compartment_id
   display_name                = "tstExaInfra"
-  dns_server                  = ["192.168.10.10"]
-  gateway                     = "192.168.20.1"
-  infini_band_network_cidr    = "10.172.0.0/19"
+  dns_server                  = ["10.231.225.65"]
+  gateway                     = "10.32.88.5"
+  infini_band_network_cidr    = "10.31.8.0/21"
   netmask                     = "255.255.0.0"
-  ntp_server                  = ["192.168.10.20"]
-  shape                       = "ExadataCC.Quarter2.92"
+  ntp_server                  = ["10.231.225.76"]
+  shape                       = "ExadataCC.Quarter3.100"
   time_zone                   = "US/Pacific"
   activation_file             = "activation.zip"
 
   #Optional
   corporate_proxy = "http://192.168.19.1:80"
+}
+
+data "oci_database_gi_versions" "gi_version" {
+  compartment_id = var.compartment_id
+  shape = "ExadataCC.Quarter3.100"
 }
 
 resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
@@ -159,7 +164,7 @@ resource "oci_database_vm_cluster" "test_exadata_vm_cluster_for_primary_db" {
   depends_on                = [oci_database_vm_cluster_network.test_vm_cluster_network]
   display_name              = "vmClusterForPrimaryDB"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
-  gi_version                = "19.1.0.0"
+  gi_version                = data.oci_database_gi_versions.gi_version.gi_versions.0.version
   ssh_public_keys           = [var.ssh_public_key]
   vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network.id
 }
@@ -170,7 +175,7 @@ resource "oci_database_vm_cluster" "test_exadata_vm_cluster_for_standby_db" {
   depends_on                = [oci_database_vm_cluster_network.test_vm_cluster_network]
   display_name              = "vmClusterForStandbyDB"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
-  gi_version                = "19.1.0.0"
+  gi_version                = data.oci_database_gi_versions.gi_version.gi_versions.0.version
   ssh_public_keys           = [var.ssh_public_key]
   vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network.id
 }
