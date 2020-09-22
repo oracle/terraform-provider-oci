@@ -634,10 +634,13 @@ func generateTestResourceFromSchema(id int, resourceSchemaMap map[string]*schema
 
 // Basic test to ensure that RunExportCommand generates TF artifacts
 func TestUnitRunExportCommand_basic(t *testing.T) {
-	// env var export_enable_tenancy_lookup=false needed for this test
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
 	compartmentId := resourceDiscoveryTestCompartmentOcid
+	if err := os.Setenv("export_tenancy_id", resourceDiscoveryTestTenancyOcid); err != nil {
+		t.Logf("unable to set export_tenancy_id. err: %v", err)
+		t.Fail()
+	}
 	outputDir, err := os.Getwd()
 	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
 	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
@@ -709,7 +712,6 @@ func TestUnitRunExportCommand_error(t *testing.T) {
 
 // Test exit status in case of partial success
 func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
-	// env var export_enable_tenancy_lookup=false needed for this test
 	initResourceDiscoveryTests()
 	// Replace compartmentResourceGraphs with the one having resource that has error in read
 	// Status returned should be StatusPartialSuccess
@@ -717,6 +719,10 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 
 	defer cleanupResourceDiscoveryTests()
 	compartmentId := resourceDiscoveryTestCompartmentOcid
+	if err := os.Setenv("export_tenancy_id", resourceDiscoveryTestTenancyOcid); err != nil {
+		t.Logf("unable to set export_tenancy_id. err: %v", err)
+		t.Fail()
+	}
 	outputDir, err := os.Getwd()
 	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
 	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
@@ -791,7 +797,6 @@ func TestUnitFindResources_basic(t *testing.T) {
 
 // Test that resource with 404 Not found error do not show up in results
 func TestUnitFindResources_404Error(t *testing.T) {
-	// env var export_enable_tenancy_lookup=false needed for this test
 	initResourceDiscoveryTests()
 	// Replace compartmentResourceGraphs with the one having resource that has 404 error in read
 	// Resource with 404 error should be skipped
@@ -1405,9 +1410,7 @@ func jobSuccessWaitCondition(response oci_common.OCIOperationResponse) bool {
 }
 
 func TestResourceDiscoveryOnCompartment(t *testing.T) {
-	if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); !isEnableExportCompartment {
-		t.Skip("Set enable_export_compartment true to run this test")
-	}
+
 	var exportCommandArgs ExportCommandArgs
 	for serviceName, _ := range tenancyResourceGraphs {
 		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
