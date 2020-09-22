@@ -9,6 +9,7 @@
 - Support for Cross-region asynchronous volume replication
 - Support for Compute DVH E3 shape added
 - Support for Container Engine Image Signing and Deploy Authorization
+- Support for `routing_policy` added to `virtual_circuit` resource
 
 ### Notes
 - The OCI Terraform provider no longer automatically retries operations after receiving an HTTP 404 error. If your Terraform configurations expect automatic retries in this scenario, you should update them accordingly.

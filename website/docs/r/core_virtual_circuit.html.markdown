@@ -67,6 +67,7 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 		cidr_block = var.virtual_circuit_public_prefixes_cidr_block
 	}
 	region = var.virtual_circuit_region
+	routing_policy = var.virtual_circuit_routing_policy
 }
 ```
 
@@ -115,6 +116,7 @@ The following arguments are supported:
 * `public_prefixes` - (Optional) (Updatable) For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. 
 	* `cidr_block` - (Required) (Updatable) An individual public IP prefix (CIDR) to add to the public virtual circuit. All prefix sizes are allowed. 
 * `region` - (Optional) The Oracle Cloud Infrastructure region where this virtual circuit is located. Example: `phx` 
+* `routing_policy` - (Optional) (Updatable) The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit. Policies available are: `ORACLE_SERVICE_NETWORK`, `REGIONAL`, `MARKET_LEVEL`, and `GLOBAL`. See [Route Filtering](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details. By default, routing information is shared for all routes in the same market. 
 * `type` - (Required) The type of IP addresses used in this virtual circuit. PRIVATE means [RFC 1918](https://tools.ietf.org/html/rfc1918) addresses (10.0.0.0/8, 172.16/12, and 192.168/16). 
 
 
@@ -171,6 +173,7 @@ The following attributes are exported:
 * `public_prefixes` - For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. All prefix sizes are allowed. 
 * `reference_comment` - Provider-supplied reference information about this virtual circuit (if the customer is connecting via a provider). 
 * `region` - The Oracle Cloud Infrastructure region where this virtual circuit is located. 
+* `routing_policy` - The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit. Policies available are: `ORACLE_SERVICE_NETWORK`, `REGIONAL`, `MARKET_LEVEL`, and `GLOBAL`. See [Route Filtering](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details. By default, routing information is shared for all routes in the same market. 
 * `service_type` - Provider service type. 
 * `state` - The virtual circuit's current state. For information about the different states, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm). 
 * `time_created` - The date and time the virtual circuit was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
