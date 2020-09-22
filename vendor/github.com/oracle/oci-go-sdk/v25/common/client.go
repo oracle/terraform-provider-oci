@@ -318,8 +318,10 @@ func checkForSuccessfulResponse(res *http.Response, requestBody *io.ReadCloser) 
 			// If debug level is set to verbose, the request and request body will be dumped and logged under debug level, this is to avoid duplicate logging
 			if defaultLogger.LogLevel() < verboseLogging {
 				logRequest(res.Request, Logf, noLogging)
-				bodyContent, _ := ioutil.ReadAll(*requestBody)
-				Logf("Dump Request Body: \n%s", string(bodyContent))
+				if requestBody != nil && *requestBody != http.NoBody {
+					bodyContent, _ := ioutil.ReadAll(*requestBody)
+					Logf("Dump Request Body: \n%s", string(bodyContent))
+				}
 			}
 			logResponse(res, Logf, infoLogging)
 		})
@@ -432,7 +434,9 @@ func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Requ
 	//Copy request body and save for logging
 	dumpRequestBody := ioutil.NopCloser(bytes.NewBuffer(nil))
 	if request.Body != nil && !checkBodyLengthExceedLimit(request.ContentLength) {
-		dumpRequestBody, _ = request.GetBody()
+		if dumpRequestBody, request.Body, err = drainBody(request.Body); err != nil {
+			dumpRequestBody = ioutil.NopCloser(bytes.NewBuffer(nil))
+		}
 	}
 	IfDebug(func() {
 		logRequest(request, Debugf, verboseLogging)
