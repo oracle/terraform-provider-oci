@@ -41,6 +41,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace": {"bar-key": "value"}}` 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier that is immutable.
+* `is_auto_reclaimable` - True if this table can be reclaimed after an idle period.
 * `lifecycle_details` - A message describing the current state in more detail. 
 * `name` - Human-friendly table name, immutable.
 * `schema` - The table schema information as a JSON object.
@@ -53,10 +54,12 @@ The following attributes are exported:
 	* `shard_key` - A list of column names that make up a key.
 	* `ttl` - The default Time-to-Live for the table, in days.
 * `state` - The state of a table.
+* `system_tags` - Read-only system tag. These predefined keys are scoped to namespaces.  At present the only supported namespace is `"orcl-cloud"`; and the only key in that namespace is `"free-tier-retained"`. Example: `{"orcl-cloud"": {"free-tier-retained": "true"}}` 
 * `table_limits` - Throughput and storage limits configuration of a table.
 	* `max_read_units` - Maximum sustained read throughput limit for the table.
 	* `max_storage_in_gbs` - Maximum size of storage used by the table.
 	* `max_write_units` - Maximum sustained write throughput limit for the table.
 * `time_created` - The time the the table was created. An RFC3339 formatted datetime string. 
+* `time_of_expiration` - If lifecycleState is INACTIVE, indicates when this table will be automatically removed. An RFC3339 formatted datetime string. 
 * `time_updated` - The time the the table's metadata was last updated. An RFC3339 formatted datetime string. 
 

@@ -90,6 +90,10 @@ func (s *NosqlTableDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsAutoReclaimable != nil {
+		s.D.Set("is_auto_reclaimable", *s.Res.IsAutoReclaimable)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -106,6 +110,10 @@ func (s *NosqlTableDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TableLimits != nil {
 		s.D.Set("table_limits", []interface{}{TableLimitsToMap(s.Res.TableLimits)})
 	} else {
@@ -114,6 +122,10 @@ func (s *NosqlTableDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeOfExpiration != nil {
+		s.D.Set("time_of_expiration", s.Res.TimeOfExpiration.String())
 	}
 
 	if s.Res.TimeUpdated != nil {
