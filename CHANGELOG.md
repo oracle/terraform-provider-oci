@@ -2,6 +2,7 @@
 
 ### Added
 - Support for `syslog_url` in `oci_functions_application` resource
+- Support for OCI optimizer service
 
 ## 4.1.0 (October 28, 2020)
 
