@@ -35,6 +35,7 @@ resource "oci_kms_key" "test_key" {
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
+	protection_mode = "${var.key_protection_mode}"
 }
 ```
 
@@ -51,6 +52,7 @@ The following arguments are supported:
 	* `algorithm` - (Required) The algorithm used by a key's key versions to encrypt or decrypt.
 	* `length` - (Required) The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
 * `management_endpoint` - (Required) The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
+* `protection_mode` - (Optional) The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,  a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported. 
 * `restore_from_file` - (Optional) (Updatable) Details where key was backed up.
     * `content_length` - (Required) (Updatable) content length of key's backup binary file
     * `content_md5` - (Optional) (Updatable) content md5 hashed value of key's backup file
@@ -80,6 +82,7 @@ The following attributes are exported:
 * `key_shape` - 
 	* `algorithm` - The algorithm used by a key's key versions to encrypt or decrypt.
 	* `length` - The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
+* `protection_mode` - The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,  a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported. 
 * `restored_from_key_id` - The OCID of the key from which this key was restored.
 * `state` - The key's current lifecycle state.  Example: `ENABLED` 
 * `time_created` - The date and time the key was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 

@@ -26,6 +26,8 @@ type ImageShapeCompatibilityEntry struct {
 	// The shape name.
 	Shape *string `mandatory:"true" json:"shape"`
 
+	MemoryConstraints *ImageMemoryConstraints `mandatory:"false" json:"memoryConstraints"`
+
 	OcpuConstraints *ImageOcpuConstraints `mandatory:"false" json:"ocpuConstraints"`
 }
 

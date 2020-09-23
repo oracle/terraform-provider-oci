@@ -91,6 +91,12 @@ type ExadataInfrastructureSummary struct {
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The CSI Number of the Exadata Infrastructure.
+	CsiNumber *string `mandatory:"false" json:"csiNumber"`
+
+	// The list of contacts for the Exadata Infrastructure.
+	Contacts []ExadataInfrastructureContact `mandatory:"false" json:"contacts"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

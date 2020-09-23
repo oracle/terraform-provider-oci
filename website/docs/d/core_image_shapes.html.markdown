@@ -39,6 +39,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `image_id` - The image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `memory_constraints` - 
+	* `max_in_gbs` - The maximum amount of memory supported for this image and shape, in gigabytes.
+	* `min_in_gbs` - The minimum amount of memory supported for this image and shape, in gigabytes.
 * `ocpu_constraints` - 
 	* `max` - The maximum number of OCPUs supported for this image and shape.
 	* `min` - The minimum number of OCPUs supported for this image and shape.

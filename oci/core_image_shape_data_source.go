@@ -27,6 +27,27 @@ func CoreImageShapeDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"memory_constraints": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"max_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"min_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"ocpu_constraints": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -105,6 +126,12 @@ func (s *CoreImageShapeDataSourceCrud) SetData() error {
 
 	s.D.SetId(GenerateDataSourceID())
 
+	if s.Res.MemoryConstraints != nil {
+		s.D.Set("memory_constraints", []interface{}{ImageMemoryConstraintsToMap(s.Res.MemoryConstraints)})
+	} else {
+		s.D.Set("memory_constraints", nil)
+	}
+
 	if s.Res.OcpuConstraints != nil {
 		s.D.Set("ocpu_constraints", []interface{}{ImageOcpuConstraintsToMap(s.Res.OcpuConstraints)})
 	} else {
@@ -116,6 +143,20 @@ func (s *CoreImageShapeDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ImageMemoryConstraintsToMap(obj *oci_core.ImageMemoryConstraints) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MaxInGBs != nil {
+		result["max_in_gbs"] = int(*obj.MaxInGBs)
+	}
+
+	if obj.MinInGBs != nil {
+		result["min_in_gbs"] = int(*obj.MinInGBs)
+	}
+
+	return result
 }
 
 func ImageOcpuConstraintsToMap(obj *oci_core.ImageOcpuConstraints) map[string]interface{} {

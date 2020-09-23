@@ -123,12 +123,22 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["cloud_control_plane_server2"] = *r.CloudControlPlaneServer2
 		}
 
+		contacts := []interface{}{}
+		for _, item := range r.Contacts {
+			contacts = append(contacts, ExadataInfrastructureContactToMap(item))
+		}
+		exadataInfrastructure["contacts"] = contacts
+
 		if r.CorporateProxy != nil {
 			exadataInfrastructure["corporate_proxy"] = *r.CorporateProxy
 		}
 
 		if r.CpusEnabled != nil {
 			exadataInfrastructure["cpus_enabled"] = *r.CpusEnabled
+		}
+
+		if r.CsiNumber != nil {
+			exadataInfrastructure["csi_number"] = *r.CsiNumber
 		}
 
 		if r.DataStorageSizeInTBs != nil {

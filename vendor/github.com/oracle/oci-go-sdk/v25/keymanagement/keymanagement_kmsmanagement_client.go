@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Key Management Service API
+// Vault Service Key Management API
 //
-// API for managing and performing operations with keys and vaults.
+// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
+// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
 //
 
 package keymanagement
@@ -353,7 +354,7 @@ func (client KmsManagementClient) createKey(ctx context.Context, request common.
 	return response, err
 }
 
-// CreateKeyVersion Generates a new KeyVersion (https://docs.cloud.oracle.com/api/#/en/key/release/KeyVersion/) resource that provides new cryptographic
+// CreateKeyVersion Generates a new KeyVersion (https://docs.cloud.oracle.com/api/#/en/key/latest/KeyVersion/) resource that provides new cryptographic
 // material for a master encryption key. The key must be in an `ENABLED` state to be rotated.
 // As a management operation, this call is subject to a Key Management limit that applies to the total number
 // of requests across all  management write operations. Key Management might throttle this call to reject an
@@ -784,7 +785,7 @@ func (client KmsManagementClient) importKeyVersion(ctx context.Context, request 
 	return response, err
 }
 
-// ListKeyVersions Lists all KeyVersion (https://docs.cloud.oracle.com/api/#/en/key/release/KeyVersion/) resources for the specified
+// ListKeyVersions Lists all KeyVersion (https://docs.cloud.oracle.com/api/#/en/key/latest/KeyVersion/) resources for the specified
 // master encryption key.
 // As a management operation, this call is subject to a Key Management limit that applies to the total number
 // of requests across all management read operations. Key Management might throttle this call to reject an
