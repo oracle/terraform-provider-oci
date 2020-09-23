@@ -29,6 +29,12 @@ type ShapeMemoryOptions struct {
 
 	// The default amount of memory per OCPU available for this shape, in gigabytes.
 	DefaultPerOcpuInGBs *float32 `mandatory:"false" json:"defaultPerOcpuInGBs"`
+
+	// The minimum amount of memory per OCPU available for this shape, in gigabytes.
+	MinPerOcpuInGBs *float32 `mandatory:"false" json:"minPerOcpuInGBs"`
+
+	// The maximum amount of memory per OCPU available for this shape, in gigabytes.
+	MaxPerOcpuInGBs *float32 `mandatory:"false" json:"maxPerOcpuInGBs"`
 }
 
 func (m ShapeMemoryOptions) String() string {

@@ -106,6 +106,8 @@ func (s *KmsKeyDataSourceCrud) SetData() error {
 		s.D.Set("key_shape", nil)
 	}
 
+	s.D.Set("protection_mode", s.Res.ProtectionMode)
+
 	if s.Res.RestoredFromKeyId != nil {
 		s.D.Set("restored_from_key_id", *s.Res.RestoredFromKeyId)
 	}

@@ -140,7 +140,12 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentation),
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+							"open_mode":        Representation{repType: Optional, create: `READ_ONLY`, update: `READ_ONLY`},
+							"permission_level": Representation{repType: Optional, create: `RESTRICTED`, update: `RESTRICTED`},
+						}),
+					),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -160,6 +165,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_ONLY"),
+					resource.TestCheckResourceAttr(resourceName, "permission_level", "RESTRICTED"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -178,7 +185,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
 						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+							"compartment_id":   Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+							"open_mode":        Representation{repType: Optional, create: `READ_WRITE`, update: `READ_WRITE`},
+							"permission_level": Representation{repType: Optional, create: `UNRESTRICTED`, update: `UNRESTRICTED`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -199,6 +208,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
+					resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -232,6 +243,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
+					resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -435,6 +448,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_preview"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.permission_level"),
 					// @Codegen: Can't test private_endpoint with fake resource
 					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint"),
 					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint_ip"),
@@ -476,6 +491,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "permission_level"),
 					// @Codegen: Can't test private_endpoint with fake resource
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint"),
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),

@@ -111,7 +111,8 @@ resource "oci_core_instance" "test_instance" {
 	shape_config {
 
 		#Optional
-		ocpus = var.instance_shape_config_ocpus
+		memory_in_gbs = "${var.instance_shape_config_memory_in_gbs}"
+		ocpus = "${var.instance_shape_config_ocpus}"
 	}
 	metadata = {
 		ssh_authorized_keys = var.ssh_public_key
@@ -274,9 +275,10 @@ The following arguments are supported:
 
 	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `shape_config` - (Optional) (Updatable) 
+	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes. 
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
-* `source_details` - (Optional) Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
-	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
+* `source_details` - (Optional) (Updatable) Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
+	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `kms_key_id` - (Applicable when source_type=image) The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 

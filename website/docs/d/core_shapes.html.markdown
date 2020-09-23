@@ -66,7 +66,9 @@ The following attributes are exported:
 * `memory_options` - 
 	* `default_per_ocpu_in_gbs` - The default amount of memory per OCPU available for this shape, in gigabytes. 
 	* `max_in_gbs` - The maximum amount of memory, in gigabytes. 
+	* `max_per_ocpu_in_gbs` - The maximum amount of memory per OCPU available for this shape, in gigabytes. 
 	* `min_in_gbs` - The minimum amount of memory, in gigabytes. 
+	* `min_per_ocpu_in_gbs` - The minimum amount of memory per OCPU available for this shape, in gigabytes. 
 * `name` - The name of the shape. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `networking_bandwidth_in_gbps` - The networking bandwidth available for this shape, in gigabits per second. 
 * `networking_bandwidth_options` - 

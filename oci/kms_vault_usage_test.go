@@ -49,6 +49,8 @@ func TestKmsVaultUsageResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_count"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_count"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "software_key_count"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "software_key_version_count"),
 				),
 			},
 		},

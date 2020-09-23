@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Key Management Service API
+// Vault Service Key Management API
 //
-// API for managing and performing operations with keys and vaults.
+// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
+// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
 //
 
 package keymanagement
@@ -34,8 +35,38 @@ type CreateKeyDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed.
+	// A protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside
+	// the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists
+	// on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,
+	// a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported.
+	ProtectionMode CreateKeyDetailsProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
 }
 
 func (m CreateKeyDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateKeyDetailsProtectionModeEnum Enum with underlying type: string
+type CreateKeyDetailsProtectionModeEnum string
+
+// Set of constants representing the allowable values for CreateKeyDetailsProtectionModeEnum
+const (
+	CreateKeyDetailsProtectionModeHsm      CreateKeyDetailsProtectionModeEnum = "HSM"
+	CreateKeyDetailsProtectionModeSoftware CreateKeyDetailsProtectionModeEnum = "SOFTWARE"
+)
+
+var mappingCreateKeyDetailsProtectionMode = map[string]CreateKeyDetailsProtectionModeEnum{
+	"HSM":      CreateKeyDetailsProtectionModeHsm,
+	"SOFTWARE": CreateKeyDetailsProtectionModeSoftware,
+}
+
+// GetCreateKeyDetailsProtectionModeEnumValues Enumerates the set of values for CreateKeyDetailsProtectionModeEnum
+func GetCreateKeyDetailsProtectionModeEnumValues() []CreateKeyDetailsProtectionModeEnum {
+	values := make([]CreateKeyDetailsProtectionModeEnum, 0)
+	for _, v := range mappingCreateKeyDetailsProtectionMode {
+		values = append(values, v)
+	}
+	return values
 }

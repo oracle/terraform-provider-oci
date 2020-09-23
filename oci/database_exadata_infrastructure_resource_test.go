@@ -33,10 +33,13 @@ var (
 		"ntp_server":                  Representation{repType: Required, create: []string{`10.231.225.76`}, update: []string{`10.246.6.36`, `10.31.138.20`}},
 		"shape":                       Representation{repType: Required, create: `ExadataCC.Quarter3.100`},
 		"time_zone":                   Representation{repType: Required, create: `US/Pacific`, update: `UTC`},
+		"contacts":                    RepresentationGroup{Optional, exadataInfrastructureContactsRepresentation},
 		"corporate_proxy":             Representation{repType: Optional, create: `http://192.168.19.1:80`, update: `http://192.168.19.2:80`},
 		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
+
+	exadataInfrastructureRepresentationWithContacts = getUpdatedRepresentationCopy("contacts", RepresentationGroup{Required, getUpdatedRepresentationCopy("phone_number", Representation{repType: Required, create: `1234567891`, update: `1234567892`}, exadataInfrastructureContactsRepresentation)}, exadataInfrastructureRepresentation)
 
 	ExadataInfrastructureResourceActivateDependencies = DefinedTagsDependencies
 )

@@ -33,20 +33,27 @@ provider "oci" {
 resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   #Required
   admin_network_cidr          = "192.168.0.0/16"
-  cloud_control_plane_server1 = "192.168.19.1"
-  cloud_control_plane_server2 = "192.168.19.2"
+  cloud_control_plane_server1 = "10.32.88.1"
+  cloud_control_plane_server2 = "10.32.88.3"
   compartment_id              = var.compartment_id
   display_name                = "tstExaInfra"
-  dns_server                  = ["192.168.10.10"]
-  gateway                     = "192.168.20.1"
-  infini_band_network_cidr    = "10.172.0.0/19"
-  netmask                     = "255.255.0.0"
-  ntp_server                  = ["192.168.10.20"]
+  dns_server                  = ["10.231.225.65"]
+  gateway                     = "10.32.88.5"
+  infini_band_network_cidr    = "10.31.8.0/21"
+  netmask                     = "255.255.255.0"
+  ntp_server                  = ["10.231.225.76"]
   shape                       = "ExadataCC.Quarter3.100"
   time_zone                   = "US/Pacific"
   activation_file             = "activation.zip"
 
   #Optional
+  contacts = {
+    "email"        = "testuser2@testdomain.com"
+    "is_primary"   = "true"
+    "name"         = "name"
+    "phone_number" = "1234567891"
+  }
+
   corporate_proxy = "http://192.168.19.1:80"
   defined_tags = {
     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedvalue"
