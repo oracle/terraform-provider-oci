@@ -10,6 +10,12 @@ description: |-
 
 Following are recommended best practices for writing configurations for the Oracle Cloud Infrastructure Terraform provider.
 
+###  Sensitive Data May Be Stored In Statefile
+
+> **Warning**: The state contains all resource attributes that are specified as part of configuration files. If you manage any sensitive data with Terraform (like database or user passwords, instance or load balancer private keys, etc), treat the state itself as sensitive data. 
+Please refer to [Sensitive Data in State](https://www.terraform.io/docs/state/sensitive-data.html) for more details. 
+
+
 ### Referencing Images
 
 When launching Compute instances, your Terraform configuration should use the same image every time you execute a Terraform Apply command.
@@ -126,9 +132,3 @@ module "ssm_network" {
   ...
 }
 ```
-
-### Sensitive Data in State
-
-The state contains all resource attributes that are specified as part of configuration files. If you manage any sensitive data with Terraform (like database or user passwords, instance or load balancer private keys, etc), treat the state itself as sensitive data. 
-Please refer to [Sensitive Data in State](https://www.terraform.io/docs/state/sensitive-data.html) for more details.
- 

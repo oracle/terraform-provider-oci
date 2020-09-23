@@ -94,6 +94,12 @@ func KmsKeyResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"protection_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"desired_state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -407,6 +413,10 @@ func (s *KmsKeyResourceCrud) Create() error {
 		}
 	}
 
+	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
+		request.ProtectionMode = oci_kms.CreateKeyDetailsProtectionModeEnum(protectionMode.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.CreateKey(context.Background(), request)
@@ -568,6 +578,8 @@ func (s *KmsKeyResourceCrud) SetData() error {
 	} else {
 		s.D.Set("key_shape", nil)
 	}
+
+	s.D.Set("protection_mode", s.Res.ProtectionMode)
 
 	if s.Res.RestoredFromKeyId != nil {
 		s.D.Set("restored_from_key_id", *s.Res.RestoredFromKeyId)

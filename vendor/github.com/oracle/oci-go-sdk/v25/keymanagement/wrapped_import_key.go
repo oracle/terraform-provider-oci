@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Key Management Service API
+// Vault Service Key Management API
 //
-// API for managing and performing operations with keys and vaults.
+// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
+// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
 //
 
 package keymanagement
@@ -16,10 +17,10 @@ import (
 // WrappedImportKey The representation of WrappedImportKey
 type WrappedImportKey struct {
 
-	// The wrapped/encrypted key material to import. It is encrypted using RSA wrapped key and Base64 encoded.
+	// The key material to import, wrapped by the vault's public RSA wrapping key and base64-encoded.
 	KeyMaterial *string `mandatory:"true" json:"keyMaterial"`
 
-	// The wrapping mechanism to be used during key import
+	// The wrapping mechanism to use during key import.
 	WrappingAlgorithm WrappedImportKeyWrappingAlgorithmEnum `mandatory:"true" json:"wrappingAlgorithm"`
 }
 

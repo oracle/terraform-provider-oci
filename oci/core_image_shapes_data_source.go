@@ -37,6 +37,29 @@ func CoreImageShapesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"memory_constraints": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"max_in_gbs": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"min_in_gbs": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"ocpu_constraints": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -131,6 +154,12 @@ func (s *CoreImageShapesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		imageShape := map[string]interface{}{
 			"image_id": *r.ImageId,
+		}
+
+		if r.MemoryConstraints != nil {
+			imageShape["memory_constraints"] = []interface{}{ImageMemoryConstraintsToMap(r.MemoryConstraints)}
+		} else {
+			imageShape["memory_constraints"] = nil
 		}
 
 		if r.OcpuConstraints != nil {
