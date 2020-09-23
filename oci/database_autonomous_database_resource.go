@@ -327,6 +327,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"open_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
+				Optional: true,
+			},
+			"permission_level": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
 			},
 			"private_endpoint": {
 				Type:     schema.TypeString,
@@ -445,6 +451,16 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		configDataSafeStatus = oci_database.AutonomousDatabaseDataSafeStatusEnum(strings.ToUpper(dataSafeStatus.(string)))
 	}
 
+	configOpenMode := oci_database.UpdateAutonomousDatabaseDetailsOpenModeWrite
+	if openMode, ok := sync.D.GetOkExists("open_mode"); ok {
+		configOpenMode = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
+	}
+
+	configPermissionLevel := oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelUnrestricted
+	if permissionLevel, ok := sync.D.GetOkExists("permission_level"); ok {
+		configPermissionLevel = oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum(permissionLevel.(string))
+	}
+
 	var isInactiveRequest = false
 	if configState, ok := sync.D.GetOkExists("state"); ok {
 		wantedState := oci_database.AutonomousDatabaseLifecycleStateEnum(strings.ToUpper(configState.(string)))
@@ -463,6 +479,20 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 
 	if configDataSafeStatus == oci_database.AutonomousDatabaseDataSafeStatusRegistered {
 		err := sync.updateDataSafeStatus(sync.D.Id(), oci_database.AutonomousDatabaseDataSafeStatusRegistered)
+		if err != nil {
+			return err
+		}
+		return ReadResource(sync)
+	}
+
+	if configOpenMode == oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly || configPermissionLevel == oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelRestricted {
+		if configOpenMode == oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly {
+			sync.D.Set("open_mode", configOpenMode)
+		}
+		if configPermissionLevel == oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelRestricted {
+			sync.D.Set("permission_level", configPermissionLevel)
+		}
+		err := sync.updateOpenModeAndPermission(sync.D.Id(), configOpenMode, configPermissionLevel)
 		if err != nil {
 			return err
 		}
@@ -648,6 +678,24 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 			if err != nil {
 				return err
 			}
+		}
+	}
+
+	updateFlag := false
+	var openModeConfig oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum
+	var permissionLevelConfig oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum
+	if openMode, ok := s.D.GetOkExists("open_mode"); ok && s.D.HasChange("open_mode") {
+		updateFlag = true
+		openModeConfig = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
+	}
+	if permissionLevel, ok := s.D.GetOkExists("permission_level"); ok && s.D.HasChange("permission_level") {
+		updateFlag = true
+		permissionLevelConfig = oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum(permissionLevel.(string))
+	}
+	if updateFlag == true {
+		err := s.updateOpenModeAndPermission(s.D.Id(), openModeConfig, permissionLevelConfig)
+		if err != nil {
+			return err
 		}
 	}
 
@@ -895,6 +943,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 
 	s.D.Set("open_mode", s.Res.OpenMode)
+
+	s.D.Set("permission_level", s.Res.PermissionLevel)
 
 	if s.Res.PrivateEndpoint != nil {
 		s.D.Set("private_endpoint", *s.Res.PrivateEndpoint)
@@ -1880,4 +1930,45 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) StopAutonomousDatabase(state oc
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
 
 	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(autonomousDatabaseId string, openMode oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum, permissionLevel oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum) error {
+	updateRequest := oci_database.UpdateAutonomousDatabaseRequest{}
+	updateRequest.AutonomousDatabaseId = &autonomousDatabaseId
+
+	if openMode, ok := s.D.GetOkExists("open_mode"); ok {
+		oldVal, newVal := s.D.GetChange("open_mode")
+		if oldVal == "" {
+			newValFormatted := fmt.Sprintf("%v", oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly)
+			if oldVal != newVal && newVal == newValFormatted {
+				updateRequest.OpenMode = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
+			}
+		} else if s.D.HasChange("open_mode") {
+			updateRequest.OpenMode = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
+		}
+	}
+	if permissionLevel, ok := s.D.GetOkExists("permission_level"); ok {
+		oldVal, newVal := s.D.GetChange("permission_level")
+		if oldVal == "" {
+			newValFormatted := fmt.Sprintf("%v", oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelRestricted)
+			if oldVal != newVal && newVal == newValFormatted {
+				updateRequest.PermissionLevel = oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum(permissionLevel.(string))
+			}
+		} else if s.D.HasChange("permission_level") {
+			updateRequest.PermissionLevel = oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum(permissionLevel.(string))
+		}
+	}
+	updateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	updateResponse, err := s.Client.UpdateAutonomousDatabase(context.Background(), updateRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := updateResponse.OpcWorkRequestId
+	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	if err != nil {
+		return err
+	}
+	return nil
 }

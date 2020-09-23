@@ -79,6 +79,12 @@ type UpdateAutonomousDatabaseDetails struct {
 	// A valid Oracle Database version for Autonomous Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
+	// The `DATABASE OPEN` mode. You can open the database in `READ_ONLY` or `READ_WRITE` mode.
+	OpenMode UpdateAutonomousDatabaseDetailsOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
+
+	// The Autonomous Database permission level. Restricted mode allows access only to admin users.
+	PermissionLevel UpdateAutonomousDatabaseDetailsPermissionLevelEnum `mandatory:"false" json:"permissionLevel,omitempty"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
@@ -168,6 +174,52 @@ var mappingUpdateAutonomousDatabaseDetailsRefreshableMode = map[string]UpdateAut
 func GetUpdateAutonomousDatabaseDetailsRefreshableModeEnumValues() []UpdateAutonomousDatabaseDetailsRefreshableModeEnum {
 	values := make([]UpdateAutonomousDatabaseDetailsRefreshableModeEnum, 0)
 	for _, v := range mappingUpdateAutonomousDatabaseDetailsRefreshableMode {
+		values = append(values, v)
+	}
+	return values
+}
+
+// UpdateAutonomousDatabaseDetailsOpenModeEnum Enum with underlying type: string
+type UpdateAutonomousDatabaseDetailsOpenModeEnum string
+
+// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsOpenModeEnum
+const (
+	UpdateAutonomousDatabaseDetailsOpenModeOnly  UpdateAutonomousDatabaseDetailsOpenModeEnum = "READ_ONLY"
+	UpdateAutonomousDatabaseDetailsOpenModeWrite UpdateAutonomousDatabaseDetailsOpenModeEnum = "READ_WRITE"
+)
+
+var mappingUpdateAutonomousDatabaseDetailsOpenMode = map[string]UpdateAutonomousDatabaseDetailsOpenModeEnum{
+	"READ_ONLY":  UpdateAutonomousDatabaseDetailsOpenModeOnly,
+	"READ_WRITE": UpdateAutonomousDatabaseDetailsOpenModeWrite,
+}
+
+// GetUpdateAutonomousDatabaseDetailsOpenModeEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsOpenModeEnum
+func GetUpdateAutonomousDatabaseDetailsOpenModeEnumValues() []UpdateAutonomousDatabaseDetailsOpenModeEnum {
+	values := make([]UpdateAutonomousDatabaseDetailsOpenModeEnum, 0)
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsOpenMode {
+		values = append(values, v)
+	}
+	return values
+}
+
+// UpdateAutonomousDatabaseDetailsPermissionLevelEnum Enum with underlying type: string
+type UpdateAutonomousDatabaseDetailsPermissionLevelEnum string
+
+// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsPermissionLevelEnum
+const (
+	UpdateAutonomousDatabaseDetailsPermissionLevelRestricted   UpdateAutonomousDatabaseDetailsPermissionLevelEnum = "RESTRICTED"
+	UpdateAutonomousDatabaseDetailsPermissionLevelUnrestricted UpdateAutonomousDatabaseDetailsPermissionLevelEnum = "UNRESTRICTED"
+)
+
+var mappingUpdateAutonomousDatabaseDetailsPermissionLevel = map[string]UpdateAutonomousDatabaseDetailsPermissionLevelEnum{
+	"RESTRICTED":   UpdateAutonomousDatabaseDetailsPermissionLevelRestricted,
+	"UNRESTRICTED": UpdateAutonomousDatabaseDetailsPermissionLevelUnrestricted,
+}
+
+// GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsPermissionLevelEnum
+func GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumValues() []UpdateAutonomousDatabaseDetailsPermissionLevelEnum {
+	values := make([]UpdateAutonomousDatabaseDetailsPermissionLevelEnum, 0)
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsPermissionLevel {
 		values = append(values, v)
 	}
 	return values

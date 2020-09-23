@@ -37,6 +37,12 @@ output "show-ads" {
 ```
 More Oracle Cloud Infrastructure provider examples can be found [here](https://github.com/terraform-providers/terraform-provider-oci/tree/master/examples).
 
+##  Sensitive Data May Be Stored In Statefile
+
+> **Warning**: The state contains all resource attributes that are specified as part of configuration files. If you manage any sensitive data with Terraform (like database or user passwords, instance or load balancer private keys, etc), treat the state itself as sensitive data. 
+Please refer to [Sensitive Data in State](https://www.terraform.io/docs/state/sensitive-data.html) for more details. 
+
+
 ## Authentication
 
 The OCI provider supports API Key based authentication, Instance Principal based authentication and Security Token authentication.

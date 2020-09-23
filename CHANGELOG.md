@@ -1,4 +1,15 @@
 ## 3.94.0 (Unreleased)
+
+### Added
+- Support for ExaCC Customer Contacts
+- Support for KMS Software Keys added
+- Open mode and Permission level added to autonomous database resource
+- Support for Flexible Infrastructure - Flexible Memory
+- Support for resizing of boot_volume in `oci_core_instance` resource
+
+### Fixed
+- Fix logging to provide better feedback to the user to contact service when there are 401 and 500 status codes as response
+
 ## 3.93.0 (September 16, 2020)
 
 ### Added

@@ -306,6 +306,21 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error 
 	return nil
 }
 
+func serviceErrorCodes(errorCode int) bool {
+	errorCodes := map[int]int{401: 401, 500: 500}
+	if _, ok := errorCodes[errorCode]; ok {
+		return true
+	}
+	return false
+}
+
+func handleServiceError(err error) error {
+	if failure, isServiceError := oci_common.IsServiceError(err); isServiceError && serviceErrorCodes(failure.GetHTTPStatusCode()) {
+		return fmt.Errorf("%s, The service for this resource encountered an error. Please contact support for help with that service", err)
+	}
+	return err
+}
+
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 	start := time.Now()
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
@@ -319,7 +334,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 		if metrics.ShouldWriteMetrics() {
 			metrics.SaveResourceDurationMetric(getResourceName(sync), "Create", FAILED, elaspedInMillisecond(start))
 		}
-		return e
+		return handleServiceError(e)
 	}
 
 	// ID is required for state refresh
@@ -368,7 +383,7 @@ func ReadResource(sync ResourceReader) error {
 	if e := sync.Get(); e != nil {
 		log.Printf("ERROR IN GET: %v\n", e.Error())
 		handleMissingResourceError(sync, &e)
-		return e
+		return handleServiceError(e)
 	}
 
 	if e := sync.SetData(); e != nil {
@@ -403,7 +418,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 			metrics.SaveResourceDurationMetric(getResourceName(sync), "Update", FAILED, elaspedInMillisecond(start))
 		}
 
-		return e
+		return handleServiceError(e)
 	}
 	d.Partial(false)
 
@@ -453,7 +468,7 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 		if metrics.ShouldWriteMetrics() {
 			metrics.SaveResourceDurationMetric(getResourceName(sync), "Delete", result, elaspedInMillisecond(start))
 		}
-		return e
+		return handleServiceError(e)
 	}
 
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
@@ -603,6 +618,23 @@ func dbVersionDiffSuppress(key string, old string, new string, d *schema.Resourc
 		return oldVersionNumber == newVersionNumber
 	}
 	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
+}
+
+func mySqlVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+	if old == "" || new == "" {
+		return false
+	}
+	oldVersion := strings.Split(old, ".")
+	newVersion := strings.Split(new, ".")
+
+	oldMajorVersion := oldVersion[0] + "." + oldVersion[1]
+	newMajorVersion := newVersion[0] + "." + newVersion[1]
+
+	if oldMajorVersion == newMajorVersion {
+		return true
+	}
+
+	return false
 }
 
 func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {

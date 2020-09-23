@@ -17,20 +17,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ImageShapeCompatibilitySummary Summary information for a compatible image and shape.
-type ImageShapeCompatibilitySummary struct {
+// ImageMemoryConstraints OCPU options for an image and shape.
+type ImageMemoryConstraints struct {
 
-	// The image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-	ImageId *string `mandatory:"true" json:"imageId"`
+	// The minimum amount of memory supported for this image and shape, in gigabytes.
+	MinInGBs *int `mandatory:"false" json:"minInGBs"`
 
-	// The shape name.
-	Shape *string `mandatory:"true" json:"shape"`
-
-	MemoryConstraints *ImageMemoryConstraints `mandatory:"false" json:"memoryConstraints"`
-
-	OcpuConstraints *ImageOcpuConstraints `mandatory:"false" json:"ocpuConstraints"`
+	// The maximum amount of memory supported for this image and shape, in gigabytes.
+	MaxInGBs *int `mandatory:"false" json:"maxInGBs"`
 }
 
-func (m ImageShapeCompatibilitySummary) String() string {
+func (m ImageMemoryConstraints) String() string {
 	return common.PointerString(m)
 }

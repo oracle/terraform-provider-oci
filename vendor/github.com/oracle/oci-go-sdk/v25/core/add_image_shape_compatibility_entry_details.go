@@ -19,6 +19,8 @@ import (
 
 // AddImageShapeCompatibilityEntryDetails Image shape compatibility details.
 type AddImageShapeCompatibilityEntryDetails struct {
+	MemoryConstraints *ImageMemoryConstraints `mandatory:"false" json:"memoryConstraints"`
+
 	OcpuConstraints *ImageOcpuConstraints `mandatory:"false" json:"ocpuConstraints"`
 }
 
