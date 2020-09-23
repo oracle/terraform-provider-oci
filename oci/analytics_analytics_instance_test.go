@@ -87,7 +87,6 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 
 	provider := testAccProvider
 	config := testProviderConfig()
-
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
