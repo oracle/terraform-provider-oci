@@ -25,6 +25,7 @@ data "oci_mysql_shapes" "test_shapes" {
 
 	#Optional
 	availability_domain = var.shape_availability_domain
+	is_supported_for = var.shape_is_supported_for
 	name = var.shape_name
 }
 ```
@@ -35,6 +36,7 @@ The following arguments are supported:
 
 * `availability_domain` - (Optional) The name of the Availability Domain.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `is_supported_for` - (Optional) Return shapes that are supported by the service feature. 
 * `name` - (Optional) Name
 
 
@@ -49,6 +51,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `cpu_core_count` - The number of CPU Cores the Instance provides. These are "OCPU"s.
+* `is_supported_for` - What service features the shape is supported for. 
 * `memory_size_in_gbs` - The amount of RAM the Instance provides. This is an IEC base-2 number.
 * `name` - The name of the shape used for the DB System.
 

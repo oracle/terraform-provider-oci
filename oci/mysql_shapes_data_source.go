@@ -27,6 +27,13 @@ func MysqlShapesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"is_supported_for": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -44,6 +51,13 @@ func MysqlShapesDataSource() *schema.Resource {
 						"cpu_core_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
+						},
+						"is_supported_for": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 						"memory_size_in_gbs": {
 							Type:     schema.TypeInt,
@@ -91,6 +105,19 @@ func (s *MysqlShapesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if isSupportedFor, ok := s.D.GetOkExists("is_supported_for"); ok {
+		interfaces := isSupportedFor.([]interface{})
+		tmp := make([]oci_mysql.ListShapesIsSupportedForEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_mysql.ListShapesIsSupportedForEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("is_supported_for") {
+			request.IsSupportedFor = tmp
+		}
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -121,6 +148,8 @@ func (s *MysqlShapesDataSourceCrud) SetData() error {
 		if r.CpuCoreCount != nil {
 			shape["cpu_core_count"] = *r.CpuCoreCount
 		}
+
+		shape["is_supported_for"] = r.IsSupportedFor
 
 		if r.MemorySizeInGBs != nil {
 			shape["memory_size_in_gbs"] = *r.MemorySizeInGBs

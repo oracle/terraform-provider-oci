@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 
 variable "tenancy_ocid" {
 }
@@ -37,33 +37,16 @@ resource "oci_core_vcn" "test_vcn" {
   compartment_id = var.compartment_ocid
 }
 
-resource "oci_mysql_mysql_backup" "test_mysql_backup" {
-  db_system_id = oci_mysql_mysql_db_system.test_mysql_backup_db_system.id
-}
-
-resource "oci_mysql_mysql_db_system" "test_mysql_backup_db_system" {
-  #Required
-  admin_password      = "BEstrO0ng_#11"
-  admin_username      = "adminUser"
-  availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
-  compartment_id      = var.compartment_ocid
-  configuration_id    = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-  shape_name          = "VM.Standard.E2.2"
-  subnet_id           = oci_core_subnet.test_subnet.id
-
-  #Optional
-  data_storage_size_in_gb = "50"
-}
-
 resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   #Required
-  admin_password      = "BEstrO0ng_#11"
-  admin_username      = "adminUser"
-  availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
-  compartment_id      = var.compartment_ocid
-  configuration_id    = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-  shape_name          = "VM.Standard.E2.2"
-  subnet_id           = oci_core_subnet.test_subnet.id
+  admin_password          = "BEstrO0ng_#11"
+  admin_username          = "adminUser"
+  availability_domain     = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
+  compartment_id          = var.compartment_ocid
+  configuration_id        = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
+  shape_name              = "VM.Standard.E2.2"
+  subnet_id               = oci_core_subnet.test_subnet.id
+  data_storage_size_in_gb = "50"
 
   #Optional
   backup_policy {
@@ -87,12 +70,12 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 
   port          = "3306"
   port_x        = "33306"
+}
 
-  # Creating DB System using a backup
-  source {
-    backup_id   = oci_mysql_mysql_backup.test_mysql_backup.id
-    source_type = "BACKUP"
-  }
+resource "oci_mysql_analytics_cluster" "test_analytics_cluster" {
+  db_system_id = oci_mysql_mysql_db_system.test_mysql_db_system.id
+  cluster_size = "2"
+  shape_name   = "VM.Standard.E2.2"
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
