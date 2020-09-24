@@ -684,6 +684,26 @@ var exportDatabaseDatabaseSoftwareImageHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatabaseCloudExadataInfrastructureHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_cloud_exadata_infrastructure",
+	datasourceClass:      "oci_database_cloud_exadata_infrastructures",
+	datasourceItemsAttr:  "cloud_exadata_infrastructures",
+	resourceAbbreviation: "cloud_exadata_infrastructure",
+	discoverableLifecycleStates: []string{
+		string(oci_database.CloudExadataInfrastructureLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseCloudVmClusterHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_cloud_vm_cluster",
+	datasourceClass:      "oci_database_cloud_vm_clusters",
+	datasourceItemsAttr:  "cloud_vm_clusters",
+	resourceAbbreviation: "cloud_vm_cluster",
+	discoverableLifecycleStates: []string{
+		string(oci_database.CloudVmClusterLifecycleStateAvailable),
+	},
+}
+
 var exportDataflowApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataflow_application",
 	datasourceClass:        "oci_dataflow_applications",

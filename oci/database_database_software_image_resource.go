@@ -179,12 +179,14 @@ func (s *DatabaseDatabaseSoftwareImageResourceCrud) CreatedTarget() []string {
 func (s *DatabaseDatabaseSoftwareImageResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.DatabaseSoftwareImageLifecycleStateDeleting),
+		string(oci_database.DatabaseSoftwareImageLifecycleStateTerminating),
 	}
 }
 
 func (s *DatabaseDatabaseSoftwareImageResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_database.DatabaseSoftwareImageLifecycleStateDeleted),
+		string(oci_database.DatabaseSoftwareImageLifecycleStateTerminated),
 	}
 }
 

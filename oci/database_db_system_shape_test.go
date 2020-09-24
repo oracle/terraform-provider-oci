@@ -51,6 +51,7 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_core_count"),
+					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_core_count_per_node"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_data_storage_in_tbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_db_node_storage_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.available_memory_in_gbs"),

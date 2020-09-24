@@ -41,6 +41,10 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"available_core_count_per_node": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"available_data_storage_in_tbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -172,6 +176,10 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 
 		if r.AvailableCoreCount != nil {
 			dbSystemShape["available_core_count"] = *r.AvailableCoreCount
+		}
+
+		if r.AvailableCoreCountPerNode != nil {
+			dbSystemShape["available_core_count_per_node"] = *r.AvailableCoreCountPerNode
 		}
 
 		if r.AvailableDataStorageInTBs != nil {

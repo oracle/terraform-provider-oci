@@ -1,4 +1,6 @@
 ## 3.96.0 (Unreleased)
+- Support for ExaCS: X8M RoCE
+
 ## 3.95.0 (September 30, 2020)
 - Support for query parameters added to `object_storage` `object` resource
 - Support for custom certificates added to `apigateway` `certificate` resource

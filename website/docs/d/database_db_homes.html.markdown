@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_db_homes
 This data source provides the list of Db Homes in Oracle Cloud Infrastructure Database service.
 
-Gets a list of Database Homes in the specified DB system and compartment. A Database Home is a directory where Oracle Database software is installed.
+Lists the Database Homes in the specified DB system and compartment. A Database Home is a directory where Oracle Database software is installed.
 
 
 ## Example Usage
@@ -38,7 +38,7 @@ The following arguments are supported:
 * `db_system_id` - (Applicable when source=DATABASE | DB_BACKUP | NONE) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
-* `vm_cluster_id` - (Applicable when source=VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
+* `vm_cluster_id` - (Applicable when source=VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 
 
 ## Attributes Reference
