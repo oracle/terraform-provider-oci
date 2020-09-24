@@ -123,6 +123,12 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `analytics_cluster` - 
+	* `cluster_size` - The number of analytics-processing compute instances, of the specified shape, in the Analytics Cluster. 
+	* `shape_name` - The shape determines resources to allocate to the Analytics Cluster nodes - CPU cores, memory. 
+	* `state` - The current state of the MySQL Analytics Cluster.
+	* `time_created` - The date and time the Analytics Cluster was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
+	* `time_updated` - The time the Analytics Cluster was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `availability_domain` - The Availability Domain where the primary DB System should be located. 
 * `backup_policy` - The Backup policy for the DB System.
 	* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces.
@@ -168,6 +174,7 @@ The following attributes are exported:
 * `hostname_label` - The hostname for the primary endpoint of the DB System. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com"). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 * `id` - The OCID of the DB System.
 * `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
+* `is_analytics_cluster_attached` - If the DB System has an Analytics Cluster attached. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance` - The Maintenance Policy for the DB System. 
 	* `window_start_time` - The start time of the maintenance window.

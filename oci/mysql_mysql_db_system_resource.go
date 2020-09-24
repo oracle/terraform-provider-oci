@@ -258,6 +258,41 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			},
 
 			// Computed
+			"analytics_cluster": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"cluster_size": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"shape_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"endpoints": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -301,6 +336,10 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"is_analytics_cluster_attached": {
+				Type:     schema.TypeBool,
+				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -677,6 +716,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) Delete() error {
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
+	if s.Res.AnalyticsCluster != nil {
+		s.D.Set("analytics_cluster", []interface{}{AnalyticsClusterSummaryToMap(s.Res.AnalyticsCluster)})
+	} else {
+		s.D.Set("analytics_cluster", nil)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -729,6 +774,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
+	}
+
+	if s.Res.IsAnalyticsClusterAttached != nil {
+		s.D.Set("is_analytics_cluster_attached", *s.Res.IsAnalyticsClusterAttached)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -786,6 +835,30 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func AnalyticsClusterSummaryToMap(obj *oci_mysql.AnalyticsClusterSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ClusterSize != nil {
+		result["cluster_size"] = int(*obj.ClusterSize)
+	}
+
+	if obj.ShapeName != nil {
+		result["shape_name"] = string(*obj.ShapeName)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKeyFormat string) (oci_mysql.CreateBackupPolicyDetails, error) {

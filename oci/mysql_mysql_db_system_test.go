@@ -31,13 +31,14 @@ var (
 	}
 
 	mysqlDbSystemDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
-		"configuration_id": Representation{repType: Optional, create: `${var.MysqlConfigurationOCID[var.region]}`},
-		"db_system_id":     Representation{repType: Optional, create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
-		"display_name":     Representation{repType: Optional, create: `DBSystem001`, update: `displayName2`},
-		"is_up_to_date":    Representation{repType: Optional, create: `false`},
-		"state":            Representation{repType: Optional, create: `ACTIVE`},
-		"filter":           RepresentationGroup{Required, mysqlDbSystemDataSourceFilterRepresentation}}
+		"compartment_id":                Representation{repType: Required, create: `${var.compartment_id}`},
+		"configuration_id":              Representation{repType: Optional, create: `${var.MysqlConfigurationOCID[var.region]}`},
+		"db_system_id":                  Representation{repType: Optional, create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
+		"display_name":                  Representation{repType: Optional, create: `DBSystem001`, update: `displayName2`},
+		"is_analytics_cluster_attached": Representation{repType: Optional, create: `true`},
+		"is_up_to_date":                 Representation{repType: Optional, create: `false`},
+		"state":                         Representation{repType: Optional, create: `ACTIVE`},
+		"filter":                        RepresentationGroup{Required, mysqlDbSystemDataSourceFilterRepresentation}}
 	mysqlDbSystemDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_mysql_mysql_db_system.test_mysql_db_system.id}`}},
@@ -134,7 +135,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlDbSystemRepresentation),
+					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlDbSystemRepresentation) +
+					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
@@ -183,7 +185,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation),
+					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
+					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
@@ -229,7 +232,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_mysql_db_systems", "test_mysql_db_systems", Optional, Update, mysqlDbSystemDataSourceRepresentation) +
 					compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation),
+					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
+					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "configuration_id"),
@@ -239,6 +243,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.analytics_cluster.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.defined_tags.%", "1"),
@@ -248,6 +253,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.fault_domain", "FAULT-DOMAIN-1"),
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_analytics_cluster_attached", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_updated"),
@@ -257,10 +263,12 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + MysqlDbSystemResourceConfig,
+					compartmentIdVariableStr + MysqlDbSystemResourceConfig +
+					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
+					resource.TestCheckResourceAttr(singularDatasourceName, "analytics_cluster.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.defined_tags.%", "1"),
@@ -279,6 +287,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.3"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_analytics_cluster_attached", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
