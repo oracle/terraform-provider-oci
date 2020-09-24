@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_patch
 This data source provides details about a specific Autonomous Patch resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified Autonomous Patch.
+Gets information about a specific autonomous patch.
 
 ## Example Usage
 
@@ -25,7 +25,7 @@ data "oci_database_autonomous_patch" "test_autonomous_patch" {
 
 The following arguments are supported:
 
-* `autonomous_patch_id` - (Required) The Autonomous Patch [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `autonomous_patch_id` - (Required) The autonomous patch [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference

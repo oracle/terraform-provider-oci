@@ -290,7 +290,7 @@ func testAccCheckDatabaseDatabaseSoftwareImageDestroy(s *terraform.State) error 
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_database.DatabaseSoftwareImageLifecycleStateDeleted): true,
+					string(oci_database.DatabaseSoftwareImageLifecycleStateDeleted): true, string(oci_database.DatabaseSoftwareImageLifecycleStateTerminated): true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.

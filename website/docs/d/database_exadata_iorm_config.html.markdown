@@ -10,8 +10,8 @@ description: |-
 # Data Source: oci_database_exadata_iorm_config
 This data source provides details about a specific Exadata Iorm Config resource in Oracle Cloud Infrastructure Database service.
 
-Gets `IORM` Setting for the requested Exadata DB System.
-The default IORM Settings is pre-created in all the Exadata DB System.
+Gets the IORM configuration settings for the specified Exadata DB system.
+All Exadata DB systems have default IORM settings.
 
 
 ## Example Usage
@@ -34,11 +34,11 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `db_plans` - Array of IORM Setting for all the database in this Exadata DB System 
-	* `db_name` - Database Name. For default DbPlan, the dbName will always be `default` 
-	* `flash_cache_limit` - Flash Cache limit, internally configured based on shares 
-	* `share` - Relative priority of a database 
-* `lifecycle_details` - Additional information about the current lifecycleState. 
-* `objective` - Value for the IORM objective Default is "Auto" 
-* `state` - The current config state of IORM settings for this Exadata System. 
+* `db_plans` - An array of IORM settings for all the database in the Exadata DB system. 
+	* `db_name` - The database name. For the default `DbPlan`, the `dbName` is `default`. 
+	* `flash_cache_limit` - The flash cache limit for this database. This value is internally configured based on the share value assigned to the database. 
+	* `share` - The relative priority of this database. 
+* `lifecycle_details` - Additional information about the current `lifecycleState`. 
+* `objective` - The current value for the IORM objective. The default is `AUTO`. 
+* `state` - The current state of IORM configuration for the Exadata DB system. 
 

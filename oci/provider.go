@@ -581,6 +581,8 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 					strings.Contains(r.URL.Path, "/backupDestinations") ||
 					strings.Contains(r.URL.Path, "/exadataInfrastructures") ||
 					strings.Contains(r.URL.Path, "/vmClusters") ||
+					strings.Contains(r.URL.Path, "/cloudExadataInfrastructures") ||
+					strings.Contains(r.URL.Path, "/cloudVmClusters") ||
 					strings.Contains(r.URL.Path, "/autonomousVmClusters")) {
 					r.Header.Set(requestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
 				}

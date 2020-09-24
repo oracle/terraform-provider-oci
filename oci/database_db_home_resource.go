@@ -295,6 +295,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 					"DATABASE",
 					"DB_BACKUP",
 					"NONE",
+					"VM_CLUSTER_BACKUP",
 					"VM_CLUSTER_NEW",
 				}, true),
 			},
@@ -929,6 +930,49 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
+		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
+		}
+		if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
+			tmp := dbSystemId.(string)
+			details.DbSystemId = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDbHomeWithDbSystemIdDetails = details
+	case strings.ToLower("VM_CLUSTER_BACKUP"):
+		details := oci_database.CreateDbHomeWithVmClusterIdFromBackupDetails{}
+		if database, ok := s.D.GetOkExists("database"); ok {
+			if tmpList := database.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateDatabaseFromBackupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Database = &tmp
+			}
+		}
+		if vmClusterId, ok := s.D.GetOkExists("vm_cluster_id"); ok {
+			tmp := vmClusterId.(string)
+			details.VmClusterId = &tmp
 		}
 		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
 			tmp := databaseSoftwareImageId.(string)
