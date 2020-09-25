@@ -138,6 +138,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"maintenance_window_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -223,6 +229,16 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"vault_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"rotate_key_trigger": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 
 			// Computed
@@ -346,7 +362,18 @@ func createDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 
-	return CreateResource(d, sync)
+	if e := CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok {
+		err := sync.RotateContainerDatabaseEncryptionKey()
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func readDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interface{}) error {
@@ -361,6 +388,13 @@ func updateDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+
+	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.HasChange("rotate_key_trigger") {
+		err := sync.RotateContainerDatabaseEncryptionKey()
+		if err != nil {
+			return err
+		}
+	}
 
 	return UpdateResource(d, sync)
 }
@@ -477,6 +511,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
+	}
+
 	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
 		if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
@@ -494,6 +533,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 
 	if serviceLevelAgreementType, ok := s.D.GetOkExists("service_level_agreement_type"); ok {
 		request.ServiceLevelAgreementType = oci_database.CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum(serviceLevelAgreementType.(string))
+	}
+
+	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+		tmp := vaultId.(string)
+		request.VaultId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -648,6 +692,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}
@@ -678,6 +726,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.VaultId != nil {
+		s.D.Set("vault_id", *s.Res.VaultId)
 	}
 
 	return nil
@@ -908,5 +960,29 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) updateCompartment(comp
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (s *DatabaseAutonomousContainerDatabaseResourceCrud) RotateContainerDatabaseEncryptionKey() error {
+	request := oci_database.RotateAutonomousContainerDatabaseEncryptionKeyRequest{}
+
+	if _, isDedicated := s.D.GetOkExists("autonomous_exadata_infrastructure_id"); !isDedicated {
+		return fmt.Errorf("Container database is not dedicated")
+	}
+
+	tmp := s.D.Id()
+	request.AutonomousContainerDatabaseId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.RotateAutonomousContainerDatabaseEncryptionKey(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	val := s.D.Get("rotate_key_trigger")
+	s.D.Set("rotate_key_trigger", val)
+
+	s.Res = &response.AutonomousContainerDatabase
 	return nil
 }

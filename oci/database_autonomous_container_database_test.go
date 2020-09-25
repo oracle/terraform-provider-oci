@@ -50,8 +50,10 @@ var (
 		"compartment_id":                       Representation{repType: Optional, create: `${var.compartment_id}`},
 		"defined_tags":                         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":                           Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"maintenance_window_details":           RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type":         Representation{repType: Optional, create: `STANDARD`},
+		"vault_id":                             Representation{repType: Optional, create: `${data.oci_kms_vault.test_vault.id}`},
 	}
 	autonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
 		"backup_destination_details": RepresentationGroup{Optional, autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation},
@@ -85,6 +87,7 @@ var (
 
 	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig +
 		generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
+		KeyResourceDependencyConfig +
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
 			representationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": Representation{repType: Required, create: activationFilePath}})) +
 		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
@@ -151,6 +154,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
@@ -160,6 +164,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -189,6 +194,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
@@ -200,6 +206,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -224,6 +231,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
@@ -235,6 +243,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
 					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -269,8 +278,10 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.kms_key_id"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.last_maintenance_run_id"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.patch_id"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.patch_id"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.hours_of_day.#", "1"),
@@ -282,6 +293,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.vault_id"),
 				),
 			},
 			// verify singular datasource
@@ -302,7 +314,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_id"),
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.hours_of_day.#", "1"),
@@ -356,6 +368,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
+					"rotate_key_trigger",
 					"maintenance_window_details",
 				},
 				ResourceName: resourceName,

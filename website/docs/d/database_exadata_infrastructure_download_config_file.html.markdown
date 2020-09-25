@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_exadata_infrastructure_download_config_file
 This data source provides details about a specific Exadata Infrastructure Download Config File resource in Oracle Cloud Infrastructure Database service.
 
-Downloads the configuration file for the specified Exadata infrastructure.
+Downloads the configuration file for the specified Exadata Cloud@Customer infrastructure.
 
 
 ## Example Usage

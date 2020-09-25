@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_vm_cluster_recommended_network
 This data source provides details about a specific Vm Cluster Recommended Network resource in Oracle Cloud Infrastructure Database service.
 
-Generates a recommended VM cluster network configuration.
+Generates a recommended Cloud@Customer VM cluster network configuration.
 
 
 ## Example Usage
@@ -67,7 +67,7 @@ The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
-* `display_name` - The user-friendly name for the VM cluster network. The name does not need to be unique.
+* `display_name` - The user-friendly name for the Exadata Cloud@Customer VM cluster network. The name does not need to be unique.
 * `dns` - The list of DNS server IP addresses. Maximum of 3 allowed.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ntp` - The list of NTP server IP addresses. Maximum of 3 allowed.

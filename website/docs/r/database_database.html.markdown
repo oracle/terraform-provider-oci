@@ -10,7 +10,7 @@ description: |-
 # oci_database_database
 This resource provides the Database resource in Oracle Cloud Infrastructure Database service.
 
-Creates a new database in the specified Database Home. If the database version is provided, it must match the version of the Database Home. Applies only to Exadata DB systems.
+Creates a new database in the specified Database Home. If the database version is provided, it must match the version of the Database Home. Applies only to Exadata systems.
 
 
 ## Example Usage

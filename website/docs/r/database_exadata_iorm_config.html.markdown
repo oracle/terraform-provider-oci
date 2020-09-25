@@ -10,7 +10,7 @@ description: |-
 # oci_database_exadata_iorm_config
 This resource provides the Exadata Iorm Config resource in Oracle Cloud Infrastructure Database service.
 
-Updates IORM settings for the specified Exadata DB system.
+Updates IORM settings for the specified Exadata system.
 
 
 ## Example Usage
