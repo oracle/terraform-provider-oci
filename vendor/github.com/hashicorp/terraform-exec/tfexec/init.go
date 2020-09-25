@@ -9,6 +9,7 @@ import (
 type initConfig struct {
 	backend       bool
 	backendConfig []string
+	dir           string
 	forceCopy     bool
 	fromModule    string
 	get           bool
@@ -16,6 +17,7 @@ type initConfig struct {
 	lock          bool
 	lockTimeout   string
 	pluginDir     []string
+	reattachInfo  ReattachInfo
 	reconfigure   bool
 	upgrade       bool
 	verifyPlugins bool
@@ -33,6 +35,7 @@ var defaultInitOptions = initConfig{
 	verifyPlugins: true,
 }
 
+// InitOption represents options used in the Init method.
 type InitOption interface {
 	configureInit(*initConfig)
 }
@@ -43,6 +46,10 @@ func (opt *BackendOption) configureInit(conf *initConfig) {
 
 func (opt *BackendConfigOption) configureInit(conf *initConfig) {
 	conf.backendConfig = append(conf.backendConfig, opt.path)
+}
+
+func (opt *DirOption) configureInit(conf *initConfig) {
+	conf.dir = opt.path
 }
 
 func (opt *FromModuleOption) configureInit(conf *initConfig) {
@@ -69,6 +76,10 @@ func (opt *PluginDirOption) configureInit(conf *initConfig) {
 	conf.pluginDir = append(conf.pluginDir, opt.pluginDir)
 }
 
+func (opt *ReattachOption) configureInit(conf *initConfig) {
+	conf.reattachInfo = opt.info
+}
+
 func (opt *ReconfigureOption) configureInit(conf *initConfig) {
 	conf.reconfigure = opt.reconfigure
 }
@@ -81,11 +92,16 @@ func (opt *VerifyPluginsOption) configureInit(conf *initConfig) {
 	conf.verifyPlugins = opt.verifyPlugins
 }
 
+// Init represents the terraform init subcommand.
 func (tf *Terraform) Init(ctx context.Context, opts ...InitOption) error {
-	return tf.runTerraformCmd(tf.initCmd(ctx, opts...))
+	cmd, err := tf.initCmd(ctx, opts...)
+	if err != nil {
+		return err
+	}
+	return tf.runTerraformCmd(cmd)
 }
 
-func (tf *Terraform) initCmd(ctx context.Context, opts ...InitOption) *exec.Cmd {
+func (tf *Terraform) initCmd(ctx context.Context, opts ...InitOption) (*exec.Cmd, error) {
 	c := defaultInitOptions
 
 	for _, o := range opts {
@@ -127,5 +143,19 @@ func (tf *Terraform) initCmd(ctx context.Context, opts ...InitOption) *exec.Cmd 
 		}
 	}
 
-	return tf.buildTerraformCmd(ctx, args...)
+	// optional positional argument
+	if c.dir != "" {
+		args = append(args, c.dir)
+	}
+
+	mergeEnv := map[string]string{}
+	if c.reattachInfo != nil {
+		reattachStr, err := c.reattachInfo.marshalString()
+		if err != nil {
+			return nil, err
+		}
+		mergeEnv[reattachEnvVar] = reattachStr
+	}
+
+	return tf.buildTerraformCmd(ctx, mergeEnv, args...), nil
 }

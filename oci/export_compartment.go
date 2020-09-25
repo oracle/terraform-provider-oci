@@ -1457,7 +1457,9 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, error) {
 	var err error
 	terraformBinPath := getEnvSettingWithBlankDefault(terraformBinPathName)
 	if terraformBinPath == "" {
-		terraformBinPath, err = tfinstall.Find(tfinstall.LookPath())
+		var finders []tfinstall.ExecPathFinder
+		finders = append(finders, tfinstall.LookPath())
+		terraformBinPath, err = tfinstall.Find(context.Background(), finders...)
 		if err != nil {
 			return nil, fmt.Errorf("[ERROR] error finding terraform CLI, either specify the path to terraform CLI "+
 				"including name using env var 'terraform_bin_path' or add terraform CLI to your system path: %s", err.Error())
