@@ -10,7 +10,7 @@ description: |-
 # oci_database_backup_destination
 This resource provides the Backup Destination resource in Oracle Cloud Infrastructure Database service.
 
-Creates a backup destination.
+Creates a backup destination in an Exadata Cloud@Customer system.
 
 
 ## Example Usage

@@ -525,7 +525,10 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 				ResourceName: resourceName,
 			},
-
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr,
+			},
 			// test ADW db_workload
 			// verify create with optionals
 			{

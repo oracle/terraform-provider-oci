@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_vm_cluster_network
 This data source provides details about a specific Vm Cluster Network resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified VM cluster network.
+Gets information about the specified Exadata Cloud@Customer VM cluster network.
 
 ## Example Usage
 

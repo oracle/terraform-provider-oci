@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_vm_cluster_patch_history_entry
 This data source provides details about a specific Vm Cluster Patch History Entry resource in Oracle Cloud Infrastructure Database service.
 
-Gets the patch history details for the specified patchHistoryEntryId.
+Gets the patch history details for the specified patch history entry.
 
 
 ## Example Usage
