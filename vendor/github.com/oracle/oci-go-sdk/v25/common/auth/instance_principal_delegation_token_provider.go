@@ -25,7 +25,7 @@ func InstancePrincipalDelegationTokenConfigurationProvider(delegationToken *stri
 func newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken *string, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher,
 	error)) (common.ConfigurationProvider, error) {
 
-	keyProvider, err := newInstancePrincipalKeyProvider(modifier)
+	keyProvider, err := newInstancePrincipalKeyProvider(modifier, "")
 	if err != nil {
 		return nil, fmt.Errorf("failed to create a new key provider for instance principal: %s", err.Error())
 	}

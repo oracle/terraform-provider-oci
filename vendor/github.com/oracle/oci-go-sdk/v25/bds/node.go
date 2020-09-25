@@ -80,8 +80,6 @@ const (
 	NodeLifecycleStateDeleting NodeLifecycleStateEnum = "DELETING"
 	NodeLifecycleStateDeleted  NodeLifecycleStateEnum = "DELETED"
 	NodeLifecycleStateFailed   NodeLifecycleStateEnum = "FAILED"
-	NodeLifecycleStateStopping NodeLifecycleStateEnum = "STOPPING"
-	NodeLifecycleStateStarting NodeLifecycleStateEnum = "STARTING"
 )
 
 var mappingNodeLifecycleState = map[string]NodeLifecycleStateEnum{
@@ -92,8 +90,6 @@ var mappingNodeLifecycleState = map[string]NodeLifecycleStateEnum{
 	"DELETING": NodeLifecycleStateDeleting,
 	"DELETED":  NodeLifecycleStateDeleted,
 	"FAILED":   NodeLifecycleStateFailed,
-	"STOPPING": NodeLifecycleStateStopping,
-	"STARTING": NodeLifecycleStateStarting,
 }
 
 // GetNodeLifecycleStateEnumValues Enumerates the set of values for NodeLifecycleStateEnum

@@ -37,6 +37,9 @@ type UpdateSteeringPolicyAttachmentRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope UpdateSteeringPolicyAttachmentScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -83,4 +86,27 @@ func (response UpdateSteeringPolicyAttachmentResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response UpdateSteeringPolicyAttachmentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// UpdateSteeringPolicyAttachmentScopeEnum Enum with underlying type: string
+type UpdateSteeringPolicyAttachmentScopeEnum string
+
+// Set of constants representing the allowable values for UpdateSteeringPolicyAttachmentScopeEnum
+const (
+	UpdateSteeringPolicyAttachmentScopeGlobal  UpdateSteeringPolicyAttachmentScopeEnum = "GLOBAL"
+	UpdateSteeringPolicyAttachmentScopePrivate UpdateSteeringPolicyAttachmentScopeEnum = "PRIVATE"
+)
+
+var mappingUpdateSteeringPolicyAttachmentScope = map[string]UpdateSteeringPolicyAttachmentScopeEnum{
+	"GLOBAL":  UpdateSteeringPolicyAttachmentScopeGlobal,
+	"PRIVATE": UpdateSteeringPolicyAttachmentScopePrivate,
+}
+
+// GetUpdateSteeringPolicyAttachmentScopeEnumValues Enumerates the set of values for UpdateSteeringPolicyAttachmentScopeEnum
+func GetUpdateSteeringPolicyAttachmentScopeEnumValues() []UpdateSteeringPolicyAttachmentScopeEnum {
+	values := make([]UpdateSteeringPolicyAttachmentScopeEnum, 0)
+	for _, v := range mappingUpdateSteeringPolicyAttachmentScope {
+		values = append(values, v)
+	}
+	return values
 }

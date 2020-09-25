@@ -17,16 +17,11 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// UdpOptions Optional object to specify ports for a UDP rule. If you specify UDP as the
-// protocol but omit this object, then all ports are allowed.
+// UdpOptions Optional and valid only for UDP. Use to specify particular destination ports for UDP rules.
+// If you specify UDP as the protocol but omit this object, then all destination ports are allowed.
 type UdpOptions struct {
-
-	// An inclusive range of allowed destination ports. Use the same number for the min and max
-	// to indicate a single port. Defaults to all ports if not specified.
 	DestinationPortRange *PortRange `mandatory:"false" json:"destinationPortRange"`
 
-	// An inclusive range of allowed source ports. Use the same number for the min and max to
-	// indicate a single port. Defaults to all ports if not specified.
 	SourcePortRange *PortRange `mandatory:"false" json:"sourcePortRange"`
 }
 

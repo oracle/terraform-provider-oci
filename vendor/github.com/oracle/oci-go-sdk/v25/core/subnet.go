@@ -107,6 +107,17 @@ type Subnet struct {
 	// Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678`
 	Ipv6VirtualRouterIp *string `mandatory:"false" json:"ipv6VirtualRouterIp"`
 
+	// Whether learning mode is enabled for this subnet. The default is `false`.
+	// **Note:** When a subnet has learning mode enabled, only certain types
+	// of resources can be launched in the subnet.
+	// Example: `true`
+	IsLearningEnabled *bool `mandatory:"false" json:"isLearningEnabled"`
+
+	// The VLAN tag assigned to VNIC Attachments within this Subnet if the Subnet has learning enabled.
+	// **Note:** When a subnet does not have learning enabled, this field will be null.
+	// Example: `100`
+	VlanTag *int `mandatory:"false" json:"vlanTag"`
+
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will
 	// automatically be assigned public IP addresses unless specified
@@ -149,6 +160,7 @@ const (
 	SubnetLifecycleStateAvailable    SubnetLifecycleStateEnum = "AVAILABLE"
 	SubnetLifecycleStateTerminating  SubnetLifecycleStateEnum = "TERMINATING"
 	SubnetLifecycleStateTerminated   SubnetLifecycleStateEnum = "TERMINATED"
+	SubnetLifecycleStateUpdating     SubnetLifecycleStateEnum = "UPDATING"
 )
 
 var mappingSubnetLifecycleState = map[string]SubnetLifecycleStateEnum{
@@ -156,6 +168,7 @@ var mappingSubnetLifecycleState = map[string]SubnetLifecycleStateEnum{
 	"AVAILABLE":    SubnetLifecycleStateAvailable,
 	"TERMINATING":  SubnetLifecycleStateTerminating,
 	"TERMINATED":   SubnetLifecycleStateTerminated,
+	"UPDATING":     SubnetLifecycleStateUpdating,
 }
 
 // GetSubnetLifecycleStateEnumValues Enumerates the set of values for SubnetLifecycleStateEnum

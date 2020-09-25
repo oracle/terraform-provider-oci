@@ -37,6 +37,18 @@ type AutonomousDatabase struct {
 	// Information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Additional details about the status of the database, such as the progress of a backup or restore operation. UNPUBLISHED "HIDDEN" FIELD. This field is being added to unblock console functionality but will not be published in the SDK or documentation. It will be present in responses, so deprecating will require coordination to ensure we do not break customers if they begin relying on this field. Please see https://confluence.oci.oraclecorp.com/pages/viewpage.action?pageId=58769459 for details regarding the motivation of this field and the longer term plan.
+	AdditionalDatabaseStatus []string `mandatory:"false" json:"additionalDatabaseStatus"`
+
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	VaultId *string `mandatory:"false" json:"vaultId"`
+
+	// KMS key lifecycle details.
+	KmsKeyLifecycleDetails *string `mandatory:"false" json:"kmsKeyLifecycleDetails"`
+
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
@@ -49,6 +61,11 @@ type AutonomousDatabase struct {
 
 	// The date and time the Always Free database will be automatically deleted because of inactivity. If the database is in the STOPPED state and without activity until this time, it will be deleted.
 	TimeDeletionOfFreeAutonomousDatabase *common.SDKTime `mandatory:"false" json:"timeDeletionOfFreeAutonomousDatabase"`
+
+	BackupConfig *AutonomousDatabaseBackupConfig `mandatory:"false" json:"backupConfig"`
+
+	// Key History Entry.
+	KeyHistoryEntry []AutonomousDatabaseKeyHistoryEntry `mandatory:"false" json:"keyHistoryEntry"`
 
 	// The infrastructure type this resource belongs to.
 	InfrastructureType AutonomousDatabaseInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
@@ -125,11 +142,22 @@ type AutonomousDatabase struct {
 	// - AJD - indicates an Autonomous JSON Database
 	DbWorkload AutonomousDatabaseDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
-	// The client IP access control list (ACL). This feature is available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
-	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
+	// Indicates if the database-level access control is enabled.
+	// If disabled, database access is defined by the network security rules.
+	// If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional,
+	//  if database-level access control is enabled and no rules are specified, the database will become inaccessible. The rules can be added later using the `UpdateAutonomousDatabase` API operation or edit option in console.
+	// When creating a database clone, the desired access control setting should be specified. By default, database-level access control will be disabled for the clone.
+	// This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
+	IsAccessControlEnabled *bool `mandatory:"false" json:"isAccessControlEnabled"`
+
+	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) and that on Exadata Cloud at Customer.
+	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
+	// For Shared Exadata Infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
 	// To add the whitelist VCN specific subnet or IP, use a semicoln ';' as a deliminator to add the VCN specific subnets or IPs.
-	// For update operation, if you wish to delete all the existing whitelisted IP’s, use an array with a single empty string entry.
-	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.1.1","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.0.0/16"]`
+	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.<unique_id>","ocid1.vcn.oc1.sea.<unique_id1>;1.1.1.1","ocid1.vcn.oc1.sea.<unique_id2>;1.1.0.0/16"]`
+	// For Exadata Cloud at Customer, this is an array of IP addresses or CIDR (Classless Inter-Domain Routing) notations.
+	// Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
+	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	WhitelistedIps []string `mandatory:"false" json:"whitelistedIps"`
 
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count.
@@ -137,6 +165,9 @@ type AutonomousDatabase struct {
 
 	// Status of the Data Safe registration for this Autonomous Database.
 	DataSafeStatus AutonomousDatabaseDataSafeStatusEnum `mandatory:"false" json:"dataSafeStatus,omitempty"`
+
+	// Status of the Operations Insights for this Autonomous Database.
+	OperationsInsightsStatus AutonomousDatabaseOperationsInsightsStatusEnum `mandatory:"false" json:"operationsInsightsStatus,omitempty"`
 
 	// The date and time when maintenance will begin.
 	TimeMaintenanceBegin *common.SDKTime `mandatory:"false" json:"timeMaintenanceBegin"`
@@ -185,8 +216,17 @@ type AutonomousDatabase struct {
 
 	StandbyDb *AutonomousDatabaseStandbySummary `mandatory:"false" json:"standbyDb"`
 
+	// The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+	Role AutonomousDatabaseRoleEnum `mandatory:"false" json:"role,omitempty"`
+
 	// List of Oracle Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
 	AvailableUpgradeVersions []string `mandatory:"false" json:"availableUpgradeVersions"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store.
+	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
+
+	// The wallet name for Oracle Key Vault.
+	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -217,6 +257,7 @@ const (
 	AutonomousDatabaseLifecycleStateRecreating              AutonomousDatabaseLifecycleStateEnum = "RECREATING"
 	AutonomousDatabaseLifecycleStateRoleChangeInProgress    AutonomousDatabaseLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
 	AutonomousDatabaseLifecycleStateUpgrading               AutonomousDatabaseLifecycleStateEnum = "UPGRADING"
+	AutonomousDatabaseLifecycleStateInaccessible            AutonomousDatabaseLifecycleStateEnum = "INACCESSIBLE"
 )
 
 var mappingAutonomousDatabaseLifecycleState = map[string]AutonomousDatabaseLifecycleStateEnum{
@@ -239,6 +280,7 @@ var mappingAutonomousDatabaseLifecycleState = map[string]AutonomousDatabaseLifec
 	"RECREATING":                AutonomousDatabaseLifecycleStateRecreating,
 	"ROLE_CHANGE_IN_PROGRESS":   AutonomousDatabaseLifecycleStateRoleChangeInProgress,
 	"UPGRADING":                 AutonomousDatabaseLifecycleStateUpgrading,
+	"INACCESSIBLE":              AutonomousDatabaseLifecycleStateInaccessible,
 }
 
 // GetAutonomousDatabaseLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseLifecycleStateEnum
@@ -350,6 +392,37 @@ func GetAutonomousDatabaseDataSafeStatusEnumValues() []AutonomousDatabaseDataSaf
 	return values
 }
 
+// AutonomousDatabaseOperationsInsightsStatusEnum Enum with underlying type: string
+type AutonomousDatabaseOperationsInsightsStatusEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseOperationsInsightsStatusEnum
+const (
+	AutonomousDatabaseOperationsInsightsStatusEnabling        AutonomousDatabaseOperationsInsightsStatusEnum = "ENABLING"
+	AutonomousDatabaseOperationsInsightsStatusEnabled         AutonomousDatabaseOperationsInsightsStatusEnum = "ENABLED"
+	AutonomousDatabaseOperationsInsightsStatusDisabling       AutonomousDatabaseOperationsInsightsStatusEnum = "DISABLING"
+	AutonomousDatabaseOperationsInsightsStatusNotEnabled      AutonomousDatabaseOperationsInsightsStatusEnum = "NOT_ENABLED"
+	AutonomousDatabaseOperationsInsightsStatusFailedEnabling  AutonomousDatabaseOperationsInsightsStatusEnum = "FAILED_ENABLING"
+	AutonomousDatabaseOperationsInsightsStatusFailedDisabling AutonomousDatabaseOperationsInsightsStatusEnum = "FAILED_DISABLING"
+)
+
+var mappingAutonomousDatabaseOperationsInsightsStatus = map[string]AutonomousDatabaseOperationsInsightsStatusEnum{
+	"ENABLING":         AutonomousDatabaseOperationsInsightsStatusEnabling,
+	"ENABLED":          AutonomousDatabaseOperationsInsightsStatusEnabled,
+	"DISABLING":        AutonomousDatabaseOperationsInsightsStatusDisabling,
+	"NOT_ENABLED":      AutonomousDatabaseOperationsInsightsStatusNotEnabled,
+	"FAILED_ENABLING":  AutonomousDatabaseOperationsInsightsStatusFailedEnabling,
+	"FAILED_DISABLING": AutonomousDatabaseOperationsInsightsStatusFailedDisabling,
+}
+
+// GetAutonomousDatabaseOperationsInsightsStatusEnumValues Enumerates the set of values for AutonomousDatabaseOperationsInsightsStatusEnum
+func GetAutonomousDatabaseOperationsInsightsStatusEnumValues() []AutonomousDatabaseOperationsInsightsStatusEnum {
+	values := make([]AutonomousDatabaseOperationsInsightsStatusEnum, 0)
+	for _, v := range mappingAutonomousDatabaseOperationsInsightsStatus {
+		values = append(values, v)
+	}
+	return values
+}
+
 // AutonomousDatabaseOpenModeEnum Enum with underlying type: string
 type AutonomousDatabaseOpenModeEnum string
 
@@ -437,6 +510,31 @@ var mappingAutonomousDatabasePermissionLevel = map[string]AutonomousDatabasePerm
 func GetAutonomousDatabasePermissionLevelEnumValues() []AutonomousDatabasePermissionLevelEnum {
 	values := make([]AutonomousDatabasePermissionLevelEnum, 0)
 	for _, v := range mappingAutonomousDatabasePermissionLevel {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseRoleEnum Enum with underlying type: string
+type AutonomousDatabaseRoleEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseRoleEnum
+const (
+	AutonomousDatabaseRolePrimary         AutonomousDatabaseRoleEnum = "PRIMARY"
+	AutonomousDatabaseRoleStandby         AutonomousDatabaseRoleEnum = "STANDBY"
+	AutonomousDatabaseRoleDisabledStandby AutonomousDatabaseRoleEnum = "DISABLED_STANDBY"
+)
+
+var mappingAutonomousDatabaseRole = map[string]AutonomousDatabaseRoleEnum{
+	"PRIMARY":          AutonomousDatabaseRolePrimary,
+	"STANDBY":          AutonomousDatabaseRoleStandby,
+	"DISABLED_STANDBY": AutonomousDatabaseRoleDisabledStandby,
+}
+
+// GetAutonomousDatabaseRoleEnumValues Enumerates the set of values for AutonomousDatabaseRoleEnum
+func GetAutonomousDatabaseRoleEnumValues() []AutonomousDatabaseRoleEnum {
+	values := make([]AutonomousDatabaseRoleEnum, 0)
+	for _, v := range mappingAutonomousDatabaseRole {
 		values = append(values, v)
 	}
 	return values

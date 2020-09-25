@@ -40,6 +40,12 @@ type UpdateBucketDetails struct {
 	// on the bucket, public access is allowed for the `GetObject` and `HeadObject` operations.
 	PublicAccessType UpdateBucketDetailsPublicAccessTypeEnum `mandatory:"false" json:"publicAccessType,omitempty"`
 
+	// The type of requests for which object-level audit logging is enabled on this bucket.
+	// This property is set to `Disabled` by default, so no audit logs will be produced at the object level for this
+	// bucket. If the property is set to `Write`, audit logs will be produced for operations such as `Put Object`. If the
+	// property is set to `ReadWrite`, audit logs will be produced for operations such as `Put Object` and `Get Object`.
+	ObjectLevelAuditMode UpdateBucketDetailsObjectLevelAuditModeEnum `mandatory:"false" json:"objectLevelAuditMode,omitempty"`
+
 	// Whether or not events are emitted for object state changes in this bucket. By default, `objectEventsEnabled` is
 	// set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information
 	// about events, see Overview of Events (https://docs.cloud.oracle.com/Content/Events/Concepts/eventsoverview.htm).
@@ -91,6 +97,31 @@ var mappingUpdateBucketDetailsPublicAccessType = map[string]UpdateBucketDetailsP
 func GetUpdateBucketDetailsPublicAccessTypeEnumValues() []UpdateBucketDetailsPublicAccessTypeEnum {
 	values := make([]UpdateBucketDetailsPublicAccessTypeEnum, 0)
 	for _, v := range mappingUpdateBucketDetailsPublicAccessType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// UpdateBucketDetailsObjectLevelAuditModeEnum Enum with underlying type: string
+type UpdateBucketDetailsObjectLevelAuditModeEnum string
+
+// Set of constants representing the allowable values for UpdateBucketDetailsObjectLevelAuditModeEnum
+const (
+	UpdateBucketDetailsObjectLevelAuditModeDisabled  UpdateBucketDetailsObjectLevelAuditModeEnum = "Disabled"
+	UpdateBucketDetailsObjectLevelAuditModeWrite     UpdateBucketDetailsObjectLevelAuditModeEnum = "Write"
+	UpdateBucketDetailsObjectLevelAuditModeReadwrite UpdateBucketDetailsObjectLevelAuditModeEnum = "ReadWrite"
+)
+
+var mappingUpdateBucketDetailsObjectLevelAuditMode = map[string]UpdateBucketDetailsObjectLevelAuditModeEnum{
+	"Disabled":  UpdateBucketDetailsObjectLevelAuditModeDisabled,
+	"Write":     UpdateBucketDetailsObjectLevelAuditModeWrite,
+	"ReadWrite": UpdateBucketDetailsObjectLevelAuditModeReadwrite,
+}
+
+// GetUpdateBucketDetailsObjectLevelAuditModeEnumValues Enumerates the set of values for UpdateBucketDetailsObjectLevelAuditModeEnum
+func GetUpdateBucketDetailsObjectLevelAuditModeEnumValues() []UpdateBucketDetailsObjectLevelAuditModeEnum {
+	values := make([]UpdateBucketDetailsObjectLevelAuditModeEnum, 0)
+	for _, v := range mappingUpdateBucketDetailsObjectLevelAuditMode {
 		values = append(values, v)
 	}
 	return values

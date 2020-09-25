@@ -12,7 +12,7 @@ import (
 // GetCountStatisticRequest wrapper for the GetCountStatistic operation
 type GetCountStatisticRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
 	// A unique key of the container object, such as workspace, project, and so on, to count statistics for. The statistics is fetched for the given key.

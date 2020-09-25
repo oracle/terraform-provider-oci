@@ -1059,6 +1059,11 @@ func (client BlockchainPlatformClient) StartBlockchainPlatform(ctx context.Conte
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.startBlockchainPlatform, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -1106,6 +1111,11 @@ func (client BlockchainPlatformClient) StopBlockchainPlatform(ctx context.Contex
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.stopBlockchainPlatform, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -1153,6 +1163,11 @@ func (client BlockchainPlatformClient) UpdateBlockchainPlatform(ctx context.Cont
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updateBlockchainPlatform, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -1252,6 +1267,11 @@ func (client BlockchainPlatformClient) UpdatePeer(ctx context.Context, request U
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updatePeer, policy)
 	if err != nil {
 		if ociResponse != nil {

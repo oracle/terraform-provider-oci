@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// OracleWriteAttribute The Oracle write attribute
+// OracleWriteAttribute The Oracle write attribute.
 type OracleWriteAttribute struct {
 
 	// The batch size for writing.

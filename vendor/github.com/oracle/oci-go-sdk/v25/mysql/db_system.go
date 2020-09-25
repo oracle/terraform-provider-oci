@@ -15,6 +15,8 @@ import (
 )
 
 // DbSystem A DB System is the core logical unit of MySQL Database Service.
+// # NOTE: definitions/DbSystemSnapshot is a snapshot version of DbSystem which is stored during backup. Any
+// # addition/deletion of properties should also consider snapshot's definition
 type DbSystem struct {
 
 	// The OCID of the DB System.
@@ -40,6 +42,8 @@ type DbSystem struct {
 
 	Maintenance *MaintenanceDetails `mandatory:"true" json:"maintenance"`
 
+	DeletionPolicy *DeletionPolicyDetails `mandatory:"true" json:"deletionPolicy"`
+
 	// The date and time the DB System was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -48,6 +52,11 @@ type DbSystem struct {
 
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
+
+	// If the DB System has an Analytics Cluster attached.
+	IsAnalyticsClusterAttached *bool `mandatory:"false" json:"isAnalyticsClusterAttached"`
+
+	AnalyticsCluster *AnalyticsClusterSummary `mandatory:"false" json:"analyticsCluster"`
 
 	// The Availability Domain where the primary DB System should be located.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
@@ -90,14 +99,17 @@ type DbSystem struct {
 	// The network endpoints available for this DB System.
 	Endpoints []DbSystemEndpoint `mandatory:"false" json:"endpoints"`
 
+	// A list with a summary of all the Channels attached to the DB System.
+	Channels []ChannelSummary `mandatory:"false" json:"channels"`
+
 	// Additional information about the current lifecycleState.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
@@ -109,31 +121,35 @@ func (m DbSystem) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description          *string                           `json:"description"`
-		AvailabilityDomain   *string                           `json:"availabilityDomain"`
-		FaultDomain          *string                           `json:"faultDomain"`
-		ShapeName            *string                           `json:"shapeName"`
-		BackupPolicy         *BackupPolicy                     `json:"backupPolicy"`
-		Source               dbsystemsource                    `json:"source"`
-		ConfigurationId      *string                           `json:"configurationId"`
-		HostnameLabel        *string                           `json:"hostnameLabel"`
-		IpAddress            *string                           `json:"ipAddress"`
-		Port                 *int                              `json:"port"`
-		PortX                *int                              `json:"portX"`
-		Endpoints            []DbSystemEndpoint                `json:"endpoints"`
-		LifecycleDetails     *string                           `json:"lifecycleDetails"`
-		FreeformTags         map[string]string                 `json:"freeformTags"`
-		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
-		Id                   *string                           `json:"id"`
-		DisplayName          *string                           `json:"displayName"`
-		CompartmentId        *string                           `json:"compartmentId"`
-		SubnetId             *string                           `json:"subnetId"`
-		MysqlVersion         *string                           `json:"mysqlVersion"`
-		DataStorageSizeInGBs *int                              `json:"dataStorageSizeInGBs"`
-		LifecycleState       DbSystemLifecycleStateEnum        `json:"lifecycleState"`
-		Maintenance          *MaintenanceDetails               `json:"maintenance"`
-		TimeCreated          *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated          *common.SDKTime                   `json:"timeUpdated"`
+		Description                *string                           `json:"description"`
+		IsAnalyticsClusterAttached *bool                             `json:"isAnalyticsClusterAttached"`
+		AnalyticsCluster           *AnalyticsClusterSummary          `json:"analyticsCluster"`
+		AvailabilityDomain         *string                           `json:"availabilityDomain"`
+		FaultDomain                *string                           `json:"faultDomain"`
+		ShapeName                  *string                           `json:"shapeName"`
+		BackupPolicy               *BackupPolicy                     `json:"backupPolicy"`
+		Source                     dbsystemsource                    `json:"source"`
+		ConfigurationId            *string                           `json:"configurationId"`
+		HostnameLabel              *string                           `json:"hostnameLabel"`
+		IpAddress                  *string                           `json:"ipAddress"`
+		Port                       *int                              `json:"port"`
+		PortX                      *int                              `json:"portX"`
+		Endpoints                  []DbSystemEndpoint                `json:"endpoints"`
+		Channels                   []ChannelSummary                  `json:"channels"`
+		LifecycleDetails           *string                           `json:"lifecycleDetails"`
+		FreeformTags               map[string]string                 `json:"freeformTags"`
+		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		Id                         *string                           `json:"id"`
+		DisplayName                *string                           `json:"displayName"`
+		CompartmentId              *string                           `json:"compartmentId"`
+		SubnetId                   *string                           `json:"subnetId"`
+		MysqlVersion               *string                           `json:"mysqlVersion"`
+		DataStorageSizeInGBs       *int                              `json:"dataStorageSizeInGBs"`
+		LifecycleState             DbSystemLifecycleStateEnum        `json:"lifecycleState"`
+		Maintenance                *MaintenanceDetails               `json:"maintenance"`
+		DeletionPolicy             *DeletionPolicyDetails            `json:"deletionPolicy"`
+		TimeCreated                *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated                *common.SDKTime                   `json:"timeUpdated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -142,6 +158,10 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.IsAnalyticsClusterAttached = model.IsAnalyticsClusterAttached
+
+	m.AnalyticsCluster = model.AnalyticsCluster
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 
@@ -176,6 +196,11 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		m.Endpoints[i] = n
 	}
 
+	m.Channels = make([]ChannelSummary, len(model.Channels))
+	for i, n := range model.Channels {
+		m.Channels[i] = n
+	}
+
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags
@@ -197,6 +222,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleState = model.LifecycleState
 
 	m.Maintenance = model.Maintenance
+
+	m.DeletionPolicy = model.DeletionPolicy
 
 	m.TimeCreated = model.TimeCreated
 

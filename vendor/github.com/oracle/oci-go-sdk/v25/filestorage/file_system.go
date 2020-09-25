@@ -29,9 +29,10 @@ type FileSystem struct {
 	// any snapshots. This number reflects the metered size of the file
 	// system and is updated asynchronously with respect to
 	// updates to the file system.
+	// For more information, see File System Usage and Metering (https://docs.cloud.oracle.com/Content/File/Concepts/FSutilization.htm).
 	MeteredBytes *int64 `mandatory:"true" json:"meteredBytes"`
 
-	// The OCID of the compartment that contains the file system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the file system.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
@@ -39,7 +40,7 @@ type FileSystem struct {
 	// Example: `My file system`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the file system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the file system.
@@ -66,8 +67,23 @@ type FileSystem struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID of the KMS key which is the master encryption key for the file system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KMS key which is the master encryption key for the file system.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	SourceDetails *SourceDetails `mandatory:"false" json:"sourceDetails"`
+
+	// Specifies whether the file system has been cloned.
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	IsCloneParent *bool `mandatory:"false" json:"isCloneParent"`
+
+	// Specifies whether the data has finished copying from the source to the clone.
+	// Hydration can take up to several hours to complete depending on the size of the source.
+	// The source and clone remain available during hydration, but there may be some performance impact.
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm#hydration).
+	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
+
+	// Additional information about the current 'lifecycleState'.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 }
 
 func (m FileSystem) String() string {

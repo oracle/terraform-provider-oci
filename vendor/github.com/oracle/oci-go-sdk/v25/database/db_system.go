@@ -80,10 +80,13 @@ type DbSystem struct {
 	// The time zone of the DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// The Oracle Database version of the DB system.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
+	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
 
 	// The percentage assigned to DATA storage (user data and database files).
@@ -205,6 +208,7 @@ const (
 	DbSystemLifecycleStateTerminating           DbSystemLifecycleStateEnum = "TERMINATING"
 	DbSystemLifecycleStateTerminated            DbSystemLifecycleStateEnum = "TERMINATED"
 	DbSystemLifecycleStateFailed                DbSystemLifecycleStateEnum = "FAILED"
+	DbSystemLifecycleStateMigrated              DbSystemLifecycleStateEnum = "MIGRATED"
 	DbSystemLifecycleStateMaintenanceInProgress DbSystemLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
@@ -215,6 +219,7 @@ var mappingDbSystemLifecycleState = map[string]DbSystemLifecycleStateEnum{
 	"TERMINATING":             DbSystemLifecycleStateTerminating,
 	"TERMINATED":              DbSystemLifecycleStateTerminated,
 	"FAILED":                  DbSystemLifecycleStateFailed,
+	"MIGRATED":                DbSystemLifecycleStateMigrated,
 	"MAINTENANCE_IN_PROGRESS": DbSystemLifecycleStateMaintenanceInProgress,
 }
 

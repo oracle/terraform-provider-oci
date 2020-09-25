@@ -12,13 +12,13 @@ import (
 // GetDependentObjectRequest wrapper for the GetDependentObject operation
 type GetDependentObjectRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// DIS application key
+	// The application key.
 	ApplicationKey *string `mandatory:"true" contributesTo:"path" name:"applicationKey"`
 
-	// DIS dependent object key
+	// The dependent object key.
 	DependentObjectKey *string `mandatory:"true" contributesTo:"path" name:"dependentObjectKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

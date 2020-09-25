@@ -34,6 +34,9 @@ type DeleteTsigKeyRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope DeleteTsigKeyScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -76,4 +79,27 @@ func (response DeleteTsigKeyResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response DeleteTsigKeyResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// DeleteTsigKeyScopeEnum Enum with underlying type: string
+type DeleteTsigKeyScopeEnum string
+
+// Set of constants representing the allowable values for DeleteTsigKeyScopeEnum
+const (
+	DeleteTsigKeyScopeGlobal  DeleteTsigKeyScopeEnum = "GLOBAL"
+	DeleteTsigKeyScopePrivate DeleteTsigKeyScopeEnum = "PRIVATE"
+)
+
+var mappingDeleteTsigKeyScope = map[string]DeleteTsigKeyScopeEnum{
+	"GLOBAL":  DeleteTsigKeyScopeGlobal,
+	"PRIVATE": DeleteTsigKeyScopePrivate,
+}
+
+// GetDeleteTsigKeyScopeEnumValues Enumerates the set of values for DeleteTsigKeyScopeEnum
+func GetDeleteTsigKeyScopeEnumValues() []DeleteTsigKeyScopeEnum {
+	values := make([]DeleteTsigKeyScopeEnum, 0)
+	for _, v := range mappingDeleteTsigKeyScope {
+		values = append(values, v)
+	}
+	return values
 }

@@ -12,7 +12,7 @@ import (
 // ChangeMountTargetCompartmentRequest wrapper for the ChangeMountTargetCompartment operation
 type ChangeMountTargetCompartmentRequest struct {
 
-	// The OCID of the mount target.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
 	MountTargetId *string `mandatory:"true" contributesTo:"path" name:"mountTargetId"`
 
 	// Details for changing the compartment.

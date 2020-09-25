@@ -12,7 +12,7 @@ import (
 // DeleteMountTargetRequest wrapper for the DeleteMountTarget operation
 type DeleteMountTargetRequest struct {
 
-	// The OCID of the mount target.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
 	MountTargetId *string `mandatory:"true" contributesTo:"path" name:"mountTargetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -19,7 +19,7 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type MountTarget struct {
 
-	// The OCID of the compartment that contains the mount target.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the mount target.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
@@ -27,7 +27,7 @@ type MountTarget struct {
 	// Example: `My mount target`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the mount target.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Additional information about the current 'lifecycleState'.
@@ -39,7 +39,7 @@ type MountTarget struct {
 	// The OCIDs of the private IP addresses associated with this mount target.
 	PrivateIpIds []string `mandatory:"true" json:"privateIpIds"`
 
-	// The OCID of the subnet the mount target is in.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the mount target is in.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The date and time the mount target was created, expressed
@@ -52,16 +52,23 @@ type MountTarget struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The OCID of the associated export set. Controls what file
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated export set. Controls what file
 	// systems will be exported through Network File System (NFS) protocol on this
 	// mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
+
+	// Describes whether Idmapping is turned on or off. If on, describes method used to perform ID Mapping
+	IdmapType MountTargetIdmapTypeEnum `mandatory:"false" json:"idmapType,omitempty"`
+
+	LdapIdmap *LdapIdmap `mandatory:"false" json:"ldapIdmap"`
 
 	// A list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this mount target.
 	// A maximum of 5 is allowed.
 	// Setting this to an empty array after the list is created removes the mount target from all NSGs.
 	// For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	Kerberos *Kerberos `mandatory:"false" json:"kerberos"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
@@ -103,6 +110,29 @@ var mappingMountTargetLifecycleState = map[string]MountTargetLifecycleStateEnum{
 func GetMountTargetLifecycleStateEnumValues() []MountTargetLifecycleStateEnum {
 	values := make([]MountTargetLifecycleStateEnum, 0)
 	for _, v := range mappingMountTargetLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// MountTargetIdmapTypeEnum Enum with underlying type: string
+type MountTargetIdmapTypeEnum string
+
+// Set of constants representing the allowable values for MountTargetIdmapTypeEnum
+const (
+	MountTargetIdmapTypeLdap MountTargetIdmapTypeEnum = "LDAP"
+	MountTargetIdmapTypeNone MountTargetIdmapTypeEnum = "NONE"
+)
+
+var mappingMountTargetIdmapType = map[string]MountTargetIdmapTypeEnum{
+	"LDAP": MountTargetIdmapTypeLdap,
+	"NONE": MountTargetIdmapTypeNone,
+}
+
+// GetMountTargetIdmapTypeEnumValues Enumerates the set of values for MountTargetIdmapTypeEnum
+func GetMountTargetIdmapTypeEnumValues() []MountTargetIdmapTypeEnum {
+	values := make([]MountTargetIdmapTypeEnum, 0)
+	for _, v := range mappingMountTargetIdmapType {
 		values = append(values, v)
 	}
 	return values

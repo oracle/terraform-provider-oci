@@ -61,13 +61,15 @@ type WorkRequestSummaryOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestSummaryOperationTypeEnum
 const (
-	WorkRequestSummaryOperationTypeCopyObject WorkRequestSummaryOperationTypeEnum = "COPY_OBJECT"
-	WorkRequestSummaryOperationTypeReencrypt  WorkRequestSummaryOperationTypeEnum = "REENCRYPT"
+	WorkRequestSummaryOperationTypeCopyObject      WorkRequestSummaryOperationTypeEnum = "COPY_OBJECT"
+	WorkRequestSummaryOperationTypeReencrypt       WorkRequestSummaryOperationTypeEnum = "REENCRYPT"
+	WorkRequestSummaryOperationTypeBulkCopyObjects WorkRequestSummaryOperationTypeEnum = "BULK_COPY_OBJECTS"
 )
 
 var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperationTypeEnum{
-	"COPY_OBJECT": WorkRequestSummaryOperationTypeCopyObject,
-	"REENCRYPT":   WorkRequestSummaryOperationTypeReencrypt,
+	"COPY_OBJECT":       WorkRequestSummaryOperationTypeCopyObject,
+	"REENCRYPT":         WorkRequestSummaryOperationTypeReencrypt,
+	"BULK_COPY_OBJECTS": WorkRequestSummaryOperationTypeBulkCopyObjects,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum

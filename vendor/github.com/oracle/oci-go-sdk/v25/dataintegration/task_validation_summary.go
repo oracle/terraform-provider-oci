@@ -13,25 +13,25 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// TaskValidationSummary The information about task validation
+// TaskValidationSummary The information about task validation.
 type TaskValidationSummary struct {
 
-	// Total number of validation messages
+	// Total number of validation messages.
 	TotalMessageCount *int `mandatory:"false" json:"totalMessageCount"`
 
-	// Total number of validation error messages
+	// Total number of validation error messages.
 	ErrorMessageCount *int `mandatory:"false" json:"errorMessageCount"`
 
-	// Total number of validation warning messages
+	// Total number of validation warning messages.
 	WarnMessageCount *int `mandatory:"false" json:"warnMessageCount"`
 
-	// Total number of validation information messages
+	// Total number of validation information messages.
 	InfoMessageCount *int `mandatory:"false" json:"infoMessageCount"`
 
-	// Detailed information of the DataFlow object validation.
+	// Detailed information of the data flow object validation.
 	ValidationMessages map[string][]ValidationMessage `mandatory:"false" json:"validationMessages"`
 
-	// Objects will use a 36 character key as unique ID. It is system generated and cannot be edited by user
+	// Objects use a 36 character key as unique ID. It is system generated and cannot be modified.
 	Key *string `mandatory:"false" json:"key"`
 
 	// The type of the object.
@@ -42,7 +42,7 @@ type TaskValidationSummary struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
@@ -54,7 +54,7 @@ type TaskValidationSummary struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`

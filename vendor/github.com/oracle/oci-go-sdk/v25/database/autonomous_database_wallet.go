@@ -21,6 +21,9 @@ type AutonomousDatabaseWallet struct {
 
 	// The date and time the wallet was last rotated.
 	TimeRotated *common.SDKTime `mandatory:"false" json:"timeRotated"`
+
+	// The date and time the Autonomous Database wallet was downloaded.
+	TimeDownloaded *common.SDKTime `mandatory:"false" json:"timeDownloaded"`
 }
 
 func (m AutonomousDatabaseWallet) String() string {

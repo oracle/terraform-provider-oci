@@ -25,7 +25,7 @@ type BlockchainPlatformByHostname struct {
 	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of compute shape - one of Standard, (Enterprise) Small, Medium, Large or Extra Large
+	// Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE or ENTERPRISE_CUSTOM
 	ComputeShape BlockchainPlatformComputeShapeEnum `mandatory:"true" json:"computeShape"`
 
 	// Service endpoint URL, valid post-provisioning

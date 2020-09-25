@@ -36,6 +36,9 @@ type Tenancy struct {
 	// Example: `PHX`
 	HomeRegionKey *string `mandatory:"false" json:"homeRegionKey"`
 
+	// OracleMyServicesIdentifier is Oracle MyServices Cloud Account Identifier.
+	OracleMyServicesIdentifier *string `mandatory:"false" json:"oracleMyServicesIdentifier"`
+
 	// Url which refers to the UPI IDCS compatibility layer endpoint configured for this Tenant's home region.
 	UpiIdcsCompatibilityLayerEndpoint *string `mandatory:"false" json:"upiIdcsCompatibilityLayerEndpoint"`
 

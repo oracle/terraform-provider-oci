@@ -19,16 +19,15 @@ import (
 
 // AttachVnicDetails The representation of AttachVnicDetails
 type AttachVnicDetails struct {
-
-	// Details for creating a new VNIC.
 	CreateVnicDetails *CreateVnicDetails `mandatory:"true" json:"createVnicDetails"`
-
-	// The OCID of the instance.
-	InstanceId *string `mandatory:"true" json:"instanceId"`
 
 	// A user-friendly name for the attachment. Does not have to be unique, and it cannot be changed.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The OCID of the instance. For AttachVnic operation, this is a required field for the request,
+	// see AttachVnic.
+	InstanceId *string `mandatory:"false" json:"instanceId"`
 
 	// Which physical network interface card (NIC) the VNIC will use. Defaults to 0.
 	// Certain bare metal instance shapes have two active physical NICs (0 and 1). If

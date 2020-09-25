@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ProjectionRule Base type for how fields are projected, there are many different mechanisms for doing this such as by a name patter, datatype etc. See the modelType property for the types.
+// ProjectionRule Base type for how fields are projected. There are many different mechanisms for doing this such as by a name pattern, datatype and so on. See the `modelType` property for the types.
 type ProjectionRule interface {
 
 	// The key of the object.
@@ -33,7 +33,7 @@ type ProjectionRule interface {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Detailed description for the object.
+	// A user defined description for the object.
 	GetDescription() *string
 }
 

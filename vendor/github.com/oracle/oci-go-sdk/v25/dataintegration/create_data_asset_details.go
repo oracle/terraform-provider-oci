@@ -17,10 +17,10 @@ import (
 // CreateDataAssetDetails Properties used in data asset update operations.
 type CreateDataAssetDetails interface {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
 	// Currently not used on data asset creation. Reserved for future.
@@ -29,16 +29,16 @@ type CreateDataAssetDetails interface {
 	// The model version of an object.
 	GetModelVersion() *string
 
-	// Detailed description for the object.
+	// User-defined description of the data asset.
 	GetDescription() *string
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// The external key for the object
+	// The external key for the object.
 	GetExternalKey() *string
 
-	// assetProperties
+	// Additional properties for the data asset.
 	GetAssetProperties() map[string]string
 
 	GetRegistryMetadata() *RegistryMetadata
@@ -92,6 +92,14 @@ func (m *createdataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 
 	var err error
 	switch m.ModelType {
+	case "GENERIC_JDBC_DATA_ASSET":
+		mm := CreateDataAssetFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_DATA_ASSET":
+		mm := CreateDataAssetFromMySql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_DATA_ASSET":
 		mm := CreateDataAssetFromOracle{}
 		err = json.Unmarshal(data, &mm)
@@ -167,17 +175,21 @@ type CreateDataAssetDetailsModelTypeEnum string
 
 // Set of constants representing the allowable values for CreateDataAssetDetailsModelTypeEnum
 const (
-	CreateDataAssetDetailsModelTypeDataAsset              CreateDataAssetDetailsModelTypeEnum = "ORACLE_DATA_ASSET"
-	CreateDataAssetDetailsModelTypeObjectStorageDataAsset CreateDataAssetDetailsModelTypeEnum = "ORACLE_OBJECT_STORAGE_DATA_ASSET"
-	CreateDataAssetDetailsModelTypeAtpDataAsset           CreateDataAssetDetailsModelTypeEnum = "ORACLE_ATP_DATA_ASSET"
-	CreateDataAssetDetailsModelTypeAdwcDataAsset          CreateDataAssetDetailsModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeOracleDataAsset              CreateDataAssetDetailsModelTypeEnum = "ORACLE_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeOracleObjectStorageDataAsset CreateDataAssetDetailsModelTypeEnum = "ORACLE_OBJECT_STORAGE_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeOracleAtpDataAsset           CreateDataAssetDetailsModelTypeEnum = "ORACLE_ATP_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeOracleAdwcDataAsset          CreateDataAssetDetailsModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeMysqlDataAsset               CreateDataAssetDetailsModelTypeEnum = "MYSQL_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeGenericJdbcDataAsset         CreateDataAssetDetailsModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 )
 
 var mappingCreateDataAssetDetailsModelType = map[string]CreateDataAssetDetailsModelTypeEnum{
-	"ORACLE_DATA_ASSET":                CreateDataAssetDetailsModelTypeDataAsset,
-	"ORACLE_OBJECT_STORAGE_DATA_ASSET": CreateDataAssetDetailsModelTypeObjectStorageDataAsset,
-	"ORACLE_ATP_DATA_ASSET":            CreateDataAssetDetailsModelTypeAtpDataAsset,
-	"ORACLE_ADWC_DATA_ASSET":           CreateDataAssetDetailsModelTypeAdwcDataAsset,
+	"ORACLE_DATA_ASSET":                CreateDataAssetDetailsModelTypeOracleDataAsset,
+	"ORACLE_OBJECT_STORAGE_DATA_ASSET": CreateDataAssetDetailsModelTypeOracleObjectStorageDataAsset,
+	"ORACLE_ATP_DATA_ASSET":            CreateDataAssetDetailsModelTypeOracleAtpDataAsset,
+	"ORACLE_ADWC_DATA_ASSET":           CreateDataAssetDetailsModelTypeOracleAdwcDataAsset,
+	"MYSQL_DATA_ASSET":                 CreateDataAssetDetailsModelTypeMysqlDataAsset,
+	"GENERIC_JDBC_DATA_ASSET":          CreateDataAssetDetailsModelTypeGenericJdbcDataAsset,
 }
 
 // GetCreateDataAssetDetailsModelTypeEnumValues Enumerates the set of values for CreateDataAssetDetailsModelTypeEnum

@@ -48,6 +48,12 @@ type GetDomainRecordsRequest struct {
 	// Will match any record whose type (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4) (case-insensitive) equals the provided value.
 	Rtype *string `mandatory:"false" contributesTo:"query" name:"rtype"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope GetDomainRecordsScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
+	// The OCID of the view the resource is associated with.
+	ViewId *string `mandatory:"false" contributesTo:"query" name:"viewId"`
+
 	// The field by which to sort records.
 	SortBy GetDomainRecordsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
@@ -111,6 +117,29 @@ func (response GetDomainRecordsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetDomainRecordsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetDomainRecordsScopeEnum Enum with underlying type: string
+type GetDomainRecordsScopeEnum string
+
+// Set of constants representing the allowable values for GetDomainRecordsScopeEnum
+const (
+	GetDomainRecordsScopeGlobal  GetDomainRecordsScopeEnum = "GLOBAL"
+	GetDomainRecordsScopePrivate GetDomainRecordsScopeEnum = "PRIVATE"
+)
+
+var mappingGetDomainRecordsScope = map[string]GetDomainRecordsScopeEnum{
+	"GLOBAL":  GetDomainRecordsScopeGlobal,
+	"PRIVATE": GetDomainRecordsScopePrivate,
+}
+
+// GetGetDomainRecordsScopeEnumValues Enumerates the set of values for GetDomainRecordsScopeEnum
+func GetGetDomainRecordsScopeEnumValues() []GetDomainRecordsScopeEnum {
+	values := make([]GetDomainRecordsScopeEnum, 0)
+	for _, v := range mappingGetDomainRecordsScope {
+		values = append(values, v)
+	}
+	return values
 }
 
 // GetDomainRecordsSortByEnum Enum with underlying type: string

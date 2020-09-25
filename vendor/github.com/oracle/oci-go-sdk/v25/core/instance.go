@@ -57,6 +57,9 @@ type Instance struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The OCID of the compute capacity reservation this instance is launched under.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	// The OCID of dedicated VM host.
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
 
@@ -121,10 +124,10 @@ type Instance struct {
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode InstanceLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
-	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
 
-	// Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
+	InstanceOptions *InstanceOptions `mandatory:"false" json:"instanceOptions"`
+
 	AvailabilityConfig *InstanceAvailabilityConfig `mandatory:"false" json:"availabilityConfig"`
 
 	// Custom metadata that you provide.
@@ -132,7 +135,6 @@ type Instance struct {
 
 	ShapeConfig *InstanceShapeConfig `mandatory:"false" json:"shapeConfig"`
 
-	// Details for creating an instance
 	SourceDetails InstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
@@ -146,6 +148,11 @@ type Instance struct {
 	// Regardless of how the instance was stopped, the flag will be reset to empty as soon as instance reaches Stopped state.
 	// Example: `2018-05-25T21:10:29.600Z`
 	TimeMaintenanceRebootDue *common.SDKTime `mandatory:"false" json:"timeMaintenanceRebootDue"`
+
+	// The preferred maintenance action for an instance.
+	// * `LIVE_MIGRATE` - Run maintenance using a live migration.
+	// * `REBOOT` - Run maintenance using a reboot.
+	PreferredMaintenanceAction InstancePreferredMaintenanceActionEnum `mandatory:"false" json:"preferredMaintenanceAction,omitempty"`
 }
 
 func (m Instance) String() string {
@@ -155,30 +162,33 @@ func (m Instance) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DedicatedVmHostId        *string                           `json:"dedicatedVmHostId"`
-		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName              *string                           `json:"displayName"`
-		ExtendedMetadata         map[string]interface{}            `json:"extendedMetadata"`
-		FaultDomain              *string                           `json:"faultDomain"`
-		FreeformTags             map[string]string                 `json:"freeformTags"`
-		ImageId                  *string                           `json:"imageId"`
-		IpxeScript               *string                           `json:"ipxeScript"`
-		LaunchMode               InstanceLaunchModeEnum            `json:"launchMode"`
-		LaunchOptions            *LaunchOptions                    `json:"launchOptions"`
-		AvailabilityConfig       *InstanceAvailabilityConfig       `json:"availabilityConfig"`
-		Metadata                 map[string]string                 `json:"metadata"`
-		ShapeConfig              *InstanceShapeConfig              `json:"shapeConfig"`
-		SourceDetails            instancesourcedetails             `json:"sourceDetails"`
-		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
-		AgentConfig              *InstanceAgentConfig              `json:"agentConfig"`
-		TimeMaintenanceRebootDue *common.SDKTime                   `json:"timeMaintenanceRebootDue"`
-		AvailabilityDomain       *string                           `json:"availabilityDomain"`
-		CompartmentId            *string                           `json:"compartmentId"`
-		Id                       *string                           `json:"id"`
-		LifecycleState           InstanceLifecycleStateEnum        `json:"lifecycleState"`
-		Region                   *string                           `json:"region"`
-		Shape                    *string                           `json:"shape"`
-		TimeCreated              *common.SDKTime                   `json:"timeCreated"`
+		CapacityReservationId      *string                                `json:"capacityReservationId"`
+		DedicatedVmHostId          *string                                `json:"dedicatedVmHostId"`
+		DefinedTags                map[string]map[string]interface{}      `json:"definedTags"`
+		DisplayName                *string                                `json:"displayName"`
+		ExtendedMetadata           map[string]interface{}                 `json:"extendedMetadata"`
+		FaultDomain                *string                                `json:"faultDomain"`
+		FreeformTags               map[string]string                      `json:"freeformTags"`
+		ImageId                    *string                                `json:"imageId"`
+		IpxeScript                 *string                                `json:"ipxeScript"`
+		LaunchMode                 InstanceLaunchModeEnum                 `json:"launchMode"`
+		LaunchOptions              *LaunchOptions                         `json:"launchOptions"`
+		InstanceOptions            *InstanceOptions                       `json:"instanceOptions"`
+		AvailabilityConfig         *InstanceAvailabilityConfig            `json:"availabilityConfig"`
+		Metadata                   map[string]string                      `json:"metadata"`
+		ShapeConfig                *InstanceShapeConfig                   `json:"shapeConfig"`
+		SourceDetails              instancesourcedetails                  `json:"sourceDetails"`
+		SystemTags                 map[string]map[string]interface{}      `json:"systemTags"`
+		AgentConfig                *InstanceAgentConfig                   `json:"agentConfig"`
+		TimeMaintenanceRebootDue   *common.SDKTime                        `json:"timeMaintenanceRebootDue"`
+		PreferredMaintenanceAction InstancePreferredMaintenanceActionEnum `json:"preferredMaintenanceAction"`
+		AvailabilityDomain         *string                                `json:"availabilityDomain"`
+		CompartmentId              *string                                `json:"compartmentId"`
+		Id                         *string                                `json:"id"`
+		LifecycleState             InstanceLifecycleStateEnum             `json:"lifecycleState"`
+		Region                     *string                                `json:"region"`
+		Shape                      *string                                `json:"shape"`
+		TimeCreated                *common.SDKTime                        `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -186,6 +196,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.CapacityReservationId = model.CapacityReservationId
+
 	m.DedicatedVmHostId = model.DedicatedVmHostId
 
 	m.DefinedTags = model.DefinedTags
@@ -205,6 +217,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.LaunchMode = model.LaunchMode
 
 	m.LaunchOptions = model.LaunchOptions
+
+	m.InstanceOptions = model.InstanceOptions
 
 	m.AvailabilityConfig = model.AvailabilityConfig
 
@@ -227,6 +241,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.AgentConfig = model.AgentConfig
 
 	m.TimeMaintenanceRebootDue = model.TimeMaintenanceRebootDue
+
+	m.PreferredMaintenanceAction = model.PreferredMaintenanceAction
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 
@@ -304,6 +320,29 @@ var mappingInstanceLifecycleState = map[string]InstanceLifecycleStateEnum{
 func GetInstanceLifecycleStateEnumValues() []InstanceLifecycleStateEnum {
 	values := make([]InstanceLifecycleStateEnum, 0)
 	for _, v := range mappingInstanceLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// InstancePreferredMaintenanceActionEnum Enum with underlying type: string
+type InstancePreferredMaintenanceActionEnum string
+
+// Set of constants representing the allowable values for InstancePreferredMaintenanceActionEnum
+const (
+	InstancePreferredMaintenanceActionLiveMigrate InstancePreferredMaintenanceActionEnum = "LIVE_MIGRATE"
+	InstancePreferredMaintenanceActionReboot      InstancePreferredMaintenanceActionEnum = "REBOOT"
+)
+
+var mappingInstancePreferredMaintenanceAction = map[string]InstancePreferredMaintenanceActionEnum{
+	"LIVE_MIGRATE": InstancePreferredMaintenanceActionLiveMigrate,
+	"REBOOT":       InstancePreferredMaintenanceActionReboot,
+}
+
+// GetInstancePreferredMaintenanceActionEnumValues Enumerates the set of values for InstancePreferredMaintenanceActionEnum
+func GetInstancePreferredMaintenanceActionEnumValues() []InstancePreferredMaintenanceActionEnum {
+	values := make([]InstancePreferredMaintenanceActionEnum, 0)
+	for _, v := range mappingInstancePreferredMaintenanceAction {
 		values = append(values, v)
 	}
 	return values

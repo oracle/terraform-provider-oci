@@ -44,6 +44,12 @@ type CreateBucketDetails struct {
 	// property is immutable after bucket is created.
 	StorageTier CreateBucketDetailsStorageTierEnum `mandatory:"false" json:"storageTier,omitempty"`
 
+	// The type of requests for which object-level audit logging is enabled on this bucket.
+	// This property is set to `Disabled` by default, where no audit logs will be produced at the object level for this
+	// bucket. If the property is set to `Write`, audit logs will be produced for operations such as `Put Object`. If the
+	// property is set to `ReadWrite`, audit logs will be produced for operations such as `Put Object` and `Get Object`.
+	ObjectLevelAuditMode CreateBucketDetailsObjectLevelAuditModeEnum `mandatory:"false" json:"objectLevelAuditMode,omitempty"`
+
 	// Whether or not events are emitted for object state changes in this bucket. By default, `objectEventsEnabled` is
 	// set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information
 	// about events, see Overview of Events (https://docs.cloud.oracle.com/Content/Events/Concepts/eventsoverview.htm).
@@ -114,6 +120,31 @@ var mappingCreateBucketDetailsStorageTier = map[string]CreateBucketDetailsStorag
 func GetCreateBucketDetailsStorageTierEnumValues() []CreateBucketDetailsStorageTierEnum {
 	values := make([]CreateBucketDetailsStorageTierEnum, 0)
 	for _, v := range mappingCreateBucketDetailsStorageTier {
+		values = append(values, v)
+	}
+	return values
+}
+
+// CreateBucketDetailsObjectLevelAuditModeEnum Enum with underlying type: string
+type CreateBucketDetailsObjectLevelAuditModeEnum string
+
+// Set of constants representing the allowable values for CreateBucketDetailsObjectLevelAuditModeEnum
+const (
+	CreateBucketDetailsObjectLevelAuditModeDisabled  CreateBucketDetailsObjectLevelAuditModeEnum = "Disabled"
+	CreateBucketDetailsObjectLevelAuditModeWrite     CreateBucketDetailsObjectLevelAuditModeEnum = "Write"
+	CreateBucketDetailsObjectLevelAuditModeReadwrite CreateBucketDetailsObjectLevelAuditModeEnum = "ReadWrite"
+)
+
+var mappingCreateBucketDetailsObjectLevelAuditMode = map[string]CreateBucketDetailsObjectLevelAuditModeEnum{
+	"Disabled":  CreateBucketDetailsObjectLevelAuditModeDisabled,
+	"Write":     CreateBucketDetailsObjectLevelAuditModeWrite,
+	"ReadWrite": CreateBucketDetailsObjectLevelAuditModeReadwrite,
+}
+
+// GetCreateBucketDetailsObjectLevelAuditModeEnumValues Enumerates the set of values for CreateBucketDetailsObjectLevelAuditModeEnum
+func GetCreateBucketDetailsObjectLevelAuditModeEnumValues() []CreateBucketDetailsObjectLevelAuditModeEnum {
+	values := make([]CreateBucketDetailsObjectLevelAuditModeEnum, 0)
+	for _, v := range mappingCreateBucketDetailsObjectLevelAuditMode {
 		values = append(values, v)
 	}
 	return values

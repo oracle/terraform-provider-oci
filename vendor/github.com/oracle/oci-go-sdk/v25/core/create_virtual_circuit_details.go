@@ -38,6 +38,13 @@ type CreateVirtualCircuitDetails struct {
 	// group this virtual circuit will run on.
 	CrossConnectMappings []CrossConnectMapping `mandatory:"false" json:"crossConnectMappings"`
 
+	// The routing policy setting defines the scope of how widely routing information about the Oracle cloud is shared through FastConnect. For private virtual circuit,
+	// virtual cloud network (VCN) can either share a single IP address range for the entire VCN (the default) or individually specify all subnets in that VCN.
+	// For public virtual Circuit, VCN can share IP address ranges for the Oracle Service Network (OSN), for all connected subnets in the region, for all connected subnets in the
+	// same market (for example connecting the Canada Southeast (Toronto) region and the US East (Ashburn) region) or for all connected subnets globally across Oracle Cloud Infrastructure.
+	// By default, information is shared for subnets in the same market.
+	RoutingPolicy []CreateVirtualCircuitDetailsRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
+
 	// Deprecated. Instead use `customerAsn`.
 	// If you specify values for both, the request will be rejected.
 	CustomerBgpAsn *int `mandatory:"false" json:"customerBgpAsn"`
@@ -96,6 +103,37 @@ type CreateVirtualCircuitDetails struct {
 
 func (m CreateVirtualCircuitDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateVirtualCircuitDetailsRoutingPolicyEnum Enum with underlying type: string
+type CreateVirtualCircuitDetailsRoutingPolicyEnum string
+
+// Set of constants representing the allowable values for CreateVirtualCircuitDetailsRoutingPolicyEnum
+const (
+	CreateVirtualCircuitDetailsRoutingPolicyVcnCidr              CreateVirtualCircuitDetailsRoutingPolicyEnum = "VCN_CIDR"
+	CreateVirtualCircuitDetailsRoutingPolicyAllSubnetsInVcn      CreateVirtualCircuitDetailsRoutingPolicyEnum = "ALL_SUBNETS_IN_VCN"
+	CreateVirtualCircuitDetailsRoutingPolicyOracleServiceNetwork CreateVirtualCircuitDetailsRoutingPolicyEnum = "ORACLE_SERVICE_NETWORK"
+	CreateVirtualCircuitDetailsRoutingPolicyRegional             CreateVirtualCircuitDetailsRoutingPolicyEnum = "REGIONAL"
+	CreateVirtualCircuitDetailsRoutingPolicyMarketLevel          CreateVirtualCircuitDetailsRoutingPolicyEnum = "MARKET_LEVEL"
+	CreateVirtualCircuitDetailsRoutingPolicyGlobal               CreateVirtualCircuitDetailsRoutingPolicyEnum = "GLOBAL"
+)
+
+var mappingCreateVirtualCircuitDetailsRoutingPolicy = map[string]CreateVirtualCircuitDetailsRoutingPolicyEnum{
+	"VCN_CIDR":               CreateVirtualCircuitDetailsRoutingPolicyVcnCidr,
+	"ALL_SUBNETS_IN_VCN":     CreateVirtualCircuitDetailsRoutingPolicyAllSubnetsInVcn,
+	"ORACLE_SERVICE_NETWORK": CreateVirtualCircuitDetailsRoutingPolicyOracleServiceNetwork,
+	"REGIONAL":               CreateVirtualCircuitDetailsRoutingPolicyRegional,
+	"MARKET_LEVEL":           CreateVirtualCircuitDetailsRoutingPolicyMarketLevel,
+	"GLOBAL":                 CreateVirtualCircuitDetailsRoutingPolicyGlobal,
+}
+
+// GetCreateVirtualCircuitDetailsRoutingPolicyEnumValues Enumerates the set of values for CreateVirtualCircuitDetailsRoutingPolicyEnum
+func GetCreateVirtualCircuitDetailsRoutingPolicyEnumValues() []CreateVirtualCircuitDetailsRoutingPolicyEnum {
+	values := make([]CreateVirtualCircuitDetailsRoutingPolicyEnum, 0)
+	for _, v := range mappingCreateVirtualCircuitDetailsRoutingPolicy {
+		values = append(values, v)
+	}
+	return values
 }
 
 // CreateVirtualCircuitDetailsTypeEnum Enum with underlying type: string

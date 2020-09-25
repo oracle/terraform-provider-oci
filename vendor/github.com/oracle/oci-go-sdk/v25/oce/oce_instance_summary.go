@@ -53,7 +53,10 @@ type OceInstanceSummary struct {
 	// or delay upgrade of the service to previous released version
 	UpgradeSchedule OceInstanceUpgradeScheduleEnum `mandatory:"false" json:"upgradeSchedule,omitempty"`
 
-	// Web Application Firewall(WAF) primary domain
+	// A list of vanity domains for the instance. The value can be any valid domain/nested domain.
+	VanityDomains []string `mandatory:"false" json:"vanityDomains"`
+
+	// Deprecated. Web Application Firewall(WAF) primary domain. To set domain, use vanityDomains property instead.
 	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
 
 	// Flag indicating whether the instance access is private or public

@@ -13,17 +13,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// WorkRequestError An error encountered while executing an operation that is tracked by a work request.
+// WorkRequestError An error related to a work request.
 type WorkRequestError struct {
 
-	// A machine-usable code for the error that occured. Error codes are listed on
-	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm)
+	// A machine-usable error code. For a list of common errors, see API Errors (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human-readable error string.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The date and time the error occurred, in the format defined by RFC3339.
+	// The date and time the error occurred, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

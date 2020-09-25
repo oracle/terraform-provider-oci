@@ -72,8 +72,8 @@ type CreateSddcDetails struct {
 	// Uplink 2 component of the VMware environment.
 	NsxEdgeUplink2VlanId *string `mandatory:"true" json:"nsxEdgeUplink2VlanId"`
 
-	// A descriptive name for the SDDC. It must be unique, start with a letter, and contain only letters, digits,
-	// whitespaces, dashes and underscores.
+	// A descriptive name for the SDDC.
+	// SDDC name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -82,6 +82,12 @@ type CreateSddcDetails struct {
 	// For example, if the value is `mySDDC`, the ESXi hosts are named `mySDDC-1`,
 	// `mySDDC-2`, and so on.
 	InstanceDisplayNamePrefix *string `mandatory:"false" json:"instanceDisplayNamePrefix"`
+
+	// This flag tells us if HCX is enabled or not.
+	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
+
+	// This id is required only when hcxEnabled is true
+	HcxVlanId *string `mandatory:"false" json:"hcxVlanId"`
 
 	// The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application
 	// workloads.

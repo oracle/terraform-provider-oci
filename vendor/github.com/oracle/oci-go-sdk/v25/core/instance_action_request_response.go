@@ -89,6 +89,7 @@ const (
 	InstanceActionActionSoftreset               InstanceActionActionEnum = "SOFTRESET"
 	InstanceActionActionReset                   InstanceActionActionEnum = "RESET"
 	InstanceActionActionSoftstop                InstanceActionActionEnum = "SOFTSTOP"
+	InstanceActionActionValidatelivemigrate     InstanceActionActionEnum = "VALIDATELIVEMIGRATE"
 	InstanceActionActionSenddiagnosticinterrupt InstanceActionActionEnum = "SENDDIAGNOSTICINTERRUPT"
 )
 
@@ -98,6 +99,7 @@ var mappingInstanceActionAction = map[string]InstanceActionActionEnum{
 	"SOFTRESET":               InstanceActionActionSoftreset,
 	"RESET":                   InstanceActionActionReset,
 	"SOFTSTOP":                InstanceActionActionSoftstop,
+	"VALIDATELIVEMIGRATE":     InstanceActionActionValidatelivemigrate,
 	"SENDDIAGNOSTICINTERRUPT": InstanceActionActionSenddiagnosticinterrupt,
 }
 

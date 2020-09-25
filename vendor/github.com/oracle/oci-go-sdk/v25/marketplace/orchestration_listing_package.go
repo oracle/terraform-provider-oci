@@ -42,7 +42,7 @@ type OrchestrationListingPackage struct {
 	// List of variables for the orchestration resource.
 	Variables []OrchestrationVariable `mandatory:"false" json:"variables"`
 
-	// List of regions in which this ListingPackage is available.
+	// The regions where you can deploy this listing package. (Some packages have restrictions that limit their deployment to United States regions only.)
 	Regions []Region `mandatory:"false" json:"regions"`
 }
 

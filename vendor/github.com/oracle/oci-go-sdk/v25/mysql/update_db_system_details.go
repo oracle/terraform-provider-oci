@@ -90,6 +90,8 @@ type UpdateDbSystemDetails struct {
 	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	DeletionPolicy *UpdateDeletionPolicyDetails `mandatory:"false" json:"deletionPolicy"`
 }
 
 func (m UpdateDbSystemDetails) String() string {

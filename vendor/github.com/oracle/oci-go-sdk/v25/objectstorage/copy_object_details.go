@@ -57,6 +57,10 @@ type CopyObjectDetails struct {
 	// in this field are assigned to the destination object. If you enter no metadata values, the destination
 	// object will inherit any existing metadata values associated with the source object.
 	DestinationObjectMetadata map[string]string `mandatory:"false" json:"destinationObjectMetadata"`
+
+	// The storage tier that the object should be stored in. If not specified, the object will be stored in
+	// 'Standard' tier by default.
+	DestinationObjectStorageTier StorageTiersEnum `mandatory:"false" json:"destinationObjectStorageTier,omitempty"`
 }
 
 func (m CopyObjectDetails) String() string {

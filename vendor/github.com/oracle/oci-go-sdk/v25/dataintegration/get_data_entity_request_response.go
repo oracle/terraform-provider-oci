@@ -12,16 +12,16 @@ import (
 // GetDataEntityRequest wrapper for the GetDataEntity operation
 type GetDataEntityRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// The connection key
+	// The connection key.
 	ConnectionKey *string `mandatory:"true" contributesTo:"path" name:"connectionKey"`
 
-	// Schema resource name used for retrieving schemas
+	// The schema resource name used for retrieving schemas.
 	SchemaResourceName *string `mandatory:"true" contributesTo:"path" name:"schemaResourceName"`
 
-	// Name of the data entity
+	// The key of the data entity.
 	DataEntityKey *string `mandatory:"true" contributesTo:"path" name:"dataEntityKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

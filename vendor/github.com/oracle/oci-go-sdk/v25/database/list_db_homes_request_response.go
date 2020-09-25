@@ -24,6 +24,9 @@ type ListDbHomesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup. Specify a backupId to list only the DB systems or DB homes that support creating a database using this backup in this compartment.
 	BackupId *string `mandatory:"false" contributesTo:"query" name:"backupId"`
 
+	// A filter to return only DB Homes that match the specified dbVersion.
+	DbVersion *string `mandatory:"false" contributesTo:"query" name:"dbVersion"`
+
 	// The maximum number of items to return per page.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

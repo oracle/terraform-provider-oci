@@ -23,58 +23,75 @@ const (
 
 	//RegionSEA region SEA
 	RegionSEA Region = "sea"
-	//RegionCAToronto1 region for Toronto
-	RegionCAToronto1 Region = "ca-toronto-1"
+	//RegionAPMelbourne1 region for Melbourne
+	RegionAPMelbourne1 Region = "ap-melbourne-1"
+	//RegionAPMumbai1 region for mumbai
+	RegionAPMumbai1 Region = "ap-mumbai-1"
+	//RegionAPHyderabad1 region for Hyderabad
+	RegionAPHyderabad1 Region = "ap-hyderabad-1"
+	//RegionAPSeoul1 region for seoul
+	RegionAPSeoul1 Region = "ap-seoul-1"
+	//RegionAPChuncheon1 region for Chuncheon
+	RegionAPChuncheon1 Region = "ap-chuncheon-1"
+	//RegionAPSydney1 region for Sydney
+	RegionAPSydney1 Region = "ap-sydney-1"
+	//RegionAPTokyo1 region for tokyo
+	RegionAPTokyo1 Region = "ap-tokyo-1"
+	//RegionAPOsaka1 region for Osaka
+	RegionAPOsaka1 Region = "ap-osaka-1"
+	//RegionAPSingapore1 region for Singapore
+	RegionAPSingapore1 Region = "ap-singapore-1"
+	//RegionAPChiyoda1 region for Chiyoda
+	RegionAPChiyoda1 Region = "ap-chiyoda-1"
+
 	//RegionCAMontreal1 region for Montreal
 	RegionCAMontreal1 Region = "ca-montreal-1"
+	//RegionCAToronto1 region for toronto
+	RegionCAToronto1 Region = "ca-toronto-1"
 	//RegionPHX region PHX
 	RegionPHX Region = "us-phoenix-1"
 	//RegionIAD region IAD
 	RegionIAD Region = "us-ashburn-1"
 	//RegionSJC1 region SJC
 	RegionSJC1 Region = "us-sanjose-1"
-	//RegionFRA region FRA
-	RegionFRA Region = "eu-frankfurt-1"
-	//RegionLHR region LHR
-	RegionLHR Region = "uk-london-1"
-	//RegionAPTokyo1 region for Tokyo
-	RegionAPTokyo1 Region = "ap-tokyo-1"
-	//RegionAPOsaka1 region for Osaka
-	RegionAPOsaka1 Region = "ap-osaka-1"
-	//RegionAPChiyoda1 region for Chiyoda
-	RegionAPChiyoda1 Region = "ap-chiyoda-1"
-	//RegionAPSeoul1 region for Seoul
-	RegionAPSeoul1 Region = "ap-seoul-1"
-	//RegionAPChuncheon1 region for Chuncheon
-	RegionAPChuncheon1 Region = "ap-chuncheon-1"
-	//RegionAPMumbai1 region for Mumbai
-	RegionAPMumbai1 Region = "ap-mumbai-1"
-	//RegionAPHyderabad1 region for Hyderabad
-	RegionAPHyderabad1 Region = "ap-hyderabad-1"
-	//RegionAPMelbourne1 region for Melbourne
-	RegionAPMelbourne1 Region = "ap-melbourne-1"
-	//RegionAPSydney1 region for Sydney
-	RegionAPSydney1 Region = "ap-sydney-1"
-	//RegionMEJeddah1 region for Jeddah
-	RegionMEJeddah1 Region = "me-jeddah-1"
+
 	//RegionEUZurich1 region for Zurich
 	RegionEUZurich1 Region = "eu-zurich-1"
+	//RegionFRA region for Frankfurt
+	RegionFRA Region = "eu-frankfurt-1"
+	//RegionLHR region London
+	RegionLHR Region = "uk-london-1"
+	//RegionUKCardiff1 region for Cardiff
+	RegionUKCardiff1 Region = "uk-cardiff-1"
 	//RegionEUAmsterdam1 region for Amsterdam
 	RegionEUAmsterdam1 Region = "eu-amsterdam-1"
-	//RegionSASaopaulo1 region for Sao Paulo
-	RegionSASaopaulo1 Region = "sa-saopaulo-1"
 
-	//RegionUSLangley1 region for Langley
+	//RegionMEJeddah1 region for Jeddah
+	RegionMEJeddah1 Region = "me-jeddah-1"
+	//RegionMEDubai1 region for Dubai
+	RegionMEDubai1 Region = "me-dubai-1"
+	//RegionMEAbudhabi1 region for Abudhabi
+	RegionMEAbudhabi1 Region = "me-abudhabi-1"
+
+	//RegionSASaopaulo1 region for saopaulo
+	RegionSASaopaulo1 Region = "sa-saopaulo-1"
+	//RegionSAVinhedo1 region for vinhedo
+	RegionSAVinhedo1 Region = "sa-vinhedo-1"
+	//RegionSASantiago1 region for santiago
+	RegionSASantiago1 Region = "sa-santiago-1"
+
+	//RegionUSLangley1 region for langley
 	RegionUSLangley1 Region = "us-langley-1"
-	//RegionUSLuke1 region for Luke
+	//RegionUSLuke1 region for luke
 	RegionUSLuke1 Region = "us-luke-1"
 
-	//RegionUSGovAshburn1 gov region Ashburn
+	//RegionUSGovAshburn1 region for langley
 	RegionUSGovAshburn1 Region = "us-gov-ashburn-1"
-	//RegionUSGovChicago1 gov region Chicago
+	//RegionUSGovChicago1 region for luke
 	RegionUSGovChicago1 Region = "us-gov-chicago-1"
-	//RegionUSGovPhoenix1 region for Phoenix
+	//RegionUSGovPhoenix1 region for luke
 	RegionUSGovPhoenix1 Region = "us-gov-phoenix-1"
+
 	//RegionUKGovLondon1 gov region London
 	RegionUKGovLondon1 Region = "uk-gov-london-1"
 	//RegionUKGovCardiff1 gov region Cardiff
@@ -98,26 +115,30 @@ var shortNameRegion = map[string]Region{
 	"sea": RegionSEA,
 	"phx": RegionPHX,
 	"iad": RegionIAD,
+	"sjc": RegionSJC1,
 	"fra": RegionFRA,
 	"lhr": RegionLHR,
+	"cwl": RegionUKCardiff1,
 	"ams": RegionEUAmsterdam1,
 	"zrh": RegionEUZurich1,
 	"mel": RegionAPMelbourne1,
 	"bom": RegionAPMumbai1,
 	"hyd": RegionAPHyderabad1,
+	"gru": RegionSASaopaulo1,
 	"icn": RegionAPSeoul1,
 	"yny": RegionAPChuncheon1,
 	"nrt": RegionAPTokyo1,
 	"kix": RegionAPOsaka1,
+	"sin": RegionAPSingapore1,
 	"nja": RegionAPChiyoda1,
-	"syd": RegionAPSydney1,
 	"yul": RegionCAMontreal1,
 	"yyz": RegionCAToronto1,
-	"sjc": RegionSJC1,
-	"gru": RegionSASaopaulo1,
 	"jed": RegionMEJeddah1,
-	"ltn": RegionUKGovLondon1,
-	"brs": RegionUKGovCardiff1,
+	"dxb": RegionMEDubai1,
+	"syd": RegionAPSydney1,
+	"auh": RegionMEAbudhabi1,
+	"vcp": RegionSAVinhedo1,
+	"scl": RegionSASantiago1,
 }
 
 var realm = map[string]string{
@@ -129,33 +150,45 @@ var realm = map[string]string{
 }
 
 var regionRealm = map[Region]string{
-	RegionPHX:          "oc1",
-	RegionIAD:          "oc1",
-	RegionFRA:          "oc1",
-	RegionLHR:          "oc1",
-	RegionCAToronto1:   "oc1",
-	RegionCAMontreal1:  "oc1",
-	RegionSJC1:         "oc1",
-	RegionAPTokyo1:     "oc1",
-	RegionAPOsaka1:     "oc1",
+	RegionPHX:         "oc1",
+	RegionCAMontreal1: "oc1",
+	RegionCAToronto1:  "oc1",
+	RegionIAD:         "oc1",
+	RegionFRA:         "oc1",
+	RegionSJC1:        "oc1",
+	RegionLHR:         "oc1",
+	RegionUKCardiff1:  "oc1",
+
+	RegionSASaopaulo1: "oc1",
+	RegionSAVinhedo1:  "oc1",
+	RegionSASantiago1: "oc1",
+
+	RegionAPMelbourne1: "oc1",
+	RegionAPMumbai1:    "oc1",
+	RegionAPHyderabad1: "oc1",
 	RegionAPSeoul1:     "oc1",
 	RegionAPChuncheon1: "oc1",
 	RegionAPSydney1:    "oc1",
-	RegionAPMumbai1:    "oc1",
-	RegionAPHyderabad1: "oc1",
-	RegionAPMelbourne1: "oc1",
-	RegionMEJeddah1:    "oc1",
+	RegionAPTokyo1:     "oc1",
+	RegionAPOsaka1:     "oc1",
+	RegionAPSingapore1: "oc1",
+
 	RegionEUZurich1:    "oc1",
 	RegionEUAmsterdam1: "oc1",
-	RegionSASaopaulo1:  "oc1",
 
-	RegionUSLangley1:    "oc2",
-	RegionUSLuke1:       "oc2",
+	RegionMEJeddah1:   "oc1",
+	RegionMEDubai1:    "oc1",
+	RegionMEAbudhabi1: "oc1",
+
+	RegionUSLangley1: "oc2",
+	RegionUSLuke1:    "oc2",
+
 	RegionUSGovAshburn1: "oc3",
 	RegionUSGovChicago1: "oc3",
 	RegionUSGovPhoenix1: "oc3",
-	RegionUKGovCardiff1: "oc4",
+
 	RegionUKGovLondon1:  "oc4",
+	RegionUKGovCardiff1: "oc4",
 
 	RegionAPChiyoda1: "oc8",
 }
@@ -177,11 +210,8 @@ func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate
 		return region.Endpoint(service)
 	}
 
-	// replace service prefix
-	endpoint := strings.Replace(serviceEndpointTemplate, "{serviceEndpointPrefix}", service, 1)
-
 	// replace region
-	endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
+	endpoint := strings.Replace(serviceEndpointTemplate, "{region}", string(region), 1)
 
 	// replace second level domain
 	endpoint = strings.Replace(endpoint, "{secondLevelDomain}", region.secondLevelDomain(), 1)
@@ -321,7 +351,7 @@ func readAndParseConfigFile(configFileName *string) (fileContent []map[string]st
 	if content, err := ioutil.ReadFile(*configFileName); err == nil {
 		Debugf("Raw content of region metadata config file content:", string(content[:]))
 		if err := json.Unmarshal(content, &fileContent); err != nil {
-			Debugf("Can't unmarshal config file, the error info is", err)
+			Debugf("Can't unmarshal env var, the error info is", err)
 			return
 		}
 		ok = true

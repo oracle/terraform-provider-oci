@@ -4,11 +4,11 @@
 
 // Work Requests API
 //
-// Many of the API operations that you use to create and configure Compute resources do not take effect
+// Many of the API operations that you use to create and configure cloud resources do not take effect
 // immediately. In these cases, the operation spawns an asynchronous workflow to fulfill the request.
 // Work requests provide visibility into the status of these in-progress, long-running workflows.
 // For more information about work requests and the operations that spawn work requests, see
-// Viewing the State of a Compute Work Request (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/viewingworkrequestcompute.htm).
+// Work Requests (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/workrequestoverview.htm).
 //
 
 package workrequests
@@ -60,7 +60,7 @@ func newWorkRequestClientFromBaseClient(baseClient common.BaseClient, configProv
 
 // SetRegion overrides the region of this client.
 func (client *WorkRequestClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("workrequests", "https://iaas.{region}.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("iaas", "https://iaas.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

@@ -20,6 +20,9 @@ import (
 // UpdateInstanceDetails The representation of UpdateInstanceDetails
 type UpdateInstanceDetails struct {
 
+	// The OCID of the compute capacity reservation this instance is launched under.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -35,7 +38,6 @@ type UpdateInstanceDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Instance agent configuration options to choose for updating the instance
 	AgentConfig *UpdateInstanceAgentConfigDetails `mandatory:"false" json:"agentConfig"`
 
 	// Custom metadata key/value string pairs that you provide. Any set of key/value pairs
@@ -76,6 +78,13 @@ type UpdateInstanceDetails struct {
 
 	ShapeConfig *UpdateInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
+	// The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
+	// * `LIVE_MIGRATE` - Run maintenance using a live migration.
+	// * `REBOOT` - Run maintenance using a reboot.
+	PreferredMaintenanceAction UpdateInstanceDetailsPreferredMaintenanceActionEnum `mandatory:"false" json:"preferredMaintenanceAction,omitempty"`
+
+	InstanceOptions *InstanceOptions `mandatory:"false" json:"instanceOptions"`
+
 	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
 	// Each availability domain contains three fault domains. Fault domains let you distribute your
 	// instances so that they are not on the same physical hardware within a single availability domain.
@@ -87,13 +96,34 @@ type UpdateInstanceDetails struct {
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
-	// Options for tuning the compatibility and performance of VM shapes.
 	LaunchOptions *UpdateLaunchOptions `mandatory:"false" json:"launchOptions"`
 
-	// Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 	AvailabilityConfig *UpdateInstanceAvailabilityConfigDetails `mandatory:"false" json:"availabilityConfig"`
 }
 
 func (m UpdateInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UpdateInstanceDetailsPreferredMaintenanceActionEnum Enum with underlying type: string
+type UpdateInstanceDetailsPreferredMaintenanceActionEnum string
+
+// Set of constants representing the allowable values for UpdateInstanceDetailsPreferredMaintenanceActionEnum
+const (
+	UpdateInstanceDetailsPreferredMaintenanceActionLiveMigrate UpdateInstanceDetailsPreferredMaintenanceActionEnum = "LIVE_MIGRATE"
+	UpdateInstanceDetailsPreferredMaintenanceActionReboot      UpdateInstanceDetailsPreferredMaintenanceActionEnum = "REBOOT"
+)
+
+var mappingUpdateInstanceDetailsPreferredMaintenanceAction = map[string]UpdateInstanceDetailsPreferredMaintenanceActionEnum{
+	"LIVE_MIGRATE": UpdateInstanceDetailsPreferredMaintenanceActionLiveMigrate,
+	"REBOOT":       UpdateInstanceDetailsPreferredMaintenanceActionReboot,
+}
+
+// GetUpdateInstanceDetailsPreferredMaintenanceActionEnumValues Enumerates the set of values for UpdateInstanceDetailsPreferredMaintenanceActionEnum
+func GetUpdateInstanceDetailsPreferredMaintenanceActionEnumValues() []UpdateInstanceDetailsPreferredMaintenanceActionEnum {
+	values := make([]UpdateInstanceDetailsPreferredMaintenanceActionEnum, 0)
+	for _, v := range mappingUpdateInstanceDetailsPreferredMaintenanceAction {
+		values = append(values, v)
+	}
+	return values
 }

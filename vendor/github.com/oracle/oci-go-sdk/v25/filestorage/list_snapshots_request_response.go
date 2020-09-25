@@ -12,7 +12,7 @@ import (
 // ListSnapshotsRequest wrapper for the ListSnapshots operation
 type ListSnapshotsRequest struct {
 
-	// The OCID of the file system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"query" name:"fileSystemId"`
 
 	// For list pagination. The maximum number of results per page,
@@ -33,9 +33,15 @@ type ListSnapshotsRequest struct {
 	// state for the resource type.
 	LifecycleState ListSnapshotsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// Filter results by OCID. Must be an OCID of the correct type for
+	// Filter results by OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
 	// the resouce type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
+
+	// The field to sort by. You can provide either value, but not both.
+	// By default, when you sort by time created, results are shown
+	// in descending order. When you sort by name, results are
+	// shown in alphabetical order.
+	SortBy ListSnapshotsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc', where 'asc' is
 	// ascending and 'desc' is descending. The default order is 'desc'
@@ -119,6 +125,29 @@ var mappingListSnapshotsLifecycleState = map[string]ListSnapshotsLifecycleStateE
 func GetListSnapshotsLifecycleStateEnumValues() []ListSnapshotsLifecycleStateEnum {
 	values := make([]ListSnapshotsLifecycleStateEnum, 0)
 	for _, v := range mappingListSnapshotsLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListSnapshotsSortByEnum Enum with underlying type: string
+type ListSnapshotsSortByEnum string
+
+// Set of constants representing the allowable values for ListSnapshotsSortByEnum
+const (
+	ListSnapshotsSortByTimecreated ListSnapshotsSortByEnum = "TIMECREATED"
+	ListSnapshotsSortByName        ListSnapshotsSortByEnum = "NAME"
+)
+
+var mappingListSnapshotsSortBy = map[string]ListSnapshotsSortByEnum{
+	"TIMECREATED": ListSnapshotsSortByTimecreated,
+	"NAME":        ListSnapshotsSortByName,
+}
+
+// GetListSnapshotsSortByEnumValues Enumerates the set of values for ListSnapshotsSortByEnum
+func GetListSnapshotsSortByEnumValues() []ListSnapshotsSortByEnum {
+	values := make([]ListSnapshotsSortByEnum, 0)
+	for _, v := range mappingListSnapshotsSortBy {
 		values = append(values, v)
 	}
 	return values

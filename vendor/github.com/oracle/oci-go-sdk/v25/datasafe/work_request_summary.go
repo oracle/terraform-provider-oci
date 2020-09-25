@@ -13,34 +13,34 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// WorkRequestSummary A summary of the work request status.
+// WorkRequestSummary Summary of a work request.
 type WorkRequestSummary struct {
 
 	// The asynchronous operation tracked by this work request.
 	OperationType WorkRequestSummaryOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// The status of the work request.
+	// The current status of the work request.
 	Status WorkRequestSummaryStatusEnum `mandatory:"true" json:"status"`
 
 	// The OCID of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment containing this work request.
+	// The OCID of the compartment that contains the work request.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The resources impacted by the work request.
+	// The resources that are affected by the work request.
 	Resources []WorkRequestResource `mandatory:"true" json:"resources"`
 
-	// Progress of the request in percentage.
+	// Progress of the work request in percentage.
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
-	// The date and time the work request was created, in the format defined by RFC3339.
+	// The date and time the work request was accepted, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
-	// The date and time the work request transitioned from ACCEPTED to IN_PROGRESS, in the format defined by RFC3339.
+	// The date and time the work request transitioned from ACCEPTED to IN_PROGRESS, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the work request reached a terminal state, either FAILED or SUCCEEDED, in the format defined by RFC3339.
+	// The date and time the work request reached a terminal state, either FAILED or SUCCEEDED, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 
@@ -58,6 +58,11 @@ const (
 	WorkRequestSummaryOperationTypeUpdatePrivateEndpoint            WorkRequestSummaryOperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
 	WorkRequestSummaryOperationTypeDeletePrivateEndpoint            WorkRequestSummaryOperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
 	WorkRequestSummaryOperationTypeChangePrivateEndpointCompartment WorkRequestSummaryOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_COMPARTMENT"
+	WorkRequestSummaryOperationTypeCreateOnpremConnector            WorkRequestSummaryOperationTypeEnum = "CREATE_ONPREM_CONNECTOR"
+	WorkRequestSummaryOperationTypeUpdateOnpremConnector            WorkRequestSummaryOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR"
+	WorkRequestSummaryOperationTypeDeleteOnpremConnector            WorkRequestSummaryOperationTypeEnum = "DELETE_ONPREM_CONNECTOR"
+	WorkRequestSummaryOperationTypeUpdateOnpremConnectorWallet      WorkRequestSummaryOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR_WALLET"
+	WorkRequestSummaryOperationTypeChangeOnpremConnectorCompartment WorkRequestSummaryOperationTypeEnum = "CHANGE_ONPREM_CONNECTOR_COMPARTMENT"
 )
 
 var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -66,6 +71,11 @@ var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperat
 	"UPDATE_PRIVATE_ENDPOINT":             WorkRequestSummaryOperationTypeUpdatePrivateEndpoint,
 	"DELETE_PRIVATE_ENDPOINT":             WorkRequestSummaryOperationTypeDeletePrivateEndpoint,
 	"CHANGE_PRIVATE_ENDPOINT_COMPARTMENT": WorkRequestSummaryOperationTypeChangePrivateEndpointCompartment,
+	"CREATE_ONPREM_CONNECTOR":             WorkRequestSummaryOperationTypeCreateOnpremConnector,
+	"UPDATE_ONPREM_CONNECTOR":             WorkRequestSummaryOperationTypeUpdateOnpremConnector,
+	"DELETE_ONPREM_CONNECTOR":             WorkRequestSummaryOperationTypeDeleteOnpremConnector,
+	"UPDATE_ONPREM_CONNECTOR_WALLET":      WorkRequestSummaryOperationTypeUpdateOnpremConnectorWallet,
+	"CHANGE_ONPREM_CONNECTOR_COMPARTMENT": WorkRequestSummaryOperationTypeChangeOnpremConnectorCompartment,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum

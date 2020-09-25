@@ -27,10 +27,14 @@ type UpdateIpSecConnectionTunnelDetails struct {
 	// The type of routing to use for this tunnel (either BGP dynamic routing or static routing).
 	Routing UpdateIpSecConnectionTunnelDetailsRoutingEnum `mandatory:"false" json:"routing,omitempty"`
 
+	// The routing policy setting defines the scope of how widely routing information about the Oracle cloud is shared through the IPSec tunnel.
+	// The virtual cloud network (VCN) can either share a single IP address range for the entire VCN (the default) or individually specify all subnets in that VCN.
+	// The IPSec connection must have BGP enabled to share routing information.
+	RoutingPolicy []UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
+
 	// Internet Key Exchange protocol version.
 	IkeVersion UpdateIpSecConnectionTunnelDetailsIkeVersionEnum `mandatory:"false" json:"ikeVersion,omitempty"`
 
-	// Information for establishing a BGP session for the IPSec tunnel.
 	BgpSessionConfig *UpdateIpSecTunnelBgpSessionDetails `mandatory:"false" json:"bgpSessionConfig"`
 }
 
@@ -56,6 +60,29 @@ var mappingUpdateIpSecConnectionTunnelDetailsRouting = map[string]UpdateIpSecCon
 func GetUpdateIpSecConnectionTunnelDetailsRoutingEnumValues() []UpdateIpSecConnectionTunnelDetailsRoutingEnum {
 	values := make([]UpdateIpSecConnectionTunnelDetailsRoutingEnum, 0)
 	for _, v := range mappingUpdateIpSecConnectionTunnelDetailsRouting {
+		values = append(values, v)
+	}
+	return values
+}
+
+// UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum Enum with underlying type: string
+type UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum string
+
+// Set of constants representing the allowable values for UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum
+const (
+	UpdateIpSecConnectionTunnelDetailsRoutingPolicyVcnCidr         UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum = "VCN_CIDR"
+	UpdateIpSecConnectionTunnelDetailsRoutingPolicyAllSubnetsInVcn UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum = "ALL_SUBNETS_IN_VCN"
+)
+
+var mappingUpdateIpSecConnectionTunnelDetailsRoutingPolicy = map[string]UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum{
+	"VCN_CIDR":           UpdateIpSecConnectionTunnelDetailsRoutingPolicyVcnCidr,
+	"ALL_SUBNETS_IN_VCN": UpdateIpSecConnectionTunnelDetailsRoutingPolicyAllSubnetsInVcn,
+}
+
+// GetUpdateIpSecConnectionTunnelDetailsRoutingPolicyEnumValues Enumerates the set of values for UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum
+func GetUpdateIpSecConnectionTunnelDetailsRoutingPolicyEnumValues() []UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum {
+	values := make([]UpdateIpSecConnectionTunnelDetailsRoutingPolicyEnum, 0)
+	for _, v := range mappingUpdateIpSecConnectionTunnelDetailsRoutingPolicy {
 		values = append(values, v)
 	}
 	return values

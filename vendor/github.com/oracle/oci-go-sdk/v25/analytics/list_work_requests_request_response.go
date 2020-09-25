@@ -18,7 +18,7 @@ type ListWorkRequestsRequest struct {
 	// The OCID of the resource associated with a work request.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
-	// Type of the resource associated with a work request
+	// Type of the resource associated with a work request.
 	ResourceType ListWorkRequestsResourceTypeEnum `mandatory:"false" contributesTo:"query" name:"resourceType" omitEmpty:"true"`
 
 	// One or more work request status values to filter on.

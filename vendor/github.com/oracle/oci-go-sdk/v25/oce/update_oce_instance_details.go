@@ -19,7 +19,14 @@ type UpdateOceInstanceDetails struct {
 	// OceInstance description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Web Application Firewall(WAF) primary domain
+	// A list of vanity domains to be updated for the instance. The value can be any valid domain/nested domain.
+	// If the property is not specified, or it is null, no update to existing vanityDomains.
+	// If the property is empty array, update will clear existing vanityDomains
+	// If the property has new value, the new vanityDomains value will replace existing vanityDomains previously set for the instance.
+	// Example: `{ "vanityDomains": ["mysite1.mycompany.com", "mysite2.mycompany.com"] }`
+	VanityDomains []string `mandatory:"false" json:"vanityDomains"`
+
+	// Deprecated. Web Application Firewall(WAF) primary domain. To set domain, use vanityDomains property instead.
 	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
 
 	// Flag indicating whether the instance license is new cloud or bring your own license

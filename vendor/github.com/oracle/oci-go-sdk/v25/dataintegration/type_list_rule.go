@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// TypeListRule The type list rule which defines how fields are projected.
+// TypeListRule The type list rule that defines how fields are projected.
 type TypeListRule struct {
 
 	// The key of the object.
@@ -33,28 +33,28 @@ type TypeListRule struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Detailed description for the object.
+	// A user defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// skipRemainingRulesOnMatch
+	// Specifies whether to skip remaining rules when a match is found.
 	IsSkipRemainingRulesOnMatch *bool `mandatory:"false" json:"isSkipRemainingRulesOnMatch"`
 
-	// Reference to a typed object, this can be either a key value to an object within the document, a shall referenced to a TypedObject or a full TypedObject definition.
+	// Reference to a typed object. This can be either a key value to an object within the document, a shall referenced to a `TypedObject`, or a full `TypedObject` definition.
 	Scope *interface{} `mandatory:"false" json:"scope"`
 
-	// cascade
+	// Specifies whether to cascade or not.
 	IsCascade *bool `mandatory:"false" json:"isCascade"`
 
-	// caseSensitive
+	// Specifies if the rule is case sensitive.
 	IsCaseSensitive *bool `mandatory:"false" json:"isCaseSensitive"`
 
-	// types
-	Types []BaseType `mandatory:"false" json:"types"`
+	// An arry of types.
+	Types []interface{} `mandatory:"false" json:"types"`
 
-	// matchingStrategy
+	// The pattern matching strategy.
 	MatchingStrategy TypeListRuleMatchingStrategyEnum `mandatory:"false" json:"matchingStrategy,omitempty"`
 
-	// ruleType
+	// The rule type.
 	RuleType TypeListRuleRuleTypeEnum `mandatory:"false" json:"ruleType,omitempty"`
 }
 
@@ -109,72 +109,6 @@ func (m TypeListRule) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *TypeListRule) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Key                         *string                          `json:"key"`
-		ModelVersion                *string                          `json:"modelVersion"`
-		ParentRef                   *ParentReference                 `json:"parentRef"`
-		IsJavaRegexSyntax           *bool                            `json:"isJavaRegexSyntax"`
-		ConfigValues                *ConfigValues                    `json:"configValues"`
-		ObjectStatus                *int                             `json:"objectStatus"`
-		Description                 *string                          `json:"description"`
-		IsSkipRemainingRulesOnMatch *bool                            `json:"isSkipRemainingRulesOnMatch"`
-		Scope                       *interface{}                     `json:"scope"`
-		IsCascade                   *bool                            `json:"isCascade"`
-		MatchingStrategy            TypeListRuleMatchingStrategyEnum `json:"matchingStrategy"`
-		IsCaseSensitive             *bool                            `json:"isCaseSensitive"`
-		RuleType                    TypeListRuleRuleTypeEnum         `json:"ruleType"`
-		Types                       []basetype                       `json:"types"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Key = model.Key
-
-	m.ModelVersion = model.ModelVersion
-
-	m.ParentRef = model.ParentRef
-
-	m.IsJavaRegexSyntax = model.IsJavaRegexSyntax
-
-	m.ConfigValues = model.ConfigValues
-
-	m.ObjectStatus = model.ObjectStatus
-
-	m.Description = model.Description
-
-	m.IsSkipRemainingRulesOnMatch = model.IsSkipRemainingRulesOnMatch
-
-	m.Scope = model.Scope
-
-	m.IsCascade = model.IsCascade
-
-	m.MatchingStrategy = model.MatchingStrategy
-
-	m.IsCaseSensitive = model.IsCaseSensitive
-
-	m.RuleType = model.RuleType
-
-	m.Types = make([]BaseType, len(model.Types))
-	for i, n := range model.Types {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.Types[i] = nn.(BaseType)
-		} else {
-			m.Types[i] = nil
-		}
-	}
-
-	return
 }
 
 // TypeListRuleMatchingStrategyEnum Enum with underlying type: string

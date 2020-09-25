@@ -49,6 +49,12 @@ type AnalyticsInstance struct {
 	// Email address receiving notifications.
 	EmailNotification *string `mandatory:"false" json:"emailNotification"`
 
+	// Map of PrivateAccessChannel unique identifier key as KEY and PrivateAccessChannel Object as VALUE.
+	PrivateAccessChannels map[string]PrivateAccessChannel `mandatory:"false" json:"privateAccessChannels"`
+
+	// Map of VanityUrl unique identifier key as KEY and VanityUrl Object as VALUE.
+	VanityUrlDetails map[string]VanityUrlDetails `mandatory:"false" json:"vanityUrlDetails"`
+
 	// URL of the Analytics service.
 	ServiceUrl *string `mandatory:"false" json:"serviceUrl"`
 
@@ -78,6 +84,8 @@ func (m *AnalyticsInstance) UnmarshalJSON(data []byte) (e error) {
 		Description            *string                             `json:"description"`
 		LicenseType            LicenseTypeEnum                     `json:"licenseType"`
 		EmailNotification      *string                             `json:"emailNotification"`
+		PrivateAccessChannels  map[string]PrivateAccessChannel     `json:"privateAccessChannels"`
+		VanityUrlDetails       map[string]VanityUrlDetails         `json:"vanityUrlDetails"`
 		ServiceUrl             *string                             `json:"serviceUrl"`
 		DefinedTags            map[string]map[string]interface{}   `json:"definedTags"`
 		FreeformTags           map[string]string                   `json:"freeformTags"`
@@ -102,6 +110,10 @@ func (m *AnalyticsInstance) UnmarshalJSON(data []byte) (e error) {
 	m.LicenseType = model.LicenseType
 
 	m.EmailNotification = model.EmailNotification
+
+	m.PrivateAccessChannels = model.PrivateAccessChannels
+
+	m.VanityUrlDetails = model.VanityUrlDetails
 
 	m.ServiceUrl = model.ServiceUrl
 

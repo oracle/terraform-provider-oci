@@ -63,6 +63,9 @@ type DbSystemShapeSummary struct {
 
 	// The maximum number of database nodes available for this shape.
 	MaximumNodeCount *int `mandatory:"false" json:"maximumNodeCount"`
+
+	// The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to Flex Exadata shape.
+	AvailableCoreCountPerNode *int `mandatory:"false" json:"availableCoreCountPerNode"`
 }
 
 func (m DbSystemShapeSummary) String() string {

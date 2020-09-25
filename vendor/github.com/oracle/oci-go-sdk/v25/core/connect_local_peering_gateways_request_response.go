@@ -18,6 +18,10 @@ type ConnectLocalPeeringGatewaysRequest struct {
 	// Details regarding the local peering gateway to connect.
 	ConnectLocalPeeringGatewaysDetails `contributesTo:"body"`
 
+	// A comma separated list of tenancy OCIDs that might be accessed by this request. Only required
+	// for cross tenancy requests. May be `null` for requests that do not cross tenancy boundaries.
+	XCrossTenancyRequest *string `mandatory:"false" contributesTo:"header" name:"x-cross-tenancy-request"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

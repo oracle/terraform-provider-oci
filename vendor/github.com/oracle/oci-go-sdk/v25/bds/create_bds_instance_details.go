@@ -42,7 +42,6 @@ type CreateBdsInstanceDetails struct {
 	// The list of nodes in the BDS instance
 	Nodes []CreateNodeDetails `mandatory:"true" json:"nodes"`
 
-	// Additional configuration of customer's network.
 	NetworkConfig *NetworkConfig `mandatory:"false" json:"networkConfig"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

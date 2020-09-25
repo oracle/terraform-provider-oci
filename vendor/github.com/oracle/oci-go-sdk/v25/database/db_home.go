@@ -49,6 +49,9 @@ type DbHome struct {
 	// The date and time the Database Home was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// List of one-off patches for Database Homes.
 	OneOffPatches []string `mandatory:"false" json:"oneOffPatches"`
 

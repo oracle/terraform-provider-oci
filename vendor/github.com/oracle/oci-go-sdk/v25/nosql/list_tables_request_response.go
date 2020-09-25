@@ -149,6 +149,7 @@ const (
 	ListTablesLifecycleStateDeleting ListTablesLifecycleStateEnum = "DELETING"
 	ListTablesLifecycleStateDeleted  ListTablesLifecycleStateEnum = "DELETED"
 	ListTablesLifecycleStateFailed   ListTablesLifecycleStateEnum = "FAILED"
+	ListTablesLifecycleStateInactive ListTablesLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingListTablesLifecycleState = map[string]ListTablesLifecycleStateEnum{
@@ -159,6 +160,7 @@ var mappingListTablesLifecycleState = map[string]ListTablesLifecycleStateEnum{
 	"DELETING": ListTablesLifecycleStateDeleting,
 	"DELETED":  ListTablesLifecycleStateDeleted,
 	"FAILED":   ListTablesLifecycleStateFailed,
+	"INACTIVE": ListTablesLifecycleStateInactive,
 }
 
 // GetListTablesLifecycleStateEnumValues Enumerates the set of values for ListTablesLifecycleStateEnum

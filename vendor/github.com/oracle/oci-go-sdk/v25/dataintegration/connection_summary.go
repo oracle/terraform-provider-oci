@@ -25,10 +25,10 @@ type ConnectionSummary interface {
 
 	GetParentRef() *ParentReference
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	GetDescription() *string
 
 	// The version of the object that is used to track changes in the object instance.
@@ -37,7 +37,7 @@ type ConnectionSummary interface {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
 	GetPrimarySchema() *Schema
@@ -50,7 +50,7 @@ type ConnectionSummary interface {
 
 	GetMetadata() *ObjectMetadata
 
-	// A map, if provided key is replaced with generated key, this structure provides mapping between user provided key and generated key
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	GetKeyMap() map[string]string
 }
 
@@ -110,6 +110,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.ModelType {
+	case "GENERIC_JDBC_CONNECTION":
+		mm := ConnectionSummaryFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_ATP_CONNECTION":
 		mm := ConnectionSummaryFromAtp{}
 		err = json.Unmarshal(data, &mm)
@@ -120,6 +124,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		return mm, err
 	case "ORACLE_ADWC_CONNECTION":
 		mm := ConnectionSummaryFromAdwc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_CONNECTION":
+		mm := ConnectionSummaryFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_OBJECT_STORAGE_CONNECTION":
@@ -209,6 +217,8 @@ const (
 	ConnectionSummaryModelTypeOracleAtpConnection           ConnectionSummaryModelTypeEnum = "ORACLE_ATP_CONNECTION"
 	ConnectionSummaryModelTypeOracleObjectStorageConnection ConnectionSummaryModelTypeEnum = "ORACLE_OBJECT_STORAGE_CONNECTION"
 	ConnectionSummaryModelTypeOracledbConnection            ConnectionSummaryModelTypeEnum = "ORACLEDB_CONNECTION"
+	ConnectionSummaryModelTypeMysqlDataAsset                ConnectionSummaryModelTypeEnum = "MYSQL_DATA_ASSET"
+	ConnectionSummaryModelTypeGenericJdbcDataAsset          ConnectionSummaryModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 )
 
 var mappingConnectionSummaryModelType = map[string]ConnectionSummaryModelTypeEnum{
@@ -216,6 +226,8 @@ var mappingConnectionSummaryModelType = map[string]ConnectionSummaryModelTypeEnu
 	"ORACLE_ATP_CONNECTION":            ConnectionSummaryModelTypeOracleAtpConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": ConnectionSummaryModelTypeOracleObjectStorageConnection,
 	"ORACLEDB_CONNECTION":              ConnectionSummaryModelTypeOracledbConnection,
+	"MYSQL_DATA_ASSET":                 ConnectionSummaryModelTypeMysqlDataAsset,
+	"GENERIC_JDBC_DATA_ASSET":          ConnectionSummaryModelTypeGenericJdbcDataAsset,
 }
 
 // GetConnectionSummaryModelTypeEnumValues Enumerates the set of values for ConnectionSummaryModelTypeEnum

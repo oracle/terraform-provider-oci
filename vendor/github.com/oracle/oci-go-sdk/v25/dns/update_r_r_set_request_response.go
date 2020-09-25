@@ -43,6 +43,12 @@ type UpdateRRSetRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope UpdateRRSetScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
+	// The OCID of the view the resource is associated with.
+	ViewId *string `mandatory:"false" contributesTo:"query" name:"viewId"`
+
 	// The OCID of the compartment the resource belongs to.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
@@ -100,4 +106,27 @@ func (response UpdateRRSetResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response UpdateRRSetResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// UpdateRRSetScopeEnum Enum with underlying type: string
+type UpdateRRSetScopeEnum string
+
+// Set of constants representing the allowable values for UpdateRRSetScopeEnum
+const (
+	UpdateRRSetScopeGlobal  UpdateRRSetScopeEnum = "GLOBAL"
+	UpdateRRSetScopePrivate UpdateRRSetScopeEnum = "PRIVATE"
+)
+
+var mappingUpdateRRSetScope = map[string]UpdateRRSetScopeEnum{
+	"GLOBAL":  UpdateRRSetScopeGlobal,
+	"PRIVATE": UpdateRRSetScopePrivate,
+}
+
+// GetUpdateRRSetScopeEnumValues Enumerates the set of values for UpdateRRSetScopeEnum
+func GetUpdateRRSetScopeEnumValues() []UpdateRRSetScopeEnum {
+	values := make([]UpdateRRSetScopeEnum, 0)
+	for _, v := range mappingUpdateRRSetScope {
+		values = append(values, v)
+	}
+	return values
 }

@@ -12,7 +12,7 @@ import (
 // UpdateFileSystemRequest wrapper for the UpdateFileSystem operation
 type UpdateFileSystemRequest struct {
 
-	// The OCID of the file system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
 	// Details object for updating a file system.

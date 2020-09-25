@@ -12,7 +12,7 @@ import (
 // DeleteFileSystemRequest wrapper for the DeleteFileSystem operation
 type DeleteFileSystemRequest struct {
 
-	// The OCID of the file system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

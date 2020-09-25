@@ -40,6 +40,33 @@ type EntitySummary struct {
 	// Unique external key of this object in the source system.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
+	// Key of the associated pattern if this is a logical entity.
+	PatternKey *string `mandatory:"false" json:"patternKey"`
+
+	// The expression realized after resolving qualifiers . Used in deriving this logical entity
+	RealizedExpression *string `mandatory:"false" json:"realizedExpression"`
+
+	// Specifies the record delimiter character or string. Used by harvester.
+	RecordDelimiter *string `mandatory:"false" json:"recordDelimiter"`
+
+	// Specifies the field delimiter character or string. Used by harvester.
+	Delimiter *string `mandatory:"false" json:"delimiter"`
+
+	// Specifies the characterset of source files. Used by harvester.
+	Characterset *string `mandatory:"false" json:"characterset"`
+
+	// Specifies how many rows would be skipped from the start of the file. Used by harvester.
+	SkipHeaders *int `mandatory:"false" json:"skipHeaders"`
+
+	// The character "\" is used as the escape character when specified. Used by harvester.
+	IsEscape *bool `mandatory:"false" json:"isEscape"`
+
+	// Specifies the quote characters for the fields, the quote characters are removed during loading when specified.
+	Quote *string `mandatory:"false" json:"quote"`
+
+	// Specifies the compression type of the source file. Usually auto | gzip | zlib | bzip2 but can be other things.
+	Compression *string `mandatory:"false" json:"compression"`
+
 	// Full path of the data entity.
 	Path *string `mandatory:"false" json:"path"`
 

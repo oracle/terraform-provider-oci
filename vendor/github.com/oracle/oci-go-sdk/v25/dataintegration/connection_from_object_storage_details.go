@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ConnectionFromObjectStorageDetails The Object Storage connection details.
+// ConnectionFromObjectStorageDetails The connection summary details for an Oracle Object Storage data asset.
 type ConnectionFromObjectStorageDetails struct {
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
@@ -25,10 +25,10 @@ type ConnectionFromObjectStorageDetails struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The version of the object that is used to track changes in the object instance.
@@ -37,7 +37,7 @@ type ConnectionFromObjectStorageDetails struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	PrimarySchema *Schema `mandatory:"false" json:"primarySchema"`
@@ -50,16 +50,16 @@ type ConnectionFromObjectStorageDetails struct {
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
-	// The credential file content from a wallet for the data asset.
+	// The credential file content from an Oracle Object Storage wallet.
 	CredentialFileContent *string `mandatory:"false" json:"credentialFileContent"`
 
 	// The OCI user OCID for the user to connect to.
 	UserId *string `mandatory:"false" json:"userId"`
 
-	// The fingeprint for the user.
+	// The fingerprint for the user.
 	FingerPrint *string `mandatory:"false" json:"fingerPrint"`
 
-	// The pass phrase for the connection.
+	// The passphrase for the connection.
 	PassPhrase *string `mandatory:"false" json:"passPhrase"`
 }
 

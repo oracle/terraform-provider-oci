@@ -32,6 +32,9 @@ type CsvFormatAttribute struct {
 	// Defines whether the file has a header row.
 	HasHeader *bool `mandatory:"false" json:"hasHeader"`
 
+	// Defines whether a file pattern is supported.
+	IsFilePattern *bool `mandatory:"false" json:"isFilePattern"`
+
 	// Format for timestamp data.
 	TimestampFormat *string `mandatory:"false" json:"timestampFormat"`
 }

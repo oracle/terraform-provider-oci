@@ -131,6 +131,9 @@ type HeadObjectResponse struct {
 	// VersionId of the object requested
 	VersionId *string `presentIn:"header" name:"version-id"`
 
+	// The storage tier that the object is stored in.
+	StorageTier HeadObjectStorageTierEnum `presentIn:"header" name:"storage-tier"`
+
 	// Flag to indicate whether or not the object was modified.  If this is true,
 	// the getter for the object itself will return null.  Callers should check this
 	// if they specified one of the request params that might result in a conditional
@@ -169,6 +172,31 @@ var mappingHeadObjectArchivalState = map[string]HeadObjectArchivalStateEnum{
 func GetHeadObjectArchivalStateEnumValues() []HeadObjectArchivalStateEnum {
 	values := make([]HeadObjectArchivalStateEnum, 0)
 	for _, v := range mappingHeadObjectArchivalState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// HeadObjectStorageTierEnum Enum with underlying type: string
+type HeadObjectStorageTierEnum string
+
+// Set of constants representing the allowable values for HeadObjectStorageTierEnum
+const (
+	HeadObjectStorageTierStandard         HeadObjectStorageTierEnum = "Standard"
+	HeadObjectStorageTierInfrequentaccess HeadObjectStorageTierEnum = "InfrequentAccess"
+	HeadObjectStorageTierArchive          HeadObjectStorageTierEnum = "Archive"
+)
+
+var mappingHeadObjectStorageTier = map[string]HeadObjectStorageTierEnum{
+	"Standard":         HeadObjectStorageTierStandard,
+	"InfrequentAccess": HeadObjectStorageTierInfrequentaccess,
+	"Archive":          HeadObjectStorageTierArchive,
+}
+
+// GetHeadObjectStorageTierEnumValues Enumerates the set of values for HeadObjectStorageTierEnum
+func GetHeadObjectStorageTierEnumValues() []HeadObjectStorageTierEnum {
+	values := make([]HeadObjectStorageTierEnum, 0)
+	for _, v := range mappingHeadObjectStorageTier {
 		values = append(values, v)
 	}
 	return values

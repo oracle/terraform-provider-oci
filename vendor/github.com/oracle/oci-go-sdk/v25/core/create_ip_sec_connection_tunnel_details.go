@@ -27,6 +27,9 @@ type CreateIpSecConnectionTunnelDetails struct {
 	// The type of routing to use for this tunnel (either BGP dynamic routing or static routing).
 	Routing CreateIpSecConnectionTunnelDetailsRoutingEnum `mandatory:"false" json:"routing,omitempty"`
 
+	// The routing policy setting defines the scope of how widely routing information about the Oracle cloud is shared through the IPSec tunnel. The virtual cloud network (VCN) can either share a single IP address range for the entire VCN (the default) or individually specify all subnets in that VCN. The IPSec connection must have BGP enabled to share routing information.
+	RoutingPolicy []CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
+
 	// Internet Key Exchange protocol version.
 	IkeVersion CreateIpSecConnectionTunnelDetailsIkeVersionEnum `mandatory:"false" json:"ikeVersion,omitempty"`
 
@@ -36,11 +39,6 @@ type CreateIpSecConnectionTunnelDetails struct {
 	// you like with UpdateIPSecConnectionTunnelSharedSecret.
 	SharedSecret *string `mandatory:"false" json:"sharedSecret"`
 
-	// Information for establishing a BGP session for the IPSec tunnel. Required if the tunnel uses
-	// BGP dynamic routing.
-	// If the tunnel instead uses static routing, you may optionally provide
-	// this object and set an IP address for one or both ends of the IPSec tunnel for the purposes
-	// of troubleshooting or monitoring the tunnel.
 	BgpSessionConfig *CreateIpSecTunnelBgpSessionDetails `mandatory:"false" json:"bgpSessionConfig"`
 }
 
@@ -66,6 +64,29 @@ var mappingCreateIpSecConnectionTunnelDetailsRouting = map[string]CreateIpSecCon
 func GetCreateIpSecConnectionTunnelDetailsRoutingEnumValues() []CreateIpSecConnectionTunnelDetailsRoutingEnum {
 	values := make([]CreateIpSecConnectionTunnelDetailsRoutingEnum, 0)
 	for _, v := range mappingCreateIpSecConnectionTunnelDetailsRouting {
+		values = append(values, v)
+	}
+	return values
+}
+
+// CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum Enum with underlying type: string
+type CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum string
+
+// Set of constants representing the allowable values for CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum
+const (
+	CreateIpSecConnectionTunnelDetailsRoutingPolicyVcnCidr         CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum = "VCN_CIDR"
+	CreateIpSecConnectionTunnelDetailsRoutingPolicyAllSubnetsInVcn CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum = "ALL_SUBNETS_IN_VCN"
+)
+
+var mappingCreateIpSecConnectionTunnelDetailsRoutingPolicy = map[string]CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum{
+	"VCN_CIDR":           CreateIpSecConnectionTunnelDetailsRoutingPolicyVcnCidr,
+	"ALL_SUBNETS_IN_VCN": CreateIpSecConnectionTunnelDetailsRoutingPolicyAllSubnetsInVcn,
+}
+
+// GetCreateIpSecConnectionTunnelDetailsRoutingPolicyEnumValues Enumerates the set of values for CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum
+func GetCreateIpSecConnectionTunnelDetailsRoutingPolicyEnumValues() []CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum {
+	values := make([]CreateIpSecConnectionTunnelDetailsRoutingPolicyEnum, 0)
+	for _, v := range mappingCreateIpSecConnectionTunnelDetailsRoutingPolicy {
 		values = append(values, v)
 	}
 	return values

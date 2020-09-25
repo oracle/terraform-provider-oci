@@ -14,13 +14,15 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// UpdateLoadBalancerShapeDetails The configuration details for update a load balancer to a different shape.
+// UpdateLoadBalancerShapeDetails The representation of UpdateLoadBalancerShapeDetails
 type UpdateLoadBalancerShapeDetails struct {
 
-	// A template that determines the total pre-provisioned bandwidth (ingress plus egress).
-	// To get a list of available shapes, use the ListShapes
-	// operation.
-	// Example: `100Mbps`
+	// The new shape name for the load balancer.
+	// Allowed values are :
+	//   *  10Mbps
+	//   *  100Mbps
+	//   *  400Mbps
+	//   *  8000Mbps
 	ShapeName *string `mandatory:"true" json:"shapeName"`
 }
 

@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// CreateConnectionValidationDetails Connection validation definition
+// CreateConnectionValidationDetails The properties used in create connection validation operations.
 type CreateConnectionValidationDetails struct {
 	DataAsset CreateDataAssetDetails `mandatory:"false" json:"dataAsset"`
 

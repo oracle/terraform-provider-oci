@@ -25,6 +25,8 @@ import (
 //     *  `SOURCE_IP_ADDRESS`
 //     *  `SOURCE_VCN_ID`
 //     *  `SOURCE_VCN_ID", "SOURCE_VCN_IP_ADDRESS`
+//     *  `REAL_IP_ADDRESS`
+//     *  `SOURCE_IP_ADDRESS", "REAL_IP_ADDRESS`
 type AllowRule struct {
 	Conditions []RuleCondition `mandatory:"true" json:"conditions"`
 

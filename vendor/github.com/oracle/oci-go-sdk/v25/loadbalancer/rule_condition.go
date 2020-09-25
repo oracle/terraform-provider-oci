@@ -65,6 +65,10 @@ func (m *rulecondition) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := SourceVcnIpAddressCondition{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REAL_IP_ADDRESS":
+		mm := RealIpAddressCondition{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -83,6 +87,7 @@ const (
 	RuleConditionAttributeNameSourceVcnId        RuleConditionAttributeNameEnum = "SOURCE_VCN_ID"
 	RuleConditionAttributeNameSourceVcnIpAddress RuleConditionAttributeNameEnum = "SOURCE_VCN_IP_ADDRESS"
 	RuleConditionAttributeNamePath               RuleConditionAttributeNameEnum = "PATH"
+	RuleConditionAttributeNameRealIpAddress      RuleConditionAttributeNameEnum = "REAL_IP_ADDRESS"
 )
 
 var mappingRuleConditionAttributeName = map[string]RuleConditionAttributeNameEnum{
@@ -90,6 +95,7 @@ var mappingRuleConditionAttributeName = map[string]RuleConditionAttributeNameEnu
 	"SOURCE_VCN_ID":         RuleConditionAttributeNameSourceVcnId,
 	"SOURCE_VCN_IP_ADDRESS": RuleConditionAttributeNameSourceVcnIpAddress,
 	"PATH":                  RuleConditionAttributeNamePath,
+	"REAL_IP_ADDRESS":       RuleConditionAttributeNameRealIpAddress,
 }
 
 // GetRuleConditionAttributeNameEnumValues Enumerates the set of values for RuleConditionAttributeNameEnum

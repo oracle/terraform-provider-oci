@@ -12,13 +12,13 @@ import (
 // CreateFolderRequest wrapper for the CreateFolder operation
 type CreateFolderRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
 	// The details needed to create a folder.
 	CreateFolderDetails `contributesTo:"body"`
 
-	// Caller may provide "retry tokens" allowing them to retry an operation
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Unique Oracle-assigned identifier for the request. If

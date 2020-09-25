@@ -12,7 +12,7 @@ import (
 // GetWorkspaceRequest wrapper for the GetWorkspace operation
 type GetWorkspaceRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
 	// Unique Oracle-assigned identifier for the request. If

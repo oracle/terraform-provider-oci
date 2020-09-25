@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// A description of the UsageApi API.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console.
 //
 
 package usageapi
@@ -77,7 +77,7 @@ func (client *UsageapiClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
-// RequestSummarizedConfigurations Returns the list of config for UI dropdown list
+// RequestSummarizedConfigurations Returns the configurations list for the UI drop-down list.
 func (client UsageapiClient) RequestSummarizedConfigurations(ctx context.Context, request RequestSummarizedConfigurationsRequest) (response RequestSummarizedConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -124,7 +124,7 @@ func (client UsageapiClient) requestSummarizedConfigurations(ctx context.Context
 	return response, err
 }
 
-// RequestSummarizedUsages Returns the usage for the given account
+// RequestSummarizedUsages Returns usage for the given account.
 func (client UsageapiClient) RequestSummarizedUsages(ctx context.Context, request RequestSummarizedUsagesRequest) (response RequestSummarizedUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

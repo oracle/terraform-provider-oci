@@ -12,13 +12,13 @@ import (
 // GetPatchRequest wrapper for the GetPatch operation
 type GetPatchRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// DIS application key
+	// The application key.
 	ApplicationKey *string `mandatory:"true" contributesTo:"path" name:"applicationKey"`
 
-	// DIS patch key
+	// The patch key.
 	PatchKey *string `mandatory:"true" contributesTo:"path" name:"patchKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

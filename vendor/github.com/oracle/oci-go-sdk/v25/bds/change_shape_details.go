@@ -15,13 +15,12 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ChangeShapeDetails The information about additionaly added nodes
+// ChangeShapeDetails Resize details specified for individual nodes.
 type ChangeShapeDetails struct {
 
 	// Base-64 encoded password for Cloudera Manager admin user
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
 
-	// Inidividial worker nodes groups details
 	Nodes *ChangeShapeNodes `mandatory:"true" json:"nodes"`
 }
 

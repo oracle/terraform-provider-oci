@@ -47,8 +47,34 @@ type CreateNatGatewayDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Public IP associated with the NAT gateway.
 	PublicIpId *string `mandatory:"false" json:"publicIpId"`
+
+	// The name of the Oracle managed public IP Pool from which the IP address associated with the NAT gateway is allocated.
+	InternalPublicIpPoolName CreateNatGatewayDetailsInternalPublicIpPoolNameEnum `mandatory:"false" json:"internalPublicIpPoolName,omitempty"`
 }
 
 func (m CreateNatGatewayDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateNatGatewayDetailsInternalPublicIpPoolNameEnum Enum with underlying type: string
+type CreateNatGatewayDetailsInternalPublicIpPoolNameEnum string
+
+// Set of constants representing the allowable values for CreateNatGatewayDetailsInternalPublicIpPoolNameEnum
+const (
+	CreateNatGatewayDetailsInternalPublicIpPoolNameExternal   CreateNatGatewayDetailsInternalPublicIpPoolNameEnum = "EXTERNAL"
+	CreateNatGatewayDetailsInternalPublicIpPoolNameSociEgress CreateNatGatewayDetailsInternalPublicIpPoolNameEnum = "SOCI_EGRESS"
+)
+
+var mappingCreateNatGatewayDetailsInternalPublicIpPoolName = map[string]CreateNatGatewayDetailsInternalPublicIpPoolNameEnum{
+	"EXTERNAL":    CreateNatGatewayDetailsInternalPublicIpPoolNameExternal,
+	"SOCI_EGRESS": CreateNatGatewayDetailsInternalPublicIpPoolNameSociEgress,
+}
+
+// GetCreateNatGatewayDetailsInternalPublicIpPoolNameEnumValues Enumerates the set of values for CreateNatGatewayDetailsInternalPublicIpPoolNameEnum
+func GetCreateNatGatewayDetailsInternalPublicIpPoolNameEnumValues() []CreateNatGatewayDetailsInternalPublicIpPoolNameEnum {
+	values := make([]CreateNatGatewayDetailsInternalPublicIpPoolNameEnum, 0)
+	for _, v := range mappingCreateNatGatewayDetailsInternalPublicIpPoolName {
+		values = append(values, v)
+	}
+	return values
 }

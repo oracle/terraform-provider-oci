@@ -21,11 +21,18 @@ type UpdateMountTargetDetails struct {
 	// Example: `My mount target`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Describes whether Idmapping is turned on or off. If on, describes method used to perform ID Mapping
+	IdmapType MountTargetIdmapTypeEnum `mandatory:"false" json:"idmapType,omitempty"`
+
+	UpdateLdapIdmapDetails *UpdateLdapIdmapDetails `mandatory:"false" json:"updateLdapIdmapDetails"`
+
 	// A list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this mount target.
 	// A maximum of 5 is allowed.
 	// Setting this to an empty array after the list is created removes the mount target from all NSGs.
 	// For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	UpdateKerberosDetails *UpdateKerberosDetails `mandatory:"false" json:"updateKerberosDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.

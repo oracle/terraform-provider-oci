@@ -33,31 +33,34 @@ type TypedNamePatternRule struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Detailed description for the object.
+	// A user defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// types
-	Types []BaseType `mandatory:"false" json:"types"`
+	// An array of types.
+	Types []interface{} `mandatory:"false" json:"types"`
 
-	// skipRemainingRulesOnMatch
+	// Specifies whether to skip remaining rules when a match is found.
 	IsSkipRemainingRulesOnMatch *bool `mandatory:"false" json:"isSkipRemainingRulesOnMatch"`
 
-	// Reference to a typed object, this can be either a key value to an object within the document, a shall referenced to a TypedObject or a full TypedObject definition.
+	// Reference to a typed object. This can be either a key value to an object within the document, a shall referenced to a `TypedObject`, or a full `TypedObject` definition.
 	Scope *interface{} `mandatory:"false" json:"scope"`
 
-	// cascade
+	// Specifies whether to cascade or not.
 	IsCascade *bool `mandatory:"false" json:"isCascade"`
 
-	// caseSensitive
+	// Specifies if the rule is case sensitive.
 	IsCaseSensitive *bool `mandatory:"false" json:"isCaseSensitive"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// The rule pattern.
+	Pattern *string `mandatory:"false" json:"pattern"`
+
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Names []string `mandatory:"false" json:"names"`
 
-	// matchingStrategy
+	// The pattern matching strategy.
 	MatchingStrategy TypedNamePatternRuleMatchingStrategyEnum `mandatory:"false" json:"matchingStrategy,omitempty"`
 
-	// ruleType
+	// The rule type.
 	RuleType TypedNamePatternRuleRuleTypeEnum `mandatory:"false" json:"ruleType,omitempty"`
 }
 
@@ -112,78 +115,6 @@ func (m TypedNamePatternRule) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *TypedNamePatternRule) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Key                         *string                                  `json:"key"`
-		ModelVersion                *string                                  `json:"modelVersion"`
-		ParentRef                   *ParentReference                         `json:"parentRef"`
-		IsJavaRegexSyntax           *bool                                    `json:"isJavaRegexSyntax"`
-		ConfigValues                *ConfigValues                            `json:"configValues"`
-		ObjectStatus                *int                                     `json:"objectStatus"`
-		Description                 *string                                  `json:"description"`
-		Types                       []basetype                               `json:"types"`
-		IsSkipRemainingRulesOnMatch *bool                                    `json:"isSkipRemainingRulesOnMatch"`
-		Scope                       *interface{}                             `json:"scope"`
-		IsCascade                   *bool                                    `json:"isCascade"`
-		MatchingStrategy            TypedNamePatternRuleMatchingStrategyEnum `json:"matchingStrategy"`
-		IsCaseSensitive             *bool                                    `json:"isCaseSensitive"`
-		RuleType                    TypedNamePatternRuleRuleTypeEnum         `json:"ruleType"`
-		Names                       []string                                 `json:"names"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Key = model.Key
-
-	m.ModelVersion = model.ModelVersion
-
-	m.ParentRef = model.ParentRef
-
-	m.IsJavaRegexSyntax = model.IsJavaRegexSyntax
-
-	m.ConfigValues = model.ConfigValues
-
-	m.ObjectStatus = model.ObjectStatus
-
-	m.Description = model.Description
-
-	m.Types = make([]BaseType, len(model.Types))
-	for i, n := range model.Types {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.Types[i] = nn.(BaseType)
-		} else {
-			m.Types[i] = nil
-		}
-	}
-
-	m.IsSkipRemainingRulesOnMatch = model.IsSkipRemainingRulesOnMatch
-
-	m.Scope = model.Scope
-
-	m.IsCascade = model.IsCascade
-
-	m.MatchingStrategy = model.MatchingStrategy
-
-	m.IsCaseSensitive = model.IsCaseSensitive
-
-	m.RuleType = model.RuleType
-
-	m.Names = make([]string, len(model.Names))
-	for i, n := range model.Names {
-		m.Names[i] = n
-	}
-
-	return
 }
 
 // TypedNamePatternRuleMatchingStrategyEnum Enum with underlying type: string

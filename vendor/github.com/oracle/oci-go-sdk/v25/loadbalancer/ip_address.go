@@ -25,6 +25,8 @@ type IpAddress struct {
 	// If "true", the IP address is public and accessible from the internet.
 	// If "false", the IP address is private and accessible only from within the associated VCN.
 	IsPublic *bool `mandatory:"false" json:"isPublic"`
+
+	ReservedIp *ReservedIp `mandatory:"false" json:"reservedIp"`
 }
 
 func (m IpAddress) String() string {

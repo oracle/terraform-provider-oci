@@ -81,6 +81,17 @@ type CreateSubnetDetails struct {
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
+	// Whether learning mode is enabled for this subnet. The default is `false`.
+	// **Note:** When a subnet has learning mode enabled, only certain types
+	// of resources can be launched in the subnet.
+	// Example: `true`
+	IsLearningEnabled *bool `mandatory:"false" json:"isLearningEnabled"`
+
+	// The VLAN tag to associate with every VNIC Attachment within this Subnet, available only
+	// on BareMetal secondary VNICs within learning enabled Subnets.
+	// **Note:** If the Subnet is learning enabled, the vlanTag value has to be passed in and cannot be empty.
+	VlanTag *int `mandatory:"false" json:"vlanTag"`
+
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will
 	// automatically be assigned public IP addresses unless specified

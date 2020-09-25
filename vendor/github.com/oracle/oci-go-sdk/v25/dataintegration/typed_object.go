@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// TypedObject The TypedObject class is a base class for any model object that has a type.
+// TypedObject The `TypedObject` class is a base class for any model object that has a type.
 type TypedObject interface {
 
 	// The key of the object.
@@ -30,7 +30,7 @@ type TypedObject interface {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
 	// Detailed description for the object.
@@ -125,6 +125,10 @@ func (m *typedobject) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := OutputField{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MACRO_FIELD":
+		mm := MacroField{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DERIVED_FIELD":
 		mm := DerivedField{}
 		err = json.Unmarshal(data, &mm)
@@ -187,6 +191,7 @@ const (
 	TypedObjectModelTypeShapeField        TypedObjectModelTypeEnum = "SHAPE_FIELD"
 	TypedObjectModelTypeInputField        TypedObjectModelTypeEnum = "INPUT_FIELD"
 	TypedObjectModelTypeDerivedField      TypedObjectModelTypeEnum = "DERIVED_FIELD"
+	TypedObjectModelTypeMacroField        TypedObjectModelTypeEnum = "MACRO_FIELD"
 	TypedObjectModelTypeOutputField       TypedObjectModelTypeEnum = "OUTPUT_FIELD"
 	TypedObjectModelTypeDynamicProxyField TypedObjectModelTypeEnum = "DYNAMIC_PROXY_FIELD"
 	TypedObjectModelTypeOutputPort        TypedObjectModelTypeEnum = "OUTPUT_PORT"
@@ -201,6 +206,7 @@ var mappingTypedObjectModelType = map[string]TypedObjectModelTypeEnum{
 	"SHAPE_FIELD":         TypedObjectModelTypeShapeField,
 	"INPUT_FIELD":         TypedObjectModelTypeInputField,
 	"DERIVED_FIELD":       TypedObjectModelTypeDerivedField,
+	"MACRO_FIELD":         TypedObjectModelTypeMacroField,
 	"OUTPUT_FIELD":        TypedObjectModelTypeOutputField,
 	"DYNAMIC_PROXY_FIELD": TypedObjectModelTypeDynamicProxyField,
 	"OUTPUT_PORT":         TypedObjectModelTypeOutputPort,

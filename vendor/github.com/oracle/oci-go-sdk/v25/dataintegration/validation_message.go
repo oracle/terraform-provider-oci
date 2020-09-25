@@ -13,16 +13,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ValidationMessage The level, message key and validation message.
+// ValidationMessage The level, message key, and validation message.
 type ValidationMessage struct {
 
-	// Total number of validation messages
+	// The total number of validation messages.
 	Level *string `mandatory:"false" json:"level"`
 
-	// The key.
+	// The validation message key.
 	MessageKey *string `mandatory:"false" json:"messageKey"`
 
-	// The message itself.
+	// The validation message.
 	ValidationMessage *string `mandatory:"false" json:"validationMessage"`
 }
 

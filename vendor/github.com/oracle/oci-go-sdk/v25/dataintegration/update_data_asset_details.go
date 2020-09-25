@@ -26,22 +26,22 @@ type UpdateDataAssetDetails interface {
 	// The model version of an object.
 	GetModelVersion() *string
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Detailed description for the object.
+	// The user-defined description of the data asset.
 	GetDescription() *string
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
-	// The external key for the object
+	// The external key for the object.
 	GetExternalKey() *string
 
-	// assetProperties
+	// Additional properties for the data asset.
 	GetAssetProperties() map[string]string
 
 	GetRegistryMetadata() *RegistryMetadata
@@ -105,8 +105,16 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := UpdateDataAssetFromAdwc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GENERIC_JDBC_DATA_ASSET":
+		mm := UpdateDataAssetFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_OBJECT_STORAGE_DATA_ASSET":
 		mm := UpdateDataAssetFromObjectStorage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_DATA_ASSET":
+		mm := UpdateDataAssetFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_DATA_ASSET":
@@ -177,17 +185,21 @@ type UpdateDataAssetDetailsModelTypeEnum string
 
 // Set of constants representing the allowable values for UpdateDataAssetDetailsModelTypeEnum
 const (
-	UpdateDataAssetDetailsModelTypeDataAsset              UpdateDataAssetDetailsModelTypeEnum = "ORACLE_DATA_ASSET"
-	UpdateDataAssetDetailsModelTypeObjectStorageDataAsset UpdateDataAssetDetailsModelTypeEnum = "ORACLE_OBJECT_STORAGE_DATA_ASSET"
-	UpdateDataAssetDetailsModelTypeAtpDataAsset           UpdateDataAssetDetailsModelTypeEnum = "ORACLE_ATP_DATA_ASSET"
-	UpdateDataAssetDetailsModelTypeAdwcDataAsset          UpdateDataAssetDetailsModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeOracleDataAsset              UpdateDataAssetDetailsModelTypeEnum = "ORACLE_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeOracleObjectStorageDataAsset UpdateDataAssetDetailsModelTypeEnum = "ORACLE_OBJECT_STORAGE_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeOracleAtpDataAsset           UpdateDataAssetDetailsModelTypeEnum = "ORACLE_ATP_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeOracleAdwcDataAsset          UpdateDataAssetDetailsModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeMysqlDataAsset               UpdateDataAssetDetailsModelTypeEnum = "MYSQL_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset         UpdateDataAssetDetailsModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 )
 
 var mappingUpdateDataAssetDetailsModelType = map[string]UpdateDataAssetDetailsModelTypeEnum{
-	"ORACLE_DATA_ASSET":                UpdateDataAssetDetailsModelTypeDataAsset,
-	"ORACLE_OBJECT_STORAGE_DATA_ASSET": UpdateDataAssetDetailsModelTypeObjectStorageDataAsset,
-	"ORACLE_ATP_DATA_ASSET":            UpdateDataAssetDetailsModelTypeAtpDataAsset,
-	"ORACLE_ADWC_DATA_ASSET":           UpdateDataAssetDetailsModelTypeAdwcDataAsset,
+	"ORACLE_DATA_ASSET":                UpdateDataAssetDetailsModelTypeOracleDataAsset,
+	"ORACLE_OBJECT_STORAGE_DATA_ASSET": UpdateDataAssetDetailsModelTypeOracleObjectStorageDataAsset,
+	"ORACLE_ATP_DATA_ASSET":            UpdateDataAssetDetailsModelTypeOracleAtpDataAsset,
+	"ORACLE_ADWC_DATA_ASSET":           UpdateDataAssetDetailsModelTypeOracleAdwcDataAsset,
+	"MYSQL_DATA_ASSET":                 UpdateDataAssetDetailsModelTypeMysqlDataAsset,
+	"GENERIC_JDBC_DATA_ASSET":          UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset,
 }
 
 // GetUpdateDataAssetDetailsModelTypeEnumValues Enumerates the set of values for UpdateDataAssetDetailsModelTypeEnum

@@ -53,6 +53,12 @@ type ClientOptions struct {
 	// identitySquash for more details.) If unspecified defaults
 	// to `65534`.
 	AnonymousGid *int64 `mandatory:"false" json:"anonymousGid"`
+
+	// Allow principals with no entry in ID mapping to access this export with SquashUID and SquashGID privileges.
+	IsAnonymousAccessAllowed *bool `mandatory:"false" json:"isAnonymousAccessAllowed"`
+
+	// Array of allowed NFS authentication types.
+	AllowedAuth []ClientOptionsAllowedAuthEnum `mandatory:"false" json:"allowedAuth,omitempty"`
 }
 
 func (m ClientOptions) String() string {
@@ -102,6 +108,31 @@ var mappingClientOptionsIdentitySquash = map[string]ClientOptionsIdentitySquashE
 func GetClientOptionsIdentitySquashEnumValues() []ClientOptionsIdentitySquashEnum {
 	values := make([]ClientOptionsIdentitySquashEnum, 0)
 	for _, v := range mappingClientOptionsIdentitySquash {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ClientOptionsAllowedAuthEnum Enum with underlying type: string
+type ClientOptionsAllowedAuthEnum string
+
+// Set of constants representing the allowable values for ClientOptionsAllowedAuthEnum
+const (
+	ClientOptionsAllowedAuthSys   ClientOptionsAllowedAuthEnum = "SYS"
+	ClientOptionsAllowedAuthKrb5  ClientOptionsAllowedAuthEnum = "KRB5"
+	ClientOptionsAllowedAuthKrb5i ClientOptionsAllowedAuthEnum = "KRB5I"
+)
+
+var mappingClientOptionsAllowedAuth = map[string]ClientOptionsAllowedAuthEnum{
+	"SYS":   ClientOptionsAllowedAuthSys,
+	"KRB5":  ClientOptionsAllowedAuthKrb5,
+	"KRB5I": ClientOptionsAllowedAuthKrb5i,
+}
+
+// GetClientOptionsAllowedAuthEnumValues Enumerates the set of values for ClientOptionsAllowedAuthEnum
+func GetClientOptionsAllowedAuthEnumValues() []ClientOptionsAllowedAuthEnum {
+	values := make([]ClientOptionsAllowedAuthEnum, 0)
+	for _, v := range mappingClientOptionsAllowedAuth {
 		values = append(values, v)
 	}
 	return values

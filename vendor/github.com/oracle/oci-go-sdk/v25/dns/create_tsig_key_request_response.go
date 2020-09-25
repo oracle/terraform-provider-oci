@@ -20,6 +20,9 @@ type CreateTsigKeyRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope CreateTsigKeyScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -53,10 +56,17 @@ type CreateTsigKeyResponse struct {
 	// and If-None-Match headers for later requests of the same resource.
 	ETag *string `presentIn:"header" name:"etag"`
 
+	// The full URI of the resource related to the request.
+	Location *string `presentIn:"header" name:"location"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to
 	// contact Oracle about a particular request, please provide the request
 	// ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Unique Oracle-assigned identifier for the asynchronous request.
+	// You can use this to query status of the asynchronous operation.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response CreateTsigKeyResponse) String() string {
@@ -66,4 +76,27 @@ func (response CreateTsigKeyResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response CreateTsigKeyResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// CreateTsigKeyScopeEnum Enum with underlying type: string
+type CreateTsigKeyScopeEnum string
+
+// Set of constants representing the allowable values for CreateTsigKeyScopeEnum
+const (
+	CreateTsigKeyScopeGlobal  CreateTsigKeyScopeEnum = "GLOBAL"
+	CreateTsigKeyScopePrivate CreateTsigKeyScopeEnum = "PRIVATE"
+)
+
+var mappingCreateTsigKeyScope = map[string]CreateTsigKeyScopeEnum{
+	"GLOBAL":  CreateTsigKeyScopeGlobal,
+	"PRIVATE": CreateTsigKeyScopePrivate,
+}
+
+// GetCreateTsigKeyScopeEnumValues Enumerates the set of values for CreateTsigKeyScopeEnum
+func GetCreateTsigKeyScopeEnumValues() []CreateTsigKeyScopeEnum {
+	values := make([]CreateTsigKeyScopeEnum, 0)
+	for _, v := range mappingCreateTsigKeyScope {
+		values = append(values, v)
+	}
+	return values
 }

@@ -16,11 +16,17 @@ import (
 )
 
 // SourceIpAddressCondition An access control rule condition that requires a match on the specified source IP address or address range.
+// An access control rule condition that requires a match on the specified source IP address. The matching IP Address
+// can be specified either as a single CIDR by value or referenced via a named CidrBlocks. If latter is used, then
+// CidrBlocks must be created in the context of this Load Balancer.
 type SourceIpAddressCondition struct {
 
 	// An IPv4 or IPv6 address range that the source IP address of an incoming packet must match.
 	// The service accepts only classless inter-domain routing (CIDR) format (x.x.x.x/y or x:x::x/y) strings.
 	// Specify 0.0.0.0/0 or ::/0 to match all incoming traffic.
+	// Besides IP ranges or IPs you can match against multiple CIDR blocks by creating a CidrBlocks resource with
+	// a list of CIDR blocks and mentioning the name of CidrBlocks resource.
+	// example: "192.168.0.0/16 or MySourceIPCidrBlocks"
 	AttributeValue *string `mandatory:"true" json:"attributeValue"`
 }
 

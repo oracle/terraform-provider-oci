@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// CountStatisticSummary Detail of object.
+// CountStatisticSummary Details of the count statistic summary object.
 type CountStatisticSummary struct {
 
-	// the type of object for the object count statistic.
+	// The type of object for the count statistic object.
 	ObjectType CountStatisticSummaryObjectTypeEnum `mandatory:"false" json:"objectType,omitempty"`
 
-	// the value for the object count statistic.
+	// The value for the count statistic object.
 	ObjectCount *int64 `mandatory:"false" json:"objectCount"`
 }
 

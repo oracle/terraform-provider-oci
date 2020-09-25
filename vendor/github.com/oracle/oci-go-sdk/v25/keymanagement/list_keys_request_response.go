@@ -42,6 +42,12 @@ type ListKeysRequest struct {
 	// `SOFTWARE` are performed on the server.
 	ProtectionMode ListKeysProtectionModeEnum `mandatory:"false" contributesTo:"query" name:"protectionMode" omitEmpty:"true"`
 
+	// The algorithm used by a key's key versions to encrypt or decrypt. Currently, only AES is supported.
+	Algorithm ListKeysAlgorithmEnum `mandatory:"false" contributesTo:"query" name:"algorithm" omitEmpty:"true"`
+
+	// The length of the key in bytes, expressed as an integer. Values of 16, 24, or 32 are supported.
+	Length *int `mandatory:"false" contributesTo:"query" name:"length"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -154,6 +160,27 @@ var mappingListKeysProtectionMode = map[string]ListKeysProtectionModeEnum{
 func GetListKeysProtectionModeEnumValues() []ListKeysProtectionModeEnum {
 	values := make([]ListKeysProtectionModeEnum, 0)
 	for _, v := range mappingListKeysProtectionMode {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListKeysAlgorithmEnum Enum with underlying type: string
+type ListKeysAlgorithmEnum string
+
+// Set of constants representing the allowable values for ListKeysAlgorithmEnum
+const (
+	ListKeysAlgorithmAes ListKeysAlgorithmEnum = "AES"
+)
+
+var mappingListKeysAlgorithm = map[string]ListKeysAlgorithmEnum{
+	"AES": ListKeysAlgorithmAes,
+}
+
+// GetListKeysAlgorithmEnumValues Enumerates the set of values for ListKeysAlgorithmEnum
+func GetListKeysAlgorithmEnumValues() []ListKeysAlgorithmEnum {
+	values := make([]ListKeysAlgorithmEnum, 0)
+	for _, v := range mappingListKeysAlgorithm {
 		values = append(values, v)
 	}
 	return values

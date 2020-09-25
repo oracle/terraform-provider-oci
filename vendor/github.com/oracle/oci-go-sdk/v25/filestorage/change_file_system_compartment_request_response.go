@@ -12,7 +12,7 @@ import (
 // ChangeFileSystemCompartmentRequest wrapper for the ChangeFileSystemCompartment operation
 type ChangeFileSystemCompartmentRequest struct {
 
-	// The OCID of the file system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
 	// Details for changing the compartment.

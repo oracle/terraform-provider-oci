@@ -58,6 +58,12 @@ type Bucket struct {
 	// The 'storageTier' property is immutable after bucket is created.
 	StorageTier BucketStorageTierEnum `mandatory:"false" json:"storageTier,omitempty"`
 
+	// The type of requests for which object-level audit logging is enabled on this bucket.
+	// This property is set to `Disabled` by default, where no audit logs will be produced at the object level for this
+	// bucket. If the property is set to `Write`, audit logs will be produced for operations such as `Put Object`. If the
+	// property is set to `ReadWrite`, audit logs will be produced for operations such as `Put Object` and `Get Object`.
+	ObjectLevelAuditMode BucketObjectLevelAuditModeEnum `mandatory:"false" json:"objectLevelAuditMode,omitempty"`
+
 	// Whether or not events are emitted for object state changes in this bucket. By default, `objectEventsEnabled` is
 	// set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information
 	// about events, see Overview of Events (https://docs.cloud.oracle.com/Content/Events/Concepts/eventsoverview.htm).
@@ -151,6 +157,31 @@ var mappingBucketStorageTier = map[string]BucketStorageTierEnum{
 func GetBucketStorageTierEnumValues() []BucketStorageTierEnum {
 	values := make([]BucketStorageTierEnum, 0)
 	for _, v := range mappingBucketStorageTier {
+		values = append(values, v)
+	}
+	return values
+}
+
+// BucketObjectLevelAuditModeEnum Enum with underlying type: string
+type BucketObjectLevelAuditModeEnum string
+
+// Set of constants representing the allowable values for BucketObjectLevelAuditModeEnum
+const (
+	BucketObjectLevelAuditModeDisabled  BucketObjectLevelAuditModeEnum = "Disabled"
+	BucketObjectLevelAuditModeWrite     BucketObjectLevelAuditModeEnum = "Write"
+	BucketObjectLevelAuditModeReadwrite BucketObjectLevelAuditModeEnum = "ReadWrite"
+)
+
+var mappingBucketObjectLevelAuditMode = map[string]BucketObjectLevelAuditModeEnum{
+	"Disabled":  BucketObjectLevelAuditModeDisabled,
+	"Write":     BucketObjectLevelAuditModeWrite,
+	"ReadWrite": BucketObjectLevelAuditModeReadwrite,
+}
+
+// GetBucketObjectLevelAuditModeEnumValues Enumerates the set of values for BucketObjectLevelAuditModeEnum
+func GetBucketObjectLevelAuditModeEnumValues() []BucketObjectLevelAuditModeEnum {
+	values := make([]BucketObjectLevelAuditModeEnum, 0)
+	for _, v := range mappingBucketObjectLevelAuditMode {
 		values = append(values, v)
 	}
 	return values

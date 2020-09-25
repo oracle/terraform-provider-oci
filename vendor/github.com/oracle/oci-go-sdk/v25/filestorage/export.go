@@ -64,13 +64,13 @@ type Export struct {
 	// associated with the file system.
 	ExportOptions []ClientOptions `mandatory:"true" json:"exportOptions"`
 
-	// The OCID of this export's export set.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of this export's export set.
 	ExportSetId *string `mandatory:"true" json:"exportSetId"`
 
-	// The OCID of this export's file system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of this export's file system.
 	FileSystemId *string `mandatory:"true" json:"fileSystemId"`
 
-	// The OCID of this export.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of this export.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of this export.
@@ -85,6 +85,9 @@ type Export struct {
 	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The export is modified to include a boolean to use ID mapping for Unix Groups rather than the group list provided within an NFS Request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable or cannot be used to determine a list of secondary groups then the data path uses an empty secondary group list for authorization. If the number of groups exceeds the current limit of 256 groups the list retrieved from LDAP is truncated to the first 256 groups read.
+	IsIdmapGroupsForSysAuth *bool `mandatory:"false" json:"isIdmapGroupsForSysAuth"`
 }
 
 func (m Export) String() string {

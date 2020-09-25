@@ -20,10 +20,10 @@ type DirectNamedFieldMap struct {
 	// Detailed description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The key of the object.
+	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`

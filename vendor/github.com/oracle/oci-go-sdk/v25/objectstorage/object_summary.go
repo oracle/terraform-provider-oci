@@ -38,6 +38,9 @@ type ObjectSummary struct {
 
 	// The date and time the object was modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
+
+	// The storage tier that the object is stored in.
+	StorageTier StorageTiersEnum `mandatory:"false" json:"storageTier,omitempty"`
 }
 
 func (m ObjectSummary) String() string {

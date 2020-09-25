@@ -90,10 +90,13 @@ type DbSystemSummary struct {
 	// The time zone of the DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// The Oracle Database version of the DB system.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
+	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
 
 	// The percentage assigned to DATA storage (user data and database files).
@@ -213,6 +216,7 @@ const (
 	DbSystemSummaryLifecycleStateTerminating           DbSystemSummaryLifecycleStateEnum = "TERMINATING"
 	DbSystemSummaryLifecycleStateTerminated            DbSystemSummaryLifecycleStateEnum = "TERMINATED"
 	DbSystemSummaryLifecycleStateFailed                DbSystemSummaryLifecycleStateEnum = "FAILED"
+	DbSystemSummaryLifecycleStateMigrated              DbSystemSummaryLifecycleStateEnum = "MIGRATED"
 	DbSystemSummaryLifecycleStateMaintenanceInProgress DbSystemSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
@@ -223,6 +227,7 @@ var mappingDbSystemSummaryLifecycleState = map[string]DbSystemSummaryLifecycleSt
 	"TERMINATING":             DbSystemSummaryLifecycleStateTerminating,
 	"TERMINATED":              DbSystemSummaryLifecycleStateTerminated,
 	"FAILED":                  DbSystemSummaryLifecycleStateFailed,
+	"MIGRATED":                DbSystemSummaryLifecycleStateMigrated,
 	"MAINTENANCE_IN_PROGRESS": DbSystemSummaryLifecycleStateMaintenanceInProgress,
 }
 

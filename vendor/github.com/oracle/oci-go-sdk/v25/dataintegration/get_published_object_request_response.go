@@ -12,13 +12,13 @@ import (
 // GetPublishedObjectRequest wrapper for the GetPublishedObject operation
 type GetPublishedObjectRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// DIS application key
+	// The application key.
 	ApplicationKey *string `mandatory:"true" contributesTo:"path" name:"applicationKey"`
 
-	// DIS published object key
+	// The published object key.
 	PublishedObjectKey *string `mandatory:"true" contributesTo:"path" name:"publishedObjectKey"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -26,7 +26,7 @@ type GetPublishedObjectRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// This is used to expand references of the object. If value is true, then all referenced objects will be expanded. If value is false, then shallow objects will be returned in place of references. Default is false. <br><br><B>Examples:-</B><br> <ul> <li><B>?expandReferences=true</B> returns all objects of type data loader task</li> </ul>
+	// Used to expand references of the object. If value is true, then all referenced objects are expanded. If value is false, then shallow objects are returned in place of references. Default is false. <br><br><B>Example:</B><br> <ul> <li><B>?expandReferences=true</B> returns all objects of type data loader task</li> </ul>
 	ExpandReferences *string `mandatory:"false" contributesTo:"query" name:"expandReferences"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

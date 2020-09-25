@@ -28,16 +28,16 @@ type UpdateConnectionDetails interface {
 
 	GetParentRef() *ParentReference
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	GetDescription() *string
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
 	// The properties for the connection.
@@ -96,6 +96,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ModelType {
+	case "GENERIC_JDBC_CONNECTION":
+		mm := UpdateConnectionFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_OBJECT_STORAGE_CONNECTION":
 		mm := UpdateConnectionFromObjectStorage{}
 		err = json.Unmarshal(data, &mm)
@@ -110,6 +114,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "ORACLE_ADWC_CONNECTION":
 		mm := UpdateConnectionFromAdwc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_CONNECTION":
+		mm := UpdateConnectionFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -180,6 +188,8 @@ const (
 	UpdateConnectionDetailsModelTypeOracleAtpConnection           UpdateConnectionDetailsModelTypeEnum = "ORACLE_ATP_CONNECTION"
 	UpdateConnectionDetailsModelTypeOracleObjectStorageConnection UpdateConnectionDetailsModelTypeEnum = "ORACLE_OBJECT_STORAGE_CONNECTION"
 	UpdateConnectionDetailsModelTypeOracledbConnection            UpdateConnectionDetailsModelTypeEnum = "ORACLEDB_CONNECTION"
+	UpdateConnectionDetailsModelTypeMysqlDataAsset                UpdateConnectionDetailsModelTypeEnum = "MYSQL_DATA_ASSET"
+	UpdateConnectionDetailsModelTypeGenericJdbcDataAsset          UpdateConnectionDetailsModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 )
 
 var mappingUpdateConnectionDetailsModelType = map[string]UpdateConnectionDetailsModelTypeEnum{
@@ -187,6 +197,8 @@ var mappingUpdateConnectionDetailsModelType = map[string]UpdateConnectionDetails
 	"ORACLE_ATP_CONNECTION":            UpdateConnectionDetailsModelTypeOracleAtpConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": UpdateConnectionDetailsModelTypeOracleObjectStorageConnection,
 	"ORACLEDB_CONNECTION":              UpdateConnectionDetailsModelTypeOracledbConnection,
+	"MYSQL_DATA_ASSET":                 UpdateConnectionDetailsModelTypeMysqlDataAsset,
+	"GENERIC_JDBC_DATA_ASSET":          UpdateConnectionDetailsModelTypeGenericJdbcDataAsset,
 }
 
 // GetUpdateConnectionDetailsModelTypeEnumValues Enumerates the set of values for UpdateConnectionDetailsModelTypeEnum

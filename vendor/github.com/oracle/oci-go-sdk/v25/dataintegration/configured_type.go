@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ConfiguredType A ConfiguraedType represents a type that has built-in configuration to the type itself. An example is a SSN type whose basic type is VARCHAR, but the type itself also has a built-in configuration like length=10
+// ConfiguredType A `ConfiguredType` represents a type that has built-in configuration to the type itself. An example is a `SSN` type whose basic type is `VARCHAR`, but the type itself also has a built-in configuration like length=10.
 type ConfiguredType struct {
 
 	// The key of the object.
@@ -25,16 +25,17 @@ type ConfiguredType struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Detailed description for the object.
+	// A user defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	WrappedType BaseType `mandatory:"false" json:"wrappedType"`
+	// Wrapped typed, may be a string or a BaseType
+	WrappedType *interface{} `mandatory:"false" json:"wrappedType"`
 
 	ConfigValues *ConfigValues `mandatory:"false" json:"configValues"`
 
@@ -87,52 +88,4 @@ func (m ConfiguredType) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *ConfiguredType) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Key              *string           `json:"key"`
-		ModelVersion     *string           `json:"modelVersion"`
-		ParentRef        *ParentReference  `json:"parentRef"`
-		Name             *string           `json:"name"`
-		ObjectStatus     *int              `json:"objectStatus"`
-		Description      *string           `json:"description"`
-		WrappedType      basetype          `json:"wrappedType"`
-		ConfigValues     *ConfigValues     `json:"configValues"`
-		ConfigDefinition *ConfigDefinition `json:"configDefinition"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Key = model.Key
-
-	m.ModelVersion = model.ModelVersion
-
-	m.ParentRef = model.ParentRef
-
-	m.Name = model.Name
-
-	m.ObjectStatus = model.ObjectStatus
-
-	m.Description = model.Description
-
-	nn, e = model.WrappedType.UnmarshalPolymorphicJSON(model.WrappedType.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.WrappedType = nn.(BaseType)
-	} else {
-		m.WrappedType = nil
-	}
-
-	m.ConfigValues = model.ConfigValues
-
-	m.ConfigDefinition = model.ConfigDefinition
-
-	return
 }

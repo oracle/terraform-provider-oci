@@ -12,7 +12,7 @@ import (
 // UpdateExportSetRequest wrapper for the UpdateExportSet operation
 type UpdateExportSetRequest struct {
 
-	// The OCID of the export set.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the export set.
 	ExportSetId *string `mandatory:"true" contributesTo:"path" name:"exportSetId"`
 
 	// Details object for updating an export set.

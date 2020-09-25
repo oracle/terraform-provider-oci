@@ -27,8 +27,6 @@ type CreateVolumeGroupDetails struct {
 	// The OCID of the compartment that contains the volume group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Specifies the volume group source details for a new volume group. The volume source is either another a list of
-	// volume ids in the same availability domain, another volume group or a volume group backup.
 	SourceDetails VolumeGroupSourceDetails `mandatory:"true" json:"sourceDetails"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

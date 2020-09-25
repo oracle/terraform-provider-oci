@@ -15,7 +15,7 @@ type ChangeShapeRequest struct {
 	// The OCID of the BDS instance
 	BdsInstanceId *string `mandatory:"true" contributesTo:"path" name:"bdsInstanceId"`
 
-	// Details for the changed nodes nodes
+	// Individual change shape settings per node group. You can change the shape of master, worker, utility and cloudsql nodes.
 	ChangeShapeDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

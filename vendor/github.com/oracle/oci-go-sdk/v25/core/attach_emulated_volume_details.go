@@ -21,9 +21,6 @@ import (
 // AttachEmulatedVolumeDetails The representation of AttachEmulatedVolumeDetails
 type AttachEmulatedVolumeDetails struct {
 
-	// The OCID of the instance.
-	InstanceId *string `mandatory:"true" json:"instanceId"`
-
 	// The OCID of the volume.
 	VolumeId *string `mandatory:"true" json:"volumeId"`
 
@@ -32,6 +29,10 @@ type AttachEmulatedVolumeDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The OCID of the instance. For AttachVolume operation, this is a required field for the request,
+	// see AttachVolume.
+	InstanceId *string `mandatory:"false" json:"instanceId"`
 
 	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`

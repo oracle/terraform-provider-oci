@@ -38,6 +38,12 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	VaultId *string `mandatory:"false" json:"vaultId"`
+
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
@@ -56,11 +62,22 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
 
-	// The client IP access control list (ACL). This feature is available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
-	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
+	// Indicates if the database-level access control is enabled.
+	// If disabled, database access is defined by the network security rules.
+	// If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional,
+	//  if database-level access control is enabled and no rules are specified, the database will become inaccessible. The rules can be added later using the `UpdateAutonomousDatabase` API operation or edit option in console.
+	// When creating a database clone, the desired access control setting should be specified. By default, database-level access control will be disabled for the clone.
+	// This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
+	IsAccessControlEnabled *bool `mandatory:"false" json:"isAccessControlEnabled"`
+
+	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) and that on Exadata Cloud at Customer.
+	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
+	// For Shared Exadata Infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
 	// To add the whitelist VCN specific subnet or IP, use a semicoln ';' as a deliminator to add the VCN specific subnets or IPs.
-	// For update operation, if you wish to delete all the existing whitelisted IP’s, use an array with a single empty string entry.
-	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.1.1","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.0.0/16"]`
+	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.<unique_id>","ocid1.vcn.oc1.sea.<unique_id1>;1.1.1.1","ocid1.vcn.oc1.sea.<unique_id2>;1.1.0.0/16"]`
+	// For Exadata Cloud at Customer, this is an array of IP addresses or CIDR (Classless Inter-Domain Routing) notations.
+	// Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
+	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	WhitelistedIps []string `mandatory:"false" json:"whitelistedIps"`
 
 	// Indicates whether the Autonomous Database has Data Guard enabled.
@@ -140,6 +157,16 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetIsFreeTier() *boo
 	return m.IsFreeTier
 }
 
+//GetKmsKeyId returns KmsKeyId
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetKmsKeyId() *string {
+	return m.KmsKeyId
+}
+
+//GetVaultId returns VaultId
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetVaultId() *string {
+	return m.VaultId
+}
+
 //GetAdminPassword returns AdminPassword
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetAdminPassword() *string {
 	return m.AdminPassword
@@ -173,6 +200,11 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetIsDedicated() *bo
 //GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
+}
+
+//GetIsAccessControlEnabled returns IsAccessControlEnabled
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetIsAccessControlEnabled() *bool {
+	return m.IsAccessControlEnabled
 }
 
 //GetWhitelistedIps returns WhitelistedIps

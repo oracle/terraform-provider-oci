@@ -17,7 +17,7 @@ import (
 // ConnectionSummaryCollection This is the collection of connection summaries, it may be a collection of lightweight details or full definitions.
 type ConnectionSummaryCollection struct {
 
-	// The array of Connection summaries
+	// The array of connection summaries.
 	Items []ConnectionSummary `mandatory:"true" json:"items"`
 }
 

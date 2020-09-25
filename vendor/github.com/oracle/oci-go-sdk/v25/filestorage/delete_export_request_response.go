@@ -12,7 +12,7 @@ import (
 // DeleteExportRequest wrapper for the DeleteExport operation
 type DeleteExportRequest struct {
 
-	// The OCID of the export.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the export.
 	ExportId *string `mandatory:"true" contributesTo:"path" name:"exportId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -12,7 +12,7 @@ import (
 // GetExportRequest wrapper for the GetExport operation
 type GetExportRequest struct {
 
-	// The OCID of the export.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the export.
 	ExportId *string `mandatory:"true" contributesTo:"path" name:"exportId"`
 
 	// Unique identifier for the request.

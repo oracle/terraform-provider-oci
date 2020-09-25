@@ -85,6 +85,8 @@ const (
 	ByoipRangeLifecycleDetailsFailed      ByoipRangeLifecycleDetailsEnum = "FAILED"
 	ByoipRangeLifecycleDetailsDeleting    ByoipRangeLifecycleDetailsEnum = "DELETING"
 	ByoipRangeLifecycleDetailsDeleted     ByoipRangeLifecycleDetailsEnum = "DELETED"
+	ByoipRangeLifecycleDetailsAdvertising ByoipRangeLifecycleDetailsEnum = "ADVERTISING"
+	ByoipRangeLifecycleDetailsWithdrawing ByoipRangeLifecycleDetailsEnum = "WITHDRAWING"
 )
 
 var mappingByoipRangeLifecycleDetails = map[string]ByoipRangeLifecycleDetailsEnum{
@@ -95,6 +97,8 @@ var mappingByoipRangeLifecycleDetails = map[string]ByoipRangeLifecycleDetailsEnu
 	"FAILED":      ByoipRangeLifecycleDetailsFailed,
 	"DELETING":    ByoipRangeLifecycleDetailsDeleting,
 	"DELETED":     ByoipRangeLifecycleDetailsDeleted,
+	"ADVERTISING": ByoipRangeLifecycleDetailsAdvertising,
+	"WITHDRAWING": ByoipRangeLifecycleDetailsWithdrawing,
 }
 
 // GetByoipRangeLifecycleDetailsEnumValues Enumerates the set of values for ByoipRangeLifecycleDetailsEnum

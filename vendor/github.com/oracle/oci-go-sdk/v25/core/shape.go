@@ -26,6 +26,9 @@ type Shape struct {
 	// ListShapes.
 	Shape *string `mandatory:"true" json:"shape"`
 
+	// The shape's availability domain.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
 	// A short description of the shape's processor (CPU).
 	ProcessorDescription *string `mandatory:"false" json:"processorDescription"`
 

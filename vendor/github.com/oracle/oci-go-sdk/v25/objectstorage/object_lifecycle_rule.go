@@ -23,11 +23,14 @@ type ObjectLifecycleRule struct {
 	// The name of the lifecycle rule to be applied.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the
-	// Archive Storage tier (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action
-	// 'DELETE' permanently delete objects from buckets. Rules using 'ABORT' abort the uncommitted multipart-uploads
-	// and permanently delete their parts from buckets. 'ARCHIVE', 'DELETE' and 'ABORT' are the only three supported
-	// actions at this time.
+	// The action of the object lifecycle policy rule.
+	// Rules using the action 'ARCHIVE' move objects from Standard and InfrequentAccess storage tiers
+	// into the Archive storage tier (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
+	// Rules using the action 'INFREQUENT_ACCESS' move objects from Standard storage tier into the
+	// Infrequent Access Storage tier. Objects that are already in InfrequentAccess tier or in Archive
+	// tier are left untouched.
+	// Rules using the action 'DELETE' permanently delete objects from buckets.
+	// Rules using 'ABORT' abort the uncommitted multipart-uploads and permanently delete their parts from buckets.
 	Action *string `mandatory:"true" json:"action"`
 
 	// Specifies the age of objects to apply the rule to. The timeAmount is interpreted in units defined by the
@@ -41,6 +44,14 @@ type ObjectLifecycleRule struct {
 	// A Boolean that determines whether this rule is currently enabled.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
+	// The target of the object lifecycle policy rule. The values of target can be either "objects",
+	// "multipart-uploads" or "previous-object-versions".
+	// This field when declared as "objects" is used to specify ARCHIVE, INFREQUENT_ACCESS
+	// or DELETE rule for objects.
+	// This field when declared as "previous-object-versions" is used to specify ARCHIVE,
+	// INFREQUENT_ACCESS or DELETE rule for previous versions of existing objects.
+	// This field when declared as "multipart-uploads" is used to specify the ABORT (only) rule for
+	// uncommitted multipart-uploads.
 	Target *string `mandatory:"false" json:"target"`
 
 	ObjectNameFilter *ObjectNameFilter `mandatory:"false" json:"objectNameFilter"`

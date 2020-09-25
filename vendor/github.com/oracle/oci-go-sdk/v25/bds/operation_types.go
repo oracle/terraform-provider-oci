@@ -27,6 +27,8 @@ const (
 	OperationTypesChangeShape             OperationTypesEnum = "CHANGE_SHAPE"
 	OperationTypesUpdateInfra             OperationTypesEnum = "UPDATE_INFRA"
 	OperationTypesRestartNode             OperationTypesEnum = "RESTART_NODE"
+	OperationTypesAutoscaleConfig         OperationTypesEnum = "AUTOSCALE_CONFIG"
+	OperationTypesAutoscaleRun            OperationTypesEnum = "AUTOSCALE_RUN"
 )
 
 var mappingOperationTypes = map[string]OperationTypesEnum{
@@ -41,6 +43,8 @@ var mappingOperationTypes = map[string]OperationTypesEnum{
 	"CHANGE_SHAPE":               OperationTypesChangeShape,
 	"UPDATE_INFRA":               OperationTypesUpdateInfra,
 	"RESTART_NODE":               OperationTypesRestartNode,
+	"AUTOSCALE_CONFIG":           OperationTypesAutoscaleConfig,
+	"AUTOSCALE_RUN":              OperationTypesAutoscaleRun,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum

@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// A description of the UsageApi API.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console.
 //
 
 package usageapi
@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ConfigurationAggregation The available configurations
+// ConfigurationAggregation The available configurations.
 type ConfigurationAggregation struct {
 
-	// The list of available configurations
+	// The list of available configurations.
 	Items []Configuration `mandatory:"true" json:"items"`
 }
 

@@ -823,7 +823,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_objectstorage_object", "test_object"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
@@ -1111,7 +1111,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify import copy of the content object
 			{
-				Config:            config,
+				Config:            config + generateResourceImportConfig("oci_objectstorage_object", "test_object"),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

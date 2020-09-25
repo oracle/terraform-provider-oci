@@ -106,7 +106,7 @@ type LaunchDbSystemBase interface {
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
 	GetDomain() *string
 
-	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
+	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	GetClusterName() *string
 
 	// The percentage assigned to DATA storage (user data and database files).
@@ -116,6 +116,12 @@ type LaunchDbSystemBase interface {
 
 	// Size (in GB) of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.
 	GetInitialDataStorageSizeInGB() *int
+
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	GetKmsKeyId() *string
+
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	GetKmsKeyVersionId() *string
 
 	// The number of nodes to launch for a 2-node RAC virtual machine DB system. Specify either 1 or 2.
 	GetNodeCount() *int
@@ -155,6 +161,8 @@ type launchdbsystembase struct {
 	ClusterName                *string                           `mandatory:"false" json:"clusterName"`
 	DataStoragePercentage      *int                              `mandatory:"false" json:"dataStoragePercentage"`
 	InitialDataStorageSizeInGB *int                              `mandatory:"false" json:"initialDataStorageSizeInGB"`
+	KmsKeyId                   *string                           `mandatory:"false" json:"kmsKeyId"`
+	KmsKeyVersionId            *string                           `mandatory:"false" json:"kmsKeyVersionId"`
 	NodeCount                  *int                              `mandatory:"false" json:"nodeCount"`
 	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -192,6 +200,8 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.ClusterName = s.Model.ClusterName
 	m.DataStoragePercentage = s.Model.DataStoragePercentage
 	m.InitialDataStorageSizeInGB = s.Model.InitialDataStorageSizeInGB
+	m.KmsKeyId = s.Model.KmsKeyId
+	m.KmsKeyVersionId = s.Model.KmsKeyVersionId
 	m.NodeCount = s.Model.NodeCount
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
@@ -324,6 +334,16 @@ func (m launchdbsystembase) GetDataStoragePercentage() *int {
 //GetInitialDataStorageSizeInGB returns InitialDataStorageSizeInGB
 func (m launchdbsystembase) GetInitialDataStorageSizeInGB() *int {
 	return m.InitialDataStorageSizeInGB
+}
+
+//GetKmsKeyId returns KmsKeyId
+func (m launchdbsystembase) GetKmsKeyId() *string {
+	return m.KmsKeyId
+}
+
+//GetKmsKeyVersionId returns KmsKeyVersionId
+func (m launchdbsystembase) GetKmsKeyVersionId() *string {
+	return m.KmsKeyVersionId
 }
 
 //GetNodeCount returns NodeCount

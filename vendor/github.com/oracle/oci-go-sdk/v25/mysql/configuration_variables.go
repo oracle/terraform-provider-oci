@@ -46,7 +46,7 @@ type ConfigurationVariables struct {
 	// ("mysql_firewall_mode")
 	MysqlFirewallMode *bool `mandatory:"false" json:"mysqlFirewallMode"`
 
-	// ("mysqlx_enable_hello_notice")
+	// ("mysqlx_enable_hello_notice") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxEnableHelloNotice *bool `mandatory:"false" json:"mysqlxEnableHelloNotice"`
 
 	// ("sql_require_primary_key")
@@ -55,7 +55,7 @@ type ConfigurationVariables struct {
 	// ("sql_warnings")
 	SqlWarnings *bool `mandatory:"false" json:"sqlWarnings"`
 
-	// ("binlog_expire_logs_seconds")
+	// ("binlog_expire_logs_seconds") DEPRECATED -- variable should not be settable and will be ignored
 	BinlogExpireLogsSeconds *int `mandatory:"false" json:"binlogExpireLogsSeconds"`
 
 	// ("innodb_buffer_pool_size")
@@ -76,7 +76,7 @@ type ConfigurationVariables struct {
 	// ("cte_max_recursion_depth")
 	CteMaxRecursionDepth *int `mandatory:"false" json:"cteMaxRecursionDepth"`
 
-	// ("generated_random_password_length")
+	// ("generated_random_password_length") DEPRECATED -- variable should not be settable and will be ignored
 	GeneratedRandomPasswordLength *int `mandatory:"false" json:"generatedRandomPasswordLength"`
 
 	// ("information_schema_stats_expiry")
@@ -106,40 +106,40 @@ type ConfigurationVariables struct {
 	// ("max_execution_time")
 	MaxExecutionTime *int `mandatory:"false" json:"maxExecutionTime"`
 
-	// ("mysqlx_connect_timeout")
+	// ("mysqlx_connect_timeout") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxConnectTimeout *int `mandatory:"false" json:"mysqlxConnectTimeout"`
 
-	// ("mysqlx_document_id_unique_prefix")
+	// ("mysqlx_document_id_unique_prefix") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxDocumentIdUniquePrefix *int `mandatory:"false" json:"mysqlxDocumentIdUniquePrefix"`
 
-	// ("mysqlx_idle_worker_thread_timeout")
+	// ("mysqlx_idle_worker_thread_timeout") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxIdleWorkerThreadTimeout *int `mandatory:"false" json:"mysqlxIdleWorkerThreadTimeout"`
 
-	// ("mysqlx_interactive_timeout")
+	// ("mysqlx_interactive_timeout") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxInteractiveTimeout *int `mandatory:"false" json:"mysqlxInteractiveTimeout"`
 
-	// ("mysqlx_max_allowed_packet")
+	// ("mysqlx_max_allowed_packet") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxMaxAllowedPacket *int `mandatory:"false" json:"mysqlxMaxAllowedPacket"`
 
-	// ("mysqlx_min_worker_threads")
+	// ("mysqlx_min_worker_threads") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxMinWorkerThreads *int `mandatory:"false" json:"mysqlxMinWorkerThreads"`
 
-	// ("mysqlx_read_timeout")
+	// ("mysqlx_read_timeout") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxReadTimeout *int `mandatory:"false" json:"mysqlxReadTimeout"`
 
-	// ("mysqlx_wait_timeout")
+	// ("mysqlx_wait_timeout") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxWaitTimeout *int `mandatory:"false" json:"mysqlxWaitTimeout"`
 
-	// ("mysqlx_write_timeout")
+	// ("mysqlx_write_timeout") DEPRECATED -- variable should not be settable and will be ignored
 	MysqlxWriteTimeout *int `mandatory:"false" json:"mysqlxWriteTimeout"`
 
 	// ("parser_max_mem_size")
 	ParserMaxMemSize *int `mandatory:"false" json:"parserMaxMemSize"`
 
-	// ("query_alloc_block_size")
+	// ("query_alloc_block_size") DEPRECATED -- variable should not be settable and will be ignored
 	QueryAllocBlockSize *int `mandatory:"false" json:"queryAllocBlockSize"`
 
-	// ("query_prealloc_size")
+	// ("query_prealloc_size") DEPRECATED -- variable should not be settable and will be ignored
 	QueryPreallocSize *int `mandatory:"false" json:"queryPreallocSize"`
 
 	// ("sql_mode")
@@ -161,6 +161,9 @@ type ConfigurationVariables struct {
 	MysqlxZstdMaxClientCompressionLevel *int `mandatory:"false" json:"mysqlxZstdMaxClientCompressionLevel"`
 
 	// Set the default compression level for the zstd algorithm. ("mysqlx_zstd_default_compression_level")
+	MysqlxZstdDefaultCompressionLevel *int `mandatory:"false" json:"mysqlxZstdDefaultCompressionLevel"`
+
+	// DEPRECATED -- typo of mysqlx_zstd_default_compression_level. variable will be ignored.
 	MysqlZstdDefaultCompressionLevel *int `mandatory:"false" json:"mysqlZstdDefaultCompressionLevel"`
 }
 
@@ -225,6 +228,7 @@ type ConfigurationVariablesTransactionIsolationEnum string
 const (
 	ConfigurationVariablesTransactionIsolationReadUncommitted ConfigurationVariablesTransactionIsolationEnum = "READ-UNCOMMITTED"
 	ConfigurationVariablesTransactionIsolationReadCommited    ConfigurationVariablesTransactionIsolationEnum = "READ-COMMITED"
+	ConfigurationVariablesTransactionIsolationReadCommitted   ConfigurationVariablesTransactionIsolationEnum = "READ-COMMITTED"
 	ConfigurationVariablesTransactionIsolationRepeatableRead  ConfigurationVariablesTransactionIsolationEnum = "REPEATABLE-READ"
 	ConfigurationVariablesTransactionIsolationSerializable    ConfigurationVariablesTransactionIsolationEnum = "SERIALIZABLE"
 )
@@ -232,6 +236,7 @@ const (
 var mappingConfigurationVariablesTransactionIsolation = map[string]ConfigurationVariablesTransactionIsolationEnum{
 	"READ-UNCOMMITTED": ConfigurationVariablesTransactionIsolationReadUncommitted,
 	"READ-COMMITED":    ConfigurationVariablesTransactionIsolationReadCommited,
+	"READ-COMMITTED":   ConfigurationVariablesTransactionIsolationReadCommitted,
 	"REPEATABLE-READ":  ConfigurationVariablesTransactionIsolationRepeatableRead,
 	"SERIALIZABLE":     ConfigurationVariablesTransactionIsolationSerializable,
 }

@@ -163,6 +163,9 @@ type GetObjectResponse struct {
 	// Time after which object is no longer cacheable, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616#section-14.21).
 	Expires *common.SDKTime `presentIn:"header" name:"expires"`
 
+	// The storage tier that the object is stored in.
+	StorageTier GetObjectStorageTierEnum `presentIn:"header" name:"storage-tier"`
+
 	// Flag to indicate whether or not the object was modified.  If this is true,
 	// the getter for the object itself will return null.  Callers should check this
 	// if they specified one of the request params that might result in a conditional
@@ -201,6 +204,31 @@ var mappingGetObjectArchivalState = map[string]GetObjectArchivalStateEnum{
 func GetGetObjectArchivalStateEnumValues() []GetObjectArchivalStateEnum {
 	values := make([]GetObjectArchivalStateEnum, 0)
 	for _, v := range mappingGetObjectArchivalState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetObjectStorageTierEnum Enum with underlying type: string
+type GetObjectStorageTierEnum string
+
+// Set of constants representing the allowable values for GetObjectStorageTierEnum
+const (
+	GetObjectStorageTierStandard         GetObjectStorageTierEnum = "Standard"
+	GetObjectStorageTierInfrequentaccess GetObjectStorageTierEnum = "InfrequentAccess"
+	GetObjectStorageTierArchive          GetObjectStorageTierEnum = "Archive"
+)
+
+var mappingGetObjectStorageTier = map[string]GetObjectStorageTierEnum{
+	"Standard":         GetObjectStorageTierStandard,
+	"InfrequentAccess": GetObjectStorageTierInfrequentaccess,
+	"Archive":          GetObjectStorageTierArchive,
+}
+
+// GetGetObjectStorageTierEnumValues Enumerates the set of values for GetObjectStorageTierEnum
+func GetGetObjectStorageTierEnumValues() []GetObjectStorageTierEnum {
+	values := make([]GetObjectStorageTierEnum, 0)
+	for _, v := range mappingGetObjectStorageTier {
 		values = append(values, v)
 	}
 	return values

@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// DependentObjectSummaryCollection List of DependentObject summaries
+// DependentObjectSummaryCollection A list of dependent object summaries.
 type DependentObjectSummaryCollection struct {
 
-	// The array of DependentObject summaries
+	// An array of dependent object summaries.
 	Items []DependentObjectSummary `mandatory:"true" json:"items"`
 }
 

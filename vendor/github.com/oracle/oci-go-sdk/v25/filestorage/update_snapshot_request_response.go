@@ -12,7 +12,7 @@ import (
 // UpdateSnapshotRequest wrapper for the UpdateSnapshot operation
 type UpdateSnapshotRequest struct {
 
-	// The OCID of the snapshot.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot.
 	SnapshotId *string `mandatory:"true" contributesTo:"path" name:"snapshotId"`
 
 	// Details object for updating a snapshot.
