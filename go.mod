@@ -1,7 +1,5 @@
 module github.com/terraform-providers/terraform-provider-oci
 
-go 1.14
-
 require (
 	github.com/fatih/color v1.7.0
 	github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce // indirect
