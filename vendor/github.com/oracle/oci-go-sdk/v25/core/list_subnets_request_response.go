@@ -45,7 +45,7 @@ type ListSubnetsRequest struct {
 	// is case sensitive.
 	SortOrder ListSubnetsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
+	// A filter to only return resources that match the given lifecycle state. The state value is case-insensitive.
 	LifecycleState SubnetLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request.
