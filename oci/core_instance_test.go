@@ -100,9 +100,10 @@ var (
 		"remote_data_volume_type":             Representation{repType: Optional, create: `PARAVIRTUALIZED`},
 	}
 	instanceSourceDetailsRepresentation = map[string]interface{}{
-		"source_id":   Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
-		"source_type": Representation{repType: Required, create: `image`},
-		"kms_key_id":  Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"source_id":               Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
+		"source_type":             Representation{repType: Required, create: `image`},
+		"kms_key_id":              Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"boot_volume_size_in_gbs": Representation{repType: Optional, create: `60`, update: `70`},
 	}
 
 	InstanceWithPVEncryptionInTransitEnabled = `
@@ -277,6 +278,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
 					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -343,6 +345,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
 					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -405,6 +408,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "70"),
 					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -519,6 +523,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "70"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 
@@ -530,7 +535,10 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			// verify updates to original parameters
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentation),
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create,
+						getUpdatedRepresentationCopy("source_details", RepresentationGroup{Optional,
+							representationCopyWithRemovedProperties(instanceSourceDetailsRepresentation, []string{"boot_volume_size_in_gbs"})},
+							instanceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
@@ -561,6 +569,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "70"),
 					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
