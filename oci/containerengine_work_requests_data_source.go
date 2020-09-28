@@ -158,9 +158,9 @@ func (s *ContainerengineWorkRequestsDataSourceCrud) Get() error {
 
 	if status, ok := s.D.GetOkExists("status"); ok {
 		interfaces := status.([]interface{})
-		tmp := make([]oci_containerengine.ListWorkRequestsStatusEnum, len(interfaces))
+		tmp := make([]string, len(interfaces))
 		for i, toBeConverted := range interfaces {
-			tmp[i] = oci_containerengine.ListWorkRequestsStatusEnum(toBeConverted.(string))
+			tmp[i] = toBeConverted.(string)
 		}
 		request.Status = tmp
 	}
