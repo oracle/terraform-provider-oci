@@ -85,6 +85,14 @@ func DatabaseAutonomousDatabaseDataguardAssociationsDataSource() *schema.Resourc
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_last_synced": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"transport_lag": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -190,6 +198,14 @@ func (s *DatabaseAutonomousDatabaseDataguardAssociationsDataSourceCrud) SetData(
 
 		if r.TimeLastRoleChanged != nil {
 			autonomousDatabaseDataguardAssociation["time_last_role_changed"] = r.TimeLastRoleChanged.String()
+		}
+
+		if r.TimeLastSynced != nil {
+			autonomousDatabaseDataguardAssociation["time_last_synced"] = r.TimeLastSynced.String()
+		}
+
+		if r.TransportLag != nil {
+			autonomousDatabaseDataguardAssociation["transport_lag"] = *r.TransportLag
 		}
 
 		resources = append(resources, autonomousDatabaseDataguardAssociation)

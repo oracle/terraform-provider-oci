@@ -52,6 +52,12 @@ var (
 		"vpc_user":       Representation{repType: Optional, create: `bkupUser1`},
 	}
 
+	acdBackupConfigLocalRepresentation = map[string]interface{}{
+		"backup_destination_details": RepresentationGroup{Optional, map[string]interface{}{
+			"type": Representation{repType: Required, create: `LOCAL`}}},
+		"recovery_window_in_days": Representation{repType: Optional, create: `7`},
+	}
+
 	ACDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig +
 		generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationRepresentation) +
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
@@ -60,6 +66,8 @@ var (
 		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
 			representationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{repType: Required, create: "true"}})) +
 		generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation) + KmsVaultIdVariableStr + OkvSecretVariableStr
+
+	dgDbUniqueName = randomString(10, charsetWithoutDigits)
 )
 
 func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {

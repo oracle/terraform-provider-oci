@@ -1,3 +1,8 @@
+## 4.4.0 (Unreleased)
+
+### Added
+- Support for Autonomous DG on ExaCC
+
 ## 4.3.0 (November 12, 2020)
 
 ### Added
