@@ -69,6 +69,7 @@ var (
 		"months":         []RepresentationGroup{{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation}, {Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2}, {Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3}, {Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation4}},
 		"weeks_of_month": Representation{repType: Optional, create: []string{`1`}, update: []string{`2`}},
 	}
+
 	autonomousContainerDatabaseMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{
 		"name": Representation{repType: Required, create: `MONDAY`, update: `TUESDAY`},
 	}
@@ -78,6 +79,7 @@ var (
 	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2 = map[string]interface{}{
 		"name": Representation{repType: Required, create: `APRIL`, update: `MAY`},
 	}
+
 	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3 = map[string]interface{}{
 		"name": Representation{repType: Required, create: `JULY`, update: `AUGUST`},
 	}
@@ -162,6 +164,17 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
+					// all peer related properties are not returned in GET, hence commented check on the below peer related properties
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.#", "1"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.#", "1"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.id", "id"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.type", "NFS"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.vpc_password", "vpcPassword"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.vpc_user", "vpcUser"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.recovery_window_in_days", "10"),
+					//resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_compartment_id"),
+					//resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_vm_cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
@@ -204,6 +217,17 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
+					// all peer related properties are not returned in GET, hence commented check on the below peer related properties
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.#", "1"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.#", "1"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.id", "id"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.type", "NFS"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.vpc_password", "vpcPassword"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.vpc_user", "vpcUser"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.recovery_window_in_days", "10"),
+					//resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_compartment_id"),
+					//resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_vm_cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
@@ -241,6 +265,17 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+					// all peer related properties are not returned in GET, hence commented check on the below peer related properties
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.#", "1"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.#", "1"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.id", "id"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.type", "NFS"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.vpc_password", "vpcPassword"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.backup_destination_details.0.vpc_user", "vpcUser"),
+					//resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_backup_config.0.recovery_window_in_days", "10"),
+					//resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_compartment_id"),
+					//resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_vm_cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
@@ -370,6 +405,9 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				ImportStateVerifyIgnore: []string{
 					"rotate_key_trigger",
 					"maintenance_window_details",
+					"peer_autonomous_container_database_backup_config",
+					"peer_autonomous_container_database_compartment_id",
+					"peer_autonomous_vm_cluster_id",
 					"peer_autonomous_container_database_display_name",
 					"peer_autonomous_exadata_infrastructure_id",
 					"protection_mode",

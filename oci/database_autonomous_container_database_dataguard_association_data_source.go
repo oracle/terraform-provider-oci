@@ -75,6 +75,14 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationDataSource() *schema
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_last_synced": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"transport_lag": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -164,6 +172,14 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud) 
 
 	if s.Res.TimeLastRoleChanged != nil {
 		s.D.Set("time_last_role_changed", s.Res.TimeLastRoleChanged.String())
+	}
+
+	if s.Res.TimeLastSynced != nil {
+		s.D.Set("time_last_synced", s.Res.TimeLastSynced.String())
+	}
+
+	if s.Res.TransportLag != nil {
+		s.D.Set("transport_lag", *s.Res.TransportLag)
 	}
 
 	return nil

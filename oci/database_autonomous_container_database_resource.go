@@ -230,6 +230,80 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"peer_autonomous_container_database_backup_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"backup_destination_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"type": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"internet_proxy": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"vpc_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Computed:  true,
+										ForceNew:  true,
+										Sensitive: true,
+									},
+									"vpc_user": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"recovery_window_in_days": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"peer_autonomous_container_database_compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"peer_autonomous_container_database_display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -237,6 +311,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"peer_autonomous_exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"peer_autonomous_vm_cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -254,22 +334,23 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-			"vault_id": {
-				Type:     schema.TypeString,
+			"standby_maintenance_buffer_in_days": {
+				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"rotate_key_trigger": {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
 
-			"standby_maintenance_buffer_in_days": {
-				Type:     schema.TypeInt,
+			"vault_id": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
 			},
+
 			// Computed
 			"availability_domain": {
 				Type:     schema.TypeString,
@@ -573,6 +654,22 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.PatchModel = oci_database.CreateAutonomousContainerDatabaseDetailsPatchModelEnum(patchModel.(string))
 	}
 
+	if peerAutonomousContainerDatabaseBackupConfig, ok := s.D.GetOkExists("peer_autonomous_container_database_backup_config"); ok {
+		if tmpList := peerAutonomousContainerDatabaseBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "peer_autonomous_container_database_backup_config", 0)
+			tmp, err := s.mapToPeerAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PeerAutonomousContainerDatabaseBackupConfig = &tmp
+		}
+	}
+
+	if peerAutonomousContainerDatabaseCompartmentId, ok := s.D.GetOkExists("peer_autonomous_container_database_compartment_id"); ok {
+		tmp := peerAutonomousContainerDatabaseCompartmentId.(string)
+		request.PeerAutonomousContainerDatabaseCompartmentId = &tmp
+	}
+
 	if peerAutonomousContainerDatabaseDisplayName, ok := s.D.GetOkExists("peer_autonomous_container_database_display_name"); ok {
 		tmp := peerAutonomousContainerDatabaseDisplayName.(string)
 		request.PeerAutonomousContainerDatabaseDisplayName = &tmp
@@ -581,6 +678,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if peerAutonomousExadataInfrastructureId, ok := s.D.GetOkExists("peer_autonomous_exadata_infrastructure_id"); ok {
 		tmp := peerAutonomousExadataInfrastructureId.(string)
 		request.PeerAutonomousExadataInfrastructureId = &tmp
+	}
+
+	if peerAutonomousVmClusterId, ok := s.D.GetOkExists("peer_autonomous_vm_cluster_id"); ok {
+		tmp := peerAutonomousVmClusterId.(string)
+		request.PeerAutonomousVmClusterId = &tmp
 	}
 
 	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
@@ -1023,6 +1125,50 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMonth(fieldKeyFor
 	}
 
 	return result, nil
+}
+
+func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToPeerAutonomousContainerDatabaseBackupConfig(fieldKeyFormat string) (oci_database.PeerAutonomousContainerDatabaseBackupConfig, error) {
+	result := oci_database.PeerAutonomousContainerDatabaseBackupConfig{}
+
+	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
+		interfaces := backupDestinationDetails.([]interface{})
+		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_destination_details"), stateDataIndex)
+			converted, err := s.mapToBackupDestinationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")) {
+			result.BackupDestinationDetails = tmp
+		}
+	}
+
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
+		tmp := recoveryWindowInDays.(int)
+		result.RecoveryWindowInDays = &tmp
+	}
+
+	return result, nil
+}
+
+func PeerAutonomousContainerDatabaseBackupConfigToMap(obj *oci_database.PeerAutonomousContainerDatabaseBackupConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	backupDestinationDetails := []interface{}{}
+	for _, item := range obj.BackupDestinationDetails {
+		backupDestinationDetails = append(backupDestinationDetails, BackupDestinationDetailsToMap(item))
+	}
+	result["backup_destination_details"] = backupDestinationDetails
+
+	if obj.RecoveryWindowInDays != nil {
+		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
+	}
+
+	return result
 }
 
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) updateCompartment(compartment interface{}) error {
