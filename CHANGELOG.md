@@ -1,3 +1,8 @@
+## 3.98.0 (Unreleased)
+
+### Added
+- HCX Support for Oracle Cloud VMware Solution
+
 ## 3.97.0 (October 14, 2020)
 
 ### Added
