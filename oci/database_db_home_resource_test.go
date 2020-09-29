@@ -117,7 +117,7 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "database.0.backup_tde_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "database.0.database_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2.200714"),
 					resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
 					resource.TestCheckResourceAttrSet(resourceName, "database.0.time_stamp_for_point_in_time_recovery"),
 				),
