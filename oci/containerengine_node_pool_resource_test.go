@@ -24,7 +24,7 @@ var (
 	nodePoolRegionalSubnetRepresentation = map[string]interface{}{
 		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}`},
+		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
 		"node_image_name":     Representation{repType: Required, create: `Oracle-Linux-7.4`},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`},
@@ -102,7 +102,7 @@ var (
 	nodePoolRepresentationForImageId = map[string]interface{}{
 		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}`},
+		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
 		"node_image_id":       Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.image_id}`},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`},
@@ -115,7 +115,7 @@ var (
 	nodePoolRepresentationForNodeSourceDetails = map[string]interface{}{
 		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}`},
+		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`},
 		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
@@ -128,7 +128,7 @@ var (
 	nodePoolRepresentationForFlexShapes = map[string]interface{}{
 		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}`},
+		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `flexNodePool`, update: `flexNodePool2`},
 		"node_source_details": RepresentationGroup{Required, nodePoolNodeSourceDetailsRepresentation},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard.E3.Flex`},
@@ -143,7 +143,8 @@ var (
 	}
 
 	nodePoolNodeShapeConfigRepresentation = map[string]interface{}{
-		"ocpus": Representation{repType: Required, create: `1.0`, update: `2.0`},
+		"ocpus":         Representation{repType: Required, create: `1.0`, update: `2.0`},
+		"memory_in_gbs": Representation{repType: Required, create: `32.0`, update: `36.0`},
 	}
 
 	NodePoolReginalResourceDependencies = generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
@@ -321,7 +322,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 }
 
 func TestContainerengineNodePoolResource_image(t *testing.T) {
-	httpreplay.SetScenario("TestContainerengineNodePoolResource_basic")
+	httpreplay.SetScenario("TestContainerengineNodePoolResource_image")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
@@ -487,7 +488,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 }
 
 func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
-	httpreplay.SetScenario("TestContainerengineNodePoolResource_basic")
+	httpreplay.SetScenario("TestContainerengineNodePoolResource_nodeSourceDetails")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
@@ -663,7 +664,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 }
 
 func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
-	httpreplay.SetScenario("TestContainerengineNodePoolResource_basic")
+	httpreplay.SetScenario("TestContainerengineNodePoolResource_flexibleShapes")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
@@ -699,6 +700,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.0.memory_in_gbs", "32"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceNameForFlexibleShapes, "id")
@@ -719,6 +721,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.0.ocpus", "2"),
+					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "node_shape_config.0.memory_in_gbs", "36"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceNameForFlexibleShapes, "id")
@@ -751,6 +754,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.0.node_shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.0.node_shape_config.#", "1"),
 					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.0.node_shape_config.0.ocpus", "2"),
+					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "node_pools.0.node_shape_config.0.memory_in_gbs", "36"),
 				),
 			},
 
@@ -772,6 +776,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.0.ocpus", "2"),
+					resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.0.memory_in_gbs", "36"),
 				),
 			},
 		},

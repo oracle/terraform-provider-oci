@@ -36,6 +36,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	node_shape_config {
 
 		#Optional
+		memory_in_gbs = var.node_pool_node_shape_config_memory_in_gbs
 		ocpus = var.node_pool_node_shape_config_ocpus
 	}
 	node_source_details {
@@ -74,6 +75,7 @@ The following arguments are supported:
 * `node_metadata` - (Optional) (Updatable) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - (Required) (Updatable) The name of the node shape of the nodes in the node pool.
 * `node_shape_config` - (Optional) (Updatable) Specify the configuration of the shape to launch nodes in the node pool. 
+	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to each node, in gigabytes. 
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to each node in the node pool.  See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `node_source_details` - (Optional) (Updatable) Specify the source to use to launch nodes in the node pool. Currently, image is the only supported source. 
 	* `boot_volume_size_in_gbs` - (Optional) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB. See [here](https://docs.cloud.oracle.com/en-us/iaas/Content/Block/Concepts/bootvolumes.htm) for max custom boot volume sizing and OS-specific requirements.
@@ -111,6 +113,7 @@ The following attributes are exported:
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - The name of the node shape of the nodes in the node pool.
 * `node_shape_config` - The shape configuration of the nodes.
+	* `memory_in_gbs` - The total amount of memory available to each node, in gigabytes. 
 	* `ocpus` - The total number of OCPUs available to each node in the node pool.  See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `node_source` - Deprecated. see `nodeSourceDetails`. Source running on the nodes in the node pool.
 	* `image_id` - The OCID of the image.

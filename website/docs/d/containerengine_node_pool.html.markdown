@@ -52,6 +52,7 @@ The following attributes are exported:
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - The name of the node shape of the nodes in the node pool.
 * `node_shape_config` - The shape configuration of the nodes.
+	* `memory_in_gbs` - The total amount of memory available to each node, in gigabytes. 
 	* `ocpus` - The total number of OCPUs available to each node in the node pool.  See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `node_source` - Deprecated. see `nodeSourceDetails`. Source running on the nodes in the node pool.
 	* `image_id` - The OCID of the image.

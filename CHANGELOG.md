@@ -4,6 +4,7 @@
 - Support for Autonomous DG on ExaCC
 - Support for UX Enhancements to Backup,restore,clone
 - Support for returning email verification and login time information for identity users
+- Support for Flexible memory in `oci_containerengine_node_pool`
 
 ## 4.3.0 (November 12, 2020)
 

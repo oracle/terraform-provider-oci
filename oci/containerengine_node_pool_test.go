@@ -43,7 +43,7 @@ var (
 	nodePoolRepresentation = map[string]interface{}{
 		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}`},
+		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
 		"node_image_name":     Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.images.0}`},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`, update: `VM.Standard2.2`},
