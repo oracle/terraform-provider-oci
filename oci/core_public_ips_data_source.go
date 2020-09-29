@@ -31,6 +31,10 @@ func CorePublicIpsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"public_ip_pool_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"scope": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -77,6 +81,11 @@ func (s *CorePublicIpsDataSourceCrud) Get() error {
 
 	if lifetime, ok := s.D.GetOkExists("lifetime"); ok {
 		request.Lifetime = oci_core.ListPublicIpsLifetimeEnum(lifetime.(string))
+	}
+
+	if publicIpPoolId, ok := s.D.GetOkExists("public_ip_pool_id"); ok {
+		tmp := publicIpPoolId.(string)
+		request.PublicIpPoolId = &tmp
 	}
 
 	if scope, ok := s.D.GetOkExists("scope"); ok {
@@ -152,6 +161,10 @@ func (s *CorePublicIpsDataSourceCrud) SetData() error {
 
 		if r.PrivateIpId != nil {
 			publicIp["private_ip_id"] = *r.PrivateIpId
+		}
+
+		if r.PublicIpPoolId != nil {
+			publicIp["public_ip_pool_id"] = *r.PublicIpPoolId
 		}
 
 		publicIp["state"] = r.LifecycleState

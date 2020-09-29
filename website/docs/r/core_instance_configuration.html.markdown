@@ -200,10 +200,10 @@ The following arguments are supported:
 		* `agent_config` - (Optional) 
 			* `is_management_disabled` - (Optional) Whether the agent running on the instance can run all the available management plugins. Default value is false. 
 			* `is_monitoring_disabled` - (Optional) Whether the agent running on the instance can gather performance metrics and monitor the instance. Default value is false. 
-		* `availability_config` - (Optional) 
-			* `recovery_action` - (Optional) Actions customers can specify that would be applied to their instances after scheduled or unexpected host maintenance.
-				* `RESTORE_INSTANCE` - This would be the default action if recoveryAction is not set. VM instances will be restored to the power state it was in before maintenance.
-				* `STOP_INSTANCE` - This action allow customers to have their VM instances be stopped after maintenance. 
+		* `availability_config` - (Optional) Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware. 
+			* `recovery_action` - (Optional) The lifecycle state for an instance when it is recovered after infrastructure maintenance.
+				* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
+				* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
 		* `availability_domain` - (Optional) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 		* `compartment_id` - (Optional) The OCID of the compartment.
 		* `create_vnic_details` - (Optional) Details for the primary VNIC, which is automatically created and attached when the instance is launched. 
@@ -379,10 +379,10 @@ The following attributes are exported:
 		* `agent_config` - 
 			* `is_management_disabled` - Whether the agent running on the instance can run all the available management plugins. Default value is false. 
 			* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. Default value is false. 
-		* `availability_config` - 
-			* `recovery_action` - Actions customers can specify that would be applied to their instances after scheduled or unexpected host maintenance.
-				* `RESTORE_INSTANCE` - This would be the default action if recoveryAction is not set. VM instances will be restored to the power state it was in before maintenance.
-				* `STOP_INSTANCE` - This action allow customers to have their VM instances be stopped after maintenance. 
+		* `availability_config` - Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware. 
+			* `recovery_action` - The lifecycle state for an instance when it is recovered after infrastructure maintenance.
+				* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
+				* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
 		* `availability_domain` - The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 		* `compartment_id` - The OCID of the compartment.
 		* `create_vnic_details` - Details for the primary VNIC, which is automatically created and attached when the instance is launched. 

@@ -1762,32 +1762,16 @@ func (s *CoreInstanceResourceCrud) updateCompartment(compartment interface{}) er
 }
 
 func (s *CoreInstanceResourceCrud) mapToUpdateInstanceBootVolumeSizeInGbs(fieldKeyFormat string) error {
-	//discriminator
-	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
-	var sourceType string
-	if ok {
-		sourceType = sourceTypeRaw.(string)
-	} else {
-		sourceType = "" // default value
-	}
-	switch strings.ToLower(sourceType) {
-	case strings.ToLower("image"):
-		if bootVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")) {
-			oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs"))
-			if newRaw != "" && oldRaw != "" {
-				tmp := bootVolumeSizeInGBs.(string)
-				tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
-				if err != nil {
-					return fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
-				}
-				err = s.updateBootVolumeSizeInGbs(tmpInt64)
-				if err != nil {
-					return err
-				}
-			}
+	if bootVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")) {
+		tmp := bootVolumeSizeInGBs.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
 		}
-	default:
-		return fmt.Errorf("unknown source_type '%v' was specified", sourceType)
+		err = s.updateBootVolumeSizeInGbs(tmpInt64)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -1860,6 +1844,16 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 		if newRaw != "" && oldRaw != "" {
 			shapeTmp := shape.(string)
 			request.Shape = &shapeTmp
+			if shapeConfig, ok := s.D.GetOkExists("shape_config"); ok && !s.D.HasChange("shape_config") {
+				if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
+					fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_config", 0)
+					tmp, err := s.mapToUpdateInstanceShapeConfigDetails(fieldKeyFormat)
+					if err != nil {
+						return err
+					}
+					request.ShapeConfig = &tmp
+				}
+			}
 		}
 	}
 

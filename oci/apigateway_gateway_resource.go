@@ -49,6 +49,11 @@ func ApigatewayGatewayResource() *schema.Resource {
 			},
 
 			// Optional
+			"certificate_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -72,6 +77,23 @@ func ApigatewayGatewayResource() *schema.Resource {
 			"hostname": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"ip_addresses": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"ip_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -168,6 +190,11 @@ func (s *ApigatewayGatewayResourceCrud) DeletedTarget() []string {
 
 func (s *ApigatewayGatewayResourceCrud) Create() error {
 	request := oci_apigateway.CreateGatewayRequest{}
+
+	if certificateId, ok := s.D.GetOkExists("certificate_id"); ok {
+		tmp := certificateId.(string)
+		request.CertificateId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -367,6 +394,11 @@ func (s *ApigatewayGatewayResourceCrud) Update() error {
 	}
 	request := oci_apigateway.UpdateGatewayRequest{}
 
+	if certificateId, ok := s.D.GetOkExists("certificate_id"); ok {
+		tmp := certificateId.(string)
+		request.CertificateId = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -419,6 +451,10 @@ func (s *ApigatewayGatewayResourceCrud) Delete() error {
 }
 
 func (s *ApigatewayGatewayResourceCrud) SetData() error {
+	if s.Res.CertificateId != nil {
+		s.D.Set("certificate_id", *s.Res.CertificateId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -438,6 +474,12 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
+
+	ipAddresses := []interface{}{}
+	for _, item := range s.Res.IpAddresses {
+		ipAddresses = append(ipAddresses, GatewayIpAddressToMap(item))
+	}
+	s.D.Set("ip_addresses", ipAddresses)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -462,6 +504,10 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 
 func GatewaySummaryToMap(obj oci_apigateway.GatewaySummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.CertificateId != nil {
+		result["certificate_id"] = string(*obj.CertificateId)
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -505,6 +551,16 @@ func GatewaySummaryToMap(obj oci_apigateway.GatewaySummary) map[string]interface
 
 	if obj.FreeformTags != nil {
 		result["freeform_tags"] = obj.FreeformTags
+	}
+
+	return result
+}
+
+func GatewayIpAddressToMap(obj oci_apigateway.IpAddress) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IpAddress != nil {
+		result["ip_address"] = string(*obj.IpAddress)
 	}
 
 	return result

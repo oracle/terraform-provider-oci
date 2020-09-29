@@ -43,6 +43,19 @@ var (
 		"ocpus":         Representation{repType: Optional, create: "2"},
 		"memory_in_gbs": Representation{repType: Optional, create: `10.0`, update: `20.0`},
 	}
+	instanceShapeConfigRepresentation_ForFlexibleMemoryNoUpdate = map[string]interface{}{
+		"ocpus":         Representation{repType: Optional, create: "2"},
+		"memory_in_gbs": Representation{repType: Optional, create: `10.0`, update: `20.0`},
+	}
+	instanceRepresentationCore_ForFlexibleMemoryNoUpdate = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"fault_domain":   Representation{repType: Optional, create: `FAULT-DOMAIN-3`, update: `FAULT-DOMAIN-2`},
+		"shape":          Representation{repType: Required, create: `VM.Standard.E3.Flex`},
+		"image":          Representation{repType: Required, create: `${var.FlexInstanceImageOCID[var.region]}`},
+		"shape_config":   RepresentationGroup{Optional, instanceShapeConfigRepresentation_ForFlexibleMemoryNoUpdate},
+		"source_details": RepresentationGroup{Optional, instanceFlexSourceDetailsRepresentation},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
 	instanceLaunchOptionsRepresentation_ForLaunchOptionsUpdate = representationCopyWithNewProperties(instanceLaunchOptionsRepresentation, map[string]interface{}{
 		"boot_volume_type":                    Representation{repType: Optional, create: `ISCSI`, update: `PARAVIRTUALIZED`},
 		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, update: `true`},
@@ -943,6 +956,53 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				},
 			),
 		},
+		// Verify updating boot_volume_size_in_gbs without recreating the instance
+		{
+			Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname2"
+					source_details {
+						source_type = "bootVolume"
+						source_id = "{{.preservedBootVolumeId}}"
+						boot_volume_size_in_gbs = "60"
+					}
+					preserve_boot_volume = "false"
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
+				resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
+				// Verify that we got a new Instance
+				func(ts *terraform.State) (err error) {
+					newId, err := fromInstanceState(ts, s.ResourceName, "id")
+					if newId != instanceId {
+						return fmt.Errorf("expected same instance ocid, got different")
+					}
+
+					instanceId = newId
+					return err
+				},
+				// Verify that the boot volume attachment is the same as the preserved boot volume
+				func(ts *terraform.State) (err error) {
+					volumeId, err := fromInstanceState(ts, s.ResourceName, "boot_volume_id")
+					if preservedBootVolumeId != volumeId {
+						return fmt.Errorf("expected attached boot volume ID to be same as preserved boot volume, got different one")
+					}
+
+					return err
+				},
+			),
+		},
 		// to verify reattaching to the old boot volume resource should be terminated before the waiting for boot volume condition
 		{
 			Config: s.Config,
@@ -1774,6 +1834,58 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 				),
 			},
 
+			// verify updates to updatable parameters but no change in shape_config
+			{
+				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemoryNoUpdate),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnamelabel"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "3"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "20"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
@@ -1825,6 +1937,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 					},
 				),
 			},
+
 			// verify datasource
 			{
 				Config: config +

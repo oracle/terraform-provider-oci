@@ -64,6 +64,17 @@ var exportApigatewayDeploymentHints = &TerraformResourceHints{
 	},
 }
 
+var exportApigatewayCertificateHints = &TerraformResourceHints{
+	resourceClass:          "oci_apigateway_certificate",
+	datasourceClass:        "oci_apigateway_certificates",
+	datasourceItemsAttr:    "certificate_collection",
+	resourceAbbreviation:   "certificate",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_apigateway.CertificateLifecycleStateActive),
+	},
+}
+
 var exportAnalyticsAnalyticsInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_analytics_analytics_instance",
 	datasourceClass:        "oci_analytics_analytics_instances",
