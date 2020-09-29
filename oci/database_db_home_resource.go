@@ -49,7 +49,6 @@ func DatabaseDbHomeResource() *schema.Resource {
 						"admin_password": {
 							Type:      schema.TypeString,
 							Required:  true,
-							ForceNew:  true,
 							Sensitive: true,
 						},
 
@@ -179,6 +178,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"tde_wallet_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
 						},
 						"time_stamp_for_point_in_time_recovery": {
 							Type:             schema.TypeString,
@@ -743,6 +748,11 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 		result.PdbName = &tmp
 	}
 
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
+		tmp := tdeWalletPassword.(string)
+		result.TdeWalletPassword = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1126,6 +1136,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 		result["admin_password"] = adminPassword.(string)
 	}
 
+	if tdeWalletPassword, ok := s.D.GetOkExists("database.0.tde_wallet_password"); ok && tdeWalletPassword != nil {
+		result["tde_wallet_password"] = tdeWalletPassword.(string)
+	}
+
 	if backupId, ok := s.D.GetOkExists("database.0.backup_id"); ok && backupId != nil {
 		result["backup_id"] = backupId.(string)
 	}
@@ -1229,6 +1243,19 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat s
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "admin_password")) {
+		tmp := adminPassword.(string)
+		result.NewAdminPassword = &tmp
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")) {
+		tmp := tdeWalletPassword.(string)
+		result.NewTdeWalletPassword = &tmp
+		oldTdePassword, _ := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password"))
+		tmp1 := oldTdePassword.(string)
+		result.OldTdeWalletPassword = &tmp1
 	}
 
 	return result, nil

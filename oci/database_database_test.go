@@ -149,6 +149,7 @@ var (
 		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"ncharacter_set":   Representation{repType: Optional, create: `AL16UTF16`},
 		"pdb_name":         Representation{repType: Optional, create: `pdbName`},
+		// "tde_wallet_password": Representation{repType: Optional, create: `tdeWalletPassword`},	exadata doesn't support it.
 	}
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
 		"auto_backup_enabled":     Representation{repType: Optional, create: `true`},
