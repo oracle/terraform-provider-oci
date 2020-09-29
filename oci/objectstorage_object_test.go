@@ -7,6 +7,8 @@ import (
 	"context"
 	"crypto/md5"
 	"encoding/base64"
+	"time"
+
 	"encoding/hex"
 	"fmt"
 	"io/ioutil"
@@ -47,12 +49,18 @@ var (
 	}
 
 	objectSingularDataSourceRepresentation = map[string]interface{}{
-		"bucket":                Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"namespace":             Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"object":                Representation{repType: Required, create: `my-test-object-3`},
-		"content_length_limit":  Representation{repType: Optional, create: `17`, update: `15`},
-		"base64_encode_content": Representation{repType: Optional, create: `true`},
-		"version_id":            Representation{repType: Optional, create: `${oci_objectstorage_object.test_object.version_id}`},
+		"bucket":                            Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace":                         Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object":                            Representation{repType: Required, create: `my-test-object-3`},
+		"content_length_limit":              Representation{repType: Optional, create: `17`, update: `20`},
+		"base64_encode_content":             Representation{repType: Optional, create: `true`},
+		"version_id":                        Representation{repType: Optional, create: `${oci_objectstorage_object.test_object.version_id}`},
+		"http_response_cache_control":       Representation{repType: Optional, create: `no-cache`, update: `no-store`},
+		"http_response_content_disposition": Representation{repType: Optional, create: `inline`, update: `inline`},
+		"http_response_content_encoding":    Representation{repType: Optional, create: `identity`, update: `identity`},
+		"http_response_content_language":    Representation{repType: Optional, create: `en-US`, update: `en-US`},
+		"http_response_content_type":        Representation{repType: Optional, create: `text/plain`, update: `text/plain`},
+		"http_response_expires":             Representation{repType: Optional, create: expirationTimeForPar.Format(time.RFC3339Nano), update: expirationTimeForPar.Format(time.RFC3339Nano)},
 	}
 
 	objectRepresentation = map[string]interface{}{
@@ -288,16 +296,17 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectSingularDataSourceRepresentation),
+					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSingularDataSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cache_control", "no-store"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "attachment; filename=\"filename.html\""),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-US"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_md5", *md5B64Encode2),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "http_response_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content", base64.StdEncoding.EncodeToString([]byte("<a1>content</a1>"))),
@@ -330,7 +339,6 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
-
 					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "delimiter", "/"),
 					resource.TestCheckResourceAttr(datasourceName, "end", "x"),

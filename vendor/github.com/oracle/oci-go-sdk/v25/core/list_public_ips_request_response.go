@@ -43,6 +43,9 @@ type ListPublicIpsRequest struct {
 	// A filter to return only public IPs that match given lifetime.
 	Lifetime ListPublicIpsLifetimeEnum `mandatory:"false" contributesTo:"query" name:"lifetime" omitEmpty:"true"`
 
+	// A filter to return only resources that belong to the given public IP pool.
+	PublicIpPoolId *string `mandatory:"false" contributesTo:"query" name:"publicIpPoolId"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

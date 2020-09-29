@@ -23,6 +23,12 @@ data "oci_objectstorage_object" "test_object" {
 	object = var.object_object
 
 	#Optional
+	http_response_cache_control = var.object_http_response_cache_control
+	http_response_content_disposition = var.object_http_response_content_disposition
+	http_response_content_encoding = var.object_http_response_content_encoding
+	http_response_content_language = var.object_http_response_content_language
+	http_response_content_type = var.object_http_response_content_type
+	http_response_expires = var.object_http_response_expires
 	version_id = oci_objectstorage_version.test_version.id
 }
 ```
@@ -32,6 +38,12 @@ data "oci_objectstorage_object" "test_object" {
 The following arguments are supported:
 
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
+* `http_response_cache_control` - (Optional) This value will be used in Cache-Control header of the response.
+* `http_response_content_disposition` - (Optional) This value will be used in Content-Disposition header of the response.
+* `http_response_content_encoding` - (Optional) This value will be used in Content-Encoding header of the response
+* `http_response_content_language` - (Optional) This value will be used in Content-Language header of the response.
+* `http_response_content_type` - (Optional) This value will be used in Content-Type header of the response.
+* `http_response_expires` - (Optional) This value will be used in Expires header of the response
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Required) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
 * `content_length_limit` - (Optional) The limit of the content length of the object body to download from the object store. The default is 1Mb.

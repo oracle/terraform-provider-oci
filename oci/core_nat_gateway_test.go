@@ -48,10 +48,17 @@ var (
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"public_ip_id":   Representation{repType: Optional, create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
 
-	NatGatewayResourceDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		DefinedTagsDependencies
+	NatGatewayResourceDependencies = generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create,
+		representationCopyWithNewProperties(publicIpRepresentation, map[string]interface{}{
+			"public_ip_pool_id": Representation{repType: Required, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
+		})) +
+		generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr
 )
 
 func TestCoreNatGatewayResource_basic(t *testing.T) {
@@ -111,6 +118,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
+					resource.TestCheckResourceAttrSet(resourceName, "public_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -142,6 +150,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
+					resource.TestCheckResourceAttrSet(resourceName, "public_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -168,6 +177,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
+					resource.TestCheckResourceAttrSet(resourceName, "public_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -201,6 +211,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.nat_ip"),
+					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.public_ip_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.vcn_id"),

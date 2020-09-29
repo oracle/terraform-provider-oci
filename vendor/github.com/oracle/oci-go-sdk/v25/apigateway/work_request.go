@@ -58,21 +58,27 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeCreateGateway    WorkRequestOperationTypeEnum = "CREATE_GATEWAY"
-	WorkRequestOperationTypeUpdateGateway    WorkRequestOperationTypeEnum = "UPDATE_GATEWAY"
-	WorkRequestOperationTypeDeleteGateway    WorkRequestOperationTypeEnum = "DELETE_GATEWAY"
-	WorkRequestOperationTypeCreateDeployment WorkRequestOperationTypeEnum = "CREATE_DEPLOYMENT"
-	WorkRequestOperationTypeUpdateDeployment WorkRequestOperationTypeEnum = "UPDATE_DEPLOYMENT"
-	WorkRequestOperationTypeDeleteDeployment WorkRequestOperationTypeEnum = "DELETE_DEPLOYMENT"
+	WorkRequestOperationTypeCreateGateway     WorkRequestOperationTypeEnum = "CREATE_GATEWAY"
+	WorkRequestOperationTypeUpdateGateway     WorkRequestOperationTypeEnum = "UPDATE_GATEWAY"
+	WorkRequestOperationTypeDeleteGateway     WorkRequestOperationTypeEnum = "DELETE_GATEWAY"
+	WorkRequestOperationTypeCreateDeployment  WorkRequestOperationTypeEnum = "CREATE_DEPLOYMENT"
+	WorkRequestOperationTypeUpdateDeployment  WorkRequestOperationTypeEnum = "UPDATE_DEPLOYMENT"
+	WorkRequestOperationTypeDeleteDeployment  WorkRequestOperationTypeEnum = "DELETE_DEPLOYMENT"
+	WorkRequestOperationTypeCreateCertificate WorkRequestOperationTypeEnum = "CREATE_CERTIFICATE"
+	WorkRequestOperationTypeUpdateCertificate WorkRequestOperationTypeEnum = "UPDATE_CERTIFICATE"
+	WorkRequestOperationTypeDeleteCertificate WorkRequestOperationTypeEnum = "DELETE_CERTIFICATE"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
-	"CREATE_GATEWAY":    WorkRequestOperationTypeCreateGateway,
-	"UPDATE_GATEWAY":    WorkRequestOperationTypeUpdateGateway,
-	"DELETE_GATEWAY":    WorkRequestOperationTypeDeleteGateway,
-	"CREATE_DEPLOYMENT": WorkRequestOperationTypeCreateDeployment,
-	"UPDATE_DEPLOYMENT": WorkRequestOperationTypeUpdateDeployment,
-	"DELETE_DEPLOYMENT": WorkRequestOperationTypeDeleteDeployment,
+	"CREATE_GATEWAY":     WorkRequestOperationTypeCreateGateway,
+	"UPDATE_GATEWAY":     WorkRequestOperationTypeUpdateGateway,
+	"DELETE_GATEWAY":     WorkRequestOperationTypeDeleteGateway,
+	"CREATE_DEPLOYMENT":  WorkRequestOperationTypeCreateDeployment,
+	"UPDATE_DEPLOYMENT":  WorkRequestOperationTypeUpdateDeployment,
+	"DELETE_DEPLOYMENT":  WorkRequestOperationTypeDeleteDeployment,
+	"CREATE_CERTIFICATE": WorkRequestOperationTypeCreateCertificate,
+	"UPDATE_CERTIFICATE": WorkRequestOperationTypeUpdateCertificate,
+	"DELETE_CERTIFICATE": WorkRequestOperationTypeDeleteCertificate,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
