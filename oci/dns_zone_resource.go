@@ -6,6 +6,10 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/url"
+	"regexp"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -118,8 +122,22 @@ func DnsZoneResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"view_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 
 			// Computed
+			"is_protected": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"nameservers": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -247,6 +265,16 @@ func (s *DnsZoneResourceCrud) Create() error {
 		createZoneDetailsRequest.Name = &tmp
 	}
 
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.CreateZoneScopeEnum(scope.(string))
+		createZoneDetailsRequest.Scope = oci_dns.ScopeEnum(scope.(string))
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		createZoneDetailsRequest.ViewId = &tmp
+	}
+
 	if zoneType, ok := s.D.GetOkExists("zone_type"); ok {
 		createZoneDetailsRequest.ZoneType = oci_dns.CreateZoneDetailsZoneTypeEnum(zoneType.(string))
 	}
@@ -269,6 +297,29 @@ func (s *DnsZoneResourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.GetZoneScopeEnum(scope.(string))
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		request.ViewId = &tmp
+	}
+
+	zoneNameOrId, scope, viewId, err := parseZoneCompositeId(s.D.Id())
+	if err == nil {
+		request.ZoneNameOrId = &zoneNameOrId
+		s.D.SetId(zoneNameOrId)
+		request.Scope = oci_dns.GetZoneScopeEnum(scope)
+		s.D.Set("scope", scope)
+		if viewId != "" {
+			request.ViewId = &viewId
+			s.D.Set("view_id", viewId)
+		}
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
 	tmp := s.D.Id()
@@ -331,6 +382,15 @@ func (s *DnsZoneResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.UpdateZoneScopeEnum(scope.(string))
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		request.ViewId = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.ZoneNameOrId = &tmp
 
@@ -351,6 +411,15 @@ func (s *DnsZoneResourceCrud) Delete() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.DeleteZoneScopeEnum(scope.(string))
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		request.ViewId = &tmp
 	}
 
 	tmp := s.D.Id()
@@ -380,6 +449,10 @@ func (s *DnsZoneResourceCrud) SetData() error {
 	s.D.Set("external_masters", externalMasters)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsProtected != nil {
+		s.D.Set("is_protected", *s.Res.IsProtected)
+	}
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
@@ -523,6 +596,10 @@ func (s *DnsZoneResourceCrud) updateCompartment(compartment interface{}) error {
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		changeCompartmentRequest.Scope = oci_dns.ChangeZoneCompartmentScopeEnum(scope.(string))
+	}
+
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ZoneId = &idTmp
 
@@ -533,4 +610,20 @@ func (s *DnsZoneResourceCrud) updateCompartment(compartment interface{}) error {
 		return err
 	}
 	return nil
+}
+
+func parseZoneCompositeId(compositeId string) (zoneNameOrId string, scope string, viewId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("zoneNameOrId/.*/scope/.*/viewId/.*", compositeId)
+
+	if match && len(parts) == 6 {
+		zoneNameOrId, _ = url.PathUnescape(parts[1])
+		scope, _ = url.PathUnescape(parts[3])
+		viewId, _ = url.PathUnescape(parts[5])
+	} else {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+
+	return
 }

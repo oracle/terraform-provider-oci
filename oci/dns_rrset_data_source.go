@@ -28,6 +28,14 @@ func DnsRrsetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
+	fieldMap["scope"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Optional: true,
+	}
+	fieldMap["view_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Optional: true,
+	}
 	fieldMap["zone_name_or_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
@@ -73,6 +81,15 @@ func (s *DnsRrsetDataSourceCrud) Get() error {
 	if rtype, ok := s.D.GetOkExists("rtype"); ok {
 		tmp := rtype.(string)
 		request.Rtype = &tmp
+	}
+
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.GetRRSetScopeEnum(scope.(string))
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		request.ViewId = &tmp
 	}
 
 	if zoneNameOrId, ok := s.D.GetOkExists("zone_name_or_id"); ok {
