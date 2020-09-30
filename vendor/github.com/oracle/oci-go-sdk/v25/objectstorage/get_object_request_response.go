@@ -57,6 +57,24 @@ type GetObjectRequest struct {
 	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKeySha256 *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key-sha256"`
 
+	// This value will be used in Content-Disposition header of the response.
+	HttpResponseContentDisposition *string `mandatory:"false" contributesTo:"query" name:"httpResponseContentDisposition"`
+
+	// This value will be used in Cache-Control header of the response.
+	HttpResponseCacheControl *string `mandatory:"false" contributesTo:"query" name:"httpResponseCacheControl"`
+
+	// This value will be used in Content-Type header of the response.
+	HttpResponseContentType *string `mandatory:"false" contributesTo:"query" name:"httpResponseContentType"`
+
+	// This value will be used in Content-Language header of the response.
+	HttpResponseContentLanguage *string `mandatory:"false" contributesTo:"query" name:"httpResponseContentLanguage"`
+
+	// This value will be used in Content-Encoding header of the response
+	HttpResponseContentEncoding *string `mandatory:"false" contributesTo:"query" name:"httpResponseContentEncoding"`
+
+	// This value will be used in Expires header of the response
+	HttpResponseExpires *string `mandatory:"false" contributesTo:"query" name:"httpResponseExpires"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -141,6 +159,9 @@ type GetObjectResponse struct {
 
 	// VersionId of the object requested
 	VersionId *string `presentIn:"header" name:"version-id"`
+
+	// Time after which object is no longer cacheable, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616#section-14.21).
+	Expires *common.SDKTime `presentIn:"header" name:"expires"`
 
 	// Flag to indicate whether or not the object was modified.  If this is true,
 	// the getter for the object itself will return null.  Callers should check this

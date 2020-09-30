@@ -10,8 +10,25 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_apigateway.ApiGatewayClient", &OracleClient{initClientFn: initApigatewayApiGatewayClient})
 	RegisterOracleClient("oci_apigateway.DeploymentClient", &OracleClient{initClientFn: initApigatewayDeploymentClient})
 	RegisterOracleClient("oci_apigateway.GatewayClient", &OracleClient{initClientFn: initApigatewayGatewayClient})
+}
+
+func initApigatewayApiGatewayClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+	client, err := oci_apigateway.NewApiGatewayClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) apiGatewayClient() *oci_apigateway.ApiGatewayClient {
+	return m.GetClient("oci_apigateway.ApiGatewayClient").(*oci_apigateway.ApiGatewayClient)
 }
 
 func initApigatewayDeploymentClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {

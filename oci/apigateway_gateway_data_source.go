@@ -67,6 +67,10 @@ func (s *ApigatewayGatewayDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.CertificateId != nil {
+		s.D.Set("certificate_id", *s.Res.CertificateId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -86,6 +90,12 @@ func (s *ApigatewayGatewayDataSourceCrud) SetData() error {
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
+
+	ipAddresses := []interface{}{}
+	for _, item := range s.Res.IpAddresses {
+		ipAddresses = append(ipAddresses, GatewayIpAddressToMap(item))
+	}
+	s.D.Set("ip_addresses", ipAddresses)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)

@@ -17,13 +17,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ImageMemoryConstraints OCPU options for an image and shape.
+// ImageMemoryConstraints For a flexible image and shape, the amount of memory supported for instances that use this image.
 type ImageMemoryConstraints struct {
 
-	// The minimum amount of memory supported for this image and shape, in gigabytes.
+	// The minimum amount of memory, in gigabytes.
 	MinInGBs *int `mandatory:"false" json:"minInGBs"`
 
-	// The maximum amount of memory supported for this image and shape, in gigabytes.
+	// The maximum amount of memory, in gigabytes.
 	MaxInGBs *int `mandatory:"false" json:"maxInGBs"`
 }
 

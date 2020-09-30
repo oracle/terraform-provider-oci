@@ -90,6 +90,7 @@ type UpdateInstanceDetails struct {
 	// Options for tuning the compatibility and performance of VM shapes.
 	LaunchOptions *UpdateLaunchOptions `mandatory:"false" json:"launchOptions"`
 
+	// Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 	AvailabilityConfig *UpdateInstanceAvailabilityConfigDetails `mandatory:"false" json:"availabilityConfig"`
 }
 

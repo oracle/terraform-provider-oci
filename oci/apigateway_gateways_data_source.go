@@ -19,6 +19,10 @@ func ApigatewayGatewaysDataSource() *schema.Resource {
 		Read: readApigatewayGateways,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"certificate_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -61,6 +65,11 @@ func (s *ApigatewayGatewaysDataSourceCrud) VoidState() {
 
 func (s *ApigatewayGatewaysDataSourceCrud) Get() error {
 	request := oci_apigateway.ListGatewaysRequest{}
+
+	if certificateId, ok := s.D.GetOkExists("certificate_id"); ok {
+		tmp := certificateId.(string)
+		request.CertificateId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
