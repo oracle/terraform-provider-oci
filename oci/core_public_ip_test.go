@@ -41,6 +41,7 @@ var (
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"scope":               Representation{repType: Required, create: string(oci_core.PublicIpScopeRegion), update: string(oci_core.PublicIpScopeAvailabilityDomain)},
 		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"public_ip_pool_id":   Representation{repType: Optional, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
 		"filter":              RepresentationGroup{Required, publicIpDataSourceFilterRepresentation}}
 	publicIpDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -52,23 +53,27 @@ var (
 	}
 
 	publicIpRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"lifetime":       Representation{repType: Required, create: `RESERVED`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `-tf-public-ip`, update: `-tf-public-ip-updated`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"private_ip_id":  Representation{repType: Optional, create: `${data.oci_core_private_ips.test_private_ips.` + privateIpId + `}`, update: `${data.oci_core_private_ips.test_private_ips.` + privateIpId2 + `}`},
+		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
+		"lifetime":          Representation{repType: Required, create: `RESERVED`},
+		"defined_tags":      Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":      Representation{repType: Optional, create: `-tf-public-ip`, update: `-tf-public-ip-updated`},
+		"freeform_tags":     Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"private_ip_id":     Representation{repType: Optional, create: `${data.oci_core_private_ips.test_private_ips.` + privateIpId + `}`, update: `${data.oci_core_private_ips.test_private_ips.` + privateIpId2 + `}`},
+		"public_ip_pool_id": Representation{repType: Optional, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
 	}
 
 	publicUnassignedIpRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"lifetime":       Representation{repType: Required, create: `RESERVED`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `-tf-public-ip`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
+		"lifetime":          Representation{repType: Required, create: `RESERVED`},
+		"defined_tags":      Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":      Representation{repType: Optional, create: `-tf-public-ip`},
+		"freeform_tags":     Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"public_ip_pool_id": Representation{repType: Optional, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
 	}
 
-	PublicIpResourceDependencies = DefinedTagsDependencies + `
+	PublicIpResourceDependencies = DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr +
+		generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation) + `
 	variable "InstanceImageOCID" {
 		type = "map"
 		default = {
@@ -228,6 +233,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
+					resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
 					TestCheckResourceAttributesEqual(resourceName, "private_ip_id", "data.oci_core_private_ips.test_private_ips", privateIpId),
 					resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
@@ -260,6 +266,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
 					resource.TestCheckResourceAttrSet(resourceName, "private_ip_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -306,6 +313,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip-updated"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
+					resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
 					TestCheckResourceAttributesEqual(resourceName, "private_ip_id", "data.oci_core_private_ips.test_private_ips", privateIpId2),
 					resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
@@ -364,6 +372,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.ip_address"),
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.0.lifetime", string(oci_core.PublicIpLifetimeReserved)),
 					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.private_ip_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.public_ip_pool_id"),
 
 					// check oci_core_public_ip by private ip id
 					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "compartment_id", compartmentId),

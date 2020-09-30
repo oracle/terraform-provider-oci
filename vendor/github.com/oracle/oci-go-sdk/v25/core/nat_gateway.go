@@ -68,6 +68,9 @@ type NatGateway struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Public IP associated with the NAT gateway.
+	PublicIpId *string `mandatory:"false" json:"publicIpId"`
 }
 
 func (m NatGateway) String() string {

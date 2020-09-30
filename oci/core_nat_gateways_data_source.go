@@ -142,6 +142,10 @@ func (s *CoreNatGatewaysDataSourceCrud) SetData() error {
 			natGateway["nat_ip"] = *r.NatIp
 		}
 
+		if r.PublicIpId != nil {
+			natGateway["public_ip_id"] = *r.PublicIpId
+		}
+
 		natGateway["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

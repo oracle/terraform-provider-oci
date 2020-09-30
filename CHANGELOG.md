@@ -1,3 +1,12 @@
+## 3.95.0 (Unreleased)
+- Support for query parameters added to `object_storage` `object` resource
+- Support for custom certificates added to `apigateway` `certificate` resource
+- Support added for update Instance Console Connections
+- Support added for `oci_core_public_ip_pool` resource and `byoip` data source
+
+### Fixed
+- Fix resizing of boot_volume in `oci_core_instance` resource for `source_type` bootVolume
+
 ## 3.94.0 (September 23, 2020)
 
 ### Added

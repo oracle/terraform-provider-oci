@@ -19,6 +19,12 @@ data "oci_containerengine_node_pool_option" "test_node_pool_option" {
   node_pool_option_id = "all"
 }
 
+locals {
+  all_sources = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources}"
+
+  oracle_linux_images = [for source in local.all_sources : source.image_id if length(regexall("Oracle-Linux-[0-9]*.[0-9]*-20[0-9]*",source.source_name)) > 0]
+}
+
 output "cluster_kubernetes_versions" {
   value = [data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions]
 }

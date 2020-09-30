@@ -44,6 +44,9 @@ type CreateNatGatewayDetails struct {
 	// Whether the NAT gateway blocks traffic through it. The default is `false`.
 	// Example: `true`
 	BlockTraffic *bool `mandatory:"false" json:"blockTraffic"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Public IP associated with the NAT gateway.
+	PublicIpId *string `mandatory:"false" json:"publicIpId"`
 }
 
 func (m CreateNatGatewayDetails) String() string {

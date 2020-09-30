@@ -50,6 +50,9 @@ type CreatePublicIpDetails struct {
 	// assigned to a private IP. You can later assign the public IP with
 	// UpdatePublicIp.
 	PrivateIpId *string `mandatory:"false" json:"privateIpId"`
+
+	// OCID of the pool object created by the current tenancy
+	PublicIpPoolId *string `mandatory:"false" json:"publicIpPoolId"`
 }
 
 func (m CreatePublicIpDetails) String() string {

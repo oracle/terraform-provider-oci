@@ -70,7 +70,7 @@ The following arguments are supported:
 	* `instance_configuration_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
 	* `size` - (Required) The number of instances that should be in the instance pool.
 
-		If the required number of instances is not available or if some instances fail to launch, the cluster network is not created. 
+		For cluster networks with 10 or more instances, the cluster network is created if the required number of instances is available and at least 95% of the instances in the pool launch successfully. For cluster networks with less than 10 instances, all instances in the pool must launch successfully. If the cluster network fails to launch, wait a few minutes, and then try creating it again. 
 * `placement_configuration` - (Required) The placement configuration for the instance pools in the cluster network.
 	* `availability_domain` - (Required) The availability domain to place instances.  Example: `Uocm:PHX-AD-1` 
 	* `primary_subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 

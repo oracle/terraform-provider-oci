@@ -32,6 +32,7 @@ var (
 
 	gatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"certificate_id": Representation{repType: Optional, create: `oci_apigateway_certificate.test_certificate.id`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, gatewayDataSourceFilterRepresentation}}
@@ -44,12 +45,14 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"endpoint_type":  Representation{repType: Required, create: `PUBLIC`},
 		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"certificate_id": Representation{repType: Optional, create: `${oci_apigateway_certificate.test_certificate.id}`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	GatewayResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRegionalRepresentation) +
+	GatewayResourceDependencies = generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
@@ -111,6 +114,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create, gatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -139,6 +143,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -162,6 +167,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -186,6 +192,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 					compartmentIdVariableStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(datasourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -211,6 +218,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "hostname"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

@@ -89,6 +89,10 @@ func (s *CoreNatGatewayDataSourceCrud) SetData() error {
 		s.D.Set("nat_ip", *s.Res.NatIp)
 	}
 
+	if s.Res.PublicIpId != nil {
+		s.D.Set("public_ip_id", *s.Res.PublicIpId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

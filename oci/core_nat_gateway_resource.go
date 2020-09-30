@@ -61,6 +61,12 @@ func CoreNatGatewayResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"public_ip_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"nat_ip": {
@@ -177,6 +183,11 @@ func (s *CoreNatGatewayResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if publicIpId, ok := s.D.GetOkExists("public_ip_id"); ok {
+		tmp := publicIpId.(string)
+		request.PublicIpId = &tmp
+	}
+
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
 		tmp := vcnId.(string)
 		request.VcnId = &tmp
@@ -291,6 +302,10 @@ func (s *CoreNatGatewayResourceCrud) SetData() error {
 
 	if s.Res.NatIp != nil {
 		s.D.Set("nat_ip", *s.Res.NatIp)
+	}
+
+	if s.Res.PublicIpId != nil {
+		s.D.Set("public_ip_id", *s.Res.PublicIpId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

@@ -943,6 +943,53 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				},
 			),
 		},
+		// Verify updating boot_volume_size_in_gbs without recreating the instance
+		{
+			Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname2"
+					source_details {
+						source_type = "bootVolume"
+						source_id = "{{.preservedBootVolumeId}}"
+						boot_volume_size_in_gbs = "60"
+					}
+					preserve_boot_volume = "false"
+					shape = "VM.Standard2.1"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
+				resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
+				// Verify that we got a new Instance
+				func(ts *terraform.State) (err error) {
+					newId, err := fromInstanceState(ts, s.ResourceName, "id")
+					if newId != instanceId {
+						return fmt.Errorf("expected same instance ocid, got different")
+					}
+
+					instanceId = newId
+					return err
+				},
+				// Verify that the boot volume attachment is the same as the preserved boot volume
+				func(ts *terraform.State) (err error) {
+					volumeId, err := fromInstanceState(ts, s.ResourceName, "boot_volume_id")
+					if preservedBootVolumeId != volumeId {
+						return fmt.Errorf("expected attached boot volume ID to be same as preserved boot volume, got different one")
+					}
+
+					return err
+				},
+			),
+		},
 		// to verify reattaching to the old boot volume resource should be terminated before the waiting for boot volume condition
 		{
 			Config: s.Config,
@@ -1825,6 +1872,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 					},
 				),
 			},
+
 			// verify datasource
 			{
 				Config: config +

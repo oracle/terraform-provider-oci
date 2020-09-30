@@ -1,0 +1,153 @@
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package oci
+
+import (
+	"context"
+
+	"github.com/hashicorp/terraform/helper/schema"
+	oci_core "github.com/oracle/oci-go-sdk/v25/core"
+)
+
+func init() {
+	RegisterDatasource("oci_core_byoip_allocated_ranges", CoreByoipAllocatedRangesDataSource())
+}
+
+func CoreByoipAllocatedRangesDataSource() *schema.Resource {
+	return &schema.Resource{
+		Read: readCoreByoipAllocatedRanges,
+		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
+			"byoip_range_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"byoip_allocated_range_collection": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"items": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"cidr_block": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"public_ip_pool_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func readCoreByoipAllocatedRanges(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreByoipAllocatedRangesDataSourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
+
+	return ReadResource(sync)
+}
+
+type CoreByoipAllocatedRangesDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_core.VirtualNetworkClient
+	Res    *oci_core.ListByoipAllocatedRangesResponse
+}
+
+func (s *CoreByoipAllocatedRangesDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
+
+func (s *CoreByoipAllocatedRangesDataSourceCrud) Get() error {
+	request := oci_core.ListByoipAllocatedRangesRequest{}
+
+	if byoipRangeId, ok := s.D.GetOkExists("byoip_range_id"); ok {
+		tmp := byoipRangeId.(string)
+		request.ByoipRangeId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+
+	response, err := s.Client.ListByoipAllocatedRanges(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListByoipAllocatedRanges(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
+}
+
+func (s *CoreByoipAllocatedRangesDataSourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
+	s.D.SetId(GenerateDataSourceID())
+	resources := []map[string]interface{}{}
+	byoipAllocatedRange := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range s.Res.Items {
+		items = append(items, ByoipAllocatedRangeSummaryToMap(item))
+	}
+	byoipAllocatedRange["items"] = items
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		items = ApplyFiltersInCollection(f.(*schema.Set), items, CoreByoipAllocatedRangesDataSource().Schema["byoip_allocated_range_collection"].Elem.(*schema.Resource).Schema)
+		byoipAllocatedRange["items"] = items
+	}
+
+	resources = append(resources, byoipAllocatedRange)
+	if err := s.D.Set("byoip_allocated_range_collection", resources); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func ByoipAllocatedRangeSummaryToMap(obj oci_core.ByoipAllocatedRangeSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CidrBlock != nil {
+		result["cidr_block"] = string(*obj.CidrBlock)
+	}
+
+	if obj.PublicIpPoolId != nil {
+		result["public_ip_pool_id"] = string(*obj.PublicIpPoolId)
+	}
+
+	return result
+}
