@@ -238,6 +238,7 @@ analytics
 
 apigateway
     
+* oci\_apigateway\_api
 * oci\_apigateway\_gateway
 * oci\_apigateway\_deployment
 * oci\_apigateway\_certificate
