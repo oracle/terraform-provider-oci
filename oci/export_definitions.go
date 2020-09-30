@@ -53,6 +53,18 @@ var exportAnalyticsAnalyticsInstanceHints = &TerraformResourceHints{
 	},
 }
 
+var exportApigatewayApiHints = &TerraformResourceHints{
+	resourceClass:          "oci_apigateway_api",
+	datasourceClass:        "oci_apigateway_apis",
+	datasourceItemsAttr:    "api_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "api",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_apigateway.ApiLifecycleStateActive),
+	},
+}
+
 var exportApigatewayGatewayHints = &TerraformResourceHints{
 	resourceClass:          "oci_apigateway_gateway",
 	datasourceClass:        "oci_apigateway_gateways",

@@ -95,6 +95,7 @@ var analyticsResourceGraph = TerraformResourceGraph{
 
 var apigatewayResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
+		{TerraformResourceHints: exportApigatewayApiHints},
 		{TerraformResourceHints: exportApigatewayGatewayHints},
 		{TerraformResourceHints: exportApigatewayDeploymentHints},
 		{TerraformResourceHints: exportApigatewayCertificateHints},
