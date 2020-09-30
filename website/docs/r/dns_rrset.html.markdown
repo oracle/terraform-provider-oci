@@ -30,6 +30,8 @@ resource "oci_dns_rrset" "test_rrset" {
 		rtype = var.rrset_items_rtype
 		ttl = var.rrset_items_ttl
 	}
+	scope = var.rrset_scope
+	view_id = oci_dns_view.test_view.id
 }
 ```
 
@@ -46,6 +48,9 @@ The following arguments are supported:
 	* `rtype` - (Required) The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 	* `ttl` - (Required) (Updatable) The Time To Live for the record, in seconds.
 * `rtype` - (Required) The type of the target RRSet within the target zone.
+* `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope. 
+This value will be null for zones in the global DNS and `PRIVATE` when creating private Rrsets.
+* `view_id` - (Optional) The OCID of the view the resource is associated with.
 * `zone_name_or_id` - (Required) The name or OCID of the target zone.
 
 
@@ -62,15 +67,21 @@ The following attributes are exported:
 	* `rdata` - The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm) 
 	* `record_hash` - A unique identifier for the record within its zone. 
 	* `rrset_version` - The latest version of the record's zone in which its RRSet differs from the preceding version. 
-	* `rtype` - The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
+	* `rtype` - The type of DNS record, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 	* `ttl` - The Time To Live for the record, in seconds.
 
 ## Import
 
-Rrsets can be imported using the `id`, e.g.
+For legacy Rrsets that were created without using `scope`, these Rrsets can be imported using the `id`, e.g.
 
 ```
 $ terraform import oci_dns_rrset.test_rrset "zoneNameOrId/{zoneNameOrId}/domain/{domain}/rtype/{rtype}" 
 ```
 
+For Rrsets created using `scope` and `view_id`, these Rrsets can be imported using the `id`, e.g.
 
+```
+$ terraform import oci_dns_rrset.test_rrset "zoneNameOrId/{zoneNameOrId}/domain/{domain}/rtype/{rtype}/scope/{scope}/viewId/{viewId}"
+```
+
+skip adding `{view_id}` at the end if Rrset was created without `view_id`.

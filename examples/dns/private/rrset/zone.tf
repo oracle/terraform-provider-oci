@@ -2,7 +2,7 @@
 // Licensed under the Mozilla Public License v2.0
 
 /*
- * This file demonstrates dns zone management
+ * This file demonstrates dns private zone management
  */
 
 resource "random_string" "random_prefix" {
@@ -15,35 +15,23 @@ resource "oci_dns_zone" "zone1" {
   compartment_id = var.compartment_ocid
   name           = "${data.oci_identity_tenancy.tenancy.name}-${random_string.random_prefix.result}-tf-example-primary.oci-dns1"
   zone_type      = "PRIMARY"
+  scope          = "PRIVATE"
+  view_id        = oci_dns_view.test_view.id
 }
 
 resource "oci_dns_zone" "zone3" {
   compartment_id = var.compartment_ocid
   name           = "${data.oci_identity_tenancy.tenancy.name}-${random_string.random_prefix.result}-tf-example3-primary.oci-dns1"
   zone_type      = "PRIMARY"
+  scope          = "PRIVATE"
+  view_id        = oci_dns_view.test_view.id
 }
 
 resource "oci_dns_tsig_key" "test_tsig_key" {
   algorithm      = "hmac-sha1"
   compartment_id = var.compartment_ocid
-  name           = "test_tsig_key-name"
+  name           = "${random_string.random_prefix.result}-test_tsig_key-name"
   secret         = "c2VjcmV0"
-}
-
-resource "oci_dns_zone" "zone2" {
-  compartment_id = var.compartment_ocid
-  name           = "${data.oci_identity_tenancy.tenancy.name}-${random_string.random_prefix.result}-tf-example-secondary.oci-dns2"
-  zone_type      = "SECONDARY"
-
-  external_masters {
-    address     = "77.64.12.1"
-    tsig_key_id = oci_dns_tsig_key.test_tsig_key.id
-  }
-
-  external_masters {
-    address     = "77.64.12.2"
-    tsig_key_id = oci_dns_tsig_key.test_tsig_key.id
-  }
 }
 
 data "oci_dns_zones" "zs" {
@@ -53,6 +41,8 @@ data "oci_dns_zones" "zs" {
   zone_type      = "PRIMARY"
   sort_by        = "name" # name|zoneType|timeCreated
   sort_order     = "DESC" # ASC|DESC
+  scope          = "PRIVATE"
+  view_id        = oci_dns_view.test_view.id
 }
 
 data "oci_identity_tenancy" "tenancy" {

@@ -484,7 +484,7 @@ func processDnsRrset(clients *OracleClients, resources []*OCIResource) ([]*OCIRe
 	for _, record := range resources {
 		// Populate config file from compositeId
 		record.compartmentId = record.parent.compartmentId
-		domain, rtype, zoneNameOrId, err := parseRrsetCompositeId(record.id)
+		domain, rtype, zoneNameOrId, _, _, err := parseRrsetCompositeId(record.id)
 		if err == nil {
 			record.sourceAttributes["domain"] = domain
 			record.sourceAttributes["rtype"] = rtype

@@ -933,6 +933,38 @@ var exportDnsRrsetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rrset",
 }
 
+var exportDnsResolverHints = &TerraformResourceHints{
+	resourceClass:          "oci_dns_resolver",
+	datasourceClass:        "oci_dns_resolvers",
+	datasourceItemsAttr:    "resolvers",
+	resourceAbbreviation:   "resolver",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dns.ResolverLifecycleStateActive),
+	},
+}
+
+var exportDnsResolverEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_dns_resolver_endpoint",
+	datasourceClass:        "oci_dns_resolver_endpoints",
+	datasourceItemsAttr:    "resolver_endpoints",
+	resourceAbbreviation:   "resolver_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dns.ResolverEndpointLifecycleStateActive),
+	},
+}
+
+var exportDnsViewHints = &TerraformResourceHints{
+	resourceClass:        "oci_dns_view",
+	datasourceClass:      "oci_dns_views",
+	datasourceItemsAttr:  "views",
+	resourceAbbreviation: "view",
+	discoverableLifecycleStates: []string{
+		string(oci_dns.ViewLifecycleStateActive),
+	},
+}
+
 var exportDatacatalogCatalogHints = &TerraformResourceHints{
 	resourceClass:        "oci_datacatalog_catalog",
 	datasourceClass:      "oci_datacatalog_catalogs",
