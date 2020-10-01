@@ -16,10 +16,10 @@ import (
 // CreatePatchDetails Properties used in patch create operations.
 type CreatePatchDetails struct {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// The type of the patch applied or being applied on the application.
@@ -28,10 +28,10 @@ type CreatePatchDetails struct {
 	// The array of object keys to publish into application.
 	ObjectKeys []string `mandatory:"true" json:"objectKeys"`
 
-	// The key of the object.
+	// The object's key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	// Detailed description for the object.
@@ -53,11 +53,13 @@ type CreatePatchDetailsPatchTypeEnum string
 // Set of constants representing the allowable values for CreatePatchDetailsPatchTypeEnum
 const (
 	CreatePatchDetailsPatchTypePublish   CreatePatchDetailsPatchTypeEnum = "PUBLISH"
+	CreatePatchDetailsPatchTypeRefresh   CreatePatchDetailsPatchTypeEnum = "REFRESH"
 	CreatePatchDetailsPatchTypeUnpublish CreatePatchDetailsPatchTypeEnum = "UNPUBLISH"
 )
 
 var mappingCreatePatchDetailsPatchType = map[string]CreatePatchDetailsPatchTypeEnum{
 	"PUBLISH":   CreatePatchDetailsPatchTypePublish,
+	"REFRESH":   CreatePatchDetailsPatchTypeRefresh,
 	"UNPUBLISH": CreatePatchDetailsPatchTypeUnpublish,
 }
 

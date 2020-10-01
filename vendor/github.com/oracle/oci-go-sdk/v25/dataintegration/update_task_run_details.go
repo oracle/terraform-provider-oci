@@ -19,7 +19,7 @@ type UpdateTaskRunDetails struct {
 	// The key of the object.
 	Key *string `mandatory:"false" json:"key"`
 
-	// status
+	// The status of the object.
 	Status UpdateTaskRunDetailsStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// The type of the object.
@@ -28,7 +28,7 @@ type UpdateTaskRunDetails struct {
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.

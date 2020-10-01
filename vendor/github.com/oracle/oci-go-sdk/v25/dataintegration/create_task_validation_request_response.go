@@ -12,10 +12,10 @@ import (
 // CreateTaskValidationRequest wrapper for the CreateTaskValidation operation
 type CreateTaskValidationRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// Task info
+	// The information needed to create a task validation.
 	CreateTaskValidationDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -23,7 +23,7 @@ type CreateTaskValidationRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Caller may provide "retry tokens" allowing them to retry an operation
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

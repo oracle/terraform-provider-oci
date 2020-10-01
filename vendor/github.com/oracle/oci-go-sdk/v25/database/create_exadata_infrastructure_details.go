@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// CreateExadataInfrastructureDetails Request to create Exadata infrastructure.
+// CreateExadataInfrastructureDetails Request to create Exadata Cloud@Customer infrastructure resource.
 type CreateExadataInfrastructureDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -56,7 +56,7 @@ type CreateExadataInfrastructureDetails struct {
 	// for enhanced security.
 	CorporateProxy *string `mandatory:"false" json:"corporateProxy"`
 
-	// The list of contacts for the Exadata Infrastructure.
+	// The list of contacts for the Exadata infrastructure.
 	Contacts []ExadataInfrastructureContact `mandatory:"false" json:"contacts"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -27,10 +27,10 @@ type DataFlow struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	// The version of the object that is used to track changes in the object instance.
@@ -52,7 +52,7 @@ type DataFlow struct {
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
-	// A map, if provided key is replaced with generated key, this structure provides mapping between user provided key and generated key
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 }
 

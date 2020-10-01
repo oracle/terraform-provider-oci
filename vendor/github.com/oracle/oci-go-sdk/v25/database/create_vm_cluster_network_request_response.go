@@ -15,7 +15,7 @@ type CreateVmClusterNetworkRequest struct {
 	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
 
-	// Request to create the VM cluster network.
+	// Request to create the Cloud@Customer VM cluster network.
 	VmClusterNetworkDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -20,12 +20,12 @@ type TaskFromDataLoaderTaskDetails struct {
 	// Generated key that can be used in API calls to identify task. On scenarios where reference to the task is needed, a value can be passed in create.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
@@ -37,7 +37,7 @@ type TaskFromDataLoaderTaskDetails struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	// An array of input ports.
@@ -55,7 +55,7 @@ type TaskFromDataLoaderTaskDetails struct {
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
-	// A map, if provided key is replaced with generated key, this structure provides mapping between user provided key and generated key
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`

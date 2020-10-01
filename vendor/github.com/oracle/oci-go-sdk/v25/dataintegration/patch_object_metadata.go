@@ -13,16 +13,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// PatchObjectMetadata A summary type containing information about the object including its key, name and when/who created/updated it
+// PatchObjectMetadata A summary type containing information about the object including its key, name and when/who created/updated it.
 type PatchObjectMetadata struct {
 
 	// The key of the object.
 	Key *string `mandatory:"false" json:"key"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// The fully qualified path of the published object which would include its project and folder.
+	// The fully qualified path of the published object, which would include its project and folder.
 	NamePath *string `mandatory:"false" json:"namePath"`
 
 	// The type of the object in patch.
@@ -31,10 +31,10 @@ type PatchObjectMetadata struct {
 	// The object version.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
-	// The patch action, if object was created, updated or deleted.
+	// The patch action indicating if object was created, updated, or deleted.
 	Action PatchObjectMetadataActionEnum `mandatory:"false" json:"action,omitempty"`
 }
 

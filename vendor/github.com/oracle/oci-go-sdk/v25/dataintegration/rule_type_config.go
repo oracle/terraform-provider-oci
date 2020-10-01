@@ -25,13 +25,13 @@ type RuleTypeConfig struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Reference to a typed object, this can be either a key value to an object within the document, a shall referenced to a TypedObject or a full TypedObject definition.
+	// Reference to a typed object, this can be either a key value to an object within the document, a shall referenced to a `TypedObject` or a full `TypedObject` definition.
 	Scope *interface{} `mandatory:"false" json:"scope"`
 
-	// orderByRule
+	// Specifies whether it is ordered by rule.
 	IsOrderByRule *bool `mandatory:"false" json:"isOrderByRule"`
 
-	// projectionRules
+	// The projection rules.
 	ProjectionRules []ProjectionRule `mandatory:"false" json:"projectionRules"`
 
 	ConfigValues *ConfigValues `mandatory:"false" json:"configValues"`

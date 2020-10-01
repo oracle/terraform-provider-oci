@@ -16,7 +16,7 @@ import (
 // FolderSummaryCollection A collection of folder summaries. The collection can be lightweight details or full definitions.
 type FolderSummaryCollection struct {
 
-	// The array of Folder summaries
+	// The array of folder summaries.
 	Items []FolderSummary `mandatory:"true" json:"items"`
 }
 

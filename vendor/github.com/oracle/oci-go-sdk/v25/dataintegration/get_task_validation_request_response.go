@@ -12,10 +12,10 @@ import (
 // GetTaskValidationRequest wrapper for the GetTaskValidation operation
 type GetTaskValidationRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// key of the task validation.
+	// The task validation key.
 	TaskValidationKey *string `mandatory:"true" contributesTo:"path" name:"taskValidationKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

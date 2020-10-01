@@ -16,7 +16,7 @@ import (
 // DataFlowSummaryCollection This is the collection of data flow summaries, it may be a collection of lightweight details or full definitions.
 type DataFlowSummaryCollection struct {
 
-	// The array of DataFlow summaries
+	// The array of data flow summaries.
 	Items []DataFlowSummary `mandatory:"true" json:"items"`
 }
 

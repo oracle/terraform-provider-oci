@@ -12,7 +12,7 @@ import (
 // ChangeAutonomousExadataInfrastructureCompartmentRequest wrapper for the ChangeAutonomousExadataInfrastructureCompartment operation
 type ChangeAutonomousExadataInfrastructureCompartmentRequest struct {
 
-	// Request to move Autonomous Exadata Infrastructure to a different compartment
+	// Request to move an Autonomous Exadata Infrastructure resource to a different compartment.
 	ChangeCompartmentDetails `contributesTo:"body"`
 
 	// The Autonomous Exadata Infrastructure  OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

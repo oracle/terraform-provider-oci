@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ConfigValues Configuration values can be string, objects or parameters.
+// ConfigValues Configuration values can be string, objects, or parameters.
 type ConfigValues struct {
 
-	// configParamValues
+	// The configuration parameter values.
 	ConfigParamValues map[string]ConfigParameterValue `mandatory:"false" json:"configParamValues"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`

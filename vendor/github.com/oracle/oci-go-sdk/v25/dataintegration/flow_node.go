@@ -28,16 +28,16 @@ type FlowNode struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// inputLinks
+	// An array of input links.
 	InputLinks []InputLink `mandatory:"false" json:"inputLinks"`
 
-	// outputLinks
+	// An array of output links.
 	OutputLinks []OutputLink `mandatory:"false" json:"outputLinks"`
 
 	Operator Operator `mandatory:"false" json:"operator"`

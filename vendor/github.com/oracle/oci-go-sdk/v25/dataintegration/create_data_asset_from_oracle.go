@@ -14,13 +14,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// CreateDataAssetFromOracle The Oracle data asset details.
+// CreateDataAssetFromOracle Details for the Oracle Database data asset type.
 type CreateDataAssetFromOracle struct {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// Currently not used on data asset creation. Reserved for future.
@@ -29,33 +29,33 @@ type CreateDataAssetFromOracle struct {
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Detailed description for the object.
+	// User-defined description of the data asset.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// The external key for the object
+	// The external key for the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
-	// assetProperties
+	// Additional properties for the data asset.
 	AssetProperties map[string]string `mandatory:"false" json:"assetProperties"`
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 
-	// The host details for the data asset.
+	// The Oracle Database hostname.
 	Host *string `mandatory:"false" json:"host"`
 
-	// The port details for the data asset.
+	// The Oracle Database port.
 	Port *string `mandatory:"false" json:"port"`
 
 	// The service name for the data asset.
 	ServiceName *string `mandatory:"false" json:"serviceName"`
 
-	// The driver class for the data asset.
+	// The Oracle Database driver class.
 	DriverClass *string `mandatory:"false" json:"driverClass"`
 
-	// sid
+	// The Oracle Database SID.
 	Sid *string `mandatory:"false" json:"sid"`
 
 	// The credential file content from a wallet for the data asset.

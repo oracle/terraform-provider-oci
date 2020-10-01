@@ -12,10 +12,10 @@ import (
 // GetDataFlowValidationRequest wrapper for the GetDataFlowValidation operation
 type GetDataFlowValidationRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// key of the dataflow validation.
+	// The key of the dataflow validation.
 	DataFlowValidationKey *string `mandatory:"true" contributesTo:"path" name:"dataFlowValidationKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

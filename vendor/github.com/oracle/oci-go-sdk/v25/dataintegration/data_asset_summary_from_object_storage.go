@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// DataAssetSummaryFromObjectStorage The Oracle data asset details.
+// DataAssetSummaryFromObjectStorage Summary details for the Oracle Object storage data asset type.
 type DataAssetSummaryFromObjectStorage struct {
 
 	// Generated key that can be used in API calls to identify data asset.
@@ -23,22 +23,22 @@ type DataAssetSummaryFromObjectStorage struct {
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// The user-defined description of the data asset.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
-	// The external key for the object
+	// The external key for the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
-	// assetProperties
+	// Additional properties for the data asset.
 	AssetProperties map[string]string `mandatory:"false" json:"assetProperties"`
 
 	NativeTypeSystem *TypeSystem `mandatory:"false" json:"nativeTypeSystem"`
@@ -50,13 +50,13 @@ type DataAssetSummaryFromObjectStorage struct {
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
-	// url
+	// The Oracle Object storage URL.
 	Url *string `mandatory:"false" json:"url"`
 
 	// The OCI tenancy OCID.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// The namespace for the specified Oracle Object storage resource. You can find the namespace under Object Storage Settings in the Console.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
 	DefaultConnection *ConnectionSummaryFromObjectStorage `mandatory:"false" json:"defaultConnection"`

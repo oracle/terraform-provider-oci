@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// VmClusterNetworkSummary Details of the VM cluster network.
+// VmClusterNetworkSummary Details of the Exadata Cloud@Customer VM cluster network.
 type VmClusterNetworkSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster network.

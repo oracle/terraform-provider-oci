@@ -48,6 +48,10 @@ func (m *abstractformatattribute) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ModelType {
+	case "AVRO_FORMAT":
+		mm := AvroFormatAttribute{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "JSON_FORMAT":
 		mm := JsonFormatAttribute{}
 		err = json.Unmarshal(data, &mm)
@@ -72,11 +76,13 @@ type AbstractFormatAttributeModelTypeEnum string
 const (
 	AbstractFormatAttributeModelTypeJsonFormat AbstractFormatAttributeModelTypeEnum = "JSON_FORMAT"
 	AbstractFormatAttributeModelTypeCsvFormat  AbstractFormatAttributeModelTypeEnum = "CSV_FORMAT"
+	AbstractFormatAttributeModelTypeAvroFormat AbstractFormatAttributeModelTypeEnum = "AVRO_FORMAT"
 )
 
 var mappingAbstractFormatAttributeModelType = map[string]AbstractFormatAttributeModelTypeEnum{
 	"JSON_FORMAT": AbstractFormatAttributeModelTypeJsonFormat,
 	"CSV_FORMAT":  AbstractFormatAttributeModelTypeCsvFormat,
+	"AVRO_FORMAT": AbstractFormatAttributeModelTypeAvroFormat,
 }
 
 // GetAbstractFormatAttributeModelTypeEnumValues Enumerates the set of values for AbstractFormatAttributeModelTypeEnum

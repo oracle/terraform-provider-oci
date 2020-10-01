@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// RenameRule The rename rule can rename fields from one to another.
+// RenameRule Lets you rename an attribute.
 type RenameRule struct {
 
 	// The key of the object.
@@ -33,16 +33,16 @@ type RenameRule struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Detailed description for the object.
+	// A user defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// skipRemainingRulesOnMatch
+	// Specifies whether to skip remaining rules when a match is found.
 	IsSkipRemainingRulesOnMatch *bool `mandatory:"false" json:"isSkipRemainingRulesOnMatch"`
 
-	// fromName
+	// The attribute name that needs to be renamed.
 	FromName *string `mandatory:"false" json:"fromName"`
 
-	// toName
+	// The new attribute name.
 	ToName *string `mandatory:"false" json:"toName"`
 }
 

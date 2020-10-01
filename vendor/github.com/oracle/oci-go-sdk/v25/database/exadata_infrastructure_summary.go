@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ExadataInfrastructureSummary Details of the Exadata infrastructure.
+// ExadataInfrastructureSummary Details of the Exadata Cloud@Customer infrastructure.
 type ExadataInfrastructureSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
@@ -25,7 +25,7 @@ type ExadataInfrastructureSummary struct {
 	// The current lifecycle state of the Exadata infrastructure.
 	LifecycleState ExadataInfrastructureSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The user-friendly name for the Exadata infrastructure. The name does not need to be unique.
+	// The user-friendly name for the Exadata Cloud@Customer infrastructure. The name does not need to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance.
@@ -91,10 +91,10 @@ type ExadataInfrastructureSummary struct {
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The CSI Number of the Exadata Infrastructure.
+	// The CSI Number of the Exadata infrastructure.
 	CsiNumber *string `mandatory:"false" json:"csiNumber"`
 
-	// The list of contacts for the Exadata Infrastructure.
+	// The list of contacts for the Exadata infrastructure.
 	Contacts []ExadataInfrastructureContact `mandatory:"false" json:"contacts"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

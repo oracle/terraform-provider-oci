@@ -12,41 +12,41 @@ import (
 // ListPublishedObjectsRequest wrapper for the ListPublishedObjects operation
 type ListPublishedObjectsRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// DIS application key
+	// The application key.
 	ApplicationKey *string `mandatory:"true" contributesTo:"path" name:"applicationKey"`
 
-	// This parameter allows users to specify which fields to get for an object.
+	// Specifies the fields to get for an object.
 	Fields []string `contributesTo:"query" name:"fields" collectionFormat:"multi"`
 
-	// This filter parameter can be used to filter by the name of the object.
+	// Used to filter by the name of the object.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// This filter parameter can be used to filter by the identifier of the published object.
+	// Used to filter by the identifier of the published object.
 	Identifier []string `contributesTo:"query" name:"identifier" collectionFormat:"multi"`
 
-	// This filter parameter can be used to filter by the object type of the object.
-	// This parameter can be suffixed with an optional filter operator InSubtree.
-	// For DIS APIs we will filter based on type Task.
+	// Used to filter by the object type of the object.
+	// It can be suffixed with an optional filter operator InSubtree.
+	// For Data Integration APIs, a filter based on type Task is used.
 	Type []string `contributesTo:"query" name:"type" collectionFormat:"multi"`
 
-	// This is used in association with type parameter. If value is true,
+	// Used in association with type parameter. If value is true,
 	// then type all sub types of the given type parameter is considered.
 	// If value is false, then sub types are not considered. Default is false.
 	TypeInSubtree *string `mandatory:"false" contributesTo:"query" name:"typeInSubtree"`
 
-	// The maximum number of items to return.
+	// Sets the maximum number of results per page, or items to return in a paginated `List` call. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
+	// For list pagination. The value for this parameter is the `opc-next-page` or the `opc-prev-page` response header from the previous `List` call. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// This parameter is used to control the sort order.  Supported values are `ASC` (ascending) and `DESC` (descending).
+	// Specifies sort order to use, either `ASC` (ascending) or `DESC` (descending).
 	SortOrder ListPublishedObjectsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// This parameter allows users to specify a sort field.  Supported sort fields are `name`, `identifier`, `timeCreated`, and `timeUpdated`.  Default sort order is the descending order of `timeCreated` (most recently created objects at the top).  Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order is by relevance score in descending order).
+	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order is by relevance score in descending order).
 	SortBy ListPublishedObjectsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request. If

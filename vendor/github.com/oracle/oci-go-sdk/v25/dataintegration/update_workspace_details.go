@@ -24,7 +24,7 @@ type UpdateWorkspaceDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A detailed description for the workspace.
+	// A user defined description for the workspace.
 	Description *string `mandatory:"false" json:"description"`
 
 	// A user-friendly display name for the workspace. Does not have to be unique, and can be modified. Avoid entering confidential information.

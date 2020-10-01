@@ -12,7 +12,7 @@ import (
 // ChangeVmClusterCompartmentRequest wrapper for the ChangeVmClusterCompartment operation
 type ChangeVmClusterCompartmentRequest struct {
 
-	// Request to move VM cluster to a different compartment
+	// Request to move the Exadata Cloud@Customer VM cluster to a different compartment.
 	ChangeVmClusterCompartmentDetails `contributesTo:"body"`
 
 	// The VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

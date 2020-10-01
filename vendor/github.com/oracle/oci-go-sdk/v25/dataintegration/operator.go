@@ -25,10 +25,10 @@ type Operator interface {
 
 	GetParentRef() *ParentReference
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Detailed description for the object.
+	// Details about the operator.
 	GetDescription() *string
 
 	// The version of the object that is used to track changes in the object instance.
@@ -43,10 +43,10 @@ type Operator interface {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
-	// An array of parameters.
+	// An array of parameters used in the data flow.
 	GetParameters() []Parameter
 
 	GetOpConfigValues() *ConfigValues
@@ -114,12 +114,20 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := Joiner{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DISTINCT_OPERATOR":
+		mm := Distinct{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FILTER_OPERATOR":
 		mm := Filter{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AGGREGATOR_OPERATOR":
 		mm := Aggregator{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SORT_OPERATOR":
+		mm := SortOper{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "PROJECTION_OPERATOR":
@@ -210,6 +218,8 @@ const (
 	OperatorModelTypeAggregatorOperator OperatorModelTypeEnum = "AGGREGATOR_OPERATOR"
 	OperatorModelTypeProjectionOperator OperatorModelTypeEnum = "PROJECTION_OPERATOR"
 	OperatorModelTypeTargetOperator     OperatorModelTypeEnum = "TARGET_OPERATOR"
+	OperatorModelTypeDistinctOperator   OperatorModelTypeEnum = "DISTINCT_OPERATOR"
+	OperatorModelTypeSortOperator       OperatorModelTypeEnum = "SORT_OPERATOR"
 )
 
 var mappingOperatorModelType = map[string]OperatorModelTypeEnum{
@@ -219,6 +229,8 @@ var mappingOperatorModelType = map[string]OperatorModelTypeEnum{
 	"AGGREGATOR_OPERATOR": OperatorModelTypeAggregatorOperator,
 	"PROJECTION_OPERATOR": OperatorModelTypeProjectionOperator,
 	"TARGET_OPERATOR":     OperatorModelTypeTargetOperator,
+	"DISTINCT_OPERATOR":   OperatorModelTypeDistinctOperator,
+	"SORT_OPERATOR":       OperatorModelTypeSortOperator,
 }
 
 // GetOperatorModelTypeEnumValues Enumerates the set of values for OperatorModelTypeEnum

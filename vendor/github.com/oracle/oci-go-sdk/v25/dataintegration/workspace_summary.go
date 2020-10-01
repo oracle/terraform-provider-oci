@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// WorkspaceSummary Summary of a Workspace.
+// WorkspaceSummary Summary details of a workspace.
 type WorkspaceSummary struct {
 
-	// Unique identifier that is immutable.
+	// A system-generated and immutable identifier assigned to the workspace upon creation.
 	Id *string `mandatory:"false" json:"id"`
 
-	// A detailed description of the workspace.
+	// A user defined description for the workspace.
 	Description *string `mandatory:"false" json:"description"`
 
 	// A user-friendly display name that is changeable. Avoid entering confidential information.

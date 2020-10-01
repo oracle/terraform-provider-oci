@@ -63,6 +63,7 @@ const (
 	DataFormatTypeCsv     DataFormatTypeEnum = "CSV"
 	DataFormatTypeOrc     DataFormatTypeEnum = "ORC"
 	DataFormatTypeParquet DataFormatTypeEnum = "PARQUET"
+	DataFormatTypeAvro    DataFormatTypeEnum = "AVRO"
 )
 
 var mappingDataFormatType = map[string]DataFormatTypeEnum{
@@ -71,6 +72,7 @@ var mappingDataFormatType = map[string]DataFormatTypeEnum{
 	"CSV":     DataFormatTypeCsv,
 	"ORC":     DataFormatTypeOrc,
 	"PARQUET": DataFormatTypeParquet,
+	"AVRO":    DataFormatTypeAvro,
 }
 
 // GetDataFormatTypeEnumValues Enumerates the set of values for DataFormatTypeEnum

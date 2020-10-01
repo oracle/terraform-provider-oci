@@ -19,16 +19,16 @@ type ApplicationDetails struct {
 	// Generated key that can be used in API calls to identify application.
 	Key *string `mandatory:"true" json:"key"`
 
-	// The type of the object.
+	// The object type.
 	ModelType *string `mandatory:"true" json:"modelType"`
 
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"true" json:"objectVersion"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
@@ -40,7 +40,7 @@ type ApplicationDetails struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`

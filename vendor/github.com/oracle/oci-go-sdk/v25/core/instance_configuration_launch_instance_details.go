@@ -164,6 +164,8 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// * `REBOOT` - Run maintenance using a reboot.
 	PreferredMaintenanceAction InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum `mandatory:"false" json:"preferredMaintenanceAction,omitempty"`
 
+	InstanceOptions *InstanceConfigurationInstanceOptions `mandatory:"false" json:"instanceOptions"`
+
 	// Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware.
 	AvailabilityConfig *InstanceConfigurationAvailabilityConfig `mandatory:"false" json:"availabilityConfig"`
 }
@@ -194,6 +196,7 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 		AgentConfig                    *InstanceConfigurationLaunchInstanceAgentConfigDetails                   `json:"agentConfig"`
 		IsPvEncryptionInTransitEnabled *bool                                                                    `json:"isPvEncryptionInTransitEnabled"`
 		PreferredMaintenanceAction     InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum `json:"preferredMaintenanceAction"`
+		InstanceOptions                *InstanceConfigurationInstanceOptions                                    `json:"instanceOptions"`
 		AvailabilityConfig             *InstanceConfigurationAvailabilityConfig                                 `json:"availabilityConfig"`
 	}{}
 
@@ -247,6 +250,8 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
 
 	m.PreferredMaintenanceAction = model.PreferredMaintenanceAction
+
+	m.InstanceOptions = model.InstanceOptions
 
 	m.AvailabilityConfig = model.AvailabilityConfig
 

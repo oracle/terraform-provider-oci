@@ -21,7 +21,7 @@ type ConfigParameterDefinition struct {
 	// This object represents the configurable properties for an object type.
 	ParameterName *string `mandatory:"false" json:"parameterName"`
 
-	// Detailed description for the object.
+	// A user defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The default value for the parameter.
@@ -30,10 +30,10 @@ type ConfigParameterDefinition struct {
 	// The parameter class field name.
 	ClassFieldName *string `mandatory:"false" json:"classFieldName"`
 
-	// Whether the parameter is static or not.
+	// Specifies whether the parameter is static or not.
 	IsStatic *bool `mandatory:"false" json:"isStatic"`
 
-	// Whether the parameter is a class field or not.
+	// Specifies whether the parameter is a class field or not.
 	IsClassFieldValue *bool `mandatory:"false" json:"isClassFieldValue"`
 }
 

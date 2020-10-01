@@ -16,16 +16,16 @@ import (
 // PatchSummary The patch summary type contains the audit summary information and the definition of the patch.
 type PatchSummary struct {
 
-	// The key of the object.
+	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The type of the object.
+	// The object type.
 	ModelType *string `mandatory:"false" json:"modelType"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
@@ -37,7 +37,7 @@ type PatchSummary struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	// The date and time the patch was applied, in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -58,14 +58,14 @@ type PatchSummary struct {
 	// List of dependent objects in this patch.
 	DependentObjectMetadata []PatchObjectMetadata `mandatory:"false" json:"dependentObjectMetadata"`
 
-	// List of objects that are published / unpublished in this patch.
+	// List of objects that are published or unpublished in this patch.
 	PatchObjectMetadata []PatchObjectMetadata `mandatory:"false" json:"patchObjectMetadata"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
-	// A map, if provided key is replaced with generated key, this structure provides mapping between user provided key and generated key
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 }
 
@@ -79,11 +79,13 @@ type PatchSummaryPatchTypeEnum string
 // Set of constants representing the allowable values for PatchSummaryPatchTypeEnum
 const (
 	PatchSummaryPatchTypePublish   PatchSummaryPatchTypeEnum = "PUBLISH"
+	PatchSummaryPatchTypeRefresh   PatchSummaryPatchTypeEnum = "REFRESH"
 	PatchSummaryPatchTypeUnpublish PatchSummaryPatchTypeEnum = "UNPUBLISH"
 )
 
 var mappingPatchSummaryPatchType = map[string]PatchSummaryPatchTypeEnum{
 	"PUBLISH":   PatchSummaryPatchTypePublish,
+	"REFRESH":   PatchSummaryPatchTypeRefresh,
 	"UNPUBLISH": PatchSummaryPatchTypeUnpublish,
 }
 

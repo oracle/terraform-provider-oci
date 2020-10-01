@@ -16,16 +16,16 @@ import (
 // CreateApplicationDetails Properties used in application create operations.
 type CreateApplicationDetails struct {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// Currently not used on application creation. Reserved for future.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	// The type of the application.
@@ -36,6 +36,8 @@ type CreateApplicationDetails struct {
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
+
+	SourceApplicationInfo *CreateSourceApplicationInfo `mandatory:"false" json:"sourceApplicationInfo"`
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 }

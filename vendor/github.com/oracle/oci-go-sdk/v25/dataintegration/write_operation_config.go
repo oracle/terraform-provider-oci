@@ -17,10 +17,10 @@ import (
 // WriteOperationConfig The information about the write operation.
 type WriteOperationConfig struct {
 
-	// The key of the object.
+	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
@@ -33,6 +33,8 @@ type WriteOperationConfig struct {
 	PartitionConfig PartitionConfig `mandatory:"false" json:"partitionConfig"`
 
 	WriteAttribute AbstractWriteAttribute `mandatory:"false" json:"writeAttribute"`
+
+	MergeKey *UniqueKey `mandatory:"false" json:"mergeKey"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
@@ -70,6 +72,7 @@ func (m *WriteOperationConfig) UnmarshalJSON(data []byte) (e error) {
 		PartitionConfig partitionconfig                   `json:"partitionConfig"`
 		WriteAttribute  abstractwriteattribute            `json:"writeAttribute"`
 		WriteMode       WriteOperationConfigWriteModeEnum `json:"writeMode"`
+		MergeKey        *UniqueKey                        `json:"mergeKey"`
 		ObjectStatus    *int                              `json:"objectStatus"`
 	}{}
 
@@ -120,6 +123,8 @@ func (m *WriteOperationConfig) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.WriteMode = model.WriteMode
+
+	m.MergeKey = model.MergeKey
 
 	m.ObjectStatus = model.ObjectStatus
 

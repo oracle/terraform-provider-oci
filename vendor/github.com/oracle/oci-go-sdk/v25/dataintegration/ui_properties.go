@@ -16,10 +16,10 @@ import (
 // UiProperties The UI properties of the object.
 type UiProperties struct {
 
-	// coordinateX
+	// The X coordinate of the object.
 	CoordinateX *float32 `mandatory:"false" json:"coordinateX"`
 
-	// coordinateY
+	// The Y coordinate of the object.
 	CoordinateY *float32 `mandatory:"false" json:"coordinateY"`
 }
 

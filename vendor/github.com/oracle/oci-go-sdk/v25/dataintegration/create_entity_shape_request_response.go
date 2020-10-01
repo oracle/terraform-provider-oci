@@ -12,16 +12,16 @@ import (
 // CreateEntityShapeRequest wrapper for the CreateEntityShape operation
 type CreateEntityShapeRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// The connection key
+	// The connection key.
 	ConnectionKey *string `mandatory:"true" contributesTo:"path" name:"connectionKey"`
 
-	// Schema resource name used for retrieving schemas
+	// The schema resource name used for retrieving schemas.
 	SchemaResourceName *string `mandatory:"true" contributesTo:"path" name:"schemaResourceName"`
 
-	// The details of the data entity to use to infer the data entity shape.
+	// The details needed to create the data entity shape.
 	CreateEntityShapeDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -29,13 +29,12 @@ type CreateEntityShapeRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Caller may provide "retry tokens" allowing them to retry an operation
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Update and Delete operations should accept an optional If-Match header,
-	// in which clients can send a previously-received ETag. When If-Match is
-	// provided and its value does not exactly match the ETag of the resource
-	// on the server, the request should fail with HTTP response status code 412
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.
+	// The resource will be updated or deleted only if the `etag` you provide matches the resource's current `etag` value.
+	// When 'if-match' is provided and its value does not exactly match the 'etag' of the resource on the server, the request fails with the 412 response code.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -12,10 +12,10 @@ import (
 // GetApplicationRequest wrapper for the GetApplication operation
 type GetApplicationRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// DIS application key
+	// The application key.
 	ApplicationKey *string `mandatory:"true" contributesTo:"path" name:"applicationKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

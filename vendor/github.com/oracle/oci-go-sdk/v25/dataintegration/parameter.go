@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// Parameter Parameters are created and assigned values that can be deferred to execution/runtime.
+// Parameter Parameters are created and assigned values that can be configured for each integration task.
 type Parameter struct {
 
 	// The key of the object.
@@ -30,7 +30,7 @@ type Parameter struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
@@ -44,16 +44,16 @@ type Parameter struct {
 	// The default value of the parameter which can be an object in DIS, such as a data entity.
 	RootObjectDefaultValue *interface{} `mandatory:"false" json:"rootObjectDefaultValue"`
 
-	// Whether the parameter is input value.
+	// Specifies whether the parameter is input value.
 	IsInput *bool `mandatory:"false" json:"isInput"`
 
-	// Whether the parameter is output value.
+	// Specifies whether the parameter is output value.
 	IsOutput *bool `mandatory:"false" json:"isOutput"`
 
-	// The name of the object type.
+	// The type of value the parameter was created for.
 	TypeName *string `mandatory:"false" json:"typeName"`
 
-	// The output aggregation type
+	// The output aggregation type.
 	OutputAggregationType ParameterOutputAggregationTypeEnum `mandatory:"false" json:"outputAggregationType,omitempty"`
 }
 

@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// VmClusterNetworkDetails Details for a VM cluster network.
+// VmClusterNetworkDetails Details for an Exadata Cloud@Customer VM cluster network.
 type VmClusterNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The user-friendly name for the VM cluster network. The name does not need to be unique.
+	// The user-friendly name for the Exadata Cloud@Customer VM cluster network. The name does not need to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The SCAN details.

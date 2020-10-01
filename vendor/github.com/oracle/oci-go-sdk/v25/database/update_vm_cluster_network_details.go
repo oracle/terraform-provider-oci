@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// UpdateVmClusterNetworkDetails Details for a VM cluster network.
+// UpdateVmClusterNetworkDetails Details for an Exadata Cloud@Customer VM cluster network.
 type UpdateVmClusterNetworkDetails struct {
 
 	// The SCAN details.

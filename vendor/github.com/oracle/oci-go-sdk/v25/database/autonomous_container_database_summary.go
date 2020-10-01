@@ -46,6 +46,12 @@ type AutonomousContainerDatabaseSummary struct {
 	// The infrastructure type this resource belongs to.
 	InfrastructureType AutonomousContainerDatabaseSummaryInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	VaultId *string `mandatory:"false" json:"vaultId"`
+
 	// Additional information about the current lifecycleState.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -75,7 +81,7 @@ type AutonomousContainerDatabaseSummary struct {
 	// The availability domain of the Autonomous Container Database.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// Oracle Database version of the Autonomous Container Database
+	// Oracle Database version of the Autonomous Container Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	BackupConfig *AutonomousContainerDatabaseBackupConfig `mandatory:"false" json:"backupConfig"`

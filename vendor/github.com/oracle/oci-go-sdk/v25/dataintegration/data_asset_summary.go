@@ -23,22 +23,22 @@ type DataAssetSummary interface {
 	// The model version of an object.
 	GetModelVersion() *string
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Detailed description for the object.
+	// The user-defined description of the data asset.
 	GetDescription() *string
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
-	// The external key for the object
+	// The external key for the object.
 	GetExternalKey() *string
 
-	// assetProperties
+	// Additional properties for the data asset.
 	GetAssetProperties() map[string]string
 
 	GetNativeTypeSystem() *TypeSystem
@@ -105,12 +105,20 @@ func (m *dataassetsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 
 	var err error
 	switch m.ModelType {
+	case "MYSQL_DATA_ASSET":
+		mm := DataAssetSummaryFromMySql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_ATP_DATA_ASSET":
 		mm := DataAssetSummaryFromAtp{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ADWC_DATA_ASSET":
 		mm := DataAssetSummaryFromAdwc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC_JDBC_DATA_ASSET":
+		mm := DataAssetSummaryFromJdbc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_OBJECT_STORAGE_DATA_ASSET":
@@ -195,17 +203,21 @@ type DataAssetSummaryModelTypeEnum string
 
 // Set of constants representing the allowable values for DataAssetSummaryModelTypeEnum
 const (
-	DataAssetSummaryModelTypeDataAsset              DataAssetSummaryModelTypeEnum = "ORACLE_DATA_ASSET"
-	DataAssetSummaryModelTypeObjectStorageDataAsset DataAssetSummaryModelTypeEnum = "ORACLE_OBJECT_STORAGE_DATA_ASSET"
-	DataAssetSummaryModelTypeAtpDataAsset           DataAssetSummaryModelTypeEnum = "ORACLE_ATP_DATA_ASSET"
-	DataAssetSummaryModelTypeAdwcDataAsset          DataAssetSummaryModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
+	DataAssetSummaryModelTypeOracleDataAsset              DataAssetSummaryModelTypeEnum = "ORACLE_DATA_ASSET"
+	DataAssetSummaryModelTypeOracleObjectStorageDataAsset DataAssetSummaryModelTypeEnum = "ORACLE_OBJECT_STORAGE_DATA_ASSET"
+	DataAssetSummaryModelTypeOracleAtpDataAsset           DataAssetSummaryModelTypeEnum = "ORACLE_ATP_DATA_ASSET"
+	DataAssetSummaryModelTypeOracleAdwcDataAsset          DataAssetSummaryModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
+	DataAssetSummaryModelTypeMysqlDataAsset               DataAssetSummaryModelTypeEnum = "MYSQL_DATA_ASSET"
+	DataAssetSummaryModelTypeGenericJdbcDataAsset         DataAssetSummaryModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 )
 
 var mappingDataAssetSummaryModelType = map[string]DataAssetSummaryModelTypeEnum{
-	"ORACLE_DATA_ASSET":                DataAssetSummaryModelTypeDataAsset,
-	"ORACLE_OBJECT_STORAGE_DATA_ASSET": DataAssetSummaryModelTypeObjectStorageDataAsset,
-	"ORACLE_ATP_DATA_ASSET":            DataAssetSummaryModelTypeAtpDataAsset,
-	"ORACLE_ADWC_DATA_ASSET":           DataAssetSummaryModelTypeAdwcDataAsset,
+	"ORACLE_DATA_ASSET":                DataAssetSummaryModelTypeOracleDataAsset,
+	"ORACLE_OBJECT_STORAGE_DATA_ASSET": DataAssetSummaryModelTypeOracleObjectStorageDataAsset,
+	"ORACLE_ATP_DATA_ASSET":            DataAssetSummaryModelTypeOracleAtpDataAsset,
+	"ORACLE_ADWC_DATA_ASSET":           DataAssetSummaryModelTypeOracleAdwcDataAsset,
+	"MYSQL_DATA_ASSET":                 DataAssetSummaryModelTypeMysqlDataAsset,
+	"GENERIC_JDBC_DATA_ASSET":          DataAssetSummaryModelTypeGenericJdbcDataAsset,
 }
 
 // GetDataAssetSummaryModelTypeEnumValues Enumerates the set of values for DataAssetSummaryModelTypeEnum

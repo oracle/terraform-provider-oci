@@ -86,6 +86,8 @@ const (
 	DatabaseSoftwareImageSummaryLifecycleStateDeleting     DatabaseSoftwareImageSummaryLifecycleStateEnum = "DELETING"
 	DatabaseSoftwareImageSummaryLifecycleStateDeleted      DatabaseSoftwareImageSummaryLifecycleStateEnum = "DELETED"
 	DatabaseSoftwareImageSummaryLifecycleStateFailed       DatabaseSoftwareImageSummaryLifecycleStateEnum = "FAILED"
+	DatabaseSoftwareImageSummaryLifecycleStateTerminating  DatabaseSoftwareImageSummaryLifecycleStateEnum = "TERMINATING"
+	DatabaseSoftwareImageSummaryLifecycleStateTerminated   DatabaseSoftwareImageSummaryLifecycleStateEnum = "TERMINATED"
 	DatabaseSoftwareImageSummaryLifecycleStateUpdating     DatabaseSoftwareImageSummaryLifecycleStateEnum = "UPDATING"
 )
 
@@ -95,6 +97,8 @@ var mappingDatabaseSoftwareImageSummaryLifecycleState = map[string]DatabaseSoftw
 	"DELETING":     DatabaseSoftwareImageSummaryLifecycleStateDeleting,
 	"DELETED":      DatabaseSoftwareImageSummaryLifecycleStateDeleted,
 	"FAILED":       DatabaseSoftwareImageSummaryLifecycleStateFailed,
+	"TERMINATING":  DatabaseSoftwareImageSummaryLifecycleStateTerminating,
+	"TERMINATED":   DatabaseSoftwareImageSummaryLifecycleStateTerminated,
 	"UPDATING":     DatabaseSoftwareImageSummaryLifecycleStateUpdating,
 }
 

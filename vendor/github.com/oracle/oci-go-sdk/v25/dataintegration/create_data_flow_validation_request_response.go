@@ -12,10 +12,10 @@ import (
 // CreateDataFlowValidationRequest wrapper for the CreateDataFlowValidation operation
 type CreateDataFlowValidationRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// Details for the new DataFlow object.
+	// The information needed to create the data flow validation for the data flow object.
 	CreateDataFlowValidationDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -23,7 +23,7 @@ type CreateDataFlowValidationRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Caller may provide "retry tokens" allowing them to retry an operation
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

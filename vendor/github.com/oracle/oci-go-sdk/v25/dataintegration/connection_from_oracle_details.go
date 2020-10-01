@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ConnectionFromOracleDetails The Oracle connection details object.
+// ConnectionFromOracleDetails The connection details for an Oracle Database data asset.
 type ConnectionFromOracleDetails struct {
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
@@ -25,10 +25,10 @@ type ConnectionFromOracleDetails struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The version of the object that is used to track changes in the object instance.
@@ -37,7 +37,7 @@ type ConnectionFromOracleDetails struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	PrimarySchema *Schema `mandatory:"false" json:"primarySchema"`

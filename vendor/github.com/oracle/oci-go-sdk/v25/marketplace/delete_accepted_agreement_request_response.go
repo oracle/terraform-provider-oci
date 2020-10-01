@@ -15,7 +15,7 @@ type DeleteAcceptedAgreementRequest struct {
 	// The unique identifier for the accepted terms of use agreement.
 	AcceptedAgreementId *string `mandatory:"true" contributesTo:"path" name:"acceptedAgreementId"`
 
-	// Deprecated. The signature value is ignored.
+	// Previously, the signature generated for the listing package terms of use agreement, but now deprecated and ignored.
 	Signature *string `mandatory:"false" contributesTo:"query" name:"signature"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,

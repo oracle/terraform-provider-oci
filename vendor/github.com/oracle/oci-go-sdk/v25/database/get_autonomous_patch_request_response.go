@@ -12,7 +12,7 @@ import (
 // GetAutonomousPatchRequest wrapper for the GetAutonomousPatch operation
 type GetAutonomousPatchRequest struct {
 
-	// The Autonomous Patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The autonomous patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousPatchId *string `mandatory:"true" contributesTo:"path" name:"autonomousPatchId"`
 
 	// Unique Oracle-assigned identifier for the request.
@@ -50,8 +50,8 @@ type GetAutonomousPatchResponse struct {
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you contact Oracle about
+	// a particular request, then you must provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 

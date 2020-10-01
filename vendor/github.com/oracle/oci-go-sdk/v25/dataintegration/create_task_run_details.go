@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// CreateTaskRunDetails Properties used in task run create operations.
+// CreateTaskRunDetails The properties used in task run create operations.
 type CreateTaskRunDetails struct {
 
 	// The key of the object.
@@ -25,7 +25,7 @@ type CreateTaskRunDetails struct {
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
@@ -33,7 +33,7 @@ type CreateTaskRunDetails struct {
 
 	ConfigProvider *CreateConfigProvider `mandatory:"false" json:"configProvider"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`

@@ -111,6 +111,8 @@ type LaunchInstanceDetails struct {
 	// default values.
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
 
+	InstanceOptions *InstanceOptions `mandatory:"false" json:"instanceOptions"`
+
 	// Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 	AvailabilityConfig *LaunchInstanceAvailabilityConfigDetails `mandatory:"false" json:"availabilityConfig"`
 
@@ -186,6 +188,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		ImageId                        *string                                  `json:"imageId"`
 		IpxeScript                     *string                                  `json:"ipxeScript"`
 		LaunchOptions                  *LaunchOptions                           `json:"launchOptions"`
+		InstanceOptions                *InstanceOptions                         `json:"instanceOptions"`
 		AvailabilityConfig             *LaunchInstanceAvailabilityConfigDetails `json:"availabilityConfig"`
 		Metadata                       map[string]string                        `json:"metadata"`
 		AgentConfig                    *LaunchInstanceAgentConfigDetails        `json:"agentConfig"`
@@ -224,6 +227,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IpxeScript = model.IpxeScript
 
 	m.LaunchOptions = model.LaunchOptions
+
+	m.InstanceOptions = model.InstanceOptions
 
 	m.AvailabilityConfig = model.AvailabilityConfig
 

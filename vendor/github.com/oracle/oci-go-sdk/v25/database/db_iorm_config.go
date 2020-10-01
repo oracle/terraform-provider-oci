@@ -13,16 +13,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// DbIormConfig IORM Config setting response for this database
+// DbIormConfig The IORM configuration settings for the database.
 type DbIormConfig struct {
 
-	// Database Name. For default DbPlan, the dbName will always be `default`
+	// The database name. For the default `DbPlan`, the `dbName` is `default`.
 	DbName *string `mandatory:"false" json:"dbName"`
 
-	// Relative priority of a database
+	// The relative priority of this database.
 	Share *int `mandatory:"false" json:"share"`
 
-	// Flash Cache limit, internally configured based on shares
+	// The flash cache limit for this database. This value is internally configured based on the share value assigned to the database.
 	FlashCacheLimit *string `mandatory:"false" json:"flashCacheLimit"`
 }
 

@@ -12,13 +12,13 @@ import (
 // UpdateConnectionRequest wrapper for the UpdateConnection operation
 type UpdateConnectionRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// The connection key
+	// The connection key.
 	ConnectionKey *string `mandatory:"true" contributesTo:"path" name:"connectionKey"`
 
-	// Request body parameter for connection details
+	// The information needed to update a connection.
 	UpdateConnectionDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -26,10 +26,9 @@ type UpdateConnectionRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Update and Delete operations should accept an optional If-Match header,
-	// in which clients can send a previously-received ETag. When If-Match is
-	// provided and its value does not exactly match the ETag of the resource
-	// on the server, the request should fail with HTTP response status code 412
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.
+	// The resource will be updated or deleted only if the `etag` you provide matches the resource's current `etag` value.
+	// When 'if-match' is provided and its value does not exactly match the 'etag' of the resource on the server, the request fails with the 412 response code.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

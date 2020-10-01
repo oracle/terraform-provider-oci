@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// FlowPort Each operator owns a set of InputPort and OutputPort objects (can scale to zero), which represent the ports that can be connected to/from the Operator.
+// FlowPort Each operator owns a set of `InputPort` and `OutputPort` objects (can scale to zero), which represent the ports that can be connected to/from the operator.
 type FlowPort struct {
 
 	// The key of the object.
@@ -30,7 +30,7 @@ type FlowPort struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.

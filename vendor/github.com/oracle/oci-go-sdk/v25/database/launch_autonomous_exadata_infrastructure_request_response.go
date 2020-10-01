@@ -12,7 +12,7 @@ import (
 // LaunchAutonomousExadataInfrastructureRequest wrapper for the LaunchAutonomousExadataInfrastructure operation
 type LaunchAutonomousExadataInfrastructureRequest struct {
 
-	// Request to launch a Autonomous Exadata Infrastructure.
+	// Request to create an Autonomous Exadata Infrastructure resource.
 	LaunchAutonomousExadataInfrastructureDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

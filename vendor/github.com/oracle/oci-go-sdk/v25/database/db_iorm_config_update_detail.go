@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// DbIormConfigUpdateDetail IORM Config setting request for this database
+// DbIormConfigUpdateDetail Details of the IORM configuration settings update request.
 type DbIormConfigUpdateDetail struct {
 
-	// Database Name. For updating default DbPlan, pass in dbName as `default`
+	// The database name. For the default `DbPlan`, the `dbName` is `default`.
 	DbName *string `mandatory:"false" json:"dbName"`
 
-	// Relative priority of a database
+	// The relative priority of this database.
 	Share *int `mandatory:"false" json:"share"`
 }
 

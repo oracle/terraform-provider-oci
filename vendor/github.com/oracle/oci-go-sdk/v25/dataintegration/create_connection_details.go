@@ -17,10 +17,10 @@ import (
 // CreateConnectionDetails Properties used in connection create operations.
 type CreateConnectionDetails interface {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
@@ -31,7 +31,7 @@ type CreateConnectionDetails interface {
 
 	GetParentRef() *ParentReference
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	GetDescription() *string
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
@@ -91,6 +91,14 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ModelType {
+	case "MYSQL_CONNECTION":
+		mm := CreateConnectionFromMySql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC_JDBC_CONNECTION":
+		mm := CreateConnectionFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_ATP_CONNECTION":
 		mm := CreateConnectionFromAtp{}
 		err = json.Unmarshal(data, &mm)
@@ -170,6 +178,8 @@ const (
 	CreateConnectionDetailsModelTypeOracleAtpConnection           CreateConnectionDetailsModelTypeEnum = "ORACLE_ATP_CONNECTION"
 	CreateConnectionDetailsModelTypeOracleObjectStorageConnection CreateConnectionDetailsModelTypeEnum = "ORACLE_OBJECT_STORAGE_CONNECTION"
 	CreateConnectionDetailsModelTypeOracledbConnection            CreateConnectionDetailsModelTypeEnum = "ORACLEDB_CONNECTION"
+	CreateConnectionDetailsModelTypeMysqlConnection               CreateConnectionDetailsModelTypeEnum = "MYSQL_CONNECTION"
+	CreateConnectionDetailsModelTypeGenericJdbcConnection         CreateConnectionDetailsModelTypeEnum = "GENERIC_JDBC_CONNECTION"
 )
 
 var mappingCreateConnectionDetailsModelType = map[string]CreateConnectionDetailsModelTypeEnum{
@@ -177,6 +187,8 @@ var mappingCreateConnectionDetailsModelType = map[string]CreateConnectionDetails
 	"ORACLE_ATP_CONNECTION":            CreateConnectionDetailsModelTypeOracleAtpConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": CreateConnectionDetailsModelTypeOracleObjectStorageConnection,
 	"ORACLEDB_CONNECTION":              CreateConnectionDetailsModelTypeOracledbConnection,
+	"MYSQL_CONNECTION":                 CreateConnectionDetailsModelTypeMysqlConnection,
+	"GENERIC_JDBC_CONNECTION":          CreateConnectionDetailsModelTypeGenericJdbcConnection,
 }
 
 // GetCreateConnectionDetailsModelTypeEnumValues Enumerates the set of values for CreateConnectionDetailsModelTypeEnum

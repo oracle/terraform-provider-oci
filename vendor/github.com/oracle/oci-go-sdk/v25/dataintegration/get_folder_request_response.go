@@ -12,10 +12,10 @@ import (
 // GetFolderRequest wrapper for the GetFolder operation
 type GetFolderRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// DIS Folder key
+	// The folder key.
 	FolderKey *string `mandatory:"true" contributesTo:"path" name:"folderKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

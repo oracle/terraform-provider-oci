@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// DataFlowValidationSummaryCollection List of dataflow validation summaries
+// DataFlowValidationSummaryCollection A list of data flow validation summaries.
 type DataFlowValidationSummaryCollection struct {
 
-	// The array of validation summaries
+	// The array of validation summaries.
 	Items []DataFlowValidationSummary `mandatory:"true" json:"items"`
 }
 

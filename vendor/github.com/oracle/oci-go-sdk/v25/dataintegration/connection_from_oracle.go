@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ConnectionFromOracle The Oracle connection details object.
+// ConnectionFromOracle The connection details for an Oracle Database data asset.
 type ConnectionFromOracle struct {
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
@@ -25,10 +25,10 @@ type ConnectionFromOracle struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The version of the object that is used to track changes in the object instance.
@@ -37,7 +37,7 @@ type ConnectionFromOracle struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	PrimarySchema *Schema `mandatory:"false" json:"primarySchema"`
@@ -50,7 +50,7 @@ type ConnectionFromOracle struct {
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
-	// A map, if provided key is replaced with generated key, this structure provides mapping between user provided key and generated key
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 
 	// The user name for the connection.
