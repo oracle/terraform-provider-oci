@@ -64,7 +64,7 @@ var (
 		"stream_id": Representation{repType: Optional, create: `${oci_streaming_stream.test_stream.id}`},
 	}
 	serviceConnectorTasksRepresentation = map[string]interface{}{
-		"condition": Representation{repType: Required, create: `logContent='10'`, update: `logContent='20'`},
+		"condition": Representation{repType: Required, create: `data.action='REJECT'`, update: `logContent='20'`},
 		"kind":      Representation{repType: Required, create: `logRule`},
 	}
 	serviceConnectorSourceLogSourcesRepresentation = map[string]interface{}{
@@ -160,7 +160,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
 					resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
 					resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "logContent='10'"),
+					resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "data.action='REJECT'"),
 					resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -202,7 +202,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
 					resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
 					resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "logContent='10'"),
+					resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "data.action='REJECT'"),
 					resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
