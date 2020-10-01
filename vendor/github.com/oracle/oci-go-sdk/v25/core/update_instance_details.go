@@ -76,6 +76,8 @@ type UpdateInstanceDetails struct {
 
 	ShapeConfig *UpdateInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
+	InstanceOptions *InstanceOptions `mandatory:"false" json:"instanceOptions"`
+
 	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
 	// Each availability domain contains three fault domains. Fault domains let you distribute your
 	// instances so that they are not on the same physical hardware within a single availability domain.

@@ -12,10 +12,10 @@ import (
 // CreateWorkspaceRequest wrapper for the CreateWorkspace operation
 type CreateWorkspaceRequest struct {
 
-	// Details for the new Data Integration Workspace.
+	// The information needed to create a new Data Integration workspace.
 	CreateWorkspaceDetails `contributesTo:"body"`
 
-	// Caller may provide "retry tokens" allowing them to retry an operation
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Unique Oracle-assigned identifier for the request. If

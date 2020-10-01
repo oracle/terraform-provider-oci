@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// VmClusterSummary Details of the VM cluster.
+// VmClusterSummary Details of the Exadata Cloud@Customer VM cluster.
 type VmClusterSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
@@ -28,7 +28,7 @@ type VmClusterSummary struct {
 	// The current state of the VM cluster.
 	LifecycleState VmClusterSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The user-friendly name for the VM cluster. The name does not need to be unique.
+	// The user-friendly name for the Exadata Cloud@Customer VM cluster. The name does not need to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The date and time that the VM cluster was created.

@@ -17,18 +17,18 @@ import (
 // UniqueKey The unqique key object.
 type UniqueKey struct {
 
-	// The key of the object.
+	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// attributeRefs
+	// An array of attribute references.
 	AttributeRefs []KeyAttribute `mandatory:"false" json:"attributeRefs"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.

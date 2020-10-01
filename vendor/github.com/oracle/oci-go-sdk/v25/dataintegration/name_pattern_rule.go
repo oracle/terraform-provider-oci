@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// NamePatternRule This rule projects fields by a name pattern, for example it may start with STR_ or end with _DATE, this is defined using a regular expression.
+// NamePatternRule This rule projects fields by a name pattern, for example it may start with STR_ or end with _DATE. This is defined using a regular expression.
 type NamePatternRule struct {
 
 	// The key of the object.
@@ -33,28 +33,28 @@ type NamePatternRule struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Detailed description for the object.
+	// A user defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// skipRemainingRulesOnMatch
+	// Specifies whether to skip remaining rules when a match is found.
 	IsSkipRemainingRulesOnMatch *bool `mandatory:"false" json:"isSkipRemainingRulesOnMatch"`
 
-	// Reference to a typed object, this can be either a key value to an object within the document, a shall referenced to a TypedObject or a full TypedObject definition.
+	// Reference to a typed object. This can be either a key value to an object within the document, a shall referenced to a `TypedObject`, or a full `TypedObject` definition.
 	Scope *interface{} `mandatory:"false" json:"scope"`
 
-	// cascade
+	// Specifies whether to cascade or not.
 	IsCascade *bool `mandatory:"false" json:"isCascade"`
 
-	// caseSensitive
+	// Specifies if the rule is case sensitive.
 	IsCaseSensitive *bool `mandatory:"false" json:"isCaseSensitive"`
 
-	// pattern
+	// The rule pattern.
 	Pattern *string `mandatory:"false" json:"pattern"`
 
-	// matchingStrategy
+	// The pattern matching strategy.
 	MatchingStrategy NamePatternRuleMatchingStrategyEnum `mandatory:"false" json:"matchingStrategy,omitempty"`
 
-	// ruleType
+	// The rule type.
 	RuleType NamePatternRuleRuleTypeEnum `mandatory:"false" json:"ruleType,omitempty"`
 }
 

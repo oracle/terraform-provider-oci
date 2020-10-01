@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// UpdateVmClusterDetails Details for updating the VM cluster.
+// UpdateVmClusterDetails Details for updating the Exadata Cloud@Customer VM cluster.
 type UpdateVmClusterDetails struct {
 
 	// The number of CPU cores to enable for the VM cluster.

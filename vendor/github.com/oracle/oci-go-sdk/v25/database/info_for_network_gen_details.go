@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// InfoForNetworkGenDetails Parameters for generation of the client or backup network in a VM cluster network.
+// InfoForNetworkGenDetails Parameters for generation of the client or backup network in a VM cluster network in an Exadata Cloud@Customer system.
 type InfoForNetworkGenDetails struct {
 
 	// The network type.

@@ -19,25 +19,25 @@ type ApplicationSummary struct {
 	// Generated key that can be used in API calls to identify application.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The type of the object.
+	// The object type.
 	ModelType *string `mandatory:"false" json:"modelType"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// version
+	// The application's version.
 	ApplicationVersion *int `mandatory:"false" json:"applicationVersion"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
@@ -45,15 +45,20 @@ type ApplicationSummary struct {
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// List of dependent objects in this patch.
+	// A list of dependent objects in this patch.
 	DependentObjectMetadata []PatchObjectMetadata `mandatory:"false" json:"dependentObjectMetadata"`
 
-	// List of objects that are published / unpublished in this patch.
+	// A list of objects that are published or unpublished in this patch.
 	PublishedObjectMetadata map[string]PatchObjectMetadata `mandatory:"false" json:"publishedObjectMetadata"`
+
+	SourceApplicationInfo *SourceApplicationInfo `mandatory:"false" json:"sourceApplicationInfo"`
+
+	// The date and time the application was patched, in the timestamp format defined by RFC3339.
+	TimePatched *common.SDKTime `mandatory:"false" json:"timePatched"`
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
-	// A map, if provided key is replaced with generated key, this structure provides mapping between user provided key and generated key
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 }
 

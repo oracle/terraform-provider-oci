@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// UpdateExadataInfrastructureDetails Updates the Exadata infrastructure.
+// UpdateExadataInfrastructureDetails Updates the Exadata Cloud@Customer infrastructure.
 type UpdateExadataInfrastructureDetails struct {
 
 	// The IP address for the first control plane server.
@@ -37,7 +37,7 @@ type UpdateExadataInfrastructureDetails struct {
 	// The corporate network proxy for access to the control plane network.
 	CorporateProxy *string `mandatory:"false" json:"corporateProxy"`
 
-	// The list of contacts for the Exadata Infrastructure.
+	// The list of contacts for the Exadata infrastructure.
 	Contacts []ExadataInfrastructureContact `mandatory:"false" json:"contacts"`
 
 	// The list of DNS server IP addresses. Maximum of 3 allowed.

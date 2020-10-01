@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// VmNetworkDetails Details of the client or backup networks in a VM cluster network.
+// VmNetworkDetails Details of the client or backup networks in an Exadata Cloud@Customer VM cluster network.
 type VmNetworkDetails struct {
 
 	// The network VLAN ID.

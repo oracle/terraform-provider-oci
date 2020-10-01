@@ -82,7 +82,7 @@ type DbSystemSummary struct {
 	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata DB systems.
+	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
 	BackupNetworkNsgIds []string `mandatory:"false" json:"backupNetworkNsgIds"`
 
 	DbSystemOptions *DbSystemOptions `mandatory:"false" json:"dbSystemOptions"`
@@ -93,7 +93,7 @@ type DbSystemSummary struct {
 	// The Oracle Database version of the DB system.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
+	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
 
 	// The percentage assigned to DATA storage (user data and database files).
@@ -213,6 +213,7 @@ const (
 	DbSystemSummaryLifecycleStateTerminating           DbSystemSummaryLifecycleStateEnum = "TERMINATING"
 	DbSystemSummaryLifecycleStateTerminated            DbSystemSummaryLifecycleStateEnum = "TERMINATED"
 	DbSystemSummaryLifecycleStateFailed                DbSystemSummaryLifecycleStateEnum = "FAILED"
+	DbSystemSummaryLifecycleStateMigrated              DbSystemSummaryLifecycleStateEnum = "MIGRATED"
 	DbSystemSummaryLifecycleStateMaintenanceInProgress DbSystemSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
@@ -223,6 +224,7 @@ var mappingDbSystemSummaryLifecycleState = map[string]DbSystemSummaryLifecycleSt
 	"TERMINATING":             DbSystemSummaryLifecycleStateTerminating,
 	"TERMINATED":              DbSystemSummaryLifecycleStateTerminated,
 	"FAILED":                  DbSystemSummaryLifecycleStateFailed,
+	"MIGRATED":                DbSystemSummaryLifecycleStateMigrated,
 	"MAINTENANCE_IN_PROGRESS": DbSystemSummaryLifecycleStateMaintenanceInProgress,
 }
 

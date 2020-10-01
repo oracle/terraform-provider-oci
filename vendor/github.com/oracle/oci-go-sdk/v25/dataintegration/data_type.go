@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// DataType A DataType object is a simple primitive type that describes the type of a single atomic unit of data.  For example, INT, VARCHAR, NUMBER, etc.
+// DataType A `DataType` object is a simple primitive type that describes the type of a single atomic unit of data.  For example, `INT`, `VARCHAR`, `NUMBER`, and so on.
 type DataType struct {
 
 	// The key of the object.
@@ -25,21 +25,21 @@ type DataType struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Detailed description for the object.
+	// A user defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// typeSystemName
+	// The data type system name.
 	TypeSystemName *string `mandatory:"false" json:"typeSystemName"`
 
 	ConfigDefinition *ConfigDefinition `mandatory:"false" json:"configDefinition"`
 
-	// dtType
+	// The data type.
 	DtType DataTypeDtTypeEnum `mandatory:"false" json:"dtType,omitempty"`
 }
 

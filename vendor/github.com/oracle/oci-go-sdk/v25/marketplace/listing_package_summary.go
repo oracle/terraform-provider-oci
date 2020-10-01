@@ -16,7 +16,7 @@ import (
 // ListingPackageSummary The model for a summary of a package.
 type ListingPackageSummary struct {
 
-	// The id of the listing the specified package belongs to.
+	// The ID of the listing that the specified package belongs to.
 	ListingId *string `mandatory:"false" json:"listingId"`
 
 	// The version of the specified package.
@@ -25,7 +25,7 @@ type ListingPackageSummary struct {
 	// The specified package's type.
 	PackageType PackageTypeEnumEnum `mandatory:"false" json:"packageType,omitempty"`
 
-	// The regions where the package is eligible to be deployed.
+	// The regions where you can deploy the listing package. (Some packages have restrictions that limit their deployment to United States regions only.)
 	Regions []Region `mandatory:"false" json:"regions"`
 
 	// The unique identifier for the package resource.

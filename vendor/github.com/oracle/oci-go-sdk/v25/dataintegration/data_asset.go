@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// DataAsset The data asset type.
+// DataAsset Represents a data source in the Data Integration service.
 type DataAsset interface {
 
 	// Generated key that can be used in API calls to identify data asset.
@@ -23,22 +23,22 @@ type DataAsset interface {
 	// The model version of an object.
 	GetModelVersion() *string
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Detailed description for the object.
+	// User-defined description of the data asset.
 	GetDescription() *string
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
-	// The external key for the object
+	// The external key for the object.
 	GetExternalKey() *string
 
-	// assetProperties
+	// Additional properties for the data asset.
 	GetAssetProperties() map[string]string
 
 	GetNativeTypeSystem() *TypeSystem
@@ -50,7 +50,7 @@ type DataAsset interface {
 
 	GetMetadata() *ObjectMetadata
 
-	// A map, if provided key is replaced with generated key, this structure provides mapping between user provided key and generated key
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	GetKeyMap() map[string]string
 }
 
@@ -110,6 +110,10 @@ func (m *dataasset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ModelType {
+	case "GENERIC_JDBC_DATA_ASSET":
+		mm := DataAssetFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_DATA_ASSET":
 		mm := DataAssetFromOracleDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -124,6 +128,10 @@ func (m *dataasset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		return mm, err
 	case "ORACLE_ATP_DATA_ASSET":
 		mm := DataAssetFromAtpDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_DATA_ASSET":
+		mm := DataAssetFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -205,17 +213,21 @@ type DataAssetModelTypeEnum string
 
 // Set of constants representing the allowable values for DataAssetModelTypeEnum
 const (
-	DataAssetModelTypeDataAsset              DataAssetModelTypeEnum = "ORACLE_DATA_ASSET"
-	DataAssetModelTypeObjectStorageDataAsset DataAssetModelTypeEnum = "ORACLE_OBJECT_STORAGE_DATA_ASSET"
-	DataAssetModelTypeAtpDataAsset           DataAssetModelTypeEnum = "ORACLE_ATP_DATA_ASSET"
-	DataAssetModelTypeAdwcDataAsset          DataAssetModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
+	DataAssetModelTypeOracleDataAsset              DataAssetModelTypeEnum = "ORACLE_DATA_ASSET"
+	DataAssetModelTypeOracleObjectStorageDataAsset DataAssetModelTypeEnum = "ORACLE_OBJECT_STORAGE_DATA_ASSET"
+	DataAssetModelTypeOracleAtpDataAsset           DataAssetModelTypeEnum = "ORACLE_ATP_DATA_ASSET"
+	DataAssetModelTypeOracleAdwcDataAsset          DataAssetModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
+	DataAssetModelTypeMysqlDataAsset               DataAssetModelTypeEnum = "MYSQL_DATA_ASSET"
+	DataAssetModelTypeGenericJdbcDataAsset         DataAssetModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 )
 
 var mappingDataAssetModelType = map[string]DataAssetModelTypeEnum{
-	"ORACLE_DATA_ASSET":                DataAssetModelTypeDataAsset,
-	"ORACLE_OBJECT_STORAGE_DATA_ASSET": DataAssetModelTypeObjectStorageDataAsset,
-	"ORACLE_ATP_DATA_ASSET":            DataAssetModelTypeAtpDataAsset,
-	"ORACLE_ADWC_DATA_ASSET":           DataAssetModelTypeAdwcDataAsset,
+	"ORACLE_DATA_ASSET":                DataAssetModelTypeOracleDataAsset,
+	"ORACLE_OBJECT_STORAGE_DATA_ASSET": DataAssetModelTypeOracleObjectStorageDataAsset,
+	"ORACLE_ATP_DATA_ASSET":            DataAssetModelTypeOracleAtpDataAsset,
+	"ORACLE_ADWC_DATA_ASSET":           DataAssetModelTypeOracleAdwcDataAsset,
+	"MYSQL_DATA_ASSET":                 DataAssetModelTypeMysqlDataAsset,
+	"GENERIC_JDBC_DATA_ASSET":          DataAssetModelTypeGenericJdbcDataAsset,
 }
 
 // GetDataAssetModelTypeEnumValues Enumerates the set of values for DataAssetModelTypeEnum

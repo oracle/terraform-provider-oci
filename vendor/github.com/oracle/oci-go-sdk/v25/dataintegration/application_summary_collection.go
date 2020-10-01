@@ -16,7 +16,7 @@ import (
 // ApplicationSummaryCollection This is the collection of application summaries, it may be a collection of lightweight details or full definitions.
 type ApplicationSummaryCollection struct {
 
-	// The array of Application summaries
+	// The array of application summaries.
 	Items []ApplicationSummary `mandatory:"true" json:"items"`
 }
 

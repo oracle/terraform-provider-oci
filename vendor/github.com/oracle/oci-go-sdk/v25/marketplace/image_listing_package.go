@@ -42,10 +42,10 @@ type ImageListingPackage struct {
 	// The resource version of the listing resource associated with this listing package.
 	AppCatalogListingResourceVersion *string `mandatory:"false" json:"appCatalogListingResourceVersion"`
 
-	// The id of the image corresponding to the package.
+	// The ID of the image corresponding to the package.
 	ImageId *string `mandatory:"false" json:"imageId"`
 
-	// List of regions in which this ListingPackage is available.
+	// The regions where you can deploy the listing package. (Some packages have restrictions that limit their deployment to United States regions only.)
 	Regions []Region `mandatory:"false" json:"regions"`
 }
 

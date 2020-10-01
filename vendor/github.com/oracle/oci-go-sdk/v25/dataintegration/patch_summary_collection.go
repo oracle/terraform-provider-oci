@@ -16,7 +16,7 @@ import (
 // PatchSummaryCollection This is the collection of patch summaries, it may be a collection of lightweight details or full definitions.
 type PatchSummaryCollection struct {
 
-	// The array of patch summaries
+	// The array of patch summaries.
 	Items []PatchSummary `mandatory:"true" json:"items"`
 }
 

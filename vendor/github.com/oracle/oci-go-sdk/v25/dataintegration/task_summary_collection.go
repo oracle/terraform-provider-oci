@@ -17,7 +17,7 @@ import (
 // TaskSummaryCollection This is the collection of task summaries, it may be a collection of lightweight details or full definitions.
 type TaskSummaryCollection struct {
 
-	// The array of Task summaries.
+	// The array of task summaries.
 	Items []TaskSummary `mandatory:"true" json:"items"`
 }
 

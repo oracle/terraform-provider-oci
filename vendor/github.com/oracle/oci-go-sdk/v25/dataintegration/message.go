@@ -19,10 +19,10 @@ type Message struct {
 	// The type of message (error, warning, or info).
 	Type MessageTypeEnum `mandatory:"true" json:"type"`
 
-	// The message code
+	// The message code.
 	Code *string `mandatory:"true" json:"code"`
 
-	// The message text
+	// The message text.
 	Message *string `mandatory:"true" json:"message"`
 }
 

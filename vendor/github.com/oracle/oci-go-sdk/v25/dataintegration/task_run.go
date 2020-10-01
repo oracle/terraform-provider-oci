@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// TaskRun The information about TaskRun.
+// TaskRun The information about a task run.
 type TaskRun struct {
 
 	// The key of the object.
@@ -27,7 +27,7 @@ type TaskRun struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
@@ -38,42 +38,42 @@ type TaskRun struct {
 
 	ConfigProvider *ConfigProvider `mandatory:"false" json:"configProvider"`
 
-	// status
+	// The status of the task run.
 	Status TaskRunStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// startTimeMillis
+	// The start time.
 	StartTimeMillis *int64 `mandatory:"false" json:"startTimeMillis"`
 
-	// endTimeMillis
+	// The end time.
 	EndTimeMillis *int64 `mandatory:"false" json:"endTimeMillis"`
 
-	// lastUpdated
+	// The date and time the object was last updated.
 	LastUpdated *int64 `mandatory:"false" json:"lastUpdated"`
 
-	// Number of records processed in task run.
+	// The number of records processed in the task run.
 	RecordsWritten *int64 `mandatory:"false" json:"recordsWritten"`
 
-	// Number of bytes processed in task run.
+	// The number of bytes processed in the task run.
 	BytesProcessed *int64 `mandatory:"false" json:"bytesProcessed"`
 
-	// Error message if status is ERROR
+	// Contains an error message if status is `ERROR`.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 
-	// Opc request id of execution of task run
+	// The OPC request ID of execution of the task run.
 	OpcRequestId *string `mandatory:"false" json:"opcRequestId"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// The type of the task for the run.
+	// The type of task run.
 	TaskType TaskRunTaskTypeEnum `mandatory:"false" json:"taskType,omitempty"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
-	// A map, if provided key is replaced with generated key, this structure provides mapping between user provided key and generated key
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 }
 

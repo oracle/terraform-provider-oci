@@ -16,7 +16,7 @@ import (
 // TaskRunLogSummary A log message from the execution of a task.
 type TaskRunLogSummary struct {
 
-	// Human-readable log message.
+	// A user-friendly log message.
 	Message *string `mandatory:"false" json:"message"`
 }
 

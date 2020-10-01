@@ -40,14 +40,17 @@ type DependentObjectSummary struct {
 	// The full path to identify this object.
 	IdentifierPath *string `mandatory:"false" json:"identifierPath"`
 
-	// infoFields
+	// Information property fields.
 	InfoFields map[string]string `mandatory:"false" json:"infoFields"`
 
-	// registryVersion
+	// The registry version of the object.
 	RegistryVersion *int `mandatory:"false" json:"registryVersion"`
 
-	// Labels are keywords or tags that you can add to data assets, dataflows etc. You can define your own labels and use them to categorize content.
+	// Labels are keywords or tags that you can add to data assets, dataflows and so on. You can define your own labels and use them to categorize content.
 	Labels []string `mandatory:"false" json:"labels"`
+
+	// Specifies whether this object is a favorite or not.
+	IsFavorite *bool `mandatory:"false" json:"isFavorite"`
 }
 
 func (m DependentObjectSummary) String() string {

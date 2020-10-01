@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// Connection The connection object.
+// Connection The connection for a data asset.
 type Connection interface {
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
@@ -25,10 +25,10 @@ type Connection interface {
 
 	GetParentRef() *ParentReference
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	GetDescription() *string
 
 	// The version of the object that is used to track changes in the object instance.
@@ -37,7 +37,7 @@ type Connection interface {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
 	GetPrimarySchema() *Schema
@@ -50,7 +50,7 @@ type Connection interface {
 
 	GetMetadata() *ObjectMetadata
 
-	// A map, if provided key is replaced with generated key, this structure provides mapping between user provided key and generated key
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	GetKeyMap() map[string]string
 }
 
@@ -124,6 +124,14 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "ORACLEDB_CONNECTION":
 		mm := ConnectionFromOracle{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_CONNECTION":
+		mm := ConnectionFromMySql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC_JDBC_CONNECTION":
+		mm := ConnectionFromJdbc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -209,6 +217,8 @@ const (
 	ConnectionModelTypeOracleAtpConnection           ConnectionModelTypeEnum = "ORACLE_ATP_CONNECTION"
 	ConnectionModelTypeOracleObjectStorageConnection ConnectionModelTypeEnum = "ORACLE_OBJECT_STORAGE_CONNECTION"
 	ConnectionModelTypeOracledbConnection            ConnectionModelTypeEnum = "ORACLEDB_CONNECTION"
+	ConnectionModelTypeMysqlConnection               ConnectionModelTypeEnum = "MYSQL_CONNECTION"
+	ConnectionModelTypeGenericJdbcConnection         ConnectionModelTypeEnum = "GENERIC_JDBC_CONNECTION"
 )
 
 var mappingConnectionModelType = map[string]ConnectionModelTypeEnum{
@@ -216,6 +226,8 @@ var mappingConnectionModelType = map[string]ConnectionModelTypeEnum{
 	"ORACLE_ATP_CONNECTION":            ConnectionModelTypeOracleAtpConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": ConnectionModelTypeOracleObjectStorageConnection,
 	"ORACLEDB_CONNECTION":              ConnectionModelTypeOracledbConnection,
+	"MYSQL_CONNECTION":                 ConnectionModelTypeMysqlConnection,
+	"GENERIC_JDBC_CONNECTION":          ConnectionModelTypeGenericJdbcConnection,
 }
 
 // GetConnectionModelTypeEnumValues Enumerates the set of values for ConnectionModelTypeEnum

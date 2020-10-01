@@ -27,16 +27,16 @@ type ConfigDefinition struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Whether the configuration is contained or not.
+	// Specifies whether the configuration is contained or not.
 	IsContained *bool `mandatory:"false" json:"isContained"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// configParamDefs
+	// The parameter configuration details.
 	ConfigParameterDefinitions map[string]ConfigParameterDefinition `mandatory:"false" json:"configParameterDefinitions"`
 }
 

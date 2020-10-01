@@ -19,7 +19,7 @@ type Workspace struct {
 	// A user-friendly display name for the workspace. Does not have to be unique, and can be modified. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Unique identifier that is immutable on creation
+	// A system-generated and immutable identifier assigned to the workspace upon creation.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the VCN the subnet is in.
@@ -34,7 +34,7 @@ type Workspace struct {
 	// The DNS zone of the custom DNS to use to resolve names.
 	DnsServerZone *string `mandatory:"false" json:"dnsServerZone"`
 
-	// Whether the private network connection is enabled or disabled.
+	// Specifies whether the private network connection is enabled or disabled.
 	IsPrivateNetworkEnabled *bool `mandatory:"false" json:"isPrivateNetworkEnabled"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -71,7 +71,7 @@ type Workspace struct {
 	// STOPPED  - The resource is in Stopped state due to stop operation.
 	LifecycleState WorkspaceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in failed state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
 }
 

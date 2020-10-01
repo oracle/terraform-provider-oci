@@ -124,6 +124,8 @@ type Instance struct {
 	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
 
+	InstanceOptions *InstanceOptions `mandatory:"false" json:"instanceOptions"`
+
 	// Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 	AvailabilityConfig *InstanceAvailabilityConfig `mandatory:"false" json:"availabilityConfig"`
 
@@ -165,6 +167,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		IpxeScript               *string                           `json:"ipxeScript"`
 		LaunchMode               InstanceLaunchModeEnum            `json:"launchMode"`
 		LaunchOptions            *LaunchOptions                    `json:"launchOptions"`
+		InstanceOptions          *InstanceOptions                  `json:"instanceOptions"`
 		AvailabilityConfig       *InstanceAvailabilityConfig       `json:"availabilityConfig"`
 		Metadata                 map[string]string                 `json:"metadata"`
 		ShapeConfig              *InstanceShapeConfig              `json:"shapeConfig"`
@@ -205,6 +208,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.LaunchMode = model.LaunchMode
 
 	m.LaunchOptions = model.LaunchOptions
+
+	m.InstanceOptions = model.InstanceOptions
 
 	m.AvailabilityConfig = model.AvailabilityConfig
 

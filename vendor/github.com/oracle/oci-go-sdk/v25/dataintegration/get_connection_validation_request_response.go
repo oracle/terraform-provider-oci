@@ -12,10 +12,10 @@ import (
 // GetConnectionValidationRequest wrapper for the GetConnectionValidation operation
 type GetConnectionValidationRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// key of the connection validation.
+	// The key of the connection validation.
 	ConnectionValidationKey *string `mandatory:"true" contributesTo:"path" name:"connectionValidationKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

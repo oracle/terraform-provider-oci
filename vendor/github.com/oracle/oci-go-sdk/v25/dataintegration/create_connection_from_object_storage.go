@@ -14,13 +14,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// CreateConnectionFromObjectStorage The Object Storage connection details.
+// CreateConnectionFromObjectStorage The details to create an Oracle Object Storage data asset connection.
 type CreateConnectionFromObjectStorage struct {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
@@ -31,7 +31,7 @@ type CreateConnectionFromObjectStorage struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
@@ -42,16 +42,16 @@ type CreateConnectionFromObjectStorage struct {
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 
-	// The credential file content from a wallet for the data asset.
+	// The credential file content from an Oracle Object Storage wallet.
 	CredentialFileContent *string `mandatory:"false" json:"credentialFileContent"`
 
 	// The OCI user OCID for the user to connect to.
 	UserId *string `mandatory:"false" json:"userId"`
 
-	// The fingeprint for the user.
+	// The fingerprint for the user.
 	FingerPrint *string `mandatory:"false" json:"fingerPrint"`
 
-	// The pass phrase for the connection.
+	// The passphrase for the connection.
 	PassPhrase *string `mandatory:"false" json:"passPhrase"`
 }
 

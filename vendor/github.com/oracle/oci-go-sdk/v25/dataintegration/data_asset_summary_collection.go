@@ -17,7 +17,7 @@ import (
 // DataAssetSummaryCollection This is the collection of data asset summaries, it may be a collection of lightweight details or full definitions.
 type DataAssetSummaryCollection struct {
 
-	// The array of DataAsset summaries
+	// The array of data asset summaries.
 	Items []DataAssetSummary `mandatory:"true" json:"items"`
 }
 

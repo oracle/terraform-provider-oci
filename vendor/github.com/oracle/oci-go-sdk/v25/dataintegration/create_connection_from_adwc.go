@@ -14,13 +14,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// CreateConnectionFromAdwc The ADWC connection details object.
+// CreateConnectionFromAdwc The details to create an Autonomous Data Warehouse data asset connection.
 type CreateConnectionFromAdwc struct {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
@@ -31,7 +31,7 @@ type CreateConnectionFromAdwc struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.

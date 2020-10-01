@@ -17,7 +17,7 @@ import (
 // PublishedObjectSummaryCollection This is the collection of published object summaries, it may be a collection of lightweight details or full definitions.
 type PublishedObjectSummaryCollection struct {
 
-	// The array of PublishedObject summaries
+	// The array of published object summaries.
 	Items []PublishedObjectSummary `mandatory:"true" json:"items"`
 }
 

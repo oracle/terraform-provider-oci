@@ -13,21 +13,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// TaskRunSummary The information about TaskRun.
+// TaskRunSummary The information about a task run.
 type TaskRunSummary struct {
 
-	// The key of the object.
+	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The type of the object.
+	// The object type.
 	ModelType *string `mandatory:"false" json:"modelType"`
 
-	// The model version of an object.
+	// The object's model version.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Detailed description for the object.
@@ -39,13 +39,13 @@ type TaskRunSummary struct {
 	// status
 	Status TaskRunSummaryStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// startTimeMillis
+	// The task run start time.
 	StartTimeMillis *int64 `mandatory:"false" json:"startTimeMillis"`
 
-	// endTimeMillis
+	// The task run end time.
 	EndTimeMillis *int64 `mandatory:"false" json:"endTimeMillis"`
 
-	// lastUpdated
+	// The date and time the task run was last updated.
 	LastUpdated *int64 `mandatory:"false" json:"lastUpdated"`
 
 	// Number of records processed in task run.
@@ -60,7 +60,7 @@ type TaskRunSummary struct {
 	// The type of the task for the run.
 	TaskType TaskRunSummaryTaskTypeEnum `mandatory:"false" json:"taskType,omitempty"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`

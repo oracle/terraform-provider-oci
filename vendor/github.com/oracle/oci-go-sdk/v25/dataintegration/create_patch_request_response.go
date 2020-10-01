@@ -12,10 +12,10 @@ import (
 // CreatePatchRequest wrapper for the CreatePatch operation
 type CreatePatchRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// DIS application key
+	// The application key.
 	ApplicationKey *string `mandatory:"true" contributesTo:"path" name:"applicationKey"`
 
 	// Detailed needed to create a patch in an application.
@@ -26,7 +26,7 @@ type CreatePatchRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Caller may provide "retry tokens" allowing them to retry an operation
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

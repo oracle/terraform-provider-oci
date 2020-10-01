@@ -12,7 +12,7 @@ import (
 // CreateExadataInfrastructureRequest wrapper for the CreateExadataInfrastructure operation
 type CreateExadataInfrastructureRequest struct {
 
-	// Request to create Exadata infrastructure.
+	// Request to create Exadata Cloud@Customer infrastructure.
 	CreateExadataInfrastructureDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

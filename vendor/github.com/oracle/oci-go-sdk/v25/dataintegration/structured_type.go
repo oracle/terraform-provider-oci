@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// StructuredType A StructuredType object represents a data type that exists in a physical data asset object such as a table column, but is more complex, for example an Oracle database OBJECT type.   It can be composed of multiple DataType objects.
+// StructuredType A `StructuredType` object represents a data type that exists in a physical data asset object such as a table column, but is more complex. For example, an Oracle database `OBJECT` type. It can be composed of multiple `DataType` objects.
 type StructuredType struct {
 
 	// The property which disciminates the subtypes.
@@ -28,19 +28,19 @@ type StructuredType struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Detailed description for the object.
+	// A user defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// dtType
+	// The data type.
 	DtType StructuredTypeDtTypeEnum `mandatory:"false" json:"dtType,omitempty"`
 
-	// typeSystemName
+	// The data type system name.
 	TypeSystemName *string `mandatory:"false" json:"typeSystemName"`
 
 	ConfigDefinition *ConfigDefinition `mandatory:"false" json:"configDefinition"`

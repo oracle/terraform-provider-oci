@@ -12,10 +12,10 @@ import (
 // GetConnectionRequest wrapper for the GetConnection operation
 type GetConnectionRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// The connection key
+	// The connection key.
 	ConnectionKey *string `mandatory:"true" contributesTo:"path" name:"connectionKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

@@ -12,10 +12,10 @@ import (
 // GetDataAssetRequest wrapper for the GetDataAsset operation
 type GetDataAssetRequest struct {
 
-	// DIS workspace id
+	// The workspace ID.
 	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
 
-	// Data asset key.
+	// The data asset key.
 	DataAssetKey *string `mandatory:"true" contributesTo:"path" name:"dataAssetKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

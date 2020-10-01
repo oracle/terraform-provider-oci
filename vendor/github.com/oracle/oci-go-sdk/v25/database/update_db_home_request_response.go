@@ -15,7 +15,7 @@ type UpdateDbHomeRequest struct {
 	// The Database Home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DbHomeId *string `mandatory:"true" contributesTo:"path" name:"dbHomeId"`
 
-	// Request to update the properties of a DB Home.
+	// Request to update the properties of a Database Home.
 	UpdateDbHomeDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

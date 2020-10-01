@@ -15,7 +15,7 @@ type UpdateExadataInfrastructureRequest struct {
 	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
 
-	// Request to update the properties of an Exadata infrastructure
+	// Request to update the properties of an Exadata Cloud@Customer infrastructure.
 	UpdateExadataInfrastructureDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

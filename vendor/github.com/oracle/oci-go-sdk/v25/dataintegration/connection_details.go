@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v25/common"
 )
 
-// ConnectionDetails The connection details object.
+// ConnectionDetails The connection details for a data asset.
 type ConnectionDetails interface {
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
@@ -25,10 +25,10 @@ type ConnectionDetails interface {
 
 	GetParentRef() *ParentReference
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value can be edited by the user and it is restricted to 1000 characters
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// Detailed description for the object.
+	// User-defined description for the connection.
 	GetDescription() *string
 
 	// The version of the object that is used to track changes in the object instance.
@@ -37,7 +37,7 @@ type ConnectionDetails interface {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be edited by the user.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
 	GetPrimarySchema() *Schema
@@ -105,8 +105,16 @@ func (m *connectiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.ModelType {
+	case "GENERIC_JDBC_CONNECTION":
+		mm := ConnectionFromJdbcDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_OBJECT_STORAGE_CONNECTION":
 		mm := ConnectionFromObjectStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_CONNECTION":
+		mm := ConnectionFromMySqlDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ADWC_CONNECTION":
@@ -199,6 +207,8 @@ const (
 	ConnectionDetailsModelTypeOracleAtpConnection           ConnectionDetailsModelTypeEnum = "ORACLE_ATP_CONNECTION"
 	ConnectionDetailsModelTypeOracleObjectStorageConnection ConnectionDetailsModelTypeEnum = "ORACLE_OBJECT_STORAGE_CONNECTION"
 	ConnectionDetailsModelTypeOracledbConnection            ConnectionDetailsModelTypeEnum = "ORACLEDB_CONNECTION"
+	ConnectionDetailsModelTypeMysqlConnection               ConnectionDetailsModelTypeEnum = "MYSQL_CONNECTION"
+	ConnectionDetailsModelTypeGenericJdbcConnection         ConnectionDetailsModelTypeEnum = "GENERIC_JDBC_CONNECTION"
 )
 
 var mappingConnectionDetailsModelType = map[string]ConnectionDetailsModelTypeEnum{
@@ -206,6 +216,8 @@ var mappingConnectionDetailsModelType = map[string]ConnectionDetailsModelTypeEnu
 	"ORACLE_ATP_CONNECTION":            ConnectionDetailsModelTypeOracleAtpConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": ConnectionDetailsModelTypeOracleObjectStorageConnection,
 	"ORACLEDB_CONNECTION":              ConnectionDetailsModelTypeOracledbConnection,
+	"MYSQL_CONNECTION":                 ConnectionDetailsModelTypeMysqlConnection,
+	"GENERIC_JDBC_CONNECTION":          ConnectionDetailsModelTypeGenericJdbcConnection,
 }
 
 // GetConnectionDetailsModelTypeEnumValues Enumerates the set of values for ConnectionDetailsModelTypeEnum
