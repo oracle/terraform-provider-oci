@@ -51,6 +51,8 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the Autonomous Container Database.
 * `infrastructure_type` - The infrastructure type this resource belongs to.
+* `key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store.
+* `key_store_wallet_name` - The wallet name for Oracle Key Vault.
 * `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `lifecycle_details` - Additional information about the current lifecycleState.

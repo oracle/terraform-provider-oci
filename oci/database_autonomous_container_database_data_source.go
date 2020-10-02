@@ -109,6 +109,14 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
+	if s.Res.KeyStoreId != nil {
+		s.D.Set("key_store_id", *s.Res.KeyStoreId)
+	}
+
+	if s.Res.KeyStoreWalletName != nil {
+		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}

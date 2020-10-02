@@ -146,6 +146,14 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 			autonomousDatabaseBackup["is_restorable"] = *r.IsRestorable
 		}
 
+		if r.KeyStoreId != nil {
+			autonomousDatabaseBackup["key_store_id"] = *r.KeyStoreId
+		}
+
+		if r.KeyStoreWalletName != nil {
+			autonomousDatabaseBackup["key_store_wallet_name"] = *r.KeyStoreWalletName
+		}
+
 		if r.LifecycleDetails != nil {
 			autonomousDatabaseBackup["lifecycle_details"] = *r.LifecycleDetails
 		}

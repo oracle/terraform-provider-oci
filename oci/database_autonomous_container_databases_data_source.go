@@ -197,6 +197,14 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["infrastructure_type"] = r.InfrastructureType
 
+		if r.KeyStoreId != nil {
+			autonomousContainerDatabase["key_store_id"] = *r.KeyStoreId
+		}
+
+		if r.KeyStoreWalletName != nil {
+			autonomousContainerDatabase["key_store_wallet_name"] = *r.KeyStoreWalletName
+		}
+
 		if r.KmsKeyId != nil {
 			autonomousContainerDatabase["kms_key_id"] = *r.KmsKeyId
 		}
