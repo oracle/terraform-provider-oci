@@ -10,7 +10,7 @@ description: |-
 # oci_database_migration
 This resource provides the Migration resource in Oracle Cloud Infrastructure Database service.
 
-Migration Exadata dbSystem resource model to cloud Exadata infrastructure model. All related resources will be migrated.
+Migrates the Exadata DB system to the cloud Exadata infrastructure model. All related resources will be migrated.
 
 
 ## Example Usage
@@ -18,7 +18,7 @@ Migration Exadata dbSystem resource model to cloud Exadata infrastructure model.
 ```hcl
 resource "oci_database_migration" "test_migration" {
 	#Required
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
+	db_system_id = oci_database_db_system.test_db_system.id
 }
 ```
 
