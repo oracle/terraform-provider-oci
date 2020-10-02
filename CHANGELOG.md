@@ -1,7 +1,10 @@
 ## 3.96.0 (Unreleased)
+
+### Added
 - Support for ExaCS: X8M RoCE
 - Support for Instance Metadata Service Security Header added
 - Support added for KMS Integration in Dedicated Autonomous Database
+- Updated `core_instance_configuration` resource to support instance options
 
 ## 3.95.0 (September 30, 2020)
 - Support for query parameters added to `object_storage` `object` resource
