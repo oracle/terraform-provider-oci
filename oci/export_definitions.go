@@ -801,6 +801,16 @@ var exportDatabaseCloudVmClusterHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatabaseKeyStoreHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_key_store",
+	datasourceClass:      "oci_database_key_stores",
+	datasourceItemsAttr:  "key_stores",
+	resourceAbbreviation: "key_store",
+	discoverableLifecycleStates: []string{
+		string(oci_database.KeyStoreLifecycleStateActive),
+	},
+}
+
 var exportDataflowApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataflow_application",
 	datasourceClass:        "oci_dataflow_applications",
