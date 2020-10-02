@@ -10,14 +10,14 @@ description: |-
 # Data Source: oci_database_cloud_exadata_infrastructure
 This data source provides details about a specific Cloud Exadata Infrastructure resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified cloud Exadata infrastructure.
+Gets information about the specified cloud Exadata infrastructure resource.
 
 ## Example Usage
 
 ```hcl
 data "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure" {
 	#Required
-	cloud_exadata_infrastructure_id = "${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}"
+	cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
 }
 ```
 
@@ -25,21 +25,21 @@ data "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastruct
 
 The following arguments are supported:
 
-* `cloud_exadata_infrastructure_id` - (Required) The Cloud Exadata infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `cloud_exadata_infrastructure_id` - (Required) The cloud Exadata infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `availability_domain` - The name of the availability domain that the cloud Exadata infrastructure is located in.
-* `available_storage_size_in_gbs` - The available storage can be allocated to the Exadata infrastructure instance, in gigabytes (GB).
+* `availability_domain` - The name of the availability domain that the cloud Exadata infrastructure resource is located in.
+* `available_storage_size_in_gbs` - The available storage can be allocated to the cloud Exadata infrastructure resource, in gigabytes (GB).
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the cloud Exadata infrastructure.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
-* `display_name` - The user-friendly name for the Cloud Exadata infrastructure. The name does not need to be unique.
+* `display_name` - The user-friendly name for the cloud Exadata infrastructure resource. The name does not need to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure resource.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `maintenance_window` - 
@@ -53,9 +53,9 @@ The following attributes are exported:
 	* `preference` - The maintenance window scheduling preference.
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
-* `shape` - The model name of the Cloud Exadata infrastructure. 
-* `state` - The current lifecycle state of the cloud Exadata infrastructure.
+* `shape` - The model name of the cloud Exadata infrastructure resource. 
+* `state` - The current lifecycle state of the cloud Exadata infrastructure resource.
 * `storage_count` - The number of storage servers for the cloud Exadata infrastructure.
-* `time_created` - The date and time the cloud Exadata infrastructure was created.
-* `total_storage_size_in_gbs` - The total storage allocated to the Exadata infrastructure instance, in gigabytes (GB).
+* `time_created` - The date and time the cloud Exadata infrastructure resource was created.
+* `total_storage_size_in_gbs` - The total storage allocated to the cloud Exadata infrastructure resource, in gigabytes (GB).
 
