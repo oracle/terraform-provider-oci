@@ -130,6 +130,8 @@ func (s *LoggingLogGroupsDataSourceCrud) SetData() error {
 			logGroup["id"] = *r.Id
 		}
 
+		logGroup["state"] = r.LifecycleState
+
 		if r.TimeCreated != nil {
 			logGroup["time_created"] = r.TimeCreated.String()
 		}

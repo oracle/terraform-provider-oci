@@ -191,6 +191,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "log_groups.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "log_groups.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "log_groups.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "log_groups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "log_groups.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "log_groups.0.time_last_modified"),
 				),

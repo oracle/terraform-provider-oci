@@ -1,4 +1,9 @@
 ## 3.97.0 (Unreleased)
+
+### Added
+- Support for logging saved search added
+- OpenAPI Support in API Gateway
+
 ## 3.96.0 (October 07, 2020)
 
 ### Added
