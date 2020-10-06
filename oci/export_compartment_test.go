@@ -20,8 +20,8 @@ import (
 	"testing"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v25/common"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v25/resourcemanager"
+	oci_common "github.com/oracle/oci-go-sdk/v26/common"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v26/resourcemanager"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform/helper/schema"
