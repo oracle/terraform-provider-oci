@@ -328,8 +328,8 @@ github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+W
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/gomega v1.4.3/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
 github.com/openzipkin/zipkin-go v0.1.1/go.mod h1:NtoC/o8u3JlF1lSlyPNswIbeQH9bJTmOf0Erfk+hxe8=
-github.com/oracle/oci-go-sdk/v25 v25.2.0 h1:K83KRx8JFFBdwAn2nss+SOvi9LEG+fS2SDZw0BWlixw=
-github.com/oracle/oci-go-sdk/v25 v25.2.0/go.mod h1:33b8Tk8Gj7zQ+DW+x5IY8r0//IgUGkS3XF2EaM4+pPw=
+github.com/oracle/oci-go-sdk/v26 v26.0.0 h1:LtCeq8nAH2nspBn18l3d2+TbrtUr1Lgq46khG1fd8q8=
+github.com/oracle/oci-go-sdk/v26 v26.0.0/go.mod h1:pjcEWzltyz/8Px8WM9P9KV1nZkqug2ksgY9v2UR1x/k=
 github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58 h1:m3CEgv3ah1Rhy82L+c0QG/U3VyY1UsvsIdkh0/rU97Y=
 github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58/go.mod h1:f6Izs6JvFTdnRbziASagjZ2vmf55NSIkC/weStxCHqk=
 github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c h1:Lgl0gzECD8GnQ5QCWA8o6BtfL6mDH5rQgM4/fX3avOs=

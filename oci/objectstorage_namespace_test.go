@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v25/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v26/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
