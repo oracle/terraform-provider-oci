@@ -204,7 +204,7 @@ type LoggingLogResourceCrud struct {
 }
 
 func (s *LoggingLogResourceCrud) ID() string {
-	return *s.Res.Id
+	return getLogCompositeId(*s.Res.LogGroupId, *s.Res.Id)
 }
 
 func (s *LoggingLogResourceCrud) CreatedPending() []string {
@@ -700,6 +700,13 @@ func (s *LoggingLogResourceCrud) updateLogGroup(oldLogGroupId interface{}, newLo
 		return err
 	}
 	return err
+}
+
+func getLogCompositeId(logGroupId string, logId string) string {
+	logGroupId = url.PathEscape(logGroupId)
+	logId = url.PathEscape(logId)
+	compositeId := "logGroupId/" + logGroupId + "/logId/" + logId
+	return compositeId
 }
 
 func parseLogsCompositeId(compositeId string) (logGroupId string, logId string, err error) {

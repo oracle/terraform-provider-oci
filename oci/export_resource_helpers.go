@@ -424,6 +424,8 @@ func init() {
 	exportIdentityTagHints.findResourcesOverrideFn = findIdentityTags
 	exportIdentityTagHints.processDiscoveredResourcesFn = processTagDefinitions
 
+	exportLoggingLogHints.getIdFn = getLogId
+
 	exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
 	exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
 	exportObjectStorageNamespaceHints.alwaysExportable = true
@@ -1505,4 +1507,13 @@ func getValidDbVersion(dbVersion string) string {
 		return strings.Join(parts[0:4], ".")
 	}
 	return dbVersion
+}
+
+func getLogId(resource *OCIResource) (string, error) {
+	logId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find log_id for Log")
+	}
+	logGroupId := resource.parent.id
+	return getLogCompositeId(logGroupId, logId), nil
 }

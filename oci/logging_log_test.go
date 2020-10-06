@@ -87,6 +87,8 @@ func TestLoggingLogResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
+	var compositeId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -139,7 +141,9 @@ func TestLoggingLogResource_basic(t *testing.T) {
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							logGroupId, _ := fromInstanceState(s, resourceName, "log_group_id")
+							compositeId = getLogCompositeId(logGroupId, resId)
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
