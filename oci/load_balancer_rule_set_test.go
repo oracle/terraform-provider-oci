@@ -92,7 +92,7 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 	items {
 		#Required
 		action = "CONTROL_ACCESS_USING_HTTP_METHODS"
-		allowed_methods = ["GET", "POST"]
+		allowed_methods = ["POST", "GET"]
 		status_code = "400"
 	}
 	items {
