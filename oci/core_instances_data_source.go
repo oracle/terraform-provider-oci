@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v25/core"
+	oci_core "github.com/oracle/oci-go-sdk/v26/core"
 )
 
 func init() {
@@ -165,6 +165,12 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 
 		if r.ImageId != nil {
 			instance["image"] = *r.ImageId
+		}
+
+		if r.InstanceOptions != nil {
+			instance["instance_options"] = []interface{}{InstanceOptionsToMap(r.InstanceOptions)}
+		} else {
+			instance["instance_options"] = nil
 		}
 
 		if r.IpxeScript != nil {

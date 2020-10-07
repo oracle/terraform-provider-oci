@@ -26,6 +26,11 @@ resource "oci_database_exadata_infrastructure" "exadata_infrastructure_rd" {
   }
 }
 
+data "oci_database_gi_versions" "gi_version" {
+  compartment_id = var.compartment_ocid
+  shape = "ExadataCC.Quarter3.100"
+}
+
 resource "oci_database_vm_cluster_network" "vm_cluster_network_rd" {
   compartment_id = "${var.compartment_ocid}"
   display_name   = "VmClusterRecommendedNetworkRD"
@@ -104,7 +109,7 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
   cpu_core_count            = "4"
   display_name              = "VmClusterRD"
   exadata_infrastructure_id = "${oci_database_exadata_infrastructure.exadata_infrastructure_rd.id}"
-  gi_version                = "19.1.0.0"
+  gi_version                = data.oci_database_gi_versions.gi_version.gi_versions.0.version
   ssh_public_keys           = ["${var.ssh_public_key}"]
   vm_cluster_network_id     = "${oci_database_vm_cluster_network.vm_cluster_network_rd.id}"
 

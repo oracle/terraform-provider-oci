@@ -10,7 +10,7 @@ description: |-
 # oci_database_autonomous_exadata_infrastructure
 This resource provides the Autonomous Exadata Infrastructure resource in Oracle Cloud Infrastructure Database service.
 
-Launches a new Autonomous Exadata Infrastructure in the specified compartment and availability domain.
+Creates a new Autonomous Exadata Infrastructure in the specified compartment and availability domain.
 
 
 ## Example Usage

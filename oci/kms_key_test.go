@@ -12,9 +12,9 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/oci-go-sdk/v25/common"
+	"github.com/oracle/oci-go-sdk/v26/common"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v25/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v26/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
