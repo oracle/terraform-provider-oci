@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/oci-go-sdk/v25/common"
-	oci_database "github.com/oracle/oci-go-sdk/v25/database"
+	"github.com/oracle/oci-go-sdk/v26/common"
+	oci_database "github.com/oracle/oci-go-sdk/v26/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -525,7 +525,10 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 				ResourceName: resourceName,
 			},
-
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr,
+			},
 			// test ADW db_workload
 			// verify create with optionals
 			{

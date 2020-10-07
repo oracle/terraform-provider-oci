@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_exadata_infrastructure
 This data source provides details about a specific Autonomous Exadata Infrastructure resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified Autonomous Exadata Infrastructure.
+Gets information about the specified Autonomous Exadata Infrastructure resource.
 
 ## Example Usage
 

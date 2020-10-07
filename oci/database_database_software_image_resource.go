@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v25/database"
+	oci_database "github.com/oracle/oci-go-sdk/v26/database"
 )
 
 func init() {
@@ -179,12 +179,14 @@ func (s *DatabaseDatabaseSoftwareImageResourceCrud) CreatedTarget() []string {
 func (s *DatabaseDatabaseSoftwareImageResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.DatabaseSoftwareImageLifecycleStateDeleting),
+		string(oci_database.DatabaseSoftwareImageLifecycleStateTerminating),
 	}
 }
 
 func (s *DatabaseDatabaseSoftwareImageResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_database.DatabaseSoftwareImageLifecycleStateDeleted),
+		string(oci_database.DatabaseSoftwareImageLifecycleStateTerminated),
 	}
 }
 

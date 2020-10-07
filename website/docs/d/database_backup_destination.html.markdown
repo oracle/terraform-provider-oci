@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_backup_destination
 This data source provides details about a specific Backup Destination resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified backup destination.
+Gets information about the specified backup destination in an Exadata Cloud@Customer system.
 
 
 ## Example Usage

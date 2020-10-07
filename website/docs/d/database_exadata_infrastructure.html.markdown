@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_exadata_infrastructure
 This data source provides details about a specific Exadata Infrastructure resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified Exadata infrastructure.
+Gets information about the specified Exadata Cloud@Customer infrastructure.
 
 ## Example Usage
 
@@ -36,18 +36,18 @@ The following attributes are exported:
 * `cloud_control_plane_server1` - The IP address for the first control plane server.
 * `cloud_control_plane_server2` - The IP address for the second control plane server.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `contacts` - The list of contacts for the Exadata Infrastructure.
+* `contacts` - The list of contacts for the Exadata infrastructure.
 	* `email` - The email for the Exadata Infrastructure contact.
 	* `is_primary` - True, if this Exadata Infrastructure contact is a primary contact. False, if this Exadata Infrastructure is a secondary contact.
 	* `name` - The name of the Exadata Infrastructure contact.
 	* `phone_number` - The phone number for the Exadata Infrastructure contact.
 * `corporate_proxy` - The corporate network proxy for access to the control plane network.
 * `cpus_enabled` - The number of enabled CPU cores.
-* `csi_number` - The CSI Number of the Exadata Infrastructure.
+* `csi_number` - The CSI Number of the Exadata infrastructure.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
-* `display_name` - The user-friendly name for the Exadata infrastructure. The name does not need to be unique.
+* `display_name` - The user-friendly name for the Exadata Cloud@Customer infrastructure. The name does not need to be unique.
 * `dns_server` - The list of DNS server IP addresses. Maximum of 3 allowed.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gateway` - The gateway for the control plane network.

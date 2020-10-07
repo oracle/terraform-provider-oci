@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_vm_clusters
 This data source provides the list of Vm Clusters in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the VM clusters in the specified compartment.
+Gets a list of the Exadata Cloud@Customer VM clusters in the specified compartment.
 
 
 ## Example Usage
@@ -52,7 +52,7 @@ The following attributes are exported:
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
-* `display_name` - The user-friendly name for the VM cluster. The name does not need to be unique.
+* `display_name` - The user-friendly name for the Exadata Cloud@Customer VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gi_version` - The Oracle Grid Infrastructure software version for the VM cluster.

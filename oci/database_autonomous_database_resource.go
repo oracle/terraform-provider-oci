@@ -12,9 +12,9 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v25/common"
-	oci_database "github.com/oracle/oci-go-sdk/v25/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v25/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v26/common"
+	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v26/workrequests"
 )
 
 func init() {
@@ -235,6 +235,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					"PRIMARY",
 					"STANDBY",
 				}, true),
+			},
+			"rotate_key_trigger": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 
 			// Computed
@@ -473,6 +477,13 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		return e
 	}
 
+	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok {
+		err := sync.RotateAutonomousDatabaseEncryptionKey()
+		if err != nil {
+			return err
+		}
+	}
+
 	if isInactiveRequest {
 		return inactiveAutonomousDatabaseIfNeeded(d, sync)
 	}
@@ -539,6 +550,13 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 			return err
 		}
 		if err := sync.D.Set("state", oci_database.AutonomousDatabaseLifecycleStateAvailable); err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.HasChange("rotate_key_trigger") {
+		err := sync.RotateAutonomousDatabaseEncryptionKey()
+		if err != nil {
 			return err
 		}
 	}
@@ -1970,5 +1988,35 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(aut
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncryptionKey() error {
+	request := oci_database.RotateAutonomousDatabaseEncryptionKeyRequest{}
+
+	if isDedicated, ok := s.D.GetOkExists("is_dedicated"); !ok || isDedicated.(bool) == false {
+		return fmt.Errorf("Autonomous database is not dedicated")
+	}
+
+	tmp := s.D.Id()
+	request.AutonomousDatabaseId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.RotateAutonomousDatabaseEncryptionKey(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	if err != nil {
+		return err
+	}
+
+	val := s.D.Get("rotate_key_trigger")
+	s.D.Set("rotate_key_trigger", val)
+
+	s.Res = &response.AutonomousDatabase
 	return nil
 }

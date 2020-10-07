@@ -43,6 +43,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `available_core_count` - The maximum number of CPU cores that can be enabled on the DB system for this shape.
+* `available_core_count_per_node` - The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to Flex Exadata shape.
 * `available_data_storage_in_tbs` - The maximum DATA storage that can be enabled for this shape.
 * `available_db_node_storage_in_gbs` - The maximum Db Node storage that can be enabled for this shape.
 * `available_memory_in_gbs` - The maximum memory that can be enabled for this shape.

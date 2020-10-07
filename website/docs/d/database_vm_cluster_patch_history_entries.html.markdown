@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_vm_cluster_patch_history_entries
 This data source provides the list of Vm Cluster Patch History Entries in Oracle Cloud Infrastructure Database service.
 
-Gets the history of the patch actions performed on the specified Vm cluster.
+Gets the history of the patch actions performed on the specified VM cluster in an Exadata Cloud@Customer system.
 
 
 ## Example Usage

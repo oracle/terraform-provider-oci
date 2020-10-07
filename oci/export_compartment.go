@@ -13,7 +13,6 @@ import (
 	"regexp"
 	"runtime"
 	"sort"
-	"strconv"
 	"strings"
 	"syscall"
 
@@ -23,8 +22,8 @@ import (
 
 	"github.com/hashicorp/terraform/command"
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v25/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v26/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v26/identity"
 )
 
 const (
@@ -222,31 +221,26 @@ func RunExportCommand(args *ExportCommandArgs) (error, Status) {
 		}
 	}
 
-	/*
-		export_enable_tenancy_lookup is added for testing
-		We use dummy resources for testing and GetCompartmentRequest on dummy compartment will fail
-		For testing we will default to tenancy from sdk configuration provider
-	*/
-	exportEnableTenancyLookup, _ := strconv.ParseBool(getEnvSettingWithDefault("export_enable_tenancy_lookup", "true"))
-	/*
-		We do not get customer tenancy ocid from configuration provider in case of Instance Principals auth
-		Getting the tenancy ocid by repeated Get calls on parent for compartment
-	*/
-	var tenancyOcid string
-	if (args.CompartmentId != nil && *args.CompartmentId != "") && exportEnableTenancyLookup {
-		tenancyOcid, err = getTenancyOcidFromCompartment(clients.(*OracleClients), *args.CompartmentId)
-		if err != nil {
-			Logln(err.Error())
-			return err, StatusFail
-		}
-	} else {
-		// If compartment ocid not provided in arguments, get it from configuration provider
+	/* Getting the tenancy ocid from env var export_tenancy_id, if not specified get customer tenancy ocid from configuration provider */
+	tenancyOcid := getEnvSettingWithBlankDefault("export_tenancy_id")
 
-		tenancyId, exists := clients.(*OracleClients).configuration["tenancy_ocid"]
-		if !exists {
-			return fmt.Errorf("[ERROR] could not get a tenancy OCID during initialization"), StatusFail
+	if tenancyOcid == "" {
+		/* Keep the tenancy lookup for backward compatibility */
+		if args.CompartmentId != nil && *args.CompartmentId != "" {
+			tenancyOcid, err = getTenancyOcidFromCompartment(clients.(*OracleClients), *args.CompartmentId)
+			if err != nil {
+				Logln(err.Error())
+				return err, StatusFail
+			}
+		} else {
+			// If compartment ocid not provided in arguments, get it from configuration provider
+			tenancyId, exists := clients.(*OracleClients).configuration["tenancy_ocid"]
+			if !exists {
+				return fmt.Errorf("[ERROR] could not get a tenancy OCID during initialization"), StatusFail
+			}
+			tenancyOcid = tenancyId
 		}
-		tenancyOcid = tenancyId
+
 	}
 
 	ctx := createResourceDiscoveryContext(clients.(*OracleClients), args, tenancyOcid)

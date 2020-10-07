@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_db_nodes
 This data source provides the list of Db Nodes in Oracle Cloud Infrastructure Database service.
 
-Gets a list of database nodes in the specified DB system and compartment. A database node is a server running database software.
+Lists the database nodes in the specified DB system and compartment. A database node is a server running database software.
 
 
 ## Example Usage
