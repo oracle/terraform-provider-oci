@@ -78,6 +78,20 @@ var (
 		"metadata":                   Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
 	}
 
+	objectEmptyRepresentation = map[string]interface{}{
+		"bucket":                     Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"content":                    Representation{repType: Optional, create: ``},
+		"namespace":                  Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object":                     Representation{repType: Required, create: `my-test-empty-object`},
+		"cache_control":              Representation{repType: Optional, create: `no-cache`},
+		"content_disposition":        Representation{repType: Optional, create: `inline`},
+		"content_encoding":           Representation{repType: Optional, create: `identity`},
+		"content_language":           Representation{repType: Optional, create: `en-US`},
+		"content_type":               Representation{repType: Optional, create: `text/plain`},
+		"delete_all_object_versions": Representation{repType: Optional, create: `false`},
+		"metadata":                   Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}},
+	}
+
 	ObjectResourceDependencies = generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
 		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 
@@ -140,6 +154,34 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
 			},
+
+			// verify create empty
+			{
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectEmptyRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "object", "my-test-empty-object"),
+					resource.TestCheckResourceAttr(resourceName, "content_type", "application/octet-stream"),
+					// New SDK doesn't set omitted values from response, check they are missing from state.
+					resource.TestCheckNoResourceAttr(resourceName, "content"),
+					resource.TestCheckNoResourceAttr(resourceName, "content_language"),
+					resource.TestCheckNoResourceAttr(resourceName, "content_encoding"),
+					resource.TestCheckResourceAttr(resourceName, "content_length", "0"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
+			},
+
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
