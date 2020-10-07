@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_db_node_console_connections
 This data source provides the list of Db Node Console Connections in Oracle Cloud Infrastructure Database service.
 
-Lists the console connections for the specified Db node.
+Lists the console connections for the specified database node.
 
 
 ## Example Usage

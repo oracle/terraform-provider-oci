@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_gi_versions
 This data source provides the list of Gi Versions in Oracle Cloud Infrastructure Database service.
 
-Gets a list of supported GI versions for VM Cluster.
+Gets a list of supported GI versions for the Exadata Cloud@Customer VM cluster.
 
 ## Example Usage
 

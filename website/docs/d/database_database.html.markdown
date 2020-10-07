@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_database
 This data source provides details about a specific Database resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about a specific database.
+Gets information about the specified database.
 
 ## Example Usage
 

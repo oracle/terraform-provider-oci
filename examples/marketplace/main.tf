@@ -91,3 +91,10 @@ data "oci_marketplace_categories" "test_categories" {
   }
 }
 
+data "oci_marketplace_listing_taxes" "test_listing_taxes" {
+  #Required
+  listing_id = data.oci_marketplace_listings.test_listings.listings.0.id
+
+  #Optional
+  compartment_id = var.compartment_ocid
+}

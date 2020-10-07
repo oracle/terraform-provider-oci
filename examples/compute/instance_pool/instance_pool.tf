@@ -183,6 +183,10 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
         network_type = "PARAVIRTUALIZED"
       }
 
+      instance_options {
+        are_legacy_imds_endpoints_disabled = false
+      }
+
       shape_config {
         ocpus = 1
       }

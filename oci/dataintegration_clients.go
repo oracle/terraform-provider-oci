@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v25/dataintegration"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v26/dataintegration"
 
-	oci_common "github.com/oracle/oci-go-sdk/v25/common"
+	oci_common "github.com/oracle/oci-go-sdk/v26/common"
 )
 
 func init() {

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_vm_clusters
 This data source provides the list of Autonomous Vm Clusters in Oracle Cloud Infrastructure Database service.
 
-Gets a list of Autonomous VM clusters in the specified compartment.
+Gets a list of Exadata Cloud@Customer Autonomous VM clusters in the specified compartment.
 
 
 ## Example Usage

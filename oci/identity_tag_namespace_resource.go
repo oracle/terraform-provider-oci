@@ -12,7 +12,7 @@ import (
 
 	"strconv"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v26/identity"
 )
 
 func init() {

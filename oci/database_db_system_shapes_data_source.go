@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v25/database"
+	oci_database "github.com/oracle/oci-go-sdk/v26/database"
 )
 
 func init() {
@@ -38,6 +38,10 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 
 						// Computed
 						"available_core_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"available_core_count_per_node": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -172,6 +176,10 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 
 		if r.AvailableCoreCount != nil {
 			dbSystemShape["available_core_count"] = *r.AvailableCoreCount
+		}
+
+		if r.AvailableCoreCountPerNode != nil {
+			dbSystemShape["available_core_count_per_node"] = *r.AvailableCoreCountPerNode
 		}
 
 		if r.AvailableDataStorageInTBs != nil {

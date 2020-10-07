@@ -13,8 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v25/common"
-	oci_database "github.com/oracle/oci-go-sdk/v25/database"
+	oci_common "github.com/oracle/oci-go-sdk/v26/common"
+	oci_database "github.com/oracle/oci-go-sdk/v26/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -179,7 +179,10 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseDedicatedRepresentation),
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+						representationCopyWithNewProperties(autonomousDatabaseDedicatedRepresentation, map[string]interface{}{
+							"rotate_key_trigger": Representation{repType: Optional, create: `true`},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
@@ -193,6 +196,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+					resource.TestCheckResourceAttr(resourceName, "rotate_key_trigger", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 					func(s *terraform.State) (err error) {
@@ -205,7 +209,10 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseDedicatedRepresentation),
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithNewProperties(autonomousDatabaseDedicatedRepresentation, map[string]interface{}{
+							"rotate_key_trigger": Representation{repType: Optional, create: `false`},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
@@ -219,6 +226,71 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+					resource.TestCheckResourceAttr(resourceName, "rotate_key_trigger", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify rotate key
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithNewProperties(autonomousDatabaseDedicatedRepresentation, map[string]interface{}{
+							"rotate_key_trigger": Representation{repType: Optional, create: `true`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDedicatedName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", adDedicatedUpdateName),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+					resource.TestCheckResourceAttr(resourceName, "rotate_key_trigger", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify no rotation of key
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithNewProperties(autonomousDatabaseDedicatedRepresentation, map[string]interface{}{
+							"rotate_key_trigger": Representation{repType: Optional, create: `true`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDedicatedName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", adDedicatedUpdateName),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+					resource.TestCheckResourceAttr(resourceName, "rotate_key_trigger", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 					func(s *terraform.State) (err error) {
@@ -326,13 +398,14 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					"source_id",
 					"lifecycle_details",
 					"is_auto_scaling_enabled",
+					"rotate_key_trigger",
 				},
 				ResourceName: resourceName,
 			},
 
 			// remove any previously created resources
 			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceDependencies,
+				Config: config + compartmentIdVariableStr,
 			},
 			// verify ADB clone from a source ADB
 			{

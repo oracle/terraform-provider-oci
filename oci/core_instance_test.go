@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/oci-go-sdk/v25/common"
-	oci_core "github.com/oracle/oci-go-sdk/v25/core"
+	"github.com/oracle/oci-go-sdk/v26/common"
+	oci_core "github.com/oracle/oci-go-sdk/v26/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -64,6 +64,7 @@ var (
 		"fault_domain":                        Representation{repType: Optional, create: `FAULT-DOMAIN-3`},
 		"freeform_tags":                       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"hostname_label":                      Representation{repType: Optional, create: `hostnamelabel`},
+		"instance_options":                    RepresentationGroup{Optional, instanceInstanceOptionsRepresentation},
 		"image":                               Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
 		"ipxe_script":                         Representation{repType: Optional, create: `ipxeScript`},
 		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
@@ -91,6 +92,9 @@ var (
 		"private_ip":             Representation{repType: Optional, create: `10.0.0.5`},
 		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
 		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+	}
+	instanceInstanceOptionsRepresentation = map[string]interface{}{
+		"are_legacy_imds_endpoints_disabled": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 	instanceLaunchOptionsRepresentation = map[string]interface{}{
 		"boot_volume_type":                    Representation{repType: Optional, create: `ISCSI`},
@@ -260,6 +264,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
@@ -327,6 +333,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
@@ -390,6 +398,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
@@ -449,6 +459,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.fault_domain", "FAULT-DOMAIN-3"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.instance_options.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.image"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.launch_mode"),
@@ -499,6 +511,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "fault_domain", "FAULT-DOMAIN-3"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_options.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "launch_mode"),

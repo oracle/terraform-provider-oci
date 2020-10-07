@@ -10,7 +10,7 @@ description: |-
 # oci_database_vm_cluster_network
 This resource provides the Vm Cluster Network resource in Oracle Cloud Infrastructure Database service.
 
-Creates the VM cluster network.
+Creates the Exadata Cloud@Customer VM cluster network.
 
 
 ## Example Usage
@@ -60,7 +60,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
-* `display_name` - (Required) The user-friendly name for the VM cluster network. The name does not need to be unique.
+* `display_name` - (Required) The user-friendly name for the Exadata Cloud@Customer VM cluster network. The name does not need to be unique.
 * `dns` - (Optional) (Updatable) The list of DNS server IP addresses. Maximum of 3 allowed.
 * `exadata_infrastructure_id` - (Required) The Exadata infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

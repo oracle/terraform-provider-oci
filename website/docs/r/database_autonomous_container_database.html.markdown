@@ -10,7 +10,7 @@ description: |-
 # oci_database_autonomous_container_database
 This resource provides the Autonomous Container Database resource in Oracle Cloud Infrastructure Database service.
 
-Create a new Autonomous Container Database in the specified Autonomous Exadata Infrastructure.
+Creates an Autonomous Container Database in the specified Autonomous Exadata Infrastructure.
 
 
 ## Example Usage
@@ -43,6 +43,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	db_unique_name = var.autonomous_container_database_db_unique_name
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
+	kms_key_id = oci_kms_key.test_key.id
 	maintenance_window_details {
 		#Required
 		preference = var.autonomous_container_database_maintenance_window_details_preference
@@ -61,6 +62,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 		weeks_of_month = var.autonomous_container_database_maintenance_window_details_weeks_of_month
 	}
 	service_level_agreement_type = var.autonomous_container_database_service_level_agreement_type
+	vault_id = oci_kms_vault.test_vault.id
 }
 ```
 
@@ -83,6 +85,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The display name for the Autonomous Container Database.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `maintenance_window_details` - (Optional) (Updatable) 
 	* `days_of_week` - (Optional) (Updatable) Days during the week when maintenance should be performed.
 		* `name` - (Required) (Updatable) Name of the day of the week.
@@ -95,6 +98,8 @@ The following arguments are supported:
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `patch_model` - (Required) (Updatable) Database Patch model preference.
 * `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
+* `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+* `rotate_key_trigger` - (Optional) (Updatable) An optional property when flipped triggers rotation of KMS key. It is only applicable on dedicated container databases i.e. where `autonomous_exadata_infrastructure_id` is set.
 
 
 ** IMPORTANT **
@@ -117,12 +122,13 @@ The following attributes are exported:
 	* `recovery_window_in_days` - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 * `compartment_id` - The OCID of the compartment.
 * `db_unique_name` - The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
-* `db_version` - Oracle Database version of the Autonomous Container Database
+* `db_version` - Oracle Database version of the Autonomous Container Database.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-provided name for the Autonomous Container Database.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the Autonomous Container Database.
 * `infrastructure_type` - The infrastructure type this resource belongs to.
+* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance_window` - 
@@ -141,6 +147,7 @@ The following attributes are exported:
 * `service_level_agreement_type` - The service level agreement type of the container database. The default is STANDARD.
 * `state` - The current state of the Autonomous Container Database.
 * `time_created` - The date and time the Autonomous Container Database was created.
+* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 
 ## Import
 

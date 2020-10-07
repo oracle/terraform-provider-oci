@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_vm_cluster_network_download_config_file
 This data source provides details about a specific Vm Cluster Network Download Config File resource in Oracle Cloud Infrastructure Database service.
 
-Downloads the configuration file for the specified VM Cluster Network.
+Downloads the configuration file for the specified Exadata Cloud@Customer VM cluster network.
 
 
 ## Example Usage

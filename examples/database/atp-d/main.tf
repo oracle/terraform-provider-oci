@@ -52,6 +52,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 
     weeks_of_month = ["2"]
   }
+  rotate_key_trigger = "true"
 }
 
 resource "random_string" "autonomous_database_admin_password" {
@@ -76,6 +77,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   display_name                     = "example_autonomous_database-007"
   freeform_tags                    = var.autonomous_database_freeform_tags
   is_dedicated                     = "true"
+  rotate_key_trigger = "true"
 }
 
 data "oci_database_autonomous_container_databases" "test_autonomous_container_databases" {
