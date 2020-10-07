@@ -11,15 +11,15 @@ import (
 	"strings"
 	"time"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v25/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v26/dns"
 
 	"github.com/hashicorp/hcl2/hclwrite"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v25/core"
-	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v25/loadbalancer"
+	oci_core "github.com/oracle/oci-go-sdk/v26/core"
+	oci_identity "github.com/oracle/oci-go-sdk/v26/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v26/loadbalancer"
 )
 
 type TerraformResourceHints struct {

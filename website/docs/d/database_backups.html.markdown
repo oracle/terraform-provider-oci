@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_backups
 This data source provides the list of Backups in Oracle Cloud Infrastructure Database service.
 
-Gets a list of backups based on the databaseId or compartmentId specified. Either one of the query parameters must be provided.
+Gets a list of backups based on the `databaseId` or `compartmentId` specified. Either one of these query parameters must be provided.
 
 
 ## Example Usage

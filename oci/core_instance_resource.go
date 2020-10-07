@@ -18,9 +18,9 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v25/common"
-	oci_core "github.com/oracle/oci-go-sdk/v25/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v25/workrequests"
+	"github.com/oracle/oci-go-sdk/v26/common"
+	oci_core "github.com/oracle/oci-go-sdk/v26/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v26/workrequests"
 )
 
 func init() {
@@ -247,6 +247,27 @@ func CoreInstanceResource() *schema.Resource {
 				Computed:   true,
 				ForceNew:   true,
 				Deprecated: FieldDeprecatedAndOverridenByAnother("image", "source_details"),
+			},
+			"instance_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"are_legacy_imds_endpoints_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"ipxe_script": {
 				Type:     schema.TypeString,
@@ -713,6 +734,17 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		request.ImageId = &tmp
 	}
 
+	if instanceOptions, ok := s.D.GetOkExists("instance_options"); ok {
+		if tmpList := instanceOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "instance_options", 0)
+			tmp, err := s.mapToInstanceOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.InstanceOptions = &tmp
+		}
+	}
+
 	if ipxeScript, ok := s.D.GetOkExists("ipxe_script"); ok {
 		tmp := ipxeScript.(string)
 		request.IpxeScript = &tmp
@@ -878,6 +910,17 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.InstanceId = &tmp
 
+	if instanceOptions, ok := s.D.GetOkExists("instance_options"); ok {
+		if tmpList := instanceOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "instance_options", 0)
+			tmp, err := s.mapToInstanceOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.InstanceOptions = &tmp
+		}
+	}
+
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		request.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
 	}
@@ -1015,6 +1058,12 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 
 	if s.Res.ImageId != nil {
 		s.D.Set("image", *s.Res.ImageId)
+	}
+
+	if s.Res.InstanceOptions != nil {
+		s.D.Set("instance_options", []interface{}{InstanceOptionsToMap(s.Res.InstanceOptions)})
+	} else {
+		s.D.Set("instance_options", nil)
 	}
 
 	if s.Res.IpxeScript != nil {
@@ -1254,6 +1303,17 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 	return result
 }
 
+func (s *CoreInstanceResourceCrud) mapToInstanceOptions(fieldKeyFormat string) (oci_core.InstanceOptions, error) {
+	result := oci_core.InstanceOptions{}
+
+	if areLegacyImdsEndpointsDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_legacy_imds_endpoints_disabled")); ok {
+		tmp := areLegacyImdsEndpointsDisabled.(bool)
+		result.AreLegacyImdsEndpointsDisabled = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *CoreInstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat string) (oci_core.UpdateVnicDetails, error) {
 	result := oci_core.UpdateVnicDetails{}
 
@@ -1298,6 +1358,16 @@ func (s *CoreInstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat
 	}
 
 	return result, nil
+}
+
+func InstanceOptionsToMap(obj *oci_core.InstanceOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AreLegacyImdsEndpointsDisabled != nil {
+		result["are_legacy_imds_endpoints_disabled"] = bool(*obj.AreLegacyImdsEndpointsDisabled)
+	}
+
+	return result
 }
 
 func (s *CoreInstanceResourceCrud) updateVnicAssignPublicIp(vnic *oci_core.Vnic, fieldKeyFormat string) error {
@@ -1365,7 +1435,6 @@ func (s *CoreInstanceResourceCrud) updateVnicAssignPublicIp(vnic *oci_core.Vnic,
 	}
 
 	return nil
-
 }
 
 func (s *CoreInstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat string) (oci_core.InstanceSourceDetails, error) {

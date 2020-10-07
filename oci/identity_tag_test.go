@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oracle/oci-go-sdk/v25/common"
+	"github.com/oracle/oci-go-sdk/v26/common"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	oci_identity "github.com/oracle/oci-go-sdk/v25/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v26/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

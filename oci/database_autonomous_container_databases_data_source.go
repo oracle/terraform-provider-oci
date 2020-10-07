@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v25/database"
+	oci_database "github.com/oracle/oci-go-sdk/v26/database"
 )
 
 func init() {
@@ -188,6 +188,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["infrastructure_type"] = r.InfrastructureType
 
+		if r.KmsKeyId != nil {
+			autonomousContainerDatabase["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.LastMaintenanceRunId != nil {
 			autonomousContainerDatabase["last_maintenance_run_id"] = *r.LastMaintenanceRunId
 		}
@@ -218,6 +222,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			autonomousContainerDatabase["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VaultId != nil {
+			autonomousContainerDatabase["vault_id"] = *r.VaultId
 		}
 
 		resources = append(resources, autonomousContainerDatabase)
