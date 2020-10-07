@@ -234,7 +234,7 @@ func (s *LoadBalancerListenerRulesDataSourceCrud) SetData() error {
 
 		if r.Rule != nil {
 			ruleArray := []interface{}{}
-			if ruleMap := RuleToMap(r.Rule); ruleMap != nil {
+			if ruleMap := RuleToMap(r.Rule, true); ruleMap != nil {
 				ruleArray = append(ruleArray, ruleMap)
 			}
 			listenerRule["rule"] = ruleArray

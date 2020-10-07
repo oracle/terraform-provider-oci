@@ -78,7 +78,7 @@ func (s *LoadBalancerRuleSetDataSourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, RuleToMap(item))
+		items = append(items, RuleToMap(item, true))
 	}
 	s.D.Set("items", items)
 

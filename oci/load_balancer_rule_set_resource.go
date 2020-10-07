@@ -62,9 +62,10 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 
 						// Optional
 						"allowed_methods": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      literalTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -498,7 +499,7 @@ func (s *LoadBalancerRuleSetResourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, RuleToMap(item))
+		items = append(items, RuleToMap(item, false))
 	}
 	s.D.Set("items", schema.NewSet(itemsHashCodeForSets, items))
 
@@ -645,7 +646,8 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 	case strings.ToLower("CONTROL_ACCESS_USING_HTTP_METHODS"):
 		details := oci_load_balancer.ControlAccessUsingHttpMethodsRule{}
 		if allowedMethods, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowed_methods")); ok {
-			interfaces := allowedMethods.([]interface{})
+			tmpInterfaces := allowedMethods.(*schema.Set)
+			interfaces := tmpInterfaces.List()
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
 				if interfaces[i] != nil {
@@ -755,7 +757,7 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 	return baseObject, nil
 }
 
-func RuleToMap(obj oci_load_balancer.Rule) map[string]interface{} {
+func RuleToMap(obj oci_load_balancer.Rule, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
 	case oci_load_balancer.AddHttpRequestHeaderRule:
@@ -793,7 +795,17 @@ func RuleToMap(obj oci_load_balancer.Rule) map[string]interface{} {
 	case oci_load_balancer.ControlAccessUsingHttpMethodsRule:
 		result["action"] = "CONTROL_ACCESS_USING_HTTP_METHODS"
 
-		result["allowed_methods"] = v.AllowedMethods
+		if datasource {
+			result["allowed_methods"] = v.AllowedMethods
+		} else {
+			if v.AllowedMethods != nil {
+				allowedMethods := []interface{}{}
+				for _, item := range v.AllowedMethods {
+					allowedMethods = append(allowedMethods, item)
+				}
+				result["allowed_methods"] = schema.NewSet(literalTypeHashCodeForSets, allowedMethods)
+			}
+		}
 
 		if v.StatusCode != nil {
 			result["status_code"] = int(*v.StatusCode)
@@ -968,8 +980,8 @@ func itemsHashCodeForSets(v interface{}) int {
 			} else {
 				buf.WriteString(fmt.Sprintf("%v-", 405))
 			}
-			if allowedMethods, ok := m["allowed_methods"]; ok && allowedMethods != "" {
-				buf.WriteString(fmt.Sprintf("%v-", allowedMethods))
+			if allowedMethods, ok := m["allowed_methods"]; ok && allowedMethods != "" && allowedMethods != nil {
+				buf.WriteString(fmt.Sprintf("%v-", allowedMethods.(*schema.Set).List()))
 			}
 		}
 	}
