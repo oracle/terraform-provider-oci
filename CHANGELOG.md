@@ -1,4 +1,4 @@
-## 3.96.0 (Unreleased)
+## 3.96.0 (October 07, 2020)
 
 ### Added
 - Support for ExaCS: X8M RoCE
