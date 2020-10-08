@@ -63,7 +63,6 @@ func CoreVolumeBackupPolicyResource() *schema.Resource {
 			"schedules": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				MinItems: 1,
 				Set:      schedulesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{

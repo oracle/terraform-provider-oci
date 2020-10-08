@@ -61,9 +61,8 @@ func CoreRouteTableResource() *schema.Resource {
 			},
 			"route_rules": {
 				Type: schema.TypeSet,
-				// Code-gen and specs say this should be required and has a max item limit
+				// Code-gen and specs say this should be required
 				// Keep it optional to continue to allow empty route_rules and avoid a breaking change.
-				// Also remove the max item limit, to avoid a potential breaking change.
 				Optional: true,
 				MinItems: 0,
 				Set:      routeRulesHashCodeForSets,

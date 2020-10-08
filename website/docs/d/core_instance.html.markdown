@@ -32,10 +32,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `agent_config` - 
+* `agent_config` - Instance agent configuration on the instance
 	* `is_management_disabled` - Whether the agent running on the instance can run all the available management plugins. 
 	* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
-* `availability_config` - Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware. 
+* `availability_config` - Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware. 
 	* `recovery_action` - The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 		* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
 		* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
@@ -63,7 +63,7 @@ The following attributes are exported:
 * `hostname_label` - The hostname for the instance VNIC's primary private IP. 
 * `id` - The OCID of the instance.
 * `image` - Deprecated. Use `sourceDetails` instead. 
-* `instance_options` - 
+* `instance_options` - Optional mutable instance options
 	* `are_legacy_imds_endpoints_disabled` - Whether to disable the legacy (/v1) instance metadata service endpoints. Customers who have migrated to /v2 should set this to true for added security. Default is false. 
 * `ipxe_script` - When a bare metal or virtual machine instance boots, the iPXE firmware that runs on the instance is configured to run an iPXE script to continue the boot process.
 
@@ -110,7 +110,7 @@ The following attributes are exported:
 
 	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
-* `shape_config` - 
+* `shape_config` - The shape configuration for an instance. The shape configuration determines the resources allocated to an instance. 
 	* `gpu_description` - A short description of the instance's graphics processing unit (GPU).
 
 		If the instance does not have any GPUs, this field is `null`. 
@@ -127,7 +127,7 @@ The following attributes are exported:
 	* `networking_bandwidth_in_gbps` - The networking bandwidth available to the instance, in gigabits per second. 
 	* `ocpus` - The total number of OCPUs available to the instance. 
 	* `processor_description` - A short description of the instance's processor (CPU). 
-* `source_details` - Details for creating an instance
+* `source_details` - 
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
