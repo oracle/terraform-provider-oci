@@ -65,7 +65,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SSL certificate.
 * `issued_by` - 
-* `issuer_name` - 
+* `issuer_name` - The issuer of the certificate.
 	* `common_name` - The Certificate Authority (CA) name.
 	* `country` - ISO 3166-1 alpha-2 code of the country where the organization is located. For a list of codes, see [ISO's website](https://www.iso.org/obp/ui/#search/code/).
 	* `email_address` - The email address of the server's administrator.
@@ -73,14 +73,14 @@ The following attributes are exported:
 	* `organization` - The organization name.
 	* `organizational_unit` - The field to differentiate between divisions within an organization.
 	* `state_province` - The province where the organization is located.
-* `public_key_info` - 
+* `public_key_info` - Information about the public key and the algorithm used by the public key.
 	* `algorithm` - The algorithm identifier and parameters for the public key.
 	* `exponent` - The private key exponent.
 	* `key_size` - The number of bits in a key used by a cryptographic algorithm.
 * `serial_number` - A unique, positive integer assigned by the Certificate Authority (CA). The issuer name and serial number identify a unique certificate.
 * `signature_algorithm` - The identifier for the cryptographic algorithm used by the Certificate Authority (CA) to sign this certificate.
 * `state` - The current lifecycle state of the SSL certificate.
-* `subject_name` - 
+* `subject_name` - The entity to be secured by the certificate.
 	* `common_name` - The fully qualified domain name used for DNS lookups of the server.
 	* `country` - ISO 3166-1 alpha-2 code of the country where the organization is located. For a list of codes, see [ISO's website](https://www.iso.org/obp/ui/#search/code/).
 	* `email_address` - The email address of the server's administrator.

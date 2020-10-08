@@ -90,7 +90,30 @@ The following arguments are supported:
 	* `header` - (Required when action=ADD_HTTP_REQUEST_HEADER | ADD_HTTP_RESPONSE_HEADER | EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE | REMOVE_HTTP_REQUEST_HEADER | REMOVE_HTTP_RESPONSE_HEADER) (Updatable) A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `http_large_header_size_in_kb` - (Applicable when action=HTTP_HEADER) (Updatable) The maximum size of each buffer used for reading http client request header. This value indicates the maximum size allowed for each buffer. The allowed values for buffer size are 8, 16, 32 and 64. 
 	* `prefix` - (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
-	* `redirect_uri` - (Applicable when action=REDIRECT) (Updatable) 
+	* `redirect_uri` - (Applicable when action=REDIRECT) (Updatable) An object that defines the redirect URI applied to the original request. The object property values compose the redirect URI.
+
+		**NOTE:** The Load Balancing service cannot automatically detect or avoid infinite redirects. Be sure to provide meaningful, complete, and correct field values. If any component field of this object has no value, the system retains the value from the incoming HTTP request URI.
+
+		For example, if you specify only the protocol field `https`, and the incoming request URI is `http://example.com:8080`, the resulting runtime redirect URI is `https://example.com:8080`. The system retains the host and port from the incoming URI and does not automatically change the port setting from `8080` to `443`.
+
+		Be sure to configure valid percent-encoding (URL encoding) when needed.
+
+		In addition to static string values, you can use the following tokens to construct the redirect URI. These tokens extract values from the incoming HTTP request URI.
+		*  {protocol} : The protocol from the incoming HTTP request URI.
+		*  {host}     : The domain name from the incoming HTTP request URI.
+		*  {port}     : The port from the incoming HTTP request URI.
+		*  {path}     : The path from the incoming HTTP request URI.
+		*  {query}    : The query string from the incoming HTTP request URI.
+
+		The tokens are case sensitive. For example, `{host}` is a valid token, but `{HOST}` is not.
+
+		You can retain the literal characters of a token when you specify values for the path and query properties of the redirect URI. Use a backslash (\\) as the escape character for the \\, {, and } characters. For example, if the incoming HTTP request URI is `/video`, the path property value:
+
+		`/example{path}123\{path\}`
+
+		appears in the constructed redirect URI as:
+
+		`/example/video123{path}` 
 		* `host` - (Applicable when action=REDIRECT) (Updatable) The valid domain name (hostname) or IP address to use in the redirect URI.
 
 			When this value is null, not set, or set to `{host}`, the service preserves the original domain name from the incoming HTTP request URI.
@@ -209,7 +232,30 @@ The following attributes are exported:
 	* `header` - A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `http_large_header_size_in_kb` - The maximum size of each buffer used for reading http client request header. This value indicates the maximum size allowed for each buffer. The allowed values for buffer size are 8, 16, 32 and 64. 
 	* `prefix` - A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
-	* `redirect_uri` - 
+	* `redirect_uri` - An object that defines the redirect URI applied to the original request. The object property values compose the redirect URI.
+
+		**NOTE:** The Load Balancing service cannot automatically detect or avoid infinite redirects. Be sure to provide meaningful, complete, and correct field values. If any component field of this object has no value, the system retains the value from the incoming HTTP request URI.
+
+		For example, if you specify only the protocol field `https`, and the incoming request URI is `http://example.com:8080`, the resulting runtime redirect URI is `https://example.com:8080`. The system retains the host and port from the incoming URI and does not automatically change the port setting from `8080` to `443`.
+
+		Be sure to configure valid percent-encoding (URL encoding) when needed.
+
+		In addition to static string values, you can use the following tokens to construct the redirect URI. These tokens extract values from the incoming HTTP request URI.
+		*  {protocol} : The protocol from the incoming HTTP request URI.
+		*  {host}     : The domain name from the incoming HTTP request URI.
+		*  {port}     : The port from the incoming HTTP request URI.
+		*  {path}     : The path from the incoming HTTP request URI.
+		*  {query}    : The query string from the incoming HTTP request URI.
+
+		The tokens are case sensitive. For example, `{host}` is a valid token, but `{HOST}` is not.
+
+		You can retain the literal characters of a token when you specify values for the path and query properties of the redirect URI. Use a backslash (\\) as the escape character for the \\, {, and } characters. For example, if the incoming HTTP request URI is `/video`, the path property value:
+
+		`/example{path}123\{path\}`
+
+		appears in the constructed redirect URI as:
+
+		`/example/video123{path}` 
 		* `host` - The valid domain name (hostname) or IP address to use in the redirect URI.
 
 			When this value is null, not set, or set to `{host}`, the service preserves the original domain name from the incoming HTTP request URI.

@@ -44,9 +44,9 @@ resource "oci_identity_authentication_policy" "test_authentication_policy" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment.
-* `network_policy` - (Optional) (Updatable) 
+* `network_policy` - (Optional) (Updatable) Network policy, Consists of a list of Network Source ids. 
 	* `network_source_ids` - (Optional) (Updatable) Network Source ids 
-* `password_policy` - (Optional) (Updatable) 
+* `password_policy` - (Optional) (Updatable) Password policy, currently set for the given compartment. 
 	* `is_lowercase_characters_required` - (Optional) (Updatable) At least one lower case character required.
 	* `is_numeric_characters_required` - (Optional) (Updatable) At least one numeric character required.
 	* `is_special_characters_required` - (Optional) (Updatable) At least one special character required.
@@ -63,9 +63,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - Compartment OCID.
-* `network_policy` - 
+* `network_policy` - Network policy, Consists of a list of Network Source ids. 
 	* `network_source_ids` - Network Source ids 
-* `password_policy` - 
+* `password_policy` - Password policy, currently set for the given compartment. 
 	* `is_lowercase_characters_required` - At least one lower case character required.
 	* `is_numeric_characters_required` - At least one numeric character required.
 	* `is_special_characters_required` - At least one special character required.

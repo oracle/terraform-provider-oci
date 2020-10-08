@@ -36,9 +36,9 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that the resource belongs to.
-* `configuration` - 
+* `configuration` - Log object configuration.
 	* `compartment_id` - The OCID of the compartment that the resource belongs to.
-	* `source` - 
+	* `source` - The source the log object comes from.
 		* `category` - Log object category.
 		* `resource` - The unique identifier of the resource emitting the log.
 		* `service` - Service generating log.

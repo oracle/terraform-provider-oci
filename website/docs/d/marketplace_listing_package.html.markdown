@@ -58,7 +58,7 @@ The following attributes are exported:
 * `image_id` - The id of the image corresponding to the package.
 * `listing_id` - The id of the listing the specified package belongs to.
 * `package_type` - The specified package's type.
-* `pricing` - 
+* `pricing` - The model for pricing.
 	* `currency` - The currency of the pricing model.
 	* `pay_go_strategy` - The type of pricing for a PAYGO model, eg PER_OCPU_LINEAR, PER_OCPU_MIN_BILLING, PER_INSTANCE.  Null if type is not PAYGO.
 	* `rate` - The pricing rate.

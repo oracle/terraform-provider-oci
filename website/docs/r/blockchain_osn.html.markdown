@@ -34,7 +34,7 @@ The following arguments are supported:
 
 * `ad` - (Required) Availability Domain to place new OSN
 * `blockchain_platform_id` - (Required) Unique service identifier.
-* `ocpu_allocation_param` - (Optional) (Updatable) 
+* `ocpu_allocation_param` - (Optional) (Updatable) OCPU allocation parameter
 	* `ocpu_allocation_number` - (Required) (Updatable) Number of OCPU allocation
 
 
@@ -46,7 +46,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `ad` - Availability Domain of OSN
-* `ocpu_allocation_param` - 
+* `ocpu_allocation_param` - OCPU allocation parameter
 	* `ocpu_allocation_number` - Number of OCPU allocation
 * `osn_key` - OSN identifier
 * `state` - The current state of the OSN.

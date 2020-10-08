@@ -42,7 +42,7 @@ The following attributes are exported:
 		* `id` - The unique identifier of the Responder rule
 		* `is_preferred` - Preferred state
 	* `description` - Description for DetectorRecipeDetectorRule
-	* `details` - 
+	* `details` - Details of a Detector Rule
 		* `condition` - 
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration
@@ -75,7 +75,7 @@ The following attributes are exported:
 		* `id` - The unique identifier of the Responder rule
 		* `is_preferred` - Preferred state
 	* `description` - Description for DetectorRecipeDetectorRule
-	* `details` - 
+	* `details` - Details of a Detector Rule
 		* `condition` - 
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration

@@ -48,9 +48,9 @@ resource "oci_logging_log" "test_log" {
 
 The following arguments are supported:
 
-* `configuration` - (Optional)
+* `configuration` - (Optional) Log object configuration.
 	* `compartment_id` - (Optional) The OCID of the compartment that the resource belongs to.
-	* `source` - (Required)
+	* `source` - (Required) The source the log object comes from.
 		* `category` - (Required) Log object category.
 		* `resource` - (Required) The unique identifier of the resource emitting the log.
 		* `service` - (Required) Service generating log.
@@ -73,9 +73,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that the resource belongs to.
-* `configuration` - 
+* `configuration` - Log object configuration.
 	* `compartment_id` - The OCID of the compartment that the resource belongs to.
-	* `source` - 
+	* `source` - The source the log object comes from.
 		* `category` - Log object category.
 		* `resource` - The unique identifier of the resource emitting the log.
 		* `service` - Service generating log.

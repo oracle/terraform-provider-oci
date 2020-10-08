@@ -57,7 +57,7 @@ resource "oci_analytics_analytics_instance" "test_analytics_instance" {
 
 The following arguments are supported:
 
-* `capacity` - (Required) 
+* `capacity` - (Required) Service instance capacity metadata (e.g.: OLPU count, number of users, ...etc...). 
 	* `capacity_type` - (Required) The capacity model to use. 
 	* `capacity_value` - (Required) (Updatable) The capacity value selected (OLPU count, number of users, ...etc...). This parameter affects the number of CPUs, amount of memory or other resources allocated to the instance. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment. 
@@ -70,7 +70,7 @@ The following arguments are supported:
 * `license_type` - (Required) (Updatable) The license used for the service. 
 * `name` - (Required) The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed. 
 * `state` - (Optional) (Updatable) The target state for the instance. Could be set to `ACTIVE` or `INACTIVE`. 
-* `network_endpoint_details` - (Optional) 
+* `network_endpoint_details` - (Optional) Base representation of a network endpoint. 
 	* `network_endpoint_type` - (Required) The type of network endpoint. 
 	* `subnet_id` - (Required when network_endpoint_type=PRIVATE) The subnet OCID for the private endpoint. 
 	* `vcn_id` - (Required when network_endpoint_type=PRIVATE) The VCN OCID for the private endpoint. 
@@ -87,7 +87,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `capacity` - 
+* `capacity` - Service instance capacity metadata (e.g.: OLPU count, number of users, ...etc...). 
 	* `capacity_type` - The capacity model to use. 
 	* `capacity_value` - The capacity value selected (OLPU count, number of users, ...etc...). This parameter affects the number of CPUs, amount of memory or other resources allocated to the instance. 
 * `compartment_id` - The OCID of the compartment. 
@@ -99,7 +99,7 @@ The following attributes are exported:
 * `id` - The resource OCID. 
 * `license_type` - The license used for the service. 
 * `name` - The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed. 
-* `network_endpoint_details` - 
+* `network_endpoint_details` - Base representation of a network endpoint. 
 	* `network_endpoint_type` - The type of network endpoint. 
 	* `subnet_id` - The subnet OCID for the private endpoint. 
 	* `vcn_id` - The VCN OCID for the private endpoint. 

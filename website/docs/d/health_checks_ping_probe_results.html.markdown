@@ -53,10 +53,10 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `connection` - 
+* `connection` - The network connection results.
 	* `address` - The connection IP address.
 	* `port` - The port.
-* `dns` - 
+* `dns` - The DNS resolution results.
 	* `addresses` - The addresses returned by DNS resolution.
 	* `domain_lookup_duration` - Total DNS resolution duration, in milliseconds. Calculated using `domainLookupEnd` minus `domainLookupStart`. 
 * `domain_lookup_end` - The time immediately before the vantage point finishes the domain name lookup for the resource. 

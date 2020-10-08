@@ -60,7 +60,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `agent_features` - 
+* `agent_features` - Instance agent features supported on the image
 	* `is_management_supported` - Whether the agent running on the instance can run all the available management plugins 
 	* `is_monitoring_supported` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
 * `base_image_id` - The OCID of the image originally used to launch the instance.
@@ -79,7 +79,7 @@ The following attributes are exported:
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 	* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
-* `launch_options` - 
+* `launch_options` - Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
 	* `boot_volume_type` - Emulation type for the boot volume.
 		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.

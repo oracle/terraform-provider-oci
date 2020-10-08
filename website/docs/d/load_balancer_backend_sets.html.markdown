@@ -54,7 +54,7 @@ The following attributes are exported:
 	* `offline` - Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
 	* `port` - The communication port for the backend server.  Example: `8080` 
 	* `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
-* `health_checker` - 
+* `health_checker` - The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/editinghealthcheck.htm). 
 	* `interval_ms` - The interval between health checks, in milliseconds. The default is 30000 (30 seconds).  Example: `30000` 
 	* `port` - The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the `Backend` object.  Example: `8080` 
 	* `protocol` - The protocol the health check must use; either HTTP or TCP.  Example: `HTTP` 
@@ -63,7 +63,21 @@ The following attributes are exported:
 	* `return_code` - The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, you can use common HTTP status codes such as "200".  Example: `200` 
 	* `timeout_in_millis` - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. Defaults to 3000 (3 seconds).  Example: `3000` 
 	* `url_path` - The path against which to run the health check.  Example: `/healthcheck` 
-* `lb_cookie_session_persistence_configuration` - 
+* `lb_cookie_session_persistence_configuration` - The configuration details for implementing load balancer cookie session persistence (LB cookie stickiness).
+
+	Session persistence enables the Load Balancing service to direct all requests that originate from a single logical client to a single backend web server. For more information, see [Session Persistence](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/sessionpersistence.htm).
+
+	When you configure LB cookie stickiness, the load balancer inserts a cookie into the response. The parameters configured in the cookie enable session stickiness. This method is useful when you have applications and Web backend services that cannot generate their own cookies.
+
+	Path route rules take precedence to determine the target backend server. The load balancer verifies that session stickiness is enabled for the backend server and that the cookie configuration (domain, path, and cookie hash) is valid for the target. The system ignores invalid cookies.
+
+	To disable LB cookie stickiness on a running load balancer, use the [UpdateBackendSet](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendSet/UpdateBackendSet) operation and specify `null` for the `LBCookieSessionPersistenceConfigurationDetails` object.
+
+	Example: `LBCookieSessionPersistenceConfigurationDetails: null`
+
+	**Note:** `SessionPersistenceConfigurationDetails` (application cookie stickiness) and `LBCookieSessionPersistenceConfigurationDetails` (LB cookie stickiness) are mutually exclusive. An error results if you try to enable both types of session persistence.
+
+	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
 	* `cookie_name` - The name of the cookie inserted by the load balancer. If this field is not configured, the cookie name defaults to "X-Oracle-BMC-LBS-Route".  Example: `example_cookie`
 
 		**Notes:**
@@ -105,10 +119,26 @@ The following attributes are exported:
 
 	Example: `example_backend_set` 
 * `policy` - The load balancer policy for the backend set. To get a list of available policies, use the [ListPolicies](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.  Example: `LEAST_CONNECTIONS` 
-* `session_persistence_configuration` - 
+* `session_persistence_configuration` - The configuration details for implementing session persistence based on a user-specified cookie name (application cookie stickiness).
+
+	Session persistence enables the Load Balancing service to direct any number of requests that originate from a single logical client to a single backend web server. For more information, see [Session Persistence](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/sessionpersistence.htm).
+
+	With application cookie stickiness, the load balancer enables session persistence only when the response from a backend application server includes a `Set-cookie` header with the user-specified cookie name.
+
+	To disable application cookie stickiness on a running load balancer, use the [UpdateBackendSet](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendSet/UpdateBackendSet) operation and specify `null` for the `SessionPersistenceConfigurationDetails` object.
+
+	Example: `SessionPersistenceConfigurationDetails: null`
+
+	**Note:** `SessionPersistenceConfigurationDetails` (application cookie stickiness) and `LBCookieSessionPersistenceConfigurationDetails` (LB cookie stickiness) are mutually exclusive. An error results if you try to enable both types of session persistence.
+
+	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
 	* `cookie_name` - The name of the cookie used to detect a session initiated by the backend server. Use '*' to specify that any cookie set by the backend causes the session to persist.  Example: `example_cookie` 
 	* `disable_fallback` - Whether the load balancer is prevented from directing traffic from a persistent session client to a different backend server if the original server is unavailable. Defaults to false.  Example: `false` 
-* `ssl_configuration` - 
+* `ssl_configuration` - A listener's SSL handling configuration.
+
+	To use SSL, a listener must be associated with a [certificate bundle](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/Certificate/).
+
+	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
 	* `certificate_name` - A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 	* `verify_depth` - The maximum depth for peer certificate chain verification.  Example: `3` 
 	* `verify_peer_certificate` - Whether the load balancer listener should verify peer certificates. Defaults to true.   Example: `true` 

@@ -45,7 +45,7 @@ The following attributes are exported:
 * `ad` - Availability Domain of peer
 * `alias` - peer alias
 * `host` - Host on which the Peer exists
-* `ocpu_allocation_param` - 
+* `ocpu_allocation_param` - OCPU allocation parameter
 	* `ocpu_allocation_number` - Number of OCPU allocation
 * `peer_key` - peer identifier
 * `role` - Peer role

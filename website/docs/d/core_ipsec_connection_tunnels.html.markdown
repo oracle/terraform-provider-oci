@@ -39,7 +39,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `bgp_session_info` - Information for establishing the tunnel's BGP session. 
+* `bgp_session_info` - Information for establishing a BGP session for the IPSec tunnel.
 	* `bgp_state` - The state of the BGP session. 
 	* `customer_bgp_asn` - If the tunnel's `routing` attribute is set to `BGP` (see [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnel/)), this ASN is required and used for the tunnel's BGP session. This is the ASN of the network on the CPE end of the BGP session. Can be a 2-byte or 4-byte ASN. Uses "asplain" format.
 

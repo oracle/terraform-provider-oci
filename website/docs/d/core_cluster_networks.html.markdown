@@ -84,7 +84,7 @@ The following attributes are exported:
 	* `size` - The number of instances that should be in the instance pool.
 	* `state` - The current state of the instance pool.
 	* `time_created` - The date and time the instance pool was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
-* `placement_configuration` - The placement configuration for the instance pools in the cluster network. 
+* `placement_configuration` - The location for where the instance pools in a cluster network will place instances.
 	* `availability_domain` - The availability domain to place instances.  Example: `Uocm:PHX-AD-1` 
 	* `primary_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 
 	* `secondary_vnic_subnets` - The set of secondary VNIC data for instances in the pool.

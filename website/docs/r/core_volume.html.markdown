@@ -66,7 +66,7 @@ The following arguments are supported:
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management key to assign as the master encryption key for the volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use `size_in_gbs` instead. 
-* `source_details` - (Optional) Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same availability domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
+* `source_details` - (Optional) 
 	* `id` - (Required) The OCID of the volume or volume backup.
 	* `type` - (Required) The type can be one of these values: `volume`, `volumeBackup`
 * `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume. This field is deprecated. Use the `source_details` field instead to specify the backup for the volume. 
@@ -97,7 +97,7 @@ The following attributes are exported:
 * `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume.
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use `size_in_gbs` instead.
-* `source_details` - The volume source, either an existing volume in the same availability domain or a volume backup. If null, an empty volume is created. 
+* `source_details` - 
 	* `id` - The OCID of the volume or volume backup.
 	* `type` - The type can be one of these values: `volume`, `volumeBackup`
 * `state` - The current state of a volume.

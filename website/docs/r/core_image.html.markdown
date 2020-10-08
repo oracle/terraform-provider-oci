@@ -110,7 +110,7 @@ The following arguments are supported:
 
 	Example: `My Oracle Linux image` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `image_source_details` - (Optional) Details for creating an image through import
+* `image_source_details` - (Optional) 
 	* `bucket_name` - (Required when source_type=objectStorageTuple) The Object Storage bucket for the image.
 	* `namespace_name` - (Required when source_type=objectStorageTuple) The Object Storage namespace for the image.
 	* `object_name` - (Required when source_type=objectStorageTuple) The Object Storage name for the image.
@@ -136,7 +136,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `agent_features` - 
+* `agent_features` - Instance agent features supported on the image
 	* `is_management_supported` - Whether the agent running on the instance can run all the available management plugins 
 	* `is_monitoring_supported` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
 * `base_image_id` - The OCID of the image originally used to launch the instance.
@@ -155,7 +155,7 @@ The following attributes are exported:
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 	* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
-* `launch_options` - 
+* `launch_options` - Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
 	* `boot_volume_type` - Emulation type for the boot volume.
 		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.

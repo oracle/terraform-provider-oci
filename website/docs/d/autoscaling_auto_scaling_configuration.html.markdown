@@ -32,7 +32,9 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `auto_scaling_resources` - 
+* `auto_scaling_resources` - A resource that is managed by an autoscaling configuration. The only supported type is "instancePool."
+
+	Each instance pool can have one autoscaling configuration. 
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that is managed by the autoscaling configuration. 
 	* `type` - The type of resource.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the autoscaling configuration. 
@@ -52,7 +54,7 @@ The following attributes are exported:
 		* `max` - The maximum number of instances the instance pool is allowed to increase to (scale out).
 		* `min` - The minimum number of instances the instance pool is allowed to decrease to (scale in).
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-	* `execution_schedule` - 
+	* `execution_schedule` - Specifies the execution schedule for a policy. 
 		* `expression` - The value representing the execution schedule, as defined by cron format. 
 		* `timezone` - Specifies the time zone the schedule is in.
 		* `type` - The type of ExecutionSchedule.
@@ -60,12 +62,12 @@ The following attributes are exported:
 	* `is_enabled` - Boolean field indicating whether this policy is enabled or not.
 	* `policy_type` - The type of autoscaling policy.
 	* `rules` - 
-		* `action` - 
+		* `action` - The action to take when autoscaling is triggered. 
 			* `type` - The type of action to take.
 			* `value` - To scale out (increase the number of instances), provide a positive value. To scale in (decrease the number of instances), provide a negative value. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 		* `id` - ID of the condition that is assigned after creation.
-		* `metric` - 
+		* `metric` - Metric and threshold details for triggering an autoscaling action. 
 			* `metric_type` - 
 			* `threshold` - 
 				* `operator` - The comparison operator to use. Options are greater than (`GT`), greater than or equal to (`GTE`), less than (`LT`), and less than or equal to (`LTE`). 
