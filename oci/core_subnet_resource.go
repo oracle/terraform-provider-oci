@@ -30,7 +30,6 @@ func CoreSubnetResource() *schema.Resource {
 			"cidr_block": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -329,6 +328,11 @@ func (s *CoreSubnetResourceCrud) Update() error {
 		}
 	}
 	request := oci_core.UpdateSubnetRequest{}
+
+	if cidrBlock, ok := s.D.GetOkExists("cidr_block"); ok {
+		tmp := cidrBlock.(string)
+		request.CidrBlock = &tmp
+	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))

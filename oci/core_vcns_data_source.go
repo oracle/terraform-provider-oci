@@ -115,6 +115,10 @@ func (s *CoreVcnsDataSourceCrud) SetData() error {
 			vcn["cidr_block"] = *r.CidrBlock
 		}
 
+		if r.CidrBlocks != nil {
+			vcn["cidr_blocks"] = r.CidrBlocks
+		}
+
 		if r.DefaultDhcpOptionsId != nil {
 			vcn["default_dhcp_options_id"] = *r.DefaultDhcpOptionsId
 		}

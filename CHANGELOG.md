@@ -4,6 +4,7 @@
 - Support for ADBS free DB version details
 - Support for MySQL Analytics added
 - Support for Private DNS Names added
+- Support for feature of expanding and shrinking of Subnet and VCN
 
 ## 4.2.0 (November 04, 2020)
 

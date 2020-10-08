@@ -49,7 +49,8 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `cidr_block` - The CIDR IP address block of the VCN.  Example: `172.16.0.0/16` 
+* `cidr_block` - Deprecated. The first CIDR IP address from cidrBlocks.  Example: `172.16.0.0/16` 
+* `cidr_blocks` - The list of IPv4 CIDR blocks the VCN will use. 
 * `compartment_id` - The OCID of the compartment containing the VCN.
 * `default_dhcp_options_id` - The OCID for the VCN's default set of DHCP options. 
 * `default_route_table_id` - The OCID for the VCN's default route table.

@@ -71,6 +71,10 @@ func (s *CoreVcnDataSourceCrud) SetData() error {
 		s.D.Set("cidr_block", *s.Res.CidrBlock)
 	}
 
+	if s.Res.CidrBlocks != nil {
+		s.D.Set("cidr_blocks", s.Res.CidrBlocks)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

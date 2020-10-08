@@ -16,10 +16,17 @@ For managing these resources, see [Managing Default VCN Resources](/docs/provide
 Creates a new Virtual Cloud Network (VCN). For more information, see
 [VCNs and Subnets](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
 
-For the VCN you must specify a single, contiguous IPv4 CIDR block. Oracle recommends using one of the
-private IP address ranges specified in [RFC 1918](https://tools.ietf.org/html/rfc1918) (10.0.0.0/8,
-172.16/12, and 192.168/16). Example: 172.16.0.0/16. The CIDR block can range from /16 to /30, and it
-must not overlap with your on-premises network. You can't change the size of the VCN after creation.
+To create the VCN, you may specify a list of IPv4 CIDR blocks. The CIDRs must maintain
+the following rules -
+
+a. The list of CIDRs provided are valid
+b. There is no overlap between different CIDRs
+c. The list of CIDRs does not exceed the max limit of CIDRs per VCN
+
+Oracle recommends using one of the private IP address ranges specified in [RFC 1918]
+(https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
+172.16.0.0/16. The CIDR blocks can range from /16 to /30, and they must not overlap with
+your on-premises network.
 
 For the purposes of access control, you must provide the OCID of the compartment where you want the VCN to
 reside. Consult an Oracle Cloud Infrastructure administrator in your organization if you're not sure which
@@ -53,10 +60,11 @@ or FastConnect. For more information, see
 ```hcl
 resource "oci_core_vcn" "test_vcn" {
 	#Required
-	cidr_block = var.vcn_cidr_block
 	compartment_id = var.compartment_id
 
 	#Optional
+	cidr_block = var.vcn_cidr_block
+	cidr_blocks = var.vcn_cidr_blocks
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.vcn_display_name
 	dns_label = var.vcn_dns_label
@@ -70,7 +78,10 @@ resource "oci_core_vcn" "test_vcn" {
 
 The following arguments are supported:
 
-* `cidr_block` - (Required) The CIDR IP address block of the VCN. Example: `10.0.0.0/16` 
+* `cidr_block` - (Optional) Deprecated. Instead use 'cidrBlocks'. It is an error to set both cidrBlock and cidrBlocks. Example: `10.0.0.0/16` 
+* `cidr_blocks` - (Optional) List of IPv4 CIDR blocks associated with the VCN. The CIDRs must maintain the following rules -
+
+	a. The list of CIDRs provided are valid b. There is no overlap between different CIDRs c. The number of CIDRs should not exceed the max limit of CIDRs per VCN d. It is an error to set both cidrBlock and cidrBlocks. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the VCN.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -101,7 +112,8 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `cidr_block` - The CIDR IP address block of the VCN.  Example: `172.16.0.0/16` 
+* `cidr_block` - Deprecated. The first CIDR IP address from cidrBlocks.  Example: `172.16.0.0/16` 
+* `cidr_blocks` - The list of IPv4 CIDR blocks the VCN will use. 
 * `compartment_id` - The OCID of the compartment containing the VCN.
 * `default_dhcp_options_id` - The OCID for the VCN's default set of DHCP options. 
 * `default_route_table_id` - The OCID for the VCN's default route table.
