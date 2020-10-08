@@ -27,17 +27,27 @@ func CoreVcnResource() *schema.Resource {
 		Delete:   deleteCoreVcn,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"cidr_block": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
 
 			// Optional
+			"cidr_block": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"cidr_blocks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -186,6 +196,19 @@ func (s *CoreVcnResourceCrud) Create() error {
 		request.CidrBlock = &tmp
 	}
 
+	if cidrBlocks, ok := s.D.GetOkExists("cidr_blocks"); ok {
+		interfaces := cidrBlocks.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("cidr_blocks") {
+			request.CidrBlocks = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -309,6 +332,10 @@ func (s *CoreVcnResourceCrud) Delete() error {
 func (s *CoreVcnResourceCrud) SetData() error {
 	if s.Res.CidrBlock != nil {
 		s.D.Set("cidr_block", *s.Res.CidrBlock)
+	}
+
+	if s.Res.CidrBlocks != nil {
+		s.D.Set("cidr_blocks", s.Res.CidrBlocks)
 	}
 
 	if s.Res.CompartmentId != nil {

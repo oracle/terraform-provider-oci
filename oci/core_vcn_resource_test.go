@@ -35,7 +35,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create
+			// test create with cidr_block
 			{
 				Config: s.Config + `
 					resource "oci_core_virtual_network" "t" {
@@ -48,6 +48,28 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						return err
+					},
+				),
+			},
+			// test create with cidr_blocks
+			{
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_blocks = ["10.0.0.0/16", "11.0.0.0/16"]
+						compartment_id = "${var.compartment_id}"
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_blocks.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
