@@ -65,6 +65,7 @@ const (
 	userAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
 	userAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
 	domainNameOverrideEnv                 = "domain_name_override"
+	clientHostOverridesEnv                = "CLIENT_HOST_OVERRIDES"
 	customCertLocationEnv                 = "custom_cert_location"
 	acceptLocalCerts                      = "accept_local_certs"
 
@@ -82,10 +83,12 @@ const (
 	oboTokenPath                 = "obo_token_path"
 	configFileProfileAttrName    = "config_file_profile"
 
-	tfEnvPrefix           = "TF_VAR_"
-	ociEnvPrefix          = "OCI_"
-	defaultConfigFileName = "config"
-	defaultConfigDirName  = ".oci"
+	tfEnvPrefix              = "TF_VAR_"
+	ociEnvPrefix             = "OCI_"
+	defaultConfigFileName    = "config"
+	defaultConfigDirName     = ".oci"
+	colonDelimiter           = ";"
+	equalToOperatorDelimiter = "="
 )
 
 // OboTokenProvider interface that wraps information about auth tokens so the sdk client can make calls

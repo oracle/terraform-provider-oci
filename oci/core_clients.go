@@ -16,7 +16,7 @@ func init() {
 	RegisterOracleClient("oci_core.VirtualNetworkClient", &OracleClient{initClientFn: initCoreVirtualNetworkClient})
 }
 
-func initCoreBlockstorageClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initCoreBlockstorageClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_core.NewBlockstorageClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -25,6 +25,10 @@ func initCoreBlockstorageClient(configProvider oci_common.ConfigurationProvider,
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -32,7 +36,7 @@ func (m *OracleClients) blockstorageClient() *oci_core.BlockstorageClient {
 	return m.GetClient("oci_core.BlockstorageClient").(*oci_core.BlockstorageClient)
 }
 
-func initCoreComputeClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initCoreComputeClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_core.NewComputeClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -41,6 +45,10 @@ func initCoreComputeClient(configProvider oci_common.ConfigurationProvider, conf
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -48,7 +56,7 @@ func (m *OracleClients) computeClient() *oci_core.ComputeClient {
 	return m.GetClient("oci_core.ComputeClient").(*oci_core.ComputeClient)
 }
 
-func initCoreComputeManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initCoreComputeManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_core.NewComputeManagementClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -57,6 +65,10 @@ func initCoreComputeManagementClient(configProvider oci_common.ConfigurationProv
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -64,7 +76,7 @@ func (m *OracleClients) computeManagementClient() *oci_core.ComputeManagementCli
 	return m.GetClient("oci_core.ComputeManagementClient").(*oci_core.ComputeManagementClient)
 }
 
-func initCoreVirtualNetworkClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initCoreVirtualNetworkClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -72,6 +84,10 @@ func initCoreVirtualNetworkClient(configProvider oci_common.ConfigurationProvide
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_cloud_guard.CloudGuardClient", &OracleClient{initClientFn: initCloudguardCloudGuardClient})
 }
 
-func initCloudguardCloudGuardClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initCloudguardCloudGuardClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_cloud_guard.NewCloudGuardClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initCloudguardCloudGuardClient(configProvider oci_common.ConfigurationProvi
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }
