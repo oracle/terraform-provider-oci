@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_email.EmailClient", &OracleClient{initClientFn: initEmailEmailClient})
 }
 
-func initEmailEmailClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initEmailEmailClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_email.NewEmailClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initEmailEmailClient(configProvider oci_common.ConfigurationProvider, confi
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

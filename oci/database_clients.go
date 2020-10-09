@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_database.DatabaseClient", &OracleClient{initClientFn: initDatabaseDatabaseClient})
 }
 
-func initDatabaseDatabaseClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initDatabaseDatabaseClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_database.NewDatabaseClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initDatabaseDatabaseClient(configProvider oci_common.ConfigurationProvider,
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

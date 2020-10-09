@@ -15,7 +15,7 @@ func init() {
 	RegisterOracleClient("oci_mysql.MysqlaasClient", &OracleClient{initClientFn: initMysqlMysqlaasClient})
 }
 
-func initMysqlDbBackupsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initMysqlDbBackupsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_mysql.NewDbBackupsClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -24,6 +24,10 @@ func initMysqlDbBackupsClient(configProvider oci_common.ConfigurationProvider, c
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -31,7 +35,7 @@ func (m *OracleClients) dbBackupsClient() *oci_mysql.DbBackupsClient {
 	return m.GetClient("oci_mysql.DbBackupsClient").(*oci_mysql.DbBackupsClient)
 }
 
-func initMysqlDbSystemClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initMysqlDbSystemClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_mysql.NewDbSystemClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -40,6 +44,10 @@ func initMysqlDbSystemClient(configProvider oci_common.ConfigurationProvider, co
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -47,7 +55,7 @@ func (m *OracleClients) dbSystemClient() *oci_mysql.DbSystemClient {
 	return m.GetClient("oci_mysql.DbSystemClient").(*oci_mysql.DbSystemClient)
 }
 
-func initMysqlMysqlaasClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initMysqlMysqlaasClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_mysql.NewMysqlaasClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -55,6 +63,10 @@ func initMysqlMysqlaasClient(configProvider oci_common.ConfigurationProvider, co
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }
