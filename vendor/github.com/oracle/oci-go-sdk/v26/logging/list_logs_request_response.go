@@ -15,13 +15,13 @@ type ListLogsRequest struct {
 	// OCID of a log group to work with.
 	LogGroupId *string `mandatory:"true" contributesTo:"path" name:"logGroupId"`
 
-	// The logType that the log object is for, custom or service.
+	// The logType that the log object is for, whether custom or service.
 	LogType ListLogsLogTypeEnum `mandatory:"false" contributesTo:"query" name:"logType" omitEmpty:"true"`
 
-	// Service created the log object
+	// Service that created the log object.
 	SourceService *string `mandatory:"false" contributesTo:"query" name:"sourceService"`
 
-	// Log object resource
+	// Log object resource.
 	SourceResource *string `mandatory:"false" contributesTo:"query" name:"sourceResource"`
 
 	// Resource name
@@ -41,7 +41,7 @@ type ListLogsRequest struct {
 	// ascending exception of `timeCreated` and `timeLastModified` columns (descending).
 	SortBy ListLogsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The sort order to use, either 'asc' or 'desc'
+	// The sort order to use, whether 'asc' or 'desc'.
 	SortOrder ListLogsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

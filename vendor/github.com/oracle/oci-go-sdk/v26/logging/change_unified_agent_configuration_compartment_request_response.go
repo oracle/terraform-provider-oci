@@ -12,14 +12,14 @@ import (
 // ChangeUnifiedAgentConfigurationCompartmentRequest wrapper for the ChangeUnifiedAgentConfigurationCompartment operation
 type ChangeUnifiedAgentConfigurationCompartmentRequest struct {
 
-	// The OCID of the unified agent configuration.
+	// The OCID of the Unified Agent configuration.
 	UnifiedAgentConfigurationId *string `mandatory:"true" contributesTo:"path" name:"unifiedAgentConfigurationId"`
 
-	// Request to change the compartment of a given resource
+	// Request to change the compartment of a given resource.
 	ChangeUnifiedAgentConfigurationCompartmentDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case
-	// of a timeout or server error without risk of executing that same action
+	// of a timeout or server error, without risk of executing that same action
 	// again. Retry tokens expire after 24 hours, but can be invalidated
 	// before then due to conflicting operations (e.g., if a resource has been
 	// deleted and purged from the system, then a retry of the original

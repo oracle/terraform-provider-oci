@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// loggingManagementControlplane API
+// Logging Management API
 //
-// loggingManagementControlplane API specification
+// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
 //
 
 package logging
@@ -13,28 +13,28 @@ import (
 	"github.com/oracle/oci-go-sdk/v26/common"
 )
 
-// ServiceSummary Summary of Services that are integrated with public logging
+// ServiceSummary Summary of services that are integrated with public logging.
 type ServiceSummary struct {
 
 	// Tenant OCID.
 	TenantId *string `mandatory:"true" json:"tenantId"`
 
-	// Service id as set in Service Principal.
+	// Service ID as set in Service Principal.
 	ServicePrincipalName *string `mandatory:"true" json:"servicePrincipalName"`
 
 	// Service endpoint.
 	Endpoint *string `mandatory:"true" json:"endpoint"`
 
-	// User friendly service name.
+	// User-friendly service name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Type of Resource that a Service provides.
+	// Type of resource that a service provides.
 	ResourceTypes []ResourceType `mandatory:"true" json:"resourceTypes"`
 
-	// Apollo project namespace if any.
+	// Apollo project namespace, if any.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
-	// Service id.
+	// Service ID.
 	Id *string `mandatory:"false" json:"id"`
 }
 

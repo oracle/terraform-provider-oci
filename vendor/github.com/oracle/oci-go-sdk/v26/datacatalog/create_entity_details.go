@@ -35,6 +35,12 @@ type CreateEntityDetails struct {
 	// Key of the associated folder.
 	FolderKey *string `mandatory:"false" json:"folderKey"`
 
+	// Key of the associated pattern if this is a logical entity.
+	PatternKey *string `mandatory:"false" json:"patternKey"`
+
+	// The expression realized after resolving qualifiers . Used in deriving this logical entity
+	RealizedExpression *string `mandatory:"false" json:"realizedExpression"`
+
 	// Status of the object as updated by the harvest process. When an entity object is created , it's harvest status
 	// will indicate if the entity's metadata has been fully harvested or not. The harvest process can perform
 	// shallow harvesting to allow users to browse the metadata and can on-demand deep harvest on any object
@@ -43,6 +49,9 @@ type CreateEntityDetails struct {
 
 	// Key of the last harvest process to update this object.
 	LastJobKey *string `mandatory:"false" json:"lastJobKey"`
+
+	// The list of customized properties along with the values for this object
+	CustomPropertyMembers []CustomPropertySetUsage `mandatory:"false" json:"customPropertyMembers"`
 
 	// A map of maps that contains the properties which are specific to the entity type. Each entity type
 	// definition defines it's set of required and optional properties. The map keys are category names and the

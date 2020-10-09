@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// loggingManagementControlplane API
+// Logging Management API
 //
-// loggingManagementControlplane API specification
+// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
 //
 
 package logging
@@ -16,7 +16,7 @@ import (
 // UpdateLogSavedSearchDetails The update details to update a log saved search.
 type UpdateLogSavedSearchDetails struct {
 
-	// The display name of a user-friendly name. It has to be unique within enclosing resource,
+	// The user-friendly display name. This must be unique within the enclosing resource,
 	// and it's changeable. Avoid entering confidential information.
 	Name *string `mandatory:"false" json:"name"`
 
@@ -25,9 +25,6 @@ type UpdateLogSavedSearchDetails struct {
 
 	// The search query that is saved.
 	Query *string `mandatory:"false" json:"query"`
-
-	// True if the LogSavedSearch should be show as quickstart in the UI
-	IsQuickStart *bool `mandatory:"false" json:"isQuickStart"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// loggingManagementControlplane API
+// Logging Management API
 //
-// loggingManagementControlplane API specification
+// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
 //
 
 package logging
@@ -22,7 +22,7 @@ type LogGroupSummary struct {
 	// The OCID of the compartment that the resource belongs to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The display name of a user-friendly name. It has to be unique within enclosing resource,
+	// The user-friendly display name. This must be unique within the enclosing resource,
 	// and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
@@ -44,6 +44,9 @@ type LogGroupSummary struct {
 
 	// Time the resource was last modified.
 	TimeLastModified *common.SDKTime `mandatory:"false" json:"timeLastModified"`
+
+	// The log group object state.
+	LifecycleState LogGroupLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
 func (m LogGroupSummary) String() string {

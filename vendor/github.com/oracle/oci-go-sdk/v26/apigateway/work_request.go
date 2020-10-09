@@ -67,6 +67,10 @@ const (
 	WorkRequestOperationTypeCreateCertificate WorkRequestOperationTypeEnum = "CREATE_CERTIFICATE"
 	WorkRequestOperationTypeUpdateCertificate WorkRequestOperationTypeEnum = "UPDATE_CERTIFICATE"
 	WorkRequestOperationTypeDeleteCertificate WorkRequestOperationTypeEnum = "DELETE_CERTIFICATE"
+	WorkRequestOperationTypeCreateApi         WorkRequestOperationTypeEnum = "CREATE_API"
+	WorkRequestOperationTypeUpdateApi         WorkRequestOperationTypeEnum = "UPDATE_API"
+	WorkRequestOperationTypeDeleteApi         WorkRequestOperationTypeEnum = "DELETE_API"
+	WorkRequestOperationTypeValidateApi       WorkRequestOperationTypeEnum = "VALIDATE_API"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
@@ -79,6 +83,10 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 	"CREATE_CERTIFICATE": WorkRequestOperationTypeCreateCertificate,
 	"UPDATE_CERTIFICATE": WorkRequestOperationTypeUpdateCertificate,
 	"DELETE_CERTIFICATE": WorkRequestOperationTypeDeleteCertificate,
+	"CREATE_API":         WorkRequestOperationTypeCreateApi,
+	"UPDATE_API":         WorkRequestOperationTypeUpdateApi,
+	"DELETE_API":         WorkRequestOperationTypeDeleteApi,
+	"VALIDATE_API":       WorkRequestOperationTypeValidateApi,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

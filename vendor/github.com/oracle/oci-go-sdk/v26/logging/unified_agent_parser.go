@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// loggingManagementControlplane API
+// Logging Management API
 //
-// loggingManagementControlplane API specification
+// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
 //
 
 package logging
@@ -17,25 +17,25 @@ import (
 // UnifiedAgentParser source parser object.
 type UnifiedAgentParser interface {
 
-	// Specify time field for event time. If the event doesn't have this field, current time is used.
+	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
 	GetFieldTimeKey() *string
 
-	// Specify types for converting field into other type.
+	// Specify types for converting a field into another type.
 	GetTypes() map[string]string
 
-	// Specify null value pattern
+	// Specify the null value pattern.
 	GetNullValuePattern() *string
 
-	// If true, empty string field is replaced with nil
+	// If true, an empty string field is replaced with nil.
 	GetIsNullEmptyString() *bool
 
-	// If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified
+	// If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
 	GetIsEstimateCurrentEvent() *bool
 
 	// If true, keep time field in the record.
 	GetIsKeepTimeKey() *bool
 
-	// Specify timeout for parse processing. This is mainly for detecting wrong regexp pattern.
+	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	GetTimeoutInMilliseconds() *int
 }
 

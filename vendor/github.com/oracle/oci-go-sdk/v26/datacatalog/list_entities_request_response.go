@@ -44,6 +44,9 @@ type ListEntitiesRequest struct {
 	// Unique external identifier of this resource in the external source system.
 	ExternalKey *string `mandatory:"false" contributesTo:"query" name:"externalKey"`
 
+	// Unique pattern key.
+	PatternKey *string `mandatory:"false" contributesTo:"query" name:"patternKey"`
+
 	// Last modified timestamp of this object in the external system.
 	TimeExternal *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeExternal"`
 

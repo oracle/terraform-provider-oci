@@ -18,6 +18,17 @@ type SearchCriteria struct {
 
 	// Search query dsl that defines the query components including fields and predicates.
 	Query *string `mandatory:"false" json:"query"`
+
+	// Query string that a dataObject is to be searched with. Used in the faceted query request
+	FacetedQuery *string `mandatory:"false" json:"facetedQuery"`
+
+	// List of properties of dataObjects that needs to aggregated on for facets.
+	Dimensions []string `mandatory:"false" json:"dimensions"`
+
+	// Array of objects having details about sort field and order.
+	Sort []FacetedSearchSortRequest `mandatory:"false" json:"sort"`
+
+	Filters *FacetedSearchFilterRequest `mandatory:"false" json:"filters"`
 }
 
 func (m SearchCriteria) String() string {

@@ -48,6 +48,19 @@ type GlossarySummary struct {
 
 	// State of the Glossary.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The unique key of the job definition resource that was used in the Glossary import.
+	ImportJobDefinitionKey *string `mandatory:"false" json:"importJobDefinitionKey"`
+
+	// The unique key of the job policy for Glossary import.
+	ImportJobKey *string `mandatory:"false" json:"importJobKey"`
+
+	// The unique key of the parent job execution for which the log resource was created.
+	LatestImportJobExecutionKey *string `mandatory:"false" json:"latestImportJobExecutionKey"`
+
+	// Status of the latest glossary import job execution, such as running, paused, or completed.
+	// This may include additional information like time import started , import file size and % of completion
+	LatestImportJobExecutionStatus *string `mandatory:"false" json:"latestImportJobExecutionStatus"`
 }
 
 func (m GlossarySummary) String() string {

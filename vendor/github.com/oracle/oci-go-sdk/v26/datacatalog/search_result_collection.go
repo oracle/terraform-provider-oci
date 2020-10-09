@@ -22,6 +22,12 @@ type SearchResultCollection struct {
 
 	// Search result set.
 	Items []SearchResult `mandatory:"false" json:"items"`
+
+	// String that data objects are to be searched with.
+	Query *string `mandatory:"false" json:"query"`
+
+	// Aggregations/facets on properties of data objects.
+	FacetedSearchAggregation []FacetedSearchAggregation `mandatory:"false" json:"facetedSearchAggregation"`
 }
 
 func (m SearchResultCollection) String() string {

@@ -70,6 +70,9 @@ type Term struct {
 
 	// Array of objects associated to a term.
 	AssociatedObjects []TermAssociatedObject `mandatory:"false" json:"associatedObjects"`
+
+	// The list of customized properties along with the values for this object
+	CustomPropertyMembers []CustomPropertyGetUsage `mandatory:"false" json:"customPropertyMembers"`
 }
 
 func (m Term) String() string {

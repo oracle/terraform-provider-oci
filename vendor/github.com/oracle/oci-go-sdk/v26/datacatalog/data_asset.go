@@ -56,6 +56,12 @@ type DataAsset struct {
 	// URI to the data asset instance in the API.
 	Uri *string `mandatory:"false" json:"uri"`
 
+	// The list of customized properties along with the values for this object
+	CustomPropertyMembers []CustomPropertyGetUsage `mandatory:"false" json:"customPropertyMembers"`
+
+	// The list of data selector patterns used in the harvest for this data asset to derive logical entities.
+	DataSelectorPatterns []PatternSummary `mandatory:"false" json:"dataSelectorPatterns"`
+
 	// A map of maps that contains the properties which are specific to the asset type. Each data asset type
 	// definition defines it's set of required and optional properties. The map keys are category names and the
 	// values are maps of property name to property value. Every property is contained inside of a category. Most

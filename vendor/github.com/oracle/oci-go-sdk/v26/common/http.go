@@ -753,7 +753,7 @@ func analyzeValue(stringValue string, kind reflect.Kind, field reflect.StructFie
 	return
 }
 
-// Sets the field of a struct, with the appropiate value of the string
+// Sets the field of a struct, with the appropriate value of the string
 // Only sets basic types
 func fromStringValue(newValue string, val *reflect.Value, field reflect.StructField) (err error) {
 
@@ -770,11 +770,12 @@ func fromStringValue(newValue string, val *reflect.Value, field reflect.StructFi
 	}
 
 	value, valPtr, err := analyzeValue(newValue, kind, field)
+	valueType := val.Type()
 	if err != nil {
 		return
 	}
 	if !isPointer {
-		val.Set(value)
+		val.Set(value.Convert(valueType))
 	} else {
 		val.Set(valPtr)
 	}

@@ -46,6 +46,9 @@ type ListAutonomousContainerDatabasesRequest struct {
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only resources that match the given service-level agreement type exactly.
+	ServiceLevelAgreementType *string `mandatory:"false" contributesTo:"query" name:"serviceLevelAgreementType"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

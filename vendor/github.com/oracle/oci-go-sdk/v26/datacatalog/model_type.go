@@ -70,6 +70,9 @@ type ModelType struct {
 
 	// URI to the type instance in the API.
 	Uri *string `mandatory:"false" json:"uri"`
+
+	// Custom properties associated with this Type.
+	CustomProperties []CustomPropertySummary `mandatory:"false" json:"customProperties"`
 }
 
 func (m ModelType) String() string {

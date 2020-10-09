@@ -40,6 +40,12 @@ type EntitySummary struct {
 	// Unique external key of this object in the source system.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
+	// Key of the associated pattern if this is a logical entity.
+	PatternKey *string `mandatory:"false" json:"patternKey"`
+
+	// The expression realized after resolving qualifiers . Used in deriving this logical entity
+	RealizedExpression *string `mandatory:"false" json:"realizedExpression"`
+
 	// Full path of the data entity.
 	Path *string `mandatory:"false" json:"path"`
 

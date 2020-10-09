@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// loggingManagementControlplane API
+// Logging Management API
 //
-// loggingManagementControlplane API specification
+// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
 //
 
 package logging
@@ -21,14 +21,14 @@ type WorkRequestResource struct {
 
 	// The way in which this resource is affected by the work tracked in the work request.
 	// A resource being created, updated, or deleted will remain in the IN_PROGRESS state until
-	// work is complete for that resource at which point it will transition to CREATED, UPDATED,
+	// work is complete for that resource, at which point it will transition to CREATED, UPDATED,
 	// or DELETED, respectively.
 	ActionType ActionTypesEnum `mandatory:"true" json:"actionType"`
 
-	// The identifier of the resource the work request affects.
+	// The resource identifier the work request affects.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
-	// The URI path that the user can do a GET on to access the resource metadata
+	// The URI path that the user can do a GET on to access the resource metadata.
 	EntityUri *string `mandatory:"false" json:"entityUri"`
 }
 

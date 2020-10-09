@@ -38,6 +38,9 @@ type Folder struct {
 	// The key of the associated data asset.
 	DataAssetKey *string `mandatory:"false" json:"dataAssetKey"`
 
+	// The list of customized properties along with the values for this object
+	CustomPropertyMembers []CustomPropertyGetUsage `mandatory:"false" json:"customPropertyMembers"`
+
 	// A map of maps that contains the properties which are specific to the folder type. Each folder type
 	// definition defines it's set of required and optional properties. The map keys are category names and the
 	// values are maps of property name to property value. Every property is contained inside of a category. Most

@@ -106,11 +106,13 @@ type UpdateSummaryUpdateTypeEnum string
 
 // Set of constants representing the allowable values for UpdateSummaryUpdateTypeEnum
 const (
-	UpdateSummaryUpdateTypeGiPatch UpdateSummaryUpdateTypeEnum = "GI_PATCH"
+	UpdateSummaryUpdateTypeUpgrade UpdateSummaryUpdateTypeEnum = "GI_UPGRADE"
+	UpdateSummaryUpdateTypePatch   UpdateSummaryUpdateTypeEnum = "GI_PATCH"
 )
 
 var mappingUpdateSummaryUpdateType = map[string]UpdateSummaryUpdateTypeEnum{
-	"GI_PATCH": UpdateSummaryUpdateTypeGiPatch,
+	"GI_UPGRADE": UpdateSummaryUpdateTypeUpgrade,
+	"GI_PATCH":   UpdateSummaryUpdateTypePatch,
 }
 
 // GetUpdateSummaryUpdateTypeEnumValues Enumerates the set of values for UpdateSummaryUpdateTypeEnum

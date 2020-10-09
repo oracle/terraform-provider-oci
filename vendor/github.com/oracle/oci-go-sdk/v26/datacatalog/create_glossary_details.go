@@ -28,6 +28,9 @@ type CreateGlossaryDetails struct {
 
 	// OCID of the user who is the owner of the glossary.
 	Owner *string `mandatory:"false" json:"owner"`
+
+	// The list of customized properties along with the values for this object
+	CustomPropertyMembers []CustomPropertySetUsage `mandatory:"false" json:"customPropertyMembers"`
 }
 
 func (m CreateGlossaryDetails) String() string {
