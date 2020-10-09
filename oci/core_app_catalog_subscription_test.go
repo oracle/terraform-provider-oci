@@ -19,6 +19,9 @@ import (
 )
 
 var (
+	AppCatalogSubscriptionRequiredOnlyResource = AppCatalogSubscriptionResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation)
+
 	appCatalogSubscriptionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"listing_id":     Representation{repType: Optional, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
@@ -30,12 +33,12 @@ var (
 
 	appCatalogSubscriptionRepresentation = map[string]interface{}{
 		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
-		"eula_link":                Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.eula_link}`},
 		"listing_id":               Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
 		"listing_resource_version": Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_resource_version}`},
 		"oracle_terms_of_use_link": Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.oracle_terms_of_use_link}`},
 		"signature":                Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.signature}`},
 		"time_retrieved":           Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.time_retrieved}`},
+		"eula_link":                Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.eula_link}`},
 	}
 
 	AppCatalogSubscriptionResourceDependencies = AppCatalogListingResourceVersionAgreementResourceConfig
