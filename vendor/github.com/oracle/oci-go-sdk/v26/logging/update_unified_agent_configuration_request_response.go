@@ -12,7 +12,7 @@ import (
 // UpdateUnifiedAgentConfigurationRequest wrapper for the UpdateUnifiedAgentConfiguration operation
 type UpdateUnifiedAgentConfigurationRequest struct {
 
-	// The OCID of the unified agent configuration.
+	// The OCID of the Unified Agent configuration.
 	UnifiedAgentConfigurationId *string `mandatory:"true" contributesTo:"path" name:"unifiedAgentConfigurationId"`
 
 	// Unified agent configuration to update. Empty group associations list doesn't modify the list, null value for group association clears all the previous associations.

@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// loggingManagementControlplane API
+// Logging Management API
 //
-// loggingManagementControlplane API specification
+// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
 //
 
 package logging
@@ -22,14 +22,14 @@ type LogSummary struct {
 	// Log group OCID.
 	LogGroupId *string `mandatory:"true" json:"logGroupId"`
 
-	// The display name of a user-friendly name. It has to be unique within enclosing resource,
+	// The user-friendly display name. This must be unique within the enclosing resource,
 	// and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The state of an pipeline.
+	// The pipeline state.
 	LifecycleState LogLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The logType that the log object is for, custom or service.
+	// The logType that the log object is for, whether custom or service.
 	LogType LogSummaryLogTypeEnum `mandatory:"true" json:"logType"`
 
 	// Whether or not this resource is currently enabled.
@@ -53,7 +53,7 @@ type LogSummary struct {
 	// Time the resource was last modified.
 	TimeLastModified *common.SDKTime `mandatory:"false" json:"timeLastModified"`
 
-	// Log retention duration in days.
+	// Log retention duration in 30-day increments (30, 60, 90 and so on).
 	RetentionDuration *int `mandatory:"false" json:"retentionDuration"`
 
 	// The OCID of the compartment that the resource belongs to.

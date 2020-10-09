@@ -12,7 +12,7 @@ import (
 // GetWorkRequestRequest wrapper for the GetWorkRequest operation
 type GetWorkRequestRequest struct {
 
-	// The ID of the asynchronous request.
+	// The asynchronous request ID.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

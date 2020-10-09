@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// loggingManagementControlplane API
+// Logging Management API
 //
-// loggingManagementControlplane API specification
+// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
 //
 
 package logging
@@ -16,7 +16,7 @@ import (
 // WorkRequest A work request.
 type WorkRequest struct {
 
-	// The OCID of the work request.
+	// The work request OCID.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The type of work the work request is doing.
@@ -25,7 +25,7 @@ type WorkRequest struct {
 	// The current status of the work request.
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID of the work request’s compartment.
+	// The work request’s compartment OCID.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The resources this work request affects.

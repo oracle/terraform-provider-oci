@@ -12,7 +12,7 @@ import (
 // ListUnifiedAgentConfigurationsRequest wrapper for the ListUnifiedAgentConfigurations operation
 type ListUnifiedAgentConfigurationsRequest struct {
 
-	// Compartment OCID to list resources in. Please see compartmentIdInSubtree
+	// Compartment OCID to list resources in. See compartmentIdInSubtree
 	//      for nested compartments traversal.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
@@ -42,7 +42,7 @@ type ListUnifiedAgentConfigurationsRequest struct {
 	// ascending exception of `timeCreated` and `timeLastModified` columns (descending).
 	SortBy ListUnifiedAgentConfigurationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The sort order to use, either 'asc' or 'desc'
+	// The sort order to use, whether 'asc' or 'desc'.
 	SortOrder ListUnifiedAgentConfigurationsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

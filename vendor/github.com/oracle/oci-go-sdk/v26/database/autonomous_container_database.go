@@ -69,6 +69,10 @@ type AutonomousContainerDatabase struct {
 
 	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
+	// The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database.
+	// This value represents the number of days before the primary database maintenance schedule.
+	StandbyMaintenanceBufferInDays *int `mandatory:"false" json:"standbyMaintenanceBufferInDays"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -77,6 +81,9 @@ type AutonomousContainerDatabase struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+	Role AutonomousContainerDatabaseRoleEnum `mandatory:"false" json:"role,omitempty"`
 
 	// The availability domain of the Autonomous Container Database.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
@@ -96,13 +103,15 @@ type AutonomousContainerDatabaseServiceLevelAgreementTypeEnum string
 
 // Set of constants representing the allowable values for AutonomousContainerDatabaseServiceLevelAgreementTypeEnum
 const (
-	AutonomousContainerDatabaseServiceLevelAgreementTypeStandard        AutonomousContainerDatabaseServiceLevelAgreementTypeEnum = "STANDARD"
-	AutonomousContainerDatabaseServiceLevelAgreementTypeMissionCritical AutonomousContainerDatabaseServiceLevelAgreementTypeEnum = "MISSION_CRITICAL"
+	AutonomousContainerDatabaseServiceLevelAgreementTypeStandard            AutonomousContainerDatabaseServiceLevelAgreementTypeEnum = "STANDARD"
+	AutonomousContainerDatabaseServiceLevelAgreementTypeMissionCritical     AutonomousContainerDatabaseServiceLevelAgreementTypeEnum = "MISSION_CRITICAL"
+	AutonomousContainerDatabaseServiceLevelAgreementTypeAutonomousDataguard AutonomousContainerDatabaseServiceLevelAgreementTypeEnum = "AUTONOMOUS_DATAGUARD"
 )
 
 var mappingAutonomousContainerDatabaseServiceLevelAgreementType = map[string]AutonomousContainerDatabaseServiceLevelAgreementTypeEnum{
-	"STANDARD":         AutonomousContainerDatabaseServiceLevelAgreementTypeStandard,
-	"MISSION_CRITICAL": AutonomousContainerDatabaseServiceLevelAgreementTypeMissionCritical,
+	"STANDARD":             AutonomousContainerDatabaseServiceLevelAgreementTypeStandard,
+	"MISSION_CRITICAL":     AutonomousContainerDatabaseServiceLevelAgreementTypeMissionCritical,
+	"AUTONOMOUS_DATAGUARD": AutonomousContainerDatabaseServiceLevelAgreementTypeAutonomousDataguard,
 }
 
 // GetAutonomousContainerDatabaseServiceLevelAgreementTypeEnumValues Enumerates the set of values for AutonomousContainerDatabaseServiceLevelAgreementTypeEnum
@@ -153,6 +162,7 @@ const (
 	AutonomousContainerDatabaseLifecycleStateRestoreFailed         AutonomousContainerDatabaseLifecycleStateEnum = "RESTORE_FAILED"
 	AutonomousContainerDatabaseLifecycleStateRestarting            AutonomousContainerDatabaseLifecycleStateEnum = "RESTARTING"
 	AutonomousContainerDatabaseLifecycleStateMaintenanceInProgress AutonomousContainerDatabaseLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
+	AutonomousContainerDatabaseLifecycleStateRoleChangeInProgress  AutonomousContainerDatabaseLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
 )
 
 var mappingAutonomousContainerDatabaseLifecycleState = map[string]AutonomousContainerDatabaseLifecycleStateEnum{
@@ -167,6 +177,7 @@ var mappingAutonomousContainerDatabaseLifecycleState = map[string]AutonomousCont
 	"RESTORE_FAILED":          AutonomousContainerDatabaseLifecycleStateRestoreFailed,
 	"RESTARTING":              AutonomousContainerDatabaseLifecycleStateRestarting,
 	"MAINTENANCE_IN_PROGRESS": AutonomousContainerDatabaseLifecycleStateMaintenanceInProgress,
+	"ROLE_CHANGE_IN_PROGRESS": AutonomousContainerDatabaseLifecycleStateRoleChangeInProgress,
 }
 
 // GetAutonomousContainerDatabaseLifecycleStateEnumValues Enumerates the set of values for AutonomousContainerDatabaseLifecycleStateEnum
@@ -196,6 +207,31 @@ var mappingAutonomousContainerDatabasePatchModel = map[string]AutonomousContaine
 func GetAutonomousContainerDatabasePatchModelEnumValues() []AutonomousContainerDatabasePatchModelEnum {
 	values := make([]AutonomousContainerDatabasePatchModelEnum, 0)
 	for _, v := range mappingAutonomousContainerDatabasePatchModel {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousContainerDatabaseRoleEnum Enum with underlying type: string
+type AutonomousContainerDatabaseRoleEnum string
+
+// Set of constants representing the allowable values for AutonomousContainerDatabaseRoleEnum
+const (
+	AutonomousContainerDatabaseRolePrimary         AutonomousContainerDatabaseRoleEnum = "PRIMARY"
+	AutonomousContainerDatabaseRoleStandby         AutonomousContainerDatabaseRoleEnum = "STANDBY"
+	AutonomousContainerDatabaseRoleDisabledStandby AutonomousContainerDatabaseRoleEnum = "DISABLED_STANDBY"
+)
+
+var mappingAutonomousContainerDatabaseRole = map[string]AutonomousContainerDatabaseRoleEnum{
+	"PRIMARY":          AutonomousContainerDatabaseRolePrimary,
+	"STANDBY":          AutonomousContainerDatabaseRoleStandby,
+	"DISABLED_STANDBY": AutonomousContainerDatabaseRoleDisabledStandby,
+}
+
+// GetAutonomousContainerDatabaseRoleEnumValues Enumerates the set of values for AutonomousContainerDatabaseRoleEnum
+func GetAutonomousContainerDatabaseRoleEnumValues() []AutonomousContainerDatabaseRoleEnum {
+	values := make([]AutonomousContainerDatabaseRoleEnum, 0)
+	for _, v := range mappingAutonomousContainerDatabaseRole {
 		values = append(values, v)
 	}
 	return values

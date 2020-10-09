@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// loggingManagementControlplane API
+// Logging Management API
 //
-// loggingManagementControlplane API specification
+// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
 //
 
 package logging
@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v26/common"
 )
 
-// ResourceType Type of Resource that Service provides.
+// ResourceType Type of resource that a service provides.
 type ResourceType struct {
 
 	// Resource type name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// categories for resources.
+	// Categories for resources.
 	Categories []Category `mandatory:"false" json:"categories"`
 }
 

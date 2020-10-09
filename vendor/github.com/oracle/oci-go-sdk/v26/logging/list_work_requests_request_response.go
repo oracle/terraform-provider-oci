@@ -12,7 +12,7 @@ import (
 // ListWorkRequestsRequest wrapper for the ListWorkRequests operation
 type ListWorkRequestsRequest struct {
 
-	// Compartment OCID to list resources in. Please see compartmentIdInSubtree
+	// Compartment OCID to list resources in. See compartmentIdInSubtree
 	//      for nested compartments traversal.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
@@ -33,7 +33,7 @@ type ListWorkRequestsRequest struct {
 	// The maximum number of items to return in a paginated "List" call.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The sort order to use, either 'asc' or 'desc'
+	// The sort order to use, whether 'asc' or 'desc'.
 	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order.

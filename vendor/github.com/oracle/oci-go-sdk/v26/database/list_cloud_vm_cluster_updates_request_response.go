@@ -80,11 +80,13 @@ type ListCloudVmClusterUpdatesUpdateTypeEnum string
 
 // Set of constants representing the allowable values for ListCloudVmClusterUpdatesUpdateTypeEnum
 const (
-	ListCloudVmClusterUpdatesUpdateTypeGiPatch ListCloudVmClusterUpdatesUpdateTypeEnum = "GI_PATCH"
+	ListCloudVmClusterUpdatesUpdateTypeUpgrade ListCloudVmClusterUpdatesUpdateTypeEnum = "GI_UPGRADE"
+	ListCloudVmClusterUpdatesUpdateTypePatch   ListCloudVmClusterUpdatesUpdateTypeEnum = "GI_PATCH"
 )
 
 var mappingListCloudVmClusterUpdatesUpdateType = map[string]ListCloudVmClusterUpdatesUpdateTypeEnum{
-	"GI_PATCH": ListCloudVmClusterUpdatesUpdateTypeGiPatch,
+	"GI_UPGRADE": ListCloudVmClusterUpdatesUpdateTypeUpgrade,
+	"GI_PATCH":   ListCloudVmClusterUpdatesUpdateTypePatch,
 }
 
 // GetListCloudVmClusterUpdatesUpdateTypeEnumValues Enumerates the set of values for ListCloudVmClusterUpdatesUpdateTypeEnum

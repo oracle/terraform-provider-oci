@@ -185,6 +185,9 @@ type AutonomousDatabase struct {
 
 	StandbyDb *AutonomousDatabaseStandbySummary `mandatory:"false" json:"standbyDb"`
 
+	// The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+	Role AutonomousDatabaseRoleEnum `mandatory:"false" json:"role,omitempty"`
+
 	// List of Oracle Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
 	AvailableUpgradeVersions []string `mandatory:"false" json:"availableUpgradeVersions"`
 }
@@ -437,6 +440,31 @@ var mappingAutonomousDatabasePermissionLevel = map[string]AutonomousDatabasePerm
 func GetAutonomousDatabasePermissionLevelEnumValues() []AutonomousDatabasePermissionLevelEnum {
 	values := make([]AutonomousDatabasePermissionLevelEnum, 0)
 	for _, v := range mappingAutonomousDatabasePermissionLevel {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseRoleEnum Enum with underlying type: string
+type AutonomousDatabaseRoleEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseRoleEnum
+const (
+	AutonomousDatabaseRolePrimary         AutonomousDatabaseRoleEnum = "PRIMARY"
+	AutonomousDatabaseRoleStandby         AutonomousDatabaseRoleEnum = "STANDBY"
+	AutonomousDatabaseRoleDisabledStandby AutonomousDatabaseRoleEnum = "DISABLED_STANDBY"
+)
+
+var mappingAutonomousDatabaseRole = map[string]AutonomousDatabaseRoleEnum{
+	"PRIMARY":          AutonomousDatabaseRolePrimary,
+	"STANDBY":          AutonomousDatabaseRoleStandby,
+	"DISABLED_STANDBY": AutonomousDatabaseRoleDisabledStandby,
+}
+
+// GetAutonomousDatabaseRoleEnumValues Enumerates the set of values for AutonomousDatabaseRoleEnum
+func GetAutonomousDatabaseRoleEnumValues() []AutonomousDatabaseRoleEnum {
+	values := make([]AutonomousDatabaseRoleEnum, 0)
+	for _, v := range mappingAutonomousDatabaseRole {
 		values = append(values, v)
 	}
 	return values
