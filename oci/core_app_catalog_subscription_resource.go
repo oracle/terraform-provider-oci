@@ -38,11 +38,6 @@ func CoreAppCatalogSubscriptionResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"eula_link": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"listing_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -71,6 +66,11 @@ func CoreAppCatalogSubscriptionResource() *schema.Resource {
 			},
 
 			// Optional
+			"eula_link": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"display_name": {
