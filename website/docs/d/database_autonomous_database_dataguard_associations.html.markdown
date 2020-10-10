@@ -1,3 +1,4 @@
+
 ---
 subcategory: "Database"
 layout: "oci"
@@ -10,7 +11,7 @@ description: |-
 # Data Source: oci_database_autonomous_database_dataguard_associations
 This data source provides the list of Autonomous Database Dataguard Associations in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the Autonomous Database Dataguard assocations for the specified Autonomous Database.
+Gets a list of the Autonomous Data Guard-enabled databases associated with the specified Autonomous Database.
 
 
 ## Example Usage
@@ -45,11 +46,11 @@ The following attributes are exported:
 * `id` - The OCID of the Autonomous Dataguard created for Autonomous Container Database where given Autonomous Database resides in.
 * `lifecycle_details` - Additional information about the current lifecycleState, if available. 
 * `peer_autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Autonomous Database. 
-* `peer_autonomous_database_life_cycle_state` - The current state of the Autonomous Dataguard.
-* `peer_role` - The role of the Autonomous Dataguard enabled Autonomous Container Database.
+* `peer_autonomous_database_life_cycle_state` - The current state of the Autonomous Data Guard.
+* `peer_role` - The role of the Autonomous Data Guard-enabled Autonomous Container Database.
 * `protection_mode` - The protection mode of this Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
-* `role` - The role of the Autonomous Dataguard enabled Autonomous Container Database.
-* `state` - The current state of the Autonomous Dataguard.
+* `role` - The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+* `state` - The current state of the Autonomous Data Guard.
 * `time_created` - The date and time the Data Guard association was created.
 * `time_last_role_changed` - The date and time when the last role change action happened.
 
