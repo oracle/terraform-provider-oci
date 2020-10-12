@@ -90,7 +90,7 @@ func (s *ApigatewayApiValidationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ApigatewayApiValidationDataSource-", ApigatewayApiValidationDataSource(), s.D))
 
 	validations := []interface{}{}
 	for _, item := range s.Res.Validations {

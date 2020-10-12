@@ -112,7 +112,7 @@ func (s *SchServiceConnectorsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("SchServiceConnectorsDataSource-", SchServiceConnectorsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	serviceConnector := map[string]interface{}{}
 

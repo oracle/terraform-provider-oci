@@ -73,7 +73,7 @@ func (s *LoadBalancerSslCipherSuiteDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("LoadBalancerSslCipherSuiteDataSource-", LoadBalancerSslCipherSuiteDataSource(), s.D))
 
 	return nil
 }

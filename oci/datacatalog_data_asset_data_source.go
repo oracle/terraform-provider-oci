@@ -96,7 +96,7 @@ func (s *DatacatalogDataAssetDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatacatalogDataAssetDataSource-", DatacatalogDataAssetDataSource(), s.D))
 
 	if s.Res.CreatedById != nil {
 		s.D.Set("created_by_id", *s.Res.CreatedById)

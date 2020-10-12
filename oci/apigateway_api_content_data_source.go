@@ -75,7 +75,7 @@ func (s *ApigatewayApiContentDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ApigatewayApiContentDataSource-", ApigatewayApiContentDataSource(), s.D))
 
 	if s.Res.Content != nil {
 		contentReader := s.Res.Content

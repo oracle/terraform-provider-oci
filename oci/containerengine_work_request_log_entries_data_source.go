@@ -99,7 +99,7 @@ func (s *ContainerengineWorkRequestLogEntriesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ContainerengineWorkRequestLogEntriesDataSource-", ContainerengineWorkRequestLogEntriesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

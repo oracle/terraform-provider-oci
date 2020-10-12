@@ -104,7 +104,7 @@ func (s *BlockchainOsnsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("BlockchainOsnsDataSource-", BlockchainOsnsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	osn := map[string]interface{}{}
 

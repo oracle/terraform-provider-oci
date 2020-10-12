@@ -93,7 +93,7 @@ func (s *CoreLetterOfAuthorityDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreLetterOfAuthorityDataSource-", CoreLetterOfAuthorityDataSource(), s.D))
 
 	if s.Res.AuthorizedEntityName != nil {
 		s.D.Set("authorized_entity_name", *s.Res.AuthorizedEntityName)

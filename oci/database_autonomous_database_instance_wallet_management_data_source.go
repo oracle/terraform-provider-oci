@@ -65,7 +65,7 @@ func (s *DatabaseAutonomousDatabaseInstanceWalletManagementDataSourceCrud) SetDa
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseAutonomousDatabaseInstanceWalletManagementDataSource-", DatabaseAutonomousDatabaseInstanceWalletManagementDataSource(), s.D))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

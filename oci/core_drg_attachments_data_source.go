@@ -104,7 +104,7 @@ func (s *CoreDrgAttachmentsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreDrgAttachmentsDataSource-", CoreDrgAttachmentsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

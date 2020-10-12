@@ -112,7 +112,7 @@ func (s *ApigatewayCertificatesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ApigatewayCertificatesDataSource-", ApigatewayCertificatesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	certificate := map[string]interface{}{}
 

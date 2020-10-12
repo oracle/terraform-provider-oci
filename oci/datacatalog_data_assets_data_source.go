@@ -198,7 +198,7 @@ func (s *DatacatalogDataAssetsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatacatalogDataAssetsDataSource-", DatacatalogDataAssetsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	dataAsset := map[string]interface{}{}
 

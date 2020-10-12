@@ -74,7 +74,7 @@ func (s *BlockchainPeerDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("BlockchainPeerDataSource-", BlockchainPeerDataSource(), s.D))
 
 	s.D.Set("ad", s.Res.Ad)
 

@@ -74,7 +74,7 @@ func (s *ObjectStorageObjectLifecyclePolicyDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ObjectStorageObjectLifecyclePolicyDataSource-", ObjectStorageObjectLifecyclePolicyDataSource(), s.D))
 
 	rules := []interface{}{}
 	for _, item := range s.Res.Items {

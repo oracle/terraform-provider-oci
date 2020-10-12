@@ -91,7 +91,7 @@ func (s *OcvpSupportedVmwareSoftwareVersionsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("OcvpSupportedVmwareSoftwareVersionsDataSource-", OcvpSupportedVmwareSoftwareVersionsDataSource(), s.D))
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {

@@ -65,7 +65,7 @@ func (s *DataSafeDataSafeConfigurationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DataSafeDataSafeConfigurationDataSource-", DataSafeDataSafeConfigurationDataSource(), s.D))
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

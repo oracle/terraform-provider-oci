@@ -65,7 +65,7 @@ func (s *DatabaseExadataIormConfigDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseExadataIormConfigDataSource-", DatabaseExadataIormConfigDataSource(), s.D))
 
 	dbPlans := []interface{}{}
 	for _, item := range s.Res.DbPlans {

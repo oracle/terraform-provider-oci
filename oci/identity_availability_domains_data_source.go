@@ -96,7 +96,7 @@ func (s *IdentityAvailabilityDomainsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("IdentityAvailabilityDomainsDataSource-", IdentityAvailabilityDomainsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	items := s.Res.Items

@@ -186,7 +186,7 @@ func (s *CoreClusterNetworkInstancesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreClusterNetworkInstancesDataSource-", CoreClusterNetworkInstancesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

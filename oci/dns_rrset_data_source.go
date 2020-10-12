@@ -101,7 +101,7 @@ func (s *DnsRrsetDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DnsRrsetDataSource-", DnsRrsetDataSource(), s.D))
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {

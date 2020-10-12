@@ -85,7 +85,7 @@ func (s *KmsVaultUsageDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("KmsVaultUsageDataSource-", KmsVaultUsageDataSource(), s.D))
 
 	if s.Res.KeyCount != nil {
 		s.D.Set("key_count", *s.Res.KeyCount)

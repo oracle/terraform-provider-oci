@@ -146,7 +146,7 @@ func (s *CloudGuardManagedListsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CloudGuardManagedListsDataSource-", CloudGuardManagedListsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	managedList := map[string]interface{}{}
 

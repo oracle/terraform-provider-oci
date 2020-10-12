@@ -124,7 +124,7 @@ func (s *ContainerengineNodePoolOptionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ContainerengineNodePoolOptionDataSource-", ContainerengineNodePoolOptionDataSource(), s.D))
 
 	s.D.Set("images", s.Res.Images)
 

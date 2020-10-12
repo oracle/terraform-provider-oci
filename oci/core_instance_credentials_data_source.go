@@ -77,7 +77,7 @@ func (s *CoreInstanceCredentialDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreInstanceCredentialDataSource-", CoreInstanceCredentialDataSource(), s.D))
 
 	if s.Res.Password != nil {
 		s.D.Set("password", *s.Res.Password)

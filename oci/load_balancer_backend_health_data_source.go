@@ -120,7 +120,7 @@ func (s *LoadBalancerBackendHealthDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("LoadBalancerBackendHealthDataSource-", LoadBalancerBackendHealthDataSource(), s.D))
 
 	healthCheckResults := []interface{}{}
 	for _, item := range s.Res.HealthCheckResults {

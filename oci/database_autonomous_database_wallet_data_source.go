@@ -109,7 +109,7 @@ func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseAutonomousDatabaseWalletDataSource-", DatabaseAutonomousDatabaseWalletDataSource(), s.D))
 
 	base64EncodeContent := false
 	if tmp, ok := s.D.GetOkExists("base64_encode_content"); ok {

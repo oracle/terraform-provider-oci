@@ -129,7 +129,7 @@ func (s *DatabaseDbHomePatchesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseDbHomePatchesDataSource-", DatabaseDbHomePatchesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

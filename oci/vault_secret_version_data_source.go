@@ -115,7 +115,7 @@ func (s *VaultSecretVersionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("VaultSecretVersionDataSource-", VaultSecretVersionDataSource(), s.D))
 
 	s.D.Set("content_type", s.Res.ContentType)
 

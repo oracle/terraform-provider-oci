@@ -118,7 +118,7 @@ func (s *CoreAppCatalogListingResourceVersionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreAppCatalogListingResourceVersionDataSource-", CoreAppCatalogListingResourceVersionDataSource(), s.D))
 
 	s.D.Set("accessible_ports", s.Res.AccessiblePorts)
 

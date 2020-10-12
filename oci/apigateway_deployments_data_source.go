@@ -113,7 +113,7 @@ func (s *ApigatewayDeploymentsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ApigatewayDeploymentsDataSource-", ApigatewayDeploymentsDataSource(), s.D))
 
 	resources := []map[string]interface{}{}
 

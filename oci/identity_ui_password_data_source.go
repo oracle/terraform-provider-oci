@@ -65,7 +65,7 @@ func (s *IdentityUiPasswordDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("IdentityUiPasswordDataSource-", IdentityUiPasswordDataSource(), s.D))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

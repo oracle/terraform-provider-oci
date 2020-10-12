@@ -100,7 +100,7 @@ func (s *NosqlIndexesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("NosqlIndexesDataSource-", NosqlIndexesDataSource(), s.D))
 
 	resources := []map[string]interface{}{}
 	for _, item := range s.Res.Items {

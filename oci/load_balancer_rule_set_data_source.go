@@ -74,7 +74,7 @@ func (s *LoadBalancerRuleSetDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("LoadBalancerRuleSetDataSource-", LoadBalancerRuleSetDataSource(), s.D))
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {

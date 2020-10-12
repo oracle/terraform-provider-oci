@@ -94,7 +94,7 @@ func (s *DataflowRunLogDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DataflowRunLogDataSource-", DataflowRunLogDataSource(), s.D))
 
 	base64EncodeContent := false
 	if tmp, ok := s.D.GetOkExists("base64_encode_content"); ok {

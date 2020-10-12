@@ -74,7 +74,7 @@ func (s *BlockchainOsnDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("BlockchainOsnDataSource-", BlockchainOsnDataSource(), s.D))
 
 	s.D.Set("ad", s.Res.Ad)
 

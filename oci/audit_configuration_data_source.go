@@ -65,7 +65,7 @@ func (s *AuditConfigurationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("AuditConfigurationDataSource-", AuditConfigurationDataSource(), s.D))
 
 	if s.Res.RetentionPeriodDays != nil {
 		s.D.Set("retention_period_days", *s.Res.RetentionPeriodDays)

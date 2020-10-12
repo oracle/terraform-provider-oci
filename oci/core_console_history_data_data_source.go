@@ -91,7 +91,7 @@ func (s *CoreConsoleHistoryContentDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreConsoleHistoryContentDataSource-", CoreConsoleHistoryContentDataSource(), s.D))
 
 	if s.Res.Value != nil {
 		s.D.Set("data", *s.Res.Value)

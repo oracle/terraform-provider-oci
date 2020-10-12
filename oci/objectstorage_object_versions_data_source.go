@@ -186,7 +186,7 @@ func (s *ObjectStorageObjectVersionsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ObjectStorageObjectVersionsDataSource-", ObjectStorageObjectVersionsDataSource(), s.D))
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {

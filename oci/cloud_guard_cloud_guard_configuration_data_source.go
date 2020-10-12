@@ -65,7 +65,7 @@ func (s *CloudGuardCloudGuardConfigurationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CloudGuardCloudGuardConfigurationDataSource-", CloudGuardCloudGuardConfigurationDataSource(), s.D))
 
 	if s.Res.ReportingRegion != nil {
 		s.D.Set("reporting_region", *s.Res.ReportingRegion)

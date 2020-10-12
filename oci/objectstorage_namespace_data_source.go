@@ -76,7 +76,7 @@ func (s *ObjectStorageNamespaceDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ObjectStorageNamespaceDataSource-", ObjectStorageNamespaceDataSource(), s.D))
 
 	if s.Res.Value != nil {
 		s.D.Set("namespace", *s.Res.Value)
