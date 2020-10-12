@@ -112,7 +112,7 @@ func (s *ApigatewayApisDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ApigatewayApisDataSource-", ApigatewayApisDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	api := map[string]interface{}{}
 

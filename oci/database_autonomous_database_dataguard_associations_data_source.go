@@ -146,7 +146,7 @@ func (s *DatabaseAutonomousDatabaseDataguardAssociationsDataSourceCrud) SetData(
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseAutonomousDatabaseDataguardAssociationsDataSource-", DatabaseAutonomousDatabaseDataguardAssociationsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

@@ -85,7 +85,7 @@ func (s *ContainerengineClusterOptionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ContainerengineClusterOptionDataSource-", ContainerengineClusterOptionDataSource(), s.D))
 
 	s.D.Set("kubernetes_versions", s.Res.KubernetesVersions)
 

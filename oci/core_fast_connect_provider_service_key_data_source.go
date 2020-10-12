@@ -90,7 +90,7 @@ func (s *CoreFastConnectProviderServiceKeyDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreFastConnectProviderServiceKeyDataSource-", CoreFastConnectProviderServiceKeyDataSource(), s.D))
 
 	if s.Res.BandwidthShapeName != nil {
 		s.D.Set("bandwidth_shape_name", *s.Res.BandwidthShapeName)

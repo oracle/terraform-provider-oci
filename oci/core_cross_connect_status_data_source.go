@@ -81,7 +81,7 @@ func (s *CoreCrossConnectStatusDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreCrossConnectStatusDataSource-", CoreCrossConnectStatusDataSource(), s.D))
 
 	s.D.Set("interface_state", s.Res.InterfaceState)
 

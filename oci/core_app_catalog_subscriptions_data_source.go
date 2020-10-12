@@ -95,7 +95,7 @@ func (s *CoreAppCatalogSubscriptionsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreAppCatalogSubscriptionsDataSource-", CoreAppCatalogSubscriptionsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

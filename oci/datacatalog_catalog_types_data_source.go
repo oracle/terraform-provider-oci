@@ -213,7 +213,7 @@ func (s *DatacatalogCatalogTypesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatacatalogCatalogTypesDataSource-", DatacatalogCatalogTypesDataSource(), s.D))
 
 	resources := []map[string]interface{}{}
 	catalogType := map[string]interface{}{}

@@ -95,7 +95,7 @@ func (s *CoreLocalPeeringGatewaysDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreLocalPeeringGatewaysDataSource-", CoreLocalPeeringGatewaysDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

@@ -65,7 +65,7 @@ func (s *IdentityAuthenticationPolicyDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("IdentityAuthenticationPolicyDataSource-", IdentityAuthenticationPolicyDataSource(), s.D))
 
 	if s.Res.NetworkPolicy != nil {
 		s.D.Set("network_policy", []interface{}{NetworkPolicyToMap(s.Res.NetworkPolicy)})

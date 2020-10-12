@@ -133,7 +133,7 @@ func (s *CoreComputeGlobalImageCapabilitySchemasDataSourceCrud) SetData() error 
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreComputeGlobalImageCapabilitySchemasDataSource-", CoreComputeGlobalImageCapabilitySchemasDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

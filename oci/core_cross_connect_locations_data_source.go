@@ -102,7 +102,7 @@ func (s *CoreCrossConnectLocationsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreCrossConnectLocationsDataSource-", CoreCrossConnectLocationsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

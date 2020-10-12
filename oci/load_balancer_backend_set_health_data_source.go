@@ -107,7 +107,7 @@ func (s *LoadBalancerBackendSetHealthDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("LoadBalancerBackendSetHealthDataSource-", LoadBalancerBackendSetHealthDataSource(), s.D))
 
 	s.D.Set("critical_state_backend_names", s.Res.CriticalStateBackendNames)
 

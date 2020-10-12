@@ -81,7 +81,7 @@ func (s *DatabaseExadataInfrastructureDownloadConfigFileDataSourceCrud) SetData(
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseExadataInfrastructureDownloadConfigFileDataSource-", DatabaseExadataInfrastructureDownloadConfigFileDataSource(), s.D))
 
 	base64EncodeContent := false
 	if tmp, ok := s.D.GetOkExists("base64_encode_content"); ok {

@@ -122,7 +122,7 @@ func (s *FileStorageFileSystemsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("FileStorageFileSystemsDataSource-", FileStorageFileSystemsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

@@ -177,7 +177,7 @@ func (s *CoreByoipRangesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreByoipRangesDataSource-", CoreByoipRangesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	byoipRange := map[string]interface{}{}
 

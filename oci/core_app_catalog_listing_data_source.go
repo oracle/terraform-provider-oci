@@ -97,7 +97,7 @@ func (s *CoreAppCatalogListingDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreAppCatalogListingDataSource-", CoreAppCatalogListingDataSource(), s.D))
 
 	if s.Res.ContactUrl != nil {
 		s.D.Set("contact_url", *s.Res.ContactUrl)

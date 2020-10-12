@@ -130,7 +130,7 @@ func (s *DataflowPrivateEndpointsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DataflowPrivateEndpointsDataSource-", DataflowPrivateEndpointsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	privateEndpoint := map[string]interface{}{}
 

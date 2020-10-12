@@ -132,7 +132,7 @@ func (s *MonitoringAlarmHistoryCollectionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("MonitoringAlarmHistoryCollectionDataSource-", MonitoringAlarmHistoryCollectionDataSource(), s.D))
 
 	entries := []interface{}{}
 	for _, item := range s.Res.Entries {

@@ -105,7 +105,7 @@ func (s *DatacatalogConnectionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatacatalogConnectionDataSource-", DatacatalogConnectionDataSource(), s.D))
 
 	if s.Res.CreatedById != nil {
 		s.D.Set("created_by_id", *s.Res.CreatedById)

@@ -93,7 +93,7 @@ func (s *MeteringComputationConfigurationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("MeteringComputationConfigurationDataSource-", MeteringComputationConfigurationDataSource(), s.D))
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {

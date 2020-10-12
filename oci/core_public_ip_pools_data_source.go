@@ -113,7 +113,7 @@ func (s *CorePublicIpPoolsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CorePublicIpPoolsDataSource-", CorePublicIpPoolsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	publicIpPool := map[string]interface{}{}
 

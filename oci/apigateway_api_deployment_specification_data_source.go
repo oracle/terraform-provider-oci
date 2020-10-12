@@ -1032,7 +1032,7 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ApigatewayApiDeploymentSpecificationDataSource-", ApigatewayApiDeploymentSpecificationDataSource(), s.D))
 
 	if s.Res.LoggingPolicies != nil {
 		s.D.Set("logging_policies", []interface{}{ApiSpecificationLoggingPoliciesToMap(s.Res.LoggingPolicies)})

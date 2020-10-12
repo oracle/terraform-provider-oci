@@ -95,7 +95,7 @@ func (s *CoreComputeGlobalImageCapabilitySchemasVersionDataSourceCrud) SetData()
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreComputeGlobalImageCapabilitySchemasVersionDataSource-", CoreComputeGlobalImageCapabilitySchemasVersionDataSource(), s.D))
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)

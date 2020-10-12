@@ -105,7 +105,7 @@ func (s *CoreVolumeGroupBackupsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreVolumeGroupBackupsDataSource-", CoreVolumeGroupBackupsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

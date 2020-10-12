@@ -75,7 +75,7 @@ func (s *ResourcemanagerStackTfStateDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ResourcemanagerStackTfStateDataSource-", ResourcemanagerStackTfStateDataSource(), s.D))
 
 	path, _ := s.D.GetOkExists("local_path")
 

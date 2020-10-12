@@ -100,7 +100,7 @@ func (s *OcvpSddcsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("OcvpSddcsDataSource-", OcvpSddcsDataSource(), s.D))
 
 	resources := []map[string]interface{}{}
 	for _, item := range s.Res.Items {

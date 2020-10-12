@@ -187,7 +187,7 @@ func (s *HealthChecksVantagePointsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("HealthChecksVantagePointsDataSource-", HealthChecksVantagePointsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

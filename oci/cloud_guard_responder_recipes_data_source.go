@@ -138,7 +138,7 @@ func (s *CloudGuardResponderRecipesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CloudGuardResponderRecipesDataSource-", CloudGuardResponderRecipesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	responderRecipe := map[string]interface{}{}
 

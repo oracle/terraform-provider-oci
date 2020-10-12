@@ -115,7 +115,7 @@ func (s *CoreByoipAllocatedRangesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreByoipAllocatedRangesDataSource-", CoreByoipAllocatedRangesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	byoipAllocatedRange := map[string]interface{}{}
 

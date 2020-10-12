@@ -172,7 +172,7 @@ func (s *WaasCustomProtectionRulesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("WaasCustomProtectionRulesDataSource-", WaasCustomProtectionRulesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

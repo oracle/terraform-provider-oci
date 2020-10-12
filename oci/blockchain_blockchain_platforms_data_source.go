@@ -112,7 +112,7 @@ func (s *BlockchainBlockchainPlatformsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("BlockchainBlockchainPlatformsDataSource-", BlockchainBlockchainPlatformsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	blockchainPlatform := map[string]interface{}{}
 

@@ -56,7 +56,7 @@ func (s *DatabaseAutonomousDatabaseRegionalWalletManagementDataSourceCrud) SetDa
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseAutonomousDatabaseRegionalWalletManagementDataSource-", DatabaseAutonomousDatabaseRegionalWalletManagementDataSource(), s.D))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

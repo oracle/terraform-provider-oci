@@ -129,7 +129,7 @@ func (s *CloudGuardTargetsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CloudGuardTargetsDataSource-", CloudGuardTargetsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	target := map[string]interface{}{}
 

@@ -98,7 +98,7 @@ func (s *DatabaseAutonomousExadataInfrastructureOcpuDataSourceCrud) SetData() er
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseAutonomousExadataInfrastructureOcpuDataSource-", DatabaseAutonomousExadataInfrastructureOcpuDataSource(), s.D))
 
 	if s.Res.ByWorkloadType != nil {
 		s.D.Set("by_workload_type", []interface{}{WorkloadTypeToMap(s.Res.ByWorkloadType)})

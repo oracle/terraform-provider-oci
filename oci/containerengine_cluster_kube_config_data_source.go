@@ -101,7 +101,7 @@ func (s *ContainerengineClusterKubeConfigDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ContainerengineClusterKubeConfigDataSource-", ContainerengineClusterKubeConfigDataSource(), s.D))
 
 	s.D.Set("content", string(*s.Res))
 

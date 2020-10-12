@@ -106,7 +106,7 @@ func (s *LimitsResourceAvailabilityDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("LimitsResourceAvailabilityDataSource-", LimitsResourceAvailabilityDataSource(), s.D))
 
 	if s.Res.Available != nil {
 		s.D.Set("available", strconv.FormatInt(*s.Res.Available, 10))

@@ -146,7 +146,7 @@ func (s *DatacatalogCatalogTypeDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatacatalogCatalogTypeDataSource-", DatacatalogCatalogTypeDataSource(), s.D))
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)

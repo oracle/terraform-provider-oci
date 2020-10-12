@@ -113,7 +113,7 @@ func (s *LoggingLogSavedSearchesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("LoggingLogSavedSearchesDataSource-", LoggingLogSavedSearchesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	logSavedSearch := map[string]interface{}{}
 

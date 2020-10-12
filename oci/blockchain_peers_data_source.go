@@ -104,7 +104,7 @@ func (s *BlockchainPeersDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("BlockchainPeersDataSource-", BlockchainPeersDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	peer := map[string]interface{}{}
 
