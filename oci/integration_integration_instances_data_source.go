@@ -111,7 +111,19 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		alternateCustomEndpoints := []interface{}{}
+		for _, item := range r.AlternateCustomEndpoints {
+			alternateCustomEndpoints = append(alternateCustomEndpoints, CustomEndpointDetailsToMap(&item))
+		}
+		integrationInstance["alternate_custom_endpoints"] = alternateCustomEndpoints
+
 		integrationInstance["consumption_model"] = r.ConsumptionModel
+
+		if r.CustomEndpoint != nil {
+			integrationInstance["custom_endpoint"] = []interface{}{CustomEndpointDetailsToMap(r.CustomEndpoint)}
+		} else {
+			integrationInstance["custom_endpoint"] = nil
+		}
 
 		if r.DisplayName != nil {
 			integrationInstance["display_name"] = *r.DisplayName
@@ -133,6 +145,10 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 
 		if r.IsFileServerEnabled != nil {
 			integrationInstance["is_file_server_enabled"] = *r.IsFileServerEnabled
+		}
+
+		if r.IsVisualBuilderEnabled != nil {
+			integrationInstance["is_visual_builder_enabled"] = *r.IsVisualBuilderEnabled
 		}
 
 		if r.MessagePacks != nil {
