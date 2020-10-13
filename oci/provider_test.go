@@ -759,6 +759,12 @@ func TestUnitBuildClientConfigureFn_interceptor(t *testing.T) {
 	r, _ := http.NewRequest("GET", "cloud.com", nil)
 	baseClient.Interceptor(r)
 	assert.Equal(t, "fake-token", r.Header.Get(requestHeaderOpcOboToken))
+
+	// Update obo token and check
+	os.Setenv(oboTokenAttrName, "another-token")
+	baseClient.Interceptor(r)
+	assert.NotEqual(t, "fake-token", r.Header.Get(requestHeaderOpcOboToken))
+	assert.Equal(t, "another-token", r.Header.Get(requestHeaderOpcOboToken))
 }
 
 func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
