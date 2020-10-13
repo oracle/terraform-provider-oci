@@ -93,7 +93,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CustomLogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, customLogRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+					Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "log"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -119,7 +119,8 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + CustomLogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation),
+					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation) +
+					generateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Update, logGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -144,7 +145,8 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", Optional, Update, customLogDataSourceRepresentation) +
-					compartmentIdVariableStr + CustomLogResourceDependencies +
+					generateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Update, logGroupRepresentation) +
+				compartmentIdVariableStr + CustomLogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -170,7 +172,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + CustomLogResourceConfig,
+				compartmentIdVariableStr + CustomLogResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_id"),
