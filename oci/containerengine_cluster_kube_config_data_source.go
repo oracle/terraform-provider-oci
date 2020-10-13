@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v26/containerengine"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v27/containerengine"
 
 	"io/ioutil"
 )

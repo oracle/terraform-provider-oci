@@ -14,8 +14,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v26/common"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	oci_common "github.com/oracle/oci-go-sdk/v27/common"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
 func init() {
