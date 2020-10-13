@@ -68,7 +68,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `banner` - 
+* `banner` - The model for upload data for images and icons.
 	* `content_url` - The content URL of the upload data.
 	* `file_extension` - The file extension of the upload data.
 	* `mime_type` - The MIME type of the upload data.
@@ -79,7 +79,7 @@ The following attributes are exported:
 	* `document_category` - The category that the document belongs to.
 	* `name` - Text that describes the resource.
 	* `url` - The URL of the resource.
-* `icon` - 
+* `icon` - The model for upload data for images and icons.
 	* `content_url` - The content URL of the upload data.
 	* `file_extension` - The file extension of the upload data.
 	* `mime_type` - The MIME type of the upload data.
@@ -97,7 +97,7 @@ The following attributes are exported:
 * `long_description` - A long description of the listing.
 * `name` - The name of the listing.
 * `package_type` - The listing's package type.
-* `publisher` - 
+* `publisher` - Summary details about the publisher of the listing.
 	* `contact_email` - The email address of the publisher.
 	* `contact_phone` - The phone number of the publisher.
 	* `description` - A description of the publisher.
@@ -106,7 +106,7 @@ The following attributes are exported:
 	* `links` - Reference links.
 		* `href` - The anchor tag.
 		* `rel` - Reference links to the previous page, next page, and other pages.
-	* `logo` - 
+	* `logo` - The model for upload data for images and icons.
 		* `content_url` - The content URL of the upload data.
 		* `file_extension` - The file extension of the upload data.
 		* `mime_type` - The MIME type of the upload data.

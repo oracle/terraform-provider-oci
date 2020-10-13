@@ -35,9 +35,9 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - Compartment OCID.
-* `network_policy` - 
+* `network_policy` - Network policy, Consists of a list of Network Source ids. 
 	* `network_source_ids` - Network Source ids 
-* `password_policy` - 
+* `password_policy` - Password policy, currently set for the given compartment. 
 	* `is_lowercase_characters_required` - At least one lower case character required.
 	* `is_numeric_characters_required` - At least one numeric character required.
 	* `is_special_characters_required` - At least one special character required.

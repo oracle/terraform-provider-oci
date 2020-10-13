@@ -43,7 +43,7 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable.
 * `lifecycle_details` - A message describing the current state in more detail. 
 * `name` - Human-friendly table name, immutable.
-* `schema` - 
+* `schema` - The table schema information as a JSON object.
 	* `columns` - The columns of a table.
 		* `default_value` - The column default value.
 		* `is_nullable` - The column nullable flag.
@@ -53,7 +53,7 @@ The following attributes are exported:
 	* `shard_key` - A list of column names that make up a key.
 	* `ttl` - The default Time-to-Live for the table, in days.
 * `state` - The state of a table.
-* `table_limits` - 
+* `table_limits` - Throughput and storage limits configuration of a table.
 	* `max_read_units` - Maximum sustained read throughput limit for the table.
 	* `max_storage_in_gbs` - Maximum size of storage used by the table.
 	* `max_write_units` - Maximum sustained write throughput limit for the table.

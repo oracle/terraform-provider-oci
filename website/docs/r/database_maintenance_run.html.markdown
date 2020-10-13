@@ -53,6 +53,7 @@ The following attributes are exported:
 * `maintenance_subtype` - Maintenance sub-type.
 * `maintenance_type` - Maintenance type.
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch to be applied in the maintenance run.
+* `peer_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance run for the Data Guard association's peer container database.
 * `state` - The current state of the maintenance run.
 * `target_resource_id` - The ID of the target resource on which the maintenance run occurs.
 * `target_resource_type` - The type of the target resource on which the maintenance run occurs.

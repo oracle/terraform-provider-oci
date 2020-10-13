@@ -66,7 +66,11 @@ The following arguments are supported:
 * `is_cost_tracking` - (Optional) (Updatable) Indicates whether the tag is enabled for cost tracking. 
 * `name` - (Required) The name you assign to the tag during creation. This is the tag key definition. The name must be unique within the tag namespace and cannot be changed. 
 * `tag_namespace_id` - (Required) The OCID of the tag namespace. 
-* `validator` - (Optional) (Updatable) 
+* `validator` - (Optional) (Updatable) Validates a definedTag value. Each validator performs validation steps in addition to the standard validation for definedTag values. For more information, see  [Limits on Tags](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Limits).
+
+	If you define a validator after a value has been set for a defined tag, then any updates that  attempt to change the value must pass the additional validation defined by the current rule.  Previously set values (even those that would fail the current validation) are not updated. You can still update other attributes to resources that contain a non-valid defined tag.
+
+	To clear the validator call UpdateTag with  [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
 	* `validator_type` - (Required) (Updatable) Specifies the type of validation: a static value (no validation) or a list.  
 	* `values` - (Applicable when validator_type=ENUM) (Updatable) The list of allowed values for a definedTag value. 
 * `is_retired` - (Optional) (Updatable) Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
@@ -89,7 +93,11 @@ The following attributes are exported:
 * `state` - The tag's current state. After creating a tag, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tag, make sure its `lifecycleState` is INACTIVE before using it. If you delete a tag, you cannot delete another tag until the deleted tag's `lifecycleState` changes from DELETING to DELETED.
 * `tag_namespace_id` - The OCID of the namespace that contains the tag definition.
 * `time_created` - Date and time the tag was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
-* `validator` - 
+* `validator` - Validates a definedTag value. Each validator performs validation steps in addition to the standard validation for definedTag values. For more information, see  [Limits on Tags](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Limits).
+
+	If you define a validator after a value has been set for a defined tag, then any updates that  attempt to change the value must pass the additional validation defined by the current rule.  Previously set values (even those that would fail the current validation) are not updated. You can still update other attributes to resources that contain a non-valid defined tag.
+
+	To clear the validator call UpdateTag with  [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
 	* `validator_type` - Specifies the type of validation: a static value (no validation) or a list.  
 	* `values` - The list of allowed values for a definedTag value. 
 

@@ -52,7 +52,7 @@ resource "oci_load_balancer_listener" "test_listener" {
 
 The following arguments are supported:
 
-* `connection_configuration` - (Optional) (Updatable) 
+* `connection_configuration` - (Optional) (Updatable) Configuration details for the connection between the client and backend servers. 
 	* `backend_tcp_proxy_protocol_version` - (Required when `protocol` = `TCP`) (Updatable) The backend TCP Proxy Protocol version.  Example: `1` 
 	* `idle_timeout_in_seconds` - (Required) (Updatable) The maximum idle time, in seconds, allowed between two successive receive or two successive send operations between the client and backend servers. A send operation does not reset the timer for receive operations. A receive operation does not reset the timer for send operations.
 
@@ -67,7 +67,9 @@ The following arguments are supported:
 * `port` - (Required) (Updatable) The communication port for the listener.  Example: `80` 
 * `protocol` - (Required) (Updatable) The protocol on which the listener accepts connection requests. To get a list of valid protocols, use the [ListProtocols](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols) operation.  Example: `HTTP` 
 * `rule_set_names` - (Optional) (Updatable) The names of the [rule sets](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/RuleSet/) to apply to the listener.  Example: ["example_rule_set"] 
-* `ssl_configuration` - (Optional) (Updatable) 
+* `ssl_configuration` - (Optional) (Updatable) The load balancer's SSL handling configuration details.
+
+	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
 	* `certificate_name` - (Required) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 	* `verify_depth` - (Optional) (Updatable) The maximum depth for peer certificate chain verification.  Example: `3` 
 	* `verify_peer_certificate` - (Optional) (Updatable) Whether the load balancer listener should verify peer certificates.  Example: `true` 

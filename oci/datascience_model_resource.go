@@ -12,12 +12,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/oracle/oci-go-sdk/v26/common"
+	"github.com/oracle/oci-go-sdk/v27/common"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v26/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v27/datascience"
 )
 
 func init() {

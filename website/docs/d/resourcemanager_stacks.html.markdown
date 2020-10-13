@@ -55,7 +55,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - Unique identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) for the compartment where the stack is located.
-* `config_source` - 
+* `config_source` - Location of the Terraform configuration. 
 	* `config_source_type` - Specifies the `configSourceType` for uploading the Terraform configuration. Presently, the .zip file type (`ZIP_UPLOAD`) is the only supported `configSourceType`. 
 	* `working_directory` - File path to the directory from which Terraform runs. If not specified, we use the root directory. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 

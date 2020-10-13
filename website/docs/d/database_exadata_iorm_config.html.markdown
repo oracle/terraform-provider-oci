@@ -10,8 +10,13 @@ description: |-
 # Data Source: oci_database_exadata_iorm_config
 This data source provides details about a specific Exadata Iorm Config resource in Oracle Cloud Infrastructure Database service.
 
+<<<<<<< HEAD
 Gets the IORM configuration settings for the specified cloud Exadata system.
 All Exadata service instances have default IORM settings.
+=======
+Gets the IORM configuration settings for the specified Exadata DB system.
+All Exadata DB systems have default IORM settings.
+>>>>>>> Auto-generated seed code for DEXREQ-1573
 
 
 ## Example Usage

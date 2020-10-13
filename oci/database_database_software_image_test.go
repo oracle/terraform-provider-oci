@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/oci-go-sdk/v26/common"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	"github.com/oracle/oci-go-sdk/v27/common"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -379,7 +379,7 @@ func getDatabaseSoftwareImageIds(compartment string) ([]string, error) {
 func databaseSoftwareImageSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if databaseSoftwareImageResponse, ok := response.Response.(oci_database.GetDatabaseSoftwareImageResponse); ok {
-		return databaseSoftwareImageResponse.LifecycleState != oci_database.DatabaseSoftwareImageLifecycleStateDeleted
+		return (databaseSoftwareImageResponse.LifecycleState != oci_database.DatabaseSoftwareImageLifecycleStateDeleted) && (databaseSoftwareImageResponse.LifecycleState != oci_database.DatabaseSoftwareImageLifecycleStateTerminated)
 	}
 	return false
 }

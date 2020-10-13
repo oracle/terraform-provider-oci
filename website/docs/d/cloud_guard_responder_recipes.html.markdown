@@ -71,7 +71,7 @@ The following attributes are exported:
 * `effective_responder_rules` - List of responder rules associated with the recipe
 	* `compartment_id` - Compartment Identifier
 	* `description` - ResponderRule Description
-	* `details` - 
+	* `details` - Details of ResponderRule.
 		* `condition` - 
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration
@@ -95,7 +95,7 @@ The following attributes are exported:
 * `responder_rules` - List of responder rules associated with the recipe
 	* `compartment_id` - Compartment Identifier
 	* `description` - ResponderRule Description
-	* `details` - 
+	* `details` - Details of ResponderRule.
 		* `condition` - 
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration

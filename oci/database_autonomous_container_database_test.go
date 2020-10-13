@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/oci-go-sdk/v26/common"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	"github.com/oracle/oci-go-sdk/v27/common"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -370,6 +370,9 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				ImportStateVerifyIgnore: []string{
 					"rotate_key_trigger",
 					"maintenance_window_details",
+					"peer_autonomous_container_database_display_name",
+					"peer_autonomous_exadata_infrastructure_id",
+					"protection_mode",
 				},
 				ResourceName: resourceName,
 			},

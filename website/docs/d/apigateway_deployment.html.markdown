@@ -41,29 +41,29 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
 * `path_prefix` - A path on which to deploy all routes contained in the API deployment specification. For more information, see [Deploying an API on an API Gateway by Creating an API Deployment](https://docs.cloud.oracle.com/iaas/Content/APIGateway/Tasks/apigatewaycreatingdeployment.htm). 
-* `specification` - 
-	* `logging_policies` - 
-		* `access_log` - 
+* `specification` - The logical configuration of the API exposed by a deployment.
+	* `logging_policies` - Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging. 
+		* `access_log` - Configures the logging policies for the access logs of an API Deployment. 
 			* `is_enabled` - Enables pushing of access logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
 
 				Oracle recommends using the Oracle Cloud Infrastructure Logging service to enable, retrieve, and query access logs for an API Deployment. If there is an active log object for the API Deployment and its category is set to 'access' in Oracle Cloud Infrastructure Logging service, the logs will not be uploaded to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
 
 				Please note that the functionality to push to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket has been deprecated and will be removed in the future. 
-		* `execution_log` - 
+		* `execution_log` - Configures the logging policies for the execution logs of an API Deployment. 
 			* `is_enabled` - Enables pushing of execution logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
 
 				Oracle recommends using the Oracle Cloud Infrastructure Logging service to enable, retrieve, and query execution logs for an API Deployment. If there is an active log object for the API Deployment and its category is set to 'execution' in Oracle Cloud Infrastructure Logging service, the logs will not be uploaded to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
 
 				Please note that the functionality to push to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket has been deprecated and will be removed in the future. 
 			* `log_level` - Specifies the log level used to control logging output of execution logs. Enabling logging at a given level also enables logging at all higher levels. 
-	* `request_policies` - 
-		* `authentication` - 
+	* `request_policies` - Global behavior applied to all requests received by the API.
+		* `authentication` - Information on how to authenticate incoming requests.
 			* `audiences` - The list of intended recipients for the token.
 			* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
 			* `is_anonymous_access_allowed` - Whether an unauthenticated user may access the API. Must be "true" to enable ANONYMOUS route authorization. 
 			* `issuers` - A list of parties that could have issued the token.
 			* `max_clock_skew_in_seconds` - The maximum expected time difference between the system clocks of the token issuer and the API Gateway. 
-			* `public_keys` - 
+			* `public_keys` - A set of Public Keys that will be used to verify the JWT signature.
 				* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
 				* `keys` - The set of static public keys.
 					* `alg` - The algorithm intended for use with this key.
@@ -86,18 +86,18 @@ The following attributes are exported:
 				* `is_required` - Whether the claim is required to be present in the JWT or not. If set to "false", the claim values will be matched only if the claim is present in the JWT. 
 				* `key` - Name of the claim.
 				* `values` - The list of acceptable values for a given claim. If this value is "null" or empty and "isRequired" set to "true", then the presence of this claim in the JWT is validated. 
-		* `cors` - 
+		* `cors` - Enable CORS (Cross-Origin-Resource-Sharing) request handling. 
 			* `allowed_headers` - The list of headers that will be allowed from the client via the Access-Control-Allow-Headers header. '*' will allow all headers. 
 			* `allowed_methods` - The list of allowed HTTP methods that will be returned for the preflight OPTIONS request in the Access-Control-Allow-Methods header. '*' will allow all methods. 
 			* `allowed_origins` - The list of allowed origins that the CORS handler will use to respond to CORS requests. The gateway will send the Access-Control-Allow-Origin header with the best origin match for the circumstances. '*' will match any origins, and 'null' will match queries from 'file:' origins. All other origins must be qualified with the scheme, full hostname, and port if necessary. 
 			* `exposed_headers` - The list of headers that the client will be allowed to see from the response as indicated by the Access-Control-Expose-Headers header. '*' will expose all headers. 
 			* `is_allow_credentials_enabled` - Whether to send the Access-Control-Allow-Credentials header to allow CORS requests with cookies. 
 			* `max_age_in_seconds` - The time in seconds for the client to cache preflight responses. This is sent as the Access-Control-Max-Age if greater than 0. 
-		* `rate_limiting` - 
+		* `rate_limiting` - Limit the number of requests that should be handled for the specified window using a specfic key.
 			* `rate_in_requests_per_second` - The maximum number of requests per second to allow.
 			* `rate_key` - The key used to group requests together.
 	* `routes` - A list of routes that this API exposes.
-		* `backend` - 
+		* `backend` - The backend to forward requests to. 
 			* `body` - The body of the stock response from the mock backend.
 			* `connect_timeout_in_seconds` - Defines a timeout for establishing a connection with a proxied server. 
 			* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
@@ -110,14 +110,14 @@ The following attributes are exported:
 			* `status` - The status code of the stock response from the mock backend.
 			* `type` - Type of the API backend.
 			* `url` - 
-		* `logging_policies` - 
-			* `access_log` - 
+		* `logging_policies` - Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging. 
+			* `access_log` - Configures the logging policies for the access logs of an API Deployment. 
 				* `is_enabled` - Enables pushing of access logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
 
 					Oracle recommends using the Oracle Cloud Infrastructure Logging service to enable, retrieve, and query access logs for an API Deployment. If there is an active log object for the API Deployment and its category is set to 'access' in Oracle Cloud Infrastructure Logging service, the logs will not be uploaded to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
 
 					Please note that the functionality to push to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket has been deprecated and will be removed in the future. 
-			* `execution_log` - 
+			* `execution_log` - Configures the logging policies for the execution logs of an API Deployment. 
 				* `is_enabled` - Enables pushing of execution logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
 
 					Oracle recommends using the Oracle Cloud Infrastructure Logging service to enable, retrieve, and query execution logs for an API Deployment. If there is an active log object for the API Deployment and its category is set to 'execution' in Oracle Cloud Infrastructure Logging service, the logs will not be uploaded to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
@@ -126,56 +126,56 @@ The following attributes are exported:
 				* `log_level` - Specifies the log level used to control logging output of execution logs. Enabling logging at a given level also enables logging at all higher levels. 
 		* `methods` - A list of allowed methods on this route. 
 		* `path` - A URL path pattern that must be matched on this route. The path pattern may contain a subset of RFC 6570 identifiers to allow wildcard and parameterized matching. 
-		* `request_policies` - 
-			* `authorization` - 
+		* `request_policies` - Behavior applied to any requests received by the API on this route. 
+			* `authorization` - If authentication has been performed, validate whether the request scope (if any) applies to this route. If no RouteAuthorizationPolicy is defined for a route, a policy with a type of AUTHENTICATION_ONLY is applied. 
 				* `allowed_scope` - A user whose scope includes any of these access ranges is allowed on this route. Access ranges are case-sensitive. 
 				* `type` - Indicates how authorization should be applied. For a type of ANY_OF, an "allowedScope" property must also be specified. Otherwise, only a type is required. For a type of ANONYMOUS, an authenticated API must have the "isAnonymousAccessAllowed" property set to "true" in the authentication policy. 
-			* `cors` - 
+			* `cors` - Enable CORS (Cross-Origin-Resource-Sharing) request handling. 
 				* `allowed_headers` - The list of headers that will be allowed from the client via the Access-Control-Allow-Headers header. '*' will allow all headers. 
 				* `allowed_methods` - The list of allowed HTTP methods that will be returned for the preflight OPTIONS request in the Access-Control-Allow-Methods header. '*' will allow all methods. 
 				* `allowed_origins` - The list of allowed origins that the CORS handler will use to respond to CORS requests. The gateway will send the Access-Control-Allow-Origin header with the best origin match for the circumstances. '*' will match any origins, and 'null' will match queries from 'file:' origins. All other origins must be qualified with the scheme, full hostname, and port if necessary. 
 				* `exposed_headers` - The list of headers that the client will be allowed to see from the response as indicated by the Access-Control-Expose-Headers header. '*' will expose all headers. 
 				* `is_allow_credentials_enabled` - Whether to send the Access-Control-Allow-Credentials header to allow CORS requests with cookies. 
 				* `max_age_in_seconds` - The time in seconds for the client to cache preflight responses. This is sent as the Access-Control-Max-Age if greater than 0. 
-			* `header_transformations` - 
-				* `filter_headers` - 
+			* `header_transformations` - A set of transformations to apply to HTTP headers that pass through the gateway. 
+				* `filter_headers` - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy. 
 					* `items` - The list of headers. 
 						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
 					* `type` - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
-				* `rename_headers` - 
+				* `rename_headers` - Rename HTTP headers as they pass through the gateway. 
 					* `items` - The list of headers.
 						* `from` - The original case-insensitive name of the header.  This name must be unique across transformation policies. 
 						* `to` - The new name of the header.  This name must be unique across transformation policies. 
-				* `set_headers` - 
+				* `set_headers` - Set HTTP headers as they pass through the gateway. 
 					* `items` - The list of headers.
 						* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
 						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
-			* `query_parameter_transformations` - 
-				* `filter_query_parameters` - 
+			* `query_parameter_transformations` - A set of transformations to apply to query parameters that pass through the gateway. 
+				* `filter_query_parameters` - Filter parameters from the query string as they pass through the gateway.  The gateway applies filters after other transformations, so any parameters set or renamed must also be listed here when using an ALLOW type policy. 
 					* `items` - The list of query parameters. 
 						* `name` - The case-sensitive name of the query parameter. 
 					* `type` - BLOCK drops any query parameters that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the parameters in the list and removes all others, so it acts as an inclusion list. 
-				* `rename_query_parameters` - 
+				* `rename_query_parameters` - Rename parameters on the query string as they pass through the gateway. 
 					* `items` - The list of query parameters. 
 						* `from` - The original case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 						* `to` - The new name of the query parameter.  This name must be unique across transformation policies. 
-				* `set_query_parameters` - 
+				* `set_query_parameters` - Set parameters on the query string as they pass through the gateway. 
 					* `items` - The list of query parameters. 
 						* `if_exists` - If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
-		* `response_policies` - 
-			* `header_transformations` - 
-				* `filter_headers` - 
+		* `response_policies` - Behavior applied to any responses sent by the API for requests on this route. 
+			* `header_transformations` - A set of transformations to apply to HTTP headers that pass through the gateway. 
+				* `filter_headers` - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy. 
 					* `items` - The list of headers. 
 						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
 					* `type` - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
-				* `rename_headers` - 
+				* `rename_headers` - Rename HTTP headers as they pass through the gateway. 
 					* `items` - The list of headers.
 						* `from` - The original case-insensitive name of the header.  This name must be unique across transformation policies. 
 						* `to` - The new name of the header.  This name must be unique across transformation policies. 
-				* `set_headers` - 
+				* `set_headers` - Set HTTP headers as they pass through the gateway. 
 					* `items` - The list of headers.
 						* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 

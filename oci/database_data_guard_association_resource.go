@@ -14,8 +14,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v26/common"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	oci_common "github.com/oracle/oci-go-sdk/v27/common"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
 func init() {
@@ -110,6 +110,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"peer_db_home_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"peer_db_system_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -153,10 +159,6 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Computed: true,
 			},
 			"peer_database_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_db_home_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -355,6 +357,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 	switch strings.ToLower(creationType) {
 	case strings.ToLower("ExistingDbSystem"):
 		details := oci_database.CreateDataGuardAssociationToExistingDbSystemDetails{}
+		if peerDbHomeId, ok := s.D.GetOkExists("peer_db_home_id"); ok {
+			tmp := peerDbHomeId.(string)
+			details.PeerDbHomeId = &tmp
+		}
 		if peerDbSystemId, ok := s.D.GetOkExists("peer_db_system_id"); ok {
 			tmp := peerDbSystemId.(string)
 			details.PeerDbSystemId = &tmp
@@ -376,6 +382,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		request.CreateDataGuardAssociationDetails = details
 	case strings.ToLower("ExistingVmCluster"):
 		details := oci_database.CreateDataGuardAssociationToExistingVmClusterDetails{}
+		if peerDbHomeId, ok := s.D.GetOkExists("peer_db_home_id"); ok {
+			tmp := peerDbHomeId.(string)
+			details.PeerDbHomeId = &tmp
+		}
 		if peerVmClusterId, ok := s.D.GetOkExists("peer_vm_cluster_id"); ok {
 			tmp := peerVmClusterId.(string)
 			details.PeerVmClusterId = &tmp

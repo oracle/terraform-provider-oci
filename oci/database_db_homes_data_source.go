@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
 func init() {
@@ -28,6 +28,10 @@ func DatabaseDbHomesDataSource() *schema.Resource {
 				Required: true,
 			},
 			"db_system_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"db_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -86,6 +90,11 @@ func (s *DatabaseDbHomesDataSourceCrud) Get() error {
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
 		tmp := dbSystemId.(string)
 		request.DbSystemId = &tmp
+	}
+
+	if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+		tmp := dbVersion.(string)
+		request.DbVersion = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {

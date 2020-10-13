@@ -48,7 +48,7 @@ resource "oci_events_rule" "test_rule" {
 
 The following arguments are supported:
 
-* `actions` - (Required) (Updatable) 
+* `actions` - (Required) (Updatable) A list of ActionDetails objects to create for a rule.
 	* `actions` - (Required) (Updatable) A list of one or more ActionDetails objects. 
 		* `action_type` - (Required) (Updatable) The action to perform if the condition in the rule matches an event.
 			* **ONS:** Send to an Oracle Notification Service topic.
@@ -87,7 +87,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `actions` - 
+* `actions` - A list of Action objects associated with a rule. 
 	* `actions` - A list of one or more Action objects. 
 		* `action_type` - The action to perform if the condition in the rule matches an event.
 			* **ONS:** Send to an Oracle Notification Service topic.

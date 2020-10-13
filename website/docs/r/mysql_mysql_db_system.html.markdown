@@ -68,7 +68,7 @@ The following arguments are supported:
 * `admin_password` - (Required) The password for the administrative user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special (nonalphanumeric) character. 
 * `admin_username` - (Required) The username for the administrative user.
 * `availability_domain` - (Required) The Availability Domain where the primary instance should be located. 
-* `backup_policy` - (Optional) (Updatable) 
+* `backup_policy` - (Optional) (Updatable) Backup policy as optionally used for DB System Creation. 
 	* `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 
 		Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.
@@ -96,7 +96,7 @@ The following arguments are supported:
 
 	Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 * `ip_address` - (Optional) The IP address the DB System is configured to listen on. A private IP address of your choice to assign to the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a "dotted-quad" style IPv4 address. 
-* `maintenance` - (Optional) (Updatable) `maintenance` and `backup_policy` cannot be updated in the same request.
+* `maintenance` - (Optional) (Updatable) The Maintenance Policy for the DB System. `maintenance` and `backup_policy` cannot be updated in the same request.
 	* `window_start_time` - (Required) (Updatable) The start of the 2 hour maintenance window.
 
 		This string is of the format: "{day-of-week} {time-of-day}".
@@ -109,7 +109,7 @@ The following arguments are supported:
 * `port_x` - (Optional) The TCP network port on which X Plugin listens for connections. This is the X Plugin equivalent of port. 
 * `shape_name` - (Required) The name of the shape. The shape determines the resources allocated
 	* CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
-* `source` - (Optional) 
+* `source` - (Optional) Parameters detailing how to provision the initial data of the system. 
 	* `backup_id` - (Required when source_type=BACKUP) The OCID of the backup to be used as the source for the new DB System. 
 	* `source_type` - (Required) The specific source identifier. Use `BACKUP` for creating a new database by restoring from a backup.
 * `subnet_id` - (Required) The OCID of the subnet the DB System is associated with. 
@@ -124,7 +124,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `availability_domain` - The Availability Domain where the primary DB System should be located. 
-* `backup_policy` - 
+* `backup_policy` - The Backup policy for the DB System.
 	* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 
 		Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.
@@ -169,7 +169,7 @@ The following attributes are exported:
 * `id` - The OCID of the DB System.
 * `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
-* `maintenance` - 
+* `maintenance` - The Maintenance Policy for the DB System. 
 	* `window_start_time` - The start time of the maintenance window.
 
 		This string is of the format: "{day-of-week} {time-of-day}".
@@ -181,7 +181,7 @@ The following attributes are exported:
 * `port` - The port for primary endpoint of the DB System to listen on.
 * `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 
 * `shape_name` - The shape of the primary instances of the DB System. The shape determines resources allocated to a DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use (the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20181021/ShapeSummary/ListShapes) operation. 
-* `source` - 
+* `source` - Parameters detailing how to provision the initial data of the DB System. 
 	* `backup_id` - The OCID of the backup to be used as the source for the new DB System. 
 	* `source_type` - The specific source identifier. 
 * `state` - The current state of the DB System.

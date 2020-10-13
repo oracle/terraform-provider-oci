@@ -19,12 +19,14 @@ Create a subscription for listing resource version for a compartment. It will ta
 resource "oci_core_app_catalog_subscription" "test_app_catalog_subscription" {
 	#Required
 	compartment_id = var.compartment_id
-	eula_link = var.app_catalog_subscription_eula_link
 	listing_id = data.oci_core_app_catalog_listing.test_listing.id
 	listing_resource_version = var.app_catalog_subscription_listing_resource_version
 	oracle_terms_of_use_link = var.app_catalog_subscription_oracle_terms_of_use_link
 	signature = var.app_catalog_subscription_signature
 	time_retrieved = var.app_catalog_subscription_time_retrieved
+
+	#Optional
+	eula_link = var.app_catalog_subscription_eula_link
 }
 ```
 
@@ -33,7 +35,7 @@ resource "oci_core_app_catalog_subscription" "test_app_catalog_subscription" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The compartmentID for the subscription.
-* `eula_link` - (Required) EULA link
+* `eula_link` - (Optional) EULA link
 * `listing_id` - (Required) The OCID of the listing.
 * `listing_resource_version` - (Required) Listing resource version.
 * `oracle_terms_of_use_link` - (Required) Oracle TOU link

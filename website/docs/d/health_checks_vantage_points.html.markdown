@@ -43,7 +43,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `display_name` - The display name for the vantage point. Display names are determined by the best information available and may change over time. 
-* `geo` - 
+* `geo` - Geographic information about a vantage point.
 	* `admin_div_code` - The ISO 3166-2 code for this location's first-level administrative division, either a US state or Canadian province. Only included for locations in the US or Canada. For a list of codes, see [Country Codes](https://www.iso.org/obp/ui/#search). 
 	* `city_name` - Common English-language name for the city. 
 	* `country_code` - The ISO 3166-1 alpha-2 country code. For a list of codes, see [Country Codes](https://www.iso.org/obp/ui/#search). 

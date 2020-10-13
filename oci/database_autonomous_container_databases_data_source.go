@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
 func init() {
@@ -40,6 +40,10 @@ func DatabaseAutonomousContainerDatabasesDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"infrastructure_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"service_level_agreement_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -104,6 +108,11 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) Get() error {
 
 	if infrastructureType, ok := s.D.GetOkExists("infrastructure_type"); ok {
 		request.InfrastructureType = oci_database.AutonomousContainerDatabaseSummaryInfrastructureTypeEnum(infrastructureType.(string))
+	}
+
+	if serviceLevelAgreementType, ok := s.D.GetOkExists("service_level_agreement_type"); ok {
+		tmp := serviceLevelAgreementType.(string)
+		request.ServiceLevelAgreementType = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -216,7 +225,13 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["patch_model"] = r.PatchModel
 
+		autonomousContainerDatabase["role"] = r.Role
+
 		autonomousContainerDatabase["service_level_agreement_type"] = r.ServiceLevelAgreementType
+
+		if r.StandbyMaintenanceBufferInDays != nil {
+			autonomousContainerDatabase["standby_maintenance_buffer_in_days"] = *r.StandbyMaintenanceBufferInDays
+		}
 
 		autonomousContainerDatabase["state"] = r.LifecycleState
 
