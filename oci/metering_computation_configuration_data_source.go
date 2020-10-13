@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v26/usageapi"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v27/usageapi"
 )
 
 func init() {

@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v26/resourcemanager"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v27/resourcemanager"
 )
 
 func init() {
