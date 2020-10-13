@@ -33,7 +33,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `availability_domain` - The Availability Domain where the primary DB System should be located. 
-* `backup_policy` - 
+* `backup_policy` - The Backup policy for the DB System.
 	* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 
 		Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.
@@ -78,7 +78,7 @@ The following attributes are exported:
 * `id` - The OCID of the DB System.
 * `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
-* `maintenance` - 
+* `maintenance` - The Maintenance Policy for the DB System. 
 	* `window_start_time` - The start time of the maintenance window.
 
 		This string is of the format: "{day-of-week} {time-of-day}".
@@ -90,7 +90,7 @@ The following attributes are exported:
 * `port` - The port for primary endpoint of the DB System to listen on.
 * `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 
 * `shape_name` - The shape of the primary instances of the DB System. The shape determines resources allocated to a DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use (the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20181021/ShapeSummary/ListShapes) operation. 
-* `source` - 
+* `source` - Parameters detailing how to provision the initial data of the DB System. 
 	* `backup_id` - The OCID of the backup to be used as the source for the new DB System. 
 	* `source_type` - The specific source identifier. 
 * `state` - The current state of the DB System.

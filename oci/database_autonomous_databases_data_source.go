@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
 func init() {
@@ -281,6 +281,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		autonomousDatabase["refreshable_mode"] = r.RefreshableMode
 
 		autonomousDatabase["refreshable_status"] = r.RefreshableStatus
+
+		autonomousDatabase["role"] = r.Role
 
 		if r.ServiceConsoleUrl != nil {
 			autonomousDatabase["service_console_url"] = *r.ServiceConsoleUrl

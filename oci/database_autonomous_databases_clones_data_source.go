@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
 func init() {
@@ -237,6 +237,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"refreshable_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"role": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -533,6 +537,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		autonomousDatabasesClone["refreshable_mode"] = r.RefreshableMode
 
 		autonomousDatabasesClone["refreshable_status"] = r.RefreshableStatus
+
+		autonomousDatabasesClone["role"] = r.Role
 
 		if r.ServiceConsoleUrl != nil {
 			autonomousDatabasesClone["service_console_url"] = *r.ServiceConsoleUrl

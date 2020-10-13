@@ -59,10 +59,10 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - Compartment Identifier
-* `component_details` - 
+* `component_details` - Blockchain Platform component details.
 	* `osns` - List of OSNs
 		* `ad` - Availability Domain of OSN
-		* `ocpu_allocation_param` - 
+		* `ocpu_allocation_param` - OCPU allocation parameter
 			* `ocpu_allocation_number` - Number of OCPU allocation
 		* `osn_key` - OSN identifier
 		* `state` - The current state of the OSN.
@@ -70,7 +70,7 @@ The following attributes are exported:
 		* `ad` - Availability Domain of peer
 		* `alias` - peer alias
 		* `host` - Host on which the Peer exists
-		* `ocpu_allocation_param` - 
+		* `ocpu_allocation_param` - OCPU allocation parameter
 			* `ocpu_allocation_number` - Number of OCPU allocation
 		* `peer_key` - peer identifier
 		* `role` - Peer role
@@ -89,7 +89,7 @@ The following attributes are exported:
 * `is_multi_ad` - True for multi-AD blockchain plaforms, false for single-AD
 * `lifecycle_details` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `platform_role` - Role of platform - founder or participant
-* `replicas` - 
+* `replicas` - Number of replicas of service components like Rest Proxy, CA and Console
 	* `ca_count` - Number of CA replicas
 	* `console_count` - Number of console replicas
 	* `proxy_count` - Number of REST proxy replicas

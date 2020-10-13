@@ -65,7 +65,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) DetectorRecipe Description
 * `detector_rules` - (Optional) (Updatable) Detector Rules to override from source detector recipe
-	* `details` - (Required) (Updatable) 
+	* `details` - (Required) (Updatable) Details of a Detector Rule to be overriden in Detector Recipe
 		* `condition` - (Optional) (Updatable) 
 		* `configurations` - (Optional) (Updatable) Configuration details
 			* `config_key` - (Required) (Updatable) Unique name of the configuration
@@ -102,7 +102,7 @@ The following attributes are exported:
 		* `id` - The unique identifier of the Responder rule
 		* `is_preferred` - Preferred state
 	* `description` - Description for DetectorRecipeDetectorRule
-	* `details` - 
+	* `details` - Details of a Detector Rule
 		* `condition` - 
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration
@@ -135,7 +135,7 @@ The following attributes are exported:
 		* `id` - The unique identifier of the Responder rule
 		* `is_preferred` - Preferred state
 	* `description` - Description for DetectorRecipeDetectorRule
-	* `details` - 
+	* `details` - Details of a Detector Rule
 		* `condition` - 
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration

@@ -32,7 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `actions` - 
+* `actions` - A list of Action objects associated with a rule. 
 	* `actions` - A list of one or more Action objects. 
 		* `action_type` - The action to perform if the condition in the rule matches an event.
 			* **ONS:** Send to an Oracle Notification Service topic.

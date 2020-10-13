@@ -54,7 +54,115 @@ The following attributes are exported:
 
 	Example: `0.1` 
 * `content_type` - The content type of the data contained in `data`.  Example: `application/json` 
-* `data` - 
+* `data` - The payload of the event. Information within `data` comes from the resource emitting the event.
+
+	Example:
+
+	  -----
+	    {
+	      "eventGroupingId": null,
+	      "eventName": "GetInstance",
+	      "compartmentId": "ocid1.tenancy.oc1..<unique_ID>",
+	      "compartmentName": "compartmentA",
+	      "resourceName": "my_instance",
+	      "resourceId": "ocid1.instance.oc1.phx.<unique_ID>",
+	      "availabilityDomain": "<availability_domain>",
+	      "freeformTags": null,
+	      "definedTags": null,
+	      "identity": {
+	        "principalName": "ExampleName",
+	        "principalId": "ocid1.user.oc1..<unique_ID>",
+	        "authType": "natv",
+	        "callerName": null,
+	        "callerId": null,
+	        "tenantId": "ocid1.tenancy.oc1..<unique_ID>",
+	        "ipAddress": "172.24.80.88",
+	        "credentials": null,
+	        "userAgent": "Jersey/2.23 (HttpUrlConnection 1.8.0_212)",
+	        "consoleSessionId": null
+	      },
+	      "request": {
+	        "id": "<unique_ID>",
+	        "path": "/20160918/instances/ocid1.instance.oc1.phx.<unique_ID>",
+	        "action": "GET",
+	        "parameters": {},
+	        "headers": {
+	          "opc-principal": [
+	            "{\"tenantId\":\"ocid1.tenancy.oc1..<unique_ID>\",\"subjectId\":\"ocid1.user.oc1..<unique_ID>\",\"claims\":[{\"key\":\"pstype\",\"value\":\"natv\",\"issuer\":\"authService.oracle.com\"},{\"key\":\"h_host\",\"value\":\"iaas.r2.oracleiaas.com\",\"issuer\":\"h\"},{\"key\":\"h_opc-request-id\",\"value\":\"<unique_ID>\",\"issuer\":\"h\"},{\"key\":\"ptype\",\"value\":\"user\",\"issuer\":\"authService.oracle.com\"},{\"key\":\"h_date\",\"value\":\"Wed, 18 Sep 2019 00:10:58 UTC\",\"issuer\":\"h\"},{\"key\":\"h_accept\",\"value\":\"application/json\",\"issuer\":\"h\"},{\"key\":\"authorization\",\"value\":\"Signature headers=\\\"date (request-target) host accept opc-request-id\\\",keyId=\\\"ocid1.tenancy.oc1..<unique_ID>/ocid1.user.oc1..<unique_ID>/8c:b4:5f:18:e7:ec:db:08:b8:fa:d2:2a:7d:11:76:ac\\\",algorithm=\\\"rsa-pss-sha256\\\",signature=\\\"<unique_ID>\\\",version=\\\"1\\\"\",\"issuer\":\"h\"},{\"key\":\"h_(request-target)\",\"value\":\"get /20160918/instances/ocid1.instance.oc1.phx.<unique_ID>\",\"issuer\":\"h\"}]}"
+	          ],
+	          "Accept": [
+	            "application/json"
+	          ],
+	          "X-Oracle-Auth-Client-CN": [
+	            "splat-proxy-se-02302.node.ad2.r2"
+	          ],
+	          "X-Forwarded-Host": [
+	            "compute-api.svc.ad1.r2"
+	          ],
+	          "Connection": [
+	            "close"
+	          ],
+	          "User-Agent": [
+	            "Jersey/2.23 (HttpUrlConnection 1.8.0_212)"
+	          ],
+	          "X-Forwarded-For": [
+	            "172.24.80.88"
+	          ],
+	          "X-Real-IP": [
+	            "172.24.80.88"
+	          ],
+	          "oci-original-url": [
+	            "https://iaas.r2.oracleiaas.com/20160918/instances/ocid1.instance.oc1.phx.<unique_ID>"
+	          ],
+	          "opc-request-id": [
+	            "<unique_ID>"
+	          ],
+	          "Date": [
+	            "Wed, 18 Sep 2019 00:10:58 UTC"
+	          ]
+	        }
+	      },
+	      "response": {
+	        "status": "200",
+	        "responseTime": "2019-09-18T00:10:59.278Z",
+	        "headers": {
+	          "ETag": [
+	            "<unique_ID>"
+	          ],
+	          "Connection": [
+	            "close"
+	          ],
+	          "Content-Length": [
+	            "1828"
+	          ],
+	          "opc-request-id": [
+	            "<unique_ID>"
+	          ],
+	          "Date": [
+	            "Wed, 18 Sep 2019 00:10:59 GMT"
+	          ],
+	          "Content-Type": [
+	            "application/json"
+	          ]
+	        },
+	        "payload": {
+	          "resourceName": "my_instance",
+	          "id": "ocid1.instance.oc1.phx.<unique_ID>"
+	        },
+	        "message": null
+	      },
+	      "stateChange": {
+	        "previous": null,
+	        "current": null
+	      },
+	      "additionalDetails": {
+	        "imageId": "ocid1.image.oc1.phx.<unique_ID>",
+	        "shape": "VM.Standard1.1",
+	        "type": "CustomerVmi"
+	      }
+	    }
+	  -----
+	
 	* `additional_details` - A container object for attribues unique to the resource emitting the event.
 
 		Example:
@@ -74,7 +182,25 @@ The following attributes are exported:
 	* `event_grouping_id` - This value links multiple audit events that are part of the same API operation. For example,  a long running API operations that emit an event at the start and the end of an operation would use the same value in this field for both events. 
 	* `event_name` - Name of the API operation that generated this event.  Example: `GetInstance` 
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name,  type, or namespace. Exists for cross-compatibility only. For more information,  see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-	* `identity` - 
+	* `identity` - A container object for identity attributes.
+
+		Example:
+
+		  -----
+		    {
+		      "principalName": "ExampleName",
+		      "principalId": "ocid1.user.oc1..<unique_ID>",
+		      "authType": "natv",
+		      "callerName": null,
+		      "callerId": null,
+		      "tenantId": "ocid1.tenancy.oc1..<unique_ID>",
+		      "ipAddress": "172.24.80.88",
+		      "credentials": null,
+		      "userAgent": "Jersey/2.23 (HttpUrlConnection 1.8.0_212)",
+		      "consoleSessionId": null
+		    }
+		  -----
+		
 		* `auth_type` - The type of authentication used.  Example: `natv` 
 		* `caller_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the caller. The caller that made a  request on behalf of the prinicpal. 
 		* `caller_name` - The name of the user or service. This value is the friendly name associated with `callerId`. 
@@ -85,7 +211,54 @@ The following attributes are exported:
 		* `principal_name` - The name of the user or service. This value is the friendly name associated with `principalId`.  Example: `ExampleName` 
 		* `tenant_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenant. 
 		* `user_agent` - The user agent of the client that made the request.  Example: `Jersey/2.23 (HttpUrlConnection 1.8.0_212)` 
-	* `request` - 
+	* `request` - A container object for request attributes.
+
+		Example:
+
+		  -----
+		    {
+		      "id": "<unique_ID>",
+		      "path": "/20160918/instances/ocid1.instance.oc1.phx.<unique_ID>",
+		      "action": "GET",
+		      "parameters": {},
+		      "headers": {
+		        "opc-principal": [
+		          "{\"tenantId\":\"ocid1.tenancy.oc1..<unique_ID>\",\"subjectId\":\"ocid1.user.oc1..<unique_ID>\",\"claims\":[{\"key\":\"pstype\",\"value\":\"natv\",\"issuer\":\"authService.oracle.com\"},{\"key\":\"h_host\",\"value\":\"iaas.r2.oracleiaas.com\",\"issuer\":\"h\"},{\"key\":\"h_opc-request-id\",\"value\":\"<unique_ID>\",\"issuer\":\"h\"},{\"key\":\"ptype\",\"value\":\"user\",\"issuer\":\"authService.oracle.com\"},{\"key\":\"h_date\",\"value\":\"Wed, 18 Sep 2019 00:10:58 UTC\",\"issuer\":\"h\"},{\"key\":\"h_accept\",\"value\":\"application/json\",\"issuer\":\"h\"},{\"key\":\"authorization\",\"value\":\"Signature headers=\\\"date (request-target) host accept opc-request-id\\\",keyId=\\\"ocid1.tenancy.oc1..<unique_ID>/ocid1.user.oc1..<unique_ID>/8c:b4:5f:18:e7:ec:db:08:b8:fa:d2:2a:7d:11:76:ac\\\",algorithm=\\\"rsa-pss-sha256\\\",signature=\\\"<unique_ID>\\\",version=\\\"1\\\"\",\"issuer\":\"h\"},{\"key\":\"h_(request-target)\",\"value\":\"get /20160918/instances/ocid1.instance.oc1.phx.<unique_ID>\",\"issuer\":\"h\"}]}"
+		        ],
+		        "Accept": [
+		          "application/json"
+		        ],
+		        "X-Oracle-Auth-Client-CN": [
+		          "splat-proxy-se-02302.node.ad2.r2"
+		        ],
+		        "X-Forwarded-Host": [
+		          "compute-api.svc.ad1.r2"
+		        ],
+		        "Connection": [
+		          "close"
+		        ],
+		        "User-Agent": [
+		          "Jersey/2.23 (HttpUrlConnection 1.8.0_212)"
+		        ],
+		        "X-Forwarded-For": [
+		          "172.24.80.88"
+		        ],
+		        "X-Real-IP": [
+		          "172.24.80.88"
+		        ],
+		        "oci-original-url": [
+		          "https://iaas.r2.oracleiaas.com/20160918/instances/ocid1.instance.oc1.phx.<unique_ID>"
+		        ],
+		        "opc-request-id": [
+		          "<unique_ID>"
+		        ],
+		        "Date": [
+		          "Wed, 18 Sep 2019 00:10:58 UTC"
+		        ]
+		      }
+		    }
+		  -----
+		
 		* `action` - The HTTP method of the request.  Example: `GET` 
 		* `headers` - The HTTP header fields and values in the request.
 
@@ -134,7 +307,42 @@ The following attributes are exported:
 		* `path` - The full path of the API request.  Example: `/20160918/instances/ocid1.instance.oc1.phx.<unique_ID>` 
 	* `resource_id` - An [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) or some other ID for the resource emitting the event. 
 	* `resource_name` - The name of the resource emitting the event. 
-	* `response` - 
+	* `response` - A container object for response attributes.
+
+		Example:
+
+		  -----
+		    {
+		      "status": "200",
+		      "responseTime": "2019-09-18T00:10:59.278Z",
+		      "headers": {
+		        "ETag": [
+		          "<unique_ID>"
+		        ],
+		        "Connection": [
+		          "close"
+		        ],
+		        "Content-Length": [
+		          "1828"
+		        ],
+		        "opc-request-id": [
+		          "<unique_ID>"
+		        ],
+		        "Date": [
+		          "Wed, 18 Sep 2019 00:10:59 GMT"
+		        ],
+		        "Content-Type": [
+		          "application/json"
+		        ]
+		      },
+		      "payload": {
+		        "resourceName": "my_instance",
+		        "id": "ocid1.instance.oc1.phx.<unique_ID>"
+		      },
+		      "message": null
+		    }
+		  -----
+		
 		* `headers` - The headers of the response.
 
 			Example:
@@ -176,7 +384,17 @@ The following attributes are exported:
 			
 		* `response_time` - The time of the response to the audited request, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2019-09-18T00:10:59.278Z` 
 		* `status` - The status code of the response.  Example: `200` 
-	* `state_change` - 
+	* `state_change` - A container object for state change attributes.
+
+		Example:
+
+		  -----
+		    {
+		      "previous": null,
+		      "current": null
+		    }
+		  -----
+		
 		* `current` - Provides the current state of fields that may have changed during an operation. To determine how the current operation changed a resource, compare the information in this attribute to  `previous`. 
 		* `previous` - Provides the previous state of fields that may have changed during an operation. To determine how the current operation changed a resource, compare the information in this attribute to  `current`. 
 * `event_id` - The GUID of the event. 

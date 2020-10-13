@@ -12,9 +12,9 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v26/common"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v26/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v27/common"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v27/workrequests"
 )
 
 func init() {
@@ -347,6 +347,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"refreshable_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"role": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -981,6 +985,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("refreshable_status", s.Res.RefreshableStatus)
+
+	s.D.Set("role", s.Res.Role)
 
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)

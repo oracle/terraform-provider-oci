@@ -85,7 +85,7 @@ The following arguments are supported:
 * `target_detector_recipes` - (Optional) (Updatable) List of detector recipes to associate with target
 	* `detector_recipe_id` - (Required) Identifier for DetectorRecipe.
 	* `detector_rules` - (Optional) (Updatable) Overrides to be applied to Detector Rule associated with the target
-		* `details` - (Required) (Updatable) 
+		* `details` - (Required) (Updatable) Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - (Optional) (Updatable) Condition group corresponding to each compartment
 				* `compartment_id` - (Required) (Updatable) compartment associated with condition
 				* `condition` - (Required) (Updatable) 
@@ -95,7 +95,7 @@ The following arguments are supported:
 * `target_responder_recipes` - (Optional) (Updatable) List of responder recipes to associate with target
 	* `responder_recipe_id` - (Required) Identifier for ResponderRecipe.
 	* `responder_rules` - (Optional) (Updatable) Override responder rules associated with reponder recipe in a target.
-		* `details` - (Required) (Updatable) 
+		* `details` - (Required) (Updatable) Details of ResponderRule.
 			* `condition` - (Optional) (Updatable) 
 			* `configurations` - (Optional) (Updatable) Configurations associated with the ResponderRule
 				* `config_key` - (Required) (Updatable) Unique name of the configuration
@@ -130,7 +130,7 @@ The following attributes are exported:
 	* `detector_recipe_id` - Unique identifier for Detector Recipe of which this is an extension
 	* `detector_rules` - List of detector rules for the detector type for recipe - user input
 		* `description` - Description for TargetDetectorRecipeDetectorRule
-		* `details` - 
+		* `details` - Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - Condition group corresponding to each compartment
 				* `compartment_id` - compartment associated with condition
 				* `condition` - 
@@ -161,7 +161,7 @@ The following attributes are exported:
 	* `display_name` - DisplayName of detector recipe
 	* `effective_detector_rules` - List of effective detector rules for the detector type for recipe after applying defaults
 		* `description` - Description for TargetDetectorRecipeDetectorRule
-		* `details` - 
+		* `details` - Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - Condition group corresponding to each compartment
 				* `compartment_id` - compartment associated with condition
 				* `condition` - 
@@ -203,7 +203,7 @@ The following attributes are exported:
 	* `effective_responder_rules` - List of responder rules associated with the recipe after applying all defaults
 		* `compartment_id` - Compartment Identifier
 		* `description` - ResponderRule Description
-		* `details` - 
+		* `details` - Details of ResponderRule.
 			* `condition` - 
 			* `configurations` - ResponderRule configurations
 				* `config_key` - Unique name of the configuration
@@ -226,7 +226,7 @@ The following attributes are exported:
 	* `responder_rules` - List of responder rules associated with the recipe - user input
 		* `compartment_id` - Compartment Identifier
 		* `description` - ResponderRule Description
-		* `details` - 
+		* `details` - Details of ResponderRule.
 			* `condition` - 
 			* `configurations` - ResponderRule configurations
 				* `config_key` - Unique name of the configuration

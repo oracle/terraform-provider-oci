@@ -45,7 +45,7 @@ The following attributes are exported:
 * `time_created` - The date and time the Configuration was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `time_updated` - The date and time the Configuration was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `type` - The Configuration type, DEFAULT or CUSTOM.
-* `variables` - 
+* `variables` - User controllable service variables.
 	* `autocommit` - ("autocommit")
 	* `binlog_expire_logs_seconds` - ("binlog_expire_logs_seconds")
 	* `completion_type` - ("completion_type")

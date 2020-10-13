@@ -14,8 +14,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v26/common"
-	oci_core "github.com/oracle/oci-go-sdk/v26/core"
+	oci_common "github.com/oracle/oci-go-sdk/v27/common"
+	oci_core "github.com/oracle/oci-go-sdk/v27/core"
 )
 
 func init() {
@@ -34,11 +34,6 @@ func CoreAppCatalogSubscriptionResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"eula_link": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
@@ -71,6 +66,11 @@ func CoreAppCatalogSubscriptionResource() *schema.Resource {
 			},
 
 			// Optional
+			"eula_link": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"display_name": {

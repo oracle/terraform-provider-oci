@@ -57,5 +57,5 @@ The following attributes are exported:
 	* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm) 
 * `state` - The DRG attachment's current state.
 * `time_created` - The date and time the DRG attachment was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `vcn_id` - The OCID of the VCN.
+* `vcn_id` - The OCID of the VCN. 
 

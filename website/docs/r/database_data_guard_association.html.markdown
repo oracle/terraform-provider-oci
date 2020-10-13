@@ -38,6 +38,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	display_name = var.data_guard_association_display_name
 	hostname = var.data_guard_association_hostname
 	nsg_ids = var.data_guard_association_nsg_ids
+	peer_db_home_id = oci_database_db_home.test_db_home.id
 	peer_db_system_id = oci_database_db_system.test_db_system.id
 	peer_vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 	shape = var.data_guard_association_shape
@@ -67,6 +68,7 @@ The following arguments are supported:
 * `hostname` - (Applicable when creation_type=NewDbSystem) The hostname for the DB node.
 * `nsg_ids` - (Applicable when creation_type=NewDbSystem) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
+* `peer_db_home_id` - (Applicable when creation_type=ExistingDbSystem | ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB home in which to create the standby database. You must supply this value to create standby database with an existing DB home 
 * `peer_db_system_id` - (Applicable when creation_type=ExistingDbSystem) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system in which to create the standby database. You must supply this value if creationType is `ExistingDbSystem`. 
 * `peer_vm_cluster_id` - (Applicable when creation_type=ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster in which to create the standby database. You must supply this value if creationType is `ExistingVmCluster`. 
 * `protection_mode` - (Required) The protection mode to set up between the primary and standby databases. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation.

@@ -44,7 +44,7 @@ The following attributes are exported:
 * `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume.
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead.
-* `source_details` - The volume source, either an existing volume in the same availability domain or a volume backup. If null, an empty volume is created. 
+* `source_details` - 
 	* `id` - The OCID of the volume or volume backup.
 	* `type` - The type can be one of these values: `volume`, `volumeBackup`
 * `state` - The current state of a volume.

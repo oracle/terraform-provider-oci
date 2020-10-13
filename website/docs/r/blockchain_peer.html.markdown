@@ -37,7 +37,7 @@ The following arguments are supported:
 * `ad` - (Required) Availability Domain to place new peer
 * `alias` - (Optional) peer alias
 * `blockchain_platform_id` - (Required) Unique service identifier.
-* `ocpu_allocation_param` - (Required) (Updatable) 
+* `ocpu_allocation_param` - (Required) (Updatable) OCPU allocation parameter
 	* `ocpu_allocation_number` - (Required) (Updatable) Number of OCPU allocation
 * `role` - (Required) Peer role
 
@@ -52,7 +52,7 @@ The following attributes are exported:
 * `ad` - Availability Domain of peer
 * `alias` - peer alias
 * `host` - Host on which the Peer exists
-* `ocpu_allocation_param` - 
+* `ocpu_allocation_param` - OCPU allocation parameter
 	* `ocpu_allocation_number` - Number of OCPU allocation
 * `peer_key` - peer identifier
 * `role` - Peer role

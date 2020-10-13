@@ -10,7 +10,11 @@ description: |-
 # Data Source: oci_database_vm_cluster_patches
 This data source provides the list of Vm Cluster Patches in Oracle Cloud Infrastructure Database service.
 
+<<<<<<< HEAD
 Lists the patches applicable to the specified VM cluster in an Exadata Cloud@Customer system.
+=======
+Lists the patches applicable to the requested VM cluster.
+>>>>>>> Auto-generated seed code for DEXREQ-1573
 
 
 ## Example Usage

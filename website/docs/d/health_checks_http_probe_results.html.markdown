@@ -51,12 +51,12 @@ The following attributes are exported:
 
 * `connect_end` - The time immediately after the vantage point finishes establishing the connection to the server to retrieve the resource. 
 * `connect_start` - The time immediately before the vantage point starts establishing the connection to the server to retrieve the resource. 
-* `connection` - 
+* `connection` - TCP connection results.  All durations are in milliseconds.
 	* `address` - The connection IP address.
 	* `connect_duration` - Total connect duration, calculated using `connectEnd` minus `connectStart`.
 	* `port` - The port.
 	* `secure_connect_duration` - The duration to secure the connection.  This value will be zero for insecure connections.  Calculated using `connectEnd` minus `secureConnectionStart`. 
-* `dns` - 
+* `dns` - The DNS resolution results.
 	* `addresses` - The addresses returned by DNS resolution.
 	* `domain_lookup_duration` - Total DNS resolution duration, in milliseconds. Calculated using `domainLookupEnd` minus `domainLookupStart`. 
 * `domain_lookup_end` - The time immediately before the vantage point finishes the domain name lookup for the resource. 

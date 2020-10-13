@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/oci-go-sdk/v26/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v26/logging"
+	"github.com/oracle/oci-go-sdk/v27/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v27/logging"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -191,6 +191,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "log_groups.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "log_groups.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "log_groups.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "log_groups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "log_groups.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "log_groups.0.time_last_modified"),
 				),
