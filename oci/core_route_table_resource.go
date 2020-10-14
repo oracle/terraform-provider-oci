@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v26/core"
+	oci_core "github.com/oracle/oci-go-sdk/v27/core"
 )
 
 func init() {
@@ -61,9 +61,8 @@ func CoreRouteTableResource() *schema.Resource {
 			},
 			"route_rules": {
 				Type: schema.TypeSet,
-				// Code-gen and specs say this should be required and has a max item limit
+				// Code-gen and specs say this should be required
 				// Keep it optional to continue to allow empty route_rules and avoid a breaking change.
-				// Also remove the max item limit, to avoid a potential breaking change.
 				Optional: true,
 				MinItems: 0,
 				Set:      routeRulesHashCodeForSets,

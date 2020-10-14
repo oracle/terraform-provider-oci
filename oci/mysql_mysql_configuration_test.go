@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/oci-go-sdk/v26/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v26/mysql"
+	"github.com/oracle/oci-go-sdk/v27/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v27/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

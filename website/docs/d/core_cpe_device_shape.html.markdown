@@ -41,7 +41,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `cpe_device_info` - Basic information about this particular CPE device type.
+* `cpe_device_info` - Basic information about a particular CPE device type.
 	* `platform_software_version` - The platform or software version of the CPE device.
 	* `vendor` - The vendor that makes the CPE device.
 * `cpe_device_shape_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE device shape. This value uniquely identifies the type of CPE device. 

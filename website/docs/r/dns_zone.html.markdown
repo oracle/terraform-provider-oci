@@ -53,7 +53,7 @@ The following arguments are supported:
 * `external_masters` - (Optional) (Updatable) External master servers for the zone. `externalMasters` becomes a required parameter when the `zoneType` value is `SECONDARY`. 
 	* `address` - (Required) (Updatable) The server's IP address (IPv4 or IPv6).
 	* `port` - (Optional) (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value. 
-	* `tsig` - (Optional) (Updatable) 
+	* `tsig` - (Optional) (Updatable) A [TSIG](https://tools.ietf.org/html/rfc2845) key.
 		* `algorithm` - (Required) (Updatable) TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see [RFC 4635](https://tools.ietf.org/html/rfc4635#section-2). 
 		* `name` - (Required) (Updatable) A domain name identifying the key for a given pair of hosts.
 		* `secret` - (Required) (Updatable) A base64 string encoding the binary shared secret.
@@ -79,7 +79,7 @@ The following attributes are exported:
 * `external_masters` - External master servers for the zone. `externalMasters` becomes a required parameter when the `zoneType` value is `SECONDARY`. 
 	* `address` - The server's IP address (IPv4 or IPv6).
 	* `port` - The server's port. Port value must be a value of 53, otherwise omit the port value. 
-	* `tsig` - A TSIG key
+	* `tsig` - A [TSIG](https://tools.ietf.org/html/rfc2845) key.
 		* `algorithm` - TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see [RFC 4635](https://tools.ietf.org/html/rfc4635#section-2). 
 		* `name` - A domain name identifying the key for a given pair of hosts.
 		* `secret` - A base64 string encoding the binary shared secret.

@@ -33,6 +33,13 @@ resource "oci_identity_tag" "tag1" {
   tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
 }
 
+resource "oci_identity_tag" "tag2" {
+  #Required
+  description      = "tf example tag 2"
+  name             = "tf-example-tag-2"
+  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
+}
+
 resource "oci_logging_log_group" "test_log_group" {
   #Required
   compartment_id = var.compartment_ocid

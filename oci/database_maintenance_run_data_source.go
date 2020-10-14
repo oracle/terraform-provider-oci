@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
 func init() {
@@ -90,6 +90,10 @@ func (s *DatabaseMaintenanceRunDataSourceCrud) SetData() error {
 
 	if s.Res.PatchId != nil {
 		s.D.Set("patch_id", *s.Res.PatchId)
+	}
+
+	if s.Res.PeerMaintenanceRunId != nil {
+		s.D.Set("peer_maintenance_run_id", *s.Res.PeerMaintenanceRunId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

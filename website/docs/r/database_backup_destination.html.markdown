@@ -50,7 +50,7 @@ The following arguments are supported:
 * `display_name` - (Required) The user-provided name of the backup destination.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `local_mount_point_path` - (Applicable when type=NFS) (Updatable) **Deprecated.** The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes. This field is deprecated. Use the mountTypeDetails field instead to specify the mount type for NFS. 
-* `mount_type_details` - (Applicable when type=NFS) 
+* `mount_type_details` - (Applicable when type=NFS) Mount type details for backup destination.
 	* `local_mount_point_path` - (Required when mount_type=SELF_MOUNT) The local directory path on each VM cluster node where the NFS server location is mounted. The local directory path and the NFS server location must each be the same across all of the VM cluster nodes. Ensure that the NFS mount is maintained continuously on all of the VM cluster nodes. 
 	* `mount_type` - (Required) Mount type for backup destination.
 	* `nfs_server` - (Required when mount_type=AUTOMATED_MOUNT) IP addresses for NFS Auto mount.

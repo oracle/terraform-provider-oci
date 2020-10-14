@@ -140,7 +140,7 @@ resource "oci_core_instance" "test_instance" {
 
 The following arguments are supported:
 
-* `agent_config` - (Optional) (Updatable) 
+* `agent_config` - (Optional) (Updatable) Instance agent configuration options to choose for launching the instance
 	* `is_management_disabled` - (Optional) (Updatable) Whether the agent running on the instance can run all the available management plugins. Default value is false. 
 	* `is_monitoring_disabled` - (Optional) (Updatable) Whether the agent running on the instance can gather performance metrics and monitor the instance. Default value is false. 
 * `availability_config` - (Optional) (Updatable) Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware. 
@@ -149,7 +149,7 @@ The following arguments are supported:
 		* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
 * `availability_domain` - (Required) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment.
-* `create_vnic_details` - (Optional) (Updatable) Details for the primary VNIC, which is automatically created and attached when the instance is launched. 
+* `create_vnic_details` - (Optional) (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
 	* `assign_public_ip` - (Optional) (Updatable) Whether the VNIC should be assigned a public IP address. Defaults to true. If left blank or set to true and `prohibitPublicIpOnVnic` = true, an error is returned.
 
 		**Note:** This public IP address is associated with the primary private IP on the VNIC. For more information, see [IP Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm).
@@ -206,7 +206,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname_label` - (Optional) Deprecated. Instead use `hostnameLabel` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/). If you provide both, the values must match. 
 * `image` - (Optional) Deprecated. Use `sourceDetails` with [InstanceSourceViaImageDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/InstanceSourceViaImageDetails) source type instead. If you specify values for both, the values must match. 
-* `instance_options` - (Optional) (Updatable) 
+* `instance_options` - (Optional) (Updatable) Optional mutable instance options
 	* `are_legacy_imds_endpoints_disabled` - (Optional) (Updatable) Whether to disable the legacy (/v1) instance metadata service endpoints. Customers who have migrated to /v2 should set this to true for added security. Default is false. 
 * `ipxe_script` - (Optional) This is an advanced option.
 
@@ -281,10 +281,16 @@ The following arguments are supported:
 * `shape` - (Required) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
-* `shape_config` - (Optional) (Updatable) 
+* `shape_config` - (Optional) (Updatable) The shape configuration requested for the instance.
+
+	If the parameter is provided, the instance is created with the resources that you specify. If some properties are missing or the entire parameter is not provided, the instance is created with the default configuration values for the `shape` that you specify.
+
+	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned.
+
+	For more information about customizing the resources that are allocated to a flexible shapes, see [Flexible Shapes](https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm#flexible). 
 	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes. 
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
-* `source_details` - (Optional) (Updatable) Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
+* `source_details` - (Optional) (Updatable) 
 	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `kms_key_id` - (Applicable when source_type=image) The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`.
@@ -300,10 +306,10 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `agent_config` - 
+* `agent_config` - Instance agent configuration on the instance
 	* `is_management_disabled` - Whether the agent running on the instance can run all the available management plugins. 
 	* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
-* `availability_config` - Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware. 
+* `availability_config` - Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware. 
 	* `recovery_action` - The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 		* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
 		* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
@@ -328,7 +334,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the instance.
 * `image` - Deprecated. Use `sourceDetails` instead. 
-* `instance_options` - 
+* `instance_options` - Optional mutable instance options
 	* `are_legacy_imds_endpoints_disabled` - Whether to disable the legacy (/v1) instance metadata service endpoints. Customers who have migrated to /v2 should set this to true for added security. Default is false. 
 * `ipxe_script` - When a bare metal or virtual machine instance boots, the iPXE firmware that runs on the instance is configured to run an iPXE script to continue the boot process.
 
@@ -376,7 +382,7 @@ The following attributes are exported:
 
 	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
-* `shape_config` - 
+* `shape_config` - The shape configuration for an instance. The shape configuration determines the resources allocated to an instance. 
 	* `gpu_description` - A short description of the instance's graphics processing unit (GPU).
 
 		If the instance does not have any GPUs, this field is `null`. 
@@ -393,7 +399,7 @@ The following attributes are exported:
 	* `networking_bandwidth_in_gbps` - The networking bandwidth available to the instance, in gigabits per second. 
 	* `ocpus` - The total number of OCPUs available to the instance. 
 	* `processor_description` - A short description of the instance's processor (CPU). 
-* `source_details` - Details for creating an instance
+* `source_details` - 
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.

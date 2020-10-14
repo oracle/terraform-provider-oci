@@ -41,7 +41,7 @@ The following arguments are supported:
 * `crypto_endpoint` - (Required) The service endpoint to perform cryptographic operations against. Cryptographic operations include 'Encrypt,' 'Decrypt,' and 'GenerateDataEncryptionKey' operations. see Vault Crypto endpoint.
 * `include_plaintext_key` - (Required) If true, the generated key is also returned unencrypted.
 * `key_id` - (Required) The OCID of the master encryption key to encrypt the generated data encryption key with.
-* `key_shape` - (Required) 
+* `key_shape` - (Required) The cryptographic properties of a key.
 	* `algorithm` - (Required) The algorithm used by a key's key versions to encrypt or decrypt.
 	* `length` - (Required) The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
 * `logging_context` - (Optional) Information that provides context for audit logging. You can provide this additional data by formatting it as key-value pairs to include in audit logs when audit logging is enabled. 

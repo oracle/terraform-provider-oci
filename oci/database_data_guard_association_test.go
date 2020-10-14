@@ -247,6 +247,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
 					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
@@ -289,6 +290,8 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_data_guard_association_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_database_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),

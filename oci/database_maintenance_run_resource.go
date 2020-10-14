@@ -9,8 +9,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v26/common"
-	oci_database "github.com/oracle/oci-go-sdk/v26/database"
+	oci_common "github.com/oracle/oci-go-sdk/v27/common"
+	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
 func init() {
@@ -80,6 +80,10 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Computed: true,
 			},
 			"maintenance_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"peer_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -301,6 +305,10 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 
 	if s.Res.PatchId != nil {
 		s.D.Set("patch_id", *s.Res.PatchId)
+	}
+
+	if s.Res.PeerMaintenanceRunId != nil {
+		s.D.Set("peer_maintenance_run_id", *s.Res.PeerMaintenanceRunId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

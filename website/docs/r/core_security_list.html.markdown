@@ -149,17 +149,17 @@ The following arguments are supported:
 	* `protocol` - (Required) (Updatable) The transport protocol. Specify either `all` or an IPv4 protocol number as defined in [Protocol Numbers](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). Options are supported only for ICMP ("1"), TCP ("6"), UDP ("17"), and ICMPv6 ("58"). 
 	* `stateless` - (Optional) (Updatable) A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if egress traffic allows TCP destination port 80, there should be an ingress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 	* `tcp_options` - (Optional) (Updatable) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
-		* `destination_port_range` - (Optional) (Updatable) An inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `destination_port_range` - (Optional) (Updatable) 
 			* `max` - (Optional) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Optional) (Updatable) The minimum port number. Must not be greater than the maximum port number.
-		* `source_port_range` - (Optional) (Updatable) An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `source_port_range` - (Optional) (Updatable) 
 			* `max` - (Required) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number.
 	* `udp_options` - (Optional) (Updatable) Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
-		* `destination_port_range` - (Optional) (Updatable) An inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `destination_port_range` - (Optional) (Updatable) 
 			* `max` - (Optional) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Optional) (Updatable) The minimum port number. Must not be greater than the maximum port number.
-		* `source_port_range` - (Optional) (Updatable) An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `source_port_range` - (Optional) (Updatable) 
 			* `max` - (Required) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -183,17 +183,17 @@ The following arguments are supported:
 		* `SERVICE_CIDR_BLOCK`: If the rule's `source` is the `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/) (the rule is for traffic coming from a particular `Service` through a service gateway). 
 	* `stateless` - (Optional) (Updatable) A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if ingress traffic allows TCP destination port 80, there should be an egress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 	* `tcp_options` - (Optional) (Updatable) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
-		* `destination_port_range` - (Optional) (Updatable) An inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `destination_port_range` - (Optional) (Updatable) 
 			* `max` - (Optional) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Optional) (Updatable) The minimum port number. Must not be greater than the maximum port number.
-		* `source_port_range` - (Optional) (Updatable) An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `source_port_range` - (Optional) (Updatable) 
 			* `max` - (Required) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number.
 	* `udp_options` - (Optional) (Updatable) Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
-		* `destination_port_range` - (Optional) (Updatable) An inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `destination_port_range` - (Optional) (Updatable) 
 			* `max` - (Optional) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Optional) (Updatable) The minimum port number. Must not be greater than the maximum port number.
-		* `source_port_range` - (Optional) (Updatable) An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `source_port_range` - (Optional) (Updatable) 
 			* `max` - (Required) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number.
 * `vcn_id` - (Required) The OCID of the VCN the security list belongs to.
@@ -234,14 +234,14 @@ The following attributes are exported:
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - The minimum port number. Must not be greater than the maximum port number.
-		* `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `source_port_range` - 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - The minimum port number. Must not be greater than the maximum port number.
 	* `udp_options` - Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - The minimum port number. Must not be greater than the maximum port number.
-		* `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `source_port_range` - 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - The minimum port number. Must not be greater than the maximum port number.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -269,14 +269,14 @@ The following attributes are exported:
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - The minimum port number. Must not be greater than the maximum port number.
-		* `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `source_port_range` - 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - The minimum port number. Must not be greater than the maximum port number.
 	* `udp_options` - Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - The minimum port number. Must not be greater than the maximum port number.
-		* `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+		* `source_port_range` - 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - The minimum port number. Must not be greater than the maximum port number.
 * `state` - The security list's current state.

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_streaming "github.com/oracle/oci-go-sdk/v26/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v27/streaming"
 )
 
 func init() {

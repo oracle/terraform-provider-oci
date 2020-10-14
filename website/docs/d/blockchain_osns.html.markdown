@@ -43,7 +43,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `ad` - Availability Domain of OSN
-* `ocpu_allocation_param` - 
+* `ocpu_allocation_param` - OCPU allocation parameter
 	* `ocpu_allocation_number` - Number of OCPU allocation
 * `osn_key` - OSN identifier
 * `state` - The current state of the OSN.

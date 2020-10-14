@@ -48,7 +48,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `responder_rules` - (Optional) (Updatable) Responder Rules to override from source responder recipe
 	* `compartment_id` - (Optional) (Updatable) Compartment Identifier
-	* `details` - (Required) (Updatable) 
+	* `details` - (Required) (Updatable) Details of UpdateResponderRuleDetails.
 		* `is_enabled` - (Required) (Updatable) Identifies state for ResponderRule
 	* `responder_rule_id` - (Required) (Updatable) ResponderRecipeRule Identifier
 * `source_responder_recipe_id` - (Required) The id of the source responder recipe.
@@ -68,7 +68,7 @@ The following attributes are exported:
 * `effective_responder_rules` - List of responder rules associated with the recipe
 	* `compartment_id` - Compartment Identifier
 	* `description` - ResponderRule Description
-	* `details` - 
+	* `details` - Details of ResponderRule.
 		* `condition` - 
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration
@@ -92,7 +92,7 @@ The following attributes are exported:
 * `responder_rules` - List of responder rules associated with the recipe
 	* `compartment_id` - Compartment Identifier
 	* `description` - ResponderRule Description
-	* `details` - 
+	* `details` - Details of ResponderRule.
 		* `condition` - 
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration
