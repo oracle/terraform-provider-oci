@@ -767,6 +767,47 @@ func TestUnitBuildClientConfigureFn_interceptor(t *testing.T) {
 	assert.Equal(t, "another-token", r.Header.Get(requestHeaderOpcOboToken))
 }
 
+func TestUnitSupportChangeOboToken(t *testing.T) {
+	t.Skip("Run manual with a valid obo token")
+
+	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
+		apiKeyConfigAttributeEnvValue := getEnvSettingWithBlankDefault(apiKeyConfigAttribute)
+		if apiKeyConfigAttributeEnvValue != "" {
+			unsetAtr := "TF_VAR_" + apiKeyConfigAttribute
+			os.Unsetenv(unsetAtr)
+			defer os.Setenv(unsetAtr, apiKeyConfigAttributeEnvValue)
+		}
+	}
+
+	os.Setenv("use_obo_token", "true")
+	os.Setenv(oboTokenAttrName, "fake-token")
+	defer os.Unsetenv(oboTokenAttrName)
+	assert.Equal(t, "true", getEnvSettingWithBlankDefault("use_obo_token"))
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
+	d.SetId("tenancy_ocid")
+	d.Set("auth", "InstancePrincipal")
+	d.Set("region", "us-phoenix-1")
+
+	client := GetTestClients(d).budgetClient()
+	assert.NotEmpty(t, client.Host)
+
+	request := oci_budget.ListBudgetsRequest{}
+	compartmentId := getEnvSettingWithBlankDefault("compartment_id")
+	request.CompartmentId = &compartmentId
+	fmt.Println("======= First List call with token fake-token ======")
+
+	// manual verify request that contains "Opc-Obo-Token: fake-token"
+	client.ListBudgets(context.Background(), request)
+
+	fmt.Println("======= Second List call with token another-token ======")
+	os.Setenv(oboTokenAttrName, "another-token")
+	// manual verify request that contains "Opc-Obo-Token: another-token"
+	client.ListBudgets(context.Background(), request)
+}
+
 func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	httpreplay.SetScenario("TestVerifyConfigForAPIKeyAuthIsNotSet_basic")
 	defer httpreplay.SaveScenario()
