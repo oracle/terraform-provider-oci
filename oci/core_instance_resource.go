@@ -18,9 +18,9 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v26/common"
-	oci_core "github.com/oracle/oci-go-sdk/v26/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v26/workrequests"
+	"github.com/oracle/oci-go-sdk/v27/common"
+	oci_core "github.com/oracle/oci-go-sdk/v27/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v27/workrequests"
 )
 
 func init() {
@@ -1913,6 +1913,17 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 		if newRaw != "" && oldRaw != "" {
 			shapeTmp := shape.(string)
 			request.Shape = &shapeTmp
+		}
+		// the following if block is a temp solution and should be removed once service fixed on ther side
+		if shapeConfig, ok := s.D.GetOkExists("shape_config"); strings.Contains(strings.ToLower(shape.(string)), "flex") && ok && !s.D.HasChange("shape_config") {
+			if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_config", 0)
+				tmp, err := s.mapToUpdateInstanceShapeConfigDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				request.ShapeConfig = &tmp
+			}
 		}
 	}
 

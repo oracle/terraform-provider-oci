@@ -67,7 +67,7 @@ The following attributes are exported:
 	* `http_port` - The HTTP port on the origin that the web application listens on. If unspecified, defaults to `80`.
 	* `https_port` - The HTTPS port on the origin that the web application listens on. If unspecified, defaults to `443`.
 	* `uri` - The URI of the origin. Does not support paths. Port numbers should be specified in the `httpPort` and `httpsPort` fields.
-* `policy_config` - 
+* `policy_config` - The configuration details for the WAAS policy.
 	* `certificate_id` - The OCID of the SSL certificate to use if HTTPS is supported.
 	* `cipher_group` - The set cipher group for the configured TLS protocol. This sets the configuration for the TLS connections between clients and edge nodes only.
 		* **DEFAULT:** Cipher group supports TLS 1.0, TLS 1.1, TLS 1.2, TLS 1.3 protocols. It has the following ciphers enabled: `ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA`
@@ -83,7 +83,7 @@ The following attributes are exported:
 		* **X_REAL_IP:** Corresponds to `X-Real-Ip` header name.
 		* **CLIENT_IP:** Corresponds to `Client-Ip` header name.
 		* **TRUE_CLIENT_IP:** Corresponds to `True-Client-Ip` header name.
-	* `health_checks` - 
+	* `health_checks` - Health checks monitor the status of your origin servers and only route traffic to the origins that pass the health check. If the health check fails, origin is automatically removed from the load balancing. There is roughly one health check per EDGE POP per period. Any checks that pass will be reported as "healthy".
 		* `expected_response_code_group` - The HTTP response codes that signify a healthy state.
 			* **2XX:** Success response code group.
 			* **3XX:** Redirection response code group.
@@ -126,7 +126,7 @@ The following attributes are exported:
 	* `websocket_path_prefixes` - ModSecurity is not capable to inspect WebSockets. Therefore paths specified here have WAF disabled if Connection request header from the client has the value Upgrade (case insensitive matching) and Upgrade request header has the value websocket (case insensitive matching). Paths matches if the concatenation of request URL path and query starts with the contents of the one of `websocketPathPrefixes` array value. In All other cases challenges, like JSC, HIC and etc., remain active.
 * `state` - The current lifecycle state of the WAAS policy.
 * `time_created` - The date and time the policy was created, expressed in RFC 3339 timestamp format.
-* `waf_config` - 
+* `waf_config` - The Web Application Firewall configuration for the WAAS policy.
 	* `access_rules` - The access rules applied to the Web Application Firewall. Used for defining custom access policies with the combination of `ALLOW`, `DETECT`, and `BLOCK` rules, based on different criteria.
 		* `action` - The action to take when the access criteria are met for a rule. If unspecified, defaults to `ALLOW`.
 			* **ALLOW:** Takes no action, just logs the request.
@@ -229,7 +229,7 @@ The following attributes are exported:
 	* `device_fingerprint_challenge` - The device fingerprint challenge settings. Used to detect unique devices based on the device fingerprint information collected in order to block bots.
 		* `action` - The action to take on requests from detected bots. If unspecified, defaults to `DETECT`.
 		* `action_expiration_in_seconds` - The number of seconds between challenges for the same IP address. If unspecified, defaults to `60`.
-		* `challenge_settings` - 
+		* `challenge_settings` - The challenge settings if `action` is set to `BLOCK`.
 			* `block_action` - The method used to block requests that fail the challenge, if `action` is set to `BLOCK`. If unspecified, defaults to `SHOW_ERROR_PAGE`.
 			* `block_error_page_code` - The error code to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE` and the request is blocked. If unspecified, defaults to `403`.
 			* `block_error_page_description` - The description text to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the request is blocked. If unspecified, defaults to `Access blocked by website owner. Please contact support.`
@@ -247,7 +247,7 @@ The following attributes are exported:
 	* `human_interaction_challenge` - The human interaction challenge settings. Used to look for natural human interactions such as mouse movements, time on site, and page scrolling to identify bots.
 		* `action` - The action to take against requests from detected bots. If unspecified, defaults to `DETECT`.
 		* `action_expiration_in_seconds` - The number of seconds between challenges for the same IP address. If unspecified, defaults to `60`.
-		* `challenge_settings` - 
+		* `challenge_settings` - The challenge settings if `action` is set to `BLOCK`.
 			* `block_action` - The method used to block requests that fail the challenge, if `action` is set to `BLOCK`. If unspecified, defaults to `SHOW_ERROR_PAGE`.
 			* `block_error_page_code` - The error code to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE` and the request is blocked. If unspecified, defaults to `403`.
 			* `block_error_page_description` - The description text to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the request is blocked. If unspecified, defaults to `Access blocked by website owner. Please contact support.`
@@ -270,7 +270,7 @@ The following attributes are exported:
 		* `action` - The action to take against requests from detected bots. If unspecified, defaults to `DETECT`.
 		* `action_expiration_in_seconds` - The number of seconds between challenges from the same IP address. If unspecified, defaults to `60`.
 		* `are_redirects_challenged` - When enabled, redirect responses from the origin will also be challenged. This will change HTTP 301/302 responses from origin to HTTP 200 with an HTML body containing JavaScript page redirection.
-		* `challenge_settings` - 
+		* `challenge_settings` - The challenge settings if `action` is set to `BLOCK`.
 			* `block_action` - The method used to block requests that fail the challenge, if `action` is set to `BLOCK`. If unspecified, defaults to `SHOW_ERROR_PAGE`.
 			* `block_error_page_code` - The error code to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE` and the request is blocked. If unspecified, defaults to `403`.
 			* `block_error_page_description` - The description text to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the request is blocked. If unspecified, defaults to `Access blocked by website owner. Please contact support.`

@@ -43,7 +43,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `auto_scaling_resources` - 
+* `auto_scaling_resources` - A resource that is managed by an autoscaling configuration. The only supported type is "instancePool."
+
+	Each instance pool can have one autoscaling configuration. 
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that is managed by the autoscaling configuration. 
 	* `type` - The type of resource.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the autoscaling configuration. 
@@ -55,6 +57,8 @@ The following attributes are exported:
 * `is_enabled` - Whether the autoscaling configuration is enabled.
 * `max_resource_count` - The maximum number of resources to scale out to.
 * `min_resource_count` - The minimum number of resources to scale in to.
-* `policies` - AutoScaling policy definitions for the autoscaling configuration. An autoscaling policy defines the criteria that trigger autoscaling actions and the actions to take.
+* `policies` - Autoscaling policy definitions for the autoscaling configuration. An autoscaling policy defines the criteria that trigger autoscaling actions and the actions to take.
+
+	Each autoscaling configuration can have one autoscaling policy. 
 * `time_created` - The date and time the AutoScalingConfiguration was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 

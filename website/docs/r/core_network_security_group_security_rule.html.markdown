@@ -106,17 +106,17 @@ The following arguments are supported:
     * `NETWORK_SECURITY_GROUP`: If the rule's `source` is the OCID of a [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 * `stateless` - (Optional) A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if egress traffic allows TCP destination port 80, there should be an ingress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 * `tcp_options` - (Optional) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
-    * `destination_port_range` - (Optional) An inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+    * `destination_port_range` - (Optional) 
         * `max` - (Required) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - (Required) The minimum port number. Must not be greater than the maximum port number.
-    * `source_port_range` - (Optional) An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+    * `source_port_range` - (Optional) 
         * `max` - (Required) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - (Required) The minimum port number. Must not be greater than the maximum port number.
 * `udp_options` - (Optional) Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
-    * `destination_port_range` - (Optional) An inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+    * `destination_port_range` - (Optional) 
         * `max` - (Required) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - (Required) The minimum port number. Must not be greater than the maximum port number.
-    * `source_port_range` - (Optional) An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+    * `source_port_range` - (Optional) 
         * `max` - (Required) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - (Required) The minimum port number. Must not be greater than the maximum port number.
 
@@ -145,7 +145,7 @@ The following attributes are exported:
     * [ICMP Parameters](http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml)
     * [ICMPv6 Parameters](https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml)
 
-    If you specify ICMP or ICMPv6 as the protocol but omit this object, then all ICMP types and codes are allowed. If you do provide this object, the type is required and the code is optional. To enable MTU negotiation for ingress internet traffic via IPv4, make sure to allow type 3 ("Destination Unreachable") code 4 ("Fragmentation Needed and Don't Fragment was Set"). If you need to specify multiple codes for a single type, create a separate security rule for each. 
+    If you specify ICMP or ICMPv6 as the protocol but omit this object, then all ICMP types and codes are allowed. If you do provide this object, the type is required and the code is optional. To enable MTU negotiation for ingress internet traffic via IPv4, make sure to allow type 3 ("Destination Unreachable") code 4 ("Fragmentation Needed and Don't Fragment was Set"). If you need to specify multiple codes for a single type, create a separate security list rule for each. 
     * `code` - The ICMP code (optional).
     * `type` - The ICMP type.
 * `id` - An Oracle-assigned identifier for the security rule. You specify this ID when you want to update or delete the rule.  Example: `04ABEC` 
@@ -163,18 +163,18 @@ The following attributes are exported:
     * `NETWORK_SECURITY_GROUP`: If the rule's `source` is the OCID of a [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 * `stateless` - A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if egress traffic allows TCP destination port 80, there should be an ingress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 * `tcp_options` - Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
-    * `destination_port_range` - An inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+    * `destination_port_range` - 
         * `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - The minimum port number. Must not be greater than the maximum port number.
-    * `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+    * `source_port_range` - 
         * `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - The minimum port number. Must not be greater than the maximum port number.
 * `time_created` - The date and time the security rule was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `udp_options` - Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
-    * `destination_port_range` - An inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+    * `destination_port_range` - 
         * `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - The minimum port number. Must not be greater than the maximum port number.
-    * `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+    * `source_port_range` - 
         * `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - The minimum port number. Must not be greater than the maximum port number.
 

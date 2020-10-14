@@ -80,7 +80,9 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 
 The following arguments are supported:
 
-* `auto_scaling_resources` - (Required) 
+* `auto_scaling_resources` - (Required) A resource that is managed by an autoscaling configuration. The only supported type is "instancePool."
+
+	Each instance pool can have one autoscaling configuration. 
 	* `id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that is managed by the autoscaling configuration. 
 	* `type` - (Required) The type of resource.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the autoscaling configuration. 
@@ -97,18 +99,18 @@ The following arguments are supported:
 		* `max` - (Optional) The maximum number of instances the instance pool is allowed to increase to (scale out).
 		* `min` - (Optional) The minimum number of instances the instance pool is allowed to decrease to (scale in).
 	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-	* `execution_schedule` - (Required when policy_type=scheduled) 
+	* `execution_schedule` - (Required when policy_type=scheduled) Specifies the execution schedule for a policy. 
 		* `expression` - (Required) The value representing the execution schedule, as defined by cron format. 
 		* `timezone` - (Required) Specifies the time zone the schedule is in.
 		* `type` - (Required) The type of ExecutionSchedule.
 	* `is_enabled` - (Optional) Boolean field indicating whether this policy is enabled or not.
 	* `policy_type` - (Required) The type of autoscaling policy.
 	* `rules` - (Required when policy_type=threshold) 
-		* `action` - (Required when policy_type=threshold) 
+		* `action` - (Required when policy_type=threshold) The action to take when autoscaling is triggered. 
 			* `type` - (Required when policy_type=threshold) The type of action to take.
 			* `value` - (Required when policy_type=threshold) To scale out (increase the number of instances), provide a positive value. To scale in (decrease the number of instances), provide a negative value. 
 		* `display_name` - (Required when policy_type=threshold) A user-friendly name. Does not have to be unique. Avoid entering confidential information. This value is not changeable through Terraform. 
-		* `metric` - (Required when policy_type=threshold) 
+		* `metric` - (Required when policy_type=threshold) Metric and threshold details for triggering an autoscaling action. 
 			* `metric_type` - (Required when policy_type=threshold) 
 			* `threshold` - (Required when policy_type=threshold) 
 				* `operator` - (Required when policy_type=threshold) The comparison operator to use. Options are greater than (`GT`), greater than or equal to (`GTE`), less than (`LT`), and less than or equal to (`LTE`). 
@@ -122,7 +124,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `auto_scaling_resources` - 
+* `auto_scaling_resources` - A resource that is managed by an autoscaling configuration. The only supported type is "instancePool."
+
+	Each instance pool can have one autoscaling configuration. 
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that is managed by the autoscaling configuration. 
 	* `type` - The type of resource.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the autoscaling configuration. 
@@ -142,7 +146,7 @@ The following attributes are exported:
 		* `max` - The maximum number of instances the instance pool is allowed to increase to (scale out).
 		* `min` - The minimum number of instances the instance pool is allowed to decrease to (scale in).
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-	* `execution_schedule` - 
+	* `execution_schedule` - Specifies the execution schedule for a policy. 
 		* `expression` - The value representing the execution schedule, as defined by cron format. 
 		* `timezone` - Specifies the time zone the schedule is in.
 		* `type` - The type of ExecutionSchedule.
@@ -150,12 +154,12 @@ The following attributes are exported:
 	* `is_enabled` - Boolean field indicating whether this policy is enabled or not.
 	* `policy_type` - The type of autoscaling policy.
 	* `rules` - 
-		* `action` - 
+		* `action` - The action to take when autoscaling is triggered. 
 			* `type` - The type of action to take.
 			* `value` - To scale out (increase the number of instances), provide a positive value. To scale in (decrease the number of instances), provide a negative value. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 		* `id` - ID of the condition that is assigned after creation.
-		* `metric` - 
+		* `metric` - Metric and threshold details for triggering an autoscaling action. 
 			* `metric_type` - 
 			* `threshold` - 
 				* `operator` - The comparison operator to use. Options are greater than (`GT`), greater than or equal to (`GTE`), less than (`LT`), and less than or equal to (`LTE`). 

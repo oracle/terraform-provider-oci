@@ -54,7 +54,7 @@ The following arguments are supported:
 * `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this boot volume. 
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management key to assign as the master encryption key for the boot volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
-* `source_details` - (Required) Specifies the boot volume source details for a new boot volume. The volume source is either another boot volume in the same availability domain or a boot volume backup. This is a mandatory field for a boot volume. 
+* `source_details` - (Required)  
 	* `id` - (Required) The OCID of the boot volume or boot volume backup.
 	* `type` - (Required) The type can be one of these values: `bootVolume`, `bootVolumeBackup`
 * `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
@@ -84,7 +84,7 @@ The following attributes are exported:
 * `kms_key_id` - The OCID of the Key Management master encryption key assigned to the boot volume.
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
-* `source_details` - The boot volume source, either an existing boot volume in the same availability domain or a boot volume backup. If null, this means that the boot volume was created from an image. 
+* `source_details` - 
 	* `id` - The OCID of the boot volume or boot volume backup.
 	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`
 * `state` - The current state of a boot volume.

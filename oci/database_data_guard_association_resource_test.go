@@ -35,6 +35,14 @@ var (
 		"peer_db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_exadata_db_system2.id}`},
 	})
 
+	dataGuardAssociationRepresentationExistingExadataDbHome = representationCopyWithNewProperties(dataGuardAssociationRepresentationExistingDbSystem, map[string]interface{}{
+		"depends_on":        Representation{repType: Required, create: []string{"oci_database_db_system.test_exadata_db_system", `oci_database_db_system.test_exadata_db_system2`}},
+		"database_id":       Representation{repType: Required, create: `${oci_database_db_system.test_exadata_db_system.db_home.0.database.0.id}`},
+		"creation_type":     Representation{repType: Required, create: `ExistingDbSystem`},
+		"peer_db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_exadata_db_system2.id}`},
+		"peer_db_home_id":   Representation{repType: Required, create: `${oci_database_db_system.test_exadata_db_system2.db_home.0.id}`},
+	})
+
 	ExadataBaseDependenciesForDataGuardWithExistingVMCluster = ExadataBaseDependencies +
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
 			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
@@ -372,6 +380,404 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
+				),
+			},
+		},
+	})
+}
+
+func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T) {
+	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig() + `
+
+	data "oci_identity_availability_domain" "ad" {
+		compartment_id 		= "${var.compartment_id}"
+		ad_number      		= 1
+	}
+
+	resource "oci_core_vcn" "vcn" {
+	  cidr_block     = "10.1.0.0/16"
+	  compartment_id = var.compartment_id
+	  display_name   = "TFExampleVCNDBSystem"
+	  dns_label      = "tfexvcndbsys"
+	}
+	
+	resource "oci_core_subnet" "subnet" {
+	  availability_domain = data.oci_identity_availability_domain.ad.name
+	  cidr_block          = "10.1.20.0/24"
+	  display_name        = "TFExampleSubnetDBSystem"
+	  dns_label           = "tfexsubdbsys"
+	  security_list_ids   = [oci_core_security_list.ExampleSecurityList.id]
+	  compartment_id      = var.compartment_id
+	  vcn_id              = oci_core_vcn.vcn.id
+	  route_table_id      = oci_core_route_table.route_table.id
+	  dhcp_options_id     = oci_core_vcn.vcn.default_dhcp_options_id
+	}
+	
+	resource "oci_core_subnet" "subnet_backup" {
+	  availability_domain = data.oci_identity_availability_domain.ad.name
+	  cidr_block          = "10.1.1.0/24"
+	  display_name        = "TFExampleSubnetDBSystemBackup"
+	  dns_label           = "tfexsubdbsysbp"
+	  security_list_ids   = [oci_core_security_list.ExampleSecurityList.id]
+	  compartment_id      = var.compartment_id
+	  vcn_id              = oci_core_vcn.vcn.id
+	  route_table_id      = oci_core_route_table.route_table_backup.id
+	  dhcp_options_id     = oci_core_vcn.vcn.default_dhcp_options_id
+	}
+	
+	resource "oci_core_internet_gateway" "internet_gateway" {
+	  compartment_id = var.compartment_id
+	  display_name   = "TFExampleIGDBSystem"
+	  vcn_id         = oci_core_vcn.vcn.id
+	}
+	
+	resource "oci_core_route_table" "route_table" {
+	  compartment_id = var.compartment_id
+	  vcn_id         = oci_core_vcn.vcn.id
+	  display_name   = "TFExampleRouteTableDBSystem"
+	
+	  route_rules {
+		destination       = "0.0.0.0/0"
+		destination_type  = "CIDR_BLOCK"
+		network_entity_id = oci_core_internet_gateway.internet_gateway.id
+	  }
+	}
+	
+	resource "oci_core_route_table" "route_table_backup" {
+	  compartment_id = var.compartment_id
+	  vcn_id         = oci_core_vcn.vcn.id
+	  display_name   = "TFExampleRouteTableDBSystemBackup"
+	
+	  route_rules {
+		destination       = "0.0.0.0/0"
+		destination_type  = "CIDR_BLOCK"
+		network_entity_id = oci_core_internet_gateway.internet_gateway.id
+	  }
+	}
+	
+	resource "oci_core_security_list" "ExampleSecurityList" {
+	  compartment_id = var.compartment_id
+	  vcn_id         = oci_core_vcn.vcn.id
+	  display_name   = "TFExampleSecurityList"
+	
+	  // allow outbound tcp traffic on all ports
+	  egress_security_rules {
+		destination = "0.0.0.0/0"
+		protocol    = "6"
+	  }
+	
+	  // allow outbound udp traffic on a port range
+	  egress_security_rules {
+		destination = "0.0.0.0/0"
+		protocol    = "17" // udp
+		stateless   = true
+	  }
+	
+	  egress_security_rules {
+		destination = "0.0.0.0/0"
+		protocol    = "1"
+		stateless   = true
+	  }
+	
+	  // allow inbound ssh traffic from a specific port
+	  ingress_security_rules {
+		protocol  = "6" // tcp
+		source    = "0.0.0.0/0"
+		stateless = false
+	  }
+	
+	  // allow inbound icmp traffic of a specific type
+	  ingress_security_rules {
+		protocol  = 1
+		source    = "0.0.0.0/0"
+		stateless = true
+	  }
+	}
+	
+	resource "oci_core_network_security_group" "test_network_security_group" {
+	  compartment_id = var.compartment_id
+	  vcn_id         = oci_core_vcn.vcn.id
+	  display_name   = "displayName"
+	}
+	
+	resource "oci_core_network_security_group" "test_network_security_group_backup" {
+	  compartment_id = var.compartment_id
+	  vcn_id         = oci_core_vcn.vcn.id
+	  display_name   = "displayName"
+	}
+
+	data "oci_database_databases" "exadb" {
+       compartment_id = "${var.compartment_id}"
+       db_home_id = "${oci_database_db_system.test_exadata_db_system.db_home.0.id}"
+	}
+
+	variable "db_system_shape" {
+	  default = "Exadata.Quarter1.84"
+	}
+	
+	variable "cpu_core_count" {
+	  default = "22"
+	}
+	
+	variable "db_edition" {
+	  default = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	}
+	
+	variable "db_admin_password" {
+	  default = "BEstrO0ng_#12"
+	}
+	
+	variable "db_version" {
+	  default = "19.0.0.0"
+	}
+	
+	variable "db_disk_redundancy" {
+	  default = "HIGH"
+	}
+	
+	variable "sparse_diskgroup" {
+	  default = true
+	}
+	
+	variable "hostname" {
+	  default = "myoracledb"
+	}
+	
+	variable "host_user_name" {
+	  default = "opc"
+	}
+	
+	variable "n_character_set" {
+	  default = "AL16UTF16"
+	}
+	
+	variable "character_set" {
+	  default = "AL32UTF8"
+	}
+	
+	variable "db_workload" {
+	  default = "OLTP"
+	}
+	
+	variable "pdb_name" {
+	  default = "pdbName"
+	}
+	
+	variable "data_storage_size_in_gb" {
+	  default = "256"
+	}
+	
+	variable "license_model" {
+	  default = "LICENSE_INCLUDED"
+	}
+	
+	variable "node_count" {
+	  default = "2"
+	}
+	
+	variable "data_storage_percentage" {
+	  default = "40"
+	}
+	
+	variable "time_zone" {
+	  default = "US/Pacific"
+	}
+	
+	data "oci_database_db_system_shapes" "test_db_system_shapes" {
+	  availability_domain = data.oci_identity_availability_domain.ad.name
+	  compartment_id      = var.compartment_id
+	
+	  filter {
+		name   = "shape"
+		values = [var.db_system_shape]
+	  }
+	}
+
+	resource "oci_database_db_system" "test_exadata_db_system" {
+	  availability_domain = data.oci_identity_availability_domain.ad.name
+	  compartment_id      = var.compartment_id
+	  cpu_core_count      = var.cpu_core_count
+	  database_edition    = var.db_edition
+	  time_zone           = var.time_zone
+	
+	  db_home {
+		database {
+		  admin_password = var.db_admin_password
+		  db_name        = "TFdbExa1"
+		  character_set  = var.character_set
+		  ncharacter_set = var.n_character_set
+		  db_workload    = var.db_workload
+		  pdb_name       = var.pdb_name
+	
+		  db_backup_config {
+			auto_backup_enabled = false
+		  }
+		}
+	
+		db_version   = var.db_version
+		display_name = "MyTFDBHomeExa1"
+	  }
+	
+	  maintenance_window_details {
+		preference = "CUSTOM_PREFERENCE"
+	
+		days_of_week {
+		  name = "MONDAY"
+		}
+	
+		hours_of_day       = ["4"]
+		lead_time_in_weeks = 2
+	
+		months {
+		  name = "APRIL"
+		}
+	
+		weeks_of_month = ["2"]
+	  }
+	
+	  shape            = var.db_system_shape
+	  subnet_id        = oci_core_subnet.subnet.id
+	  backup_subnet_id = oci_core_subnet.subnet_backup.id
+	  ssh_public_keys  = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNpUvNPYAJUoH/C7sS90htOdIqSPG/YHJzQdUniBJTOe5TtI+wNQ7xFLc6rPp430kbt/KtQ3YyaTkWIiOHcuInBirGUGF1JPdjovmppBA8FJIz69YghLit1uLV6HxVBuEqbSEsh8zA7ZjyR1qDtA5pvjzvSBjxFKBrRhq+HD+CHMTUufbyZzk1oWItdJF5GqJtMZoDw5EwRrvll8PqHkNUCONrSTgZC85oxsgaDdseXNPRT5fzf8i5BWmkvLcq9gx0Hvk/pt7USnI0qW4jo877qljxA8TqLFipvBa9s+xRJKGzgdaSdfKaEPwDRkjKP5WVH+RYZPrEjn9vW+IsCRWcsmBsrkfrCCZ1QEWxzI3MxRrICdQ1v/++o3oD2Ksp4pMZHEI/RSGo0rZW8znerD8+WoEtHvyQAmJnmFBKoAiqLHWCgeHjXB1+UMSebLhy1LG1PFcw4bTf1vD66dkSvUOIj1lLz67N4rlmFz7bkTOj2WvYAGlqMrpBTVCj4qvKqGj9eSi8Mk2MydTEMgxIrVUAYp2+e2fgBm7Nopu23lPYwa/2gKpkNfaOjxAro0R5E6nweFCVqxA71UvNWCWI4NEBz7PQFqpY65COGVt/okNLZy0U154foYJNGYhXBpIeXvpeJU8sdmiSe4BbK0VR+LwZHHlAhOk/64n160fzTH8Cbw== govindrao.kulkarni@oracle.com"]
+	  display_name     = "MyTFDBSystem1"
+	  sparse_diskgroup = var.sparse_diskgroup
+	
+	  hostname                = var.hostname
+	  data_storage_percentage = var.data_storage_percentage
+	
+	  #data_storage_size_in_gb = var.data_storage_size_in_gb
+	  node_count             = data.oci_database_db_system_shapes.test_db_system_shapes.db_system_shapes[0]["minimum_node_count"]
+	}
+	
+	resource "oci_database_db_system" "test_exadata_db_system2" {
+	  availability_domain = data.oci_identity_availability_domain.ad.name
+	  compartment_id      = var.compartment_id
+	  cpu_core_count      = var.cpu_core_count
+	  database_edition    = var.db_edition
+	  time_zone           = var.time_zone
+	
+	  db_home {
+		database {
+		  admin_password = var.db_admin_password
+		  db_name        = "TFdbExa2"
+		  character_set  = var.character_set
+		  ncharacter_set = var.n_character_set
+		  db_workload    = var.db_workload
+		  pdb_name       = var.pdb_name
+	
+		  db_backup_config {
+			auto_backup_enabled = false
+		  }
+		}
+	
+		db_version   = "19.0.0.0"
+		display_name = "MyTFDBHomeExa2"
+	  }
+	
+	  maintenance_window_details {
+		preference = "CUSTOM_PREFERENCE"
+	
+		days_of_week {
+		  name = "MONDAY"
+		}
+	
+		hours_of_day       = ["4"]
+		lead_time_in_weeks = 2
+	
+		months {
+		  name = "APRIL"
+		}
+	
+		weeks_of_month = ["2"]
+	  }
+	
+	  shape            = var.db_system_shape
+	  subnet_id        = oci_core_subnet.subnet.id
+	  backup_subnet_id = oci_core_subnet.subnet_backup.id
+	  ssh_public_keys  = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNpUvNPYAJUoH/C7sS90htOdIqSPG/YHJzQdUniBJTOe5TtI+wNQ7xFLc6rPp430kbt/KtQ3YyaTkWIiOHcuInBirGUGF1JPdjovmppBA8FJIz69YghLit1uLV6HxVBuEqbSEsh8zA7ZjyR1qDtA5pvjzvSBjxFKBrRhq+HD+CHMTUufbyZzk1oWItdJF5GqJtMZoDw5EwRrvll8PqHkNUCONrSTgZC85oxsgaDdseXNPRT5fzf8i5BWmkvLcq9gx0Hvk/pt7USnI0qW4jo877qljxA8TqLFipvBa9s+xRJKGzgdaSdfKaEPwDRkjKP5WVH+RYZPrEjn9vW+IsCRWcsmBsrkfrCCZ1QEWxzI3MxRrICdQ1v/++o3oD2Ksp4pMZHEI/RSGo0rZW8znerD8+WoEtHvyQAmJnmFBKoAiqLHWCgeHjXB1+UMSebLhy1LG1PFcw4bTf1vD66dkSvUOIj1lLz67N4rlmFz7bkTOj2WvYAGlqMrpBTVCj4qvKqGj9eSi8Mk2MydTEMgxIrVUAYp2+e2fgBm7Nopu23lPYwa/2gKpkNfaOjxAro0R5E6nweFCVqxA71UvNWCWI4NEBz7PQFqpY65COGVt/okNLZy0U154foYJNGYhXBpIeXvpeJU8sdmiSe4BbK0VR+LwZHHlAhOk/64n160fzTH8Cbw== govindrao.kulkarni@oracle.com"]
+	  display_name     = "MyTFDBSystem2"
+	  sparse_diskgroup = var.sparse_diskgroup
+	
+	  hostname                = var.hostname
+	  data_storage_percentage = var.data_storage_percentage
+	
+	  #data_storage_size_in_gb = var.data_storage_size_in_gb
+	  node_count             = data.oci_database_db_system_shapes.test_db_system_shapes.db_system_shapes[0]["minimum_node_count"]
+	}
+`
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_id")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_data_guard_association.test_exadata_data_guard_association"
+	datasourceName := "data.oci_database_data_guard_associations.test_exadata_data_guard_associations"
+	singularDatasourceName := "data.oci_database_data_guard_association.test_exadata_data_guard_association"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			// verify create with optionals Existing DbSystem
+			{
+				Config: config + compartmentIdVariableStr +
+					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbHome),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
+					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
+					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+					resource.TestCheckResourceAttrSet(resourceName, "role"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
+					compartmentIdVariableStr +
+					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
+
+					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
+					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
+					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
+					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
+					compartmentIdVariableStr +
+					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_home_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),

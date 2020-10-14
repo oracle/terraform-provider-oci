@@ -10,7 +10,11 @@ description: |-
 # oci_database_exadata_iorm_config
 This resource provides the Exadata Iorm Config resource in Oracle Cloud Infrastructure Database service.
 
+<<<<<<< HEAD
 Updates IORM settings for the specified Exadata system.
+=======
+Updates IORM settings for the specified Exadata DB system.
+>>>>>>> Auto-generated seed code for DEXREQ-1573
 
 
 ## Example Usage

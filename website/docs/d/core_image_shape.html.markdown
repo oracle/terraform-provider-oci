@@ -35,10 +35,10 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `image_id` - The image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `memory_constraints` - 
+* `memory_constraints` - For a flexible image and shape, the amount of memory supported for instances that use this image.
 	* `max_in_gbs` - The maximum amount of memory, in gigabytes.
 	* `min_in_gbs` - The minimum amount of memory, in gigabytes.
-* `ocpu_constraints` - 
+* `ocpu_constraints` - OCPU options for an image and shape.
 	* `max` - The maximum number of OCPUs supported for this image and shape.
 	* `min` - The minimum number of OCPUs supported for this image and shape.
 * `shape` - The shape name.

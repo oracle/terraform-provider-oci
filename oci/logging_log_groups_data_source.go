@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_logging "github.com/oracle/oci-go-sdk/v26/logging"
+	oci_logging "github.com/oracle/oci-go-sdk/v27/logging"
 )
 
 func init() {
@@ -129,6 +129,8 @@ func (s *LoggingLogGroupsDataSourceCrud) SetData() error {
 		if r.Id != nil {
 			logGroup["id"] = *r.Id
 		}
+
+		logGroup["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
 			logGroup["time_created"] = r.TimeCreated.String()

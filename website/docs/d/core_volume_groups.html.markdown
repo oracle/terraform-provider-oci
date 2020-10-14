@@ -57,7 +57,7 @@ The following attributes are exported:
 * `is_hydrated` - Specifies whether the newly created cloned volume group's data has finished copying from the source volume group or backup.
 * `size_in_gbs` - The aggregate size of the volume group in GBs.
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
-* `source_details` - The volume group source. The source is either another a list of volume IDs in the same availability domain, another volume group, or a volume group backup. 
+* `source_details` - Specifies the source for a volume group.
 	* `type` - The type can be one of these values: `volumeGroupBackupId`, `volumeGroupId`, `volumeIds`
 	* `volume_group_backup_id` - The OCID of the volume group backup to restore from, if the type is `volumeGroupBackup` 
 	* `volume_group_id` - The OCID of the volume group to clone from, if the type is `volumeGroup`
