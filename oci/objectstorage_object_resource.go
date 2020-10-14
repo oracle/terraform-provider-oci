@@ -12,6 +12,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"net/url"
 	"os"
 	"regexp"
@@ -591,11 +592,15 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 		tmp := []byte(content.(string))
 		tmpLength := int64(len(tmp))
 		request.ContentLength = &tmpLength
-		request.PutObjectBody = ioutil.NopCloser(bytes.NewBuffer(tmp))
+		if tmpLength == 0 {
+			request.PutObjectBody = http.NoBody
+		} else {
+			request.PutObjectBody = ioutil.NopCloser(bytes.NewBuffer(tmp))
+		}
 	} else {
 		tmp := int64(0)
 		request.ContentLength = &tmp
-		request.PutObjectBody = ioutil.NopCloser(bytes.NewBuffer([]byte{}))
+		request.PutObjectBody = http.NoBody
 	}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
