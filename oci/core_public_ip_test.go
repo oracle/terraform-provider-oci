@@ -60,6 +60,11 @@ var (
 		"freeform_tags":     Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"private_ip_id":     Representation{repType: Optional, create: `${data.oci_core_private_ips.test_private_ips.` + privateIpId + `}`, update: `${data.oci_core_private_ips.test_private_ips.` + privateIpId2 + `}`},
 		"public_ip_pool_id": Representation{repType: Optional, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
+		"lifecycle":         RepresentationGroup{Required, ignoreChangesRepresentation},
+	}
+
+	ignoreChangesRepresentation = map[string]interface{}{
+		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`, `private_ip_id`}},
 	}
 
 	publicUnassignedIpRepresentation = map[string]interface{}{

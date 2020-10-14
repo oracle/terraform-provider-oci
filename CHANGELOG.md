@@ -6,6 +6,7 @@
 - Support for Private DNS Names added
 - Support for feature of expanding and shrinking of Subnet and VCN
 - Support for Network ACLs for ExaCC ADB
+- Support for `reserved_ips` in `oci_load_balancer`
 - Support for `Resource Discovery` added for `management_agent` service
 
 ## 4.2.0 (November 04, 2020)
