@@ -107,6 +107,10 @@ func (s *IdentityIdentityProvidersDataSourceCrud) SetData() error {
 
 			result["freeform_attributes"] = v.FreeformAttributes
 
+			if v.Metadata != nil {
+				result["metadata"] = string(*v.Metadata)
+			}
+
 			if v.MetadataUrl != nil {
 				result["metadata_url"] = string(*v.MetadataUrl)
 			}

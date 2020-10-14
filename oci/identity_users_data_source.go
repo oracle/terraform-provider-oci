@@ -131,10 +131,6 @@ func (s *IdentityUsersDataSourceCrud) SetData() error {
 			user["email"] = *r.Email
 		}
 
-		if r.EmailVerified != nil {
-			user["email_verified"] = *r.EmailVerified
-		}
-
 		if r.ExternalIdentifier != nil {
 			user["external_identifier"] = *r.ExternalIdentifier
 		}
