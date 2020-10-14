@@ -84,6 +84,27 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"reserved_ips": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"ip_address_details": {
@@ -103,6 +124,25 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 						"is_public": {
 							Type:     schema.TypeBool,
 							Computed: true,
+						},
+						"reserved_ip": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -260,6 +300,23 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
 			request.NetworkSecurityGroupIds = tmp
+		}
+	}
+
+	if reservedIps, ok := s.D.GetOkExists("reserved_ips"); ok {
+		interfaces := reservedIps.([]interface{})
+		tmp := make([]oci_load_balancer.ReservedIp, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "reserved_ips", stateDataIndex)
+			converted, err := s.mapToReservedIP(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("reserved_ips") {
+			request.ReservedIps = tmp
 		}
 	}
 
@@ -513,6 +570,31 @@ func IpAddressToMap(obj oci_load_balancer.IpAddress) map[string]interface{} {
 
 	if obj.IsPublic != nil {
 		result["is_public"] = bool(*obj.IsPublic)
+	}
+
+	if obj.ReservedIp != nil {
+		result["reserved_ip"] = []interface{}{ReservedIPToMap(*obj.ReservedIp)}
+	}
+
+	return result
+}
+
+func (s *LoadBalancerLoadBalancerResourceCrud) mapToReservedIP(fieldKeyFormat string) (oci_load_balancer.ReservedIp, error) {
+	result := oci_load_balancer.ReservedIp{}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	return result, nil
+}
+
+func ReservedIPToMap(obj oci_load_balancer.ReservedIp) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
 	}
 
 	return result

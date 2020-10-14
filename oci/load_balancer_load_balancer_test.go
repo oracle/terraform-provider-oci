@@ -45,7 +45,17 @@ var (
 		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"is_private":                 Representation{repType: Optional, create: `false`},
+		"reserved_ips":               RepresentationGroup{Optional, loadBalancerReservedIpsRepresentation},
 		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{}},
+		"lifecycle":                  RepresentationGroup{Required, ignoreChangesLBRepresentation},
+	}
+
+	ignoreChangesLBRepresentation = map[string]interface{}{
+		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+	}
+
+	loadBalancerReservedIpsRepresentation = map[string]interface{}{
+		"id": Representation{repType: Optional, create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
 
 	LoadBalancerSubnetDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
@@ -80,11 +90,13 @@ var (
 		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
 	}
 `
+	LoadBalancerReservedIpDependencies = generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation)
 
-	LoadBalancerResourceDependencies = LoadBalancerSubnetDependencies +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, representationCopyWithNewProperties(networkSecurityGroupRepresentation, map[string]interface{}{
-			"vcn_id": Representation{repType: Required, create: `${oci_core_vcn.test_lb_vcn.id}`},
-		})) +
+	LoadBalancerResourceDependencies = LoadBalancerSubnetDependencies + LoadBalancerReservedIpDependencies +
+		generateResourceFromRepresentationMap("oci_core_network_security_group",
+			"test_network_security_group1", Required, Create, representationCopyWithNewProperties(networkSecurityGroupRepresentation, map[string]interface{}{
+				"vcn_id": Representation{repType: Required, create: `${oci_core_vcn.test_lb_vcn.id}`},
+			})) +
 		DefinedTagsDependencies
 )
 
@@ -140,11 +152,14 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
+					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+					resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -172,11 +187,14 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
+					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+					resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
@@ -198,11 +216,14 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
+					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+					resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -232,7 +253,8 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.defined_tags.%", "1"),
+					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
+					//resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
@@ -247,11 +269,14 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"ip_mode",
+					"reserved_ips",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})
