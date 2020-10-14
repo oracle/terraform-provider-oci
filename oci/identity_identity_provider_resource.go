@@ -255,6 +255,10 @@ func (s *IdentityIdentityProviderResourceCrud) SetData() error {
 
 		s.D.Set("freeform_attributes", v.FreeformAttributes)
 
+		if v.Metadata != nil {
+			s.D.Set("metadata", *v.Metadata)
+		}
+
 		if v.MetadataUrl != nil {
 			s.D.Set("metadata_url", *v.MetadataUrl)
 		}
