@@ -1,4 +1,4 @@
-## 3.97.0 (Unreleased)
+## 3.97.0 (October 14, 2020)
 
 ### Added
 - Support for Setting up standby in an existing DB home
