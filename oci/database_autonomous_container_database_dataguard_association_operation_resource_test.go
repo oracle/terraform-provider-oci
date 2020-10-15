@@ -36,6 +36,7 @@ var (
 )
 
 func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource_basic(t *testing.T) {
+	t.Skip("Skipping Test for TeamCity")
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource_basic")
 	defer httpreplay.SaveScenario()
 
