@@ -99,6 +99,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_size_in_gbs"),
 					resource.TestCheckResourceAttr(datasourceName, "backups.0.display_name", "Monthly Backup"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.id"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.shape"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),

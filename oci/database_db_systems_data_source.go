@@ -189,6 +189,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["id"] = *r.Id
 		}
 
+		if r.KmsKeyId != nil {
+			dbSystem["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.LastMaintenanceRunId != nil {
 			dbSystem["last_maintenance_run_id"] = *r.LastMaintenanceRunId
 		}

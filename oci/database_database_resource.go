@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -203,7 +204,24 @@ func DatabaseDatabaseResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: dbVersionDiffSuppress,
 			},
-
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"kms_key_version_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"kms_key_rotation": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"kms_key_migration": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			// Computed
 			"character_set": {
 				Type:     schema.TypeString,
@@ -535,6 +553,10 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
 	if s.Res.LastBackupTimestamp != nil {
 		s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
 	}
@@ -800,6 +822,14 @@ func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabase
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok {
+			tmp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &tmp
+		}
 		request.CreateNewDatabaseDetails = details
 	case strings.ToLower("NONE"):
 		details := oci_database.CreateNewDatabaseDetails{}
@@ -821,6 +851,14 @@ func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabase
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok {
+			tmp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &tmp
+		}
 		request.CreateNewDatabaseDetails = details
 	default:
 		return fmt.Errorf("unknown source '%v' was specified", source)
@@ -841,6 +879,16 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.DatabaseId = &tmp
+
+	error := s.kmsRotation(tmp)
+	if error != nil {
+		return error
+	}
+
+	err := s.kmsMigration(tmp)
+	if err != nil {
+		return err
+	}
 
 	if database, ok := s.D.GetOkExists("database"); ok {
 		if tmpList := database.([]interface{}); len(tmpList) > 0 {
@@ -980,4 +1028,53 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 	}
 
 	return result
+}
+
+func (s *DatabaseDatabaseResourceCrud) kmsRotation(databaseId string) error {
+	if _, ok := s.D.GetOkExists("kms_key_rotation"); ok && s.D.HasChange("kms_key_rotation") {
+		rotateKeyRequest := oci_database.RotateVaultKeyRequest{}
+		rotateKeyRequest.DatabaseId = &databaseId
+		rotateKeyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		_, err := s.Client.RotateVaultKey(context.Background(), rotateKeyRequest)
+		return err
+	}
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) kmsMigration(databaseId string) error {
+	migrateOperation := false
+	if _, ok := s.D.GetOkExists("kms_key_migration"); ok && s.D.HasChange("kms_key_migration") && s.D.Get("kms_key_migration").(bool) {
+		migrationKeyRequest := oci_database.MigrateVaultKeyRequest{}
+		migrationKeyRequest.DatabaseId = &databaseId
+		migrationKeyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok && s.D.HasChange("kms_key_id") {
+			oldRaw, newRaw := s.D.GetChange("kms_key_id")
+			if oldRaw == "" && newRaw != "" {
+				temp := kmsKeyId.(string)
+				migrationKeyRequest.KmsKeyId = &temp
+			}
+		}
+
+		if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") {
+			oldRaw, newRaw := s.D.GetChange("kms_key_version_id")
+			if oldRaw == "" && newRaw != "" {
+				temp := kmsKeyVersionId.(string)
+				migrationKeyRequest.KmsKeyVersionId = &temp
+			}
+		}
+		_, err := s.Client.MigrateVaultKey(context.Background(), migrationKeyRequest)
+		if err != nil {
+			return err
+		}
+		migrateOperation = true
+	}
+
+	if _, ok := s.D.GetOkExists("kms_key_id"); ok && s.D.HasChange("kms_key_id") && !migrateOperation {
+		return errors.New("kms_key_id can not be updated, please use migration or rotation")
+	}
+
+	if _, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") && !migrateOperation {
+		return errors.New("kms_key_version_id can not be updated, please use migration or rotation")
+	}
+	return nil
 }

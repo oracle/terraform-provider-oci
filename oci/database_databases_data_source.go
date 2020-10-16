@@ -179,6 +179,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["id"] = *r.Id
 		}
 
+		if r.KmsKeyId != nil {
+			database["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.LastBackupTimestamp != nil {
 			database["last_backup_timestamp"] = r.LastBackupTimestamp.String()
 		}
