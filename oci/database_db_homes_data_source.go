@@ -178,6 +178,10 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 			dbHome["db_home_id"] = *r.Id
 		}
 
+		if r.KmsKeyId != nil {
+			dbHome["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.LastPatchHistoryEntryId != nil {
 			dbHome["last_patch_history_entry_id"] = *r.LastPatchHistoryEntryId
 		}

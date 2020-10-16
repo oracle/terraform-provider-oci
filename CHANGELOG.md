@@ -5,6 +5,7 @@
 - Support for Flexible Load Balancer
 - Support for KMS filter listKeys based on KeyShape added
 - Support for ADBS Apex added
+- Support for Platform Integration: KMS Integration-Exadata (Phase 1)
 
 ## 4.6.0 (December 09, 2020)
 

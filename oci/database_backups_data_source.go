@@ -128,6 +128,10 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 			backup["id"] = *r.Id
 		}
 
+		if r.KmsKeyId != nil {
+			backup["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.LifecycleDetails != nil {
 			backup["lifecycle_details"] = *r.LifecycleDetails
 		}

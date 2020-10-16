@@ -45,6 +45,7 @@ The following attributes are exported:
 * `database_size_in_gbs` - The size of the database in gigabytes at the time the backup was taken. 
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup.
+* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `shape` - Shape of the backup's source database.
 * `state` - The current state of the backup.
