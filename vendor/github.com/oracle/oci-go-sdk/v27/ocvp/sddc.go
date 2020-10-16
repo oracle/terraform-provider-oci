@@ -233,6 +233,24 @@ type Sddc struct {
 	// For information about `PrivateIp` objects, see the Core Services API.
 	NsxEdgeUplinkIpId *string `mandatory:"false" json:"nsxEdgeUplinkIpId"`
 
+	// HCX Private IP
+	HcxPrivateIpId *string `mandatory:"false" json:"hcxPrivateIpId"`
+
+	// HCX Fully Qualified Domain Name
+	HcxFqdn *string `mandatory:"false" json:"hcxFqdn"`
+
+	// HCX initial password
+	HcxInitialPassword *string `mandatory:"false" json:"hcxInitialPassword"`
+
+	// HCX vlan id
+	HcxVlanId *string `mandatory:"false" json:"hcxVlanId"`
+
+	// HCX enabled or not
+	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
+
+	// HCX on-premise license key
+	HcxOnPremKey *string `mandatory:"false" json:"hcxOnPremKey"`
+
 	// The date and time the SDDC was updated, in the format defined by
 	// RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`

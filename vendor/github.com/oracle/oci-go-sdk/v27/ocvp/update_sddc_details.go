@@ -22,6 +22,7 @@ import (
 type UpdateSddcDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.
+	// SDDC name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The version of bundled VMware software that the Oracle Cloud VMware Solution will
@@ -63,6 +64,9 @@ type UpdateSddcDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for
 	// the NSX Edge Uplink 2 component of the VMware environment when adding new ESXi hosts to the SDDC.
 	NsxEdgeUplink2VlanId *string `mandatory:"false" json:"nsxEdgeUplink2VlanId"`
+
+	// This id is editable only when hcxEnabled is true
+	HcxVlanId *string `mandatory:"false" json:"hcxVlanId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

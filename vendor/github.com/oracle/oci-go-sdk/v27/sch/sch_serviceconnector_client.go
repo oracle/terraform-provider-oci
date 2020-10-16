@@ -6,7 +6,7 @@
 //
 // Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/service-connector-hub/using/index.htm).
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 //
 
 package sch
@@ -82,9 +82,9 @@ func (client *ServiceConnectorClient) ConfigurationProvider() *common.Configurat
 // ActivateServiceConnector Activates the specified service connector.
 // After you send your request, the service connector's state is temporarily
 // UPDATING. When the state changes to ACTIVE, data begins transferring from the
-// source service to the target service. For instructions on deactivating and
-// activating service connectors, see
-// To activate or deactivate a service connector (https://docs.cloud.oracle.com/iaas/service-connector-hub/using/index.htm).
+// source service to the target service. For instructions on activating service
+// connectors, see
+// To activate a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#activate).
 func (client ServiceConnectorClient) ActivateServiceConnector(ctx context.Context, request ActivateServiceConnectorRequest) (response ActivateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -196,7 +196,7 @@ func (client ServiceConnectorClient) changeServiceConnectorCompartment(ctx conte
 // A service connector is a logically defined flow for moving data from
 // a source service to a destination service in Oracle Cloud Infrastructure.
 // For general information about service connectors, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/service-connector-hub/using/index.htm).
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 // For purposes of access control, you must provide the
 // OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where
 // you want the service connector to reside. Notice that the service connector
@@ -207,7 +207,7 @@ func (client ServiceConnectorClient) changeServiceConnectorCompartment(ctx conte
 // CREATING. When the state changes to ACTIVE, data begins transferring from the
 // source service to the target service. For instructions on deactivating and
 // activating service connectors, see
-// To activate or deactivate a service connector (https://docs.cloud.oracle.com/iaas/service-connector-hub/using/index.htm).
+// To activate or deactivate a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 func (client ServiceConnectorClient) CreateServiceConnector(ctx context.Context, request CreateServiceConnectorRequest) (response CreateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -265,8 +265,8 @@ func (client ServiceConnectorClient) createServiceConnector(ctx context.Context,
 // DeactivateServiceConnector Deactivates the specified service connector.
 // After you send your request, the service connector's state is temporarily
 // UPDATING and any data transfer stops. The state then changes to INACTIVE.
-// For instructions on deactivating and activating service connectors, see
-// To activate or deactivate a service connector (https://docs.cloud.oracle.com/iaas/service-connector-hub/using/index.htm).
+// For instructions on deactivating service connectors, see
+// To deactivate a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#deactivate).
 func (client ServiceConnectorClient) DeactivateServiceConnector(ctx context.Context, request DeactivateServiceConnectorRequest) (response DeactivateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
