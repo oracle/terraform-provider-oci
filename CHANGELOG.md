@@ -1,9 +1,19 @@
-## 3.98.0 (Unreleased)
+## 4.0.0 (Unreleased)
 
 ### Added
 - HCX Support for Oracle Cloud VMware Solution
 - Support for Operations insights added to `autonomous_database` resource
 - Support for SCH doc link update
+
+### Fixed
+- Updated id for data sources to deterministic value compatible with v0.13
+
+### Deprecated
+- `oci_dns_record` resource and datasource is deprecated in favor of  `oci_dns_rrset` resource and datasource
+
+### Notes
+- Upgrade to Terraform Plugin SDK v1.15.0
+- Resource discovery now requires Terraform CLI. For more details on how to provide the CLI, refer to [resource discovery prerequisites](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/resource_discovery#prerequisites) 
 
 ## 3.97.0 (October 14, 2020)
 
