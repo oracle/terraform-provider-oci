@@ -6,7 +6,7 @@
 //
 // Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/service-connector-hub/using/index.htm).
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 //
 
 package sch
@@ -19,7 +19,7 @@ import (
 // TargetDetails An object that represents the target of the flow defined by the service connector.
 // An example target is a stream.
 // For more information about flows defined by service connectors, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/service-connector-hub/using/index.htm).
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 type TargetDetails interface {
 }
 

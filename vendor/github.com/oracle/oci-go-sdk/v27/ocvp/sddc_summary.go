@@ -59,6 +59,12 @@ type SddcSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
+	// HCX Fully Qualified Domain Name
+	HcxFqdn *string `mandatory:"false" json:"hcxFqdn"`
+
+	// HCX enabled or not
+	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
+
 	// FQDN for vCenter
 	// Example: `vcenter-my-sddc.sddc.us-phoenix-1.oraclecloud.com`
 	VcenterFqdn *string `mandatory:"false" json:"vcenterFqdn"`
