@@ -4,6 +4,7 @@
 - Support for VCN API: include OCID of Local Peering Gateway in return model
 - Support for Streaming analytics in OCI Connector Hub
 - Support for IPv6
+- Support for IPv6 with fastconnect
 - Support for Compute preemptible Instances
 - Support for MDS High Availability
 - Support for Micro VM shapes added to `core_instance` and `core_instance_configuration` resources

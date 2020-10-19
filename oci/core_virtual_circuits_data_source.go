@@ -116,6 +116,8 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["bandwidth_shape_name"] = *r.BandwidthShapeName
 		}
 
+		virtualCircuit["bgp_ipv6session_state"] = r.BgpIpv6SessionState
+
 		virtualCircuit["bgp_management"] = r.BgpManagement
 
 		virtualCircuit["bgp_session_state"] = r.BgpSessionState

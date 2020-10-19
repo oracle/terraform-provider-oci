@@ -72,6 +72,8 @@ func (s *CoreVirtualCircuitDataSourceCrud) SetData() error {
 		s.D.Set("bandwidth_shape_name", *s.Res.BandwidthShapeName)
 	}
 
+	s.D.Set("bgp_ipv6session_state", s.Res.BgpIpv6SessionState)
+
 	s.D.Set("bgp_management", s.Res.BgpManagement)
 
 	s.D.Set("bgp_session_state", s.Res.BgpSessionState)
