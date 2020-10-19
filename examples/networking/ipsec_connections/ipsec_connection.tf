@@ -101,22 +101,6 @@ resource "oci_core_ipsec_connection_tunnel_management" "test_ipsec_connection_tu
   ike_version   = "V1"
 }
 
-resource "oci_core_ipsec_connection_tunnel_management" "test_ipsec_connection_tunnel_management_2" {
-  ipsec_id  = oci_core_ipsec.test_ip_sec_connection.id
-  tunnel_id = data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels[0].id
-
-  #Optional
-  encryption_domain_config {
-    cpe_traffic_selector      = "10.0.0.0/24"
-    oracle_traffic_selector   = "192.168.1.0/24"
-  }
-
-  display_name  = "MyIPSecConnection"
-  routing       = "POLICY"
-  shared_secret = "sharedSecret"
-  ike_version   = "V1"
-}
-
 resource "oci_identity_tag_namespace" "tag_namespace1" {
   #Required
   compartment_id = var.tenancy_ocid

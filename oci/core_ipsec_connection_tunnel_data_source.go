@@ -231,6 +231,8 @@ func (s *CoreIpSecConnectionTunnelDataSourceCrud) SetData() error {
 func BgpSessionInfoToMap(obj *oci_core.BgpSessionInfo) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["bgp_ipv6state"] = string(obj.BgpIpv6State)
+
 	result["bgp_state"] = string(obj.BgpState)
 
 	if obj.CustomerBgpAsn != nil {
@@ -241,12 +243,20 @@ func BgpSessionInfoToMap(obj *oci_core.BgpSessionInfo) map[string]interface{} {
 		result["customer_interface_ip"] = string(*obj.CustomerInterfaceIp)
 	}
 
+	if obj.CustomerInterfaceIpv6 != nil {
+		result["customer_interface_ipv6"] = string(*obj.CustomerInterfaceIpv6)
+	}
+
 	if obj.OracleBgpAsn != nil {
 		result["oracle_bgp_asn"] = string(*obj.OracleBgpAsn)
 	}
 
 	if obj.OracleInterfaceIp != nil {
 		result["oracle_interface_ip"] = string(*obj.OracleInterfaceIp)
+	}
+
+	if obj.OracleInterfaceIpv6 != nil {
+		result["oracle_interface_ipv6"] = string(*obj.OracleInterfaceIpv6)
 	}
 
 	return result

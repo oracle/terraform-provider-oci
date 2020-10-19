@@ -467,6 +467,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.bandwidth_shape_name", "20 Gbps"),
+					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_ipv6session_state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_management"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_session_state"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.compartment_id", compartmentId),
@@ -500,6 +501,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_circuit_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "bandwidth_shape_name", "20 Gbps"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_ipv6session_state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_management"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_session_state"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

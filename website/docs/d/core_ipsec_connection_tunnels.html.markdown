@@ -40,6 +40,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `bgp_session_info` - Information for establishing a BGP session for the IPSec tunnel.
+	* `bgp_ipv6state` - The state of the BGP IPv6 session. 
 	* `bgp_state` - The state of the BGP session. 
 	* `customer_bgp_asn` - If the tunnel's `routing` attribute is set to `BGP` (see [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnectionTunnel/)), this ASN is required and used for the tunnel's BGP session. This is the ASN of the network on the CPE end of the BGP session. Can be a 2-byte or 4-byte ASN. Uses "asplain" format.
 
@@ -55,6 +56,15 @@ The following attributes are exported:
 		The value must be a /30 or /31.
 
 		Example: `10.0.0.5/31` 
+	* `customer_interface_ipv6` - The IPv6 address for the CPE end of the inside tunnel interface. This IP address is optional.
+
+		If the tunnel's `routing` attribute is set to `BGP` (see [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnectionTunnel/)), this IP address is used for the tunnel's BGP session.
+
+		If `routing` is instead set to `STATIC`, you can set this IP address to troubleshoot or monitor the tunnel.
+
+		Only subnet masks from /64 up to /127 are allowed.
+
+		Example: `2001:db8::1/64` 
 	* `oracle_bgp_asn` - The Oracle BGP ASN. 
 	* `oracle_interface_ip` - The IP address for the Oracle end of the inside tunnel interface.
 
@@ -65,6 +75,15 @@ The following attributes are exported:
 		The value must be a /30 or /31.
 
 		Example: `10.0.0.4/31` 
+	* `oracle_interface_ipv6` - The IPv6 address for the Oracle end of the inside tunnel interface. This IP address is optional.
+
+		If the tunnel's `routing` attribute is set to `BGP` (see [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnectionTunnel/)), this IP address is used for the tunnel's BGP session.
+
+		If `routing` is instead set to `STATIC`, you can set this IP address to troubleshoot or monitor the tunnel.
+
+		Only subnet masks from /64 up to /127 are allowed.
+
+		Example: `2001:db8::1/64` 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the tunnel. 
 * `cpe_ip` - The IP address of the CPE's VPN headend.  Example: `203.0.113.22` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
