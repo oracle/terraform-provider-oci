@@ -65,6 +65,6 @@ The following attributes are exported:
 
 ProtectionRules can be imported using the `id`, e.g.
 ```
-$ terraform import oci_waas_protection_rule.test_protection_rule "waasPolicyId/{waasPolicyId}/key/{key}"
+$ terraform import oci_waas_protection_rule.test_protection_rule "waasPolicyId/{waasPolicyId}/key/{key}" 
 ```
 

@@ -64,6 +64,6 @@ The following attributes are exported:
 AppCatalogSubscriptions can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_core_app_catalog_subscription.test_app_catalog_subscription "compartmentId/{compartmentId}/listingId/{listingId}/listingResourceVersion/{listingResourceVersion}"
+$ terraform import oci_core_app_catalog_subscription.test_app_catalog_subscription "compartmentId/{compartmentId}/listingId/{listingId}/listingResourceVersion/{listingResourceVersion}" 
 ```
 
