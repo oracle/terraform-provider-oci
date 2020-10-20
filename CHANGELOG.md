@@ -1,3 +1,8 @@
+## 4.1.0 (Unreleased)
+
+### Added
+- Support for reading OBO token from local file
+
 ## 4.0.0 (October 21, 2020)
 
 ### Added

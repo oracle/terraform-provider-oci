@@ -79,6 +79,7 @@ const (
 	disableAutoRetriesAttrName   = "disable_auto_retries"
 	retryDurationSecondsAttrName = "retry_duration_seconds"
 	oboTokenAttrName             = "obo_token"
+	oboTokenPath                 = "obo_token_path"
 	configFileProfileAttrName    = "config_file_profile"
 
 	tfEnvPrefix           = "TF_VAR_"
@@ -104,6 +105,14 @@ func (provider emptyOboTokenProvider) OboToken() (string, error) {
 type oboTokenProviderFromEnv struct{}
 
 func (p oboTokenProviderFromEnv) OboToken() (string, error) {
+	// priority token from path than token from environment
+	if path := getEnvSettingWithBlankDefault(oboTokenPath); path != "" {
+		token, err := getTokenFromFile(path)
+		if err != nil {
+			return "", err
+		}
+		return token, nil
+	}
 	return getEnvSettingWithBlankDefault(oboTokenAttrName), nil
 }
 
@@ -419,7 +428,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 			return nil, fmt.Errorf(`user credentials %v should be removed from the configuration`, strings.Join(apiKeyConfigVariablesToUnset, ", "))
 		}
 
-		region, ok := d.GetOkExists(regionAttrName)
+		region, ok := d.GetOk(regionAttrName)
 		if !ok {
 			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", regionAttrName)
 		}
