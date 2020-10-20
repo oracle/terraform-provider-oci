@@ -343,6 +343,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.display_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.fault_domain"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.hostname"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.image_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ip_address"),
