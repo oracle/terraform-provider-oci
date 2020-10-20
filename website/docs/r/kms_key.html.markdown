@@ -94,6 +94,6 @@ The following attributes are exported:
 Keys can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_kms_key.test_key "managementEndpoint/{managementEndpoint}/keys/{keyId}"
+$ terraform import oci_kms_key.test_key "managementEndpoint/{managementEndpoint}/keys/{keyId}" 
 ```
 

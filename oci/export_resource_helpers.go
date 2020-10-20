@@ -591,6 +591,7 @@ func init() {
 	exportFileStorageMountTargetHints.requireResourceRefresh = true
 
 	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
+	exportKmsKeyVersionHints.processDiscoveredResourcesFn = processKmsKeyVersion
 
 	exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
 	exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
@@ -705,6 +706,14 @@ func processKmsKey(clients *OracleClients, resources []*OCIResource) ([]*OCIReso
 		resource.sourceAttributes["management_endpoint"] = resource.parent.sourceAttributes["management_endpoint"].(string)
 		var resourceSchema *schema.ResourceData = resource.rawResource.(*schema.ResourceData)
 		resource.sourceAttributes["id"] = resourceSchema.Id()
+	}
+	return resources, nil
+}
+
+func processKmsKeyVersion(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		resource.sourceAttributes["management_endpoint"] = resource.parent.sourceAttributes["management_endpoint"].(string)
+		resource.importId = resource.id
 	}
 	return resources, nil
 }

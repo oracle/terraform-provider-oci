@@ -80,10 +80,7 @@ func getCoreNetworkSecurityGroupSecurityRuleId(resource *OCIResource) (string, e
 
 func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
 
-	exadataInfrastructureId, ok := resource.sourceAttributes["exadata_infrastructure_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find exadata_infrastructure_id for VmCluster network id")
-	}
+	exadataInfrastructureId := resource.parent.id
 	vmClusterNetworkId, ok := resource.sourceAttributes["id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find vmClusterNetworkId for Database VmClusterNetwork")
