@@ -8,6 +8,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
@@ -311,4 +312,10 @@ func hexToB64(hexEncoded string) (*string, error) {
 func isHex(content string) bool {
 	_, err := hex.DecodeString(content)
 	return err == nil
+}
+
+// Get obo token from file
+func getTokenFromFile(path string) (string, error) {
+	token, err := ioutil.ReadFile(path)
+	return string(token), err
 }
