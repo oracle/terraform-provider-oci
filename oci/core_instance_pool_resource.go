@@ -29,11 +29,15 @@ func CoreInstancePoolResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createCoreInstancePool,
-		Read:     readCoreInstancePool,
-		Update:   updateCoreInstancePool,
-		Delete:   deleteCoreInstancePool,
+		Timeouts: &schema.ResourceTimeout{
+			Create: getTimeoutDuration("1h"),
+			Update: getTimeoutDuration("1h"),
+			Delete: getTimeoutDuration("1h"),
+		},
+		Create: createCoreInstancePool,
+		Read:   readCoreInstancePool,
+		Update: updateCoreInstancePool,
+		Delete: deleteCoreInstancePool,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
