@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v27/common"
 	oci_logging "github.com/oracle/oci-go-sdk/v27/logging"
 
@@ -119,7 +119,8 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + CustomLogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation),
+					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation) +
+					generateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Update, logGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -144,6 +145,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", Optional, Update, customLogDataSourceRepresentation) +
+					generateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Update, logGroupRepresentation) +
 					compartmentIdVariableStr + CustomLogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(

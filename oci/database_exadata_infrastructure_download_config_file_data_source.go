@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
@@ -81,7 +81,7 @@ func (s *DatabaseExadataInfrastructureDownloadConfigFileDataSourceCrud) SetData(
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseExadataInfrastructureDownloadConfigFileDataSource-", DatabaseExadataInfrastructureDownloadConfigFileDataSource(), s.D))
 
 	base64EncodeContent := false
 	if tmp, ok := s.D.GetOkExists("base64_encode_content"); ok {

@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v27/core"
 )
 
@@ -124,7 +124,7 @@ func (s *CoreImageShapeDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreImageShapeDataSource-", CoreImageShapeDataSource(), s.D))
 
 	if s.Res.MemoryConstraints != nil {
 		s.D.Set("memory_constraints", []interface{}{ImageMemoryConstraintsToMap(s.Res.MemoryConstraints)})

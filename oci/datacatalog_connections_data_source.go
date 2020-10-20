@@ -7,7 +7,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v27/common"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v27/datacatalog"
 )
@@ -231,7 +231,7 @@ func (s *DatacatalogConnectionsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatacatalogConnectionsDataSource-", DatacatalogConnectionsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	connection := map[string]interface{}{}
 

@@ -16,7 +16,8 @@ import (
 // UpdateEsxiHostDetails The ESXi host information to be updated.
 type UpdateEsxiHostDetails struct {
 
-	// A descriptive name for the ESXi host. Does not have to be unique, and it's changeable.
+	// A descriptive name for the ESXi host. It's changeable.
+	// Esxi Host name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the SDDC.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

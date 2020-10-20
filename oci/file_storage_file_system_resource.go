@@ -7,7 +7,7 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_file_storage "github.com/oracle/oci-go-sdk/v27/filestorage"
 )

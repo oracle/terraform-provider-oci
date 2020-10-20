@@ -20,12 +20,13 @@ type CreateEsxiHostDetails struct {
 	// ESXi host to.
 	SddcId *string `mandatory:"true" json:"sddcId"`
 
-	// A descriptive name for the ESXi host. Does not have to be unique, and it's changeable.
-	// Avoid entering confidential information.
+	// A descriptive name for the ESXi host. It's changeable.
+	// Esxi Host name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the SDDC.
 	// If this attribute is not specified, the SDDC's `instanceDisplayNamePrefix` attribute is used
 	// to name and incrementally number the ESXi host. For example, if you're creating the fourth
 	// ESXi host in the SDDC, and `instanceDisplayNamePrefix` is `MySDDC`, the host's display
 	// name is `MySDDC-4`.
+	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
