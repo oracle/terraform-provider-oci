@@ -397,6 +397,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"hostname": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"image_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1284,6 +1288,10 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 
 	if obj.FaultDomain != nil {
 		result["fault_domain"] = string(*obj.FaultDomain)
+	}
+
+	if obj.Hostname != nil {
+		result["hostname"] = string(*obj.Hostname)
 	}
 
 	if obj.ImageId != nil {
