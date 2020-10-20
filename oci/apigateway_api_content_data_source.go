@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v27/apigateway"
 )
 
@@ -75,7 +75,7 @@ func (s *ApigatewayApiContentDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ApigatewayApiContentDataSource-", ApigatewayApiContentDataSource(), s.D))
 
 	if s.Res.Content != nil {
 		contentReader := s.Res.Content

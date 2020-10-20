@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v27/datascience"
 )
 
@@ -65,7 +65,7 @@ func (s *DatascienceModelProvenanceDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatascienceModelProvenanceDataSource-", DatascienceModelProvenanceDataSource(), s.D))
 
 	if s.Res.GitBranch != nil {
 		s.D.Set("git_branch", *s.Res.GitBranch)

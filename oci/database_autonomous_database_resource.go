@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v27/common"
 	oci_database "github.com/oracle/oci-go-sdk/v27/database"
@@ -333,6 +333,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				Optional: true,
 			},
+			"operations_insights_status": {
+				Type:             schema.TypeString,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+			},
 			"permission_level": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -477,6 +483,11 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
+	configOperationsInsightsStatus := oci_database.AutonomousDatabaseOperationsInsightsStatusNotEnabled
+	if operationsInsightsStatus, ok := sync.D.GetOkExists("operations_insights_status"); ok {
+		configOperationsInsightsStatus = oci_database.AutonomousDatabaseOperationsInsightsStatusEnum((operationsInsightsStatus.(string)))
+	}
+
 	if e := CreateResource(d, sync); e != nil {
 		return e
 	}
@@ -508,6 +519,14 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 			sync.D.Set("permission_level", configPermissionLevel)
 		}
 		err := sync.updateOpenModeAndPermission(sync.D.Id(), configOpenMode, configPermissionLevel)
+		if err != nil {
+			return err
+		}
+		return ReadResource(sync)
+	}
+
+	if configOperationsInsightsStatus == oci_database.AutonomousDatabaseOperationsInsightsStatusEnabled {
+		err := sync.updateOperationsInsightsStatus(sync.D.Id(), oci_database.AutonomousDatabaseOperationsInsightsStatusEnabled)
 		if err != nil {
 			return err
 		}
@@ -721,6 +740,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if operationsInsightsStatus, ok := s.D.GetOkExists("operations_insights_status"); ok && s.D.HasChange("operations_insights_status") {
+		oldRaw, newRaw := s.D.GetChange("operations_insights_status")
+		if newRaw != "" && oldRaw != "" {
+			configOperationsInsightsStatus := oci_database.AutonomousDatabaseOperationsInsightsStatusEnum((operationsInsightsStatus.(string)))
+			err := s.updateOperationsInsightsStatus(s.D.Id(), configOperationsInsightsStatus)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_database.UpdateAutonomousDatabaseRequest{}
 
 	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok && s.D.HasChange("admin_password") {
@@ -965,6 +994,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 
 	s.D.Set("open_mode", s.Res.OpenMode)
+
+	s.D.Set("operations_insights_status", s.Res.OperationsInsightsStatus)
 
 	s.D.Set("permission_level", s.Res.PermissionLevel)
 
@@ -1917,6 +1948,45 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase() error {
 	return nil
 }
 
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(autonomousDatabaseId string, operationsInsightsStatus oci_database.AutonomousDatabaseOperationsInsightsStatusEnum) error {
+	switch operationsInsightsStatus {
+	case oci_database.AutonomousDatabaseOperationsInsightsStatusEnabled:
+		request := oci_database.EnableAutonomousDatabaseOperationsInsightsRequest{}
+
+		request.AutonomousDatabaseId = &autonomousDatabaseId
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		response, err := s.Client.EnableAutonomousDatabaseOperationsInsights(context.Background(), request)
+		if err != nil {
+			return err
+		}
+		workId := response.OpcWorkRequestId
+		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+
+		return nil
+
+	case oci_database.AutonomousDatabaseOperationsInsightsStatusNotEnabled:
+		request := oci_database.DisableAutonomousDatabaseOperationsInsightsRequest{}
+
+		request.AutonomousDatabaseId = &autonomousDatabaseId
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		response, err := s.Client.DisableAutonomousDatabaseOperationsInsights(context.Background(), request)
+		if err != nil {
+			return err
+		}
+		workId := response.OpcWorkRequestId
+		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	default:
+		return fmt.Errorf("received unknown 'operations_insights_status' %s", operationsInsightsStatus)
+	}
+}
 func inactiveAutonomousDatabaseIfNeeded(d *schema.ResourceData, sync *DatabaseAutonomousDatabaseResourceCrud) error {
 	if err := sync.StopAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
 		return err

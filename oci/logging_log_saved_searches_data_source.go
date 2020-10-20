@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_logging "github.com/oracle/oci-go-sdk/v27/logging"
 )
 
@@ -113,7 +113,7 @@ func (s *LoggingLogSavedSearchesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("LoggingLogSavedSearchesDataSource-", LoggingLogSavedSearchesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	logSavedSearch := map[string]interface{}{}
 

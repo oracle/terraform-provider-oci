@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v27/datacatalog"
 )
 
@@ -105,7 +105,7 @@ func (s *DatacatalogConnectionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatacatalogConnectionDataSource-", DatacatalogConnectionDataSource(), s.D))
 
 	if s.Res.CreatedById != nil {
 		s.D.Set("created_by_id", *s.Res.CreatedById)

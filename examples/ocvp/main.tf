@@ -35,11 +35,42 @@ data "oci_identity_availability_domains" "ADs" {
   compartment_id = var.compartment_id
 }
 
+data "oci_ocvp_supported_vmware_software_versions" "test_supported_vmware_software_versions" {
+  compartment_id = "${var.compartment_id}"
+}
+
 resource "oci_core_vcn" "test_vcn_ocvp" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = var.compartment_id
   display_name   = "VmWareOCVP"
   dns_label      = "vmwareocvp"
+}
+
+resource oci_core_nat_gateway test_nat_gateway_ocvp {
+  block_traffic  = "false"
+  compartment_id = var.compartment_id
+
+  display_name = "NAT Gateway OCVP"
+  freeform_tags = {
+    "VCN" = "VCN-2020-09-11T00:43:42"
+  }
+  vcn_id = oci_core_vcn.test_vcn_ocvp.id
+}
+
+resource oci_core_route_table test_route_table_for_vsphere_vlan {
+  compartment_id = var.compartment_id
+
+  display_name = "Route Table for VLAN-grk-vSphere"
+  freeform_tags = {
+    "VMware" = "VMware-2020-09-11T00:47:02"
+  }
+  route_rules {
+    #description = <<Optional value not found in discovery>>
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
+    network_entity_id = oci_core_nat_gateway.test_nat_gateway_ocvp.id
+  }
+  vcn_id = oci_core_vcn.test_vcn_ocvp.id
 }
 
 resource "oci_core_network_security_group" "test_nsg_allow_all" {
@@ -278,7 +309,17 @@ resource "oci_core_vlan" "test_vmotion_net_vlan" {
 resource "oci_core_vlan" "test_vsphere_net_vlan" {
   display_name        = "vSphere-Net"
   availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
-  cidr_block          = "10.0.100.128/25"
+  cidr_block          = "10.0.100.128/26"
+  compartment_id      = var.compartment_id
+  vcn_id              = oci_core_vcn.test_vcn_ocvp.id
+  nsg_ids             = [oci_core_network_security_group.test_nsg_allow_all.id]
+  route_table_id      = oci_core_route_table.test_route_table_for_vsphere_vlan.id
+}
+
+resource "oci_core_vlan" "test_hcx_vlan" {
+  display_name        = "hcx"
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  cidr_block          = "10.0.100.192/26"
   compartment_id      = var.compartment_id
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
   nsg_ids             = [oci_core_network_security_group.test_nsg_allow_all.id]
@@ -290,6 +331,8 @@ resource "oci_ocvp_sddc" "test_sddc" {
   compartment_id              = var.compartment_id
   compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
   esxi_hosts_count            = "3"
+  hcx_vlan_id                 = oci_core_vlan.test_hcx_vlan.id
+  is_hcx_enabled              = true
   nsx_edge_uplink1vlan_id     = oci_core_vlan.test_nsx_edge_uplink1_vlan.id
   nsx_edge_uplink2vlan_id     = oci_core_vlan.test_nsx_edge_uplink2_vlan.id
   nsx_edge_vtep_vlan_id       = oci_core_vlan.test_nsx_edge_vtep_vlan.id
@@ -297,7 +340,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
   provisioning_subnet_id      = oci_core_subnet.test_provisioning_subnet.id
   ssh_authorized_keys         = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
   vmotion_vlan_id             = oci_core_vlan.test_vmotion_net_vlan.id
-  vmware_software_version     = "6.5 update 3"
+  vmware_software_version     = "${lookup(data.oci_ocvp_supported_vmware_software_versions.test_supported_vmware_software_versions.items[1], "version")}"
   vsan_vlan_id                = oci_core_vlan.test_vsan_net_vlan.id
   vsphere_vlan_id             = oci_core_vlan.test_vsphere_net_vlan.id
   // Optional

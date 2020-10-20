@@ -138,6 +138,9 @@ type AutonomousDatabase struct {
 	// Status of the Data Safe registration for this Autonomous Database.
 	DataSafeStatus AutonomousDatabaseDataSafeStatusEnum `mandatory:"false" json:"dataSafeStatus,omitempty"`
 
+	// Status of the Operations Insights for this Autonomous Database.
+	OperationsInsightsStatus AutonomousDatabaseOperationsInsightsStatusEnum `mandatory:"false" json:"operationsInsightsStatus,omitempty"`
+
 	// The date and time when maintenance will begin.
 	TimeMaintenanceBegin *common.SDKTime `mandatory:"false" json:"timeMaintenanceBegin"`
 
@@ -348,6 +351,37 @@ var mappingAutonomousDatabaseDataSafeStatus = map[string]AutonomousDatabaseDataS
 func GetAutonomousDatabaseDataSafeStatusEnumValues() []AutonomousDatabaseDataSafeStatusEnum {
 	values := make([]AutonomousDatabaseDataSafeStatusEnum, 0)
 	for _, v := range mappingAutonomousDatabaseDataSafeStatus {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseOperationsInsightsStatusEnum Enum with underlying type: string
+type AutonomousDatabaseOperationsInsightsStatusEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseOperationsInsightsStatusEnum
+const (
+	AutonomousDatabaseOperationsInsightsStatusEnabling        AutonomousDatabaseOperationsInsightsStatusEnum = "ENABLING"
+	AutonomousDatabaseOperationsInsightsStatusEnabled         AutonomousDatabaseOperationsInsightsStatusEnum = "ENABLED"
+	AutonomousDatabaseOperationsInsightsStatusDisabling       AutonomousDatabaseOperationsInsightsStatusEnum = "DISABLING"
+	AutonomousDatabaseOperationsInsightsStatusNotEnabled      AutonomousDatabaseOperationsInsightsStatusEnum = "NOT_ENABLED"
+	AutonomousDatabaseOperationsInsightsStatusFailedEnabling  AutonomousDatabaseOperationsInsightsStatusEnum = "FAILED_ENABLING"
+	AutonomousDatabaseOperationsInsightsStatusFailedDisabling AutonomousDatabaseOperationsInsightsStatusEnum = "FAILED_DISABLING"
+)
+
+var mappingAutonomousDatabaseOperationsInsightsStatus = map[string]AutonomousDatabaseOperationsInsightsStatusEnum{
+	"ENABLING":         AutonomousDatabaseOperationsInsightsStatusEnabling,
+	"ENABLED":          AutonomousDatabaseOperationsInsightsStatusEnabled,
+	"DISABLING":        AutonomousDatabaseOperationsInsightsStatusDisabling,
+	"NOT_ENABLED":      AutonomousDatabaseOperationsInsightsStatusNotEnabled,
+	"FAILED_ENABLING":  AutonomousDatabaseOperationsInsightsStatusFailedEnabling,
+	"FAILED_DISABLING": AutonomousDatabaseOperationsInsightsStatusFailedDisabling,
+}
+
+// GetAutonomousDatabaseOperationsInsightsStatusEnumValues Enumerates the set of values for AutonomousDatabaseOperationsInsightsStatusEnum
+func GetAutonomousDatabaseOperationsInsightsStatusEnumValues() []AutonomousDatabaseOperationsInsightsStatusEnum {
+	values := make([]AutonomousDatabaseOperationsInsightsStatusEnum, 0)
+	for _, v := range mappingAutonomousDatabaseOperationsInsightsStatus {
 		values = append(values, v)
 	}
 	return values

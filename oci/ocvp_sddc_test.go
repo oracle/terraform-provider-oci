@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v27/common"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v27/ocvp"
 
@@ -52,17 +52,20 @@ var (
 		"provisioning_subnet_id":       Representation{repType: Required, create: `${oci_core_subnet.test_provisioning_subnet.id}`},
 		"ssh_authorized_keys":          Representation{repType: Required, create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
 		"vmotion_vlan_id":              Representation{repType: Required, create: `${oci_core_vlan.test_vmotion_net_vlan.id}`},
-		"vmware_software_version":      Representation{repType: Required, create: `6.5 update 3`, update: `6.7 update 3`},
+		"vmware_software_version":      Representation{repType: Required, create: `${lookup(data.oci_ocvp_supported_vmware_software_versions.test_supported_vmware_software_versions.items[1], "version")}`, update: `${lookup(data.oci_ocvp_supported_vmware_software_versions.test_supported_vmware_software_versions.items[0], "version")}`},
 		"vsan_vlan_id":                 Representation{repType: Required, create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
 		"vsphere_vlan_id":              Representation{repType: Required, create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
 		"defined_tags":                 Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                 Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":                Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"hcx_vlan_id":                  Representation{repType: Optional, create: `${oci_core_vlan.test_hcx_vlan.id}`},
 		"instance_display_name_prefix": Representation{repType: Optional, create: `njki`},
+		"is_hcx_enabled":               Representation{repType: Optional, create: `true`},
 		"workload_network_cidr":        Representation{repType: Optional, create: `172.20.0.0/24`},
 	}
 
-	SddcResourceDependencies = DefinedTagsDependencies + `
+	SddcResourceDependencies = DefinedTagsDependencies +
+		generateDataSourceFromRepresentationMap("oci_ocvp_supported_vmware_software_versions", "test_supported_vmware_software_versions", Required, Create, supportedVmwareSoftwareVersionDataSourceRepresentation) + `
 
 data "oci_core_services" "test_services" {}
 
@@ -77,6 +80,34 @@ resource "oci_core_vcn" "test_vcn_ocvp" {
     dns_label = "vmwareocvp"
 }
 
+
+resource oci_core_nat_gateway test_nat_gateway_ocvp {
+  block_traffic  = "false"
+  compartment_id = var.compartment_id
+
+  display_name = "NAT Gateway OCVP"
+  freeform_tags = {
+    "VCN" = "VCN-2020-09-11T00:43:42"
+  }
+  vcn_id = oci_core_vcn.test_vcn_ocvp.id
+}
+
+resource oci_core_route_table test_route_table_for_vsphere_vlan {
+  compartment_id = var.compartment_id
+
+  display_name = "Route Table for VLAN-grk-vSphere"
+  freeform_tags = {
+    "VMware" = "VMware-2020-09-11T00:47:02"
+  }
+  route_rules {
+    #description = <<Optional value not found in discovery>>
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
+    network_entity_id = oci_core_nat_gateway.test_nat_gateway_ocvp.id
+  }
+  vcn_id = oci_core_vcn.test_vcn_ocvp.id
+}
+
 resource "oci_core_network_security_group" "test_nsg_allow_all" {
     compartment_id = "${var.compartment_id}"
     display_name = "nsg-allow-all"
@@ -88,7 +119,7 @@ resource oci_core_network_security_group_security_rule test_nsg_security_rule_1 
   direction                 = "INGRESS"
   network_security_group_id = "${oci_core_network_security_group.test_nsg_allow_all.id}"
   protocol                  = "all"
-  source                    = "10.0.0.0/16"
+  source                    = "0.0.0.0/0"
   source_type               = "CIDR_BLOCK"
 }
 
@@ -289,13 +320,23 @@ resource "oci_core_vlan" "test_vmotion_net_vlan" {
 }
 
 resource "oci_core_vlan" "test_vsphere_net_vlan" {
-    display_name = "vSphere-Net"
-    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
-    cidr_block = "10.0.100.128/25"
-    compartment_id = "${var.compartment_id}"
-    vcn_id = "${oci_core_vcn.test_vcn_ocvp.id}"
-    nsg_ids = ["${oci_core_network_security_group.test_nsg_allow_all.id}"]
-    route_table_id = "${oci_core_vcn.test_vcn_ocvp.default_route_table_id}"
+  display_name        = "vSphere-Net"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  cidr_block          = "10.0.100.128/26"
+  compartment_id      = var.compartment_id
+  vcn_id              = oci_core_vcn.test_vcn_ocvp.id
+  nsg_ids             = [oci_core_network_security_group.test_nsg_allow_all.id]
+  route_table_id = oci_core_route_table.test_route_table_for_vsphere_vlan.id
+}
+
+resource "oci_core_vlan" "test_hcx_vlan" {
+  display_name        = "hcx"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  cidr_block          = "10.0.100.192/26"
+  compartment_id      = var.compartment_id
+  vcn_id              = oci_core_vcn.test_vcn_ocvp.id
+  nsg_ids             = [oci_core_network_security_group.test_nsg_allow_all.id]
+  route_table_id      = oci_core_vcn.test_vcn_ocvp.default_route_table_id
 }
 
 `
@@ -344,7 +385,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
+					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 
@@ -371,8 +412,10 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
+					resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
@@ -385,7 +428,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
+					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 					resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -417,8 +460,10 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
+					resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
@@ -431,7 +476,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
+					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 					resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -458,8 +503,10 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
+					resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
@@ -472,7 +519,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
+					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 					resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -497,7 +544,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "6.7 update 3"),
+					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "6.5 update 3"),
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
@@ -523,8 +570,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "actual_esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_fqdn"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_initial_password"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_key"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_private_ip_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_vlan_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_prefix", "njki"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enabled", "true"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_edge_uplink_ip_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_fqdn"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_initial_password"),
@@ -539,7 +592,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_initial_password"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_private_ip_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_username"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "6.7 update 3"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "6.5 update 3"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "workload_network_cidr", "172.20.0.0/24"),
 				),
 			},

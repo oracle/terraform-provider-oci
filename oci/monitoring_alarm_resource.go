@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v27/common"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v27/monitoring"

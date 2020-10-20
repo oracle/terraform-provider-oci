@@ -7,7 +7,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
@@ -307,7 +307,7 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseVmClusterRecommendedNetworkDataSource-", DatabaseVmClusterRecommendedNetworkDataSource(), s.D))
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))

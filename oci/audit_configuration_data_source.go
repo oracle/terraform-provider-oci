@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_audit "github.com/oracle/oci-go-sdk/v27/audit"
 )
 
@@ -65,7 +65,7 @@ func (s *AuditConfigurationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("AuditConfigurationDataSource-", AuditConfigurationDataSource(), s.D))
 
 	if s.Res.RetentionPeriodDays != nil {
 		s.D.Set("retention_period_days", *s.Res.RetentionPeriodDays)

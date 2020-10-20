@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v27/datasafe"
 )
 
@@ -65,7 +65,7 @@ func (s *DataSafeDataSafeConfigurationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DataSafeDataSafeConfigurationDataSource-", DataSafeDataSafeConfigurationDataSource(), s.D))
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v27/common"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v27/ocvp"
@@ -109,8 +109,19 @@ func OcvpSddcResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"hcx_vlan_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"instance_display_name_prefix": {
 				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_hcx_enabled": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
@@ -123,6 +134,22 @@ func OcvpSddcResource() *schema.Resource {
 			},
 
 			// Computed
+			"hcx_fqdn": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"hcx_initial_password": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"hcx_on_prem_key": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"hcx_private_ip_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"nsx_edge_uplink_ip_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -291,9 +318,19 @@ func (s *OcvpSddcResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
+		tmp := hcxVlanId.(string)
+		request.HcxVlanId = &tmp
+	}
+
 	if instanceDisplayNamePrefix, ok := s.D.GetOkExists("instance_display_name_prefix"); ok {
 		tmp := instanceDisplayNamePrefix.(string)
 		request.InstanceDisplayNamePrefix = &tmp
+	}
+
+	if isHcxEnabled, ok := s.D.GetOkExists("is_hcx_enabled"); ok {
+		tmp := isHcxEnabled.(bool)
+		request.IsHcxEnabled = &tmp
 	}
 
 	if nsxEdgeUplink1VlanId, ok := s.D.GetOkExists("nsx_edge_uplink1vlan_id"); ok {
@@ -500,6 +537,11 @@ func (s *OcvpSddcResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
+		tmp := hcxVlanId.(string)
+		request.HcxVlanId = &tmp
+	}
+
 	if nsxEdgeUplink1VlanId, ok := s.D.GetOkExists("nsx_edge_uplink1vlan_id"); ok {
 		tmp := nsxEdgeUplink1VlanId.(string)
 		request.NsxEdgeUplink1VlanId = &tmp
@@ -615,8 +657,32 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HcxFqdn != nil {
+		s.D.Set("hcx_fqdn", *s.Res.HcxFqdn)
+	}
+
+	if s.Res.HcxInitialPassword != nil {
+		s.D.Set("hcx_initial_password", *s.Res.HcxInitialPassword)
+	}
+
+	if s.Res.HcxOnPremKey != nil {
+		s.D.Set("hcx_on_prem_key", *s.Res.HcxOnPremKey)
+	}
+
+	if s.Res.HcxPrivateIpId != nil {
+		s.D.Set("hcx_private_ip_id", *s.Res.HcxPrivateIpId)
+	}
+
+	if s.Res.HcxVlanId != nil {
+		s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
+	}
+
 	if s.Res.InstanceDisplayNamePrefix != nil {
 		s.D.Set("instance_display_name_prefix", *s.Res.InstanceDisplayNamePrefix)
+	}
+
+	if s.Res.IsHcxEnabled != nil {
+		s.D.Set("is_hcx_enabled", *s.Res.IsHcxEnabled)
 	}
 
 	if s.Res.NsxEdgeUplink1VlanId != nil {
@@ -742,8 +808,16 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 
 	result["freeform_tags"] = obj.FreeformTags
 
+	if obj.HcxFqdn != nil {
+		result["hcx_fqdn"] = string(*obj.HcxFqdn)
+	}
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsHcxEnabled != nil {
+		result["is_hcx_enabled"] = bool(*obj.IsHcxEnabled)
 	}
 
 	if obj.NsxManagerFqdn != nil {

@@ -8,7 +8,7 @@ import (
 
 	"sort"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v27/identity"
 )
 
@@ -96,7 +96,7 @@ func (s *IdentityAvailabilityDomainsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("IdentityAvailabilityDomainsDataSource-", IdentityAvailabilityDomainsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	items := s.Res.Items

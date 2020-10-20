@@ -6,7 +6,7 @@
 //
 // Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/service-connector-hub/using/index.htm).
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 //
 
 package sch
@@ -19,7 +19,7 @@ import (
 // TaskDetails An object that represents a task within the flow defined by the service connector.
 // An example task is a filter for error logs.
 // For more information about flows defined by service connectors, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/service-connector-hub/using/index.htm).
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 type TaskDetails interface {
 }
 

@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v27/objectstorage"
 )
 
@@ -183,7 +183,7 @@ func (s *ObjectStorageObjectsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ObjectStorageObjectsDataSource-", ObjectStorageObjectsDataSource(), s.D))
 
 	// @CODGEN 2/2018: We generate a call to set 'next_start_with' field. It's not
 	// necessary to store it, as it's a pagination token that's handled in the Get() call.

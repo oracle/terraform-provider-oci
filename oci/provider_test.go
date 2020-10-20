@@ -22,9 +22,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/meta"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	oci_common "github.com/oracle/oci-go-sdk/v27/common"
 	"github.com/stretchr/testify/assert"
 )
@@ -414,7 +415,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	// If no ConfigFunc use ProviderConfig
 	if configureProviderFn == nil {
 		configureProviderFn = ProviderConfig
-		userAgent = fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, defaultUserAgentProviderName, Version)
+		userAgent = fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), terraformCLIVersion, defaultUserAgentProviderName, Version)
 
 	}
 	client, err := configureProviderFn(d)
@@ -758,6 +759,53 @@ func TestUnitBuildClientConfigureFn_interceptor(t *testing.T) {
 	r, _ := http.NewRequest("GET", "cloud.com", nil)
 	baseClient.Interceptor(r)
 	assert.Equal(t, "fake-token", r.Header.Get(requestHeaderOpcOboToken))
+
+	// Update obo token and check
+	os.Setenv(oboTokenAttrName, "another-token")
+	baseClient.Interceptor(r)
+	assert.NotEqual(t, "fake-token", r.Header.Get(requestHeaderOpcOboToken))
+	assert.Equal(t, "another-token", r.Header.Get(requestHeaderOpcOboToken))
+}
+
+func TestUnitSupportChangeOboToken(t *testing.T) {
+	t.Skip("Run manual with a valid obo token")
+
+	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
+		apiKeyConfigAttributeEnvValue := getEnvSettingWithBlankDefault(apiKeyConfigAttribute)
+		if apiKeyConfigAttributeEnvValue != "" {
+			unsetAtr := "TF_VAR_" + apiKeyConfigAttribute
+			os.Unsetenv(unsetAtr)
+			defer os.Setenv(unsetAtr, apiKeyConfigAttributeEnvValue)
+		}
+	}
+
+	os.Setenv("use_obo_token", "true")
+	os.Setenv(oboTokenAttrName, "fake-token")
+	defer os.Unsetenv(oboTokenAttrName)
+	assert.Equal(t, "true", getEnvSettingWithBlankDefault("use_obo_token"))
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
+	d.SetId("tenancy_ocid")
+	d.Set("auth", "InstancePrincipal")
+	d.Set("region", "us-phoenix-1")
+
+	client := GetTestClients(d).budgetClient()
+	assert.NotEmpty(t, client.Host)
+
+	request := oci_budget.ListBudgetsRequest{}
+	compartmentId := getEnvSettingWithBlankDefault("compartment_id")
+	request.CompartmentId = &compartmentId
+	fmt.Println("======= First List call with token fake-token ======")
+
+	// manual verify request that contains "Opc-Obo-Token: fake-token"
+	client.ListBudgets(context.Background(), request)
+
+	fmt.Println("======= Second List call with token another-token ======")
+	os.Setenv(oboTokenAttrName, "another-token")
+	// manual verify request that contains "Opc-Obo-Token: another-token"
+	client.ListBudgets(context.Background(), request)
 }
 
 func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
