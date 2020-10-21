@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v27/identity"
 )
 
@@ -65,7 +65,7 @@ func (s *IdentityAuthenticationPolicyDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("IdentityAuthenticationPolicyDataSource-", IdentityAuthenticationPolicyDataSource(), s.D))
 
 	if s.Res.NetworkPolicy != nil {
 		s.D.Set("network_policy", []interface{}{NetworkPolicyToMap(s.Res.NetworkPolicy)})

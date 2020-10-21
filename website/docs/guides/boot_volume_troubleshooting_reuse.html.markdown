@@ -19,7 +19,7 @@ To read more about boot volumes, see [Boot Volumes](https://docs.cloud.oracle.co
 
 You may want to upscale / downscale instances (change instance shape) while using the same boot volume. When you terminate 
 your instance, you can keep the associated boot volume and use it to launch a new instance using a different instance type
-or shape.
+or shape. This approach is useful for scenarios where instance shape cannot be changed as per [this](https://docs.cloud.oracle.com/en-us/iaas/Content/Compute/Tasks/resizinginstances.htm) while resizing instances.
 
 To achieve this, you need to detach the boot volume from the running instance. This can be performed by either 
 terminating the instance while preserving the boot volume or by stopping the instance and detaching the boot volume,

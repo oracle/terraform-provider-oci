@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v27/loadbalancer"
 )
 
@@ -98,7 +98,7 @@ func (s *LoadBalancerLoadBalancerHealthDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("LoadBalancerLoadBalancerHealthDataSource-", LoadBalancerLoadBalancerHealthDataSource(), s.D))
 
 	s.D.Set("critical_state_backend_set_names", s.Res.CriticalStateBackendSetNames)
 

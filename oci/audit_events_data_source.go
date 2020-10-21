@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_audit "github.com/oracle/oci-go-sdk/v27/audit"
 	oci_common "github.com/oracle/oci-go-sdk/v27/common"
 )
@@ -361,7 +361,7 @@ func (s *AuditAuditEventsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("AuditAuditEventsDataSource-", AuditAuditEventsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

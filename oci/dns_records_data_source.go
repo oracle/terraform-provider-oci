@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_dns "github.com/oracle/oci-go-sdk/v27/dns"
 )
 
@@ -22,8 +22,9 @@ func DnsRecordsDataSource() *schema.Resource {
 
 			// Required
 			"zone_name_or_id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:       schema.TypeString,
+				Required:   true,
+				Deprecated: ResourceDeprecatedForAnother("oci_dns_records", "oci_dns_rrset"),
 			},
 
 			// Optional
@@ -154,7 +155,7 @@ func (s *DnsRecordsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DnsRecordsDataSource-", DnsRecordsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

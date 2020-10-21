@@ -8,6 +8,9 @@ description: |-
 ---
 
 # oci_dns_record
+
+**Deprecated. Use [oci_dns_rrset](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/dns_rrset) instead.**
+
 This resource provides the Record resource in Oracle Cloud Infrastructure Dns service.
 
 Replaces records in the specified zone with the records specified in the

@@ -99,6 +99,6 @@ The following attributes are exported:
 Logs can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_logging_log.test_log "id"
+$ terraform import oci_logging_log.test_log "logGroupId/{logGroupId}/logId/{logId}"
 ```
 

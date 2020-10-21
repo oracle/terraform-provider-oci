@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v27/containerengine"
 )
 
@@ -85,7 +85,7 @@ func (s *ContainerengineClusterOptionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ContainerengineClusterOptionDataSource-", ContainerengineClusterOptionDataSource(), s.D))
 
 	s.D.Set("kubernetes_versions", s.Res.KubernetesVersions)
 

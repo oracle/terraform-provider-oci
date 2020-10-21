@@ -28,6 +28,7 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/v27/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/v27/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v27/loadbalancer"
+	oci_logging "github.com/oracle/oci-go-sdk/v27/logging"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v27/monitoring"
 	oci_mysql "github.com/oracle/oci-go-sdk/v27/mysql"
 	oci_nosql "github.com/oracle/oci-go-sdk/v27/nosql"
@@ -1563,6 +1564,23 @@ var exportOsmanagementSoftwareSourceHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_osmanagement.ListSoftwareSourcesLifecycleStateActive),
+	},
+}
+
+var exportLoggingLogGroupHints = &TerraformResourceHints{
+	resourceClass:        "oci_logging_log_group",
+	datasourceClass:      "oci_logging_log_groups",
+	datasourceItemsAttr:  "log_groups",
+	resourceAbbreviation: "log_group",
+}
+
+var exportLoggingLogHints = &TerraformResourceHints{
+	resourceClass:        "oci_logging_log",
+	datasourceClass:      "oci_logging_logs",
+	datasourceItemsAttr:  "logs",
+	resourceAbbreviation: "log",
+	discoverableLifecycleStates: []string{
+		string(oci_logging.LogLifecycleStateActive),
 	},
 }
 

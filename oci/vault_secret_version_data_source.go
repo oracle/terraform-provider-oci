@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_vault "github.com/oracle/oci-go-sdk/v27/vault"
 )
 
@@ -115,7 +115,7 @@ func (s *VaultSecretVersionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("VaultSecretVersionDataSource-", VaultSecretVersionDataSource(), s.D))
 
 	s.D.Set("content_type", s.Res.ContentType)
 

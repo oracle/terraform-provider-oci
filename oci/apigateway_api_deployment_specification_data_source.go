@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/oracle/oci-go-sdk/v27/apigateway"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v27/apigateway"
 )
@@ -1032,7 +1032,7 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ApigatewayApiDeploymentSpecificationDataSource-", ApigatewayApiDeploymentSpecificationDataSource(), s.D))
 
 	if s.Res.LoggingPolicies != nil {
 		s.D.Set("logging_policies", []interface{}{ApiSpecificationLoggingPoliciesToMap(s.Res.LoggingPolicies)})

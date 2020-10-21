@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v27/cloudguard"
 )
 
@@ -65,7 +65,7 @@ func (s *CloudGuardCloudGuardConfigurationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CloudGuardCloudGuardConfigurationDataSource-", CloudGuardCloudGuardConfigurationDataSource(), s.D))
 
 	if s.Res.ReportingRegion != nil {
 		s.D.Set("reporting_region", *s.Res.ReportingRegion)

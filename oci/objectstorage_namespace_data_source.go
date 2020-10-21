@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v27/objectstorage"
 )
 
@@ -76,7 +76,7 @@ func (s *ObjectStorageNamespaceDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ObjectStorageNamespaceDataSource-", ObjectStorageNamespaceDataSource(), s.D))
 
 	if s.Res.Value != nil {
 		s.D.Set("namespace", *s.Res.Value)

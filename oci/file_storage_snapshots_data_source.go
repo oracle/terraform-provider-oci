@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v27/filestorage"
 )
 
@@ -103,7 +103,7 @@ func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("FileStorageSnapshotsDataSource-", FileStorageSnapshotsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

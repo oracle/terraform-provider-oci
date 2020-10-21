@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v27/dataflow"
 )
 
@@ -130,7 +130,7 @@ func (s *DataflowPrivateEndpointsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DataflowPrivateEndpointsDataSource-", DataflowPrivateEndpointsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	privateEndpoint := map[string]interface{}{}
 
