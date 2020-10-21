@@ -29,6 +29,7 @@ import (
 	oci_limits "github.com/oracle/oci-go-sdk/v27/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v27/loadbalancer"
 	oci_logging "github.com/oracle/oci-go-sdk/v27/logging"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v27/managementagent"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v27/monitoring"
 	oci_mysql "github.com/oracle/oci-go-sdk/v27/mysql"
 	oci_nosql "github.com/oracle/oci-go-sdk/v27/nosql"
@@ -1418,6 +1419,26 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	datasourceClass:      "oci_load_balancer_rule_sets",
 	datasourceItemsAttr:  "rule_sets",
 	resourceAbbreviation: "rule_set",
+}
+
+var exportManagementAgentManagementAgentHints = &TerraformResourceHints{
+	resourceClass:        "oci_management_agent_management_agent",
+	datasourceClass:      "oci_management_agent_management_agents",
+	datasourceItemsAttr:  "management_agents",
+	resourceAbbreviation: "management_agent",
+	discoverableLifecycleStates: []string{
+		string(oci_management_agent.LifecycleStatesActive),
+	},
+}
+
+var exportManagementAgentManagementAgentInstallKeyHints = &TerraformResourceHints{
+	resourceClass:        "oci_management_agent_management_agent_install_key",
+	datasourceClass:      "oci_management_agent_management_agent_install_keys",
+	datasourceItemsAttr:  "management_agent_install_keys",
+	resourceAbbreviation: "management_agent_install_key",
+	discoverableLifecycleStates: []string{
+		string(oci_management_agent.LifecycleStatesActive),
+	},
 }
 
 var exportMarketplaceAcceptedAgreementHints = &TerraformResourceHints{
