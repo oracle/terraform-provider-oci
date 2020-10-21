@@ -69,6 +69,11 @@ func FunctionsApplicationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"syslog_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"state": {
@@ -197,6 +202,11 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		}
 	}
 
+	if syslogUrl, ok := s.D.GetOkExists("syslog_url"); ok {
+		tmp := syslogUrl.(string)
+		request.SyslogUrl = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.CreateApplication(context.Background(), request)
@@ -256,6 +266,11 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if syslogUrl, ok := s.D.GetOkExists("syslog_url"); ok {
+		tmp := syslogUrl.(string)
+		request.SyslogUrl = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.UpdateApplication(context.Background(), request)
@@ -299,6 +314,10 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)
+
+	if s.Res.SyslogUrl != nil {
+		s.D.Set("syslog_url", *s.Res.SyslogUrl)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
