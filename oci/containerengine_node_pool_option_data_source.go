@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v27/containerengine"
 )
 
@@ -124,7 +124,7 @@ func (s *ContainerengineNodePoolOptionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ContainerengineNodePoolOptionDataSource-", ContainerengineNodePoolOptionDataSource(), s.D))
 
 	s.D.Set("images", s.Res.Images)
 

@@ -36,6 +36,8 @@ Data Sources do not have deprecation guide as one should be able to directly rep
 
 | Version | Type        | Old Deprecated Resource Name            | New Resource Name                   | Migration? | Guide  |
 |---------|-------------|-----------------------------------------|-------------------------------------|------------|--------|
+| 3.97.0  | Resource    | `oci_dns_records`                       | `oci_dns_rrset`                     | N/A        | N/A    |
+| 3.97.0  | Resource    | `oci_dns_record`                        | `oci_dns_rrset`                     | N/A        | N/A    |
 | 3.18    | Resource    | `oci_autonomous_data_warehouse`         | `oci_autonomous_database`           | Yes        | N/A    |
 | 3.18    | Data Source | `oci_autonomous_data_warehouse`         | `oci_autonomous_database`           | N/A        | N/A    |
 | 3.18    | Data Source | `oci_autonomous_data_warehouses`        | `oci_autonomous_databases`          | N/A        | N/A    |

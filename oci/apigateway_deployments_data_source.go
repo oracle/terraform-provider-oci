@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v27/apigateway"
 )
 
@@ -113,7 +113,7 @@ func (s *ApigatewayDeploymentsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("ApigatewayDeploymentsDataSource-", ApigatewayDeploymentsDataSource(), s.D))
 
 	resources := []map[string]interface{}{}
 

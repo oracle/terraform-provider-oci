@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 func definedTagsToMap(definedTags map[string]map[string]interface{}) map[string]interface{} {

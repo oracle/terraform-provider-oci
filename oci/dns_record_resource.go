@@ -15,7 +15,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"net"
 	"regexp"
@@ -37,9 +37,10 @@ func DnsRecordResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"zone_name_or_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Required:   true,
+				ForceNew:   true,
+				Deprecated: ResourceDeprecatedForAnother("oci_dns_record", "oci_dns_rrset"),
 			},
 
 			"compartment_id": {
@@ -54,6 +55,7 @@ func DnsRecordResource() *schema.Resource {
 				ForceNew:         true,
 				Required:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				Deprecated:       ResourceDeprecatedForAnother("oci_dns_record", "oci_dns_rrset"),
 			},
 			"rdata": {
 				Type:     schema.TypeString,
@@ -64,9 +66,10 @@ func DnsRecordResource() *schema.Resource {
 				},
 			},
 			"rtype": {
-				Type:     schema.TypeString,
-				ForceNew: true,
-				Required: true,
+				Type:       schema.TypeString,
+				ForceNew:   true,
+				Required:   true,
+				Deprecated: ResourceDeprecatedForAnother("oci_dns_record", "oci_dns_rrset"),
 			},
 			"ttl": {
 				Type:     schema.TypeInt,

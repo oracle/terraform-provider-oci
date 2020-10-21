@@ -9,8 +9,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	oci_core "github.com/oracle/oci-go-sdk/v27/core"
 )
@@ -29,11 +29,15 @@ func CoreInstancePoolResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createCoreInstancePool,
-		Read:     readCoreInstancePool,
-		Update:   updateCoreInstancePool,
-		Delete:   deleteCoreInstancePool,
+		Timeouts: &schema.ResourceTimeout{
+			Create: getTimeoutDuration("1h"),
+			Update: getTimeoutDuration("1h"),
+			Delete: getTimeoutDuration("1h"),
+		},
+		Create: createCoreInstancePool,
+		Read:   readCoreInstancePool,
+		Update: updateCoreInstancePool,
+		Delete: deleteCoreInstancePool,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {

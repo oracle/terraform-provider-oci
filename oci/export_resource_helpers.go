@@ -11,11 +11,13 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-exec/tfexec"
+
 	oci_dns "github.com/oracle/oci-go-sdk/v27/dns"
 
 	"github.com/hashicorp/hcl2/hclwrite"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v27/core"
 	oci_identity "github.com/oracle/oci-go-sdk/v27/identity"
@@ -79,6 +81,7 @@ type ResourceDiscoveryError struct {
 type ErrorList = []*ResourceDiscoveryError
 
 type resourceDiscoveryContext struct {
+	terraform           *tfexec.Terraform
 	clients             *OracleClients
 	expectedResourceIds map[string]bool
 	tenancyOcid         string
@@ -167,7 +170,7 @@ func getNotFoundChildren(parent string, resourceGraph *TerraformResourceGraph, c
 	}
 }
 
-func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandArgs, tenancyOcid string) *resourceDiscoveryContext {
+func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandArgs, tenancyOcid string) (*resourceDiscoveryContext, error) {
 	result := &resourceDiscoveryContext{
 		clients:             clients,
 		ExportCommandArgs:   args,
@@ -177,7 +180,16 @@ func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandA
 		errorList:           ErrorList{},
 	}
 	result.expectedResourceIds = convertStringSliceToSet(args.IDs, true)
-	return result
+
+	// validate terraform version and initialize terraform for import - only required if generating state file
+	if args.GenerateState {
+		if tf, err := createTerraformStruct(args); err != nil {
+			return result, err
+		} else {
+			result.terraform = tf
+		}
+	}
+	return result, nil
 }
 
 type resourceDiscoveryStep interface {
@@ -411,6 +423,8 @@ func init() {
 	exportIdentityAuthenticationPolicyHints.processDiscoveredResourcesFn = processIdentityAuthenticationPolicies
 	exportIdentityTagHints.findResourcesOverrideFn = findIdentityTags
 	exportIdentityTagHints.processDiscoveredResourcesFn = processTagDefinitions
+
+	exportLoggingLogHints.getIdFn = getLogId
 
 	exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
 	exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
@@ -1493,4 +1507,13 @@ func getValidDbVersion(dbVersion string) string {
 		return strings.Join(parts[0:4], ".")
 	}
 	return dbVersion
+}
+
+func getLogId(resource *OCIResource) (string, error) {
+	logId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find log_id for Log")
+	}
+	logGroupId := resource.parent.id
+	return getLogCompositeId(logGroupId, logId), nil
 }

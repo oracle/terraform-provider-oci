@@ -215,6 +215,7 @@ const (
 	DbSystemSummaryLifecycleStateFailed                DbSystemSummaryLifecycleStateEnum = "FAILED"
 	DbSystemSummaryLifecycleStateMigrated              DbSystemSummaryLifecycleStateEnum = "MIGRATED"
 	DbSystemSummaryLifecycleStateMaintenanceInProgress DbSystemSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
+	DbSystemSummaryLifecycleStateNeedsAttention        DbSystemSummaryLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingDbSystemSummaryLifecycleState = map[string]DbSystemSummaryLifecycleStateEnum{
@@ -226,6 +227,7 @@ var mappingDbSystemSummaryLifecycleState = map[string]DbSystemSummaryLifecycleSt
 	"FAILED":                  DbSystemSummaryLifecycleStateFailed,
 	"MIGRATED":                DbSystemSummaryLifecycleStateMigrated,
 	"MAINTENANCE_IN_PROGRESS": DbSystemSummaryLifecycleStateMaintenanceInProgress,
+	"NEEDS_ATTENTION":         DbSystemSummaryLifecycleStateNeedsAttention,
 }
 
 // GetDbSystemSummaryLifecycleStateEnumValues Enumerates the set of values for DbSystemSummaryLifecycleStateEnum

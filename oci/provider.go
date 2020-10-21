@@ -18,9 +18,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/helper/validation"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/meta"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"crypto/tls"
 	"crypto/x509"
@@ -544,7 +545,7 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 		terraformCLIVersion = ociProvider.TerraformVersion
 	}
 	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, userAgentProviderName, Version)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), terraformCLIVersion, userAgentProviderName, Version)
 
 	useOboToken, err := strconv.ParseBool(getEnvSettingWithDefault("use_obo_token", "false"))
 	if err != nil {

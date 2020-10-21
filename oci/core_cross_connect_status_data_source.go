@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v27/core"
 )
 
@@ -81,7 +81,7 @@ func (s *CoreCrossConnectStatusDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreCrossConnectStatusDataSource-", CoreCrossConnectStatusDataSource(), s.D))
 
 	s.D.Set("interface_state", s.Res.InterfaceState)
 

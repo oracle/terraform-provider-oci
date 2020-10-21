@@ -7,7 +7,7 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v27/datacatalog"
 )
 
@@ -146,7 +146,7 @@ func (s *DatacatalogCatalogTypeDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatacatalogCatalogTypeDataSource-", DatacatalogCatalogTypeDataSource(), s.D))
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)

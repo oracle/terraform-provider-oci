@@ -10,7 +10,7 @@ import (
 
 	"regexp"
 
-	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 )
 
 func TestAccDatasourceLoadBalancerCertificates_basic(t *testing.T) {

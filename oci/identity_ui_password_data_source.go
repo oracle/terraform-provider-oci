@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v27/identity"
 )
 
@@ -65,7 +65,7 @@ func (s *IdentityUiPasswordDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("IdentityUiPasswordDataSource-", IdentityUiPasswordDataSource(), s.D))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

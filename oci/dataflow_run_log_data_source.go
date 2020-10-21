@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v27/dataflow"
 )
 
@@ -94,7 +94,7 @@ func (s *DataflowRunLogDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DataflowRunLogDataSource-", DataflowRunLogDataSource(), s.D))
 
 	base64EncodeContent := false
 	if tmp, ok := s.D.GetOkExists("base64_encode_content"); ok {

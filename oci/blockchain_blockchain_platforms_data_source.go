@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v27/blockchain"
 )
 
@@ -112,7 +112,7 @@ func (s *BlockchainBlockchainPlatformsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("BlockchainBlockchainPlatformsDataSource-", BlockchainBlockchainPlatformsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	blockchainPlatform := map[string]interface{}{}
 

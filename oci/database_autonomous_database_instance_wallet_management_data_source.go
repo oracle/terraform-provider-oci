@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
@@ -65,7 +65,7 @@ func (s *DatabaseAutonomousDatabaseInstanceWalletManagementDataSourceCrud) SetDa
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseAutonomousDatabaseInstanceWalletManagementDataSource-", DatabaseAutonomousDatabaseInstanceWalletManagementDataSource(), s.D))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

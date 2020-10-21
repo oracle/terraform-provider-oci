@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v27/core"
 )
 
@@ -90,7 +90,7 @@ func (s *CoreFastConnectProviderServiceKeyDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreFastConnectProviderServiceKeyDataSource-", CoreFastConnectProviderServiceKeyDataSource(), s.D))
 
 	if s.Res.BandwidthShapeName != nil {
 		s.D.Set("bandwidth_shape_name", *s.Res.BandwidthShapeName)

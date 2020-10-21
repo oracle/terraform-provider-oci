@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v27/ocvp"
 )
 
@@ -90,8 +90,32 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HcxFqdn != nil {
+		s.D.Set("hcx_fqdn", *s.Res.HcxFqdn)
+	}
+
+	if s.Res.HcxInitialPassword != nil {
+		s.D.Set("hcx_initial_password", *s.Res.HcxInitialPassword)
+	}
+
+	if s.Res.HcxOnPremKey != nil {
+		s.D.Set("hcx_on_prem_key", *s.Res.HcxOnPremKey)
+	}
+
+	if s.Res.HcxPrivateIpId != nil {
+		s.D.Set("hcx_private_ip_id", *s.Res.HcxPrivateIpId)
+	}
+
+	if s.Res.HcxVlanId != nil {
+		s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
+	}
+
 	if s.Res.InstanceDisplayNamePrefix != nil {
 		s.D.Set("instance_display_name_prefix", *s.Res.InstanceDisplayNamePrefix)
+	}
+
+	if s.Res.IsHcxEnabled != nil {
+		s.D.Set("is_hcx_enabled", *s.Res.IsHcxEnabled)
 	}
 
 	if s.Res.NsxEdgeUplink1VlanId != nil {

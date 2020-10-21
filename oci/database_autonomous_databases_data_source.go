@@ -6,7 +6,7 @@ package oci
 import (
 	"context"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v27/database"
 )
 
@@ -164,7 +164,7 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DatabaseAutonomousDatabasesDataSource-", DatabaseAutonomousDatabasesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -263,6 +263,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		autonomousDatabase["nsg_ids"] = r.NsgIds
 
 		autonomousDatabase["open_mode"] = r.OpenMode
+
+		autonomousDatabase["operations_insights_status"] = r.OperationsInsightsStatus
 
 		autonomousDatabase["permission_level"] = r.PermissionLevel
 
