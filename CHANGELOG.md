@@ -1,4 +1,4 @@
-## 4.0.0 (Unreleased)
+## 4.0.0 (October 21, 2020)
 
 ### Added
 - HCX Support for Oracle Cloud VMware Solution
