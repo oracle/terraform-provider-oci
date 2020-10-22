@@ -58,6 +58,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_app_catalog_subscriptions.test_app_catalog_subscriptions"
 
 	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -77,6 +78,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "oracle_terms_of_use_link"),
 					resource.TestCheckResourceAttrSet(resourceName, "signature"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_retrieved"),
+
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
