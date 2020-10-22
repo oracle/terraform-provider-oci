@@ -126,6 +126,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 			shape_config {
 
 				#Optional
+				memory_in_gbs = var.instance_configuration_instance_details_launch_details_shape_config_memory_in_gbs
 				ocpus = var.instance_configuration_instance_details_launch_details_shape_config_ocpus
 			}
 			source_details {
@@ -320,6 +321,7 @@ The following arguments are supported:
 			Each shape only supports certain configurable values. If the values that you provid are not valid for the specified `shape`, an error is returned.
 
 			For more information about customizing the resources that are allocated to a flexible shapes, see [Flexible Shapes](https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm#flexible). 
+			* `memory_in_gbs` - (Optional) The total amount of memory available to the instance, in gigabytes. 
 			* `ocpus` - (Optional) The total number of OCPUs available to the instance. 
 		* `source_details` - (Optional) 
 			* `boot_volume_id` - (Applicable when source_type=bootVolume) The OCID of the boot volume used to boot the instance.
@@ -515,6 +517,7 @@ The following attributes are exported:
 			Each shape only supports certain configurable values. If the values that you provid are not valid for the specified `shape`, an error is returned.
 
 			For more information about customizing the resources that are allocated to a flexible shapes, see [Flexible Shapes](https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm#flexible). 
+			* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 			* `ocpus` - The total number of OCPUs available to the instance. 
 		* `source_details` - 
 			* `boot_volume_id` - The OCID of the boot volume used to boot the instance.

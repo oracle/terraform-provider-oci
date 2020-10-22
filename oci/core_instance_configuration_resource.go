@@ -593,6 +593,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"memory_in_gbs": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
 													Optional: true,
@@ -1881,6 +1887,11 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunchInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetails, error) {
 	result := oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetails{}
 
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
 		result.Ocpus = &tmp
@@ -1891,6 +1902,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 
 func InstanceConfigurationLaunchInstanceShapeConfigDetailsToMap(obj *oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)
