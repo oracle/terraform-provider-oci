@@ -58,7 +58,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database_actions" {
   compartment_id           = var.compartment_ocid
   cpu_core_count           = "1"
   data_storage_size_in_tbs = "1"
-  db_name                  = "adbdb11"
+  db_name                  = "adbdb111"
   db_version               = "19c"
   db_workload              = "AJD"
   license_model            = "LICENSE_INCLUDED"
@@ -72,6 +72,8 @@ resource "oci_database_autonomous_database_backup" "autonomous_database_backup" 
   display_name           = var.autonomous_database_backup_display_name
 }
 
+// Per service, we need to pass in a back up that is at least 2 hours old
+/*
 resource "oci_database_autonomous_database" "autonomous_database_from_backup_id" {
   #Required
   admin_password           = random_string.autonomous_database_admin_password.result
@@ -98,6 +100,7 @@ resource "oci_database_autonomous_database" "autonomous_database_from_backup_tim
   autonomous_database_id = oci_database_autonomous_database_backup.autonomous_database_backup.autonomous_database_id
   timestamp              = oci_database_autonomous_database_backup.autonomous_database_backup.time_ended
 }
+*/
 
 data "oci_database_autonomous_databases" "autonomous_databases" {
   #Required

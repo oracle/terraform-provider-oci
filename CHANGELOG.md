@@ -1,3 +1,8 @@
+## 4.3.0 (Unreleased)
+
+### Added
+- Support for ADBS free DB version details
+
 ## 4.2.0 (November 04, 2020)
 
 ### Added
