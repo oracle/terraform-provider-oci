@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -117,6 +118,8 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 	imageDigestVariableStr := fmt.Sprintf("variable \"image_digest\" { default = \"%s\" }\n", imageDigest)
 
 	resourceName := "oci_functions_invoke_function.test_invoke_function"
+
+	var resId string
 	sourceFilePath, err := createTmpSourceFile()
 	if err != nil {
 		t.Fatalf("Unable to create files for invocation. Error: %q", err)
@@ -149,6 +152,15 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create, invokeFunctionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 			// verify create with optionals

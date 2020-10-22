@@ -84,6 +84,7 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "destination_region_name"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mypolicy"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {

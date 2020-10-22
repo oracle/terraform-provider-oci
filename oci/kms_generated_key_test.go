@@ -5,6 +5,7 @@ package oci
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -45,6 +46,8 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 
 	resourceName := "oci_kms_generated_key.test_generated_key"
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -83,6 +86,16 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
 					resource.TestCheckResourceAttr(resourceName, "logging_context.%", "1"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 		},

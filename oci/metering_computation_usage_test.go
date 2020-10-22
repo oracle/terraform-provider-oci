@@ -5,6 +5,7 @@ package oci
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
@@ -97,6 +98,8 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 
 	resourceName := "oci_metering_computation_usage.test_usage"
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -136,6 +139,16 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_usage_ended"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_usage_started"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 		},
