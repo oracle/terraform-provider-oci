@@ -82,7 +82,11 @@ var (
 		"volume_id":      Representation{repType: Optional, create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
 	instanceShapeConfigRepresentation = map[string]interface{}{
-		"ocpus": Representation{repType: Optional, create: "1"},
+		"ocpus":         Representation{repType: Optional, create: "1"},
+		"memory_in_gbs": Representation{repType: Optional, create: "15"},
+	}
+	instanceConfigurationInstanceLaunchOptionsRepresentation = map[string]interface{}{
+		"network_type": Representation{repType: Optional, create: `PARAVIRTUALIZED`},
 	}
 	instanceConfigurationInstanceDetailsLaunchDetailsRepresentation = map[string]interface{}{
 		"availability_domain":                 Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -98,7 +102,7 @@ var (
 		"shape":                               Representation{repType: Optional, create: InstanceConfigurationVmShape},
 		"source_details":                      RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation},
 		"agent_config":                        RepresentationGroup{Optional, instanceAgentConfigRepresentation},
-		"launch_options":                      RepresentationGroup{Optional, instanceLaunchOptionsRepresentation},
+		"launch_options":                      RepresentationGroup{Optional, instanceConfigurationInstanceLaunchOptionsRepresentation},
 		"instance_options":                    RepresentationGroup{Optional, instanceConfigurationInstanceOptionsRepresentation},
 		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
 		"dedicated_vm_host_id":                Representation{repType: Optional, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
@@ -300,6 +304,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.preferred_maintenance_action", "LIVE_MIGRATE"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.memory_in_gbs", "15"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
