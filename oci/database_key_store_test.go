@@ -69,8 +69,8 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+	//compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	//compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_key_store.test_key_store"
 	datasourceName := "data.oci_database_key_stores.test_key_stores"
@@ -139,7 +139,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 			},
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
+			/*{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KeyStoreResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create,
 						representationCopyWithNewProperties(keyStoreRepresentation, map[string]interface{}{
@@ -166,7 +166,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 						return err
 					},
 				),
-			},
+			},*/
 
 			// verify updates to updatable parameters
 			{

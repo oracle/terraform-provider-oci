@@ -2,6 +2,7 @@
 
 ### Added
 - Support for reading OBO token from local file
+- Support for Oracle Key Vault with ExaCC
 
 ## 4.0.0 (October 21, 2020)
 
