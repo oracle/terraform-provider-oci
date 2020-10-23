@@ -34,6 +34,7 @@ func DatabaseKeyStoreResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -266,7 +267,7 @@ func (s *DatabaseKeyStoreResourceCrud) Get() error {
 }
 
 func (s *DatabaseKeyStoreResourceCrud) Update() error {
-	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+	/*if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
 			err := s.updateCompartment(compartment)
@@ -274,7 +275,7 @@ func (s *DatabaseKeyStoreResourceCrud) Update() error {
 				return err
 			}
 		}
-	}
+	}*/
 	request := oci_database.UpdateKeyStoreRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
