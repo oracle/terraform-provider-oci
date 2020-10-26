@@ -909,7 +909,7 @@ func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.Wo
 	for wId := range workRequestIdsSet {
 		id, err := WaitForWorkRequest(workRequestClient, &wId, entityType, action, timeout, disableFoundRetries, true)
 		if err != nil {
-			return nil, err
+			return id, err
 		}
 		identifier = id
 	}
@@ -948,11 +948,22 @@ func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
-		return nil, e
-	}
 
 	var identifier *string
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		for _, res := range response.Resources {
+			if strings.Contains(strings.ToLower(*res.EntityType), strings.ToLower(entityType)) {
+				if res.Identifier != nil {
+					identifier = res.Identifier
+					break
+				}
+			}
+		}
+
+		return identifier, e
+	}
+
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), strings.ToLower(entityType)) {

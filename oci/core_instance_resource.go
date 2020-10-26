@@ -515,6 +515,7 @@ func createCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).computeClient()
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
@@ -807,6 +808,17 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	response, err := s.Client.LaunchInstance(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "instance", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.Instance

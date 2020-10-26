@@ -211,11 +211,16 @@ func (s *CoreDedicatedVmHostResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "dedicatedvmhost", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-	if err != nil {
-		return err
+	if workId != nil {
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "dedicatedvmhost", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		if err != nil {
+			return err
+		}
 	}
-	s.D.SetId(*identifier)
+
 	return s.Get()
 }
 
