@@ -61,7 +61,7 @@ var (
 	vmClusterNetworkBackupVmNetworkRepresentation = map[string]interface{}{
 		"domain_name":  Representation{repType: Required, create: `oracle.com`, update: `oracle.com`},
 		"gateway":      Representation{repType: Required, create: `192.169.20.1`, update: `192.169.20.2`},
-		"netmask":      Representation{repType: Required, create: `255.255.0.0`, update: `255.255.0.1`},
+		"netmask":      Representation{repType: Required, create: `255.255.0.0`, update: `255.255.192.0`},
 		"network_type": Representation{repType: Required, create: `BACKUP`, update: `BACKUP`},
 		"nodes":        []RepresentationGroup{{Required, vmClusterNetworkVmNetworksBackupNodes1Representation}, {Required, vmClusterNetworkVmNetworksBackupNodes2Representation}},
 		"vlan_id":      Representation{repType: Required, create: `100`},
@@ -69,7 +69,7 @@ var (
 	vmClusterNetworkClientVmNetworkRepresentation = map[string]interface{}{
 		"domain_name":  Representation{repType: Required, create: `oracle.com`, update: `oracle.com`},
 		"gateway":      Representation{repType: Required, create: `192.168.20.1`, update: `192.168.20.2`},
-		"netmask":      Representation{repType: Required, create: `255.255.0.0`, update: `255.255.0.1`},
+		"netmask":      Representation{repType: Required, create: `255.255.0.0`, update: `255.255.192.0`},
 		"network_type": Representation{repType: Required, create: `CLIENT`, update: `CLIENT`},
 		"nodes":        []RepresentationGroup{{Required, vmClusterNetworkVmNetworksClientNodes1Representation}, {Required, vmClusterNetworkVmNetworksClientNodes2Representation}},
 		"vlan_id":      Representation{repType: Required, create: `101`},
@@ -231,7 +231,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 					CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
 						"domain_name":  "oracle.com",
 						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.0.1",
+						"netmask":      "255.255.192.0",
 						"network_type": "BACKUP",
 						"nodes.#":      "2",
 					},
@@ -282,7 +282,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 					CheckResourceSetContainsElementWithProperties(datasourceName, "vm_cluster_networks.0.vm_networks", map[string]string{
 						"domain_name":  "oracle.com",
 						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.0.1",
+						"netmask":      "255.255.192.0",
 						"network_type": "BACKUP",
 						"nodes.#":      "2",
 					},
@@ -320,7 +320,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "vm_networks", map[string]string{
 						"domain_name":  "oracle.com",
 						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.0.1",
+						"netmask":      "255.255.192.0",
 						"network_type": "BACKUP",
 						"nodes.#":      "2",
 					},

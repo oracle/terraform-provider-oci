@@ -393,7 +393,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 }
 
 func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T) {
-	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster")
+	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
