@@ -215,10 +215,12 @@ func (s *IdentityUserResourceCrud) Create() error {
 			return fmt.Errorf("compartment_id must be specified for this resource")
 		}
 		// Maintain legacy contract of compartment_id defaulting to tenancy ocid if not specified
-		c := *s.Client.ConfigurationProvider()
-		if c == nil {
-			return fmt.Errorf("cannot access tenancyOCID")
+		configProvider := s.Client.ConfigurationProvider()
+		if configProvider == nil {
+			return fmt.Errorf("cannot access tenancy OCID. No configuration provider could be found for identity client")
 		}
+
+		c := *configProvider
 		tenancy, err := c.TenancyOCID()
 		if err != nil {
 			return err

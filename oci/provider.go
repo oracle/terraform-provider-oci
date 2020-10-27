@@ -661,6 +661,15 @@ func getHomeFolder() string {
 	return current.HomeDir
 }
 
+// cleans and expands the path if it contains a tilde , returns the expanded path or the input path as is if not expansion
+// was performed
+func expandPath(filepath string) string {
+	if strings.HasPrefix(filepath, fmt.Sprintf("~%c", os.PathSeparator)) {
+		filepath = path.Join(getHomeFolder(), filepath[2:])
+	}
+	return path.Clean(filepath)
+}
+
 func checkProfile(profile string, path string) (err error) {
 	var profileRegex = regexp.MustCompile(`^\[(.*)\]`)
 	data, err := ioutil.ReadFile(path)
@@ -753,7 +762,8 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 	}
 
 	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists(privateKeyPathAttrName); hasPrivateKeyPath {
-		pemFileContent, readFileErr := ioutil.ReadFile(privateKeyPath.(string))
+		resolvedPath := expandPath(privateKeyPath.(string))
+		pemFileContent, readFileErr := ioutil.ReadFile(resolvedPath)
 		if readFileErr != nil {
 			return nil, fmt.Errorf("can not read private key from: '%s', Error: %q", privateKeyPath, readFileErr)
 		}
