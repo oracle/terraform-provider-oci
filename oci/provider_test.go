@@ -916,6 +916,41 @@ func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 }
 
+// This test verifies that user can specify private key paths with "~/" and they should resolve to the home directory
+func TestUnitHomeDirectoryPrivateKeyPath_basic(t *testing.T) {
+	privateKeyName := "TestUnitHomeDirectoryPrivateKeyPath_basic.pem"
+	privateKeyPath := path.Join(getHomeFolder(), privateKeyName)
+	err := writeTempFile(testPrivateKey, privateKeyPath)
+	if err != nil {
+		t.Fatalf("unable to write test private key into directory %s. Error: %v", privateKeyPath, err)
+	}
+
+	defer removeFile(privateKeyPath)
+
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
+	d.Set(privateKeyPathAttrName, path.Join("~", privateKeyName))
+
+	d.Set(tenancyOcidAttrName, testTenancyOCID)
+	d.Set(authAttrName, authAPIKeySetting)
+	d.Set(userOcidAttrName, testUserOCID)
+	d.Set(fingerprintAttrName, testKeyFingerPrint)
+	d.Set(regionAttrName, "us-phoenix-1")
+
+	clients := &OracleClients{
+		sdkClientMap:  make(map[string]interface{}, len(oracleClientRegistrations.registeredClients)),
+		configuration: make(map[string]string),
+	}
+	sdkConfigProvider, err := getSdkConfigProvider(d, clients)
+	assert.NoError(t, err)
+
+	privateRsaKey, err := sdkConfigProvider.PrivateRSAKey()
+	assert.NoError(t, err)
+	assert.True(t, privateRsaKey != nil)
+}
+
 func TestUnitSecurityToken_basic(t *testing.T) {
 	t.Skip("Run manual with a valid security token")
 	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
