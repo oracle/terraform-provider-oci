@@ -324,6 +324,14 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"key_store_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"key_store_wallet_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -979,6 +987,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.IsRefreshableClone != nil {
 		s.D.Set("is_refreshable_clone", *s.Res.IsRefreshableClone)
+	}
+
+	if s.Res.KeyStoreId != nil {
+		s.D.Set("key_store_id", *s.Res.KeyStoreId)
+	}
+
+	if s.Res.KeyStoreWalletName != nil {
+		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
 	}
 
 	s.D.Set("license_model", s.Res.LicenseModel)

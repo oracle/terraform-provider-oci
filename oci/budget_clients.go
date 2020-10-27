@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_budget.BudgetClient", &OracleClient{initClientFn: initBudgetBudgetClient})
 }
 
-func initBudgetBudgetClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initBudgetBudgetClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_budget.NewBudgetClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initBudgetBudgetClient(configProvider oci_common.ConfigurationProvider, con
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

@@ -57,6 +57,14 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"key_store_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"key_store_wallet_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -200,6 +208,14 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.IsRestorable != nil {
 		s.D.Set("is_restorable", *s.Res.IsRestorable)
+	}
+
+	if s.Res.KeyStoreId != nil {
+		s.D.Set("key_store_id", *s.Res.KeyStoreId)
+	}
+
+	if s.Res.KeyStoreWalletName != nil {
+		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
 	}
 
 	if s.Res.LifecycleDetails != nil {

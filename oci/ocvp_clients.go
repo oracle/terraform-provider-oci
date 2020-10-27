@@ -14,7 +14,7 @@ func init() {
 	RegisterOracleClient("oci_ocvp.SddcClient", &OracleClient{initClientFn: initOcvpSddcClient})
 }
 
-func initOcvpEsxiHostClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initOcvpEsxiHostClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_ocvp.NewEsxiHostClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -23,6 +23,10 @@ func initOcvpEsxiHostClient(configProvider oci_common.ConfigurationProvider, con
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -30,7 +34,7 @@ func (m *OracleClients) esxiHostClient() *oci_ocvp.EsxiHostClient {
 	return m.GetClient("oci_ocvp.EsxiHostClient").(*oci_ocvp.EsxiHostClient)
 }
 
-func initOcvpSddcClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initOcvpSddcClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_ocvp.NewSddcClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -38,6 +42,10 @@ func initOcvpSddcClient(configProvider oci_common.ConfigurationProvider, configu
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

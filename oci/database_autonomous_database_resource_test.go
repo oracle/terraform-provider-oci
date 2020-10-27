@@ -2658,10 +2658,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
 							"db_version":   Representation{repType: Required, create: `19c`},
 							"is_free_tier": Representation{repType: Required, create: `true`},
-						})),
+						}), []string{"operations_insights_status"})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2695,11 +2695,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
 							"db_version":   Representation{repType: Required, create: `19c`},
 							"db_workload":  Representation{repType: Required, create: `AJD`},
 							"is_free_tier": Representation{repType: Required, create: `false`},
-						})),
+						}), []string{"operations_insights_status"})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
