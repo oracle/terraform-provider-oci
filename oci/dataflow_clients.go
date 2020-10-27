@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_dataflow.DataFlowClient", &OracleClient{initClientFn: initDataflowDataFlowClient})
 }
 
-func initDataflowDataFlowClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initDataflowDataFlowClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_dataflow.NewDataFlowClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initDataflowDataFlowClient(configProvider oci_common.ConfigurationProvider,
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

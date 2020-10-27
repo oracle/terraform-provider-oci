@@ -65,6 +65,7 @@ const (
 	userAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
 	userAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
 	domainNameOverrideEnv                 = "domain_name_override"
+	clientHostOverridesEnv                = "CLIENT_HOST_OVERRIDES"
 	customCertLocationEnv                 = "custom_cert_location"
 	acceptLocalCerts                      = "accept_local_certs"
 
@@ -79,12 +80,15 @@ const (
 	disableAutoRetriesAttrName   = "disable_auto_retries"
 	retryDurationSecondsAttrName = "retry_duration_seconds"
 	oboTokenAttrName             = "obo_token"
+	oboTokenPath                 = "obo_token_path"
 	configFileProfileAttrName    = "config_file_profile"
 
-	tfEnvPrefix           = "TF_VAR_"
-	ociEnvPrefix          = "OCI_"
-	defaultConfigFileName = "config"
-	defaultConfigDirName  = ".oci"
+	tfEnvPrefix              = "TF_VAR_"
+	ociEnvPrefix             = "OCI_"
+	defaultConfigFileName    = "config"
+	defaultConfigDirName     = ".oci"
+	colonDelimiter           = ";"
+	equalToOperatorDelimiter = "="
 )
 
 // OboTokenProvider interface that wraps information about auth tokens so the sdk client can make calls
@@ -104,6 +108,14 @@ func (provider emptyOboTokenProvider) OboToken() (string, error) {
 type oboTokenProviderFromEnv struct{}
 
 func (p oboTokenProviderFromEnv) OboToken() (string, error) {
+	// priority token from path than token from environment
+	if path := getEnvSettingWithBlankDefault(oboTokenPath); path != "" {
+		token, err := getTokenFromFile(path)
+		if err != nil {
+			return "", err
+		}
+		return token, nil
+	}
 	return getEnvSettingWithBlankDefault(oboTokenAttrName), nil
 }
 
@@ -419,7 +431,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 			return nil, fmt.Errorf(`user credentials %v should be removed from the configuration`, strings.Join(apiKeyConfigVariablesToUnset, ", "))
 		}
 
-		region, ok := d.GetOkExists(regionAttrName)
+		region, ok := d.GetOk(regionAttrName)
 		if !ok {
 			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", regionAttrName)
 		}
@@ -649,6 +661,15 @@ func getHomeFolder() string {
 	return current.HomeDir
 }
 
+// cleans and expands the path if it contains a tilde , returns the expanded path or the input path as is if not expansion
+// was performed
+func expandPath(filepath string) string {
+	if strings.HasPrefix(filepath, fmt.Sprintf("~%c", os.PathSeparator)) {
+		filepath = path.Join(getHomeFolder(), filepath[2:])
+	}
+	return path.Clean(filepath)
+}
+
 func checkProfile(profile string, path string) (err error) {
 	var profileRegex = regexp.MustCompile(`^\[(.*)\]`)
 	data, err := ioutil.ReadFile(path)
@@ -741,7 +762,8 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 	}
 
 	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists(privateKeyPathAttrName); hasPrivateKeyPath {
-		pemFileContent, readFileErr := ioutil.ReadFile(privateKeyPath.(string))
+		resolvedPath := expandPath(privateKeyPath.(string))
+		pemFileContent, readFileErr := ioutil.ReadFile(resolvedPath)
 		if readFileErr != nil {
 			return nil, fmt.Errorf("can not read private key from: '%s', Error: %q", privateKeyPath, readFileErr)
 		}

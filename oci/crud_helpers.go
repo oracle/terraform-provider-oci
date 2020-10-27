@@ -576,6 +576,10 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 				e = fmt.Errorf("%s, The service for this resource encountered an unknown error. Provide the following resource ID if you contact support for help with that service: %s", e, resourceId)
 			}
 		}
+
+		if _, ok := e.(*resource.TimeoutError); ok {
+			e = fmt.Errorf("%s, you may need to increase the Terraform Operation timeouts for your resource to continue polling for longer", e)
+		}
 		return e
 	}
 

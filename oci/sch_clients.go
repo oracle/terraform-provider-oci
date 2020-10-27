@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_sch.ServiceConnectorClient", &OracleClient{initClientFn: initSchServiceConnectorClient})
 }
 
-func initSchServiceConnectorClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initSchServiceConnectorClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_sch.NewServiceConnectorClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initSchServiceConnectorClient(configProvider oci_common.ConfigurationProvid
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

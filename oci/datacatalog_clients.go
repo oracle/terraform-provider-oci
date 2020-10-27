@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_datacatalog.DataCatalogClient", &OracleClient{initClientFn: initDatacatalogDataCatalogClient})
 }
 
-func initDatacatalogDataCatalogClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initDatacatalogDataCatalogClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_datacatalog.NewDataCatalogClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initDatacatalogDataCatalogClient(configProvider oci_common.ConfigurationPro
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

@@ -149,6 +149,14 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_refreshable_clone", *s.Res.IsRefreshableClone)
 	}
 
+	if s.Res.KeyStoreId != nil {
+		s.D.Set("key_store_id", *s.Res.KeyStoreId)
+	}
+
+	if s.Res.KeyStoreWalletName != nil {
+		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
