@@ -57,12 +57,43 @@ var (
 		"corporate_proxy":             Representation{repType: Optional, create: `http://192.168.19.1:80`, update: `http://192.168.19.2:80`},
 		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"maintenance_window":          RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentation},
 	}
 	exadataInfrastructureContactsRepresentation = map[string]interface{}{
 		"email":        Representation{repType: Required, create: `testuser1@testdomain.com`, update: `testuser2@testdomain.com`},
 		"is_primary":   Representation{repType: Required, create: `true`},
 		"name":         Representation{repType: Required, create: `name`, update: `name2`},
 		"phone_number": Representation{repType: Optional, create: `1234567891`, update: `1234567892`},
+	}
+	exadataInfrastructureMaintenanceWindowRepresentation = map[string]interface{}{
+		"preference":         Representation{repType: Required, create: `NO_PREFERENCE`, update: `CUSTOM_PREFERENCE`},
+		"hours_of_day":       Representation{repType: Optional, update: []string{`15`, `20`}},
+		"lead_time_in_weeks": Representation{repType: Optional, update: `11`},
+		"weeks_of_month":     Representation{repType: Optional, update: []string{`2`, `3`}},
+	}
+
+	exadataInfrastructureMaintenanceWindowRepresentationComplete = representationCopyWithNewProperties(exadataInfrastructureMaintenanceWindowRepresentation, map[string]interface{}{
+		"days_of_week": []RepresentationGroup{{Optional, exadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation}},
+		"months":       []RepresentationGroup{{Optional, exadataInfrastructureMaintenanceWindowMonthsRepresentation1}, {Optional, exadataInfrastructureMaintenanceWindowMonthsRepresentation2}, {Optional, exadataInfrastructureMaintenanceWindowMonthsRepresentation3}, {Optional, exadataInfrastructureMaintenanceWindowMonthsRepresentation4}},
+	})
+
+	exadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation = map[string]interface{}{
+		"name": Representation{repType: Required, update: `TUESDAY`},
+	}
+	exadataInfrastructureMaintenanceWindowMonthsRepresentation1 = map[string]interface{}{
+		"name": Representation{repType: Required, update: `DECEMBER`},
+	}
+
+	exadataInfrastructureMaintenanceWindowMonthsRepresentation2 = map[string]interface{}{
+		"name": Representation{repType: Required, update: `MARCH`},
+	}
+
+	exadataInfrastructureMaintenanceWindowMonthsRepresentation3 = map[string]interface{}{
+		"name": Representation{repType: Required, update: `JUNE`},
+	}
+
+	exadataInfrastructureMaintenanceWindowMonthsRepresentation4 = map[string]interface{}{
+		"name": Representation{repType: Required, update: `SEPTEMBER`},
 	}
 
 	ExadataInfrastructureResourceDependencies = DefinedTagsDependencies
@@ -145,6 +176,13 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.5"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/21"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
@@ -188,6 +226,13 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.5"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/21"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
@@ -207,7 +252,10 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, exadataInfrastructureRepresentation),
+					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+						representationCopyWithNewProperties(exadataInfrastructureRepresentation, map[string]interface{}{
+							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
@@ -226,6 +274,15 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.6"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/22"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "2"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "DECEMBER"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.254.0"),
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
@@ -246,7 +303,10 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_exadata_infrastructures", "test_exadata_infrastructures", Optional, Update, exadataInfrastructureDataSourceRepresentation) +
 					compartmentIdVariableStr + ExadataInfrastructureResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, exadataInfrastructureRepresentation),
+					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+						representationCopyWithNewProperties(exadataInfrastructureRepresentation, map[string]interface{}{
+							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "tstExaInfra"),
@@ -274,10 +334,22 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.gateway", "10.32.88.6"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.infini_band_network_cidr", "10.31.8.0/22"),
+
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.hours_of_day.#", "2"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.lead_time_in_weeks", "11"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.months.0.name", "DECEMBER"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.weeks_of_month.#", "2"),
+
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.max_cpu_count"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.max_data_storage_in_tbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.max_db_node_storage_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.max_memory_in_gbs"),
+
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.memory_size_in_gbs"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.netmask", "255.255.254.0"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.ntp_server.#", "2"),
@@ -317,6 +389,15 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "gateway", "10.32.88.6"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "infini_band_network_cidr", "10.31.8.0/22"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.hours_of_day.#", "2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "DECEMBER"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_size_in_gbs"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "netmask", "255.255.254.0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ntp_server.#", "2"),

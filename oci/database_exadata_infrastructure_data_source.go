@@ -133,6 +133,12 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.MaintenanceWindow != nil {
+		s.D.Set("maintenance_window", []interface{}{ExadataInfrastructureMaintenanceWindowToMap(s.Res.MaintenanceWindow)})
+	} else {
+		s.D.Set("maintenance_window", nil)
+	}
+
 	if s.Res.MaxCpuCount != nil {
 		s.D.Set("max_cpu_count", *s.Res.MaxCpuCount)
 	}
