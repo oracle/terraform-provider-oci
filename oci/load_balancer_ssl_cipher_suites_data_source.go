@@ -1,4 +1,5 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
 
 package oci
 
@@ -78,6 +79,8 @@ func (s *LoadBalancerSslCipherSuitesDataSourceCrud) SetData() error {
 
 	for _, r := range s.Res.Items {
 		sslCipherSuite := map[string]interface{}{}
+
+		sslCipherSuite["ciphers"] = r.Ciphers
 
 		if r.Name != nil {
 			sslCipherSuite["name"] = *r.Name

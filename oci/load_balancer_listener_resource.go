@@ -118,15 +118,10 @@ func LoadBalancerListenerResource() *schema.Resource {
 						},
 
 						// Optional
-						"verify_depth": {
-							Type:     schema.TypeInt,
+						"cipher_suite_name": {
+							Type:     schema.TypeString,
 							Optional: true,
-							Default:  5,
-						},
-						"verify_peer_certificate": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Default:  true,
+							Computed: true,
 						},
 						"protocols": {
 							Type:     schema.TypeList,
@@ -136,15 +131,20 @@ func LoadBalancerListenerResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-						"cipher_suite_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 						"server_order_preference": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"verify_depth": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Default:  5,
+						},
+						"verify_peer_certificate": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  true,
 						},
 
 						// Computed
@@ -649,14 +649,9 @@ func (s *LoadBalancerListenerResourceCrud) mapToSSLConfigurationDetails(fieldKey
 		result.CertificateName = &tmp
 	}
 
-	if verifyDepth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_depth")); ok {
-		tmp := verifyDepth.(int)
-		result.VerifyDepth = &tmp
-	}
-
-	if verifyPeerCertificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_peer_certificate")); ok {
-		tmp := verifyPeerCertificate.(bool)
-		result.VerifyPeerCertificate = &tmp
+	if cipherSuiteName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cipher_suite_name")); ok {
+		tmp := cipherSuiteName.(string)
+		result.CipherSuiteName = &tmp
 	}
 
 	if protocols, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocols")); ok {
@@ -668,13 +663,18 @@ func (s *LoadBalancerListenerResourceCrud) mapToSSLConfigurationDetails(fieldKey
 		result.Protocols = tmp
 	}
 
-	if cipherSuiteName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cipher_suite_name")); ok {
-		tmp := cipherSuiteName.(string)
-		result.CipherSuiteName = &tmp
-	}
-
 	if serverOrderPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_order_preference")); ok {
 		result.ServerOrderPreference = oci_load_balancer.SslConfigurationDetailsServerOrderPreferenceEnum(serverOrderPreference.(string))
+	}
+
+	if verifyDepth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_depth")); ok {
+		tmp := verifyDepth.(int)
+		result.VerifyDepth = &tmp
+	}
+
+	if verifyPeerCertificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_peer_certificate")); ok {
+		tmp := verifyPeerCertificate.(bool)
+		result.VerifyPeerCertificate = &tmp
 	}
 
 	return result, nil
