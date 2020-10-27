@@ -94,7 +94,7 @@ The following attributes are exported:
 * `patch_model` - Database patch model preference.
 * `role` - The role of the dataguard enabled Autonomous Container Database.
 * `service_level_agreement_type` - The service level agreement type of the container database. The default is STANDARD.
-* `standby_maintenance_buffer_in_days` - The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database. This value represents the number of days before the primary database maintenance schedule. 
+* `standby_maintenance_buffer_in_days` - The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database. This value represents the number of days before the primary database maintenance schedule.
 * `state` - The current state of the Autonomous Container Database.
 * `time_created` - The date and time the Autonomous Container Database was created.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).

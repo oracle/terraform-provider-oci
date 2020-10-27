@@ -23,7 +23,7 @@ resource "oci_database_autonomous_database" "autonomous_data_warehouse" {
   compartment_id           = var.compartment_ocid
   cpu_core_count           = "1"
   data_storage_size_in_tbs = "1"
-  db_name                  = "adbdw1"
+  db_name                  = "adbdw1f"
 
   #Optional
 //If a db version is passed, it must be valid
