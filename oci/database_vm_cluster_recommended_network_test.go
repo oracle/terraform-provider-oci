@@ -43,7 +43,10 @@ var (
 		"vlan_id":      Representation{repType: Required, create: `11`},
 	}
 
-	VmClusterRecommendedNetworkDataSourceDependencies = ExadataInfrastructureActivatedResourceConfig
+	VmClusterRecommendedNetworkDataSourceDependencies = ExadataInfrastructureResourceActivateDependencies +
+		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+			"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+		}))
 )
 
 func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
