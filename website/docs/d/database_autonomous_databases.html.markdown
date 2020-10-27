@@ -59,6 +59,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `apex_details` - Information about Autonomous Application Express.
+	* `apex_version` - The Oracle Application Express service version.
+	* `ords_version` - The Oracle REST Data Services (ORDS) version.
 * `autonomous_container_database_id` - The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `available_upgrade_versions` - List of Oracle Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
 * `backup_config` - Autonomous Database configuration details for storing [manual backups](https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/adbbackingup.htm) in the [Object Storage](https://docs.cloud.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) service. 
@@ -77,13 +80,15 @@ The following attributes are exported:
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of OCPU cores to be made available to the database.
 * `data_safe_status` - Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
+* `data_storage_size_in_gb` - The quantity of data in the database, in gigabytes.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
 * `db_version` - A valid Oracle Database version for Autonomous Database.
 * `db_workload` - The Autonomous Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous Transaction Processing database
 	* DW - indicates an Autonomous Data Warehouse database
-	* AJD - indicates an Autonomous JSON Database 
+	* AJD - indicates an Autonomous JSON Database
+	* APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
@@ -106,7 +111,7 @@ The following attributes are exported:
 * `nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
 * `open_mode` - The `DATABASE OPEN` mode. You can open the database in `READ_ONLY` or `READ_WRITE` mode.
-* `operations_insights_status` - Status of the Operations Insights for this Autonomous Database.
+* `operations_insights_status` - Status of Operations Insights for this Autonomous Database.
 * `permission_level` - The Autonomous Database permission level. Restricted mode allows access only to admin users.
 * `private_endpoint` - The private endpoint for the resource.
 * `private_endpoint_ip` - The private endpoint Ip address for the resource.

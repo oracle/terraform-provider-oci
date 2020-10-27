@@ -10,7 +10,8 @@ description: |-
 # oci_database_cloud_exadata_infrastructure
 This resource provides the Cloud Exadata Infrastructure resource in Oracle Cloud Infrastructure Database service.
 
-Creates a cloud Exadata infrastructure resource.
+Creates a cloud Exadata infrastructure resource. This resource is used to create an [Exadata Cloud Service](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm) instance.
+
 
 ## Example Usage
 

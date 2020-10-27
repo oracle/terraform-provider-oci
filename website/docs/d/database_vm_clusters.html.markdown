@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_database_vm_clusters
 This data source provides the list of Vm Clusters in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the Exadata Cloud@Customer VM clusters in the specified compartment.
+Lists the VM clusters in the specified compartment. Applies to Exadata Cloud@Customer instances only.
+To list the cloud VM clusters in an Exadata Cloud Service instance, use the [ListCloudVmClusters ](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/ListCloudVmClusters) operation.
 
 
 ## Example Usage

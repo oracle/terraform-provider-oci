@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_container_database_dataguard_associations
 This data source provides the list of Autonomous Container Database Dataguard Associations in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the Autonomous Container Databases with Autonomous Data Guard enabled associated with the specified Autonomous Container Database.
+Gets a list of the Autonomous Container Databases with Autonomous Data Guard-enabled associated with the specified Autonomous Container Database.
 
 
 ## Example Usage
@@ -46,11 +46,11 @@ The following attributes are exported:
 * `lifecycle_details` - Additional information about the current lifecycleState, if available. 
 * `peer_autonomous_container_database_dataguard_association_id` - The OCID of the peer Autonomous Container Database-Autonomous Data Guard association.
 * `peer_autonomous_container_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Autonomous Container Database. 
-* `peer_lifecycle_state` - The current state of the Autonomous Data Guard.
+* `peer_lifecycle_state` - The current state of Autonomous Data Guard.
 * `peer_role` - The role of the Autonomous Data Guard-enabled Autonomous Container Database.
 * `protection_mode` - The protection mode of this Autonomous Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 * `role` - The role of the Autonomous Data Guard-enabled Autonomous Container Database.
-* `state` - The current state of the Autonomous Data Guard.
+* `state` - The current state of Autonomous Data Guard.
 * `time_created` - The date and time the Autonomous DataGuard association was created.
 * `time_last_role_changed` - The date and time when the last role change action happened.
 * `time_last_synced` - The date and time of the last update to the apply lag, apply rate, and transport lag values.

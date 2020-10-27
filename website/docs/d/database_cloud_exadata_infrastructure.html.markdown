@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_database_cloud_exadata_infrastructure
 This data source provides details about a specific Cloud Exadata Infrastructure resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified cloud Exadata infrastructure resource.
+Gets information about the specified cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
+
 
 ## Example Usage
 
