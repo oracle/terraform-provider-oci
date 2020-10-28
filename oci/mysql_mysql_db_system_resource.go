@@ -191,6 +191,7 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: mySqlVersionDiffSuppress,
+				Deprecated:       FieldDeprecatedAndAvoidReferences("mysql_version"),
 			},
 			"port": {
 				Type:     schema.TypeInt,

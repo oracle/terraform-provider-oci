@@ -48,7 +48,6 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		#Required
 		window_start_time = var.mysql_db_system_maintenance_window_start_time
 	}
-	mysql_version = var.mysql_db_system_mysql_version
 	port = var.mysql_db_system_port
 	port_x = var.mysql_db_system_port_x
 	source {
@@ -104,7 +103,6 @@ The following arguments are supported:
 		"{day-of-week}" is a case-insensitive string like "mon", "tue", &c.
 
 		"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
-* `mysql_version` - (Optional) The specific MySQL version identifier.
 * `port` - (Optional) The port for primary endpoint of the DB System to listen on.
 * `port_x` - (Optional) The TCP network port on which X Plugin listens for connections. This is the X Plugin equivalent of port. 
 * `shape_name` - (Required) The name of the shape. The shape determines the resources allocated
