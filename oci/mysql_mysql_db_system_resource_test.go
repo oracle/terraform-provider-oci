@@ -37,7 +37,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 	var resId, resId2 string
 
 	updatedRepresentation := getUpdatedRepresentationCopy("ip_address", Representation{repType: Optional, create: `10.0.0.8`},
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(mysqlDbSystemRepresentation, []string{"data_storage_size_in_gb", "mysql_version"}), map[string]interface{}{
+		representationCopyWithNewProperties(representationCopyWithRemovedProperties(mysqlDbSystemRepresentation, []string{"data_storage_size_in_gb"}), map[string]interface{}{
 			"source": RepresentationGroup{Optional, mysqlDbSystemSourceRepresentation},
 		}))
 
