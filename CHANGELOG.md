@@ -1,4 +1,4 @@
-## 4.1.0 (Unreleased)
+## 4.1.0 (October 28, 2020)
 
 ### Added
 - Support for reading OBO token from local file
