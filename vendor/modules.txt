@@ -244,6 +244,7 @@ github.com/oracle/oci-go-sdk/v28/integration
 github.com/oracle/oci-go-sdk/v28/keymanagement
 github.com/oracle/oci-go-sdk/v28/limits
 github.com/oracle/oci-go-sdk/v28/loadbalancer
+github.com/oracle/oci-go-sdk/v28/loganalytics
 github.com/oracle/oci-go-sdk/v28/logging
 github.com/oracle/oci-go-sdk/v28/managementagent
 github.com/oracle/oci-go-sdk/v28/marketplace
