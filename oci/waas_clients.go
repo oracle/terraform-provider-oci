@@ -14,7 +14,7 @@ func init() {
 	RegisterOracleClient("oci_waas.WaasClient", &OracleClient{initClientFn: initWaasWaasClient})
 }
 
-func initWaasRedirectClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initWaasRedirectClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_waas.NewRedirectClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -23,6 +23,10 @@ func initWaasRedirectClient(configProvider oci_common.ConfigurationProvider, con
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -30,7 +34,7 @@ func (m *OracleClients) redirectClient() *oci_waas.RedirectClient {
 	return m.GetClient("oci_waas.RedirectClient").(*oci_waas.RedirectClient)
 }
 
-func initWaasWaasClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initWaasWaasClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_waas.NewWaasClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -38,6 +42,10 @@ func initWaasWaasClient(configProvider oci_common.ConfigurationProvider, configu
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

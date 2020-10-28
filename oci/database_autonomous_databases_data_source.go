@@ -254,6 +254,14 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_refreshable_clone"] = *r.IsRefreshableClone
 		}
 
+		if r.KeyStoreId != nil {
+			autonomousDatabase["key_store_id"] = *r.KeyStoreId
+		}
+
+		if r.KeyStoreWalletName != nil {
+			autonomousDatabase["key_store_wallet_name"] = *r.KeyStoreWalletName
+		}
+
 		autonomousDatabase["license_model"] = r.LicenseModel
 
 		if r.LifecycleDetails != nil {

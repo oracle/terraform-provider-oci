@@ -808,6 +808,61 @@ func TestUnitSupportChangeOboToken(t *testing.T) {
 	client.ListBudgets(context.Background(), request)
 }
 
+func TestUnitReadOboTokenFromFile(t *testing.T) {
+	t.Skip("Run manual with a valid obo token")
+
+	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
+		apiKeyConfigAttributeEnvValue := getEnvSettingWithBlankDefault(apiKeyConfigAttribute)
+		if apiKeyConfigAttributeEnvValue != "" {
+			unsetAtr := "TF_VAR_" + apiKeyConfigAttribute
+			os.Unsetenv(unsetAtr)
+			defer os.Setenv(unsetAtr, apiKeyConfigAttributeEnvValue)
+		}
+	}
+
+	os.Setenv("use_obo_token", "true")
+
+	tokenFile := "token_file"
+
+	var file *os.File
+	_, err := os.Stat(tokenFile)
+	if os.IsNotExist(err) {
+		file, _ = os.Create(tokenFile)
+		file.WriteString("fake-token")
+		defer os.Remove(tokenFile)
+	}
+
+	os.Setenv(oboTokenPath, tokenFile)
+
+	assert.Equal(t, "true", getEnvSettingWithBlankDefault("use_obo_token"))
+
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
+	d.SetId("tenancy_ocid")
+	d.Set("auth", "InstancePrincipal")
+	d.Set("region", "us-phoenix-1")
+
+	client := GetTestClients(d).budgetClient()
+	assert.NotEmpty(t, client.Host)
+
+	request := oci_budget.ListBudgetsRequest{}
+	compartmentId := getEnvSettingWithBlankDefault("compartment_id")
+	request.CompartmentId = &compartmentId
+	fmt.Println("======= First List call with token fake-token ======")
+
+	// manual verify request that contains "Opc-Obo-Token: fake-token"
+	client.ListBudgets(context.Background(), request)
+
+	fmt.Println("======= Second List call with token another-token ======")
+
+	// overwrite the token file
+	file.WriteAt([]byte("another-token"), 0)
+	// manual verify request that contains "Opc-Obo-Token: another-token"
+	client.ListBudgets(context.Background(), request)
+}
+
 func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	httpreplay.SetScenario("TestVerifyConfigForAPIKeyAuthIsNotSet_basic")
 	defer httpreplay.SaveScenario()
@@ -859,6 +914,41 @@ func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
+}
+
+// This test verifies that user can specify private key paths with "~/" and they should resolve to the home directory
+func TestUnitHomeDirectoryPrivateKeyPath_basic(t *testing.T) {
+	privateKeyName := "TestUnitHomeDirectoryPrivateKeyPath_basic.pem"
+	privateKeyPath := path.Join(getHomeFolder(), privateKeyName)
+	err := writeTempFile(testPrivateKey, privateKeyPath)
+	if err != nil {
+		t.Fatalf("unable to write test private key into directory %s. Error: %v", privateKeyPath, err)
+	}
+
+	defer removeFile(privateKeyPath)
+
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
+	d.Set(privateKeyPathAttrName, path.Join("~", privateKeyName))
+
+	d.Set(tenancyOcidAttrName, testTenancyOCID)
+	d.Set(authAttrName, authAPIKeySetting)
+	d.Set(userOcidAttrName, testUserOCID)
+	d.Set(fingerprintAttrName, testKeyFingerPrint)
+	d.Set(regionAttrName, "us-phoenix-1")
+
+	clients := &OracleClients{
+		sdkClientMap:  make(map[string]interface{}, len(oracleClientRegistrations.registeredClients)),
+		configuration: make(map[string]string),
+	}
+	sdkConfigProvider, err := getSdkConfigProvider(d, clients)
+	assert.NoError(t, err)
+
+	privateRsaKey, err := sdkConfigProvider.PrivateRSAKey()
+	assert.NoError(t, err)
+	assert.True(t, privateRsaKey != nil)
 }
 
 func TestUnitSecurityToken_basic(t *testing.T) {

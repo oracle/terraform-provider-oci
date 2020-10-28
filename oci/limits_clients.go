@@ -14,7 +14,7 @@ func init() {
 	RegisterOracleClient("oci_limits.QuotasClient", &OracleClient{initClientFn: initLimitsQuotasClient})
 }
 
-func initLimitsLimitsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initLimitsLimitsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_limits.NewLimitsClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -23,6 +23,10 @@ func initLimitsLimitsClient(configProvider oci_common.ConfigurationProvider, con
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -30,7 +34,7 @@ func (m *OracleClients) limitsClient() *oci_limits.LimitsClient {
 	return m.GetClient("oci_limits.LimitsClient").(*oci_limits.LimitsClient)
 }
 
-func initLimitsQuotasClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initLimitsQuotasClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_limits.NewQuotasClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -38,6 +42,10 @@ func initLimitsQuotasClient(configProvider oci_common.ConfigurationProvider, con
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

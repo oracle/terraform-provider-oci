@@ -85,7 +85,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
 						"domain_name":  "oracle.com",
 						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.0.1",
+						"netmask":      "255.255.192.0",
 						"network_type": "BACKUP",
 						"nodes.#":      "2",
 					},
@@ -123,7 +123,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
 						"domain_name":  "oracle.com",
 						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.0.1",
+						"netmask":      "255.255.192.0",
 						"network_type": "BACKUP",
 						"nodes.#":      "2",
 					},
@@ -161,7 +161,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
 						"domain_name":  "oracle.com",
 						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.0.1",
+						"netmask":      "255.255.192.0",
 						"network_type": "BACKUP",
 						"nodes.#":      "2",
 					},

@@ -118,7 +118,7 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
   vm_networks {
     domain_name  = "oracle.com"
     gateway      = "192.169.20.2"
-    netmask      = "255.255.0.1"
+    netmask      = "255.255.192.0"
     network_type = "BACKUP"
 
     nodes {
@@ -137,7 +137,7 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
   vm_networks {
     domain_name  = "oracle.com"
     gateway      = "192.168.20.2"
-    netmask      = "255.255.0.1"
+    netmask      = "255.255.192.0"
     network_type = "CLIENT"
 
     nodes {

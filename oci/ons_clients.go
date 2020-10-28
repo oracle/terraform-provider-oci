@@ -14,7 +14,7 @@ func init() {
 	RegisterOracleClient("oci_ons.NotificationDataPlaneClient", &OracleClient{initClientFn: initOnsNotificationDataPlaneClient})
 }
 
-func initOnsNotificationControlPlaneClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initOnsNotificationControlPlaneClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_ons.NewNotificationControlPlaneClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -23,6 +23,10 @@ func initOnsNotificationControlPlaneClient(configProvider oci_common.Configurati
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -30,7 +34,7 @@ func (m *OracleClients) notificationControlPlaneClient() *oci_ons.NotificationCo
 	return m.GetClient("oci_ons.NotificationControlPlaneClient").(*oci_ons.NotificationControlPlaneClient)
 }
 
-func initOnsNotificationDataPlaneClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initOnsNotificationDataPlaneClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_ons.NewNotificationDataPlaneClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -38,6 +42,10 @@ func initOnsNotificationDataPlaneClient(configProvider oci_common.ConfigurationP
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

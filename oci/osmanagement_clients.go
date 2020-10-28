@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_osmanagement.OsManagementClient", &OracleClient{initClientFn: initOsmanagementOsManagementClient})
 }
 
-func initOsmanagementOsManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initOsmanagementOsManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_osmanagement.NewOsManagementClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initOsmanagementOsManagementClient(configProvider oci_common.ConfigurationP
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

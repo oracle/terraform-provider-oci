@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_dataintegration.DataIntegrationClient", &OracleClient{initClientFn: initDataintegrationDataIntegrationClient})
 }
 
-func initDataintegrationDataIntegrationClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initDataintegrationDataIntegrationClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_dataintegration.NewDataIntegrationClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initDataintegrationDataIntegrationClient(configProvider oci_common.Configur
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

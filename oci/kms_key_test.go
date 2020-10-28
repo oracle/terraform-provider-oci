@@ -60,9 +60,9 @@ var (
 	}
 
 	kmsVaultId            = getEnvSettingWithBlankDefault("kms_vault_ocid")
-	kmsVaultIdVariableStr = fmt.Sprintf("variable \"kms_vault_id\" { default = \"%s\" }\n", kmsVaultId)
+	KmsVaultIdVariableStr = fmt.Sprintf("variable \"kms_vault_id\" { default = \"%s\" }\n", kmsVaultId)
 
-	KeyResourceDependencies = kmsVaultIdVariableStr + `
+	KeyResourceDependencies = KmsVaultIdVariableStr + `
 	data "oci_kms_vault" "test_vault" {
 		#Required
 		vault_id = "${var.kms_vault_id}"

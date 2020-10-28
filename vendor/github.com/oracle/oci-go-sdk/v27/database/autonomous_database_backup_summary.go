@@ -53,6 +53,12 @@ type AutonomousDatabaseBackupSummary struct {
 
 	// Indicates whether the backup can be used to restore the associated Autonomous Database.
 	IsRestorable *bool `mandatory:"false" json:"isRestorable"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store.
+	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
+
+	// The wallet name for Oracle Key Vault.
+	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 }
 
 func (m AutonomousDatabaseBackupSummary) String() string {

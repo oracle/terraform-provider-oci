@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_health_checks.HealthChecksClient", &OracleClient{initClientFn: initHealthchecksHealthChecksClient})
 }
 
-func initHealthchecksHealthChecksClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initHealthchecksHealthChecksClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_health_checks.NewHealthChecksClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initHealthchecksHealthChecksClient(configProvider oci_common.ConfigurationP
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }
