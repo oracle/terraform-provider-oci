@@ -187,6 +187,7 @@ func testParentResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 
 			// Optional
@@ -508,6 +509,7 @@ func testChildResourceWith404Error() *schema.Resource {
 	childResourceSchema["parent_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
+		ForceNew: true,
 	}
 
 	// Don't have a display_name attribute so a different name can be generated
