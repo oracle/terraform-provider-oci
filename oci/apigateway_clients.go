@@ -15,7 +15,7 @@ func init() {
 	RegisterOracleClient("oci_apigateway.GatewayClient", &OracleClient{initClientFn: initApigatewayGatewayClient})
 }
 
-func initApigatewayApiGatewayClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initApigatewayApiGatewayClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_apigateway.NewApiGatewayClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -24,6 +24,10 @@ func initApigatewayApiGatewayClient(configProvider oci_common.ConfigurationProvi
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -31,7 +35,7 @@ func (m *OracleClients) apiGatewayClient() *oci_apigateway.ApiGatewayClient {
 	return m.GetClient("oci_apigateway.ApiGatewayClient").(*oci_apigateway.ApiGatewayClient)
 }
 
-func initApigatewayDeploymentClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initApigatewayDeploymentClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_apigateway.NewDeploymentClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -40,6 +44,10 @@ func initApigatewayDeploymentClient(configProvider oci_common.ConfigurationProvi
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -47,7 +55,7 @@ func (m *OracleClients) deploymentClient() *oci_apigateway.DeploymentClient {
 	return m.GetClient("oci_apigateway.DeploymentClient").(*oci_apigateway.DeploymentClient)
 }
 
-func initApigatewayGatewayClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initApigatewayGatewayClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_apigateway.NewGatewayClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -55,6 +63,10 @@ func initApigatewayGatewayClient(configProvider oci_common.ConfigurationProvider
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

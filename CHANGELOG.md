@@ -1,3 +1,13 @@
+## 4.1.0 (Unreleased)
+
+### Added
+- Support for reading OBO token from local file
+- Support for Oracle Key Vault with ExaCC
+
+### Fixed
+- Fix an issue where identity user resource panics if an invalid API key configuration is given
+- Allow `~` home directories to be specified in private_key_path of provider oci blocks 
+
 ## 4.0.0 (October 21, 2020)
 
 ### Added

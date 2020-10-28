@@ -13,7 +13,7 @@ func init() {
 	RegisterOracleClient("oci_auto_scaling.AutoScalingClient", &OracleClient{initClientFn: initAutoscalingAutoScalingClient})
 }
 
-func initAutoscalingAutoScalingClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initAutoscalingAutoScalingClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,10 @@ func initAutoscalingAutoScalingClient(configProvider oci_common.ConfigurationPro
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

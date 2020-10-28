@@ -39,6 +39,8 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 * `is_automatic` - Indicates whether the backup is user-initiated or automatic.
 * `is_restorable` - Indicates whether the backup can be used to restore the associated Autonomous Database.
+* `key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store.
+* `key_store_wallet_name` - The wallet name for Oracle Key Vault.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current state of the backup.
 * `time_ended` - The date and time the backup completed.

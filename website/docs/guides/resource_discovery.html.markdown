@@ -354,6 +354,7 @@ database
 * oci\_database\_database\_software\_image
 * oci\_database\_cloud\_exadata\_infrastructure
 * oci\_database\_cloud\_vm\_cluster
+* oci\_database\_key\_store
 
 datacatalog
     

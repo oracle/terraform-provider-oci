@@ -15,7 +15,7 @@ func init() {
 	RegisterOracleClient("oci_kms.KmsVaultClient", &OracleClient{initClientFn: initKeymanagementKmsVaultClient})
 }
 
-func initKeymanagementKmsCryptoClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initKeymanagementKmsCryptoClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(configProvider, "DUMMY_ENDPOINT")
 	if err != nil {
 		return nil, err
@@ -24,6 +24,10 @@ func initKeymanagementKmsCryptoClient(configProvider oci_common.ConfigurationPro
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -31,7 +35,7 @@ func (m *OracleClients) kmsCryptoClient() *oci_kms.KmsCryptoClient {
 	return m.GetClient("oci_kms.KmsCryptoClient").(*oci_kms.KmsCryptoClient)
 }
 
-func initKeymanagementKmsManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initKeymanagementKmsManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(configProvider, "DUMMY_ENDPOINT")
 	if err != nil {
 		return nil, err
@@ -40,6 +44,10 @@ func initKeymanagementKmsManagementClient(configProvider oci_common.Configuratio
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -47,7 +55,7 @@ func (m *OracleClients) kmsManagementClient() *oci_kms.KmsManagementClient {
 	return m.GetClient("oci_kms.KmsManagementClient").(*oci_kms.KmsManagementClient)
 }
 
-func initKeymanagementKmsVaultClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initKeymanagementKmsVaultClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_kms.NewKmsVaultClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -55,6 +63,10 @@ func initKeymanagementKmsVaultClient(configProvider oci_common.ConfigurationProv
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

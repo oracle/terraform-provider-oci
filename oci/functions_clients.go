@@ -14,7 +14,7 @@ func init() {
 	RegisterOracleClient("oci_functions.FunctionsManagementClient", &OracleClient{initClientFn: initFunctionsFunctionsManagementClient})
 }
 
-func initFunctionsFunctionsInvokeClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initFunctionsFunctionsInvokeClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(configProvider, "DUMMY_ENDPOINT")
 	if err != nil {
 		return nil, err
@@ -23,6 +23,10 @@ func initFunctionsFunctionsInvokeClient(configProvider oci_common.ConfigurationP
 	if err != nil {
 		return nil, err
 	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
 	return &client, nil
 }
 
@@ -30,7 +34,7 @@ func (m *OracleClients) functionsInvokeClient() *oci_functions.FunctionsInvokeCl
 	return m.GetClient("oci_functions.FunctionsInvokeClient").(*oci_functions.FunctionsInvokeClient)
 }
 
-func initFunctionsFunctionsManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (interface{}, error) {
+func initFunctionsFunctionsManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_functions.NewFunctionsManagementClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -38,6 +42,10 @@ func initFunctionsFunctionsManagementClient(configProvider oci_common.Configurat
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
 }

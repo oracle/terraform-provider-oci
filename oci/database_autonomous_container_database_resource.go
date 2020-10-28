@@ -138,6 +138,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"key_store_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -274,6 +280,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"db_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"key_store_wallet_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -538,6 +548,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
+		tmp := keyStoreId.(string)
+		request.KeyStoreId = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -742,6 +757,14 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
+
+	if s.Res.KeyStoreId != nil {
+		s.D.Set("key_store_id", *s.Res.KeyStoreId)
+	}
+
+	if s.Res.KeyStoreWalletName != nil {
+		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
+	}
 
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
