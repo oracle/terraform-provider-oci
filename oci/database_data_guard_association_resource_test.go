@@ -716,7 +716,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 	}
 `
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_id")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_data_guard_association.test_exadata_data_guard_association"
