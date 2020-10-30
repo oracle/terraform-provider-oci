@@ -105,27 +105,27 @@ func (s *OptimizerEnrollmentStatusResourceCrud) ID() string {
 
 func (s *OptimizerEnrollmentStatusResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_optimizer.ListEnrollmentStatusesLifecycleStateAttaching),
-		string(oci_optimizer.ListEnrollmentStatusesLifecycleStateCreating),
+		string(oci_optimizer.LifecycleStateAttaching),
+		string(oci_optimizer.LifecycleStateCreating),
 	}
 }
 
 func (s *OptimizerEnrollmentStatusResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_optimizer.ListEnrollmentStatusesLifecycleStateActive),
+		string(oci_optimizer.LifecycleStateActive),
 	}
 }
 
 func (s *OptimizerEnrollmentStatusResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_optimizer.ListEnrollmentStatusesLifecycleStateDetaching),
-		string(oci_optimizer.ListEnrollmentStatusesLifecycleStateDeleting),
+		string(oci_optimizer.LifecycleStateDetaching),
+		string(oci_optimizer.LifecycleStateDeleting),
 	}
 }
 
 func (s *OptimizerEnrollmentStatusResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_optimizer.ListEnrollmentStatusesLifecycleStateDeleted),
+		string(oci_optimizer.LifecycleStateDeleted),
 	}
 }
 
