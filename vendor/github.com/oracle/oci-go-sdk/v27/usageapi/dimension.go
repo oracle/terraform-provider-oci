@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// A description of the UsageApi API.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console.
 //
 
 package usageapi
@@ -13,15 +13,15 @@ import (
 	"github.com/oracle/oci-go-sdk/v27/common"
 )
 
-// Dimension The dimension use for filtering.
+// Dimension The dimension used for filtering. availabe dimension are "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"
 // example:
 // `[{value: "COMPUTE", key: "service"}]`
 type Dimension struct {
 
-	// The key of the dimension.
+	// The dimension key.
 	Key *string `mandatory:"true" json:"key"`
 
-	// The value of the dimension.
+	// The dimension value.
 	Value *string `mandatory:"true" json:"value"`
 }
 

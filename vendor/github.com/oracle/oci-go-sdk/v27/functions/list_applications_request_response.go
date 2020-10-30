@@ -33,7 +33,7 @@ type ListApplicationsRequest struct {
 	// A filter to return only applications with display names that match the display name string. Matching is exact.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only applications with the specfied OCID.
+	// A filter to return only applications with the specified OCID.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// Specifies sort order.

@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// A description of the UsageApi API.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console.
 //
 
 package usageapi
@@ -16,7 +16,7 @@ import (
 // Filter The filter object for query usage.
 type Filter struct {
 
-	// The operator of the filter. Example: 'AND', 'OR', 'NOT'.
+	// The filter operator. Example: 'AND', 'OR', 'NOT'.
 	Operator FilterOperatorEnum `mandatory:"false" json:"operator,omitempty"`
 
 	// The dimensions to filter on.
