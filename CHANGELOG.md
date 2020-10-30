@@ -1,9 +1,11 @@
-## 4.1.0 (Unreleased)
+## 4.2.0 (Unreleased)
 
 ### Added
 - Support for `syslog_url` in `oci_functions_application` resource
-- Support for OCI optimizer service
+- Support for OCI Optimizer service
 - Support for metering subscription sharing
+- Support for Free Tier in NoSQL Database Cloud Service
+- Support for lifecycle policy for object versions
 
 ## 4.1.0 (October 28, 2020)
 
