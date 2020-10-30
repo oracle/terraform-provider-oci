@@ -186,27 +186,27 @@ func (s *OptimizerRecommendationResourceCrud) ID() string {
 
 func (s *OptimizerRecommendationResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_optimizer.ListRecommendationsLifecycleStateAttaching),
-		string(oci_optimizer.ListRecommendationsLifecycleStateCreating),
+		string(oci_optimizer.LifecycleStateAttaching),
+		string(oci_optimizer.LifecycleStateCreating),
 	}
 }
 
 func (s *OptimizerRecommendationResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_optimizer.ListRecommendationsLifecycleStateActive),
+		string(oci_optimizer.LifecycleStateActive),
 	}
 }
 
 func (s *OptimizerRecommendationResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_optimizer.ListRecommendationsLifecycleStateDetaching),
-		string(oci_optimizer.ListRecommendationsLifecycleStateDeleting),
+		string(oci_optimizer.LifecycleStateDetaching),
+		string(oci_optimizer.LifecycleStateDeleting),
 	}
 }
 
 func (s *OptimizerRecommendationResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_optimizer.ListRecommendationsLifecycleStateDeleted),
+		string(oci_optimizer.LifecycleStateDeleted),
 	}
 }
 

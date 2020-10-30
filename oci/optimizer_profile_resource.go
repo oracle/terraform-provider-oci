@@ -160,27 +160,27 @@ func (s *OptimizerProfileResourceCrud) ID() string {
 
 func (s *OptimizerProfileResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_optimizer.ListProfilesLifecycleStateAttaching),
-		string(oci_optimizer.ListProfilesLifecycleStateCreating),
+		string(oci_optimizer.LifecycleStateAttaching),
+		string(oci_optimizer.LifecycleStateCreating),
 	}
 }
 
 func (s *OptimizerProfileResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_optimizer.ListProfilesLifecycleStateActive),
+		string(oci_optimizer.LifecycleStateActive),
 	}
 }
 
 func (s *OptimizerProfileResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_optimizer.ListProfilesLifecycleStateDetaching),
-		string(oci_optimizer.ListProfilesLifecycleStateDeleting),
+		string(oci_optimizer.LifecycleStateDetaching),
+		string(oci_optimizer.LifecycleStateDeleting),
 	}
 }
 
 func (s *OptimizerProfileResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_optimizer.ListProfilesLifecycleStateDeleted),
+		string(oci_optimizer.LifecycleStateDeleted),
 	}
 }
 
