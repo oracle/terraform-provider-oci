@@ -108,6 +108,7 @@ const (
 	ListIndexesLifecycleStateDeleting ListIndexesLifecycleStateEnum = "DELETING"
 	ListIndexesLifecycleStateDeleted  ListIndexesLifecycleStateEnum = "DELETED"
 	ListIndexesLifecycleStateFailed   ListIndexesLifecycleStateEnum = "FAILED"
+	ListIndexesLifecycleStateInactive ListIndexesLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingListIndexesLifecycleState = map[string]ListIndexesLifecycleStateEnum{
@@ -118,6 +119,7 @@ var mappingListIndexesLifecycleState = map[string]ListIndexesLifecycleStateEnum{
 	"DELETING": ListIndexesLifecycleStateDeleting,
 	"DELETED":  ListIndexesLifecycleStateDeleted,
 	"FAILED":   ListIndexesLifecycleStateFailed,
+	"INACTIVE": ListIndexesLifecycleStateInactive,
 }
 
 // GetListIndexesLifecycleStateEnumValues Enumerates the set of values for ListIndexesLifecycleStateEnum

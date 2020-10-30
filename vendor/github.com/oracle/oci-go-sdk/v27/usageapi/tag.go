@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// A description of the UsageApi API.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console.
 //
 
 package usageapi
@@ -13,16 +13,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v27/common"
 )
 
-// Tag The tag use for filtering.
+// Tag The tag used for filtering.
 type Tag struct {
 
 	// The tag namespace.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
-	// The key of the tag.
+	// The tag key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The value of the tag.
+	// The tag value.
 	Value *string `mandatory:"false" json:"value"`
 }
 
