@@ -103,6 +103,9 @@ var (
 		"network_type":                        Representation{repType: Optional, create: `PARAVIRTUALIZED`},
 		"remote_data_volume_type":             Representation{repType: Optional, create: `PARAVIRTUALIZED`},
 	}
+	instanceLaunchOptionsRepresentationForInstanceConfiguration = map[string]interface{}{
+		"network_type": Representation{repType: Optional, create: `PARAVIRTUALIZED`},
+	}
 	instanceSourceDetailsRepresentation = map[string]interface{}{
 		"source_id":               Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
 		"source_type":             Representation{repType: Required, create: `image`},

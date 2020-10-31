@@ -271,7 +271,7 @@ func (s *ResourceAutoScalingConfigurationTestSuite) TestAccResourceAutoScalingCo
 }
 
 func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testing.T) {
-	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_basic")
+	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_scheduledExecution")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
