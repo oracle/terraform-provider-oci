@@ -663,6 +663,16 @@ var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	},
 }
 
+var exportDataSafeOnPremConnectorHints = &TerraformResourceHints{
+	resourceClass:        "oci_data_safe_on_prem_connector",
+	datasourceClass:      "oci_data_safe_on_prem_connectors",
+	datasourceItemsAttr:  "on_prem_connectors",
+	resourceAbbreviation: "on_prem_connector",
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.OnPremConnectorLifecycleStateActive),
+	},
+}
+
 var exportDatabaseAutonomousContainerDatabaseHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_autonomous_container_database",
 	datasourceClass:      "oci_database_autonomous_container_databases",

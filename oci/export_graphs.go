@@ -295,6 +295,7 @@ var coreResourceGraph = TerraformResourceGraph{
 var dataSafeResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
+		{TerraformResourceHints: exportDataSafeOnPremConnectorHints},
 	},
 }
 

@@ -33,7 +33,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"foo-namespace.bar-key": "value"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the private endpoint.
 * `display_name` - The display name of the private endpoint.
 * `endpoint_fqdn` - The three-label fully qualified domain name (FQDN) of the private endpoint. The customer VCN's DNS records are updated with this FQDN.
@@ -44,6 +44,6 @@ The following attributes are exported:
 * `private_endpoint_ip` - The private IP address of the private endpoint. 
 * `state` - The current state of the private endpoint.
 * `subnet_id` - The OCID of the subnet.
-* `time_created` - The date and time the private endpoint was created, in the format defined by RFC3339.
+* `time_created` - The date and time the private endpoint was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `vcn_id` - The OCID of the VCN.
 

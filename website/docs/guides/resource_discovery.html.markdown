@@ -347,6 +347,7 @@ core
 data_safe
     
 * oci\_data\_safe\_data\_safe\_private\_endpoint
+* oci\_data\_safe\_on\_prem\_connector
 
 database
     
