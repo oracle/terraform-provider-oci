@@ -1,4 +1,3 @@
-
 ---
 subcategory: "Load Balancer"
 layout: "oci"
