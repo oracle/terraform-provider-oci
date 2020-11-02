@@ -30,15 +30,14 @@ func DataSafeDataSafeConfigurationResource() *schema.Resource {
 		Delete:   deleteDataSafeDataSafeConfiguration,
 		Schema: map[string]*schema.Schema{
 			// Required
+			"is_enabled": {
+				Type:     schema.TypeBool,
+				Required: true,
+			},
 
 			// Optional
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"is_enabled": {
-				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 			},

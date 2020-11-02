@@ -5,6 +5,7 @@
 - Support for MySQL `db_system_snapshot` added
 - Support for Blockchain Platforms API updates
 - Support for MySQL Inbound Replication
+- Data Safe support for On-Premise Oracle Databases
 
 ## 4.4.0 (November 18, 2020)
 

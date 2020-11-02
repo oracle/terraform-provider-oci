@@ -31,7 +31,7 @@ var (
 	}
 
 	dataSafePrivateEndpointDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},

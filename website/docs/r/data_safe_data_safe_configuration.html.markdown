@@ -17,10 +17,11 @@ Enables Data Safe in the tenancy and region.
 
 ```hcl
 resource "oci_data_safe_data_safe_configuration" "test_data_safe_configuration" {
+	#Required
+	is_enabled = var.data_safe_configuration_is_enabled
 
 	#Optional
 	compartment_id = var.compartment_id
-	is_enabled = var.data_safe_configuration_is_enabled
 }
 ```
 
@@ -29,7 +30,7 @@ resource "oci_data_safe_data_safe_configuration" "test_data_safe_configuration" 
 The following arguments are supported:
 
 * `compartment_id` - (Optional) (Updatable) A filter to return only resources that match the specified compartment OCID.
-* `is_enabled` - (Optional) (Updatable) Indicates if Data Safe is enabled.
+* `is_enabled` - (Required) (Updatable) Indicates if Data Safe is enabled.
 
 
 ** IMPORTANT **
@@ -40,9 +41,11 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the tenancy used to enable Data Safe.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `is_enabled` - Indicates if Data Safe is enabled.
-* `state` - The current state of Data Safe configuration.
-* `time_enabled` - The specific time when Data Safe configuration was enabled.
+* `state` - The current state of Data Safe.
+* `time_enabled` - The date and time Data Safe was enabled, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `url` - The URL of the Data Safe service.
 
 ## Import
