@@ -6,6 +6,7 @@
 - Support for Blockchain Platforms API updates
 - Support for MySQL Inbound Replication
 - Data Safe support for On-Premise Oracle Databases
+- Support for VM DB Upgrade
 
 ## 4.4.0 (November 18, 2020)
 

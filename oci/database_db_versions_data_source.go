@@ -31,6 +31,10 @@ func DatabaseDbVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_upgrade_supported": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"storage_management": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -50,6 +54,10 @@ func DatabaseDbVersionsDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"is_preview_db_version": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_upgrade_supported": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -104,6 +112,11 @@ func (s *DatabaseDbVersionsDataSourceCrud) Get() error {
 		request.DbSystemShape = &tmp
 	}
 
+	if isUpgradeSupported, ok := s.D.GetOkExists("is_upgrade_supported"); ok {
+		tmp := isUpgradeSupported.(bool)
+		request.IsUpgradeSupported = &tmp
+	}
+
 	if storageManagement, ok := s.D.GetOkExists("storage_management"); ok {
 		request.StorageManagement = oci_database.DbSystemOptionsStorageManagementEnum(storageManagement.(string))
 	}
@@ -148,6 +161,10 @@ func (s *DatabaseDbVersionsDataSourceCrud) SetData() error {
 
 		if r.IsPreviewDbVersion != nil {
 			dbVersion["is_preview_db_version"] = *r.IsPreviewDbVersion
+		}
+
+		if r.IsUpgradeSupported != nil {
+			dbVersion["is_upgrade_supported"] = *r.IsUpgradeSupported
 		}
 
 		if r.SupportsPdb != nil {

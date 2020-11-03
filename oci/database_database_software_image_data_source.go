@@ -97,6 +97,10 @@ func (s *DatabaseDatabaseSoftwareImageDataSourceCrud) SetData() error {
 		s.D.Set("included_patches_summary", *s.Res.IncludedPatchesSummary)
 	}
 
+	if s.Res.IsUpgradeSupported != nil {
+		s.D.Set("is_upgrade_supported", *s.Res.IsUpgradeSupported)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
