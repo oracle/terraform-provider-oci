@@ -87,6 +87,10 @@ func (s *FunctionsApplicationDataSourceCrud) SetData() error {
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)
 
+	if s.Res.SyslogUrl != nil {
+		s.D.Set("syslog_url", *s.Res.SyslogUrl)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

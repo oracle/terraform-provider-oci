@@ -32,7 +32,7 @@ var (
 
 	applicationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`},
+		"display_name":   Representation{repType: Optional, create: `ExampleApplication`},
 		"id":             Representation{repType: Optional, create: `${oci_functions_application.test_application.id}`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, applicationDataSourceFilterRepresentation}}
@@ -43,11 +43,12 @@ var (
 
 	applicationRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`},
+		"display_name":   Representation{repType: Required, create: `ExampleApplication`},
 		"subnet_ids":     Representation{repType: Required, create: []string{`${oci_core_subnet.test_subnet.id}`}},
 		"config":         Representation{repType: Optional, create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"syslog_url":     Representation{repType: Optional, create: `tcp://syslog.test:80`, update: `tcp://syslog2.test:80`},
 	}
 
 	ApplicationResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
@@ -87,7 +88,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleApplication"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 
 					func(s *terraform.State) (err error) {
@@ -109,9 +110,11 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleApplication"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -136,9 +139,11 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleApplication"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -158,9 +163,11 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleApplication"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog2.test:80"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -179,14 +186,14 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "ExampleApplication"),
 					//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "applications.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "applications.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.display_name", "displayName"),
+					resource.TestCheckResourceAttr(datasourceName, "applications.0.display_name", "ExampleApplication"),
 					resource.TestCheckResourceAttr(datasourceName, "applications.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
@@ -206,10 +213,11 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "ExampleApplication"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "syslog_url", "tcp://syslog2.test:80"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

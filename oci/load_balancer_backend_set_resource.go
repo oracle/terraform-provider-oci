@@ -202,15 +202,10 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 						},
 
 						// Optional
-						"verify_depth": {
-							Type:     schema.TypeInt,
+						"cipher_suite_name": {
+							Type:     schema.TypeString,
 							Optional: true,
-							Default:  5,
-						},
-						"verify_peer_certificate": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Default:  true,
+							Computed: true,
 						},
 						"protocols": {
 							Type:     schema.TypeList,
@@ -220,15 +215,20 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-						"cipher_suite_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 						"server_order_preference": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"verify_depth": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Default:  5,
+						},
+						"verify_peer_certificate": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  true,
 						},
 
 						// Computed

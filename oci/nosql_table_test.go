@@ -43,12 +43,13 @@ var (
 	}
 
 	tableRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"ddl_statement":  Representation{repType: Required, create: ddlStatement},
-		"name":           Representation{repType: Required, create: `test_table`},
-		"table_limits":   RepresentationGroup{Required, tableTableLimitsRepresentation},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"ddl_statement":       Representation{repType: Required, create: ddlStatement},
+		"name":                Representation{repType: Required, create: `test_table`},
+		"table_limits":        RepresentationGroup{Required, tableTableLimitsRepresentation},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"is_auto_reclaimable": Representation{repType: Optional, create: `false`},
 	}
 	tableTableLimitsRepresentation = map[string]interface{}{
 		"max_read_units":     Representation{repType: Required, create: `10`, update: `11`},
@@ -120,6 +121,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
 					resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
@@ -151,6 +153,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
 					resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
@@ -177,6 +180,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
 					resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "11"),
@@ -220,6 +224,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_reclaimable", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_table"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "schema.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

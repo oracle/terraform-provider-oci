@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// ndcs-control-plane API
+// NoSQL Database API
 //
 // The control plane API for NoSQL Database Cloud Service HTTPS
 // provides endpoints to perform NDCS operations, including creation
@@ -21,6 +21,12 @@ type TableCollection struct {
 
 	// A page of TableSummary objects.
 	Items []TableSummary `mandatory:"false" json:"items"`
+
+	// The maximum number of reclaimable tables allowed in the tenancy.
+	MaxAutoReclaimableTables *int `mandatory:"false" json:"maxAutoReclaimableTables"`
+
+	// The current number of reclaimable tables in the tenancy.
+	AutoReclaimableTables *int `mandatory:"false" json:"autoReclaimableTables"`
 }
 
 func (m TableCollection) String() string {

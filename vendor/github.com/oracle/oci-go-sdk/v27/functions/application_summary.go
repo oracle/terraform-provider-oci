@@ -17,7 +17,7 @@ import (
 type ApplicationSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
-	Id *string `mandatory:"false" json:"id"`
+	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the compartment that contains the application.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`

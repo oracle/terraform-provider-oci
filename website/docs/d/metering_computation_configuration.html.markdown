@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_metering_computation_configuration
 This data source provides details about a specific Configuration resource in Oracle Cloud Infrastructure Metering Computation service.
 
-Returns the list of config for UI dropdown list
+Returns the configurations list for the UI drop-down list.
 
 
 ## Example Usage
@@ -33,7 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `items` - The list of available configurations
-	* `key` - The key of the config
-	* `values` - The value of the config
+* `items` - The list of available configurations.
+	* `key` - The configuration key.
+	* `values` - The configuration value.
 
