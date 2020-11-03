@@ -36,6 +36,7 @@ import (
 	oci_ocvp "github.com/oracle/oci-go-sdk/v27/ocvp"
 	oci_oda "github.com/oracle/oci-go-sdk/v27/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/v27/ons"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v27/optimizer"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/v27/osmanagement"
 	oci_sch "github.com/oracle/oci-go-sdk/v27/sch"
 	oci_streaming "github.com/oracle/oci-go-sdk/v27/streaming"
@@ -1553,6 +1554,18 @@ var exportOnsSubscriptionHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_ons.SubscriptionLifecycleStatePending),
 		string(oci_ons.SubscriptionLifecycleStateActive),
+	},
+}
+
+var exportOptimizerProfileHints = &TerraformResourceHints{
+	resourceClass:          "oci_optimizer_profile",
+	datasourceClass:        "oci_optimizer_profiles",
+	datasourceItemsAttr:    "profile_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "profile",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_optimizer.LifecycleStateActive),
 	},
 }
 

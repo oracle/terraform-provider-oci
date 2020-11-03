@@ -25,6 +25,9 @@ variable "config" {
   }
 }
 
+variable "syslog_url" {
+}
+
 ##### Docker image ######
 # To use functions as a service, you need docker images of your functions in OCI registry which can be accessed by you
 #

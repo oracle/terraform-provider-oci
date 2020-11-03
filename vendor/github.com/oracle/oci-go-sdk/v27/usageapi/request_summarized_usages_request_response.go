@@ -12,7 +12,7 @@ import (
 // RequestSummarizedUsagesRequest wrapper for the RequestSummarizedUsages operation
 type RequestSummarizedUsagesRequest struct {
 
-	// getUsageRequest contain query inforamtion
+	// getUsageRequest contains query inforamtion.
 	RequestSummarizedUsagesDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

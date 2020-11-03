@@ -1,4 +1,3 @@
-
 ---
 subcategory: "Database"
 layout: "oci"

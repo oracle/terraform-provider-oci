@@ -43,6 +43,7 @@ func LoadBalancerSslCipherSuiteResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+
 			// Optional
 			"load_balancer_id": {
 				Type:     schema.TypeString,
@@ -136,18 +137,8 @@ func (s *LoadBalancerSslCipherSuiteResourceCrud) DeletedTarget() []string {
 func (s *LoadBalancerSslCipherSuiteResourceCrud) Create() error {
 	request := oci_load_balancer.CreateSSLCipherSuiteRequest{}
 
-	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
-		tmp := loadBalancerId.(string)
-		request.LoadBalancerId = &tmp
-	}
-
-	if name, ok := s.D.GetOkExists("name"); ok {
-		tmp := name.(string)
-		request.Name = &tmp
-	}
-
-	if cipher, ok := s.D.GetOkExists("ciphers"); ok {
-		interfaces := cipher.([]interface{})
+	if ciphers, ok := s.D.GetOkExists("ciphers"); ok {
+		interfaces := ciphers.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -159,7 +150,15 @@ func (s *LoadBalancerSslCipherSuiteResourceCrud) Create() error {
 		}
 	}
 
-	log.Println("after cipher")
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
@@ -273,6 +272,8 @@ func (s *LoadBalancerSslCipherSuiteResourceCrud) SetData() error {
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
+
+	s.D.Set("ciphers", s.Res.Ciphers)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
