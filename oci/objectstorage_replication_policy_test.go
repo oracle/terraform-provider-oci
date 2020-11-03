@@ -139,11 +139,13 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"time_last_sync",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})
