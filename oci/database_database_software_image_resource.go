@@ -104,6 +104,10 @@ func DatabaseDatabaseSoftwareImageResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_upgrade_supported": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -363,6 +367,10 @@ func (s *DatabaseDatabaseSoftwareImageResourceCrud) SetData() error {
 
 	if s.Res.IncludedPatchesSummary != nil {
 		s.D.Set("included_patches_summary", *s.Res.IncludedPatchesSummary)
+	}
+
+	if s.Res.IsUpgradeSupported != nil {
+		s.D.Set("is_upgrade_supported", *s.Res.IsUpgradeSupported)
 	}
 
 	if s.Res.LifecycleDetails != nil {

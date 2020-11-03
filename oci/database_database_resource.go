@@ -419,6 +419,7 @@ func (s *DatabaseDatabaseResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.DatabaseLifecycleStateProvisioning),
 		string(oci_database.DatabaseLifecycleStateUpdating),
+		string(oci_database.DatabaseLifecycleStateUpgrading),
 	}
 }
 

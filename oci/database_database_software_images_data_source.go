@@ -35,6 +35,10 @@ func DatabaseDatabaseSoftwareImagesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_upgrade_supported": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,6 +89,11 @@ func (s *DatabaseDatabaseSoftwareImagesDataSourceCrud) Get() error {
 
 	if imageType, ok := s.D.GetOkExists("image_type"); ok {
 		request.ImageType = oci_database.DatabaseSoftwareImageSummaryImageTypeEnum(imageType.(string))
+	}
+
+	if isUpgradeSupported, ok := s.D.GetOkExists("is_upgrade_supported"); ok {
+		tmp := isUpgradeSupported.(bool)
+		request.IsUpgradeSupported = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -155,6 +164,10 @@ func (s *DatabaseDatabaseSoftwareImagesDataSourceCrud) SetData() error {
 
 		if r.IncludedPatchesSummary != nil {
 			databaseSoftwareImage["included_patches_summary"] = *r.IncludedPatchesSummary
+		}
+
+		if r.IsUpgradeSupported != nil {
+			databaseSoftwareImage["is_upgrade_supported"] = *r.IsUpgradeSupported
 		}
 
 		if r.LifecycleDetails != nil {
