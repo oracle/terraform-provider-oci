@@ -11,6 +11,11 @@
 - Support for ExaCS - DB Software Images
 - Support for `TDE Wallet Password management` added for `database` service
 
+### Fixed
+- Fix ExaCS cloud VM cluster as source of `oci_database_db_home` resource creation. ExaCS cloud VM clusters can be specified
+as source using `vm_cluster_id` and `SOURCE=VM_CLUSTER_NEW`.
+[Github issue 1218](https://github.com/terraform-providers/terraform-provider-oci/issues/1218)
+
 ## 4.2.0 (November 04, 2020)
 
 ### Added

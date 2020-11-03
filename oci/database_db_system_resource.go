@@ -2787,25 +2787,6 @@ func waitForDbSystemIfItIsUpdating(dbSystemID *string, client *oci_database.Data
 	return &getDbSystemResponse, err
 }
 
-func waitForVmClusterIfItIsUpdating(vmClusterId *string, client *oci_database.DatabaseClient, timeout time.Duration) (*oci_database.GetVmClusterResponse, error) {
-	getVmClusterRequest := oci_database.GetVmClusterRequest{}
-
-	getVmClusterRequest.VmClusterId = vmClusterId
-
-	vmClusterUpdating := func(response oci_common.OCIOperationResponse) bool {
-		if getVmClusterResponse, ok := response.Response.(oci_database.GetVmClusterResponse); ok {
-			if getVmClusterResponse.LifecycleState == oci_database.VmClusterLifecycleStateUpdating {
-				return true
-			}
-		}
-		return false
-	}
-
-	getVmClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicyWithAdditionalRetryCondition(timeout, vmClusterUpdating, "database")
-	getVmClusterResponse, err := client.GetVmCluster(context.Background(), getVmClusterRequest)
-	return &getVmClusterResponse, err
-}
-
 func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 	err := s.getDbHomeInfo()
 	if err != nil {

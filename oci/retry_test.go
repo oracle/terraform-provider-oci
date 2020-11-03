@@ -313,3 +313,63 @@ func TestUnitRetryObjectStorage(t *testing.T) {
 	}
 	retryLoop(t, &r)
 }
+
+func TestUnitRetryDbHomeWith404Error(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	shortRetryTime = 15 * time.Second
+	longRetryTime = 30 * time.Second
+	configuredRetryDuration = nil
+
+	r := retryTestInput{
+		serviceName:              databaseService,
+		httpResponseStatusCode:   404,
+		header:                   map[string][]string{},
+		responseError:            fmt.Errorf("NotAuthorizedOrNotFound"),
+		expectedRetryTimeSeconds: 15,
+		jitterMode:               true,
+		optionals:                []interface{}{getDbHomeRetryDurationFunction(20 * time.Second)},
+	}
+	retryLoop(t, &r)
+}
+
+func TestUnitRetryDbHomeWithConflictingStateError(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	shortRetryTime = 15 * time.Second
+	longRetryTime = 30 * time.Second
+	configuredRetryDuration = nil
+
+	r := retryTestInput{
+		serviceName:              databaseService,
+		httpResponseStatusCode:   409,
+		header:                   map[string][]string{},
+		responseError:            fmt.Errorf("The existing Db System with ID blahblahblah has a conflicting state of UPDATING."),
+		expectedRetryTimeSeconds: 20,
+		jitterMode:               true,
+		optionals:                []interface{}{getDbHomeRetryDurationFunction(20 * time.Second)},
+	}
+	retryLoop(t, &r)
+}
+
+func TestUnitRetryDbHomeWithInvalidatedRetryTokenError(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	shortRetryTime = 15 * time.Second
+	longRetryTime = 30 * time.Second
+	configuredRetryDuration = nil
+
+	r := retryTestInput{
+		serviceName:              databaseService,
+		httpResponseStatusCode:   409,
+		header:                   map[string][]string{},
+		responseError:            fmt.Errorf("InvalidatedRetryToken"),
+		expectedRetryTimeSeconds: 0,
+		jitterMode:               true,
+		optionals:                []interface{}{getDbHomeRetryDurationFunction(20 * time.Second)},
+	}
+	retryLoop(t, &r)
+}
