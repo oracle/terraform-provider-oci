@@ -23,6 +23,14 @@ func IdentityIdentityProviderGroupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"identity_provider_groups": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -92,6 +100,15 @@ func (s *IdentityIdentityProviderGroupsDataSourceCrud) Get() error {
 	if identityProviderId, ok := s.D.GetOkExists("identity_provider_id"); ok {
 		tmp := identityProviderId.(string)
 		request.IdentityProviderId = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_identity.IdentityProviderLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")

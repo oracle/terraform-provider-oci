@@ -23,6 +23,10 @@ data "oci_identity_identity_providers" "test_identity_providers" {
 	#Required
 	compartment_id = var.tenancy_ocid
 	protocol = var.identity_provider_protocol
+
+	#Optional
+	name = var.identity_provider_name
+	state = var.identity_provider_state
 }
 ```
 
@@ -31,7 +35,9 @@ data "oci_identity_identity_providers" "test_identity_providers" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
+* `name` - (Optional) A filter to only return resources that match the given name exactly. 
 * `protocol` - (Required) The protocol used for federation.
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 
 
 ## Attributes Reference

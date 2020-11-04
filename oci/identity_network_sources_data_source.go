@@ -23,6 +23,14 @@ func IdentityNetworkSourcesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"network_sources": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -56,6 +64,15 @@ func (s *IdentityNetworkSourcesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_identity.NetworkSourcesLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")

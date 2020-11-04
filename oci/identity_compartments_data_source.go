@@ -32,6 +32,14 @@ func IdentityCompartmentsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartments": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -74,6 +82,15 @@ func (s *IdentityCompartmentsDataSourceCrud) Get() error {
 	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
 		tmp := compartmentIdInSubtree.(bool)
 		request.CompartmentIdInSubtree = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_identity.CompartmentLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")

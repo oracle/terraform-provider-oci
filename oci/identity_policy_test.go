@@ -23,6 +23,8 @@ var (
 
 	policyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"name":           Representation{repType: Optional, create: `LaunchInstances`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, policyDataSourceFilterRepresentation}}
 	policyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -147,6 +149,8 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(datasourceName, "name", "LaunchInstances"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "policies.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "policies.0.compartment_id", tenancyId),

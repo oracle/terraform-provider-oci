@@ -25,9 +25,17 @@ func IdentityIdentityProvidersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"protocol": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"identity_providers": {
 				Type:     schema.TypeList,
@@ -64,8 +72,17 @@ func (s *IdentityIdentityProvidersDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
 		request.Protocol = oci_identity.ListIdentityProvidersProtocolEnum(protocol.(string))
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_identity.IdentityProviderLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")

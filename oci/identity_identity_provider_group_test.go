@@ -16,6 +16,8 @@ import (
 var (
 	identityProviderGroupDataSourceRepresentation = map[string]interface{}{
 		"identity_provider_id": Representation{repType: Required, create: `${oci_identity_identity_provider.test_identity_provider.id}`},
+		"name":                 Representation{repType: Optional, create: `name`},
+		"state":                Representation{repType: Optional, create: `ACTIVE`},
 	}
 
 	IdentityProviderGroupResourceConfig = generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation) +
@@ -55,6 +57,8 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 					compartmentIdVariableStr + IdentityProviderGroupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
+					resource.TestCheckResourceAttr(datasourceName, "name", "name"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_groups.#"),
 				),
