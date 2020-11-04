@@ -42,9 +42,9 @@ var (
 	ZeroTime        time.Duration = 0
 
 	DefaultTimeout = &schema.ResourceTimeout{
-		Create: &FifteenMinutes,
-		Update: &FifteenMinutes,
-		Delete: &FifteenMinutes,
+		Create: &TwentyMinutes,
+		Update: &TwentyMinutes,
+		Delete: &TwentyMinutes,
 	}
 )
 
