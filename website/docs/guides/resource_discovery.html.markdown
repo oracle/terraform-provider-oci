@@ -334,6 +334,7 @@ core
 * oci\_core\_volume\_group
 * oci\_core\_volume\_group\_backup
 * oci\_core\_volume
+* oci\_core\_public\_ip\_pool
 
 data_safe
     

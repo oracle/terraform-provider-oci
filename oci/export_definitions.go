@@ -640,6 +640,18 @@ var exportCoreVolumeHints = &TerraformResourceHints{
 	},
 }
 
+var exportCorePublicIpPoolHints = &TerraformResourceHints{
+	resourceClass:          "oci_core_public_ip_pool",
+	datasourceClass:        "oci_core_public_ip_pools",
+	datasourceItemsAttr:    "public_ip_pool_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "public_ip_pool",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_core.PublicIpPoolLifecycleStateActive),
+	},
+}
+
 var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	resourceClass:          "oci_data_safe_data_safe_private_endpoint",
 	datasourceClass:        "oci_data_safe_data_safe_private_endpoints",
