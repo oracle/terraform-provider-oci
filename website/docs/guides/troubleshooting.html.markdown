@@ -67,7 +67,13 @@ _If the Terraform CLI gives an error message like:_
 * Error: "field_name": this field cannot be set
 ```
 
-You are likely using an older version of the OCI Terraform Provider and the field you are trying to set was released in later version. The OCI Terraform Provider documentation reflects the [latest version](https://github.com/terraform-providers/terraform-provider-oci/releases).
+You are likely using an older version of the OCI Terraform Provider and the field you are trying to set was released in a later version. Use the following command to check your terraform provider version.
+
+```
+terraform -version
+```
+
+The OCI Terraform Provider documentation reflects the [latest version](https://github.com/terraform-providers/terraform-provider-oci/releases).
 
 
 ### Dial tcp i/o timeout when connecting via proxy
