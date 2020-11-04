@@ -32,6 +32,8 @@ var (
 
 	networkSourceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"name":           Representation{repType: Optional, create: `corpnet`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, networkSourceDataSourceFilterRepresentation}}
 	networkSourceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -164,6 +166,8 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(datasourceName, "name", "corpnet"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "network_sources.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.compartment_id", tenancyId),
@@ -304,6 +308,7 @@ func getNetworkSourceIds(compartment string) ([]string, error) {
 
 	listNetworkSourcesRequest := oci_identity.ListNetworkSourcesRequest{}
 	listNetworkSourcesRequest.CompartmentId = &compartmentId
+	listNetworkSourcesRequest.LifecycleState = oci_identity.NetworkSourcesLifecycleStateActive
 	listNetworkSourcesResponse, err := identityClient.ListNetworkSources(context.Background(), listNetworkSourcesRequest)
 
 	if err != nil {

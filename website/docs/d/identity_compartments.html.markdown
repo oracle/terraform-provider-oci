@@ -40,6 +40,8 @@ data "oci_identity_compartments" "test_compartments" {
 	#Optional
 	access_level = var.compartment_access_level
 	compartment_id_in_subtree = var.compartment_compartment_id_in_subtree
+	name = var.compartment_name
+	state = var.compartment_state
 }
 ```
 
@@ -52,6 +54,8 @@ The following arguments are supported:
 	When set to `ANY` permissions are not checked. 
 * `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
 * `compartment_id_in_subtree` - (Optional) Default is false. Can only be set to true when performing ListCompartments on the tenancy (root compartment). When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned depending on the the setting of `accessLevel`. 
+* `name` - (Optional) A filter to only return resources that match the given name exactly. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 
 
 ## Attributes Reference

@@ -24,6 +24,8 @@ var (
 
 	dynamicGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"name":           Representation{repType: Optional, create: `DevCompartmentDynamicGroup`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, dynamicGroupDataSourceFilterRepresentation}}
 	dynamicGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -159,6 +161,8 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 					generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(datasourceName, "name", "DevCompartmentDynamicGroup"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.compartment_id", tenancyId),
