@@ -10,6 +10,7 @@
 - Support for `Resource Discovery` added for `management_agent` service
 - Support for ExaCS - DB Software Images
 - Support for `TDE Wallet Password management` added for `database` service
+- Support `Resource Discovery` for `apigateway certificate` resource added
 
 ### Fixed
 - Fix ExaCS cloud VM cluster as source of `oci_database_db_home` resource creation. ExaCS cloud VM clusters can be specified
