@@ -8,6 +8,7 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 	"email_tenancy": emailTenancyResourceGraph,
 	"identity":      identityResourceGraph,
 	"limits":        limitsResourceGraph,
+	"optimizer":     optimizerResourceGraph,
 }
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
@@ -749,6 +750,12 @@ var onsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOnsNotificationTopicHints},
 		{TerraformResourceHints: exportOnsSubscriptionHints},
+	},
+}
+
+var optimizerResourceGraph = TerraformResourceGraph{
+	"oci_identity_tenancy": {
+		{TerraformResourceHints: exportOptimizerProfileHints},
 	},
 }
 

@@ -59,14 +59,14 @@ resource "oci_load_balancer_backend_set" "test_backend_set" {
 	}
 	ssl_configuration {
 		#Required
-		certificate_name = oci_load_balancer_certificate.test_certificate.certificate_name
+		certificate_name = oci_load_balancer_certificate.test_certificate.name
 
 		#Optional
+		cipher_suite_name = var.backend_set_ssl_configuration_cipher_suite_name
+		protocols = var.backend_set_ssl_configuration_protocols
+		server_order_preference = var.backend_set_ssl_configuration_server_order_preference
 		verify_depth = var.backend_set_ssl_configuration_verify_depth
 		verify_peer_certificate = var.backend_set_ssl_configuration_verify_peer_certificate
-		protocols = ["TLSv1.1", "TLSv1.2"]
-		cipher_suite_name = oci_load_balancer_ssl_cipher_suite.example_ssl_cipher_suite.name
-		server_order_preference = ENABLED
 	}
 }
 ```
@@ -163,12 +163,45 @@ The following arguments are supported:
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
 	* `certificate_name` - (Required) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
+	* `cipher_suite_name` - (Optional) (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
+
+		If this field is not specified, the default is `oci-default-ssl-cipher-suite-v1`.
+
+		**Notes:**
+		*  You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite. Clients cannot perform an SSL handshake if there is an incompatible configuration.
+		*  You must ensure compatibility between the ciphers configured in the cipher suite and the configured certificates. For example, RSA-based ciphers require RSA certificates and ECDSA-based ciphers require ECDSA certificates.
+		*  If the cipher configuration is not modified after load balancer creation, the `GET` operation returns `oci-default-ssl-cipher-suite-v1` as the value of this field in the SSL configuration for existing listeners that predate this feature.
+		*  If the cipher configuration was modified using Oracle operations after load balancer creation, the `GET` operation returns `oci-customized-ssl-cipher-suite` as the value of this field in the SSL configuration for existing listeners that predate this feature.
+		*  The `GET` operation returns `oci-wider-compatible-ssl-cipher-suite-v1` as the value of this field in the SSL configuration for existing backend sets that predate this feature.
+		*  If the `GET` operation on a listener returns `oci-customized-ssl-cipher-suite` as the value of this field, you must specify an appropriate predefined or custom cipher suite name when updating the resource.
+		*  The `oci-customized-ssl-cipher-suite` Oracle reserved cipher suite name is not accepted as valid input for this field.
+
+		example: `example_cipher_suite` 
+	* `protocols` - (Optional) (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
+
+		The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure connection ensures that all data passed between the client and the server is private.
+
+		The Load Balancing service supports the following protocols:
+		*  TLSv1
+		*  TLSv1.1
+		*  TLSv1.2
+
+		If this field is not specified, TLSv1.2 is the default.
+
+		**Warning:** All SSL listeners created on a given port must use the same set of SSL protocols.
+
+		**Notes:**
+		*  The handshake to establish an SSL connection fails if the client supports none of the specified protocols.
+		*  You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite.
+		*  For all existing load balancer listeners and backend sets that predate this feature, the `GET` operation displays a list of SSL protocols currently used by those resources.
+
+		example: `["TLSv1.1", "TLSv1.2"]` 
+	* `server_order_preference` - (Optional) (Updatable) When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.
+
+		**Note:** This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This field is ignored when the `SSLConfiguration` object is associated with a backend set. 
+
 	* `verify_depth` - (Optional) (Updatable) The maximum depth for peer certificate chain verification.  Example: `3` 
 	* `verify_peer_certificate` - (Optional) (Updatable) Whether the load balancer listener should verify peer certificates.  Example: `true` 
-	* `protocols` - (Optional) (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections. The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure connection ensures that all data passed between the client and the server is private. The Load Balancing service supports the following protocols:  TLSv1  TLSv1.1  TLSv1.2  If this field is not specified, TLSv1.2 is the default.  Example: `["TLSv1.1", "TLSv1.2"]`
-    * `cipher_suite_name` - (Optional) (Updatable) The name of the cipher suite to use for HTTPS or SSL connections. If this field is not specified, the default is `oci-default-ssl-cipher-suite-v1`. Example: `example_cipher_suite`
-    * `server_order_preference` - (Optional) (Updatable) When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.
-
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -275,8 +308,44 @@ The following attributes are exported:
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
 	* `certificate_name` - A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
+	* `cipher_suite_name` - The name of the cipher suite to use for HTTPS or SSL connections.
+
+		If this field is not specified, the default is `oci-default-ssl-cipher-suite-v1`.
+
+		**Notes:**
+		*  You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite. Clients cannot perform an SSL handshake if there is an incompatible configuration.
+		*  You must ensure compatibility between the ciphers configured in the cipher suite and the configured certificates. For example, RSA-based ciphers require RSA certificates and ECDSA-based ciphers require ECDSA certificates.
+		*  If the cipher configuration is not modified after load balancer creation, the `GET` operation returns `oci-default-ssl-cipher-suite-v1` as the value of this field in the SSL configuration for existing listeners that predate this feature.
+		*  If the cipher configuration was modified using Oracle operations after load balancer creation, the `GET` operation returns `oci-customized-ssl-cipher-suite` as the value of this field in the SSL configuration for existing listeners that predate this feature.
+		*  The `GET` operation returns `oci-wider-compatible-ssl-cipher-suite-v1` as the value of this field in the SSL configuration for existing backend sets that predate this feature.
+		*  If the `GET` operation on a listener returns `oci-customized-ssl-cipher-suite` as the value of this field, you must specify an appropriate predefined or custom cipher suite name when updating the resource.
+		*  The `oci-customized-ssl-cipher-suite` Oracle reserved cipher suite name is not accepted as valid input for this field.
+
+		example: `example_cipher_suite` 
+	* `protocols` - A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
+
+		The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure connection ensures that all data passed between the client and the server is private.
+
+		The Load Balancing service supports the following protocols:
+		*  TLSv1
+		*  TLSv1.1
+		*  TLSv1.2
+
+		If this field is not specified, TLSv1.2 is the default.
+
+		**Warning:** All SSL listeners created on a given port must use the same set of SSL protocols.
+
+		**Notes:**
+		*  The handshake to establish an SSL connection fails if the client supports none of the specified protocols.
+		*  You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite.
+		*  For all existing load balancer listeners and backend sets that predate this feature, the `GET` operation displays a list of SSL protocols currently used by those resources.
+
+		example: `["TLSv1.1", "TLSv1.2"]` 
+	* `server_order_preference` - When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.
+
+		**Note:** This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This field is ignored when the `SSLConfiguration` object is associated with a backend set. 
 	* `verify_depth` - The maximum depth for peer certificate chain verification.  Example: `3` 
-	* `verify_peer_certificate` - Whether the load balancer listener should verify peer certificates. Defaults to true.   Example: `true` 
+	* `verify_peer_certificate` - Whether the load balancer listener should verify peer certificates.  Example: `true` 
 
 ## Import
 

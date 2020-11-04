@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// A description of the UsageApi API.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console.
 //
 
 package usageapi
@@ -13,31 +13,37 @@ import (
 	"github.com/oracle/oci-go-sdk/v27/common"
 )
 
-// UsageSummary The result from usage store.
+// UsageSummary The usage store result.
 type UsageSummary struct {
 
-	// The start time of the usage.
+	// The usage start time.
 	TimeUsageStarted *common.SDKTime `mandatory:"true" json:"timeUsageStarted"`
 
-	// The end time of the usage.
+	// The usage end time.
 	TimeUsageEnded *common.SDKTime `mandatory:"true" json:"timeUsageEnded"`
 
-	// The OCID of the compartment.
+	// The tenancy OCID.
+	TenantId *string `mandatory:"false" json:"tenantId"`
+
+	// The tenancy name.
+	TenantName *string `mandatory:"false" json:"tenantName"`
+
+	// The compartment OCID.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The path of the compartment, starting from root.
+	// The compartment path, starting from root.
 	CompartmentPath *string `mandatory:"false" json:"compartmentPath"`
 
-	// The name of the compartment.
+	// The compartment name.
 	CompartmentName *string `mandatory:"false" json:"compartmentName"`
 
-	// The name of the service that is incurring the cost.
+	// The service name that is incurring the cost.
 	Service *string `mandatory:"false" json:"service"`
 
-	// The name of the resource that is incurring the cost.
+	// The resource name that is incurring the cost.
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
-	// The Ocid of the resource that is incurring the cost.
+	// The resource OCID that is incurring the cost.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
 	// The region of the usage.
@@ -46,25 +52,25 @@ type UsageSummary struct {
 	// The availability domain of the usage.
 	Ad *string `mandatory:"false" json:"ad"`
 
-	// The size of resource being metered.
+	// The resource size being metered.
 	Weight *float32 `mandatory:"false" json:"weight"`
 
-	// The shape of the resource.
+	// The resource shape.
 	Shape *string `mandatory:"false" json:"shape"`
 
-	// The part number of the SKU.
+	// The SKU part number.
 	SkuPartNumber *string `mandatory:"false" json:"skuPartNumber"`
 
-	// The friendly name for the SKU.
+	// The SKU friendly name.
 	SkuName *string `mandatory:"false" json:"skuName"`
 
-	// The unit of the usage.
+	// The usage unit.
 	Unit *string `mandatory:"false" json:"unit"`
 
 	// The discretionary discount applied to the SKU.
 	Discount *float32 `mandatory:"false" json:"discount"`
 
-	// The list rate for the SKU (not discount).
+	// The SKU list rate (not discount).
 	ListRate *float32 `mandatory:"false" json:"listRate"`
 
 	// Platform for the cost.
@@ -82,16 +88,16 @@ type UsageSummary struct {
 	// The price per unit.
 	UnitPrice *float32 `mandatory:"false" json:"unitPrice"`
 
-	// The currency for the price.
+	// The price currency.
 	Currency *string `mandatory:"false" json:"currency"`
 
-	// The subscription Id.
+	// The subscription ID.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
 	// The overage usage.
 	Overage *string `mandatory:"false" json:"overage"`
 
-	// For grouping, a tag definition. For filtering, a definition and key
+	// For grouping, a tag definition. For filtering, a definition and key.
 	Tags []Tag `mandatory:"false" json:"tags"`
 }
 
