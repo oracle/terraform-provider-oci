@@ -1,4 +1,4 @@
-## 4.2.0 (Unreleased)
+## 4.2.0 (November 04, 2020)
 
 ### Added
 - Support for `syslog_url` in `oci_functions_application` resource
