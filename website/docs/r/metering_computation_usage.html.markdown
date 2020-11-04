@@ -10,7 +10,7 @@ description: |-
 # oci_metering_computation_usage
 This resource provides the Usage resource in Oracle Cloud Infrastructure Metering Computation service.
 
-Returns the usage for the given account
+Returns usage for the given account.
 
 
 ## Example Usage
@@ -35,14 +35,14 @@ resource "oci_metering_computation_usage" "test_usage" {
 
 The following arguments are supported:
 
-* `compartment_depth` - (Optional) The depth level of the compartment.
+* `compartment_depth` - (Optional) The compartment depth level.
 * `filter` - (Optional) 
-* `granularity` - (Required) The granularity of the usage. HOURLY - Hourly aggregation of data DAILY - Daily aggregation of data MONTHLY - Monthly aggregation of data TOTAL - Not Supported Yet 
+* `granularity` - (Required) The usage granularity. HOURLY - Hourly data aggregation. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. TOTAL - Not yet supported. 
 * `group_by` - (Optional) Aggregate the result by. example: `["service"]` 
-* `query_type` - (Optional) The type of query of the usage. Usage - Query the usage data. Cost - Query the cost / billing data. 
-* `tenant_id` - (Required) tenant id
-* `time_usage_ended` - (Required) The end time of the usage.
-* `time_usage_started` - (Required) The start time of the usage.
+* `query_type` - (Optional) The query usage type. Usage - Query the usage data. Cost - Query the cost/billing data. 
+* `tenant_id` - (Required) Tenant ID
+* `time_usage_ended` - (Required) The usage end time.
+* `time_usage_started` - (Required) The usage start time.
 
 
 ** IMPORTANT **
@@ -55,34 +55,36 @@ The following attributes are exported:
 * `group_by` - Aggregate the result by.
 * `items` - A list of usage items.
 	* `ad` - The availability domain of the usage.
-	* `compartment_id` - The OCID of the compartment.
-	* `compartment_name` - The name of the compartment.
-	* `compartment_path` - The path of the compartment, starting from root.
+	* `compartment_id` - The compartment OCID.
+	* `compartment_name` - The compartment name.
+	* `compartment_path` - The compartment path, starting from root.
 	* `computed_amount` - The computed cost.
 	* `computed_quantity` - The usage number.
-	* `currency` - The currency for the price.
+	* `currency` - The price currency.
 	* `discount` - The discretionary discount applied to the SKU.
-	* `list_rate` - The list rate for the SKU (not discount).
+	* `list_rate` - The SKU list rate (not discount).
 	* `overage` - The overage usage.
 	* `overages_flag` - The SPM OverageFlag.
 	* `platform` - Platform for the cost.
 	* `region` - The region of the usage.
-	* `resource_id` - The Ocid of the resource that is incurring the cost.
-	* `resource_name` - The name of the resource that is incurring the cost.
-	* `service` - The name of the service that is incurring the cost.
-	* `shape` - The shape of the resource.
-	* `sku_name` - The friendly name for the SKU.
-	* `sku_part_number` - The part number of the SKU.
-	* `subscription_id` - The subscription Id.
-	* `tags` - For grouping, a tag definition. For filtering, a definition and key
-		* `key` - The key of the tag.
+	* `resource_id` - The resource OCID that is incurring the cost.
+	* `resource_name` - The resource name that is incurring the cost.
+	* `service` - The service name that is incurring the cost.
+	* `shape` - The resource shape.
+	* `sku_name` - The SKU friendly name.
+	* `sku_part_number` - The SKU part number.
+	* `subscription_id` - The subscription ID.
+	* `tags` - For grouping, a tag definition. For filtering, a definition and key.
+		* `key` - The tag key.
 		* `namespace` - The tag namespace.
-		* `value` - The value of the tag.
-	* `time_usage_ended` - The end time of the usage.
-	* `time_usage_started` - The start time of the usage.
-	* `unit` - The unit of the usage.
+		* `value` - The tag value.
+	* `tenant_id` - The tenancy OCID.
+	* `tenant_name` - The tenancy name.
+	* `time_usage_ended` - The usage end time.
+	* `time_usage_started` - The usage start time.
+	* `unit` - The usage unit.
 	* `unit_price` - The price per unit.
-	* `weight` - The size of resource being metered.
+	* `weight` - The resource size being metered.
 
 ## Import
 

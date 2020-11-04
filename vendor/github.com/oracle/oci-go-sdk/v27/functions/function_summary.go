@@ -17,7 +17,7 @@ import (
 type FunctionSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function.
-	Id *string `mandatory:"false" json:"id"`
+	Id *string `mandatory:"true" json:"id"`
 
 	// The display name of the function. The display name is unique within the application containing the function.
 	DisplayName *string `mandatory:"false" json:"displayName"`

@@ -89,6 +89,12 @@ func NosqlTableResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_auto_reclaimable": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -161,7 +167,16 @@ func NosqlTableResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_of_expiration": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -264,6 +279,11 @@ func (s *NosqlTableResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isAutoReclaimable, ok := s.D.GetOkExists("is_auto_reclaimable"); ok {
+		tmp := isAutoReclaimable.(bool)
+		request.IsAutoReclaimable = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -608,6 +628,10 @@ func (s *NosqlTableResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsAutoReclaimable != nil {
+		s.D.Set("is_auto_reclaimable", *s.Res.IsAutoReclaimable)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -628,6 +652,10 @@ func (s *NosqlTableResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TableLimits != nil {
 		s.D.Set("table_limits", []interface{}{TableLimitsToMap(s.Res.TableLimits)})
 	} else {
@@ -636,6 +664,10 @@ func (s *NosqlTableResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeOfExpiration != nil {
+		s.D.Set("time_of_expiration", s.Res.TimeOfExpiration.String())
 	}
 
 	if s.Res.TimeUpdated != nil {
@@ -733,8 +765,18 @@ func TableSummaryToMap(obj oci_nosql.TableSummary) map[string]interface{} {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsAutoReclaimable != nil {
+		result["is_auto_reclaimable"] = bool(*obj.IsAutoReclaimable)
 	}
 
 	if obj.LifecycleDetails != nil {
@@ -747,12 +789,20 @@ func TableSummaryToMap(obj oci_nosql.TableSummary) map[string]interface{} {
 
 	result["state"] = string(obj.LifecycleState)
 
+	if obj.SystemTags != nil {
+		result["system_tags"] = systemTagsToMap(obj.SystemTags)
+	}
+
 	if obj.TableLimits != nil {
 		result["table_limits"] = []interface{}{TableLimitsToMap(obj.TableLimits)}
 	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeOfExpiration != nil {
+		result["time_of_expiration"] = obj.TimeOfExpiration.String()
 	}
 
 	if obj.TimeUpdated != nil {

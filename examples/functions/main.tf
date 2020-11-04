@@ -61,7 +61,8 @@ resource "oci_functions_application" "test_application" {
   subnet_ids     = [oci_core_subnet.test_subnet.id]
 
   #Optional
-  config = var.config
+  config     = var.config
+  syslog_url = var.syslog_url
 }
 
 data "oci_functions_applications" "test_applications" {

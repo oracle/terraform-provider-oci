@@ -32,7 +32,7 @@ var (
 
 	functionDataSourceRepresentation = map[string]interface{}{
 		"application_id": Representation{repType: Required, create: `${oci_functions_application.test_application.id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`},
+		"display_name":   Representation{repType: Optional, create: `ExampleFunction`},
 		"id":             Representation{repType: Optional, create: `${oci_functions_function.test_function.id}`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, functionDataSourceFilterRepresentation}}
@@ -43,7 +43,7 @@ var (
 
 	functionRepresentation = map[string]interface{}{
 		"application_id":     Representation{repType: Required, create: `${oci_functions_application.test_application.id}`},
-		"display_name":       Representation{repType: Required, create: `displayName`},
+		"display_name":       Representation{repType: Required, create: `ExampleFunction`},
 		"image":              Representation{repType: Required, create: `${var.image}`, update: `${var.image_for_update}`},
 		"memory_in_mbs":      Representation{repType: Required, create: `128`, update: `256`},
 		"config":             Representation{repType: Optional, create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
@@ -100,7 +100,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
 					resource.TestCheckResourceAttr(resourceName, "image", image),
 					resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
 
@@ -123,8 +123,9 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "image", image),
 					resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigest),
 					resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
@@ -150,8 +151,9 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "image", imageU),
 					resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigestU),
 					resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "256"),
@@ -174,7 +176,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "ExampleFunction"),
 					//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
@@ -182,7 +184,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.application_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.compartment_id"),
 					resource.TestCheckResourceAttr(datasourceName, "functions.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.display_name", "displayName"),
+					resource.TestCheckResourceAttr(datasourceName, "functions.0.display_name", "ExampleFunction"),
 					resource.TestCheckResourceAttr(datasourceName, "functions.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "functions.0.image", imageU),
@@ -206,7 +208,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "ExampleFunction"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "image", imageU),

@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// A description of the UsageApi API.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console.
 //
 
 package usageapi
@@ -13,28 +13,28 @@ import (
 	"github.com/oracle/oci-go-sdk/v27/common"
 )
 
-// RequestSummarizedUsagesDetails details for the '/usage' query
+// RequestSummarizedUsagesDetails Details for the '/usage' query.
 type RequestSummarizedUsagesDetails struct {
 
-	// tenant id
+	// Tenant ID
 	TenantId *string `mandatory:"true" json:"tenantId"`
 
-	// The start time of the usage.
+	// The usage start time.
 	TimeUsageStarted *common.SDKTime `mandatory:"true" json:"timeUsageStarted"`
 
-	// The end time of the usage.
+	// The usage end time.
 	TimeUsageEnded *common.SDKTime `mandatory:"true" json:"timeUsageEnded"`
 
-	// The granularity of the usage.
-	// HOURLY - Hourly aggregation of data
-	// DAILY - Daily aggregation of data
-	// MONTHLY - Monthly aggregation of data
-	// TOTAL - Not Supported Yet
+	// The usage granularity.
+	// HOURLY - Hourly data aggregation.
+	// DAILY - Daily data aggregation.
+	// MONTHLY - Monthly data aggregation.
+	// TOTAL - Not yet supported.
 	Granularity RequestSummarizedUsagesDetailsGranularityEnum `mandatory:"true" json:"granularity"`
 
-	// The type of query of the usage.
+	// The query usage type.
 	// Usage - Query the usage data.
-	// Cost - Query the cost / billing data.
+	// Cost - Query the cost/billing data.
 	QueryType RequestSummarizedUsagesDetailsQueryTypeEnum `mandatory:"false" json:"queryType,omitempty"`
 
 	// Aggregate the result by.
@@ -42,7 +42,7 @@ type RequestSummarizedUsagesDetails struct {
 	//   `["service"]`
 	GroupBy []string `mandatory:"false" json:"groupBy"`
 
-	// The depth level of the compartment.
+	// The compartment depth level.
 	CompartmentDepth *float32 `mandatory:"false" json:"compartmentDepth"`
 
 	Filter *Filter `mandatory:"false" json:"filter"`
