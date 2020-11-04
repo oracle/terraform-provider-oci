@@ -94,6 +94,7 @@ var exportApigatewayCertificateHints = &TerraformResourceHints{
 	resourceClass:          "oci_apigateway_certificate",
 	datasourceClass:        "oci_apigateway_certificates",
 	datasourceItemsAttr:    "certificate_collection",
+	isDatasourceCollection: true,
 	resourceAbbreviation:   "certificate",
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
