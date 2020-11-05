@@ -28,6 +28,9 @@ type CreateSteeringPolicyRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope CreateSteeringPolicyScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -56,15 +59,18 @@ type CreateSteeringPolicyResponse struct {
 	// The SteeringPolicy instance
 	SteeringPolicy `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to
-	// contact Oracle about a particular request, please provide the request
-	// ID.
-	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
 	// The current version of the resource, ending with a
 	// representation-specific suffix. This value may be used in If-Match
 	// and If-None-Match headers for later requests of the same resource.
 	ETag *string `presentIn:"header" name:"etag"`
+
+	// The full URI of the resource related to the request.
+	Location *string `presentIn:"header" name:"location"`
+
+	// Unique Oracle-assigned identifier for the request. If you need to
+	// contact Oracle about a particular request, please provide the request
+	// ID.
+	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
 func (response CreateSteeringPolicyResponse) String() string {
@@ -74,4 +80,27 @@ func (response CreateSteeringPolicyResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response CreateSteeringPolicyResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// CreateSteeringPolicyScopeEnum Enum with underlying type: string
+type CreateSteeringPolicyScopeEnum string
+
+// Set of constants representing the allowable values for CreateSteeringPolicyScopeEnum
+const (
+	CreateSteeringPolicyScopeGlobal  CreateSteeringPolicyScopeEnum = "GLOBAL"
+	CreateSteeringPolicyScopePrivate CreateSteeringPolicyScopeEnum = "PRIVATE"
+)
+
+var mappingCreateSteeringPolicyScope = map[string]CreateSteeringPolicyScopeEnum{
+	"GLOBAL":  CreateSteeringPolicyScopeGlobal,
+	"PRIVATE": CreateSteeringPolicyScopePrivate,
+}
+
+// GetCreateSteeringPolicyScopeEnumValues Enumerates the set of values for CreateSteeringPolicyScopeEnum
+func GetCreateSteeringPolicyScopeEnumValues() []CreateSteeringPolicyScopeEnum {
+	values := make([]CreateSteeringPolicyScopeEnum, 0)
+	for _, v := range mappingCreateSteeringPolicyScope {
+		values = append(values, v)
+	}
+	return values
 }

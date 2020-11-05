@@ -62,6 +62,12 @@ type GetZoneRecordsRequest struct {
 	// The OCID of the compartment the resource belongs to.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope GetZoneRecordsScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
+	// The OCID of the view the resource is associated with.
+	ViewId *string `mandatory:"false" contributesTo:"query" name:"viewId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -161,6 +167,29 @@ var mappingGetZoneRecordsSortOrder = map[string]GetZoneRecordsSortOrderEnum{
 func GetGetZoneRecordsSortOrderEnumValues() []GetZoneRecordsSortOrderEnum {
 	values := make([]GetZoneRecordsSortOrderEnum, 0)
 	for _, v := range mappingGetZoneRecordsSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetZoneRecordsScopeEnum Enum with underlying type: string
+type GetZoneRecordsScopeEnum string
+
+// Set of constants representing the allowable values for GetZoneRecordsScopeEnum
+const (
+	GetZoneRecordsScopeGlobal  GetZoneRecordsScopeEnum = "GLOBAL"
+	GetZoneRecordsScopePrivate GetZoneRecordsScopeEnum = "PRIVATE"
+)
+
+var mappingGetZoneRecordsScope = map[string]GetZoneRecordsScopeEnum{
+	"GLOBAL":  GetZoneRecordsScopeGlobal,
+	"PRIVATE": GetZoneRecordsScopePrivate,
+}
+
+// GetGetZoneRecordsScopeEnumValues Enumerates the set of values for GetZoneRecordsScopeEnum
+func GetGetZoneRecordsScopeEnumValues() []GetZoneRecordsScopeEnum {
+	values := make([]GetZoneRecordsScopeEnum, 0)
+	for _, v := range mappingGetZoneRecordsScope {
 		values = append(values, v)
 	}
 	return values

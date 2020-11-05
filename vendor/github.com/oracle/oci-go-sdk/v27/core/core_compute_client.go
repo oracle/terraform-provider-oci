@@ -30,13 +30,15 @@ type ComputeClient struct {
 // NewComputeClientWithConfigurationProvider Creates a new default Compute client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewComputeClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ComputeClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newComputeClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newComputeClientFromBaseClient(baseClient, provider)
 }
 
 // NewComputeClientWithOboToken Creates a new default Compute client with the given configuration provider.
@@ -45,7 +47,7 @@ func NewComputeClientWithConfigurationProvider(configProvider common.Configurati
 func NewComputeClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ComputeClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newComputeClientFromBaseClient(baseClient, configProvider)

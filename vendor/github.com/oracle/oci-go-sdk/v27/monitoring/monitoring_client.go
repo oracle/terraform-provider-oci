@@ -28,13 +28,15 @@ type MonitoringClient struct {
 // NewMonitoringClientWithConfigurationProvider Creates a new default Monitoring client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewMonitoringClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client MonitoringClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newMonitoringClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newMonitoringClientFromBaseClient(baseClient, provider)
 }
 
 // NewMonitoringClientWithOboToken Creates a new default Monitoring client with the given configuration provider.
@@ -43,7 +45,7 @@ func NewMonitoringClientWithConfigurationProvider(configProvider common.Configur
 func NewMonitoringClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client MonitoringClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newMonitoringClientFromBaseClient(baseClient, configProvider)

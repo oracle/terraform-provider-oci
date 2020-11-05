@@ -40,6 +40,11 @@ type DbSystemSummary struct {
 	// The OCID of the compartment the DB System belongs in.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// If the DB System has an Analytics Cluster attached.
+	IsAnalyticsClusterAttached *bool `mandatory:"false" json:"isAnalyticsClusterAttached"`
+
+	AnalyticsCluster *AnalyticsClusterSummary `mandatory:"false" json:"analyticsCluster"`
+
 	// The Availability Domain where the primary DB System should be located.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 

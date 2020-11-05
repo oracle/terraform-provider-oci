@@ -42,14 +42,18 @@ type CreateDataGuardAssociationDetails interface {
 	// in the Oracle Data Guard documentation.
 	// **IMPORTANT** - The only transport type currently supported by the Database service is ASYNC.
 	GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum
+
+	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	GetDatabaseSoftwareImageId() *string
 }
 
 type createdataguardassociationdetails struct {
-	JsonData              []byte
-	DatabaseAdminPassword *string                                             `mandatory:"true" json:"databaseAdminPassword"`
-	ProtectionMode        CreateDataGuardAssociationDetailsProtectionModeEnum `mandatory:"true" json:"protectionMode"`
-	TransportType         CreateDataGuardAssociationDetailsTransportTypeEnum  `mandatory:"true" json:"transportType"`
-	CreationType          string                                              `json:"creationType"`
+	JsonData                []byte
+	DatabaseAdminPassword   *string                                             `mandatory:"true" json:"databaseAdminPassword"`
+	ProtectionMode          CreateDataGuardAssociationDetailsProtectionModeEnum `mandatory:"true" json:"protectionMode"`
+	TransportType           CreateDataGuardAssociationDetailsTransportTypeEnum  `mandatory:"true" json:"transportType"`
+	DatabaseSoftwareImageId *string                                             `mandatory:"false" json:"databaseSoftwareImageId"`
+	CreationType            string                                              `json:"creationType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -66,6 +70,7 @@ func (m *createdataguardassociationdetails) UnmarshalJSON(data []byte) error {
 	m.DatabaseAdminPassword = s.Model.DatabaseAdminPassword
 	m.ProtectionMode = s.Model.ProtectionMode
 	m.TransportType = s.Model.TransportType
+	m.DatabaseSoftwareImageId = s.Model.DatabaseSoftwareImageId
 	m.CreationType = s.Model.CreationType
 
 	return err
@@ -110,6 +115,11 @@ func (m createdataguardassociationdetails) GetProtectionMode() CreateDataGuardAs
 //GetTransportType returns TransportType
 func (m createdataguardassociationdetails) GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum {
 	return m.TransportType
+}
+
+//GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
+func (m createdataguardassociationdetails) GetDatabaseSoftwareImageId() *string {
+	return m.DatabaseSoftwareImageId
 }
 
 func (m createdataguardassociationdetails) String() string {

@@ -29,13 +29,15 @@ type EmailClient struct {
 // NewEmailClientWithConfigurationProvider Creates a new default Email client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewEmailClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client EmailClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newEmailClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newEmailClientFromBaseClient(baseClient, provider)
 }
 
 // NewEmailClientWithOboToken Creates a new default Email client with the given configuration provider.
@@ -44,7 +46,7 @@ func NewEmailClientWithConfigurationProvider(configProvider common.Configuration
 func NewEmailClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client EmailClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newEmailClientFromBaseClient(baseClient, configProvider)

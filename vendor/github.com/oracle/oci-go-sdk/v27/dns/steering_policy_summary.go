@@ -19,25 +19,15 @@ import (
 type SteeringPolicySummary struct {
 
 	// The OCID of the compartment containing the steering policy.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name for the steering policy. Does not have to be unique and can be changed.
 	// Avoid entering confidential information.
-	DisplayName *string `mandatory:"false" json:"displayName"`
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The Time To Live (TTL) for responses from the steering policy, in seconds.
 	// If not specified during creation, a value of 30 seconds will be used.
-	Ttl *int `mandatory:"false" json:"ttl"`
-
-	// The OCID of the health check monitor providing health data about the answers of the
-	// steering policy. A steering policy answer with `rdata` matching a monitored endpoint
-	// will use the health data of that endpoint. A steering policy answer with `rdata` not
-	// matching any monitored endpoint will be assumed healthy.
-	//
-	// **Note:** To use the Health Check monitoring feature in a steering policy, a monitor
-	// must be created using the Health Checks service first. For more information on how to
-	// create a monitor, please see Managing Health Checks (https://docs.cloud.oracle.com/iaas/Content/HealthChecks/Tasks/managinghealthchecks.htm).
-	HealthCheckMonitorId *string `mandatory:"false" json:"healthCheckMonitorId"`
+	Ttl *int `mandatory:"true" json:"ttl"`
 
 	// A set of predefined rules based on the desired purpose of the steering policy. Each
 	// template utilizes Traffic Management's rules in a different order to produce the desired
@@ -70,32 +60,42 @@ type SteeringPolicySummary struct {
 	// * `ROUTE_BY_IP` - Answers DNS queries based on the query's IP address.
 	//
 	// * `CUSTOM` - Allows a customized configuration of rules.
-	Template SteeringPolicySummaryTemplateEnum `mandatory:"false" json:"template,omitempty"`
+	Template SteeringPolicySummaryTemplateEnum `mandatory:"true" json:"template"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	//
 	// **Example:** `{"Department": "Finance"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	//
 	// **Example:** `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
 	// The canonical absolute URL of the resource.
-	Self *string `mandatory:"false" json:"self"`
+	Self *string `mandatory:"true" json:"self"`
 
 	// The OCID of the resource.
-	Id *string `mandatory:"false" json:"id"`
+	Id *string `mandatory:"true" json:"id"`
 
 	// The date and time the resource was created, expressed in RFC 3339 timestamp format.
 	// **Example:** `2016-07-22T17:23:59:60Z`
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The current state of the resource.
-	LifecycleState SteeringPolicySummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState SteeringPolicySummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The OCID of the health check monitor providing health data about the answers of the
+	// steering policy. A steering policy answer with `rdata` matching a monitored endpoint
+	// will use the health data of that endpoint. A steering policy answer with `rdata` not
+	// matching any monitored endpoint will be assumed healthy.
+	//
+	// **Note:** To use the Health Check monitoring feature in a steering policy, a monitor
+	// must be created using the Health Checks service first. For more information on how to
+	// create a monitor, please see Managing Health Checks (https://docs.cloud.oracle.com/iaas/Content/HealthChecks/Tasks/managinghealthchecks.htm).
+	HealthCheckMonitorId *string `mandatory:"false" json:"healthCheckMonitorId"`
 }
 
 func (m SteeringPolicySummary) String() string {

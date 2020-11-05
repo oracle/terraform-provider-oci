@@ -65,6 +65,9 @@ type ListSteeringPolicyAttachmentsRequest struct {
 	// The order to sort the resources.
 	SortOrder ListSteeringPolicyAttachmentsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope ListSteeringPolicyAttachmentsScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -159,6 +162,29 @@ var mappingListSteeringPolicyAttachmentsSortOrder = map[string]ListSteeringPolic
 func GetListSteeringPolicyAttachmentsSortOrderEnumValues() []ListSteeringPolicyAttachmentsSortOrderEnum {
 	values := make([]ListSteeringPolicyAttachmentsSortOrderEnum, 0)
 	for _, v := range mappingListSteeringPolicyAttachmentsSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListSteeringPolicyAttachmentsScopeEnum Enum with underlying type: string
+type ListSteeringPolicyAttachmentsScopeEnum string
+
+// Set of constants representing the allowable values for ListSteeringPolicyAttachmentsScopeEnum
+const (
+	ListSteeringPolicyAttachmentsScopeGlobal  ListSteeringPolicyAttachmentsScopeEnum = "GLOBAL"
+	ListSteeringPolicyAttachmentsScopePrivate ListSteeringPolicyAttachmentsScopeEnum = "PRIVATE"
+)
+
+var mappingListSteeringPolicyAttachmentsScope = map[string]ListSteeringPolicyAttachmentsScopeEnum{
+	"GLOBAL":  ListSteeringPolicyAttachmentsScopeGlobal,
+	"PRIVATE": ListSteeringPolicyAttachmentsScopePrivate,
+}
+
+// GetListSteeringPolicyAttachmentsScopeEnumValues Enumerates the set of values for ListSteeringPolicyAttachmentsScopeEnum
+func GetListSteeringPolicyAttachmentsScopeEnumValues() []ListSteeringPolicyAttachmentsScopeEnum {
+	values := make([]ListSteeringPolicyAttachmentsScopeEnum, 0)
+	for _, v := range mappingListSteeringPolicyAttachmentsScope {
 		values = append(values, v)
 	}
 	return values

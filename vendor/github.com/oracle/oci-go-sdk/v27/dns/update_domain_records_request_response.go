@@ -40,6 +40,12 @@ type UpdateDomainRecordsRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope UpdateDomainRecordsScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
+	// The OCID of the view the resource is associated with.
+	ViewId *string `mandatory:"false" contributesTo:"query" name:"viewId"`
+
 	// The OCID of the compartment the resource belongs to.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
@@ -97,4 +103,27 @@ func (response UpdateDomainRecordsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response UpdateDomainRecordsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// UpdateDomainRecordsScopeEnum Enum with underlying type: string
+type UpdateDomainRecordsScopeEnum string
+
+// Set of constants representing the allowable values for UpdateDomainRecordsScopeEnum
+const (
+	UpdateDomainRecordsScopeGlobal  UpdateDomainRecordsScopeEnum = "GLOBAL"
+	UpdateDomainRecordsScopePrivate UpdateDomainRecordsScopeEnum = "PRIVATE"
+)
+
+var mappingUpdateDomainRecordsScope = map[string]UpdateDomainRecordsScopeEnum{
+	"GLOBAL":  UpdateDomainRecordsScopeGlobal,
+	"PRIVATE": UpdateDomainRecordsScopePrivate,
+}
+
+// GetUpdateDomainRecordsScopeEnumValues Enumerates the set of values for UpdateDomainRecordsScopeEnum
+func GetUpdateDomainRecordsScopeEnumValues() []UpdateDomainRecordsScopeEnum {
+	values := make([]UpdateDomainRecordsScopeEnum, 0)
+	for _, v := range mappingUpdateDomainRecordsScope {
+		values = append(values, v)
+	}
+	return values
 }

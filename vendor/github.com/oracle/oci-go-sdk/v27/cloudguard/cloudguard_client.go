@@ -26,13 +26,15 @@ type CloudGuardClient struct {
 // NewCloudGuardClientWithConfigurationProvider Creates a new default CloudGuard client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewCloudGuardClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client CloudGuardClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newCloudGuardClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newCloudGuardClientFromBaseClient(baseClient, provider)
 }
 
 // NewCloudGuardClientWithOboToken Creates a new default CloudGuard client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewCloudGuardClientWithConfigurationProvider(configProvider common.Configur
 func NewCloudGuardClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client CloudGuardClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newCloudGuardClientFromBaseClient(baseClient, configProvider)

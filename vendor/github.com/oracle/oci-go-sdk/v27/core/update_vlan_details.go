@@ -42,6 +42,14 @@ type UpdateVlanDetails struct {
 
 	// The OCID of the route table the VLAN will use.
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
+	// The CIDR IP address block of the Vlan. The CIDR must maintain the following rules -
+	// a. The CIDR block is valid and correctly formatted.
+	// b. The new range is within one of the parent VCN ranges.
+	// c. The old and new CIDR ranges both use the same base address. Example: 10.0.0.0/25 and 10.0.0.0/24.
+	// d. The new CIDR range contains all previously allocated private IP addresses in the old CIDR range.
+	// e. No previously allocated IP address overlaps the broadcast address (the last IP of a subnet CIDR range) of the new CIDR range.
+	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
 }
 
 func (m UpdateVlanDetails) String() string {

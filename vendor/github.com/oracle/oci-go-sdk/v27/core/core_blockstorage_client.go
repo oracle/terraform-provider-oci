@@ -30,13 +30,15 @@ type BlockstorageClient struct {
 // NewBlockstorageClientWithConfigurationProvider Creates a new default Blockstorage client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewBlockstorageClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client BlockstorageClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newBlockstorageClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newBlockstorageClientFromBaseClient(baseClient, provider)
 }
 
 // NewBlockstorageClientWithOboToken Creates a new default Blockstorage client with the given configuration provider.
@@ -45,7 +47,7 @@ func NewBlockstorageClientWithConfigurationProvider(configProvider common.Config
 func NewBlockstorageClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client BlockstorageClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newBlockstorageClientFromBaseClient(baseClient, configProvider)

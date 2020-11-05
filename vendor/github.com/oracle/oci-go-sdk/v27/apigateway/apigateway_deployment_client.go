@@ -28,13 +28,15 @@ type DeploymentClient struct {
 // NewDeploymentClientWithConfigurationProvider Creates a new default Deployment client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDeploymentClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DeploymentClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newDeploymentClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newDeploymentClientFromBaseClient(baseClient, provider)
 }
 
 // NewDeploymentClientWithOboToken Creates a new default Deployment client with the given configuration provider.
@@ -43,7 +45,7 @@ func NewDeploymentClientWithConfigurationProvider(configProvider common.Configur
 func NewDeploymentClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DeploymentClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newDeploymentClientFromBaseClient(baseClient, configProvider)

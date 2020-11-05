@@ -26,13 +26,15 @@ type QuotasClient struct {
 // NewQuotasClientWithConfigurationProvider Creates a new default Quotas client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewQuotasClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client QuotasClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newQuotasClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newQuotasClientFromBaseClient(baseClient, provider)
 }
 
 // NewQuotasClientWithOboToken Creates a new default Quotas client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewQuotasClientWithConfigurationProvider(configProvider common.Configuratio
 func NewQuotasClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client QuotasClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newQuotasClientFromBaseClient(baseClient, configProvider)

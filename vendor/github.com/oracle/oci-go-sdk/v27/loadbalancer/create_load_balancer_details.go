@@ -50,6 +50,9 @@ type CreateLoadBalancerDetails struct {
 	// Example: "ipMode":"IPV6"
 	IpMode CreateLoadBalancerDetailsIpModeEnum `mandatory:"false" json:"ipMode,omitempty"`
 
+	// An array of reserved Ips.
+	ReservedIps []ReservedIp `mandatory:"false" json:"reservedIps"`
+
 	Listeners map[string]ListenerDetails `mandatory:"false" json:"listeners"`
 
 	Hostnames map[string]HostnameDetails `mandatory:"false" json:"hostnames"`

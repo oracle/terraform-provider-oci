@@ -26,13 +26,15 @@ type FileStorageClient struct {
 // NewFileStorageClientWithConfigurationProvider Creates a new default FileStorage client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewFileStorageClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client FileStorageClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newFileStorageClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newFileStorageClientFromBaseClient(baseClient, provider)
 }
 
 // NewFileStorageClientWithOboToken Creates a new default FileStorage client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewFileStorageClientWithConfigurationProvider(configProvider common.Configu
 func NewFileStorageClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client FileStorageClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newFileStorageClientFromBaseClient(baseClient, configProvider)
