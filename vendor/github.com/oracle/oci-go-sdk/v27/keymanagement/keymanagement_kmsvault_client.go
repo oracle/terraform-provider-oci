@@ -27,13 +27,15 @@ type KmsVaultClient struct {
 // NewKmsVaultClientWithConfigurationProvider Creates a new default KmsVault client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewKmsVaultClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client KmsVaultClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newKmsVaultClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newKmsVaultClientFromBaseClient(baseClient, provider)
 }
 
 // NewKmsVaultClientWithOboToken Creates a new default KmsVault client with the given configuration provider.
@@ -42,7 +44,7 @@ func NewKmsVaultClientWithConfigurationProvider(configProvider common.Configurat
 func NewKmsVaultClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client KmsVaultClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newKmsVaultClientFromBaseClient(baseClient, configProvider)

@@ -20,9 +20,6 @@ type CreateDbHomeWithVmClusterIdDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
 	VmClusterId *string `mandatory:"true" json:"vmClusterId"`
 
-	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
-	DbVersion *string `mandatory:"true" json:"dbVersion"`
-
 	// The user-provided name of the Database Home.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -37,6 +34,9 @@ type CreateDbHomeWithVmClusterIdDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
+	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	Database *CreateDatabaseDetails `mandatory:"false" json:"database"`
 }

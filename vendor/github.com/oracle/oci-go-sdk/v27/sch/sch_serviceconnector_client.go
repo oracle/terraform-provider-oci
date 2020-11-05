@@ -28,13 +28,15 @@ type ServiceConnectorClient struct {
 // NewServiceConnectorClientWithConfigurationProvider Creates a new default ServiceConnector client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewServiceConnectorClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ServiceConnectorClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newServiceConnectorClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newServiceConnectorClientFromBaseClient(baseClient, provider)
 }
 
 // NewServiceConnectorClientWithOboToken Creates a new default ServiceConnector client with the given configuration provider.
@@ -43,7 +45,7 @@ func NewServiceConnectorClientWithConfigurationProvider(configProvider common.Co
 func NewServiceConnectorClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ServiceConnectorClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newServiceConnectorClientFromBaseClient(baseClient, configProvider)

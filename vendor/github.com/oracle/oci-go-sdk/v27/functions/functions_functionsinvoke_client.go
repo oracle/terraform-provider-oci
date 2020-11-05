@@ -26,13 +26,15 @@ type FunctionsInvokeClient struct {
 // NewFunctionsInvokeClientWithConfigurationProvider Creates a new default FunctionsInvoke client with the given configuration provider.
 // the configuration provider will be used for the default signer
 func NewFunctionsInvokeClientWithConfigurationProvider(configProvider common.ConfigurationProvider, endpoint string) (client FunctionsInvokeClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newFunctionsInvokeClientFromBaseClient(baseClient, provider, endpoint)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newFunctionsInvokeClientFromBaseClient(baseClient, provider, endpoint)
 }
 
 // NewFunctionsInvokeClientWithOboToken Creates a new default FunctionsInvoke client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewFunctionsInvokeClientWithConfigurationProvider(configProvider common.Con
 func NewFunctionsInvokeClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client FunctionsInvokeClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newFunctionsInvokeClientFromBaseClient(baseClient, configProvider, endpoint)

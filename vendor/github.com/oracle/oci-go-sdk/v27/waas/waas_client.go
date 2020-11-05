@@ -26,13 +26,15 @@ type WaasClient struct {
 // NewWaasClientWithConfigurationProvider Creates a new default Waas client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewWaasClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client WaasClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newWaasClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newWaasClientFromBaseClient(baseClient, provider)
 }
 
 // NewWaasClientWithOboToken Creates a new default Waas client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewWaasClientWithConfigurationProvider(configProvider common.ConfigurationP
 func NewWaasClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client WaasClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newWaasClientFromBaseClient(baseClient, configProvider)

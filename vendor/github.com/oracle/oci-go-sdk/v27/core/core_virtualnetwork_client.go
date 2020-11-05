@@ -30,13 +30,15 @@ type VirtualNetworkClient struct {
 // NewVirtualNetworkClientWithConfigurationProvider Creates a new default VirtualNetwork client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewVirtualNetworkClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client VirtualNetworkClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newVirtualNetworkClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newVirtualNetworkClientFromBaseClient(baseClient, provider)
 }
 
 // NewVirtualNetworkClientWithOboToken Creates a new default VirtualNetwork client with the given configuration provider.
@@ -45,7 +47,7 @@ func NewVirtualNetworkClientWithConfigurationProvider(configProvider common.Conf
 func NewVirtualNetworkClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client VirtualNetworkClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newVirtualNetworkClientFromBaseClient(baseClient, configProvider)
@@ -177,6 +179,65 @@ func (client VirtualNetworkClient) addPublicIpPoolCapacity(ctx context.Context, 
 	}
 
 	var response AddPublicIpPoolCapacityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddVcnCidr Add a CIDR to a VCN. The new CIDR must maintain the following rules -
+// a. The CIDR provided is valid
+// b. The new CIDR range should not overlap with any existing CIDRs
+// c. The new CIDR should not exceed the max limit of CIDRs per VCNs
+// d. The new CIDR range does not overlap with any peered VCNs
+func (client VirtualNetworkClient) AddVcnCidr(ctx context.Context, request AddVcnCidrRequest) (response AddVcnCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addVcnCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddVcnCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddVcnCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddVcnCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddVcnCidrResponse")
+	}
+	return
+}
+
+// addVcnCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) addVcnCidr(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vcns/{vcnId}/actions/addCidr")
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddVcnCidrResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -3035,10 +3096,15 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 
 // CreateVcn Creates a new virtual cloud network (VCN). For more information, see
 // VCNs and Subnets (https://docs.cloud.oracle.com/Content/Network/Tasks/managingVCNs.htm).
-// For the VCN you must specify a single, contiguous IPv4 CIDR block. Oracle recommends using one of the
-// private IP address ranges specified in RFC 1918 (https://tools.ietf.org/html/rfc1918) (10.0.0.0/8,
-// 172.16/12, and 192.168/16). Example: 172.16.0.0/16. The CIDR block can range from /16 to /30, and it
-// must not overlap with your on-premises network. You can't change the size of the VCN after creation.
+// To create the VCN, you may specify a list of IPv4 CIDR blocks. The CIDRs must maintain
+// the following rules -
+// a. The list of CIDRs provided are valid
+// b. There is no overlap between different CIDRs
+// c. The list of CIDRs does not exceed the max limit of CIDRs per VCN
+// Oracle recommends using one of the private IP address ranges specified in RFC 1918
+//  (https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
+// 172.16.0.0/16. The CIDR blocks can range from /16 to /30, and they must not overlap with
+// your on-premises network.
 // For the purposes of access control, you must provide the OCID of the compartment where you want the VCN to
 // reside. Consult an Oracle Cloud Infrastructure administrator in your organization if you're not sure which
 // compartment to use. Notice that the VCN doesn't have to be in the same compartment as the subnets or other
@@ -6612,6 +6678,56 @@ func (client VirtualNetworkClient) getVcn(ctx context.Context, request common.OC
 	return response, err
 }
 
+// GetVcnDnsResolverAssociation Get the associated DNS resolver information with a vcn
+func (client VirtualNetworkClient) GetVcnDnsResolverAssociation(ctx context.Context, request GetVcnDnsResolverAssociationRequest) (response GetVcnDnsResolverAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getVcnDnsResolverAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVcnDnsResolverAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVcnDnsResolverAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVcnDnsResolverAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVcnDnsResolverAssociationResponse")
+	}
+	return
+}
+
+// getVcnDnsResolverAssociation implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getVcnDnsResolverAssociation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vcns/{vcnId}/dnsResolverAssociation")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVcnDnsResolverAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetVirtualCircuit Gets the specified virtual circuit's information.
 func (client VirtualNetworkClient) GetVirtualCircuit(ctx context.Context, request GetVirtualCircuitRequest) (response GetVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8688,6 +8804,67 @@ func (client VirtualNetworkClient) listVlans(ctx context.Context, request common
 	return response, err
 }
 
+// ModifyVcnCidr Update a CIDR from a VCN. The new CIDR must maintain the following rules -
+// a. The CIDR provided is valid
+// b. The new CIDR range should not overlap with any existing CIDRs
+// c. The new CIDR should not exceed the max limit of CIDRs per VCNs
+// d. The new CIDR range does not overlap with any peered VCNs
+// e. The new CIDR should overlap with any existing route rule within a VCN
+// f. All existing subnet CIDRs are subsets of the updated CIDR ranges
+func (client VirtualNetworkClient) ModifyVcnCidr(ctx context.Context, request ModifyVcnCidrRequest) (response ModifyVcnCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.modifyVcnCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ModifyVcnCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ModifyVcnCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ModifyVcnCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ModifyVcnCidrResponse")
+	}
+	return
+}
+
+// modifyVcnCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) modifyVcnCidr(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vcns/{vcnId}/actions/modifyCidr")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ModifyVcnCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveNetworkSecurityGroupSecurityRules Removes one or more security rules from the specified network security group.
 func (client VirtualNetworkClient) RemoveNetworkSecurityGroupSecurityRules(ctx context.Context, request RemoveNetworkSecurityGroupSecurityRulesRequest) (response RemoveNetworkSecurityGroupSecurityRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8781,6 +8958,62 @@ func (client VirtualNetworkClient) removePublicIpPoolCapacity(ctx context.Contex
 	}
 
 	var response RemovePublicIpPoolCapacityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveVcnCidr Remove a CIDR from a VCN. The CIDR being removed should not have
+// any resources allocated from it.
+func (client VirtualNetworkClient) RemoveVcnCidr(ctx context.Context, request RemoveVcnCidrRequest) (response RemoveVcnCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeVcnCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveVcnCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveVcnCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveVcnCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveVcnCidrResponse")
+	}
+	return
+}
+
+// removeVcnCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) removeVcnCidr(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vcns/{vcnId}/actions/removeCidr")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveVcnCidrResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

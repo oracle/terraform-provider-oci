@@ -20,6 +20,11 @@ type ListDbSystemsRequest struct {
 	// ID that you supplied in this header with the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// If true, return only DB Systems with an Analytics Cluster attached, if false
+	// return only DB Systems with no Analytics Cluster attached. If not
+	// present, return all DB Systems.
+	IsAnalyticsClusterAttached *bool `mandatory:"false" contributesTo:"query" name:"isAnalyticsClusterAttached"`
+
 	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"false" contributesTo:"query" name:"dbSystemId"`
 

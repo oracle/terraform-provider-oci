@@ -37,6 +37,12 @@ type UpdateZoneRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope UpdateZoneScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
+	// The OCID of the view the resource is associated with.
+	ViewId *string `mandatory:"false" contributesTo:"query" name:"viewId"`
+
 	// The OCID of the compartment the resource belongs to.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
@@ -68,14 +74,18 @@ type UpdateZoneResponse struct {
 	// The Zone instance
 	Zone `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to
-	// contact Oracle about a particular request, please provide the request ID.
-	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
 	// The current version of the zone, ending with a
 	// representation-specific suffix. This value may be used in If-Match
 	// and If-None-Match headers for later requests of the same resource.
 	ETag *string `presentIn:"header" name:"etag"`
+
+	// Unique Oracle-assigned identifier for the request. If you need to
+	// contact Oracle about a particular request, please provide the request ID.
+	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Unique Oracle-assigned identifier for the asynchronous request.
+	// You can use this to query status of the asynchronous operation.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response UpdateZoneResponse) String() string {
@@ -85,4 +95,27 @@ func (response UpdateZoneResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response UpdateZoneResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// UpdateZoneScopeEnum Enum with underlying type: string
+type UpdateZoneScopeEnum string
+
+// Set of constants representing the allowable values for UpdateZoneScopeEnum
+const (
+	UpdateZoneScopeGlobal  UpdateZoneScopeEnum = "GLOBAL"
+	UpdateZoneScopePrivate UpdateZoneScopeEnum = "PRIVATE"
+)
+
+var mappingUpdateZoneScope = map[string]UpdateZoneScopeEnum{
+	"GLOBAL":  UpdateZoneScopeGlobal,
+	"PRIVATE": UpdateZoneScopePrivate,
+}
+
+// GetUpdateZoneScopeEnumValues Enumerates the set of values for UpdateZoneScopeEnum
+func GetUpdateZoneScopeEnumValues() []UpdateZoneScopeEnum {
+	values := make([]UpdateZoneScopeEnum, 0)
+	for _, v := range mappingUpdateZoneScope {
+		values = append(values, v)
+	}
+	return values
 }

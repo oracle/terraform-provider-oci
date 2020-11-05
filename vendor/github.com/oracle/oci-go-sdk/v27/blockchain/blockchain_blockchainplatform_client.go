@@ -26,13 +26,15 @@ type BlockchainPlatformClient struct {
 // NewBlockchainPlatformClientWithConfigurationProvider Creates a new default BlockchainPlatform client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewBlockchainPlatformClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client BlockchainPlatformClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newBlockchainPlatformClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newBlockchainPlatformClientFromBaseClient(baseClient, provider)
 }
 
 // NewBlockchainPlatformClientWithOboToken Creates a new default BlockchainPlatform client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewBlockchainPlatformClientWithConfigurationProvider(configProvider common.
 func NewBlockchainPlatformClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client BlockchainPlatformClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newBlockchainPlatformClientFromBaseClient(baseClient, configProvider)

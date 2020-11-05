@@ -26,13 +26,15 @@ type UsageapiClient struct {
 // NewUsageapiClientWithConfigurationProvider Creates a new default Usageapi client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewUsageapiClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client UsageapiClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newUsageapiClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newUsageapiClientFromBaseClient(baseClient, provider)
 }
 
 // NewUsageapiClientWithOboToken Creates a new default Usageapi client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewUsageapiClientWithConfigurationProvider(configProvider common.Configurat
 func NewUsageapiClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client UsageapiClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newUsageapiClientFromBaseClient(baseClient, configProvider)

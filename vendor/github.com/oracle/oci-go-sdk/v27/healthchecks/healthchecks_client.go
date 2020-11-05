@@ -28,13 +28,15 @@ type HealthChecksClient struct {
 // NewHealthChecksClientWithConfigurationProvider Creates a new default HealthChecks client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewHealthChecksClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client HealthChecksClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newHealthChecksClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newHealthChecksClientFromBaseClient(baseClient, provider)
 }
 
 // NewHealthChecksClientWithOboToken Creates a new default HealthChecks client with the given configuration provider.
@@ -43,7 +45,7 @@ func NewHealthChecksClientWithConfigurationProvider(configProvider common.Config
 func NewHealthChecksClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client HealthChecksClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newHealthChecksClientFromBaseClient(baseClient, configProvider)

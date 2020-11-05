@@ -20,12 +20,21 @@ import (
 // CreateVcnDetails The representation of CreateVcnDetails
 type CreateVcnDetails struct {
 
-	// The CIDR IP address block of the VCN.
-	// Example: `10.0.0.0/16`
-	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
-
 	// The OCID of the compartment to contain the VCN.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// Deprecated. Instead use 'cidrBlocks'. It is an error to set both cidrBlock and
+	// cidrBlocks.
+	// Example: `10.0.0.0/16`
+	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
+
+	// List of IPv4 CIDR blocks associated with the VCN. The CIDRs must maintain the following
+	// rules -
+	// a. The list of CIDRs provided are valid
+	// b. There is no overlap between different CIDRs
+	// c. The number of CIDRs should not exceed the max limit of CIDRs per VCN
+	// d. It is an error to set both cidrBlock and cidrBlocks.
+	CidrBlocks []string `mandatory:"false" json:"cidrBlocks"`
 
 	// If you enable IPv6 for the VCN (see `isIpv6Enabled`), you may optionally provide an IPv6
 	// /48 CIDR block from the supported ranges (see IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).

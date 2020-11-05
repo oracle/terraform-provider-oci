@@ -26,8 +26,7 @@ type RecordDetails struct {
 	// For more information about RDATA, see Supported DNS Resource Record Types (https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm)
 	Rdata *string `mandatory:"true" json:"rdata"`
 
-	// The canonical name for the record's type, such as A or CNAME. For more
-	// information, see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
+	// The type of DNS record, such as A or CNAME. For more information, see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
 	Rtype *string `mandatory:"true" json:"rtype"`
 
 	// The Time To Live for the record, in seconds.

@@ -33,6 +33,15 @@ type AutonomousDbVersionSummary struct {
 
 	// True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases.
 	IsFreeTierEnabled *bool `mandatory:"false" json:"isFreeTierEnabled"`
+
+	// True if this version of the Oracle Database software has payments enabled.
+	IsPaidEnabled *bool `mandatory:"false" json:"isPaidEnabled"`
+
+	// True if this version of the Oracle Database software's default is free.
+	IsDefaultForFree *bool `mandatory:"false" json:"isDefaultForFree"`
+
+	// True if this version of the Oracle Database software's default is paid.
+	IsDefaultForPaid *bool `mandatory:"false" json:"isDefaultForPaid"`
 }
 
 func (m AutonomousDbVersionSummary) String() string {

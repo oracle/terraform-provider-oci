@@ -26,13 +26,15 @@ type OceInstanceClient struct {
 // NewOceInstanceClientWithConfigurationProvider Creates a new default OceInstance client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewOceInstanceClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client OceInstanceClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newOceInstanceClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newOceInstanceClientFromBaseClient(baseClient, provider)
 }
 
 // NewOceInstanceClientWithOboToken Creates a new default OceInstance client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewOceInstanceClientWithConfigurationProvider(configProvider common.Configu
 func NewOceInstanceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OceInstanceClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newOceInstanceClientFromBaseClient(baseClient, configProvider)

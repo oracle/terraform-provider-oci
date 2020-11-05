@@ -61,6 +61,9 @@ type ListSteeringPoliciesRequest struct {
 	// The order to sort the resources.
 	SortOrder ListSteeringPoliciesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope ListSteeringPoliciesScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -155,6 +158,29 @@ var mappingListSteeringPoliciesSortOrder = map[string]ListSteeringPoliciesSortOr
 func GetListSteeringPoliciesSortOrderEnumValues() []ListSteeringPoliciesSortOrderEnum {
 	values := make([]ListSteeringPoliciesSortOrderEnum, 0)
 	for _, v := range mappingListSteeringPoliciesSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListSteeringPoliciesScopeEnum Enum with underlying type: string
+type ListSteeringPoliciesScopeEnum string
+
+// Set of constants representing the allowable values for ListSteeringPoliciesScopeEnum
+const (
+	ListSteeringPoliciesScopeGlobal  ListSteeringPoliciesScopeEnum = "GLOBAL"
+	ListSteeringPoliciesScopePrivate ListSteeringPoliciesScopeEnum = "PRIVATE"
+)
+
+var mappingListSteeringPoliciesScope = map[string]ListSteeringPoliciesScopeEnum{
+	"GLOBAL":  ListSteeringPoliciesScopeGlobal,
+	"PRIVATE": ListSteeringPoliciesScopePrivate,
+}
+
+// GetListSteeringPoliciesScopeEnumValues Enumerates the set of values for ListSteeringPoliciesScopeEnum
+func GetListSteeringPoliciesScopeEnumValues() []ListSteeringPoliciesScopeEnum {
+	values := make([]ListSteeringPoliciesScopeEnum, 0)
+	for _, v := range mappingListSteeringPoliciesScope {
 		values = append(values, v)
 	}
 	return values

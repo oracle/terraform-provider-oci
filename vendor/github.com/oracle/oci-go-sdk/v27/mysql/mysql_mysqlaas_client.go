@@ -26,13 +26,15 @@ type MysqlaasClient struct {
 // NewMysqlaasClientWithConfigurationProvider Creates a new default Mysqlaas client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewMysqlaasClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client MysqlaasClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newMysqlaasClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newMysqlaasClientFromBaseClient(baseClient, provider)
 }
 
 // NewMysqlaasClientWithOboToken Creates a new default Mysqlaas client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewMysqlaasClientWithConfigurationProvider(configProvider common.Configurat
 func NewMysqlaasClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client MysqlaasClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newMysqlaasClientFromBaseClient(baseClient, configProvider)

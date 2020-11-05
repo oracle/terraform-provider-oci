@@ -32,6 +32,9 @@ type GetSteeringPolicyRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope GetSteeringPolicyScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -84,4 +87,27 @@ func (response GetSteeringPolicyResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetSteeringPolicyResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetSteeringPolicyScopeEnum Enum with underlying type: string
+type GetSteeringPolicyScopeEnum string
+
+// Set of constants representing the allowable values for GetSteeringPolicyScopeEnum
+const (
+	GetSteeringPolicyScopeGlobal  GetSteeringPolicyScopeEnum = "GLOBAL"
+	GetSteeringPolicyScopePrivate GetSteeringPolicyScopeEnum = "PRIVATE"
+)
+
+var mappingGetSteeringPolicyScope = map[string]GetSteeringPolicyScopeEnum{
+	"GLOBAL":  GetSteeringPolicyScopeGlobal,
+	"PRIVATE": GetSteeringPolicyScopePrivate,
+}
+
+// GetGetSteeringPolicyScopeEnumValues Enumerates the set of values for GetSteeringPolicyScopeEnum
+func GetGetSteeringPolicyScopeEnumValues() []GetSteeringPolicyScopeEnum {
+	values := make([]GetSteeringPolicyScopeEnum, 0)
+	for _, v := range mappingGetSteeringPolicyScope {
+		values = append(values, v)
+	}
+	return values
 }

@@ -26,13 +26,15 @@ type DatabaseClient struct {
 // NewDatabaseClientWithConfigurationProvider Creates a new default Database client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDatabaseClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DatabaseClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newDatabaseClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newDatabaseClientFromBaseClient(baseClient, provider)
 }
 
 // NewDatabaseClientWithOboToken Creates a new default Database client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewDatabaseClientWithConfigurationProvider(configProvider common.Configurat
 func NewDatabaseClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DatabaseClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newDatabaseClientFromBaseClient(baseClient, configProvider)

@@ -26,13 +26,15 @@ type MarketplaceClient struct {
 // NewMarketplaceClientWithConfigurationProvider Creates a new default Marketplace client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewMarketplaceClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client MarketplaceClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newMarketplaceClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newMarketplaceClientFromBaseClient(baseClient, provider)
 }
 
 // NewMarketplaceClientWithOboToken Creates a new default Marketplace client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewMarketplaceClientWithConfigurationProvider(configProvider common.Configu
 func NewMarketplaceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client MarketplaceClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newMarketplaceClientFromBaseClient(baseClient, configProvider)

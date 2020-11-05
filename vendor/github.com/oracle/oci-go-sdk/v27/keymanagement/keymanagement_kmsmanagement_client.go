@@ -27,13 +27,15 @@ type KmsManagementClient struct {
 // NewKmsManagementClientWithConfigurationProvider Creates a new default KmsManagement client with the given configuration provider.
 // the configuration provider will be used for the default signer
 func NewKmsManagementClientWithConfigurationProvider(configProvider common.ConfigurationProvider, endpoint string) (client KmsManagementClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newKmsManagementClientFromBaseClient(baseClient, provider, endpoint)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newKmsManagementClientFromBaseClient(baseClient, provider, endpoint)
 }
 
 // NewKmsManagementClientWithOboToken Creates a new default KmsManagement client with the given configuration provider.
@@ -42,7 +44,7 @@ func NewKmsManagementClientWithConfigurationProvider(configProvider common.Confi
 func NewKmsManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client KmsManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newKmsManagementClientFromBaseClient(baseClient, configProvider, endpoint)

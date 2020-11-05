@@ -19,47 +19,58 @@ import (
 type ZoneSummary struct {
 
 	// The name of the zone.
-	Name *string `mandatory:"false" json:"name"`
+	Name *string `mandatory:"true" json:"name"`
 
-	// The type of the zone. Must be either `PRIMARY` or `SECONDARY`.
-	ZoneType ZoneSummaryZoneTypeEnum `mandatory:"false" json:"zoneType,omitempty"`
+	// The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL zones.
+	ZoneType ZoneSummaryZoneTypeEnum `mandatory:"true" json:"zoneType"`
 
 	// The OCID of the compartment containing the zone.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The scope of the zone.
+	Scope ScopeEnum `mandatory:"true" json:"scope"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	//
 	// **Example:** `{"Department": "Finance"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	//
 	// **Example:** `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
 	// The canonical absolute URL of the resource.
-	Self *string `mandatory:"false" json:"self"`
+	Self *string `mandatory:"true" json:"self"`
 
 	// The OCID of the zone.
-	Id *string `mandatory:"false" json:"id"`
+	Id *string `mandatory:"true" json:"id"`
 
-	// The date and time the resource was created in "YYYY-MM-ddThh:mmZ" format
+	// The date and time the resource was created in "YYYY-MM-ddThh:mm:ssZ" format
 	// with a Z offset, as defined by RFC 3339.
 	// **Example:** `2016-07-22T17:23:59:60Z`
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// Version is the never-repeating, totally-orderable, version of the
 	// zone, from which the serial field of the zone's SOA record is
 	// derived.
-	Version *string `mandatory:"false" json:"version"`
+	Version *string `mandatory:"true" json:"version"`
 
 	// The current serial of the zone. As seen in the zone's SOA record.
-	Serial *int64 `mandatory:"false" json:"serial"`
+	Serial *int64 `mandatory:"true" json:"serial"`
 
 	// The current state of the zone resource.
-	LifecycleState ZoneSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState ZoneSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
+	IsProtected *bool `mandatory:"true" json:"isProtected"`
+
+	// The OCID of the private view containing the zone. This value will
+	// be null for zones in the global DNS, which are publicly resolvable and
+	// not part of a private view.
+	ViewId *string `mandatory:"false" json:"viewId"`
 }
 
 func (m ZoneSummary) String() string {

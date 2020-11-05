@@ -26,9 +26,12 @@ import (
 // supply string values using the API.
 type Vcn struct {
 
-	// The CIDR IP address block of the VCN.
+	// Deprecated. The first CIDR IP address from cidrBlocks.
 	// Example: `172.16.0.0/16`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
+
+	// The list of IPv4 CIDR blocks the VCN will use.
+	CidrBlocks []string `mandatory:"true" json:"cidrBlocks"`
 
 	// The OCID of the compartment containing the VCN.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -116,6 +119,7 @@ const (
 	VcnLifecycleStateAvailable    VcnLifecycleStateEnum = "AVAILABLE"
 	VcnLifecycleStateTerminating  VcnLifecycleStateEnum = "TERMINATING"
 	VcnLifecycleStateTerminated   VcnLifecycleStateEnum = "TERMINATED"
+	VcnLifecycleStateUpdating     VcnLifecycleStateEnum = "UPDATING"
 )
 
 var mappingVcnLifecycleState = map[string]VcnLifecycleStateEnum{
@@ -123,6 +127,7 @@ var mappingVcnLifecycleState = map[string]VcnLifecycleStateEnum{
 	"AVAILABLE":    VcnLifecycleStateAvailable,
 	"TERMINATING":  VcnLifecycleStateTerminating,
 	"TERMINATED":   VcnLifecycleStateTerminated,
+	"UPDATING":     VcnLifecycleStateUpdating,
 }
 
 // GetVcnLifecycleStateEnumValues Enumerates the set of values for VcnLifecycleStateEnum

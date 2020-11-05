@@ -28,6 +28,9 @@ type CreateSteeringPolicyAttachmentRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope CreateSteeringPolicyAttachmentScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -56,15 +59,18 @@ type CreateSteeringPolicyAttachmentResponse struct {
 	// The SteeringPolicyAttachment instance
 	SteeringPolicyAttachment `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to
-	// contact Oracle about a particular request, please provide the request
-	// ID.
-	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
 	// The current version of the resource, ending with a
 	// representation-specific suffix. This value may be used in If-Match
 	// and If-None-Match headers for later requests of the same resource.
 	ETag *string `presentIn:"header" name:"etag"`
+
+	// The full URI of the resource related to the request.
+	Location *string `presentIn:"header" name:"location"`
+
+	// Unique Oracle-assigned identifier for the request. If you need to
+	// contact Oracle about a particular request, please provide the request
+	// ID.
+	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
 func (response CreateSteeringPolicyAttachmentResponse) String() string {
@@ -74,4 +80,27 @@ func (response CreateSteeringPolicyAttachmentResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response CreateSteeringPolicyAttachmentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// CreateSteeringPolicyAttachmentScopeEnum Enum with underlying type: string
+type CreateSteeringPolicyAttachmentScopeEnum string
+
+// Set of constants representing the allowable values for CreateSteeringPolicyAttachmentScopeEnum
+const (
+	CreateSteeringPolicyAttachmentScopeGlobal  CreateSteeringPolicyAttachmentScopeEnum = "GLOBAL"
+	CreateSteeringPolicyAttachmentScopePrivate CreateSteeringPolicyAttachmentScopeEnum = "PRIVATE"
+)
+
+var mappingCreateSteeringPolicyAttachmentScope = map[string]CreateSteeringPolicyAttachmentScopeEnum{
+	"GLOBAL":  CreateSteeringPolicyAttachmentScopeGlobal,
+	"PRIVATE": CreateSteeringPolicyAttachmentScopePrivate,
+}
+
+// GetCreateSteeringPolicyAttachmentScopeEnumValues Enumerates the set of values for CreateSteeringPolicyAttachmentScopeEnum
+func GetCreateSteeringPolicyAttachmentScopeEnumValues() []CreateSteeringPolicyAttachmentScopeEnum {
+	values := make([]CreateSteeringPolicyAttachmentScopeEnum, 0)
+	for _, v := range mappingCreateSteeringPolicyAttachmentScope {
+		values = append(values, v)
+	}
+	return values
 }

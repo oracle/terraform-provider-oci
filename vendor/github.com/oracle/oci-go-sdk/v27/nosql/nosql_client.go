@@ -29,13 +29,15 @@ type NosqlClient struct {
 // NewNosqlClientWithConfigurationProvider Creates a new default Nosql client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewNosqlClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client NosqlClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newNosqlClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newNosqlClientFromBaseClient(baseClient, provider)
 }
 
 // NewNosqlClientWithOboToken Creates a new default Nosql client with the given configuration provider.
@@ -44,7 +46,7 @@ func NewNosqlClientWithConfigurationProvider(configProvider common.Configuration
 func NewNosqlClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client NosqlClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newNosqlClientFromBaseClient(baseClient, configProvider)

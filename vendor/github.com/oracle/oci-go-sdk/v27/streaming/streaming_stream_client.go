@@ -26,13 +26,15 @@ type StreamClient struct {
 // NewStreamClientWithConfigurationProvider Creates a new default Stream client with the given configuration provider.
 // the configuration provider will be used for the default signer
 func NewStreamClientWithConfigurationProvider(configProvider common.ConfigurationProvider, endpoint string) (client StreamClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newStreamClientFromBaseClient(baseClient, provider, endpoint)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newStreamClientFromBaseClient(baseClient, provider, endpoint)
 }
 
 // NewStreamClientWithOboToken Creates a new default Stream client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewStreamClientWithConfigurationProvider(configProvider common.Configuratio
 func NewStreamClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client StreamClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newStreamClientFromBaseClient(baseClient, configProvider, endpoint)

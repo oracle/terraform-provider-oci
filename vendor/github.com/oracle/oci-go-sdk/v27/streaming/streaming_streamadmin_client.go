@@ -26,13 +26,15 @@ type StreamAdminClient struct {
 // NewStreamAdminClientWithConfigurationProvider Creates a new default StreamAdmin client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewStreamAdminClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client StreamAdminClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newStreamAdminClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newStreamAdminClientFromBaseClient(baseClient, provider)
 }
 
 // NewStreamAdminClientWithOboToken Creates a new default StreamAdmin client with the given configuration provider.
@@ -41,7 +43,7 @@ func NewStreamAdminClientWithConfigurationProvider(configProvider common.Configu
 func NewStreamAdminClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client StreamAdminClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newStreamAdminClientFromBaseClient(baseClient, configProvider)

@@ -17,7 +17,7 @@ import (
 // MigrationReplacement A record to add to a zone in replacement of contents that cannot be migrated.
 type MigrationReplacement struct {
 
-	// The canonical name for the type of the replacement record, such as A or CNAME.
+	// The type of DNS record, such as A or CNAME. For more information, see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
 	Rtype *string `mandatory:"true" json:"rtype"`
 
 	// The Time To Live of the replacement record, in seconds.

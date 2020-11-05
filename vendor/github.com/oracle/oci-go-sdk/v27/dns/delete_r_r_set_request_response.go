@@ -43,6 +43,12 @@ type DeleteRRSetRequest struct {
 	// The OCID of the compartment the resource belongs to.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
+	// Specifies to operate only on resources that have a matching DNS scope.
+	Scope DeleteRRSetScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
+	// The OCID of the view the resource is associated with.
+	ViewId *string `mandatory:"false" contributesTo:"query" name:"viewId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -81,4 +87,27 @@ func (response DeleteRRSetResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response DeleteRRSetResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// DeleteRRSetScopeEnum Enum with underlying type: string
+type DeleteRRSetScopeEnum string
+
+// Set of constants representing the allowable values for DeleteRRSetScopeEnum
+const (
+	DeleteRRSetScopeGlobal  DeleteRRSetScopeEnum = "GLOBAL"
+	DeleteRRSetScopePrivate DeleteRRSetScopeEnum = "PRIVATE"
+)
+
+var mappingDeleteRRSetScope = map[string]DeleteRRSetScopeEnum{
+	"GLOBAL":  DeleteRRSetScopeGlobal,
+	"PRIVATE": DeleteRRSetScopePrivate,
+}
+
+// GetDeleteRRSetScopeEnumValues Enumerates the set of values for DeleteRRSetScopeEnum
+func GetDeleteRRSetScopeEnumValues() []DeleteRRSetScopeEnum {
+	values := make([]DeleteRRSetScopeEnum, 0)
+	for _, v := range mappingDeleteRRSetScope {
+		values = append(values, v)
+	}
+	return values
 }

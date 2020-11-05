@@ -49,6 +49,11 @@ type DbSystem struct {
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
 
+	// If the DB System has an Analytics Cluster attached.
+	IsAnalyticsClusterAttached *bool `mandatory:"false" json:"isAnalyticsClusterAttached"`
+
+	AnalyticsCluster *AnalyticsClusterSummary `mandatory:"false" json:"analyticsCluster"`
+
 	// The Availability Domain where the primary DB System should be located.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
@@ -109,31 +114,33 @@ func (m DbSystem) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description          *string                           `json:"description"`
-		AvailabilityDomain   *string                           `json:"availabilityDomain"`
-		FaultDomain          *string                           `json:"faultDomain"`
-		ShapeName            *string                           `json:"shapeName"`
-		BackupPolicy         *BackupPolicy                     `json:"backupPolicy"`
-		Source               dbsystemsource                    `json:"source"`
-		ConfigurationId      *string                           `json:"configurationId"`
-		HostnameLabel        *string                           `json:"hostnameLabel"`
-		IpAddress            *string                           `json:"ipAddress"`
-		Port                 *int                              `json:"port"`
-		PortX                *int                              `json:"portX"`
-		Endpoints            []DbSystemEndpoint                `json:"endpoints"`
-		LifecycleDetails     *string                           `json:"lifecycleDetails"`
-		FreeformTags         map[string]string                 `json:"freeformTags"`
-		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
-		Id                   *string                           `json:"id"`
-		DisplayName          *string                           `json:"displayName"`
-		CompartmentId        *string                           `json:"compartmentId"`
-		SubnetId             *string                           `json:"subnetId"`
-		MysqlVersion         *string                           `json:"mysqlVersion"`
-		DataStorageSizeInGBs *int                              `json:"dataStorageSizeInGBs"`
-		LifecycleState       DbSystemLifecycleStateEnum        `json:"lifecycleState"`
-		Maintenance          *MaintenanceDetails               `json:"maintenance"`
-		TimeCreated          *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated          *common.SDKTime                   `json:"timeUpdated"`
+		Description                *string                           `json:"description"`
+		IsAnalyticsClusterAttached *bool                             `json:"isAnalyticsClusterAttached"`
+		AnalyticsCluster           *AnalyticsClusterSummary          `json:"analyticsCluster"`
+		AvailabilityDomain         *string                           `json:"availabilityDomain"`
+		FaultDomain                *string                           `json:"faultDomain"`
+		ShapeName                  *string                           `json:"shapeName"`
+		BackupPolicy               *BackupPolicy                     `json:"backupPolicy"`
+		Source                     dbsystemsource                    `json:"source"`
+		ConfigurationId            *string                           `json:"configurationId"`
+		HostnameLabel              *string                           `json:"hostnameLabel"`
+		IpAddress                  *string                           `json:"ipAddress"`
+		Port                       *int                              `json:"port"`
+		PortX                      *int                              `json:"portX"`
+		Endpoints                  []DbSystemEndpoint                `json:"endpoints"`
+		LifecycleDetails           *string                           `json:"lifecycleDetails"`
+		FreeformTags               map[string]string                 `json:"freeformTags"`
+		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		Id                         *string                           `json:"id"`
+		DisplayName                *string                           `json:"displayName"`
+		CompartmentId              *string                           `json:"compartmentId"`
+		SubnetId                   *string                           `json:"subnetId"`
+		MysqlVersion               *string                           `json:"mysqlVersion"`
+		DataStorageSizeInGBs       *int                              `json:"dataStorageSizeInGBs"`
+		LifecycleState             DbSystemLifecycleStateEnum        `json:"lifecycleState"`
+		Maintenance                *MaintenanceDetails               `json:"maintenance"`
+		TimeCreated                *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated                *common.SDKTime                   `json:"timeUpdated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -142,6 +149,10 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.IsAnalyticsClusterAttached = model.IsAnalyticsClusterAttached
+
+	m.AnalyticsCluster = model.AnalyticsCluster
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

@@ -27,8 +27,34 @@ type ShapeSummary struct {
 
 	// The amount of RAM the Instance provides. This is an IEC base-2 number.
 	MemorySizeInGBs *int `mandatory:"true" json:"memorySizeInGBs"`
+
+	// What service features the shape is supported for.
+	IsSupportedFor []ShapeSummaryIsSupportedForEnum `mandatory:"false" json:"isSupportedFor,omitempty"`
 }
 
 func (m ShapeSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ShapeSummaryIsSupportedForEnum Enum with underlying type: string
+type ShapeSummaryIsSupportedForEnum string
+
+// Set of constants representing the allowable values for ShapeSummaryIsSupportedForEnum
+const (
+	ShapeSummaryIsSupportedForDbsystem         ShapeSummaryIsSupportedForEnum = "DBSYSTEM"
+	ShapeSummaryIsSupportedForAnalyticscluster ShapeSummaryIsSupportedForEnum = "ANALYTICSCLUSTER"
+)
+
+var mappingShapeSummaryIsSupportedFor = map[string]ShapeSummaryIsSupportedForEnum{
+	"DBSYSTEM":         ShapeSummaryIsSupportedForDbsystem,
+	"ANALYTICSCLUSTER": ShapeSummaryIsSupportedForAnalyticscluster,
+}
+
+// GetShapeSummaryIsSupportedForEnumValues Enumerates the set of values for ShapeSummaryIsSupportedForEnum
+func GetShapeSummaryIsSupportedForEnumValues() []ShapeSummaryIsSupportedForEnum {
+	values := make([]ShapeSummaryIsSupportedForEnum, 0)
+	for _, v := range mappingShapeSummaryIsSupportedFor {
+		values = append(values, v)
+	}
+	return values
 }

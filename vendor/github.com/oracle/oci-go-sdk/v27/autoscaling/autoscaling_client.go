@@ -30,13 +30,15 @@ type AutoScalingClient struct {
 // NewAutoScalingClientWithConfigurationProvider Creates a new default AutoScaling client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewAutoScalingClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client AutoScalingClient, err error) {
-	if provider, err := auth.GetGenericConfigurationProvider(configProvider); err == nil {
-		if baseClient, err := common.NewClientWithConfig(provider); err == nil {
-			return newAutoScalingClientFromBaseClient(baseClient, provider)
-		}
+	provider, err := auth.GetGenericConfigurationProvider(configProvider)
+	if err != nil {
+		return client, err
 	}
-
-	return
+	baseClient, e := common.NewClientWithConfig(provider)
+	if e != nil {
+		return client, e
+	}
+	return newAutoScalingClientFromBaseClient(baseClient, provider)
 }
 
 // NewAutoScalingClientWithOboToken Creates a new default AutoScaling client with the given configuration provider.
@@ -45,7 +47,7 @@ func NewAutoScalingClientWithConfigurationProvider(configProvider common.Configu
 func NewAutoScalingClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AutoScalingClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
-		return
+		return client, err
 	}
 
 	return newAutoScalingClientFromBaseClient(baseClient, configProvider)
