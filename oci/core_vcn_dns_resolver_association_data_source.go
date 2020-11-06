@@ -77,7 +77,7 @@ func (s *CoreVcnDnsResolverAssociationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("CoreVcnDnsResolverAssociationDataSource-", CoreVcnDnsResolverAssociationDataSource(), s.D))
 
 	if s.Res.DnsResolverId != nil {
 		s.D.Set("dns_resolver_id", *s.Res.DnsResolverId)

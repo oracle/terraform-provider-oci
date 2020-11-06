@@ -83,7 +83,7 @@ func (s *DnsResolverEndpointDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("DnsResolverEndpointDataSource-", DnsResolverEndpointDataSource(), s.D))
 	switch v := (s.Res.ResolverEndpoint).(type) {
 	case oci_dns.ResolverVnicEndpoint:
 		s.D.Set("endpoint_type", "VNIC")

@@ -65,7 +65,7 @@ func (s *MysqlAnalyticsClusterDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("MysqlAnalyticsClusterDataSource-", MysqlAnalyticsClusterDataSource(), s.D))
 
 	clusterNodes := []interface{}{}
 	for _, item := range s.Res.ClusterNodes {
