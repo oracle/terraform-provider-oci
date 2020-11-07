@@ -9,6 +9,7 @@
 - Support for `reserved_ips` in `oci_load_balancer`
 - Support for `Resource Discovery` added for `management_agent` service
 - Support for ExaCS - DB Software Images
+- Support for `TDE Wallet Password management` added for `database` service
 
 ## 4.2.0 (November 04, 2020)
 
