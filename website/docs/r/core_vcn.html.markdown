@@ -50,7 +50,6 @@ The VCN and subnets you create are not accessible until you attach an internet g
 or FastConnect. For more information, see
 [Overview of the Networking Service](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm).
 
-
 ## Supported Aliases
 
 * `oci_core_virtual_network`
@@ -78,10 +77,11 @@ resource "oci_core_vcn" "test_vcn" {
 
 The following arguments are supported:
 
-* `cidr_block` - (Optional) Deprecated. Instead use 'cidrBlocks'. It is an error to set both cidrBlock and cidrBlocks. Example: `10.0.0.0/16` 
-* `cidr_blocks` - (Optional) List of IPv4 CIDR blocks associated with the VCN. The CIDRs must maintain the following rules -
+* `cidr_block` - (Optional) Deprecated. Instead use 'cidrBlocks'. It is an error to set both cidrBlock and cidrBlocks. Example: `10.0.0.0/16`
+* `cidr_blocks` - (Optional) Either 'cidr_block or 'cidr_blocks' must be provided. List of IPv4 CIDR blocks associated with the VCN. The CIDRs must maintain the following rules -
 
-	a. The list of CIDRs provided are valid b. There is no overlap between different CIDRs c. The number of CIDRs should not exceed the max limit of CIDRs per VCN d. It is an error to set both cidrBlock and cidrBlocks. 
+  a. The list of CIDRs provided are valid b. There is no overlap between different CIDRs c. The number of CIDRs should not exceed the max limit of CIDRs per VCN d. It is an error to set both cidrBlock and cidrBlocks.
+
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the VCN.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -112,8 +112,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `cidr_block` - Deprecated. The first CIDR IP address from cidrBlocks.  Example: `172.16.0.0/16` 
-* `cidr_blocks` - The list of IPv4 CIDR blocks the VCN will use. 
+
+* `cidr_block` - Deprecated. The first CIDR IP address from cidrBlocks. Example: `172.16.0.0/16`
+* `cidr_blocks` - The list of IPv4 CIDR blocks the VCN will use.
 * `compartment_id` - The OCID of the compartment containing the VCN.
 * `default_dhcp_options_id` - The OCID for the VCN's default set of DHCP options. 
 * `default_route_table_id` - The OCID for the VCN's default route table.
@@ -146,4 +147,3 @@ Vcns can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_vcn.test_vcn "id"
 ```
-

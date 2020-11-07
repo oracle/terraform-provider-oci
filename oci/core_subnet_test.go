@@ -25,8 +25,7 @@ var (
 		"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
 	})) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label":  Representation{repType: Required, create: `dnslabel`},
-			"cidr_block": Representation{repType: Required, create: `10.0.0.0/16`},
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig
 
@@ -69,8 +68,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation) +
 		generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label":  Representation{repType: Required, create: `dnslabel`},
-			"cidr_block": Representation{repType: Required, create: `10.0.0.0/16`},
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
