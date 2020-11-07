@@ -23,7 +23,7 @@ var (
 	VcnRequiredOnlyResource = VcnRequiredOnlyResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 
-	VcnResourceConfig = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"}))
+	VcnResourceConfig = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation)
 
 	vcnSingularDataSourceRepresentation = map[string]interface{}{
 		"vcn_id": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
@@ -40,9 +40,8 @@ var (
 	}
 
 	vcnRepresentation = map[string]interface{}{
+		"cidr_block":     Representation{repType: Required, create: `10.0.0.0/16`},
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"cidr_block":     Representation{repType: Optional, create: `10.0.0.0/16`},
-		"cidr_blocks":    Representation{repType: Optional, create: []string{"10.0.0.0/16", "11.0.0.0/16"}},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"dns_label":      Representation{repType: Optional, create: `dnslabel`},
@@ -82,12 +81,10 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"cidr_block": Representation{repType: Required, create: `10.0.0.0/16`},
-					})),
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -129,9 +126,10 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VcnResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(representationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"}), map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-					})),
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create,
+						representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -155,7 +153,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"})),
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -180,7 +178,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", Optional, Update, vcnDataSourceRepresentation) +
 					compartmentIdVariableStr + VcnResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"})),
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -207,7 +205,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VcnResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"})),
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
 
@@ -229,7 +227,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"})),
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
 			},
 			// verify resource import
 			{
