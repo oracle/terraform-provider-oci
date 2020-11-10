@@ -10,8 +10,8 @@ description: |-
 # oci_dns_zone
 This resource provides the Zone resource in Oracle Cloud Infrastructure Dns service.
 
-Creates a new zone in the specified compartment.
-
+Creates a new zone in the specified compartment. Additionally, for Private DNS, 
+the `scope` and `viewId` query parameters are required when creating private zones.
 
 ## Example Usage
 
@@ -39,6 +39,8 @@ resource "oci_dns_zone" "test_zone" {
 		tsig_key_id = oci_dns_tsig_key.test_tsig_key.id
 	}
 	freeform_tags = var.zone_freeform_tags
+	scope = var.zone_scope
+	view_id = oci_dns_view.test_view.id
 }
 ```
 
@@ -62,7 +64,10 @@ The following arguments are supported:
 
 	 **Example:** `{"Department": "Finance"}` 
 * `name` - (Required) The name of the zone.
-* `zone_type` - (Required) The type of the zone. Must be either `PRIMARY` or `SECONDARY`. 
+* `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope. 
+This value will be null for zones in the global DNS and `PRIVATE` when creating a private zone.
+* `view_id` - (Optional) The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view. 
+* `zone_type` - (Required) The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL zones. 
 
 
 ** IMPORTANT **
@@ -88,23 +93,32 @@ The following attributes are exported:
 
 	 **Example:** `{"Department": "Finance"}` 
 * `id` - The OCID of the zone.
+* `is_protected` - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. 
 * `name` - The name of the zone.
 * `nameservers` - The authoritative nameservers for the zone.
 	* `hostname` - The hostname of the nameserver.
+* `scope` - The scope of the zone.
 * `self` - The canonical absolute URL of the resource.
 * `serial` - The current serial of the zone. As seen in the zone's SOA record. 
 * `state` - The current state of the zone resource.
-* `time_created` - The date and time the resource was created in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
+* `time_created` - The date and time the resource was created in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset, as defined by RFC 3339.
 
 	**Example:** `2016-07-22T17:23:59:60Z` 
 * `version` - Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived. 
-* `zone_type` - The type of the zone. Must be either `PRIMARY` or `SECONDARY`. 
+* `view_id` - The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view. 
+* `zone_type` - The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL zones. 
 
 ## Import
 
-Zones can be imported using the `id`, e.g.
+For legacy Zones that were created without using `scope`, these Zones can be imported using the `id`, e.g.
 
 ```
 $ terraform import oci_dns_zone.test_zone "id"
 ```
+For Zones created using `scope` and `view_id`, these Zones can be imported using the `id`, e.g.
 
+```
+$ terraform import oci_dns_zone.test_zone "zoneNameOrId/{zoneNameOrId}/scope/{scope}/viewId/{viewId}"
+```
+
+skip adding `{view_id}` at the end if Zone was created without `view_id`.

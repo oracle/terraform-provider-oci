@@ -62,6 +62,8 @@ The following attributes are exported:
 		If "true", the IP address is public and accessible from the internet.
 
 		If "false", the IP address is private and accessible only from within the associated VCN. 
+	* `reserved_ip` - Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
+		* `id` - Ocid of the pre-created public IP. That should be attahed to this load balancer.
 * `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead.
 * `is_private` - Whether the load balancer has a VCN-local (private) IP address.
 

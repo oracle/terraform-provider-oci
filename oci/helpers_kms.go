@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

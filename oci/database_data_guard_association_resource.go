@@ -14,8 +14,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
-	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
+	oci_database "github.com/oracle/oci-go-sdk/v28/database"
 )
 
 func init() {
@@ -88,6 +88,11 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"database_software_image_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -373,6 +378,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := databaseId.(string)
 			request.DatabaseId = &tmp
 		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
+		}
 		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
 		}
@@ -397,6 +406,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
 			tmp := databaseId.(string)
 			request.DatabaseId = &tmp
+		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
 		}
 		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
@@ -460,6 +473,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
 			tmp := databaseId.(string)
 			request.DatabaseId = &tmp
+		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
 		}
 		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))

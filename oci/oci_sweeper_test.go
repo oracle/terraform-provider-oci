@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	oci_identity "github.com/oracle/oci-go-sdk/v27/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v28/identity"
 )
 
 /* This map holds the list of ocids for a given resourceType by compartment

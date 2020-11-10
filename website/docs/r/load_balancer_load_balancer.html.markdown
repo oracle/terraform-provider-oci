@@ -56,6 +56,15 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	ip_mode = var.load_balancer_ip_mode
 	is_private = var.load_balancer_is_private
 	network_security_group_ids = var.load_balancer_network_security_group_ids
+	reserved_ips {
+
+		#Optional
+		id = var.load_balancer_reserved_ips_id
+	}
+	ssl_cipher_suites {
+		#Required
+		name = var.load_balancer_ssl_cipher_suites_name
+	}
 }
 ```
 
@@ -92,6 +101,8 @@ The following arguments are supported:
 	*  The network security rules of other resources can reference the NSGs associated with the load balancer to ensure access.
 
 	Example: `["ocid1.nsg.oc1.phx.unique_ID"]` 
+* `reserved_ips` - (Optional) An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
+	* `id` - (Optional) Ocid of the pre-created public IP. That should be attahed to this load balancer.
 * `shape` - (Required) (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `100Mbps` *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also `10Mbps-micro` shape cannot be updated to any other shape nor can any other shape be updated to `10Mbps-micro`.
 * `subnet_ids` - (Required) An array of subnet [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
@@ -115,6 +126,8 @@ The following attributes are exported:
 		If "true", the IP address is public and accessible from the internet.
 
 		If "false", the IP address is private and accessible only from within the associated VCN. 
+	* `reserved_ip` - Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
+		* `id` - Ocid of the pre-created public IP. That should be attahed to this load balancer.
 * `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead 
 * `is_private` - Whether the load balancer has a VCN-local (private) IP address.
 

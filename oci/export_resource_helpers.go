@@ -13,15 +13,15 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v27/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v28/dns"
 
 	"github.com/hashicorp/hcl2/hclwrite"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v27/core"
-	oci_identity "github.com/oracle/oci-go-sdk/v27/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v27/loadbalancer"
+	oci_core "github.com/oracle/oci-go-sdk/v28/core"
+	oci_identity "github.com/oracle/oci-go-sdk/v28/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v28/loadbalancer"
 )
 
 type TerraformResourceHints struct {
@@ -484,7 +484,7 @@ func processDnsRrset(clients *OracleClients, resources []*OCIResource) ([]*OCIRe
 	for _, record := range resources {
 		// Populate config file from compositeId
 		record.compartmentId = record.parent.compartmentId
-		domain, rtype, zoneNameOrId, err := parseRrsetCompositeId(record.id)
+		domain, rtype, zoneNameOrId, _, _, err := parseRrsetCompositeId(record.id)
 		if err == nil {
 			record.sourceAttributes["domain"] = domain
 			record.sourceAttributes["rtype"] = rtype

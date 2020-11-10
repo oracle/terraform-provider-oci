@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v27/common"
-	oci_core "github.com/oracle/oci-go-sdk/v27/core"
+	"github.com/oracle/oci-go-sdk/v28/common"
+	oci_core "github.com/oracle/oci-go-sdk/v28/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -43,7 +43,7 @@ var (
 
 	vlanRepresentation = map[string]interface{}{
 		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"cidr_block":          Representation{repType: Required, create: `10.0.1.0/24`},
+		"cidr_block":          Representation{repType: Required, create: `10.0.0.0/24`, update: "10.0.0.0/16"},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"vcn_id":              Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -94,7 +94,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -115,7 +115,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create, vlanRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -147,7 +147,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -174,7 +174,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Update, vlanRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -208,7 +208,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "vlans.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vlans.0.availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "vlans.0.cidr_block", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(datasourceName, "vlans.0.cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(datasourceName, "vlans.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "vlans.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "vlans.0.display_name", "displayName2"),
@@ -230,7 +230,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vlan_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),

@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -89,11 +89,20 @@ func getElapsedRetryDuration(firstAttemptTime time.Time) time.Duration {
 }
 
 func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration {
+	// Get the override retry duration function if it exists. This gives the most granular control over what value to return, and is passed
+	// into getRetryPolicy function as an optional argument to override retry durations on a per API basis.
+	if len(optionals) > 0 {
+		if overrideRetryDurationFn, ok := optionals[0].(expectedRetryDurationFn); ok {
+			return overrideRetryDurationFn(response, disableNotFoundRetries, service, optionals)
+		}
+	}
 
+	// Use the service specific retry duration calculation if it exists
 	if retryDurationFn, ok := serviceExpectedRetryDurationMap[service]; ok {
 		return retryDurationFn(response, disableNotFoundRetries, optionals...)
 	}
 
+	// Use the default retry duration computation
 	return getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 }
 

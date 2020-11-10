@@ -13,9 +13,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v27/common"
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
-	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	"github.com/oracle/oci-go-sdk/v28/common"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
+	oci_database "github.com/oracle/oci-go-sdk/v28/database"
 )
 
 func init() {
@@ -49,7 +49,6 @@ func DatabaseDbHomeResource() *schema.Resource {
 						"admin_password": {
 							Type:      schema.TypeString,
 							Required:  true,
-							ForceNew:  true,
 							Sensitive: true,
 						},
 
@@ -179,6 +178,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"tde_wallet_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
 						},
 						"time_stamp_for_point_in_time_recovery": {
 							Type:             schema.TypeString,
@@ -415,40 +420,18 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	// Special override to ensure that CreateDbHome retries for the duration of the Terraform configured Create timeout
+	// The underlying db system or vm cluster may be in an updating state. So keep retrying the CreateDbHome.
+	createDbHomeRetryDurationFn := getDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutCreate))
 
-	dbSystemMayBeUpdating := true
-	startTime := time.Now()
-	endTime := startTime.Add(s.D.Timeout(schema.TimeoutCreate))
-	for dbSystemMayBeUpdating {
-		timeout := endTime.Sub(time.Now())
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", createDbHomeRetryDurationFn)
 
-		switch v := (request.CreateDbHomeWithDbSystemIdDetails).(type) {
-		case oci_database.CreateDbHomeWithDbSystemIdDetails:
-		case oci_database.CreateDbHomeWithDbSystemIdFromBackupDetails:
-			_, err = waitForDbSystemIfItIsUpdating(v.DbSystemId, s.Client, timeout)
-			if err != nil {
-				return err
-			}
-		case oci_database.CreateDbHomeWithVmClusterIdDetails:
-			_, err = waitForVmClusterIfItIsUpdating(v.VmClusterId, s.Client, timeout)
-			if err != nil {
-				return err
-			}
-		default:
-			log.Printf("[WARN] Received 'CreateDbHomeWithDbSystemIdDetails' of unknown type %v", request.CreateDbHomeWithDbSystemIdDetails)
-		}
-
-		response, err := s.Client.CreateDbHome(context.Background(), request)
-		if err != nil {
-			if strings.Contains(err.Error(), "has a conflicting state of UPDATING") && timeout > 0 {
-				continue
-			}
-			return err
-		}
-		dbSystemMayBeUpdating = false
-		s.Res = &response.DbHome
+	response, err := s.Client.CreateDbHome(context.Background(), request)
+	if err != nil {
+		return err
 	}
+	s.Res = &response.DbHome
+
 	err = s.getDatabaseInfo()
 	if err != nil {
 		log.Printf("[ERROR] Could not get Database info for the dbHome: %v", err)
@@ -568,37 +551,19 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 		request.PerformFinalBackup = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	// Special override to ensure that DeleteDbHome retries for the duration of the Terraform configured Create timeout
+	// The underlying db system or vm cluster may be in an updating state. So keep retrying it.
+	deleteDbHomeRetryDurationFn := getDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", deleteDbHomeRetryDurationFn)
 
 	dbErr := s.deleteNestedDB()
 	if dbErr != nil {
 		log.Printf("[WARN] Could not delete nested database in DbHome. Will proceed to delete dbHome: %v", dbErr)
 	}
 
-	dbSystemMayBeUpdating := true
-	startTime := time.Now()
-	endTime := startTime.Add(s.D.Timeout(schema.TimeoutDelete))
-	for dbSystemMayBeUpdating {
-		timeout := endTime.Sub(time.Now())
-		dbSystemId, ok := s.D.GetOkExists("db_system_id")
-		if ok && dbSystemId != nil {
-			dbSystemIdStr := dbSystemId.(string)
-			_, err := waitForDbSystemIfItIsUpdating(&dbSystemIdStr, s.Client, timeout)
-			if err != nil {
-				return err
-			}
-		} else {
-			dbSystemMayBeUpdating = false
-		}
-
-		_, err := s.Client.DeleteDbHome(context.Background(), request)
-		if err != nil {
-			if strings.Contains(err.Error(), "has a conflicting state of UPDATING") && timeout > 0 {
-				continue
-			}
-			return err
-		}
-		dbSystemMayBeUpdating = false
+	_, err := s.Client.DeleteDbHome(context.Background(), request)
+	if err != nil {
+		return err
 	}
 	return nil
 }
@@ -741,6 +706,11 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 	if pdbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pdb_name")); ok {
 		tmp := pdbName.(string)
 		result.PdbName = &tmp
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
+		tmp := tdeWalletPassword.(string)
+		result.TdeWalletPassword = &tmp
 	}
 
 	return result, nil
@@ -1126,6 +1096,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 		result["admin_password"] = adminPassword.(string)
 	}
 
+	if tdeWalletPassword, ok := s.D.GetOkExists("database.0.tde_wallet_password"); ok && tdeWalletPassword != nil {
+		result["tde_wallet_password"] = tdeWalletPassword.(string)
+	}
+
 	if backupId, ok := s.D.GetOkExists("database.0.backup_id"); ok && backupId != nil {
 		result["backup_id"] = backupId.(string)
 	}
@@ -1231,6 +1205,19 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat s
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "admin_password")) {
+		tmp := adminPassword.(string)
+		result.NewAdminPassword = &tmp
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")) {
+		tmp := tdeWalletPassword.(string)
+		result.NewTdeWalletPassword = &tmp
+		oldTdePassword, _ := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password"))
+		tmp1 := oldTdePassword.(string)
+		result.OldTdeWalletPassword = &tmp1
+	}
+
 	return result, nil
 }
 
@@ -1276,4 +1263,26 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat st
 	}
 
 	return result, nil
+}
+
+func getDbHomeRetryDurationFunction(retryTimeout time.Duration) expectedRetryDurationFn {
+	return func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration {
+		defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+		if response.Response == nil || response.Response.HTTPResponse() == nil {
+			return defaultRetryTime
+		}
+		switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+		case 409:
+			if e := response.Error; e != nil {
+				if strings.Contains(e.Error(), "has a conflicting state of UPDATING") {
+					defaultRetryTime = retryTimeout
+				} else if strings.Contains(e.Error(), "InvalidatedRetryToken") {
+					defaultRetryTime = 0
+				} else {
+					defaultRetryTime = longRetryTime
+				}
+			}
+		}
+		return defaultRetryTime
+	}
 }

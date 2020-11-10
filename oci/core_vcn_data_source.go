@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v27/core"
+	oci_core "github.com/oracle/oci-go-sdk/v28/core"
 )
 
 func init() {
@@ -69,6 +69,10 @@ func (s *CoreVcnDataSourceCrud) SetData() error {
 
 	if s.Res.CidrBlock != nil {
 		s.D.Set("cidr_block", *s.Res.CidrBlock)
+	}
+
+	if s.Res.CidrBlocks != nil {
+		s.D.Set("cidr_blocks", s.Res.CidrBlocks)
 	}
 
 	if s.Res.CompartmentId != nil {
