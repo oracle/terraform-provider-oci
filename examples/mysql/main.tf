@@ -85,7 +85,6 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     window_start_time = "sun 01:00"
   }
 
-  mysql_version = data.oci_mysql_mysql_versions.test_mysql_versions.versions[0].versions[0].version
   port          = "3306"
   port_x        = "33306"
 
@@ -94,10 +93,6 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     backup_id   = oci_mysql_mysql_backup.test_mysql_backup.id
     source_type = "BACKUP"
   }
-}
-
-data "oci_mysql_mysql_versions" "test_mysql_versions" {
-  compartment_id = var.compartment_ocid
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
@@ -118,10 +113,6 @@ data "oci_mysql_shapes" "test_shapes" {
 
 data "oci_identity_availability_domains" "test_availability_domains" {
   compartment_id = var.tenancy_ocid
-}
-
-output "version_value" {
-  value = data.oci_mysql_mysql_versions.test_mysql_versions.versions[0].versions[0].version
 }
 
 output "configuration_id" {

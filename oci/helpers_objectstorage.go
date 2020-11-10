@@ -16,9 +16,9 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/oracle/oci-go-sdk/v27/common"
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v27/objectstorage"
+	"github.com/oracle/oci-go-sdk/v28/common"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v28/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

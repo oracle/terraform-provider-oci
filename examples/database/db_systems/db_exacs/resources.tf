@@ -44,6 +44,7 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
     }
   }
 
+  # VM_CLUSTER_NONE can also be specified as a source for cloud VM clusters.
   source       = "VM_CLUSTER_BACKUP"
   display_name = "createdDbHome"
 }

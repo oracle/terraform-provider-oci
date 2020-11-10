@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
-	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
+	oci_database "github.com/oracle/oci-go-sdk/v28/database"
 )
 
 func init() {
@@ -66,7 +66,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 									"admin_password": {
 										Type:      schema.TypeString,
 										Required:  true,
-										ForceNew:  true,
 										Sensitive: true,
 									},
 
@@ -201,6 +200,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
+									},
+									"tde_wallet_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Computed:  true,
+										Sensitive: true,
 									},
 									"time_stamp_for_point_in_time_recovery": {
 										Type:             schema.TypeString,
@@ -1316,6 +1321,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.PdbName = &tmp
 	}
 
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
+		tmp := tdeWalletPassword.(string)
+		result.TdeWalletPassword = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1350,6 +1360,10 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 
 	if obj.PdbName != nil {
 		result["pdb_name"] = string(*obj.PdbName)
+	}
+
+	if obj.TdeWalletPassword != nil {
+		result["tde_wallet_password"] = string(*obj.TdeWalletPassword)
 	}
 
 	return result
@@ -2773,25 +2787,6 @@ func waitForDbSystemIfItIsUpdating(dbSystemID *string, client *oci_database.Data
 	return &getDbSystemResponse, err
 }
 
-func waitForVmClusterIfItIsUpdating(vmClusterId *string, client *oci_database.DatabaseClient, timeout time.Duration) (*oci_database.GetVmClusterResponse, error) {
-	getVmClusterRequest := oci_database.GetVmClusterRequest{}
-
-	getVmClusterRequest.VmClusterId = vmClusterId
-
-	vmClusterUpdating := func(response oci_common.OCIOperationResponse) bool {
-		if getVmClusterResponse, ok := response.Response.(oci_database.GetVmClusterResponse); ok {
-			if getVmClusterResponse.LifecycleState == oci_database.VmClusterLifecycleStateUpdating {
-				return true
-			}
-		}
-		return false
-	}
-
-	getVmClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicyWithAdditionalRetryCondition(timeout, vmClusterUpdating, "database")
-	getVmClusterResponse, err := client.GetVmCluster(context.Background(), getVmClusterRequest)
-	return &getVmClusterResponse, err
-}
-
 func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 	err := s.getDbHomeInfo()
 	if err != nil {
@@ -2888,6 +2883,19 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "admin_password")) {
+		tmp := adminPassword.(string)
+		result.NewAdminPassword = &tmp
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")) {
+		tmp := tdeWalletPassword.(string)
+		result.NewTdeWalletPassword = &tmp
+		oldTdePassword, _ := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password"))
+		tmp1 := oldTdePassword.(string)
+		result.OldTdeWalletPassword = &tmp1
+	}
+
 	return result, nil
 }
 
@@ -2946,6 +2954,10 @@ func (s *DatabaseDbSystemResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if adminPassword, ok := s.D.GetOkExists("db_home.0.database.0.admin_password"); ok && adminPassword != nil {
 		result["admin_password"] = adminPassword.(string)
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists("db_home.0.database.0.tde_wallet_password"); ok && tdeWalletPassword != nil {
+		result["tde_wallet_password"] = tdeWalletPassword.(string)
 	}
 
 	if backupId, ok := s.D.GetOkExists("db_home.0.database.0.backup_id"); ok && backupId != nil {

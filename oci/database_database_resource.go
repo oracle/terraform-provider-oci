@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	oci_database "github.com/oracle/oci-go-sdk/v28/database"
 )
 
 func init() {
@@ -167,6 +167,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"tde_wallet_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
 						},
 
 						// Computed
@@ -671,6 +677,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.PdbName = &tmp
 	}
 
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
+		tmp := tdeWalletPassword.(string)
+		result.TdeWalletPassword = &tmp
+	}
+
 	return result, nil
 }
 
@@ -898,6 +909,19 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "admin_password")) {
+		tmp := adminPassword.(string)
+		result.NewAdminPassword = &tmp
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")) {
+		tmp := tdeWalletPassword.(string)
+		result.NewTdeWalletPassword = &tmp
+		oldTdePassword, _ := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password"))
+		tmp1 := oldTdePassword.(string)
+		result.OldTdeWalletPassword = &tmp1
+	}
+
 	return result, nil
 }
 
@@ -906,6 +930,10 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if adminPassword, ok := s.D.GetOkExists("database.0.admin_password"); ok && adminPassword != nil {
 		result["admin_password"] = adminPassword.(string)
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists("database.0.tde_wallet_password"); ok && tdeWalletPassword != nil {
+		result["tde_wallet_password"] = tdeWalletPassword.(string)
 	}
 
 	if backupId, ok := s.D.GetOkExists("database.0.backup_id"); ok && backupId != nil {

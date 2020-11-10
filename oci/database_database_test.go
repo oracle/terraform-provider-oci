@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v27/common"
-	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	"github.com/oracle/oci-go-sdk/v28/common"
+	oci_database "github.com/oracle/oci-go-sdk/v28/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -149,6 +149,7 @@ var (
 		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"ncharacter_set":   Representation{repType: Optional, create: `AL16UTF16`},
 		"pdb_name":         Representation{repType: Optional, create: `pdbName`},
+		// "tde_wallet_password": Representation{repType: Optional, create: `tdeWalletPassword`},	exadata doesn't support it.
 	}
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
 		"auto_backup_enabled":     Representation{repType: Optional, create: `true`},
@@ -303,7 +304,6 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.ncharacter_set"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.pdb_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.source_database_point_in_time_recovery_timestamp"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.time_created"),
 				),
@@ -326,7 +326,6 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "ncharacter_set"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "pdb_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "source_database_point_in_time_recovery_timestamp"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

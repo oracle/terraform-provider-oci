@@ -6,17 +6,16 @@ package oci
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
 
-	"github.com/oracle/oci-go-sdk/v27/common"
+	"github.com/oracle/oci-go-sdk/v28/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v27/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v28/dns"
 )
 
 var (
@@ -31,6 +30,8 @@ var (
 		"rtype":           Representation{repType: Required, create: `A`},
 		"zone_name_or_id": Representation{repType: Required, create: `${oci_dns_zone.test_zone.id}`},
 		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
+		"scope":           Representation{repType: Required, create: `PRIVATE`},
+		"view_id":         Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
 	}
 
 	dnsDomainName       = randomString(5, charsetWithoutDigits) + ".token.oci-record-test"
@@ -40,6 +41,8 @@ var (
 		"zone_name_or_id": Representation{repType: Required, create: `${oci_dns_zone.test_zone.id}`},
 		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
 		"items":           RepresentationGroup{Optional, rrsetItemsRepresentation},
+		"scope":           Representation{repType: Required, create: `PRIVATE`},
+		"view_id":         Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
 	}
 	rrsetItemsRepresentation = map[string]interface{}{
 		"domain": Representation{repType: Required, create: dnsDomainName},
@@ -58,8 +61,10 @@ resource "oci_dns_zone" "test_zone" {
 	compartment_id = "${var.compartment_id}"
 	name = "` + dnsDomainName + `"
 	zone_type = "PRIMARY"
+	scope = "PRIVATE"
+	view_id = "${oci_dns_view.test_view.id}"
 }
-`
+` + generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
 )
 
 func TestDnsRrsetResource_basic(t *testing.T) {
@@ -121,15 +126,18 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 					},
 						[]string{}),
 					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "view_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
+						// Resource discovery is not supported for Rrset resources created using scope field
+						//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						//		return errExport
+						//	}
+						//}
 						return err
 					},
 				),
@@ -151,6 +159,8 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 					},
 						[]string{}),
 					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "view_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
 					func(s *terraform.State) (err error) {
@@ -170,6 +180,8 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(singularDatasourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(singularDatasourceName, "rtype", "A"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "view_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_name_or_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "1"),
@@ -195,13 +207,27 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
+				ImportStateIdFunc: getRrSetImportId(resourceName),
 				ImportStateVerifyIgnore: []string{
 					"compartment_id",
+					"scope",
+					"view_id",
 				},
 				ResourceName: resourceName,
 			},
 		},
 	})
+}
+
+func getRrSetImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("zoneNameOrId/" + rs.Primary.Attributes["zone_name_or_id"] + "/domain/" + rs.Primary.Attributes["domain"] + "/rtype/" + rs.Primary.Attributes["rtype"] + "/scope/" +
+			rs.Primary.Attributes["scope"] + "/viewId/" + rs.Primary.Attributes["view_id"]), nil
+	}
 }
 
 func testAccCheckDnsRrsetDestroy(s *terraform.State) error {
@@ -222,6 +248,14 @@ func testAccCheckDnsRrsetDestroy(s *terraform.State) error {
 
 			if value, ok := rs.Primary.Attributes["rtype"]; ok {
 				request.Rtype = &value
+			}
+
+			if value, ok := rs.Primary.Attributes["scope"]; ok {
+				request.Scope = oci_dns.GetRRSetScopeEnum(value)
+			}
+
+			if value, ok := rs.Primary.Attributes["view_id"]; ok {
+				request.ViewId = &value
 			}
 
 			if value, ok := rs.Primary.Attributes["zone_name_or_id"]; ok {

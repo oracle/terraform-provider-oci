@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"strings"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v27/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v27/functions"
-	oci_kms "github.com/oracle/oci-go-sdk/v27/keymanagement"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v27/ocvp"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v27/workrequests"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v28/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v28/functions"
+	oci_kms "github.com/oracle/oci-go-sdk/v28/keymanagement"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v28/ocvp"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v28/workrequests"
 )
 
 var oracleClientRegistrations *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region

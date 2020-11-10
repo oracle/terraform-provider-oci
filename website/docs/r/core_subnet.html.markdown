@@ -77,7 +77,7 @@ The following arguments are supported:
 	To instead create an AD-specific subnet, set this attribute to the availability domain you want this subnet to be in. Then any resources later created in this subnet can only be created in that availability domain.
 
 	Example: `Uocm:PHX-AD-1` 
-* `cidr_block` - (Required) The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
+* `cidr_block` - (Required) (Updatable) The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
 
 	a. The CIDR block is valid and correctly formatted. b. The new range is within one of the parent VCN ranges.
 

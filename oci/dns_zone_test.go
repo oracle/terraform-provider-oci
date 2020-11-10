@@ -7,25 +7,23 @@ import (
 	"context"
 	"fmt"
 	"regexp"
-	"strconv"
 	"testing"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v27/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v27/dns"
+	"github.com/oracle/oci-go-sdk/v28/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v28/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ZoneRequiredOnlyResource = ZoneResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary)
-
 	zoneDataSourceRepresentationRequiredOnly = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"scope":          Representation{repType: Required, create: `PRIVATE`},
+		"view_id":        Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
 	}
 	zoneDataSourceRepresentationRequiredOnlyWithFilter = representationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
 		"filter": RepresentationGroup{Required, zoneDataSourceFilterRepresentation},
@@ -47,6 +45,7 @@ var (
 	})
 	zoneDataSourceRepresentationWithZoneTypeOptional = representationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
 		"zone_type": Representation{repType: Optional, create: `PRIMARY`},
+		"view_id":   Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
 	})
 
 	zoneDataSourceFilterRepresentation = map[string]interface{}{
@@ -61,7 +60,10 @@ var (
 		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"external_masters": RepresentationGroup{Optional, zoneExternalMastersRepresentation},
 		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"scope":            Representation{repType: Required, create: `PRIVATE`},
+		"view_id":          Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
 	}
+
 	zoneRepresentation = getUpdatedRepresentationCopy("zone_type", Representation{repType: Required, create: `SECONDARY`}, zoneRepresentationPrimary)
 
 	zoneExternalMastersRepresentation = map[string]interface{}{
@@ -75,7 +77,7 @@ var (
 data "oci_identity_tenancy" "test_tenancy" {
 	tenancy_id = "${var.tenancy_ocid}"
 }
-`
+` + generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
 )
 
 func TestDnsZoneResource_basic(t *testing.T) {
@@ -119,28 +121,6 @@ func TestDnsZoneResource_basic(t *testing.T) {
 					},
 				),
 			},
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create, zoneRepresentation), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "external_masters.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "external_masters.0.address", "77.64.12.1"),
-					resource.TestCheckResourceAttr(resourceName, "external_masters.0.port", "53"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_masters.0.tsig_key_id"),
-					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "SECONDARY"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("resource id should be different")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
 
 			// delete before next create
 			{
@@ -158,14 +138,24 @@ func TestDnsZoneResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "nameservers.#"),
+					resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "self"),
+					resource.TestCheckResourceAttrSet(resourceName, "serial"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "version"),
+					resource.TestCheckResourceAttrSet(resourceName, "view_id"),
+					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
+						// Resource discovery is not supported for Zone resources created using scope field
+						//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						//		return errExport
+						//	}
+						//}
 						return err
 					},
 				),
@@ -180,11 +170,21 @@ func TestDnsZoneResource_basic(t *testing.T) {
 						})), nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "nameservers.#"),
+					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
+					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+					resource.TestCheckResourceAttr(resourceName, "nameservers.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "self"),
+					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "serial"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "version"),
+					resource.TestCheckResourceAttrSet(resourceName, "view_id"),
+					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -204,7 +204,19 @@ func TestDnsZoneResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
+					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+					resource.TestCheckResourceAttr(resourceName, "nameservers.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "self"),
+					resource.TestCheckResourceAttrSet(resourceName, "serial"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "version"),
+					resource.TestCheckResourceAttrSet(resourceName, "view_id"),
 					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 					func(s *terraform.State) (err error) {
@@ -223,14 +235,20 @@ func TestDnsZoneResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
+					resource.TestCheckResourceAttrSet(datasourceName, "view_id"),
 					resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.is_protected"),
+					resource.TestCheckResourceAttr(datasourceName, "zones.0.scope", "PRIVATE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.self"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.serial"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.version"),
+					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.view_id"),
+					resource.TestCheckResourceAttr(datasourceName, "zones.0.zone_type", "PRIMARY"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.nameservers.#"),
 				),
 			},
@@ -307,10 +325,21 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				Config:            tokenFn(config, nil),
 				ImportState:       true,
 				ImportStateVerify: true,
+				ImportStateIdFunc: getZoneImportId(resourceName),
 				ResourceName:      resourceName,
 			},
 		},
 	})
+}
+
+func getZoneImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("zoneNameOrId/" + rs.Primary.Attributes["id"] + "/scope/" + rs.Primary.Attributes["scope"] + "/viewId/" + rs.Primary.Attributes["view_id"]), nil
+	}
 }
 
 func testAccCheckDnsZoneDestroy(s *terraform.State) error {
@@ -326,6 +355,14 @@ func testAccCheckDnsZoneDestroy(s *terraform.State) error {
 
 			if value, ok := rs.Primary.Attributes["compartment_id"]; ok {
 				request.CompartmentId = &value
+			}
+
+			if value, ok := rs.Primary.Attributes["scope"]; ok {
+				request.Scope = oci_dns.GetZoneScopeEnum(value)
+			}
+
+			if value, ok := rs.Primary.Attributes["view_id"]; ok {
+				request.ViewId = &value
 			}
 
 			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")

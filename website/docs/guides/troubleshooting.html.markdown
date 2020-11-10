@@ -67,7 +67,13 @@ _If the Terraform CLI gives an error message like:_
 * Error: "field_name": this field cannot be set
 ```
 
-You are likely using an older version of the OCI Terraform Provider and the field you are trying to set was released in later version. The OCI Terraform Provider documentation reflects the [latest version](https://github.com/terraform-providers/terraform-provider-oci/releases).
+You are likely using an older version of the OCI Terraform Provider and the field you are trying to set was released in a later version. Use the following command to check your terraform provider version.
+
+```
+terraform -version
+```
+
+The OCI Terraform Provider documentation reflects the [latest version](https://github.com/terraform-providers/terraform-provider-oci/releases).
 
 
 ### Dial tcp i/o timeout when connecting via proxy
@@ -92,18 +98,3 @@ export no_proxy=localhost,127.0.0.1
 While using Terraform, you may encounter errors indicating that you have reached or exceeded the service limits for a resource.
 
 To understand more about your OCI service limits and how to request a limit increase, see [Service Limits](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm)
-
-
-### Timeout errors when waiting for a state change
-
-_If the Terraform CLI gives an error message like:_
-
-```
-* oci_database_backup.mydb: timeout while waiting for state to become 'ACTIVE' (last state: 'CREATING', timeout: 15m0s)
-```
-
-Then the OCI service is indicating that the resource has not yet reached the expected state after polling for some time.
-
-You may need to increase the operation timeout for your resource to continue polling for longer. See [Operation Timeouts](https://www.terraform.io/docs/configuration/resources.html#operation-timeouts) for details on how to do this.
-
- 

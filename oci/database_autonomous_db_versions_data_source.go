@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	oci_database "github.com/oracle/oci-go-sdk/v28/database"
 )
 
 func init() {
@@ -49,7 +49,19 @@ func DatabaseAutonomousDbVersionsDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_default_for_free": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_default_for_paid": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_free_tier_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_paid_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -138,8 +150,20 @@ func (s *DatabaseAutonomousDbVersionsDataSourceCrud) SetData() error {
 			autonomousDbVersion["is_dedicated"] = *r.IsDedicated
 		}
 
+		if r.IsDefaultForFree != nil {
+			autonomousDbVersion["is_default_for_free"] = *r.IsDefaultForFree
+		}
+
+		if r.IsDefaultForPaid != nil {
+			autonomousDbVersion["is_default_for_paid"] = *r.IsDefaultForPaid
+		}
+
 		if r.IsFreeTierEnabled != nil {
 			autonomousDbVersion["is_free_tier_enabled"] = *r.IsFreeTierEnabled
+		}
+
+		if r.IsPaidEnabled != nil {
+			autonomousDbVersion["is_paid_enabled"] = *r.IsPaidEnabled
 		}
 
 		if r.Version != nil {

@@ -3,9 +3,12 @@
 package oci
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -117,10 +120,55 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "database.0.backup_tde_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "database.0.database_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2.200714"),
 					resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
 					resource.TestCheckResourceAttrSet(resourceName, "database.0.time_stamp_for_point_in_time_recovery"),
 				),
+			},
+		},
+	})
+}
+
+// Creates a oci_database_db_home resource under a Cloud VM Cluster (also known as an ExaCS VM cluster).
+func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDbHomeResource_createFromCloudVmCluster")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_db_home.test_db_home"
+	dbHomeRepresentationSourceCloudVmClusterNew := getUpdatedRepresentationCopy("vm_cluster_id",
+		Representation{repType: Required, create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
+		dbHomeRepresentationSourceVmClusterNew)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckDatabaseCloudVmClusterDestroy,
+		Steps: []resource.TestStep{
+			// verify create
+			{
+				Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+					generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceCloudVmClusterNew),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "source", "VM_CLUSTER_NEW"),
+					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_id"),
+				),
+			},
+			// verify resource import
+			{
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{"database.0.admin_password", "source"}, // Db passwords and Source of Db Home creation are not made visible by services
+				ResourceName:            resourceName,
 			},
 		},
 	})

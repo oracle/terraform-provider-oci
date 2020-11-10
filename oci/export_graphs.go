@@ -36,6 +36,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"integration":         integrationResourceGraph,
 	"kms":                 kmsResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
+	"management_agent":    managementAgentResourceGraph,
 	"logging":             loggingResourceGraph,
 	"marketplace":         marketplaceResourceGraph,
 	"monitoring":          monitoringResourceGraph,
@@ -626,6 +627,13 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 				"load_balancer_id": "id",
 			},
 		},
+	},
+}
+
+var managementAgentResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportManagementAgentManagementAgentHints},
+		{TerraformResourceHints: exportManagementAgentManagementAgentInstallKeyHints},
 	},
 }
 
