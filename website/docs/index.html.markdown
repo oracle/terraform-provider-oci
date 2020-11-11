@@ -110,7 +110,7 @@ _Note: the parameter names are slightly different. Provider block from terraform
  
  If the parameters have multiple sources, the priority is going to be: 1 environment value, 2 non-default profile if provided, 3 DEFAULT profile
  
- TO used non-default profile, you can set it through environment value like: `export TF_VAR_config_file_profile=<value>` or set it in a provider block like:
+ TO used a non-default profile, you can set it through environment value like: `export TF_VAR_config_file_profile=<value>` or set it in a provider block like:
  
 ```
 provider "oci" {
@@ -171,7 +171,7 @@ By default, the Terraform OCI provider will automatically retry such operations 
 The following fields can be specified in the provider block to further configure the retry behavior:
 
 - `disable_auto_retries` - Disable automatic retries for retriable errors.
-- `retry_duration_seconds` - The minimum duration (in seconds) to retry a resource operation in response to HTTP 429 and HTTP 500 errors. The actual retry duration may be slightly longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.
+- `retry_duration_seconds` - The minimum duration (in seconds) to retry a resource operation in response to HTTP 429 and HTTP 500 errors. The actual retry duration may be slightly longer due to the jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.
 
 ### Concurrency Control using Retry Backoff and Jitter
 To alleviate contention between parallel operations against OCI services; the Terraform OCI provider schedules retry attempts using quadratic backoff and full jitter.
