@@ -58,6 +58,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the user. Does not have to be unique, and it's changeable.
 * `email` - The email address you assign to the user. The email address must be unique across all users in the tenancy. 
+* `email_verified` - Whether the email address has been validated.
 * `external_identifier` - Identifier of the user in the identity provider
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the user.
@@ -66,7 +67,21 @@ The following attributes are exported:
 	* bit 0: SUSPENDED (reserved for future use)
 	* bit 1: DISABLED (reserved for future use)
 	* bit 2: BLOCKED (the user has exceeded the maximum number of failed login attempts for the Console) 
+* `last_successful_login_time` - The date and time of when the user most recently logged in the format defined by RFC3339 (ex. `2016-08-25T21:10:29.600Z`). If there is no login history, this field is null.
+
+	For illustrative purposes, suppose we have a user who has logged in at July 1st, 2020 at 1200 PST and logged out 30 minutes later. They then login again on July 2nd, 2020 at 1500 PST.
+
+	Their previousSuccessfulLoginTime would be `2020-07-01:19:00.000Z`.
+
+	Their lastSuccessfulLoginTime would be `2020-07-02:22:00.000Z`. 
 * `name` - The name you assign to the user during creation. This is the user's login for the Console. The name must be unique across all users in the tenancy and cannot be changed. 
+* `previous_successful_login_time` - The date and time of when the user most recently logged in the format defined by RFC3339 (ex. `2016-08-25T21:10:29.600Z`). If there is no login history, this field is null.
+
+	For illustrative purposes, suppose we have a user who has logged in at July 1st, 2020 at 1200 PST and logged out 30 minutes later. They then login again on July 2nd, 2020 at 1500 PST.
+
+	Their previousSuccessfulLoginTime would be `2020-07-01:19:00.000Z`.
+
+	Their lastSuccessfulLoginTime would be `2020-07-02:22:00.000Z`. 
 * `state` - The user's current state.
 * `time_created` - Date and time the user was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 

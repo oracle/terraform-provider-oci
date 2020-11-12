@@ -41,7 +41,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `display_name` - The display name you assign to the secret key. Does not have to be unique, and it's changeable.
-* `id` - The OCID of the secret key.
+* `id` - The access key portion of the key pair.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `state` - The secret key's current state.
 * `time_created` - Date and time the `CustomerSecretKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
