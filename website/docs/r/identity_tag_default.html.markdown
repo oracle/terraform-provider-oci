@@ -12,8 +12,8 @@ This resource provides the Tag Default resource in Oracle Cloud Infrastructure I
 
 Creates a new tag default in the specified compartment for the specified tag definition.
 
-If you specify that a value is required, a value is set during resource creation (either by 
-the user creating the resource or another tag defualt). If no value is set, resource creation 
+If you specify that a value is required, a value is set during resource creation (either by
+the user creating the resource or another tag defualt). If no value is set, resource creation
 is blocked.
 
 * If the `isRequired` flag is set to "true", the value is set during resource creation.
@@ -39,7 +39,7 @@ resource "oci_identity_tag_default" "test_tag_default" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment. The tag default will be applied to all new resources created in this compartment. 
-* `is_required` - (Optional) (Updatable) If you specify that a value is required, a value is set during resource creation (either by  the user creating the resource or another tag defualt). If no value is set, resource  creation is blocked.
+* `is_required` - (Optional) (Updatable) If you specify that a value is required, a value is set during resource creation (either by the user creating the resource or another tag defualt). If no value is set, resource creation is blocked.
 	* If the `isRequired` flag is set to "true", the value is set during resource creation.
 	* If the `isRequired` flag is set to "false", the value you enter is set during resource creation.
 
@@ -57,7 +57,7 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment. The tag default applies to all new resources that get created in the compartment. Resources that existed before the tag default was created are not tagged. 
 * `id` - The OCID of the tag default.
-* `is_required` - If you specify that a value is required, a value is set during resource creation (either by the  user creating the resource or another tag defualt). If no value is set, resource creation is  blocked.
+* `is_required` - If you specify that a value is required, a value is set during resource creation (either by the user creating the resource or another tag defualt). If no value is set, resource creation is blocked.
 	* If the `isRequired` flag is set to "true", the value is set during resource creation.
 	* If the `isRequired` flag is set to "false", the value you enter is set during resource creation.
 

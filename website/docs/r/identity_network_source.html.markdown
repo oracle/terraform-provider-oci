@@ -25,7 +25,7 @@ about policies, see [How Policies Work](https://docs.cloud.oracle.com/iaas/Conte
 
 You must also specify a *description* for the network source (although it can be an empty string). It does not
 have to be unique, and you can change it anytime with [UpdateNetworkSource](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/NetworkSource/UpdateNetworkSource).
-After your network resource is created, you can use it in policy to restrict access to only requests made from an allowed 
+After your network resource is created, you can use it in policy to restrict access to only requests made from an allowed
 IP address specified in your network source. For more information, see [Managing Network Sources](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingnetworksources.htm).
 
 

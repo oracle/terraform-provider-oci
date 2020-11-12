@@ -11,7 +11,7 @@ description: |-
 This resource provides the Customer Secret Key resource in Oracle Cloud Infrastructure Identity service.
 
 Creates a new secret key for the specified user. Secret keys are used for authentication with the Object Storage Service's Amazon S3
-compatible API. For information, see
+compatible API. The secret key consists of an Access Key/Secret Key pair. For information, see
 [Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcredentials.htm).
 
 You must specify a *description* for the secret key (although it can be an empty string). It does not
@@ -49,7 +49,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `display_name` - The display name you assign to the secret key. Does not have to be unique, and it's changeable.
-* `id` - The OCID of the secret key.
+* `id` - The access key portion of the key pair.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `key` - The secret key. 
 * `state` - The secret key's current state.
