@@ -9,9 +9,9 @@ resource "oci_file_storage_mount_target" "my_mount_target_1" {
 
   #Optional
   display_name = var.mount_target_1_display_name
-  defined_tags = {
-    "example-tag-namespace-all.example-tag" = "value"
-  }
+  # defined_tags = {
+  #   "example-tag-namespace-all.example-tag" = "value"
+  # }
 
   freeform_tags = {
     "Department" = "Finance"
@@ -28,9 +28,9 @@ resource "oci_file_storage_mount_target" "my_mount_target_2" {
 
   #Optional
   display_name = var.mount_target_2_display_name
-  defined_tags = {
-    "example-tag-namespace-all.example-tag" = "value"
-  }
+  # defined_tags = {
+  #   "example-tag-namespace-all.example-tag" = "value"
+  # }
 
   freeform_tags = {
     "Department" = "Accounting"

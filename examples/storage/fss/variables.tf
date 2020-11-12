@@ -26,9 +26,6 @@ variable "ssh_public_key" {
 variable "ssh_private_key" {
 }
 
-variable "api_public_key" {
-}
-
 variable "my_vcn-cidr" {
   default = "10.0.0.0/16"
 }
