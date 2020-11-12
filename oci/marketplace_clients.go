@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_marketplace "github.com/oracle/oci-go-sdk/v27/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v28/marketplace"
 
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
 )
 
 func init() {

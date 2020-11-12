@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v27/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v28/dns"
 )
 
 func init() {
@@ -105,6 +105,16 @@ func DnsRrsetResource() *schema.Resource {
 					},
 				},
 			},
+			"scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"view_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 
 			// Computed
 		},
@@ -192,6 +202,15 @@ func (s *DnsRrsetResourceCrud) Create() error {
 		request.Rtype = &tmp
 	}
 
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.UpdateRRSetScopeEnum(scope.(string))
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		request.ViewId = &tmp
+	}
+
 	if zoneNameOrId, ok := s.D.GetOkExists("zone_name_or_id"); ok {
 		tmp := zoneNameOrId.(string)
 		request.ZoneNameOrId = &tmp
@@ -229,16 +248,31 @@ func (s *DnsRrsetResourceCrud) Get() error {
 		request.Rtype = &tmp
 	}
 
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.GetRRSetScopeEnum(scope.(string))
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		request.ViewId = &tmp
+	}
+
 	if zoneNameOrId, ok := s.D.GetOkExists("zone_name_or_id"); ok {
 		tmp := zoneNameOrId.(string)
 		request.ZoneNameOrId = &tmp
 	}
 
-	domain, rtype, zoneNameOrId, err := parseRrsetCompositeId(s.D.Id())
+	domain, rtype, zoneNameOrId, scope, viewId, err := parseRrsetCompositeId(s.D.Id())
 	if err == nil {
 		request.Domain = &domain
 		request.Rtype = &rtype
 		request.ZoneNameOrId = &zoneNameOrId
+		if scope != "" {
+			request.Scope = oci_dns.GetRRSetScopeEnum(scope)
+			if viewId != "" {
+				request.ViewId = &viewId
+			}
+		}
 	} else {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
@@ -291,6 +325,15 @@ func (s *DnsRrsetResourceCrud) Update() error {
 		request.Rtype = &tmp
 	}
 
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.UpdateRRSetScopeEnum(scope.(string))
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		request.ViewId = &tmp
+	}
+
 	if zoneNameOrId, ok := s.D.GetOkExists("zone_name_or_id"); ok {
 		tmp := zoneNameOrId.(string)
 		request.ZoneNameOrId = &tmp
@@ -327,6 +370,15 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 		request.Rtype = &tmp
 	}
 
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.DeleteRRSetScopeEnum(scope.(string))
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		request.ViewId = &tmp
+	}
+
 	if zoneNameOrId, ok := s.D.GetOkExists("zone_name_or_id"); ok {
 		tmp := zoneNameOrId.(string)
 		request.ZoneNameOrId = &tmp
@@ -340,11 +392,18 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 
 func (s *DnsRrsetResourceCrud) SetData() error {
 
-	domain, rtype, zoneNameOrId, err := parseRrsetCompositeId(s.D.Id())
+	domain, rtype, zoneNameOrId, scope, viewId, err := parseRrsetCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("domain", &domain)
 		s.D.Set("rtype", &rtype)
 		s.D.Set("zone_name_or_id", &zoneNameOrId)
+		s.D.SetId(getRrsetCompositeId(domain, rtype, zoneNameOrId))
+		if scope != "" {
+			s.D.Set("scope", scope)
+			if viewId != "" {
+				s.D.Set("view_id", viewId)
+			}
+		}
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
@@ -366,16 +425,24 @@ func getRrsetCompositeId(domain string, rtype string, zoneNameOrId string) strin
 	return compositeId
 }
 
-func parseRrsetCompositeId(compositeId string) (domain string, rtype string, zoneNameOrId string, err error) {
+func parseRrsetCompositeId(compositeId string) (domain string, rtype string, zoneNameOrId string, scope string, viewId string, err error) {
 	parts := strings.Split(compositeId, "/")
-	match, _ := regexp.MatchString("zoneNameOrId/.*/domain/.*/rtype/.*", compositeId)
-	if !match || len(parts) != 6 {
+	match1, _ := regexp.MatchString("zoneNameOrId/.*/domain/.*/rtype/.*", compositeId)
+	match2, _ := regexp.MatchString("zoneNameOrId/.*/domain/.*/rtype/.*/scope/.*/viewId/.*", compositeId)
+	if match1 && len(parts) == 6 {
+		zoneNameOrId, _ = url.PathUnescape(parts[1])
+		domain, _ = url.PathUnescape(parts[3])
+		rtype, _ = url.PathUnescape(parts[5])
+	} else if match2 && len(parts) == 10 {
+		zoneNameOrId, _ = url.PathUnescape(parts[1])
+		domain, _ = url.PathUnescape(parts[3])
+		rtype, _ = url.PathUnescape(parts[5])
+		scope, _ = url.PathUnescape(parts[7])
+		viewId, _ = url.PathUnescape(parts[9])
+	} else {
 		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
 		return
 	}
-	zoneNameOrId, _ = url.PathUnescape(parts[1])
-	domain, _ = url.PathUnescape(parts[3])
-	rtype, _ = url.PathUnescape(parts[5])
 
 	return
 }

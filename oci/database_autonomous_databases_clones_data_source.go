@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	oci_database "github.com/oracle/oci-go-sdk/v28/database"
 )
 
 func init() {
@@ -175,6 +175,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						},
 						"infrastructure_type": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_access_control_enabled": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"is_auto_scaling_enabled": {
@@ -495,6 +499,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabasesClone["infrastructure_type"] = r.InfrastructureType
+
+		if r.IsAccessControlEnabled != nil {
+			autonomousDatabasesClone["is_access_control_enabled"] = *r.IsAccessControlEnabled
+		}
 
 		if r.IsAutoScalingEnabled != nil {
 			autonomousDatabasesClone["is_auto_scaling_enabled"] = *r.IsAutoScalingEnabled

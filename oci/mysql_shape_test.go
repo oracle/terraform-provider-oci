@@ -17,6 +17,7 @@ var (
 	mysqlShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"is_supported_for":    Representation{repType: Optional, create: []string{`DBSYSTEM`}},
 		"name":                Representation{repType: Optional, create: `name`},
 	}
 
@@ -63,10 +64,12 @@ func TestMysqlShapeResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "is_supported_for.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "name"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.cpu_core_count"),
+					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_supported_for.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.memory_size_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
 				),

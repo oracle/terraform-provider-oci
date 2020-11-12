@@ -16,8 +16,8 @@ import (
 	"net/url"
 	"regexp"
 
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
-	oci_kms "github.com/oracle/oci-go-sdk/v27/keymanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
+	oci_kms "github.com/oracle/oci-go-sdk/v28/keymanagement"
 )
 
 func init() {

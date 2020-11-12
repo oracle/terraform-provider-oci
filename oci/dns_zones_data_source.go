@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v27/dns"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v28/dns"
 )
 
 func init() {
@@ -33,6 +33,10 @@ func DnsZonesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"sort_order": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -50,6 +54,10 @@ func DnsZonesDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"time_created_less_than": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"view_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -102,6 +110,10 @@ func (s *DnsZonesDataSourceCrud) Get() error {
 		request.NameContains = &tmp
 	}
 
+	if scope, ok := s.D.GetOkExists("scope"); ok {
+		request.Scope = oci_dns.ListZonesScopeEnum(scope.(string))
+	}
+
 	if sortBy, ok := s.D.GetOkExists("sort_by"); ok {
 		tmp := sortBy.(string)
 		request.SortBy = oci_dns.ListZonesSortByEnum(tmp)
@@ -130,6 +142,11 @@ func (s *DnsZonesDataSourceCrud) Get() error {
 			return err
 		}
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if viewId, ok := s.D.GetOkExists("view_id"); ok {
+		tmp := viewId.(string)
+		request.ViewId = &tmp
 	}
 
 	if zoneType, ok := s.D.GetOkExists("zone_type"); ok {
@@ -182,9 +199,15 @@ func (s *DnsZonesDataSourceCrud) SetData() error {
 			zone["id"] = *r.Id
 		}
 
+		if r.IsProtected != nil {
+			zone["is_protected"] = *r.IsProtected
+		}
+
 		if r.Name != nil {
 			zone["name"] = *r.Name
 		}
+
+		zone["scope"] = r.Scope
 
 		if r.Self != nil {
 			zone["self"] = *r.Self
@@ -202,6 +225,10 @@ func (s *DnsZonesDataSourceCrud) SetData() error {
 
 		if r.Version != nil {
 			zone["version"] = *r.Version
+		}
+
+		if r.ViewId != nil {
+			zone["view_id"] = *r.ViewId
 		}
 
 		zone["zone_type"] = r.ZoneType

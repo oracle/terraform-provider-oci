@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v27/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v28/mysql"
 )
 
 func init() {
@@ -33,6 +33,10 @@ func MysqlMysqlDbSystemsDataSource() *schema.Resource {
 			},
 			"display_name": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"is_analytics_cluster_attached": {
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"is_up_to_date": {
@@ -93,6 +97,11 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	if isAnalyticsClusterAttached, ok := s.D.GetOkExists("is_analytics_cluster_attached"); ok {
+		tmp := isAnalyticsClusterAttached.(bool)
+		request.IsAnalyticsClusterAttached = &tmp
+	}
+
 	if isUpToDate, ok := s.D.GetOkExists("is_up_to_date"); ok {
 		tmp := isUpToDate.(bool)
 		request.IsUpToDate = &tmp
@@ -138,6 +147,12 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AnalyticsCluster != nil {
+			mysqlDbSystem["analytics_cluster"] = []interface{}{AnalyticsClusterSummaryToMap(r.AnalyticsCluster)}
+		} else {
+			mysqlDbSystem["analytics_cluster"] = nil
+		}
+
 		if r.AvailabilityDomain != nil {
 			mysqlDbSystem["availability_domain"] = *r.AvailabilityDomain
 		}
@@ -168,6 +183,10 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			mysqlDbSystem["id"] = *r.Id
+		}
+
+		if r.IsAnalyticsClusterAttached != nil {
+			mysqlDbSystem["is_analytics_cluster_attached"] = *r.IsAnalyticsClusterAttached
 		}
 
 		if r.MysqlVersion != nil {

@@ -14,6 +14,7 @@ resource "oci_database_db_system" "test_db_system" {
   db_home {
     database {
       admin_password = var.db_admin_password
+      tde_wallet_password = var.db_tde_wallet_password
       db_name        = "aTFdb1"
       character_set  = var.character_set
       ncharacter_set = var.n_character_set
@@ -61,6 +62,7 @@ resource "oci_database_db_home" "test_db_home" {
 
   database {
     admin_password = var.db_admin_password
+    tde_wallet_password = var.db_tde_wallet_password
     db_name        = "aTFdb2"
     character_set  = var.character_set
     ncharacter_set = var.n_character_set

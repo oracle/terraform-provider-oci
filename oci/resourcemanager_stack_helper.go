@@ -10,8 +10,8 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/oracle/oci-go-sdk/v27/common"
-	"github.com/oracle/oci-go-sdk/v27/resourcemanager"
+	"github.com/oracle/oci-go-sdk/v28/common"
+	"github.com/oracle/oci-go-sdk/v28/resourcemanager"
 )
 
 func createResourceManagerStack(resourceManagerClient resourcemanager.ResourceManagerClient, stackDisplayName string, compartment string) (string, error) {

@@ -62,7 +62,7 @@ The following attributes are exported:
 	* `name` - A user-friendly name for the answer, unique within the steering policy. An answer's `name` property can be referenced in `answerCondition` properties of rules using `answer.name`.
 	* `pool` - The freeform name of a group of one or more records in which this record is included, such as "LAX data center". An answer's `pool` property can be referenced in `answerCondition` properties of rules using `answer.pool`.
 	* `rdata` - The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm). 
-	* `rtype` - The canonical name for the record's type. Only A, AAAA, and CNAME are supported. For more information, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm). 
+	* `rtype` - The type of DNS record, such as A or CNAME. Only A, AAAA, and CNAME are supported. For more information, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm). 
 * `compartment_id` - The OCID of the compartment containing the steering policy.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 * `display_name` - A user-friendly name for the steering policy. Does not have to be unique and can be changed. Avoid entering confidential information. 

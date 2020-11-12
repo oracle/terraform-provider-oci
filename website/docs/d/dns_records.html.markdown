@@ -30,6 +30,8 @@ data "oci_dns_records" "test_records" {
 	domain = var.record_domain
 	domain_contains = var.record_domain_contains
 	rtype = var.record_rtype
+	scope = var.record_scope
+	view_id = oci_dns_view.test_view.id
 	zone_version = var.record_zone_version
 }
 ```

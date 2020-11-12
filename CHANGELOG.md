@@ -1,3 +1,22 @@
+## 4.3.0 (Unreleased)
+
+### Added
+- Support for ADBS free DB version details
+- Support for MySQL Analytics added
+- Support for Private DNS Names added
+- Support for feature of expanding and shrinking of Subnet and VCN
+- Support for Network ACLs for ExaCC ADB
+- Support for `reserved_ips` in `oci_load_balancer`
+- Support for `Resource Discovery` added for `management_agent` service
+- Support for ExaCS - DB Software Images
+- Support for `TDE Wallet Password management` added for `database` service
+- Support `Resource Discovery` for `apigateway certificate` resource added
+
+### Fixed
+- Fix ExaCS cloud VM cluster as source of `oci_database_db_home` resource creation. ExaCS cloud VM clusters can be specified
+as source using `vm_cluster_id` and `SOURCE=VM_CLUSTER_NEW`.
+[Github issue 1218](https://github.com/terraform-providers/terraform-provider-oci/issues/1218)
+
 ## 4.2.0 (November 04, 2020)
 
 ### Added

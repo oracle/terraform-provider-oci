@@ -6,7 +6,7 @@ require (
 	github.com/hashicorp/hcl2 v0.0.0-20190618163856-0b64543c968c
 	github.com/hashicorp/terraform-exec v0.6.0
 	github.com/hashicorp/terraform-plugin-sdk v1.15.0
-	github.com/oracle/oci-go-sdk/v27 v27.3.0
+	github.com/oracle/oci-go-sdk/v28 v28.0.0
 	github.com/stretchr/objx v0.1.1 // indirect
 	github.com/stretchr/testify v1.6.1
 	golang.org/x/mod v0.3.0

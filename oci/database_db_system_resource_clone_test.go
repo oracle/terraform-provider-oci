@@ -25,8 +25,8 @@ func TestResourceDatabaseDBSystemClone(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
-	source_db_system_id := getEnvSettingWithBlankDefault("source_db_system_id")
-	sourceDbSystemIdVariableStr := fmt.Sprintf("variable \"source_db_system_id\" { default = \"%s\" }\n", source_db_system_id)
+
+	cloneDatabaseDbSystemResourceName := "oci_database_db_system.clone"
 
 	provider := testAccProvider
 
@@ -38,10 +38,39 @@ func TestResourceDatabaseDBSystemClone(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify clone VM DbSystem launch
 			{
-				Config: ResourceDatabaseBaseConfig + sourceDbSystemIdVariableStr + compartmentIdUVariableStr + ResourceDatabaseTokenFn(`
-				resource "oci_database_db_system" "t" {
+				Config: ResourceDatabaseBaseConfig + compartmentIdUVariableStr + ResourceDatabaseTokenFn(`
+				resource "oci_database_db_system" "source" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					database_edition = "ENTERPRISE_EDITION"
+					disk_redundancy = "NORMAL"
+					shape = "VM.Standard2.1"
+					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+					display_name = "{{.token}}"
+					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
+					hostname = "myOracleDB" // this will be lowercased server side
+					data_storage_size_in_gb = "256"
+					license_model = "LICENSE_INCLUDED"
+					node_count = "1"
+					db_home {
+						db_version = "19.0.0.0"
+						display_name = "-tf-db-home"
+						database {
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb"
+							freeform_tags = {"Department" = "Finance"}
+						}
+					}
+					db_system_options {
+						storage_management = "LVM"
+					}
+					freeform_tags = {"Department" = "Finance"}
+				}`, nil) +
+					ResourceDatabaseTokenFn(`
+				resource "oci_database_db_system" "clone" {
 				    source              = "DB_SYSTEM"
-                    source_db_system_id = "${var.source_db_system_id}"
+                    source_db_system_id = "${oci_database_db_system.source.id}"
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id_for_update}"
 					subnet_id = "${oci_core_subnet.t.id}"
@@ -68,12 +97,12 @@ func TestResourceDatabaseDBSystemClone(t *testing.T) {
 				}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// DB System Resource tests
-					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "source_db_system_id"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "source", "DB_SYSTEM"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttrSet(cloneDatabaseDbSystemResourceName, "id"),
+					resource.TestCheckResourceAttrSet(cloneDatabaseDbSystemResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(cloneDatabaseDbSystemResourceName, "source_db_system_id"),
+					resource.TestCheckResourceAttr(cloneDatabaseDbSystemResourceName, "source", "DB_SYSTEM"),
+					resource.TestCheckResourceAttr(cloneDatabaseDbSystemResourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(cloneDatabaseDbSystemResourceName, "compartment_id", compartmentIdU),
 				),
 			},
 		},

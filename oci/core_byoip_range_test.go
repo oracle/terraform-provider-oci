@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v27/common"
-	oci_core "github.com/oracle/oci-go-sdk/v27/core"
+	"github.com/oracle/oci-go-sdk/v28/common"
+	oci_core "github.com/oracle/oci-go-sdk/v28/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -72,7 +72,6 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", publicIpPoolCidrBlock),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_byoip_range"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
