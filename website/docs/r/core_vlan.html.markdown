@@ -38,7 +38,12 @@ resource "oci_core_vlan" "test_vlan" {
 The following arguments are supported:
 
 * `availability_domain` - (Required) The availability domain of the VLAN.  Example: `Uocm:PHX-AD-1` 
-* `cidr_block` - (Required) The range of IPv4 addresses that will be used for layer 3 communication with hosts outside the VLAN.  Example: `192.0.2.0/24` 
+* `cidr_block` - (Required) (Updatable) The range of IPv4 addresses that will be used for layer 3 communication with hosts outside the VLAN. The CIDR must maintain the following rules -
+
+  a. The CIDR block is valid and correctly formatted. b. The new range is within one of the parent VCN ranges.
+
+  Example: `192.0.2.0/24`
+
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the VLAN.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A descriptive name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -77,4 +82,3 @@ Vlans can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_vlan.test_vlan "id"
 ```
-

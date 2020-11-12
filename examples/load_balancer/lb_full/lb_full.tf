@@ -126,6 +126,11 @@ resource "oci_core_route_table" "routetable1" {
   }
 }
 
+resource "oci_core_public_ip" "test_reserved_ip" {
+  compartment_id = "${var.compartment_ocid}"
+  lifetime       = "RESERVED"
+}
+
 resource "oci_core_security_list" "securitylist1" {
   display_name   = "public"
   compartment_id = oci_core_vcn.vcn1.compartment_id
@@ -241,6 +246,9 @@ resource "oci_load_balancer" "lb1" {
   ]
 
   display_name = "lb1"
+  reserved_ips {
+      id = "${oci_core_public_ip.test_reserved_ip.id}"
+    }
 }
 
 resource "oci_load_balancer" "lb2" {

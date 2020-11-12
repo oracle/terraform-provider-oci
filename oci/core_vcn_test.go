@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v27/common"
-	oci_core "github.com/oracle/oci-go-sdk/v27/core"
+	"github.com/oracle/oci-go-sdk/v28/common"
+	oci_core "github.com/oracle/oci-go-sdk/v28/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -100,7 +100,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation),
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),

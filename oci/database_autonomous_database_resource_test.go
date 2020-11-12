@@ -13,8 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v27/common"
-	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	oci_common "github.com/oracle/oci-go-sdk/v28/common"
+	oci_database "github.com/oracle/oci-go-sdk/v28/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -25,6 +25,7 @@ var (
 	adbDedicatedCloneName              = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adDedicatedName                    = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adDedicatedUpdateName              = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbExaccName                       = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbBackupSourceName                = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbBackupIdName                    = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbBackupTimestampName             = randomString(1, charsetWithoutDigits) + randomString(13, charset)
@@ -152,6 +153,36 @@ var (
 			representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
 				"db_name": Representation{repType: Required, create: adbBackupSourceName},
 			}))
+
+	autonomousDatabaseExaccRepresentation = representationCopyWithNewProperties(
+		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbExaccName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled"}),
+		map[string]interface{}{
+			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+			"is_dedicated":                     Representation{repType: Optional, create: `true`},
+			"display_name":                     Representation{repType: Optional, create: adbExaccName},
+			"is_access_control_enabled":        Representation{repType: Optional, create: `false`, update: `true`},
+		})
+	autonomousDatabaseUpdateExaccRepresentation = map[string]interface{}{
+		"admin_password":                   Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+		"compartment_id":                   Representation{repType: Required, create: `${var.compartment_id}`},
+		"cpu_core_count":                   Representation{repType: Required, create: `1`},
+		"data_storage_size_in_tbs":         Representation{repType: Required, create: `1`},
+		"db_name":                          Representation{repType: Required, create: adbExaccName},
+		"db_workload":                      Representation{repType: Optional, create: `OLTP`},
+		"display_name":                     Representation{repType: Optional, create: adbExaccName},
+		"is_auto_scaling_enabled":          Representation{repType: Optional, create: `false`},
+		"is_dedicated":                     Representation{repType: Optional, create: `true`},
+		"is_access_control_enabled":        Representation{repType: Optional, create: `false`, update: `true`},
+	}
+
+	autonomousDatabaseExaccRequiredOnlyResource = ExaccADBDatabaseResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseExaccRepresentation)
+
+	autonomousDatabaseExaccResourceConfig = ExaccADBDatabaseResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseUpdateExaccRepresentation)
+
+	ExaccADBDatabaseResourceDependencies = ACDatabaseResourceConfig
 )
 
 func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
@@ -385,6 +416,65 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceConfig,
 			},
+
+			// verify create with optionals for Exacc
+			{
+				Config: config + compartmentIdVariableStr + ExaccADBDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseExaccRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbExaccName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", adbExaccName),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_access_control_enabled", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// verify updates to acl parameter for Exacc
+			{
+				Config: config + compartmentIdVariableStr + ExaccADBDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseUpdateExaccRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbExaccName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", adbExaccName),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_access_control_enabled", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// remove any previously created resources
+			{
+				Config: config + compartmentIdVariableStr + autonomousDatabaseExaccResourceConfig,
+			},
+
 			// verify resource import
 			{
 				Config:            config,

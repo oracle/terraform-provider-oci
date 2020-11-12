@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v27/database"
+	oci_database "github.com/oracle/oci-go-sdk/v28/database"
 )
 
 func init() {
@@ -124,6 +124,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
+
+	if s.Res.IsAccessControlEnabled != nil {
+		s.D.Set("is_access_control_enabled", *s.Res.IsAccessControlEnabled)
+	}
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)

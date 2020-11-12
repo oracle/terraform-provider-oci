@@ -25,6 +25,8 @@ data "oci_dns_rrset" "test_rrset" {
 
 	#Optional
 	compartment_id = var.compartment_id
+	scope = var.rrset_scope
+	view_id = oci_dns_view.test_view.id
 }
 ```
 
@@ -35,6 +37,9 @@ The following arguments are supported:
 * `compartment_id` - (Optional) The OCID of the compartment the resource belongs to.
 * `domain` - (Required) The target fully-qualified domain name (FQDN) within the target zone.
 * `rtype` - (Required) The type of the target RRSet within the target zone.
+* `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope.
+This value will be null for zones in the global DNS and `PRIVATE` when listing private Rrsets.
+* `view_id` - (Optional) The OCID of the view the resource is associated with.
 * `zone_name_or_id` - (Required) The name or OCID of the target zone.
 * `zone_version` - (Optional) The version of the zone for which data is requested. 
 
@@ -49,6 +54,6 @@ The following attributes are exported:
 	* `rdata` - The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm) 
 	* `record_hash` - A unique identifier for the record within its zone. 
 	* `rrset_version` - The latest version of the record's zone in which its RRSet differs from the preceding version. 
-	* `rtype` - The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
+	* `rtype` - The type of DNS record, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 	* `ttl` - The Time To Live for the record, in seconds.
 
