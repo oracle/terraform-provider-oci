@@ -1940,7 +1940,8 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 	}
 
 	if shapeConfig, ok := s.D.GetOkExists("shape_config"); ok && s.D.HasChange("shape_config") {
-		if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
+		shape := s.D.Get("shape")
+		if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 && strings.Contains(strings.ToLower(shape.(string)), "flex") {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_config", 0)
 			tmp, err := s.mapToUpdateInstanceShapeConfigDetails(fieldKeyFormat)
 			if err != nil {
