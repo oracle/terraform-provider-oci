@@ -39,6 +39,9 @@ type ListDatabaseSoftwareImagesRequest struct {
 	// A filter to return only resources that match the given image shape family exactly.
 	ImageShapeFamily DatabaseSoftwareImageSummaryImageShapeFamilyEnum `mandatory:"false" contributesTo:"query" name:"imageShapeFamily" omitEmpty:"true"`
 
+	// If provided, filters the results to the set of database versions which are supported for Upgrade.
+	IsUpgradeSupported *bool `mandatory:"false" contributesTo:"query" name:"isUpgradeSupported"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

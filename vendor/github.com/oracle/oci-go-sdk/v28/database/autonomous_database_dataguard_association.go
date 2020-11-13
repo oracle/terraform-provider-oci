@@ -56,6 +56,14 @@ type AutonomousDatabaseDataguardAssociation struct {
 	// Example: `180 Mb per second`
 	ApplyRate *string `mandatory:"false" json:"applyRate"`
 
+	// The approximate number of seconds of redo data not yet available on the standby Autonomous Container Database,
+	// as computed by the reporting database.
+	// Example: `7 seconds`
+	TransportLag *string `mandatory:"false" json:"transportLag"`
+
+	// The date and time of the last update to the apply lag, apply rate, and transport lag values.
+	TimeLastSynced *common.SDKTime `mandatory:"false" json:"timeLastSynced"`
+
 	// The date and time the Data Guard association was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

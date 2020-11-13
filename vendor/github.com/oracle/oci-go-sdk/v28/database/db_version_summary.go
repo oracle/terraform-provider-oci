@@ -28,6 +28,9 @@ type DbVersionSummary struct {
 
 	// True if this version of the Oracle Database software is the preview version.
 	IsPreviewDbVersion *bool `mandatory:"false" json:"isPreviewDbVersion"`
+
+	// True if this version of the Oracle Database software is supported for Upgrade.
+	IsUpgradeSupported *bool `mandatory:"false" json:"isUpgradeSupported"`
 }
 
 func (m DbVersionSummary) String() string {

@@ -56,11 +56,17 @@ type TaggingWorkRequestSummaryOperationTypeEnum string
 
 // Set of constants representing the allowable values for TaggingWorkRequestSummaryOperationTypeEnum
 const (
-	TaggingWorkRequestSummaryOperationTypeDeleteTagDefinition TaggingWorkRequestSummaryOperationTypeEnum = "DELETE_TAG_DEFINITION"
+	TaggingWorkRequestSummaryOperationTypeDeleteTagDefinition        TaggingWorkRequestSummaryOperationTypeEnum = "DELETE_TAG_DEFINITION"
+	TaggingWorkRequestSummaryOperationTypeDeleteNonEmptyTagNamespace TaggingWorkRequestSummaryOperationTypeEnum = "DELETE_NON_EMPTY_TAG_NAMESPACE"
+	TaggingWorkRequestSummaryOperationTypeBulkDeleteTagDefinition    TaggingWorkRequestSummaryOperationTypeEnum = "BULK_DELETE_TAG_DEFINITION"
+	TaggingWorkRequestSummaryOperationTypeBulkEditOfTags             TaggingWorkRequestSummaryOperationTypeEnum = "BULK_EDIT_OF_TAGS"
 )
 
 var mappingTaggingWorkRequestSummaryOperationType = map[string]TaggingWorkRequestSummaryOperationTypeEnum{
-	"DELETE_TAG_DEFINITION": TaggingWorkRequestSummaryOperationTypeDeleteTagDefinition,
+	"DELETE_TAG_DEFINITION":          TaggingWorkRequestSummaryOperationTypeDeleteTagDefinition,
+	"DELETE_NON_EMPTY_TAG_NAMESPACE": TaggingWorkRequestSummaryOperationTypeDeleteNonEmptyTagNamespace,
+	"BULK_DELETE_TAG_DEFINITION":     TaggingWorkRequestSummaryOperationTypeBulkDeleteTagDefinition,
+	"BULK_EDIT_OF_TAGS":              TaggingWorkRequestSummaryOperationTypeBulkEditOfTags,
 }
 
 // GetTaggingWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for TaggingWorkRequestSummaryOperationTypeEnum
@@ -77,21 +83,23 @@ type TaggingWorkRequestSummaryStatusEnum string
 
 // Set of constants representing the allowable values for TaggingWorkRequestSummaryStatusEnum
 const (
-	TaggingWorkRequestSummaryStatusAccepted   TaggingWorkRequestSummaryStatusEnum = "ACCEPTED"
-	TaggingWorkRequestSummaryStatusInProgress TaggingWorkRequestSummaryStatusEnum = "IN_PROGRESS"
-	TaggingWorkRequestSummaryStatusFailed     TaggingWorkRequestSummaryStatusEnum = "FAILED"
-	TaggingWorkRequestSummaryStatusSucceeded  TaggingWorkRequestSummaryStatusEnum = "SUCCEEDED"
-	TaggingWorkRequestSummaryStatusCanceling  TaggingWorkRequestSummaryStatusEnum = "CANCELING"
-	TaggingWorkRequestSummaryStatusCanceled   TaggingWorkRequestSummaryStatusEnum = "CANCELED"
+	TaggingWorkRequestSummaryStatusAccepted           TaggingWorkRequestSummaryStatusEnum = "ACCEPTED"
+	TaggingWorkRequestSummaryStatusInProgress         TaggingWorkRequestSummaryStatusEnum = "IN_PROGRESS"
+	TaggingWorkRequestSummaryStatusFailed             TaggingWorkRequestSummaryStatusEnum = "FAILED"
+	TaggingWorkRequestSummaryStatusSucceeded          TaggingWorkRequestSummaryStatusEnum = "SUCCEEDED"
+	TaggingWorkRequestSummaryStatusPartiallySucceeded TaggingWorkRequestSummaryStatusEnum = "PARTIALLY_SUCCEEDED"
+	TaggingWorkRequestSummaryStatusCanceling          TaggingWorkRequestSummaryStatusEnum = "CANCELING"
+	TaggingWorkRequestSummaryStatusCanceled           TaggingWorkRequestSummaryStatusEnum = "CANCELED"
 )
 
 var mappingTaggingWorkRequestSummaryStatus = map[string]TaggingWorkRequestSummaryStatusEnum{
-	"ACCEPTED":    TaggingWorkRequestSummaryStatusAccepted,
-	"IN_PROGRESS": TaggingWorkRequestSummaryStatusInProgress,
-	"FAILED":      TaggingWorkRequestSummaryStatusFailed,
-	"SUCCEEDED":   TaggingWorkRequestSummaryStatusSucceeded,
-	"CANCELING":   TaggingWorkRequestSummaryStatusCanceling,
-	"CANCELED":    TaggingWorkRequestSummaryStatusCanceled,
+	"ACCEPTED":            TaggingWorkRequestSummaryStatusAccepted,
+	"IN_PROGRESS":         TaggingWorkRequestSummaryStatusInProgress,
+	"FAILED":              TaggingWorkRequestSummaryStatusFailed,
+	"SUCCEEDED":           TaggingWorkRequestSummaryStatusSucceeded,
+	"PARTIALLY_SUCCEEDED": TaggingWorkRequestSummaryStatusPartiallySucceeded,
+	"CANCELING":           TaggingWorkRequestSummaryStatusCanceling,
+	"CANCELED":            TaggingWorkRequestSummaryStatusCanceled,
 }
 
 // GetTaggingWorkRequestSummaryStatusEnumValues Enumerates the set of values for TaggingWorkRequestSummaryStatusEnum
