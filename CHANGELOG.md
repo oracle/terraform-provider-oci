@@ -2,6 +2,8 @@
 
 ### Added
 - Support for Autonomous DG on ExaCC
+- Support for UX Enhancements to Backup,restore,clone
+- Support for returning email verification and login time information for identity users
 
 ## 4.3.0 (November 12, 2020)
 
@@ -15,7 +17,6 @@
 - Support for `Resource Discovery` added for `management_agent` service
 - Support for ExaCS - DB Software Images
 - Support for `TDE Wallet Password management` added for `database` service
-- Support for UX Enhancements to Backup,restore,clone
 - Support `Resource Discovery` for `apigateway certificate` resource added
 
 ### Fixed
