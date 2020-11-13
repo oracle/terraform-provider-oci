@@ -97,6 +97,7 @@ const (
 	DatabaseSummaryLifecycleStateAvailable        DatabaseSummaryLifecycleStateEnum = "AVAILABLE"
 	DatabaseSummaryLifecycleStateUpdating         DatabaseSummaryLifecycleStateEnum = "UPDATING"
 	DatabaseSummaryLifecycleStateBackupInProgress DatabaseSummaryLifecycleStateEnum = "BACKUP_IN_PROGRESS"
+	DatabaseSummaryLifecycleStateUpgrading        DatabaseSummaryLifecycleStateEnum = "UPGRADING"
 	DatabaseSummaryLifecycleStateTerminating      DatabaseSummaryLifecycleStateEnum = "TERMINATING"
 	DatabaseSummaryLifecycleStateTerminated       DatabaseSummaryLifecycleStateEnum = "TERMINATED"
 	DatabaseSummaryLifecycleStateRestoreFailed    DatabaseSummaryLifecycleStateEnum = "RESTORE_FAILED"
@@ -108,6 +109,7 @@ var mappingDatabaseSummaryLifecycleState = map[string]DatabaseSummaryLifecycleSt
 	"AVAILABLE":          DatabaseSummaryLifecycleStateAvailable,
 	"UPDATING":           DatabaseSummaryLifecycleStateUpdating,
 	"BACKUP_IN_PROGRESS": DatabaseSummaryLifecycleStateBackupInProgress,
+	"UPGRADING":          DatabaseSummaryLifecycleStateUpgrading,
 	"TERMINATING":        DatabaseSummaryLifecycleStateTerminating,
 	"TERMINATED":         DatabaseSummaryLifecycleStateTerminated,
 	"RESTORE_FAILED":     DatabaseSummaryLifecycleStateRestoreFailed,

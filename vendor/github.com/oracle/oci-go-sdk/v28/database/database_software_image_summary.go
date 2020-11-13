@@ -70,6 +70,9 @@ type DatabaseSoftwareImageSummary struct {
 
 	// output from lsinventory which will get passed as a string
 	LsInventory *string `mandatory:"false" json:"lsInventory"`
+
+	// True if this Database software image is supported for Upgrade.
+	IsUpgradeSupported *bool `mandatory:"false" json:"isUpgradeSupported"`
 }
 
 func (m DatabaseSoftwareImageSummary) String() string {

@@ -25,7 +25,7 @@ type ListWorkRequestsRequest struct {
 	ResourceType ListWorkRequestsResourceTypeEnum `mandatory:"false" contributesTo:"query" name:"resourceType" omitEmpty:"true"`
 
 	// A work request status to filter on. Can have multiple parameters of this name.
-	Status []ListWorkRequestsStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
+	Status []string `contributesTo:"query" name:"status" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// 1 is the minimum, 1000 is the maximum. For important details about how pagination works,
@@ -110,37 +110,6 @@ var mappingListWorkRequestsResourceType = map[string]ListWorkRequestsResourceTyp
 func GetListWorkRequestsResourceTypeEnumValues() []ListWorkRequestsResourceTypeEnum {
 	values := make([]ListWorkRequestsResourceTypeEnum, 0)
 	for _, v := range mappingListWorkRequestsResourceType {
-		values = append(values, v)
-	}
-	return values
-}
-
-// ListWorkRequestsStatusEnum Enum with underlying type: string
-type ListWorkRequestsStatusEnum string
-
-// Set of constants representing the allowable values for ListWorkRequestsStatusEnum
-const (
-	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
-	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
-	ListWorkRequestsStatusFailed     ListWorkRequestsStatusEnum = "FAILED"
-	ListWorkRequestsStatusSucceeded  ListWorkRequestsStatusEnum = "SUCCEEDED"
-	ListWorkRequestsStatusCanceling  ListWorkRequestsStatusEnum = "CANCELING"
-	ListWorkRequestsStatusCanceled   ListWorkRequestsStatusEnum = "CANCELED"
-)
-
-var mappingListWorkRequestsStatus = map[string]ListWorkRequestsStatusEnum{
-	"ACCEPTED":    ListWorkRequestsStatusAccepted,
-	"IN_PROGRESS": ListWorkRequestsStatusInProgress,
-	"FAILED":      ListWorkRequestsStatusFailed,
-	"SUCCEEDED":   ListWorkRequestsStatusSucceeded,
-	"CANCELING":   ListWorkRequestsStatusCanceling,
-	"CANCELED":    ListWorkRequestsStatusCanceled,
-}
-
-// GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
-func GetListWorkRequestsStatusEnumValues() []ListWorkRequestsStatusEnum {
-	values := make([]ListWorkRequestsStatusEnum, 0)
-	for _, v := range mappingListWorkRequestsStatus {
 		values = append(values, v)
 	}
 	return values
