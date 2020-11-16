@@ -972,12 +972,18 @@ func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodeShapeConfigDetails(
 
 	if memory_in_gbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memory_in_gbs.(float64))
-		result.MemoryInGBs = &tmp
+		// prevent update with 0 value
+		if tmp != 0 {
+			result.MemoryInGBs = &tmp
+		}
 	}
 
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
-		result.Ocpus = &tmp
+		// prevent update with 0 value
+		if tmp != 0 {
+			result.Ocpus = &tmp
+		}
 	}
 
 	return result, nil
