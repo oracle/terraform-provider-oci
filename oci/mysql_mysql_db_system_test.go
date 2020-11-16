@@ -134,7 +134,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlDbSystemRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
+					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
+					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
@@ -184,7 +185,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
+					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
+					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
@@ -231,7 +233,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_mysql_mysql_db_systems", "test_mysql_db_systems", Optional, Update, mysqlDbSystemDataSourceRepresentation) +
 					compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
+					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
+					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "configuration_id"),
@@ -262,7 +265,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + MysqlDbSystemResourceConfig +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
+					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
+					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
@@ -274,6 +278,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.is_enabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.retention_in_days", "11"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "channels.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_gb", "50"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),

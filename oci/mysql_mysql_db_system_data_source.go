@@ -83,6 +83,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("backup_policy", nil)
 	}
 
+	channels := []interface{}{}
+	for _, item := range s.Res.Channels {
+		channels = append(channels, ChannelSummaryToMap(item))
+	}
+	s.D.Set("channels", channels)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
