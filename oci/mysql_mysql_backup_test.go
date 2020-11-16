@@ -33,6 +33,7 @@ var (
 	mysqlBackupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"backup_id":      Representation{repType: Optional, create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
+		"creation_type":  Representation{repType: Optional, create: `MANUAL`},
 		"db_system_id":   Representation{repType: Optional, create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
@@ -169,6 +170,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "backup_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "creation_type", "MANUAL"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -176,6 +178,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.backup_size_in_gbs"),
 					resource.TestCheckResourceAttr(datasourceName, "backups.0.backup_type", "INCREMENTAL"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.creation_type"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.data_storage_size_in_gb"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.db_system_id"),
 					resource.TestCheckResourceAttr(datasourceName, "backups.0.defined_tags.%", "1"),
@@ -203,6 +206,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "creation_type"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_gb"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_system_snapshot.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),

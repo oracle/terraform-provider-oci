@@ -86,6 +86,195 @@ func MysqlMysqlBackupResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"db_system_snapshot": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"admin_username": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"availability_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"backup_policy": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"defined_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"retention_in_days": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"window_start_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"configuration_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"data_storage_size_in_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"defined_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"endpoints": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"hostname": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ip_address": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"modes": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"port": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"port_x": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"status_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"fault_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"hostname_label": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ip_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"maintenance": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"window_start_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"mysql_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"port": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"port_x": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"shape_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -337,6 +526,12 @@ func (s *MysqlMysqlBackupResourceCrud) SetData() error {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
 	}
 
+	if s.Res.DbSystemSnapshot != nil {
+		s.D.Set("db_system_snapshot", []interface{}{DbSystemSnapshotToMap(s.Res.DbSystemSnapshot)})
+	} else {
+		s.D.Set("db_system_snapshot", nil)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -378,4 +573,158 @@ func (s *MysqlMysqlBackupResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.RetentionInDays != nil {
+		result["retention_in_days"] = int(*obj.RetentionInDays)
+	}
+
+	if obj.WindowStartTime != nil {
+		result["window_start_time"] = string(*obj.WindowStartTime)
+	}
+
+	return result
+}
+
+func DbSystemEndpointToMap(obj oci_mysql.DbSystemEndpoint) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Hostname != nil {
+		result["hostname"] = string(*obj.Hostname)
+	}
+
+	if obj.IpAddress != nil {
+		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	result["modes"] = obj.Modes
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	if obj.PortX != nil {
+		result["port_x"] = int(*obj.PortX)
+	}
+
+	result["status"] = string(obj.Status)
+
+	if obj.StatusDetails != nil {
+		result["status_details"] = string(*obj.StatusDetails)
+	}
+
+	return result
+}
+
+func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdminUsername != nil {
+		result["admin_username"] = string(*obj.AdminUsername)
+	}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.BackupPolicy != nil {
+		result["backup_policy"] = []interface{}{BackupPolicyToMap(obj.BackupPolicy)}
+	}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.ConfigurationId != nil {
+		result["configuration_id"] = string(*obj.ConfigurationId)
+	}
+
+	if obj.DataStorageSizeInGBs != nil {
+		result["data_storage_size_in_gb"] = int(*obj.DataStorageSizeInGBs)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	endpoints := []interface{}{}
+	for _, item := range obj.Endpoints {
+		endpoints = append(endpoints, DbSystemEndpointToMap(item))
+	}
+	result["endpoints"] = endpoints
+
+	if obj.FaultDomain != nil {
+		result["fault_domain"] = string(*obj.FaultDomain)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.HostnameLabel != nil {
+		result["hostname_label"] = string(*obj.HostnameLabel)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IpAddress != nil {
+		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	if obj.Maintenance != nil {
+		result["maintenance"] = []interface{}{MaintenanceDetailsToMap(obj.Maintenance)}
+	}
+
+	if obj.MysqlVersion != nil {
+		result["mysql_version"] = string(*obj.MysqlVersion)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	if obj.PortX != nil {
+		result["port_x"] = int(*obj.PortX)
+	}
+
+	if obj.ShapeName != nil {
+		result["shape_name"] = string(*obj.ShapeName)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func MaintenanceDetailsToMap(obj *oci_mysql.MaintenanceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.WindowStartTime != nil {
+		result["window_start_time"] = string(*obj.WindowStartTime)
+	}
+
+	return result
 }

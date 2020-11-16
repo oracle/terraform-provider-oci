@@ -60,9 +60,40 @@ func MysqlMysqlConfigurationsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
+
+						// Optional
+						"defined_tags": {
+							Type:             schema.TypeMap,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: definedTagsDiffSuppressFunction,
+							Elem:             schema.TypeString,
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"parent_configuration_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"variables": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
+							Computed: true,
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -277,6 +308,11 @@ func MysqlMysqlConfigurationsDataSource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"mysqlx_zstd_default_compression_level": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
 									"mysqlx_zstd_max_client_compression_level": {
 										Type:     schema.TypeInt,
 										Optional: true,
@@ -321,36 +357,6 @@ func MysqlMysqlConfigurationsDataSource() *schema.Resource {
 									// Computed
 								},
 							},
-						},
-
-						// Optional
-						"defined_tags": {
-							Type:             schema.TypeMap,
-							Optional:         true,
-							Computed:         true,
-							DiffSuppressFunc: definedTagsDiffSuppressFunction,
-							Elem:             schema.TypeString,
-						},
-						"description": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"freeform_tags": {
-							Type:     schema.TypeMap,
-							Optional: true,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
-						"parent_configuration_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
 						},
 
 						// Computed

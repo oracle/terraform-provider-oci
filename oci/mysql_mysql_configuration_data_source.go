@@ -285,6 +285,11 @@ func MysqlMysqlConfigurationDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"mysqlx_zstd_default_compression_level": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"mysqlx_zstd_max_client_compression_level": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -586,6 +591,10 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 
 	if obj.MysqlxWriteTimeout != nil {
 		result["mysqlx_write_timeout"] = int(*obj.MysqlxWriteTimeout)
+	}
+
+	if obj.MysqlxZstdDefaultCompressionLevel != nil {
+		result["mysqlx_zstd_default_compression_level"] = int(*obj.MysqlxZstdDefaultCompressionLevel)
 	}
 
 	if obj.MysqlxZstdMaxClientCompressionLevel != nil {

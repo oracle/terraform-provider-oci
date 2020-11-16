@@ -67,6 +67,7 @@ variable "InstanceImageOCID" {
 	  type = "map"
 	  default = {
 		us-ashburn-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaah6o6qu3gdbxnqg6aw56amnosmnaycusttaa7abyq2tdgpgubvsgj"
+		us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaah6o6qu3gdbxnqg6aw56amnosmnaycusttaa7abyq2tdgpgubvsgj"
 	  }
 	}
 	`

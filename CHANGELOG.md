@@ -2,6 +2,7 @@
 
 ### Added
 - Support for management agent availability histories and status
+- Support for MySQL `db_system_snapshot` added
 
 
 ## 4.4.0 (November 18, 2020)
