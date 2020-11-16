@@ -87,6 +87,12 @@ func (s *MysqlMysqlBackupDataSourceCrud) SetData() error {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
 	}
 
+	if s.Res.DbSystemSnapshot != nil {
+		s.D.Set("db_system_snapshot", []interface{}{DbSystemSnapshotToMap(s.Res.DbSystemSnapshot)})
+	} else {
+		s.D.Set("db_system_snapshot", nil)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}

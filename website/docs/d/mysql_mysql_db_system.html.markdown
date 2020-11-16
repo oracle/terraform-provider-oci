@@ -67,7 +67,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment the DB System belongs in.
 * `configuration_id` - The OCID of the Configuration to be used for Instances in this DB System.
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
-* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - User-provided data about the DB System.
 * `display_name` - The user-friendly name for the DB System. It does not have to be unique.
 * `endpoints` - The network endpoints available for this DB System. 
@@ -79,7 +79,7 @@ The following attributes are exported:
 	* `status` - The state of the endpoints, as far as it can seen from the DB System. There may be some inconsistency with the actual state of the MySQL service. 
 	* `status_details` - Additional information about the current endpoint status.
 * `fault_domain` - The name of the Fault Domain the DB System is located in. 
-* `freeform_tags` - Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `hostname_label` - The hostname for the primary endpoint of the DB System. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com"). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 * `id` - The OCID of the DB System.
 * `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 

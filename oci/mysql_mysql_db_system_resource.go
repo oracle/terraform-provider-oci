@@ -57,11 +57,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"configuration_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"shape_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -117,6 +112,12 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"configuration_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"data_storage_size_in_gb": {
 				Type:     schema.TypeInt,
@@ -222,6 +223,7 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"BACKUP",
+								"NONE",
 							}, true),
 						},
 
@@ -895,30 +897,6 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKey
 	return result, nil
 }
 
-func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.IsEnabled != nil {
-		result["is_enabled"] = bool(*obj.IsEnabled)
-	}
-
-	if obj.RetentionInDays != nil {
-		result["retention_in_days"] = int(*obj.RetentionInDays)
-	}
-
-	if obj.WindowStartTime != nil {
-		result["window_start_time"] = string(*obj.WindowStartTime)
-	}
-
-	return result
-}
-
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldKeyFormat string) (oci_mysql.CreateDbSystemSourceDetails, error) {
 	var baseObject oci_mysql.CreateDbSystemSourceDetails
 	//discriminator
@@ -937,6 +915,9 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldK
 			details.BackupId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("NONE"):
+		details := oci_mysql.CreateDbSystemSourceFromNoneDetails{}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
 	}
@@ -952,6 +933,8 @@ func DbSystemSourceToMap(obj *oci_mysql.DbSystemSource) map[string]interface{} {
 		if v.BackupId != nil {
 			result["backup_id"] = string(*v.BackupId)
 		}
+	case oci_mysql.CreateDbSystemSourceFromNoneDetails:
+		result["source_type"] = "NONE"
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
@@ -969,46 +952,6 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateMaintenanceDetails(fieldKeyF
 	}
 
 	return result, nil
-}
-
-func MaintenanceDetailsToMap(obj *oci_mysql.MaintenanceDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.WindowStartTime != nil {
-		result["window_start_time"] = string(*obj.WindowStartTime)
-	}
-
-	return result
-}
-
-func DbSystemEndpointToMap(obj oci_mysql.DbSystemEndpoint) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Hostname != nil {
-		result["hostname"] = string(*obj.Hostname)
-	}
-
-	if obj.IpAddress != nil {
-		result["ip_address"] = string(*obj.IpAddress)
-	}
-
-	result["modes"] = obj.Modes
-
-	if obj.Port != nil {
-		result["port"] = int(*obj.Port)
-	}
-
-	if obj.PortX != nil {
-		result["port_x"] = int(*obj.PortX)
-	}
-
-	result["status"] = string(obj.Status)
-
-	if obj.StatusDetails != nil {
-		result["status_details"] = string(*obj.StatusDetails)
-	}
-
-	return result
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKeyFormat string) (oci_mysql.UpdateBackupPolicyDetails, error) {

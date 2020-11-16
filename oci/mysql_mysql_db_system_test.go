@@ -49,7 +49,7 @@ var (
 		"admin_username":          Representation{repType: Required, create: `adminUser`},
 		"availability_domain":     Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"configuration_id":        Representation{repType: Required, create: `${var.MysqlConfigurationOCID[var.region]}`},
+		"configuration_id":        Representation{repType: Optional, create: `${var.MysqlConfigurationOCID[var.region]}`},
 		"shape_name":              Representation{repType: Required, create: `VM.Standard.E2.2`},
 		"subnet_id":               Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 		"backup_policy":           RepresentationGroup{Optional, mysqlDbSystemBackupPolicyRepresentation},
@@ -116,7 +116,6 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
