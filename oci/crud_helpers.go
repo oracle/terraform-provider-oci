@@ -508,7 +508,10 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 
 func getResourceName(sync interface{}) string {
 	syncTypeName := reflect.TypeOf(sync).String()
-	return syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
+	if strings.Contains(syncTypeName, "ResourceCrud") {
+		return syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
+	}
+	return ""
 }
 
 func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
