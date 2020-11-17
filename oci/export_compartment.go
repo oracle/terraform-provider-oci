@@ -474,7 +474,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 				resource.isErrorResource = true
 				ctx.isImportError = true
 				err := fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'. Any references to this resource have been replaced with hard coded values in generated configurations", resource.getTerraformReference(), importId)
-				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformTypeInfo.resourceClass, resource.parent.terraformName, err, nil})
+				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, resource.parent.terraformName, err, nil})
 			}
 		}
 
