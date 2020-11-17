@@ -49,12 +49,12 @@ type DatabaseAutonomousContainerDatabaseDataguardAssociationOperation struct {
 	Id *string `mandatory:"true" json:"id"`
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationCrud) ID() string {
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) ID() string {
 	return string(hashcode.String(s.D.Get("autonomous_container_database_id").(string)))
 }
 
 func createDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationOperationCrud{}
+	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 
@@ -62,7 +62,7 @@ func createDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *s
 }
 
 func readDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationOperationCrud{}
+	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 
@@ -73,26 +73,26 @@ func deleteDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *s
 	return nil
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationCrud) Get() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationCrud) SetData() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) SetData() error {
 	return nil
 }
 
-type DatabaseAutonomousContainerDatabaseDataguardAssociationOperationCrud struct {
+type DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	DisableNotFoundRetries bool
 	Res                    *DatabaseAutonomousContainerDatabaseDataguardAssociationOperation
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationCrud) Create() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) Create() error {
 	return s.dataguardOperation()
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationCrud) dataguardOperation() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) dataguardOperation() error {
 	dataguardAssociationId := ""
 	tmpId := ""
 	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
