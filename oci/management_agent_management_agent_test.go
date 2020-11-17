@@ -127,6 +127,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "management_agents.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.availability_status"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.display_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.host"),
@@ -138,6 +139,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_version"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_last_heartbeat"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.version"),
 				),
 			},
@@ -153,6 +155,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_status"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "host"),

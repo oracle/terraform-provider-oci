@@ -51,6 +51,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `availability_status` - The current availability status of managementAgent
 * `compartment_id` - Compartment Identifier
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Management Agent Name

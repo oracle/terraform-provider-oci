@@ -72,6 +72,10 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 			},
 
 			// Computed
+			"availability_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -449,6 +453,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+	s.D.Set("availability_status", s.Res.AvailabilityStatus)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
