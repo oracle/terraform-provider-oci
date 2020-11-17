@@ -453,7 +453,7 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
-						getUpdatedRepresentationCopy("content_length_limit", Representation{repType: Optional, create: `17`, update: `15`},objectSingularDataSourceRepresentation)),
+						getUpdatedRepresentationCopy("content_length_limit", Representation{repType: Optional, create: `17`, update: `15`}, objectSingularDataSourceRepresentation)),
 				ExpectError: regexp.MustCompile("the requested object's content length is"),
 			},
 		},
