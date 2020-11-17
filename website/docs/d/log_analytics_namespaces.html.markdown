@@ -11,7 +11,9 @@ description: |-
 # Data Source: oci_log_analytics_namespaces
 This data source provides the list of Namespaces in Oracle Cloud Infrastructure Log Analytics service.
 
-List Namespaces.
+Given a tenancy OCID, this API returns the namespace of the tenancy if it is valid and subscribed to the region.  The
+result also indicates if the tenancy is onboarded with Logging Analytics.
+
 
 ## Example Usage
 
@@ -39,7 +41,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - Tenancy ID
-* `is_onboarded` - if tenancy is onboarded to logging analytics
-* `namespace` - namespace name
+* `compartment_id` - The is the tenancy ID
+* `is_onboarded` - This indicates if the tenancy is onboarded to Logging Analytics
+* `namespace` - This is the namespace name of a tenancy
 
