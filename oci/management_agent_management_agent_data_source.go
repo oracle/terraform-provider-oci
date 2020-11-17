@@ -67,6 +67,8 @@ func (s *ManagementAgentManagementAgentDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("availability_status", s.Res.AvailabilityStatus)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -6,7 +6,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 variable "managed_agent_id" {}
 
 provider "oci" {
@@ -28,12 +28,12 @@ resource "oci_management_agent_management_agent" "test_management_agent" {
 
 data "oci_management_agent_management_agents" "test_management_agents" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 resource "oci_management_agent_management_agent_install_key" "test_management_agent_install_key" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 
   #Optional
   allowed_key_install_count = "200"
@@ -43,7 +43,7 @@ resource "oci_management_agent_management_agent_install_key" "test_management_ag
 
 data "oci_management_agent_management_agent_install_keys" "test_management_agent_install_keys" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_management_agent_management_agent_install_key" "test_management_agent_install_key" {
@@ -53,10 +53,19 @@ data "oci_management_agent_management_agent_install_key" "test_management_agent_
 
 data "oci_management_agent_management_agent_plugins" "test_management_agent_plugins" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_management_agent_management_agent_images" "test_management_agent_images" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
+}
+
+data "oci_management_agent_management_agent_available_histories" "test_management_agent_available_histories" {
+  #Required
+  management_agent_id = var.managed_agent_id
+
+  #Optional
+  time_availability_status_ended_greater_than      = "2020-01-15T01:01:01.000Z"
+  time_availability_status_started_less_than       = "2020-09-28T01:01:01.000Z"
 }
