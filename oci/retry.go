@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v28/common"
+	oci_common "github.com/oracle/oci-go-sdk/v29/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
