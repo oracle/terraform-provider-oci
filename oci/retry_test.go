@@ -117,6 +117,25 @@ func TestUnitRetryLoop_configuredRetry(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+func TestUnitRetryLoop_outOfCapacity(t *testing.T)  {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	shortRetryTime = 15 * time.Second
+	longRetryTime = 15 * time.Second
+	tmp := time.Duration(30 * time.Second)
+	configuredRetryDuration = &tmp
+	r := retryTestInput{
+		serviceName:              "core",
+		httpResponseStatusCode:   500,
+		header:                   map[string][]string{},
+		responseError:            fmt.Errorf("Out of host capacity"),
+		expectedRetryTimeSeconds: 15,
+		jitterMode:               true,
+	}
+	retryLoop(t, &r)
+}
+
 // Even if a retry timeout is configured, it should be ignored for errors that are not 429/500
 func TestUnitRetryLoop_configuredRetryWith404(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
