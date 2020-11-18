@@ -117,7 +117,7 @@ func TestUnitRetryLoop_configuredRetry(t *testing.T) {
 	retryLoop(t, &r)
 }
 
-func TestUnitRetryLoop_outOfCapacity(t *testing.T)  {
+func TestUnitRetryLoop_outOfCapacity(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
