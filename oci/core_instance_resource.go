@@ -33,9 +33,9 @@ func CoreInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("2h"),
-			Update: getTimeoutDuration("2h"),
-			Delete: getTimeoutDuration("2h"),
+			Create: getTimeoutDuration("30m"),
+			Update: getTimeoutDuration("30m"),
+			Delete: getTimeoutDuration("30m"),
 		},
 		Create: createCoreInstance,
 		Read:   readCoreInstance,

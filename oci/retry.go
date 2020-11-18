@@ -139,6 +139,9 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 		}
 		defaultRetryTime = longRetryTime
 	case 500:
+		if e != nil && (strings.Contains(e.Error(), "Out of host capacity")) {
+			return defaultRetryTime
+		}
 		if configuredRetryDuration != nil {
 			return *configuredRetryDuration
 		}
