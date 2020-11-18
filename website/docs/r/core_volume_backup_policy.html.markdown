@@ -80,6 +80,9 @@ The following arguments are supported:
 	* `period` - (Required) (Updatable) The volume backup frequency.
 	* `retention_seconds` - (Required) (Updatable) How long, in seconds, to keep the volume backups created by this schedule.
 	* `time_zone` - (Optional) (Updatable) Specifies what time zone is the schedule in
+        enum:
+        - `UTC`
+        - `REGIONAL_DATA_CENTER_TIME`
 
 
 ** IMPORTANT **
@@ -120,6 +123,9 @@ The following attributes are exported:
 	* `period` - The volume backup frequency.
 	* `retention_seconds` - How long, in seconds, to keep the volume backups created by this schedule.
 	* `time_zone` - Specifies what time zone is the schedule in
+        enum:
+        - `UTC`
+        - `REGIONAL_DATA_CENTER_TIME`
 * `time_created` - The date and time the volume backup policy was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 
 ## Import

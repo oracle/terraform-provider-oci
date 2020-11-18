@@ -195,6 +195,7 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
 
   node_shape_config {
     ocpus = 2
+    memory_in_gbs = 40
   }
 
   quantity_per_subnet = 2

@@ -65,6 +65,23 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	peer_autonomous_container_database_display_name = var.autonomous_container_database_peer_autonomous_container_database_display_name
 	peer_autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
 	protection_mode = var.autonomous_container_database_protection_mode
+	peer_autonomous_container_database_backup_config {
+
+		#Optional
+		backup_destination_details {
+			#Required
+			type = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_type
+
+			#Optional
+			id = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_id
+			internet_proxy = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_internet_proxy
+			vpc_password = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_vpc_password
+			vpc_user = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_vpc_user
+		}
+		recovery_window_in_days = var.autonomous_container_database_peer_autonomous_container_database_backup_config_recovery_window_in_days
+	}
+	peer_autonomous_container_database_compartment_id = oci_identity_compartment.test_compartment.id
+	peer_autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
 	service_level_agreement_type = var.autonomous_container_database_service_level_agreement_type
 	vault_id = oci_kms_vault.test_vault.id
 	standby_maintenance_buffer_in_days = var.autonomous_container_database_standby_maintenance_buffer_in_days
@@ -106,6 +123,16 @@ The following arguments are supported:
 * `peer_autonomous_container_database_display_name` - (Optional) The display name for the peer Autonomous Container Database.
 * `peer_autonomous_exadata_infrastructure_id` - (Optional) The OCID of the peer Autonomous Exadata Infrastructure for autonomous dataguard.
 * `protection_mode` - (Optional) The protection mode of this Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
+* `peer_autonomous_container_database_backup_config` - (Optional) 
+	* `backup_destination_details` - (Optional) Backup destination details.
+		* `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+		* `internet_proxy` - (Optional) Proxy URL to connect to object store.
+		* `type` - (Required) Type of the database backup destination.
+		* `vpc_password` - (Optional) For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
+		* `vpc_user` - (Optional) For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
+	* `recovery_window_in_days` - (Optional) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
+* `peer_autonomous_container_database_compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where the standby Autonomous Container Database will be created. 
+* `peer_autonomous_vm_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Autonomous VM cluster for Autonomous Data Guard. Required to enable Data Guard. 
 * `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
 * `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 * `rotate_key_trigger` - (Optional) (Updatable) An optional property when flipped triggers rotation of KMS key. It is only applicable on dedicated container databases i.e. where `autonomous_exadata_infrastructure_id` is set.

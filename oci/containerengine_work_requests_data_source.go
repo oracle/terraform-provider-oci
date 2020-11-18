@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v28/containerengine"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v29/containerengine"
 )
 
 func init() {
@@ -158,9 +158,9 @@ func (s *ContainerengineWorkRequestsDataSourceCrud) Get() error {
 
 	if status, ok := s.D.GetOkExists("status"); ok {
 		interfaces := status.([]interface{})
-		tmp := make([]oci_containerengine.ListWorkRequestsStatusEnum, len(interfaces))
+		tmp := make([]string, len(interfaces))
 		for i, toBeConverted := range interfaces {
-			tmp[i] = oci_containerengine.ListWorkRequestsStatusEnum(toBeConverted.(string))
+			tmp[i] = toBeConverted.(string)
 		}
 		request.Status = tmp
 	}

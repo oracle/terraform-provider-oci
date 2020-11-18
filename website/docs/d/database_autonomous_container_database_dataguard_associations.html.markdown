@@ -53,4 +53,6 @@ The following attributes are exported:
 * `state` - The current state of the Autonomous Data Guard.
 * `time_created` - The date and time the Autonomous DataGuard association was created.
 * `time_last_role_changed` - The date and time when the last role change action happened.
+* `time_last_synced` - The date and time of the last update to the apply lag, apply rate, and transport lag values.
+* `transport_lag` - The approximate number of seconds of redo data not yet available on the standby Autonomous Container Database, as computed by the reporting database.  Example: `7 seconds` 
 

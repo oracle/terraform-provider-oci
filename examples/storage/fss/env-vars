@@ -10,6 +10,6 @@ export TF_VAR_region="<region in which to operate, example: us-ashburn-1, us-pho
 ### Compartment
 export TF_VAR_compartment_ocid="<compartment OCID>"
 
-### Public/private keys used on the instance
+### Public/private keys used on the compute instance
 export TF_VAR_ssh_public_key=$(cat <path to public key>)
 export TF_VAR_ssh_private_key=$(cat <path to private key>)

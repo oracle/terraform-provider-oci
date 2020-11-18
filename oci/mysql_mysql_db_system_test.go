@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v28/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v28/mysql"
+	"github.com/oracle/oci-go-sdk/v29/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v29/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -62,7 +62,6 @@ var (
 		"hostname_label":          Representation{repType: Optional, create: `hostnameLabel`},
 		"ip_address":              Representation{repType: Optional, create: `10.0.0.3`},
 		"maintenance":             RepresentationGroup{Optional, mysqlDbSystemMaintenanceRepresentation},
-		"mysql_version":           Representation{repType: Optional, create: `${data.oci_mysql_mysql_versions.test_mysql_versions.versions.0.versions.0.version}`},
 		"port":                    Representation{repType: Optional, create: `3306`},
 		"port_x":                  Representation{repType: Optional, create: `33306`},
 	}
