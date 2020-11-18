@@ -1238,8 +1238,7 @@ func findIdentityTags(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAs
 		tagResource := resourcesMap[tfMeta.resourceClass]
 
 		d := tagResource.TestResourceData()
-		d.Set("tag_namespace_id", parent.id)
-		d.Set("name", tag.Name)
+		d.SetId(getIdentityTagCompositeId(*tag.Name, parent.id))
 
 		if err := tagResource.Read(d, ctx.clients); err != nil {
 			ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph})

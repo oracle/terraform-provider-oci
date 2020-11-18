@@ -557,3 +557,8 @@ func parseTagCompositeId(compositeId string) (tagName string, tagNamespaceId str
 
 	return
 }
+
+func getIdentityTagCompositeId(tagName string, tagNamespaceId string) string {
+	compositeId := "tagNamespaces/" + tagNamespaceId + "/tags/" + tagName
+	return compositeId
+}
