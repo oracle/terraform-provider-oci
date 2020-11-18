@@ -1,3 +1,14 @@
+## 4.4.0 (Unreleased)
+
+### Added
+- Support for Autonomous DG on ExaCC
+- Support for UX Enhancements to Backup,restore,clone
+- Support for returning email verification and login time information for identity users
+- Support for Flexible memory in `oci_containerengine_node_pool`
+
+### Deprecated
+- The `mysql_version` attribute in `oci_mysql_mysql_db_system` is now deprecated
+
 ## 4.3.0 (November 12, 2020)
 
 ### Added

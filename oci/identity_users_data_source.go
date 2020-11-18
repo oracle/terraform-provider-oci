@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v28/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v29/identity"
 )
 
 func init() {
@@ -131,6 +131,10 @@ func (s *IdentityUsersDataSourceCrud) SetData() error {
 			user["email"] = *r.Email
 		}
 
+		if r.EmailVerified != nil {
+			user["email_verified"] = *r.EmailVerified
+		}
+
 		if r.ExternalIdentifier != nil {
 			user["external_identifier"] = *r.ExternalIdentifier
 		}
@@ -149,8 +153,16 @@ func (s *IdentityUsersDataSourceCrud) SetData() error {
 			user["inactive_state"] = strconv.FormatInt(*r.InactiveStatus, 10)
 		}
 
+		if r.LastSuccessfulLoginTime != nil {
+			user["last_successful_login_time"] = r.LastSuccessfulLoginTime.String()
+		}
+
 		if r.Name != nil {
 			user["name"] = *r.Name
+		}
+
+		if r.PreviousSuccessfulLoginTime != nil {
+			user["previous_successful_login_time"] = r.PreviousSuccessfulLoginTime.String()
 		}
 
 		user["state"] = r.LifecycleState

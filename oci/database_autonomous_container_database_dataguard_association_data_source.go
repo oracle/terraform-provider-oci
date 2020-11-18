@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v28/database"
+	oci_database "github.com/oracle/oci-go-sdk/v29/database"
 )
 
 func init() {
@@ -72,6 +72,14 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationDataSource() *schema
 				Computed: true,
 			},
 			"time_last_role_changed": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_last_synced": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"transport_lag": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -164,6 +172,14 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud) 
 
 	if s.Res.TimeLastRoleChanged != nil {
 		s.D.Set("time_last_role_changed", s.Res.TimeLastRoleChanged.String())
+	}
+
+	if s.Res.TimeLastSynced != nil {
+		s.D.Set("time_last_synced", s.Res.TimeLastSynced.String())
+	}
+
+	if s.Res.TransportLag != nil {
+		s.D.Set("transport_lag", *s.Res.TransportLag)
 	}
 
 	return nil

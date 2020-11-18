@@ -21,10 +21,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v28/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v28/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v28/loadbalancer"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v28/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v29/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v29/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v29/loadbalancer"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v29/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/metrics"
@@ -508,7 +508,10 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 
 func getResourceName(sync interface{}) string {
 	syncTypeName := reflect.TypeOf(sync).String()
-	return syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
+	if strings.Contains(syncTypeName, "ResourceCrud") {
+		return syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
+	}
+	return ""
 }
 
 func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
@@ -909,7 +912,7 @@ func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.Wo
 	for wId := range workRequestIdsSet {
 		id, err := WaitForWorkRequest(workRequestClient, &wId, entityType, action, timeout, disableFoundRetries, true)
 		if err != nil {
-			return nil, err
+			return id, err
 		}
 		identifier = id
 	}
@@ -948,11 +951,22 @@ func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
-		return nil, e
-	}
 
 	var identifier *string
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		for _, res := range response.Resources {
+			if strings.Contains(strings.ToLower(*res.EntityType), strings.ToLower(entityType)) {
+				if res.Identifier != nil {
+					identifier = res.Identifier
+					break
+				}
+			}
+		}
+
+		return identifier, e
+	}
+
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), strings.ToLower(entityType)) {

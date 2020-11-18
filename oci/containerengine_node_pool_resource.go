@@ -19,8 +19,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v28/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v28/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v29/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v29/containerengine"
 )
 
 func init() {
@@ -168,6 +168,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"memory_in_gbs": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
 						"ocpus": {
 							Type:     schema.TypeFloat,
 							Optional: true,
@@ -949,6 +954,11 @@ func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigD
 func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodeShapeConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateNodeShapeConfigDetails, error) {
 	result := oci_containerengine.CreateNodeShapeConfigDetails{}
 
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
 		result.Ocpus = &tmp
@@ -960,9 +970,20 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodeShapeConfigDetails(
 func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodeShapeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodeShapeConfigDetails, error) {
 	result := oci_containerengine.UpdateNodeShapeConfigDetails{}
 
+	if memory_in_gbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memory_in_gbs.(float64))
+		// prevent update with 0 value
+		if tmp != 0 {
+			result.MemoryInGBs = &tmp
+		}
+	}
+
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
-		result.Ocpus = &tmp
+		// prevent update with 0 value
+		if tmp != 0 {
+			result.Ocpus = &tmp
+		}
 	}
 
 	return result, nil
@@ -970,6 +991,10 @@ func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodeShapeConfigDetails(
 
 func NodeShapeConfigToMap(obj *oci_containerengine.NodeShapeConfig) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)

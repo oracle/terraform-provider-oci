@@ -35,7 +35,7 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment. The tag default applies to all new resources that get created in the compartment. Resources that existed before the tag default was created are not tagged. 
 * `id` - The OCID of the tag default.
-* `is_required` - If you specify that a value is required, a value is set during resource creation (either by the  user creating the resource or another tag defualt). If no value is set, resource creation is  blocked.
+* `is_required` - If you specify that a value is required, a value is set during resource creation (either by the user creating the resource or another tag defualt). If no value is set, resource creation is blocked.
 	* If the `isRequired` flag is set to "true", the value is set during resource creation.
 	* If the `isRequired` flag is set to "false", the value you enter is set during resource creation.
 

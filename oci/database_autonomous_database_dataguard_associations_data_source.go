@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v28/database"
+	oci_database "github.com/oracle/oci-go-sdk/v29/database"
 )
 
 func init() {
@@ -82,6 +82,14 @@ func DatabaseAutonomousDatabaseDataguardAssociationsDataSource() *schema.Resourc
 							Computed: true,
 						},
 						"time_last_role_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_last_synced": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"transport_lag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -190,6 +198,14 @@ func (s *DatabaseAutonomousDatabaseDataguardAssociationsDataSourceCrud) SetData(
 
 		if r.TimeLastRoleChanged != nil {
 			autonomousDatabaseDataguardAssociation["time_last_role_changed"] = r.TimeLastRoleChanged.String()
+		}
+
+		if r.TimeLastSynced != nil {
+			autonomousDatabaseDataguardAssociation["time_last_synced"] = r.TimeLastSynced.String()
+		}
+
+		if r.TransportLag != nil {
+			autonomousDatabaseDataguardAssociation["transport_lag"] = *r.TransportLag
 		}
 
 		resources = append(resources, autonomousDatabaseDataguardAssociation)

@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v28/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v28/identity"
+	"github.com/oracle/oci-go-sdk/v29/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v29/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -159,6 +159,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "users.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.email", "email2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "users.0.email_verified"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "users.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.name", "JohnSmith@example.com"),
@@ -179,6 +180,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "email", "email2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "email_verified"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "JohnSmith@example.com"),

@@ -12,7 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v28/core"
+	oci_core "github.com/oracle/oci-go-sdk/v29/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v29/workrequests"
 )
 
 func init() {
@@ -231,6 +232,7 @@ func createCoreImage(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -263,6 +265,7 @@ func deleteCoreImage(d *schema.ResourceData, m interface{}) error {
 type CoreImageResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeClient
+	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.Image
 	DisableNotFoundRetries bool
 }
@@ -346,6 +349,17 @@ func (s *CoreImageResourceCrud) Create() error {
 	response, err := s.Client.CreateImage(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "image", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.Image

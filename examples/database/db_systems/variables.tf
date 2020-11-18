@@ -99,3 +99,6 @@ variable "data_storage_percentage" {
   default = "40"
 }
 
+variable "db_tde_wallet_password" {
+  default = "BEstrO0ng_#12"
+}

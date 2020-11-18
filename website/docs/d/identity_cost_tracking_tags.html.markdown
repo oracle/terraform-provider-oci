@@ -52,11 +52,11 @@ The following attributes are exported:
 * `tag_namespace_id` - The OCID of the namespace that contains the tag definition.
 * `tag_namespace_name` - The name of the tag namespace that contains the tag definition. 
 * `time_created` - Date and time the tag was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
-* `validator` - Validates a definedTag value. Each validator performs validation steps in addition to the standard validation for definedTag values. For more information, see  [Limits on Tags](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Limits).
+* `validator` - Validates a definedTag value. Each validator performs validation steps in addition to the standard validation for definedTag values. For more information, see [Limits on Tags](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Limits).
 
-	If you define a validator after a value has been set for a defined tag, then any updates that  attempt to change the value must pass the additional validation defined by the current rule.  Previously set values (even those that would fail the current validation) are not updated. You can still update other attributes to resources that contain a non-valid defined tag.
+	If you define a validator after a value has been set for a defined tag, then any updates that attempt to change the value must pass the additional validation defined by the current rule. Previously set values (even those that would fail the current validation) are not updated. You can still update other attributes to resources that contain a non-valid defined tag.
 
-	To clear the validator call UpdateTag with  [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
-	* `validator_type` - Specifies the type of validation: a static value (no validation) or a list.  
+	To clear the validator call UpdateTag with [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
+	* `validator_type` - Specifies the type of validation: a static value (no validation) or a list. 
 	* `values` - The list of allowed values for a definedTag value. 
 
