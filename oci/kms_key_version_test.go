@@ -6,7 +6,6 @@ package oci
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"testing"
 	"time"
 
@@ -62,8 +61,6 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_kms_key_versions.test_key_versions"
 	singularDatasourceName := "data.oci_kms_key_version.test_key_version"
 
-	var resId string
-
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -79,12 +76,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
+						_, err = fromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
