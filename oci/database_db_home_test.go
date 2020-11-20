@@ -162,7 +162,7 @@ var (
 )
 
 func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseDbHomeResource_basic")
+	httpreplay.SetScenario("TestDatabaseDbHomeTdeWalletPassword")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
