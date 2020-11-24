@@ -86,6 +86,7 @@ resource "oci_core_image" "custom_image" {
 )
 
 func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
+	t.Skip("Skip test for Windows image")
 	httpreplay.SetScenario("TestCoreComputeImageCapabilitySchemaResource_basic")
 	defer httpreplay.SaveScenario()
 
