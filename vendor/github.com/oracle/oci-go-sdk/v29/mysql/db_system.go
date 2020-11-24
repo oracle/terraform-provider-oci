@@ -15,6 +15,8 @@ import (
 )
 
 // DbSystem A DB System is the core logical unit of MySQL Database Service.
+// # NOTE: definitions/DbSystemSnapshot is a snapshot version of DbSystem which is stored during backup. Any
+// # addition/deletion of properties should also consider snapshot's definition
 type DbSystem struct {
 
 	// The OCID of the DB System.
@@ -95,14 +97,17 @@ type DbSystem struct {
 	// The network endpoints available for this DB System.
 	Endpoints []DbSystemEndpoint `mandatory:"false" json:"endpoints"`
 
+	// A list with a summary of all the Channels attached to the DB System.
+	Channels []ChannelSummary `mandatory:"false" json:"channels"`
+
 	// Additional information about the current lifecycleState.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
@@ -128,6 +133,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		Port                       *int                              `json:"port"`
 		PortX                      *int                              `json:"portX"`
 		Endpoints                  []DbSystemEndpoint                `json:"endpoints"`
+		Channels                   []ChannelSummary                  `json:"channels"`
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
 		FreeformTags               map[string]string                 `json:"freeformTags"`
 		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
@@ -185,6 +191,11 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.Endpoints = make([]DbSystemEndpoint, len(model.Endpoints))
 	for i, n := range model.Endpoints {
 		m.Endpoints[i] = n
+	}
+
+	m.Channels = make([]ChannelSummary, len(model.Channels))
+	for i, n := range model.Channels {
+		m.Channels[i] = n
 	}
 
 	m.LifecycleDetails = model.LifecycleDetails

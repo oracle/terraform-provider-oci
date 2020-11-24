@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v29/common"
 )
 
-// WorkRequestLogEntry A log message from the execution of a work request.
+// WorkRequestLogEntry A log entry related to a work request.
 type WorkRequestLogEntry struct {
 
-	// Human-readable log message.
+	// A human-readable log entry.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time when the log message was created, in the format defined by RFC3339.
+	// The date and time the log entry was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

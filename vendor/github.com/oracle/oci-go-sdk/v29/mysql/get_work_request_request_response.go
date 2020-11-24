@@ -55,14 +55,14 @@ type GetWorkRequestResponse struct {
 	// The WorkRequest instance
 	WorkRequest `presentIn:"body"`
 
-	// For optimistic concurrency control. See `If-None-Match`.
+	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// Retry the request after the specified number of seconds.
+	// A decimal number representing the number of seconds the client should wait before polling this endpoint again.
 	RetryAfter *int `presentIn:"header" name:"retry-after"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a specific request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// Flag to indicate whether or not the object was modified.  If this is true,

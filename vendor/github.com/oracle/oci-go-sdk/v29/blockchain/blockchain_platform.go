@@ -25,10 +25,10 @@ type BlockchainPlatform struct {
 	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Role of platform - founder or participant
+	// Role of platform - FOUNDER or PARTICIPANT
 	PlatformRole BlockchainPlatformPlatformRoleEnum `mandatory:"true" json:"platformRole"`
 
-	// Type of compute shape - one of Standard, (Enterprise) Small, Medium, Large or Extra Large
+	// Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE or ENTERPRISE_CUSTOM
 	ComputeShape BlockchainPlatformComputeShapeEnum `mandatory:"true" json:"computeShape"`
 
 	// Platform Instance Description
@@ -45,6 +45,9 @@ type BlockchainPlatform struct {
 
 	// The version of the Platform Instance.
 	ServiceVersion *string `mandatory:"false" json:"serviceVersion"`
+
+	// Type of Platform shape - DEFAULT or CUSTOM
+	PlatformShapeType BlockchainPlatformPlatformShapeTypeEnum `mandatory:"false" json:"platformShapeType,omitempty"`
 
 	// Service endpoint URL, valid post-provisioning
 	ServiceEndpoint *string `mandatory:"false" json:"serviceEndpoint"`
@@ -136,6 +139,29 @@ var mappingBlockchainPlatformComputeShape = map[string]BlockchainPlatformCompute
 func GetBlockchainPlatformComputeShapeEnumValues() []BlockchainPlatformComputeShapeEnum {
 	values := make([]BlockchainPlatformComputeShapeEnum, 0)
 	for _, v := range mappingBlockchainPlatformComputeShape {
+		values = append(values, v)
+	}
+	return values
+}
+
+// BlockchainPlatformPlatformShapeTypeEnum Enum with underlying type: string
+type BlockchainPlatformPlatformShapeTypeEnum string
+
+// Set of constants representing the allowable values for BlockchainPlatformPlatformShapeTypeEnum
+const (
+	BlockchainPlatformPlatformShapeTypeDefault BlockchainPlatformPlatformShapeTypeEnum = "DEFAULT"
+	BlockchainPlatformPlatformShapeTypeCustom  BlockchainPlatformPlatformShapeTypeEnum = "CUSTOM"
+)
+
+var mappingBlockchainPlatformPlatformShapeType = map[string]BlockchainPlatformPlatformShapeTypeEnum{
+	"DEFAULT": BlockchainPlatformPlatformShapeTypeDefault,
+	"CUSTOM":  BlockchainPlatformPlatformShapeTypeCustom,
+}
+
+// GetBlockchainPlatformPlatformShapeTypeEnumValues Enumerates the set of values for BlockchainPlatformPlatformShapeTypeEnum
+func GetBlockchainPlatformPlatformShapeTypeEnumValues() []BlockchainPlatformPlatformShapeTypeEnum {
+	values := make([]BlockchainPlatformPlatformShapeTypeEnum, 0)
+	for _, v := range mappingBlockchainPlatformPlatformShapeType {
 		values = append(values, v)
 	}
 	return values

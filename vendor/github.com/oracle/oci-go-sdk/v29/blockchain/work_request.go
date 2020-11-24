@@ -65,6 +65,7 @@ const (
 	WorkRequestOperationTypeStartPlatform     WorkRequestOperationTypeEnum = "START_PLATFORM"
 	WorkRequestOperationTypeStopPlatform      WorkRequestOperationTypeEnum = "STOP_PLATFORM"
 	WorkRequestOperationTypeCustomizePlatform WorkRequestOperationTypeEnum = "CUSTOMIZE_PLATFORM"
+	WorkRequestOperationTypeScaleStorage      WorkRequestOperationTypeEnum = "SCALE_STORAGE"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
@@ -75,6 +76,7 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 	"START_PLATFORM":     WorkRequestOperationTypeStartPlatform,
 	"STOP_PLATFORM":      WorkRequestOperationTypeStopPlatform,
 	"CUSTOMIZE_PLATFORM": WorkRequestOperationTypeCustomizePlatform,
+	"SCALE_STORAGE":      WorkRequestOperationTypeScaleStorage,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

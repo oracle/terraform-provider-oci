@@ -49,11 +49,20 @@ type CreateDataSafePrivateEndpointResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
+	// The DataSafePrivateEndpoint instance
+	DataSafePrivateEndpoint `presentIn:"body"`
+
+	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven)
+	Etag *string `presentIn:"header" name:"etag"`
+
 	// The OCID of the work request. Use GetWorkRequest with this OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// The full URI of the Data Safe private endpoint.
+	Location *string `presentIn:"header" name:"location"`
 }
 
 func (response CreateDataSafePrivateEndpointResponse) String() string {

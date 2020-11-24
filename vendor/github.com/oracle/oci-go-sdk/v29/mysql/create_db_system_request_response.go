@@ -62,11 +62,11 @@ type CreateDbSystemResponse struct {
 	// The URI for the entity being described in the response body.
 	Location *string `presentIn:"header" name:"location"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a specific request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// OCID of the WorkRequest associated with this operation.
+	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 

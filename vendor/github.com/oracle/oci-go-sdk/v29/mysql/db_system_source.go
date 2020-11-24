@@ -52,6 +52,10 @@ func (m *dbsystemsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := DbSystemSourceFromBackup{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "NONE":
+		mm := DbSystemSourceFromNone{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "IMPORTURL":
 		mm := DbSystemSourceImportFromUrl{}
 		err = json.Unmarshal(data, &mm)

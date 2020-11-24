@@ -20,9 +20,6 @@ type CreateDbSystemDetails struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the Configuration to be used for this DB System.
-	ConfigurationId *string `mandatory:"true" json:"configurationId"`
-
 	// The name of the shape. The shape determines the resources allocated
 	// - CPU cores and memory for VM shapes; CPU cores, memory and storage
 	// for non-VM (or bare metal) shapes. To get a list of shapes, use the
@@ -52,6 +49,9 @@ type CreateDbSystemDetails struct {
 
 	// The name of the Fault Domain the DB System is located in.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
+
+	// The OCID of the Configuration to be used for this DB System.
+	ConfigurationId *string `mandatory:"false" json:"configurationId"`
 
 	// The specific MySQL version identifier.
 	MysqlVersion *string `mandatory:"false" json:"mysqlVersion"`
@@ -106,6 +106,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		Description          *string                           `json:"description"`
 		AvailabilityDomain   *string                           `json:"availabilityDomain"`
 		FaultDomain          *string                           `json:"faultDomain"`
+		ConfigurationId      *string                           `json:"configurationId"`
 		MysqlVersion         *string                           `json:"mysqlVersion"`
 		DataStorageSizeInGBs *int                              `json:"dataStorageSizeInGBs"`
 		HostnameLabel        *string                           `json:"hostnameLabel"`
@@ -118,7 +119,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags         map[string]string                 `json:"freeformTags"`
 		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
 		CompartmentId        *string                           `json:"compartmentId"`
-		ConfigurationId      *string                           `json:"configurationId"`
 		ShapeName            *string                           `json:"shapeName"`
 		SubnetId             *string                           `json:"subnetId"`
 		AdminUsername        *string                           `json:"adminUsername"`
@@ -137,6 +137,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.FaultDomain = model.FaultDomain
+
+	m.ConfigurationId = model.ConfigurationId
 
 	m.MysqlVersion = model.MysqlVersion
 
@@ -169,8 +171,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.CompartmentId = model.CompartmentId
-
-	m.ConfigurationId = model.ConfigurationId
 
 	m.ShapeName = model.ShapeName
 

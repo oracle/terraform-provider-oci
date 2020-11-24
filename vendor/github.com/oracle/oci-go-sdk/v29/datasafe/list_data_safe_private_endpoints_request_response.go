@@ -13,12 +13,12 @@ import (
 type ListDataSafePrivateEndpointsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only the private endpoints that match the specified VCN OCID.
+	// A filter to return only resources that match the specified VCN OCID.
 	VcnId *string `mandatory:"false" contributesTo:"query" name:"vcnId"`
 
 	// A filter to return only resources that match the specified lifecycle state.
@@ -27,7 +27,7 @@ type ListDataSafePrivateEndpointsRequest struct {
 	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The beginning page from which the results start retrieving.
+	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either ascending (ASC) or descending (DESC).

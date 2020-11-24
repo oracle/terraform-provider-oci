@@ -37,7 +37,7 @@ type DataSafePrivateEndpointSummary struct {
 	// The description of the private endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The date and time the private endpoint was created, in the format defined by RFC3339.
+	// The date and time the private endpoint was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// The current state of the private endpoint.
