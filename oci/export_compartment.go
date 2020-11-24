@@ -467,13 +467,13 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 				tfexec.Config(*ctx.OutputDir),
 				tfexec.State(tmpStateOutputFile),
 			}
-			if err := ctx.terraform.Import(backgroundCtx, resource.getTerraformReference(), importId, importArgs...); err != nil {
+			if importErr := ctx.terraform.Import(backgroundCtx, resource.getTerraformReference(), importId, importArgs...); importErr != nil {
 				Logf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
 
 				// mark resource as errored so that it can be skipped while writing configurations
 				resource.isErrorResource = true
 				ctx.isImportError = true
-				err := fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'. Any references to this resource have been replaced with hard coded values in generated configurations", resource.getTerraformReference(), importId)
+				err := fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s Any references to this resource have been replaced with hard coded values in generated configurations", resource.getTerraformReference(), importId, importErr)
 				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, resource.parent.terraformName, err, nil})
 			}
 		}
