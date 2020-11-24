@@ -43,7 +43,7 @@ var (
 	}
 
 	modelRepresentation = map[string]interface{}{
-		"artifact_content_length":      Representation{repType: Required, create: `14603`},
+		"artifact_content_length":      Representation{repType: Required, create: `14633`},
 		"model_artifact":               Representation{repType: Required, create: `datascience_model_resource.go`},
 		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
 		"project_id":                   Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
@@ -91,7 +91,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "14603"),
+					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "14633"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
 
@@ -111,7 +111,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ModelResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "14603"),
+					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "14633"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -145,7 +145,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "14603"),
+					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "14633"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
