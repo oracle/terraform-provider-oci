@@ -55,6 +55,8 @@ type Backup struct {
 	// A user-supplied description for the backup.
 	Description *string `mandatory:"false" json:"description"`
 
+	DbSystemSnapshot *DbSystemSnapshot `mandatory:"false" json:"dbSystemSnapshot"`
+
 	// The size of the backup in base-2 (IEC) gibibytes. (GiB).
 	BackupSizeInGBs *int `mandatory:"false" json:"backupSizeInGBs"`
 
@@ -70,11 +72,11 @@ type Backup struct {
 	// The shape of the DB System used for backup.
 	ShapeName *string `mandatory:"false" json:"shapeName"`
 
-	// Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }

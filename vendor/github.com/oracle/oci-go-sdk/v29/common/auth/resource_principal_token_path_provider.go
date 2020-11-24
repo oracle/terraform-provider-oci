@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	imdsPathTemplate = "/20190101/resourcePrincipalToken/{id}"
+	imdsPathTemplate = "/20180711/resourcePrincipalToken/{id}"
 	instanceIDURL    = `http://169.254.169.254/opc/v2/instance/id`
 
 	//ResourcePrincipalTokenPath path for retrieving the Resource Principal Token

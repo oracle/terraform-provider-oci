@@ -16,10 +16,10 @@ import (
 // WorkRequest An asynchronous work request.
 type WorkRequest struct {
 
-	// The asynchronous operation tracked by this work request.
+	// The resources that are affected by the work request.
 	OperationType WorkRequestOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// The status of the work request.
+	// The current status of the work request.
 	Status WorkRequestStatusEnum `mandatory:"true" json:"status"`
 
 	// The OCID of the work request.
@@ -31,16 +31,16 @@ type WorkRequest struct {
 	// The resources that are affected by this work request.
 	Resources []WorkRequestResource `mandatory:"true" json:"resources"`
 
-	// Progress of the request in percentage.
+	// Progress of the work request in percentage.
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
-	// The date and time the work request was created, in the format defined by RFC3339.
+	// The date and time the work request was accepted, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
-	// The date and time the work request transitioned from ACCEPTED to IN_PROGRESS, in the format defined by RFC3339.
+	// The date and time the work request transitioned from ACCEPTED to IN_PROGRESS, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the work request reached a terminal state, either FAILED or SUCCEEDED. Format is defined by RFC3339.
+	// The date and time the work request reached a terminal state, either FAILED or SUCCEEDED. Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 
@@ -58,6 +58,11 @@ const (
 	WorkRequestOperationTypeUpdatePrivateEndpoint            WorkRequestOperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
 	WorkRequestOperationTypeDeletePrivateEndpoint            WorkRequestOperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
 	WorkRequestOperationTypeChangePrivateEndpointCompartment WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_COMPARTMENT"
+	WorkRequestOperationTypeCreateOnpremConnector            WorkRequestOperationTypeEnum = "CREATE_ONPREM_CONNECTOR"
+	WorkRequestOperationTypeUpdateOnpremConnector            WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR"
+	WorkRequestOperationTypeDeleteOnpremConnector            WorkRequestOperationTypeEnum = "DELETE_ONPREM_CONNECTOR"
+	WorkRequestOperationTypeUpdateOnpremConnectorWallet      WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR_WALLET"
+	WorkRequestOperationTypeChangeOnpremConnectorCompartment WorkRequestOperationTypeEnum = "CHANGE_ONPREM_CONNECTOR_COMPARTMENT"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
@@ -66,6 +71,11 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 	"UPDATE_PRIVATE_ENDPOINT":             WorkRequestOperationTypeUpdatePrivateEndpoint,
 	"DELETE_PRIVATE_ENDPOINT":             WorkRequestOperationTypeDeletePrivateEndpoint,
 	"CHANGE_PRIVATE_ENDPOINT_COMPARTMENT": WorkRequestOperationTypeChangePrivateEndpointCompartment,
+	"CREATE_ONPREM_CONNECTOR":             WorkRequestOperationTypeCreateOnpremConnector,
+	"UPDATE_ONPREM_CONNECTOR":             WorkRequestOperationTypeUpdateOnpremConnector,
+	"DELETE_ONPREM_CONNECTOR":             WorkRequestOperationTypeDeleteOnpremConnector,
+	"UPDATE_ONPREM_CONNECTOR_WALLET":      WorkRequestOperationTypeUpdateOnpremConnectorWallet,
+	"CHANGE_ONPREM_CONNECTOR_COMPARTMENT": WorkRequestOperationTypeChangeOnpremConnectorCompartment,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

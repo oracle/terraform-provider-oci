@@ -57,22 +57,22 @@ type GetObjectRequest struct {
 	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKeySha256 *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key-sha256"`
 
-	// This value will be used in Content-Disposition header of the response.
+	// Specify this query parameter to override the value of the Content-Disposition response header in the GetObject response.
 	HttpResponseContentDisposition *string `mandatory:"false" contributesTo:"query" name:"httpResponseContentDisposition"`
 
-	// This value will be used in Cache-Control header of the response.
+	// Specify this query parameter to override the Cache-Control response header in the GetObject response.
 	HttpResponseCacheControl *string `mandatory:"false" contributesTo:"query" name:"httpResponseCacheControl"`
 
-	// This value will be used in Content-Type header of the response.
+	// Specify this query parameter to override the Content-Type response header in the GetObject response.
 	HttpResponseContentType *string `mandatory:"false" contributesTo:"query" name:"httpResponseContentType"`
 
-	// This value will be used in Content-Language header of the response.
+	// Specify this query parameter to override the Content-Language response header in the GetObject response.
 	HttpResponseContentLanguage *string `mandatory:"false" contributesTo:"query" name:"httpResponseContentLanguage"`
 
-	// This value will be used in Content-Encoding header of the response
+	// Specify this query parameter to override the Content-Encoding response header in the GetObject response.
 	HttpResponseContentEncoding *string `mandatory:"false" contributesTo:"query" name:"httpResponseContentEncoding"`
 
-	// This value will be used in Expires header of the response
+	// Specify this query parameter to override the Expires response header in the GetObject response.
 	HttpResponseExpires *string `mandatory:"false" contributesTo:"query" name:"httpResponseExpires"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -160,7 +160,8 @@ type GetObjectResponse struct {
 	// VersionId of the object requested
 	VersionId *string `presentIn:"header" name:"version-id"`
 
-	// Time after which object is no longer cacheable, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616#section-14.21).
+	// The date and time after which the object is no longer cached by a browser, proxy, or other caching entity. See
+	// RFC 2616 (https://tools.ietf.org/rfc/rfc2616#section-14.21).
 	Expires *common.SDKTime `presentIn:"header" name:"expires"`
 
 	// Flag to indicate whether or not the object was modified.  If this is true,

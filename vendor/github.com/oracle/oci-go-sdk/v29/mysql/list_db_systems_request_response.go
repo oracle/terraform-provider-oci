@@ -84,11 +84,13 @@ type ListDbSystemsResponse struct {
 	// A list of []DbSystemSummary instances
 	Items []DbSystemSummary `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a specific request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// Opaque token representing the next page of results.
+	// For pagination of a list of items. When paging through a list, if this header appears in the response,
+	// then a partial list might have been returned. Include this value as the `page` parameter for the
+	// subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

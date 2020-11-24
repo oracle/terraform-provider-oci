@@ -19,6 +19,7 @@ const (
 	ServiceListDataSafeDev1  ServiceListEnum = "DataSafe-dev1"
 	ServiceListDataSafeDev2  ServiceListEnum = "DataSafe-dev2"
 	ServiceListDataSafeDev3  ServiceListEnum = "DataSafe-dev3"
+	ServiceListDataSafeDev4  ServiceListEnum = "DataSafe-dev4"
 	ServiceListDataSafeLrg1  ServiceListEnum = "DataSafe-lrg1"
 	ServiceListDataSafeLrg2  ServiceListEnum = "DataSafe-lrg2"
 	ServiceListDataSafeLrg3  ServiceListEnum = "DataSafe-lrg3"
@@ -34,6 +35,7 @@ var mappingServiceList = map[string]ServiceListEnum{
 	"DataSafe-dev1":  ServiceListDataSafeDev1,
 	"DataSafe-dev2":  ServiceListDataSafeDev2,
 	"DataSafe-dev3":  ServiceListDataSafeDev3,
+	"DataSafe-dev4":  ServiceListDataSafeDev4,
 	"DataSafe-lrg1":  ServiceListDataSafeLrg1,
 	"DataSafe-lrg2":  ServiceListDataSafeLrg2,
 	"DataSafe-lrg3":  ServiceListDataSafeLrg3,
