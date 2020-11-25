@@ -92,6 +92,12 @@ func CoreVolumeGroupResource() *schema.Resource {
 			},
 
 			// Optional
+			"backup_policy_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -217,6 +223,11 @@ func (s *CoreVolumeGroupResourceCrud) Create() error {
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
+	}
+
+	if backupPolicyId, ok := s.D.GetOkExists("backup_policy_id"); ok {
+		tmp := backupPolicyId.(string)
+		request.BackupPolicyId = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {

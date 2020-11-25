@@ -4,6 +4,7 @@
 - Support Asymmetric Keys in KMS
 - Support for Blockchain API improvements
 - EXaCC ADBD Data Guard + ACL Support
+- Support for Cross-Region Copy for Volume Group Backups
 
 ## 4.10.0 (January 20, 2021)
 

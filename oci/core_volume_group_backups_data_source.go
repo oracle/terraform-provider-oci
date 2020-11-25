@@ -121,6 +121,10 @@ func (s *CoreVolumeGroupBackupsDataSourceCrud) SetData() error {
 			volumeGroupBackup["display_name"] = *r.DisplayName
 		}
 
+		if r.ExpirationTime != nil {
+			volumeGroupBackup["expiration_time"] = r.ExpirationTime.String()
+		}
+
 		volumeGroupBackup["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
@@ -133,6 +137,12 @@ func (s *CoreVolumeGroupBackupsDataSourceCrud) SetData() error {
 
 		if r.SizeInMBs != nil {
 			volumeGroupBackup["size_in_mbs"] = strconv.FormatInt(*r.SizeInMBs, 10)
+		}
+
+		volumeGroupBackup["source_type"] = r.SourceType
+
+		if r.SourceVolumeGroupBackupId != nil {
+			volumeGroupBackup["source_volume_group_backup_id"] = *r.SourceVolumeGroupBackupId
 		}
 
 		volumeGroupBackup["state"] = r.LifecycleState
