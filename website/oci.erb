@@ -2092,6 +2092,27 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-log_analytics") %>>
+            <a href="#">Log Analytics</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-log_analytics-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/log_analytics_namespaces.html">oci_log_analytics_namespaces</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/log_analytics_namespace.html">oci_log_analytics_namespace</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-log_analytics-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-logging") %>>
             <a href="#">Logging</a>
             <ul class="nav">
@@ -2134,30 +2155,6 @@
                 </li>
             </ul>
         </li>
-        <li<%= sidebar_current("docs-oci-log_analytics") %>>
-            <a href="#">Log Analytics</a>
-            <ul class="nav">
-                <li<%= sidebar_current("docs-oci-log_analytics-datasources") %>>
-                    <a href="#">Data Sources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/d/log_analytics_namespace.html">log_analytics_namespace</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/log_analytics_namespaces.html">log_analytics_namespaces</a>
-                        </li>
-                    </ul>
-                </li>
-                <li<%= sidebar_current("docs-oci-log_analytics-resources") %>>
-                    <a href="#">Resources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/r/log_analytics_namespace.html">log_analytics_namespace</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
         <li<%= sidebar_current("docs-oci-management_agent") %>>
             <a href="#">Management Agent</a>
             <ul class="nav">
@@ -2166,6 +2163,9 @@
                     <ul class="nav nav-auto-expand">
                         <li>
                             <a href="/docs/providers/oci/d/management_agent_management_agent.html">oci_management_agent_management_agent</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/management_agent_management_agent_available_histories.html">oci_management_agent_management_agent_available_histories</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/management_agent_management_agent_images.html">oci_management_agent_management_agent_images</a>
@@ -2330,12 +2330,6 @@
                             <a href="/docs/providers/oci/d/mysql_mysql_db_systems.html">oci_mysql_mysql_db_systems</a>
                         </li>
                         <li>
-                            <a href="/docs/providers/oci/d/mysql_channel.html">oci_mysql_channel</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/mysql_channels.html">oci_mysql_channels</a>
-                        </li>
-                        <li>
                             <a href="/docs/providers/oci/d/mysql_mysql_versions.html">oci_mysql_mysql_versions</a>
                         </li>
                         <li>
@@ -2354,9 +2348,6 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/mysql_mysql_db_system.html">oci_mysql_mysql_db_system</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/mysql_channel.html">oci_mysql_channel</a>
                         </li>
                     </ul>
                 </li>
