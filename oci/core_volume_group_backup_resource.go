@@ -67,11 +67,23 @@ func CoreVolumeGroupBackupResource() *schema.Resource {
 			},
 
 			// Computed
+			"expiration_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"size_in_gbs": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"size_in_mbs": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"source_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"source_volume_group_backup_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -330,6 +342,10 @@ func (s *CoreVolumeGroupBackupResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExpirationTime != nil {
+		s.D.Set("expiration_time", s.Res.ExpirationTime.String())
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.SizeInGBs != nil {
@@ -338,6 +354,12 @@ func (s *CoreVolumeGroupBackupResourceCrud) SetData() error {
 
 	if s.Res.SizeInMBs != nil {
 		s.D.Set("size_in_mbs", strconv.FormatInt(*s.Res.SizeInMBs, 10))
+	}
+
+	s.D.Set("source_type", s.Res.SourceType)
+
+	if s.Res.SourceVolumeGroupBackupId != nil {
+		s.D.Set("source_volume_group_backup_id", *s.Res.SourceVolumeGroupBackupId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
