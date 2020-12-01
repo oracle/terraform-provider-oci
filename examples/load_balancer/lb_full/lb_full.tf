@@ -263,6 +263,33 @@ resource "oci_load_balancer" "lb2" {
   display_name = "lb1"
 }
 
+
+variable "load_balancer_shape_details_maximum_bandwidth_in_mbps" {
+  default = 100
+}
+
+variable "load_balancer_shape_details_minimum_bandwidth_in_mbps" {
+  default = 10
+}
+
+resource "oci_load_balancer" "flex_lb" {
+  shape          = "flexible"
+  compartment_id = var.compartment_ocid
+
+  subnet_ids = [
+    oci_core_subnet.subnet1.id,
+    oci_core_subnet.subnet2.id,
+  ]
+
+  shape_details {
+      #Required
+      maximum_bandwidth_in_mbps = var.load_balancer_shape_details_maximum_bandwidth_in_mbps
+      minimum_bandwidth_in_mbps = var.load_balancer_shape_details_minimum_bandwidth_in_mbps
+    }
+
+  display_name = "flex_lb"
+}
+
 resource "oci_load_balancer_backend_set" "lb-bes1" {
   name             = "lb-bes1"
   load_balancer_id = oci_load_balancer.lb1.id

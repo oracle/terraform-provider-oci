@@ -164,6 +164,12 @@ func (s *LoadBalancerLoadBalancersDataSourceCrud) SetData() error {
 			loadBalancer["shape"] = *r.ShapeName
 		}
 
+		if r.ShapeDetails != nil {
+			loadBalancer["shape_details"] = []interface{}{ShapeDetailsToMap(r.ShapeDetails)}
+		} else {
+			loadBalancer["shape_details"] = nil
+		}
+
 		loadBalancer["state"] = r.LifecycleState
 
 		loadBalancer["subnet_ids"] = r.SubnetIds
