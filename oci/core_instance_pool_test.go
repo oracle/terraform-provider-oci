@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v29/common"
-	oci_core "github.com/oracle/oci-go-sdk/v29/core"
+	"github.com/oracle/oci-go-sdk/v30/common"
+	oci_core "github.com/oracle/oci-go-sdk/v30/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -116,10 +116,10 @@ var (
 	}` +
 		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 			getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
-				representationCopyWithRemovedProperties(instanceConfigurationInstanceDetailsPoolRepresentation, []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
+				representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, instanceConfigurationInstanceDetailsPoolRepresentation), []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
 
 	InstancePoolResourceDependencies = OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationPoolRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, getUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, instanceConfigurationPoolRepresentation)) +
 		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +

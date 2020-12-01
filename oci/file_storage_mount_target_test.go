@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v29/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v29/filestorage"
+	"github.com/oracle/oci-go-sdk/v30/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v30/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

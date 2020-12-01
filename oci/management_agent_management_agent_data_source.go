@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v29/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v30/managementagent"
 )
 
 func init() {
@@ -66,6 +66,8 @@ func (s *ManagementAgentManagementAgentDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	s.D.Set("availability_status", s.Res.AvailabilityStatus)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

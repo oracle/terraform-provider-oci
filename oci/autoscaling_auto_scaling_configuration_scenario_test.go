@@ -11,13 +11,13 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/oracle/oci-go-sdk/v29/common"
+	"github.com/oracle/oci-go-sdk/v30/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/stretchr/testify/suite"
 
-	oci_core "github.com/oracle/oci-go-sdk/v29/core"
+	oci_core "github.com/oracle/oci-go-sdk/v30/core"
 )
 
 var (
@@ -271,7 +271,7 @@ func (s *ResourceAutoScalingConfigurationTestSuite) TestAccResourceAutoScalingCo
 }
 
 func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testing.T) {
-	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_basic")
+	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_scheduledExecution")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider

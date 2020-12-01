@@ -21,8 +21,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v29/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v29/objectstorage"
+	"github.com/oracle/oci-go-sdk/v30/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v30/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -52,7 +52,7 @@ var (
 		"bucket":                            Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace":                         Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 		"object":                            Representation{repType: Required, create: `my-test-object-3`},
-		"content_length_limit":              Representation{repType: Optional, create: `17`, update: `15`},
+		"content_length_limit":              Representation{repType: Optional, create: `17`, update: `16`},
 		"base64_encode_content":             Representation{repType: Optional, create: `true`},
 		"version_id":                        Representation{repType: Optional, create: `${oci_objectstorage_object.test_object.version_id}`},
 		"http_response_cache_control":       Representation{repType: Optional, create: `no-cache`, update: `no-store`},
@@ -452,7 +452,8 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSingularDataSourceRepresentation),
+					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("content_length_limit", Representation{repType: Optional, create: `17`, update: `15`}, objectSingularDataSourceRepresentation)),
 				ExpectError: regexp.MustCompile("the requested object's content length is"),
 			},
 		},

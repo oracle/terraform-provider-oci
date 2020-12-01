@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v29/common"
-	oci_core "github.com/oracle/oci-go-sdk/v29/core"
+	"github.com/oracle/oci-go-sdk/v30/common"
+	oci_core "github.com/oracle/oci-go-sdk/v30/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -102,6 +102,9 @@ var (
 		"is_consistent_volume_naming_enabled": Representation{repType: Optional, create: `true`},
 		"network_type":                        Representation{repType: Optional, create: `PARAVIRTUALIZED`},
 		"remote_data_volume_type":             Representation{repType: Optional, create: `PARAVIRTUALIZED`},
+	}
+	instanceLaunchOptionsRepresentationForInstanceConfiguration = map[string]interface{}{
+		"network_type": Representation{repType: Optional, create: `PARAVIRTUALIZED`},
 	}
 	instanceSourceDetailsRepresentation = map[string]interface{}{
 		"source_id":               Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},

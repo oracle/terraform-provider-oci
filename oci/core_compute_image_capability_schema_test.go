@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v29/common"
-	oci_core "github.com/oracle/oci-go-sdk/v29/core"
+	"github.com/oracle/oci-go-sdk/v30/common"
+	oci_core "github.com/oracle/oci-go-sdk/v30/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -86,6 +86,7 @@ resource "oci_core_image" "custom_image" {
 )
 
 func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
+	t.Skip("Skip test for Windows image")
 	httpreplay.SetScenario("TestCoreComputeImageCapabilitySchemaResource_basic")
 	defer httpreplay.SaveScenario()
 

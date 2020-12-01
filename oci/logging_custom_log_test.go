@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v29/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v29/logging"
+	"github.com/oracle/oci-go-sdk/v30/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v30/logging"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -60,6 +60,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 	datasourceName := "data.oci_logging_logs.test_logs"
 	singularDatasourceName := "data.oci_logging_log.test_log"
 
+	var compositeId string
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
@@ -107,7 +108,9 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							logGroupId, _ := fromInstanceState(s, resourceName, "log_group_id")
+							compositeId = getLogCompositeId(logGroupId, resId)
+							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
