@@ -12,6 +12,7 @@
 - Support for `metadata` field added to `identity_provider` datasources in `identity` service
 - Support for vanity hostnames in `oci_integration_integration_instance`
 - Support for Exacc infrastructure patching operation
+- Support for Flex components added in database
 
 ## 4.5.0 (December 02, 2020)
 

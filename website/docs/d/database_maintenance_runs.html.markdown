@@ -55,7 +55,7 @@ The following attributes are exported:
 * `description` - Description of the maintenance run.
 * `display_name` - The user-friendly name for the maintenance run.
 * `id` - The OCID of the maintenance run.
-* `lifecycle_details` - Additional information about the current lifecycleState.
+* `lifecycle_details` - Additional information about the current lifecycle state.
 * `maintenance_subtype` - Maintenance sub-type.
 * `maintenance_type` - Maintenance type.
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch to be applied in the maintenance run.
