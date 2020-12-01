@@ -2,6 +2,7 @@
 
 ### Added
 - Update document for service `audit`
+- Support for Flexible Load Balancer
 
 ## 4.6.0 (December 09, 2020)
 

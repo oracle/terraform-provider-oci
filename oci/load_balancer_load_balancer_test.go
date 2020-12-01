@@ -65,7 +65,7 @@ var (
 	data "oci_load_balancer_shapes" "t" {
 		compartment_id = "${var.compartment_id}"
 	}
-
+	
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -90,6 +90,7 @@ var (
 		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
 	}
 `
+
 	LoadBalancerReservedIpDependencies = generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation)
 
 	LoadBalancerResourceDependencies = LoadBalancerSubnetDependencies + LoadBalancerReservedIpDependencies +
@@ -223,9 +224,9 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 					resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
 					resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
