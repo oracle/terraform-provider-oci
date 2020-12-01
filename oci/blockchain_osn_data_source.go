@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v29/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v30/blockchain"
 )
 
 func init() {

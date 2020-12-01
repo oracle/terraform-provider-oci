@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_vault "github.com/oracle/oci-go-sdk/v29/vault"
+	oci_vault "github.com/oracle/oci-go-sdk/v30/vault"
 )
 
 func init() {

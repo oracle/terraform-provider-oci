@@ -13,15 +13,15 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v29/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v30/dns"
 
 	"github.com/hashicorp/hcl2/hclwrite"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v29/core"
-	oci_identity "github.com/oracle/oci-go-sdk/v29/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v29/loadbalancer"
+	oci_core "github.com/oracle/oci-go-sdk/v30/core"
+	oci_identity "github.com/oracle/oci-go-sdk/v30/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v30/loadbalancer"
 )
 
 type TerraformResourceHints struct {
