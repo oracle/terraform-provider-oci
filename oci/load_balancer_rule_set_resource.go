@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v29/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v30/loadbalancer"
 )
 
 func init() {

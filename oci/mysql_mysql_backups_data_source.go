@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v29/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v30/mysql"
 )
 
 func init() {
@@ -26,6 +26,10 @@ func MysqlMysqlBackupsDataSource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"creation_type": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"db_system_id": {
 				Type:     schema.TypeString,
@@ -77,6 +81,10 @@ func (s *MysqlMysqlBackupsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if creationType, ok := s.D.GetOkExists("creation_type"); ok {
+		request.CreationType = oci_mysql.BackupCreationTypeEnum(creationType.(string))
 	}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -132,6 +140,8 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 		}
 
 		mysqlBackup["backup_type"] = r.BackupType
+
+		mysqlBackup["creation_type"] = r.CreationType
 
 		if r.DataStorageSizeInGBs != nil {
 			mysqlBackup["data_storage_size_in_gb"] = *r.DataStorageSizeInGBs

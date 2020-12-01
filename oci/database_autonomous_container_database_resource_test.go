@@ -14,6 +14,8 @@ import (
 )
 
 var (
+	acbDBName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+
 	ACDatabaseResourceConfig = ACDatabaseResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, ACDatabaseRepresentation)
 
@@ -33,7 +35,7 @@ var (
 		"backup_config":                RepresentationGroup{Required, autonomousContainerDatabaseBackupConfigRepresentation},
 		"key_store_id":                 Representation{repType: Optional, create: `${oci_database_key_store.test_key_store.id}`},
 		"compartment_id":               Representation{repType: Optional, create: `${var.compartment_id}`},
-		"db_unique_name":               Representation{repType: Optional, create: `dbUniqueName`},
+		"db_unique_name":               Representation{repType: Optional, create: acbDBName},
 		"defined_tags":                 Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"maintenance_window_details":   RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
@@ -109,7 +111,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_password", "vpcPassword"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "db_unique_name", "dbUniqueName"),
+					resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -152,7 +154,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "RECOVERY_APPLIANCE"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "db_unique_name", "dbUniqueName"),
+					resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),

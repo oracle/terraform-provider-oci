@@ -1,3 +1,13 @@
+## 4.5.0 (Unreleased)
+
+### Added
+- Support for management agent availability histories and status
+- Support for MySQL `db_system_snapshot` added
+- Support for Blockchain Platforms API updates
+- Support for MySQL Inbound Replication
+- Data Safe support for On-Premise Oracle Databases
+- Support for VM DB Upgrade
+
 ## 4.4.0 (November 18, 2020)
 
 ### Added

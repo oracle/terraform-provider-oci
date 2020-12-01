@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v29/common"
-	oci_database "github.com/oracle/oci-go-sdk/v29/database"
+	"github.com/oracle/oci-go-sdk/v30/common"
+	oci_database "github.com/oracle/oci-go-sdk/v30/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -87,7 +87,7 @@ var (
 		"subnet_id":               Representation{repType: Required, create: `${oci_core_subnet.exadata_subnet.id}`},
 		"cpu_core_count":          Representation{repType: Optional, create: `22`},
 		"data_storage_size_in_gb": Representation{repType: Optional, create: `256`},
-		"disk_redundancy":         Representation{repType: Optional, create: `NORMAL`},
+		"disk_redundancy":         Representation{repType: Optional, create: `HIGH`},
 		"display_name":            Representation{repType: Optional, create: `tfDbSystemTestExadata`},
 		"domain":                  Representation{repType: Optional, create: `${oci_core_subnet.exadata_subnet.dns_label}.${oci_core_vcn.test_vcn.dns_label}.oraclevcn.com`},
 		"license_model":           Representation{repType: Optional, create: `LICENSE_INCLUDED`},

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v29/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v30/managementagent"
 )
 
 func init() {
@@ -137,6 +137,8 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		managementAgent["availability_status"] = r.AvailabilityStatus
+
 		if r.DefinedTags != nil {
 			managementAgent["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
@@ -187,6 +189,10 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			managementAgent["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.TimeLastHeartbeat != nil {
+			managementAgent["time_last_heartbeat"] = r.TimeLastHeartbeat.String()
 		}
 
 		if r.Version != nil {

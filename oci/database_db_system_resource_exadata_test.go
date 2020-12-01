@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/oracle/oci-go-sdk/v29/database"
+	"github.com/oracle/oci-go-sdk/v30/database"
 )
 
 // TestAccResourceDatabaseDBSystem_Exadata tests DBsystems using Exadata
@@ -94,7 +94,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					subnet_id = "${oci_core_subnet.exadata_subnet.id}"
 					backup_subnet_id = "${oci_core_subnet.exadata_backup_subnet.id}"
 					database_edition = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
-					disk_redundancy = "NORMAL"
+					disk_redundancy = "HIGH"
 					shape = "Exadata.Quarter1.84"
 					cpu_core_count = "22"
 					ssh_public_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCBDM0G21Tc6IOp6H5fwUVhVcxDxbwRwb9I53lXDdfqytw/pRAfXxDAzlw1jMEWofoVxTVDyqxcEg5yg4ImKFYHIDrZuU9eHv5SoHYJvI9r+Dqm9z52MmEyoTuC4dUyOs79V0oER5vLcjoMQIqmGSKMSlIMoFV2d+AV//RhJSpRPWGQ6lAVPYAiaVk3EzYacayetk1ZCEnMGPV0OV1UWqovm3aAGDozs7+9Isq44HEMyJwdBTYmBu3F8OA8gss2xkwaBgK3EQjCJIRBgczDwioT7RF5WG3IkwKsDTl2bV0p5f5SeX0U8SGHnni9uNoc9wPAWaleZr3Jcp1yIcRFR9YV"]
@@ -130,7 +130,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "HIGH"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "Exadata.Quarter1.84"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "22"),
 					resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
@@ -216,7 +216,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					subnet_id = "${oci_core_subnet.exadata_subnet.id}"
 					backup_subnet_id = "${oci_core_subnet.exadata_backup_subnet.id}"
 					database_edition = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
-					disk_redundancy = "NORMAL"
+					disk_redundancy = "HIGH"
 					shape = "Exadata.Quarter1.84"
 					cpu_core_count = "22"
 					ssh_public_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCBDM0G21Tc6IOp6H5fwUVhVcxDxbwRwb9I53lXDdfqytw/pRAfXxDAzlw1jMEWofoVxTVDyqxcEg5yg4ImKFYHIDrZuU9eHv5SoHYJvI9r+Dqm9z52MmEyoTuC4dUyOs79V0oER5vLcjoMQIqmGSKMSlIMoFV2d+AV//RhJSpRPWGQ6lAVPYAiaVk3EzYacayetk1ZCEnMGPV0OV1UWqovm3aAGDozs7+9Isq44HEMyJwdBTYmBu3F8OA8gss2xkwaBgK3EQjCJIRBgczDwioT7RF5WG3IkwKsDTl2bV0p5f5SeX0U8SGHnni9uNoc9wPAWaleZr3Jcp1yIcRFR9YV"]
@@ -261,7 +261,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "HIGH"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "Exadata.Quarter1.84"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "22"),
 					resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
@@ -352,7 +352,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					subnet_id = "${oci_core_subnet.exadata_subnet.id}"
 					backup_subnet_id = "${oci_core_subnet.exadata_backup_subnet.id}"
 					database_edition = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
-					disk_redundancy = "NORMAL"
+					disk_redundancy = "HIGH"
 					shape = "Exadata.Quarter1.84"
 					cpu_core_count = "22"
 					ssh_public_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCBDM0G21Tc6IOp6H5fwUVhVcxDxbwRwb9I53lXDdfqytw/pRAfXxDAzlw1jMEWofoVxTVDyqxcEg5yg4ImKFYHIDrZuU9eHv5SoHYJvI9r+Dqm9z52MmEyoTuC4dUyOs79V0oER5vLcjoMQIqmGSKMSlIMoFV2d+AV//RhJSpRPWGQ6lAVPYAiaVk3EzYacayetk1ZCEnMGPV0OV1UWqovm3aAGDozs7+9Isq44HEMyJwdBTYmBu3F8OA8gss2xkwaBgK3EQjCJIRBgczDwioT7RF5WG3IkwKsDTl2bV0p5f5SeX0U8SGHnni9uNoc9wPAWaleZr3Jcp1yIcRFR9YV"]
@@ -383,7 +383,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "HIGH"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "Exadata.Quarter1.84"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "22"),
 					resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),

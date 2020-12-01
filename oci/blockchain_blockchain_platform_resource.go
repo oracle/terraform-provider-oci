@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_blockchain "github.com/oracle/oci-go-sdk/v29/blockchain"
-	oci_common "github.com/oracle/oci-go-sdk/v29/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v30/blockchain"
+	oci_common "github.com/oracle/oci-go-sdk/v30/common"
 )
 
 func init() {
@@ -288,6 +288,10 @@ func BlockchainBlockchainPlatformResource() *schema.Resource {
 				Computed: true,
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"platform_shape_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -760,6 +764,8 @@ func (s *BlockchainBlockchainPlatformResourceCrud) SetData() error {
 	}
 
 	s.D.Set("platform_role", s.Res.PlatformRole)
+
+	s.D.Set("platform_shape_type", s.Res.PlatformShapeType)
 
 	if s.Res.Replicas != nil {
 		s.D.Set("replicas", []interface{}{ReplicaDetailsToMap(s.Res.Replicas)})

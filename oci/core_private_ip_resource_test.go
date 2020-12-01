@@ -166,7 +166,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 				Config: s.VlanConfig + `
 				resource "oci_core_private_ip" "tpvlan" {
 					vlan_id		 = "${oci_core_vlan.test_vlan.id}"
-					ip_address	 = "10.0.1.5"
+					ip_address	 = "10.0.0.5"
 					display_name = "-private-ip"
 					defined_tags = "${map(
 									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
@@ -175,7 +175,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "id"),
-					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "is_primary"),
@@ -191,7 +191,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 				Config: s.VlanConfig + `
 				resource "oci_core_private_ip" "tpvlan" {
 					vlan_id		 = "${oci_core_vlan.test_vlan.id}"
-					ip_address	 = "10.0.1.10"
+					ip_address	 = "10.0.0.10"
 					display_name = "-private-ip2"
 					defined_tags = "${map(
 									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
@@ -200,7 +200,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.VlanResourceName, "display_name", "-private-ip2"),
-					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.1.10"),
+					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.0.10"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "is_primary"),

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v29/database"
+	oci_database "github.com/oracle/oci-go-sdk/v30/database"
 )
 
 func init() {
@@ -95,6 +95,10 @@ func (s *DatabaseDatabaseSoftwareImageDataSourceCrud) SetData() error {
 
 	if s.Res.IncludedPatchesSummary != nil {
 		s.D.Set("included_patches_summary", *s.Res.IncludedPatchesSummary)
+	}
+
+	if s.Res.IsUpgradeSupported != nil {
+		s.D.Set("is_upgrade_supported", *s.Res.IsUpgradeSupported)
 	}
 
 	if s.Res.LifecycleDetails != nil {

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v29/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v29/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v30/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v30/datasafe"
 )
 
 func init() {
@@ -30,15 +30,14 @@ func DataSafeDataSafeConfigurationResource() *schema.Resource {
 		Delete:   deleteDataSafeDataSafeConfiguration,
 		Schema: map[string]*schema.Schema{
 			// Required
+			"is_enabled": {
+				Type:     schema.TypeBool,
+				Required: true,
+			},
 
 			// Optional
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"is_enabled": {
-				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 			},

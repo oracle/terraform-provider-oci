@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v29/common"
-	oci_database "github.com/oracle/oci-go-sdk/v29/database"
+	"github.com/oracle/oci-go-sdk/v30/common"
+	oci_database "github.com/oracle/oci-go-sdk/v30/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -221,6 +221,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_shape_family", "VM_BM_SHAPE"),
 					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_type", "DATABASE_IMAGE"),
+					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.is_upgrade_supported"),
 					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.patch_set", "19.6.0.0.0"),
 					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.time_created"),
@@ -244,6 +245,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "VM_BM_SHAPE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "image_type", "DATABASE_IMAGE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_upgrade_supported"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "patch_set", "19.6.0.0.0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
