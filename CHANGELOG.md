@@ -1,4 +1,4 @@
-## 4.5.0 (Unreleased)
+## 4.5.0 (December 02, 2020)
 
 ### Added
 - Support for management agent availability histories and status
