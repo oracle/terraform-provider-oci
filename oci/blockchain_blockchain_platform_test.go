@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v29/blockchain"
-	"github.com/oracle/oci-go-sdk/v29/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v30/blockchain"
+	"github.com/oracle/oci-go-sdk/v30/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -123,7 +123,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_shape"),
+					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
@@ -160,7 +160,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_shape"),
+					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
@@ -189,7 +189,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_shape"),
+					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
@@ -239,7 +239,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "component_details.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_shape"),
+					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", blockchainPlatformDisplayName),
@@ -248,6 +248,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "false"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_multi_ad"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_role", "FOUNDER"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_shape_type"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "replicas.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.ca_count"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.console_count"),

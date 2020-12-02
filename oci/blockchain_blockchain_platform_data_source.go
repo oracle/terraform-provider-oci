@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v29/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v30/blockchain"
 )
 
 func init() {
@@ -112,6 +112,8 @@ func (s *BlockchainBlockchainPlatformDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("platform_role", s.Res.PlatformRole)
+
+	s.D.Set("platform_shape_type", s.Res.PlatformShapeType)
 
 	if s.Res.Replicas != nil {
 		s.D.Set("replicas", []interface{}{ReplicaDetailsToMap(s.Res.Replicas)})

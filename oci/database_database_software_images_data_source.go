@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v29/database"
+	oci_database "github.com/oracle/oci-go-sdk/v30/database"
 )
 
 func init() {
@@ -33,6 +33,10 @@ func DatabaseDatabaseSoftwareImagesDataSource() *schema.Resource {
 			},
 			"image_type": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"is_upgrade_supported": {
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"state": {
@@ -85,6 +89,11 @@ func (s *DatabaseDatabaseSoftwareImagesDataSourceCrud) Get() error {
 
 	if imageType, ok := s.D.GetOkExists("image_type"); ok {
 		request.ImageType = oci_database.DatabaseSoftwareImageSummaryImageTypeEnum(imageType.(string))
+	}
+
+	if isUpgradeSupported, ok := s.D.GetOkExists("is_upgrade_supported"); ok {
+		tmp := isUpgradeSupported.(bool)
+		request.IsUpgradeSupported = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -155,6 +164,10 @@ func (s *DatabaseDatabaseSoftwareImagesDataSourceCrud) SetData() error {
 
 		if r.IncludedPatchesSummary != nil {
 			databaseSoftwareImage["included_patches_summary"] = *r.IncludedPatchesSummary
+		}
+
+		if r.IsUpgradeSupported != nil {
+			databaseSoftwareImage["is_upgrade_supported"] = *r.IsUpgradeSupported
 		}
 
 		if r.LifecycleDetails != nil {

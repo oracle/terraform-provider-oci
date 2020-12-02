@@ -26,11 +26,11 @@ var (
 	}
 
 	dataSafeConfigurationRepresentation = map[string]interface{}{
+		"is_enabled":     Representation{repType: Required, create: `true`},
 		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"is_enabled":     Representation{repType: Optional, create: `true`},
 	}
 
-	DataSafeConfigurationResourceDependencies = DefinedTagsDependencies
+	DataSafeConfigurationResourceDependencies = ""
 )
 
 func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
@@ -48,6 +48,7 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_data_safe_data_safe_configuration.test_data_safe_configuration"
 
 	var resId string
+	var resId2 string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -55,7 +56,25 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			//verify create with optionals
+			// verify create
+			{
+				Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
+					generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Required, Create, dataSafeConfigurationRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies,
+			},
+			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Create, dataSafeConfigurationRepresentation),
@@ -75,6 +94,23 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
+					generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Update, dataSafeConfigurationRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify singular datasource
 			{
 				Config: config +

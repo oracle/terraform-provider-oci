@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_streaming "github.com/oracle/oci-go-sdk/v29/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v30/streaming"
 
-	oci_common "github.com/oracle/oci-go-sdk/v29/common"
+	oci_common "github.com/oracle/oci-go-sdk/v30/common"
 )
 
 func init() {

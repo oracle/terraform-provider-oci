@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v29/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v30/mysql"
 )
 
 func init() {
@@ -85,6 +85,12 @@ func (s *MysqlMysqlBackupDataSourceCrud) SetData() error {
 
 	if s.Res.DbSystemId != nil {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
+	}
+
+	if s.Res.DbSystemSnapshot != nil {
+		s.D.Set("db_system_snapshot", []interface{}{DbSystemSnapshotToMap(s.Res.DbSystemSnapshot)})
+	} else {
+		s.D.Set("db_system_snapshot", nil)
 	}
 
 	if s.Res.DefinedTags != nil {

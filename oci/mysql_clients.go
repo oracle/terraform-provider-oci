@@ -4,15 +4,36 @@
 package oci
 
 import (
-	oci_mysql "github.com/oracle/oci-go-sdk/v29/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v30/mysql"
 
-	oci_common "github.com/oracle/oci-go-sdk/v29/common"
+	oci_common "github.com/oracle/oci-go-sdk/v30/common"
 )
 
 func init() {
 	RegisterOracleClient("oci_mysql.DbBackupsClient", &OracleClient{initClientFn: initMysqlDbBackupsClient})
 	RegisterOracleClient("oci_mysql.DbSystemClient", &OracleClient{initClientFn: initMysqlDbSystemClient})
 	RegisterOracleClient("oci_mysql.MysqlaasClient", &OracleClient{initClientFn: initMysqlMysqlaasClient})
+	RegisterOracleClient("oci_mysql.ChannelsClient", &OracleClient{initClientFn: initMysqlChannelsClient})
+}
+
+func (m *OracleClients) channelsClient() *oci_mysql.ChannelsClient {
+	return m.GetClient("oci_mysql.ChannelsClient").(*oci_mysql.ChannelsClient)
+}
+
+func initMysqlChannelsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_mysql.NewChannelsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
+	return &client, nil
 }
 
 func initMysqlDbBackupsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

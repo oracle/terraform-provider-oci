@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v29/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v30/mysql"
 )
 
 func init() {
@@ -53,11 +53,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"configuration_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
@@ -117,6 +112,12 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"configuration_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"data_storage_size_in_gb": {
 				Type:     schema.TypeInt,
@@ -222,6 +223,7 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"BACKUP",
+								"NONE",
 							}, true),
 						},
 
@@ -282,6 +284,150 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"channels": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"defined_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"hostname": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"port": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"source_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ssl_ca_certificate": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"certificate_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"contents": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"ssl_mode": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"target": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"applier_username": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"channel_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"db_system_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"target_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"time_created": {
 							Type:     schema.TypeString,
@@ -733,6 +879,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("backup_policy", nil)
 	}
 
+	channels := []interface{}{}
+	for _, item := range s.Res.Channels {
+		channels = append(channels, ChannelSummaryToMap(item))
+	}
+	s.D.Set("channels", channels)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -862,6 +1014,165 @@ func AnalyticsClusterSummaryToMap(obj *oci_mysql.AnalyticsClusterSummary) map[st
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToCaCertificate(fieldKeyFormat string) (oci_mysql.CaCertificate, error) {
+	var baseObject oci_mysql.CaCertificate
+	//discriminator
+	certificateTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_type"))
+	var certificateType string
+	if ok {
+		certificateType = certificateTypeRaw.(string)
+	} else {
+		certificateType = "" // default value
+	}
+	switch strings.ToLower(certificateType) {
+	case strings.ToLower("PEM"):
+		details := oci_mysql.PemCaCertificate{}
+		if contents, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "contents")); ok {
+			tmp := contents.(string)
+			details.Contents = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown certificate_type '%v' was specified", certificateType)
+	}
+	return baseObject, nil
+}
+
+func CaCertificateToMap(obj *oci_mysql.CaCertificate) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_mysql.PemCaCertificate:
+		result["certificate_type"] = "PEM"
+
+		if v.Contents != nil {
+			result["contents"] = string(*v.Contents)
+		}
+	default:
+		log.Printf("[WARN] Received 'certificate_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func ChannelSourceToMap(obj *oci_mysql.ChannelSource) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_mysql.ChannelSourceMysql:
+		result["source_type"] = "MYSQL"
+
+		if v.Hostname != nil {
+			result["hostname"] = string(*v.Hostname)
+		}
+
+		if v.Port != nil {
+			result["port"] = int(*v.Port)
+		}
+
+		if v.SslCaCertificate != nil {
+			sslCaCertificateArray := []interface{}{}
+			if sslCaCertificateMap := CaCertificateToMap(&v.SslCaCertificate); sslCaCertificateMap != nil {
+				sslCaCertificateArray = append(sslCaCertificateArray, sslCaCertificateMap)
+			}
+			result["ssl_ca_certificate"] = sslCaCertificateArray
+		}
+
+		result["ssl_mode"] = string(v.SslMode)
+
+		if v.Username != nil {
+			result["username"] = string(*v.Username)
+		}
+	default:
+		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func ChannelSummaryToMap(obj oci_mysql.ChannelSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.Source != nil {
+		sourceArray := []interface{}{}
+		if sourceMap := ChannelSourceToMap(&obj.Source); sourceMap != nil {
+			sourceArray = append(sourceArray, sourceMap)
+		}
+		result["source"] = sourceArray
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.Target != nil {
+		targetArray := []interface{}{}
+		if targetMap := ChannelTargetToMap(&obj.Target); targetMap != nil {
+			targetArray = append(targetArray, targetMap)
+		}
+		result["target"] = targetArray
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func ChannelTargetToMap(obj *oci_mysql.ChannelTarget) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_mysql.ChannelTargetDbSystem:
+		result["target_type"] = "DBSYSTEM"
+
+		if v.ApplierUsername != nil {
+			result["applier_username"] = string(*v.ApplierUsername)
+		}
+
+		if v.ChannelName != nil {
+			result["channel_name"] = string(*v.ChannelName)
+		}
+
+		if v.DbSystemId != nil {
+			result["db_system_id"] = string(*v.DbSystemId)
+		}
+	default:
+		log.Printf("[WARN] Received 'target_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKeyFormat string) (oci_mysql.CreateBackupPolicyDetails, error) {
 	result := oci_mysql.CreateBackupPolicyDetails{}
 
@@ -895,30 +1206,6 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKey
 	return result, nil
 }
 
-func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.IsEnabled != nil {
-		result["is_enabled"] = bool(*obj.IsEnabled)
-	}
-
-	if obj.RetentionInDays != nil {
-		result["retention_in_days"] = int(*obj.RetentionInDays)
-	}
-
-	if obj.WindowStartTime != nil {
-		result["window_start_time"] = string(*obj.WindowStartTime)
-	}
-
-	return result
-}
-
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldKeyFormat string) (oci_mysql.CreateDbSystemSourceDetails, error) {
 	var baseObject oci_mysql.CreateDbSystemSourceDetails
 	//discriminator
@@ -937,6 +1224,9 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldK
 			details.BackupId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("NONE"):
+		details := oci_mysql.CreateDbSystemSourceFromNoneDetails{}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
 	}
@@ -952,6 +1242,8 @@ func DbSystemSourceToMap(obj *oci_mysql.DbSystemSource) map[string]interface{} {
 		if v.BackupId != nil {
 			result["backup_id"] = string(*v.BackupId)
 		}
+	case oci_mysql.CreateDbSystemSourceFromNoneDetails:
+		result["source_type"] = "NONE"
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
@@ -969,46 +1261,6 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateMaintenanceDetails(fieldKeyF
 	}
 
 	return result, nil
-}
-
-func MaintenanceDetailsToMap(obj *oci_mysql.MaintenanceDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.WindowStartTime != nil {
-		result["window_start_time"] = string(*obj.WindowStartTime)
-	}
-
-	return result
-}
-
-func DbSystemEndpointToMap(obj oci_mysql.DbSystemEndpoint) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Hostname != nil {
-		result["hostname"] = string(*obj.Hostname)
-	}
-
-	if obj.IpAddress != nil {
-		result["ip_address"] = string(*obj.IpAddress)
-	}
-
-	result["modes"] = obj.Modes
-
-	if obj.Port != nil {
-		result["port"] = int(*obj.Port)
-	}
-
-	if obj.PortX != nil {
-		result["port_x"] = int(*obj.PortX)
-	}
-
-	result["status"] = string(obj.Status)
-
-	if obj.StatusDetails != nil {
-		result["status_details"] = string(*obj.StatusDetails)
-	}
-
-	return result
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKeyFormat string) (oci_mysql.UpdateBackupPolicyDetails, error) {

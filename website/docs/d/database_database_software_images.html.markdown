@@ -24,6 +24,7 @@ data "oci_database_database_software_images" "test_database_software_images" {
 	display_name = var.database_software_image_display_name
 	image_shape_family = var.database_software_image_image_shape_family
 	image_type = var.database_software_image_image_type
+	is_upgrade_supported = var.database_software_image_is_upgrade_supported
 	state = var.database_software_image_state
 }
 ```
@@ -36,6 +37,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `image_shape_family` - (Optional) A filter to return only resources that match the given image shape family exactly.
 * `image_type` - (Optional) A filter to return only resources that match the given image type exactly.
+* `is_upgrade_supported` - (Optional) If provided, filters the results to the set of database versions which are supported for Upgrade.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
@@ -60,6 +62,7 @@ The following attributes are exported:
 * `image_shape_family` - To what shape the image is meant for.
 * `image_type` - The type of software image. Can be grid or database.
 * `included_patches_summary` - The patches included in the image and the version of the image
+* `is_upgrade_supported` - True if this Database software image is supported for Upgrade.
 * `lifecycle_details` - Detailed message for the lifecycle state.
 * `ls_inventory` - output from lsinventory which will get passed as a string
 * `patch_set` - The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.

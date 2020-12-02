@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_auto_scaling "github.com/oracle/oci-go-sdk/v29/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/v30/autoscaling"
 )
 
 func init() {

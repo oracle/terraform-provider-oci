@@ -55,6 +55,7 @@ var examplesTestAllowedEnvironmentVariables = []string{
 	"TF_VAR_simulate_db",
 	"TF_VAR_avoid_waiting_for_delete_target",
 	"TF_VAR_vault_id",
+	"TF_VAR_database_software_image_id",
 }
 
 func TestExamplesPlan(t *testing.T) {

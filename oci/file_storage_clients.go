@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_file_storage "github.com/oracle/oci-go-sdk/v29/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v30/filestorage"
 
-	oci_common "github.com/oracle/oci-go-sdk/v29/common"
+	oci_common "github.com/oracle/oci-go-sdk/v30/common"
 )
 
 func init() {

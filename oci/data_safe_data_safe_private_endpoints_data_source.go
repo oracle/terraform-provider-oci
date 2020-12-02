@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v29/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v30/datasafe"
 )
 
 func init() {
@@ -21,7 +21,7 @@ func DataSafeDataSafePrivateEndpointsDataSource() *schema.Resource {
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -116,10 +116,8 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		dataSafePrivateEndpoint := map[string]interface{}{}
-
-		if r.CompartmentId != nil {
-			dataSafePrivateEndpoint["compartment_id"] = *r.CompartmentId
+		dataSafePrivateEndpoint := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
 		}
 
 		if r.Description != nil {
