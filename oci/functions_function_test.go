@@ -53,9 +53,12 @@ var (
 		"timeout_in_seconds": Representation{repType: Optional, create: `30`, update: `31`},
 	}
 
+	functionApplicationDisplayName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+
 	FunctionResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create,
+			getUpdatedRepresentationCopy("display_name", Representation{repType: Required, create: functionApplicationDisplayName}, applicationRepresentation)) +
 		DefinedTagsDependencies
 )
 
