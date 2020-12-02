@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_identity "github.com/oracle/oci-go-sdk/v29/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v30/identity"
 )
 
 func init() {
@@ -556,4 +556,9 @@ func parseTagCompositeId(compositeId string) (tagName string, tagNamespaceId str
 	tagName = parts[3]
 
 	return
+}
+
+func getIdentityTagCompositeId(tagName string, tagNamespaceId string) string {
+	compositeId := "tagNamespaces/" + tagNamespaceId + "/tags/" + tagName
+	return compositeId
 }

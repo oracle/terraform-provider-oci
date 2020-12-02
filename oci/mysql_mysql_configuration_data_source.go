@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v29/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v30/mysql"
 )
 
 func init() {
@@ -281,6 +281,11 @@ func MysqlMysqlConfigurationDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"mysqlx_write_timeout": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"mysqlx_zstd_default_compression_level": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -586,6 +591,10 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 
 	if obj.MysqlxWriteTimeout != nil {
 		result["mysqlx_write_timeout"] = int(*obj.MysqlxWriteTimeout)
+	}
+
+	if obj.MysqlxZstdDefaultCompressionLevel != nil {
+		result["mysqlx_zstd_default_compression_level"] = int(*obj.MysqlxZstdDefaultCompressionLevel)
 	}
 
 	if obj.MysqlxZstdMaxClientCompressionLevel != nil {

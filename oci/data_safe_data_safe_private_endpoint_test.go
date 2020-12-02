@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v29/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v29/datasafe"
+	"github.com/oracle/oci-go-sdk/v30/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v30/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -31,7 +31,7 @@ var (
 	}
 
 	dataSafePrivateEndpointDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},

@@ -13,8 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v29/common"
-	oci_database "github.com/oracle/oci-go-sdk/v29/database"
+	oci_common "github.com/oracle/oci-go-sdk/v30/common"
+	oci_database "github.com/oracle/oci-go-sdk/v30/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -1111,6 +1111,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 }
 
 func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
+	t.Skip("skip long run database test")
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupFromId")
 	defer httpreplay.SaveScenario()
 
@@ -1191,6 +1192,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 }
 
 func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testing.T) {
+	t.Skip("skip long run database test")
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp")
 	defer httpreplay.SaveScenario()
 
@@ -2608,9 +2610,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
+						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "operations_insights_status"},
 							[]interface{}{Representation{repType: Optional, create: "AJD"},
-								Representation{repType: Optional, create: `19c`}}, autonomousDatabaseRepresentation)),
+								Representation{repType: Optional, create: `19c`},
+								Representation{repType: Optional, create: `NOT_ENABLED`}}, autonomousDatabaseRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2641,10 +2644,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version"},
+						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status"},
 							[]interface{}{Representation{repType: Optional, create: "AJD"},
 								Representation{repType: Optional, update: `true`},
-								Representation{repType: Optional, create: `19c`}}, autonomousDatabaseRepresentation)),
+								Representation{repType: Optional, create: `19c`},
+								Representation{repType: Optional, create: `NOT_ENABLED`}}, autonomousDatabaseRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2675,10 +2679,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version"},
+						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status"},
 							[]interface{}{Representation{repType: Optional, create: "OLTP"},
 								Representation{repType: Optional, update: `true`},
-								Representation{repType: Optional, create: `19c`}}, autonomousDatabaseRepresentation)),
+								Representation{repType: Optional, create: `19c`},
+								Representation{repType: Optional, create: `NOT_ENABLED`}}, autonomousDatabaseRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),

@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v29/blockchain"
-	"github.com/oracle/oci-go-sdk/v29/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v30/blockchain"
+	"github.com/oracle/oci-go-sdk/v30/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -45,7 +45,7 @@ var (
 		"ocpu_allocation_param":  RepresentationGroup{Optional, osnOcpuAllocationParamRepresentation},
 	}
 	osnOcpuAllocationParamRepresentation = map[string]interface{}{
-		"ocpu_allocation_number": Representation{repType: Required, create: `1.0`, update: `1.1`},
+		"ocpu_allocation_number": Representation{repType: Required, create: `0.0`, update: `0.0`},
 	}
 
 	OsnResourceDependencies = generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)

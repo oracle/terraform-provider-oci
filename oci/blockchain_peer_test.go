@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v29/blockchain"
-	"github.com/oracle/oci-go-sdk/v29/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v30/blockchain"
+	"github.com/oracle/oci-go-sdk/v30/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -47,7 +47,7 @@ var (
 		"alias":                  Representation{repType: Optional, create: `alias`},
 	}
 	peerOcpuAllocationParamRepresentation = map[string]interface{}{
-		"ocpu_allocation_number": Representation{repType: Required, create: `0.4`, update: `0.5`},
+		"ocpu_allocation_number": Representation{repType: Required, create: `0.5`, update: `0.6`},
 	}
 
 	PeerResourceDependencies = generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)
@@ -87,7 +87,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
 					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.4"),
+					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.5"),
 					resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
 
 					func(s *terraform.State) (err error) {
@@ -111,7 +111,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "host"),
 					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.4"),
+					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.5"),
 					resource.TestCheckResourceAttrSet(resourceName, "peer_key"),
 					resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
 
@@ -139,7 +139,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "host"),
 					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.5"),
+					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.6"),
 					resource.TestCheckResourceAttrSet(resourceName, "peer_key"),
 					resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
 
@@ -176,7 +176,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "alias", "alias"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "host"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.5"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.6"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_key"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "role", "MEMBER"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

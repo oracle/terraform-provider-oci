@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v29/database"
+	oci_database "github.com/oracle/oci-go-sdk/v30/database"
 )
 
 func init() {
@@ -419,6 +419,7 @@ func (s *DatabaseDatabaseResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.DatabaseLifecycleStateProvisioning),
 		string(oci_database.DatabaseLifecycleStateUpdating),
+		string(oci_database.DatabaseLifecycleStateUpgrading),
 	}
 }
 

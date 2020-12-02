@@ -43,6 +43,7 @@ The following attributes are exported:
 * `image_shape_family` - To what shape the image is meant for.
 * `image_type` - The type of software image. Can be grid or database.
 * `included_patches_summary` - The patches included in the image and the version of the image
+* `is_upgrade_supported` - True if this Database software image is supported for Upgrade.
 * `lifecycle_details` - Detailed message for the lifecycle state.
 * `ls_inventory` - output from lsinventory which will get passed as a string
 * `patch_set` - The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.

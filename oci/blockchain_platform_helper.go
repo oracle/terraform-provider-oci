@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	oci_blockchain "github.com/oracle/oci-go-sdk/v29/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v30/blockchain"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
@@ -59,51 +59,4 @@ func blockchainPlatformPeerOcpuAllocationNumberDiffSuppressFunction(key string, 
 	}
 	// Round up to 1 digit
 	return fmt.Sprintf("%.1f", oldFloat) == fmt.Sprintf("%.1f", newFloat)
-}
-
-func getListOsnFromBlockChainPlatform(blockchainPlatformId *string, client *oci_blockchain.BlockchainPlatformClient) ([]*string, error) {
-	request := oci_blockchain.GetBlockchainPlatformRequest{}
-	request.BlockchainPlatformId = blockchainPlatformId
-	response, err := client.GetBlockchainPlatform(context.Background(), request)
-	if err != nil {
-		return nil, nil
-	}
-	osnList := response.ComponentDetails.Osns
-	var results []*string
-	for _, osn := range osnList {
-		results = append(results, osn.OsnKey)
-	}
-	return results, nil
-}
-
-func getListPeerFromBlockChainPlatform(blockchainPlatformId *string, client *oci_blockchain.BlockchainPlatformClient) ([]*string, error) {
-	request := oci_blockchain.GetBlockchainPlatformRequest{}
-	request.BlockchainPlatformId = blockchainPlatformId
-	response, err := client.GetBlockchainPlatform(context.Background(), request)
-	if err != nil {
-		return nil, nil
-	}
-	peerList := response.ComponentDetails.Peers
-	var results []*string
-	for _, peer := range peerList {
-		results = append(results, peer.PeerKey)
-	}
-	return results, nil
-}
-
-// a is a superset of b with 1 more item
-func difference(a, b []*string) (*string, error) {
-	if len(a)-len(b) != 1 {
-		return nil, fmt.Errorf("[ERROR] can not determine new resource")
-	}
-	mb := make(map[string]struct{}, len(b))
-	for _, x := range b {
-		mb[*x] = struct{}{}
-	}
-	for _, x := range a {
-		if _, found := mb[*x]; !found {
-			return x, nil
-		}
-	}
-	return nil, fmt.Errorf("[ERROR] can not determine new resource")
 }
