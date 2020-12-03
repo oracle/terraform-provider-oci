@@ -51,7 +51,7 @@ var (
 		"private_endpoint_settings": RepresentationGroup{Optional, streamPoolPrivateEndpointSettingsRepresentation},
 	}
 	streamPoolCustomEncryptionKeyRepresentation = map[string]interface{}{
-		"kms_key_id": Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"kms_key_id": Representation{repType: Optional, create: `${var.kms_key_id_for_create}`},
 	}
 	streamPoolKafkaSettingsRepresentation = map[string]interface{}{
 		"auto_create_topics_enable": Representation{repType: Optional, create: `false`, update: `true`},
@@ -70,7 +70,7 @@ var (
 			"dns_label": Representation{repType: Required, create: `dnslabel`},
 		})) +
 		DefinedTagsDependencies +
-		KeyResourceDependencyConfig
+		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr
 )
 
 func TestStreamingStreamPoolResource_basic(t *testing.T) {

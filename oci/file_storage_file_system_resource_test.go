@@ -20,7 +20,7 @@ var (
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 		"display_name":        Representation{repType: Optional, create: `media-files-1`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}},
-		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, update: ``},
+		"kms_key_id":          Representation{repType: Optional, create: `${var.kms_key_id_for_create}`, update: ``},
 	}
 )
 
