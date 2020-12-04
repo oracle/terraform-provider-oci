@@ -12,7 +12,7 @@ import (
 // CreateCloudExadataInfrastructureRequest wrapper for the CreateCloudExadataInfrastructure operation
 type CreateCloudExadataInfrastructureRequest struct {
 
-	// Request to create cloud Exadata infrastructure.
+	// Request to create a cloud Exadata infrastructure resource in an Exadata Cloud Service (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm) instance.
 	CreateCloudExadataInfrastructureDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

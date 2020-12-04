@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// UpdateDetails Details specifying which maintenance update to apply to the target and which actions are to be performed by the maintenance update.
+// UpdateDetails Details specifying which maintenance update to apply to the cloud VM cluster and which actions are to be performed by the maintenance update. Applies to Exadata Cloud Service instances only.
 type UpdateDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the maintenance update.

@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// UpdateExadataInfrastructureDetails Updates the Exadata Cloud@Customer infrastructure.
+// UpdateExadataInfrastructureDetails Updates the Exadata infrastructure. Applies to Exadata Cloud@Customer instances only.
+// See UpdateCloudExadataInfrastructureDetails for information on updating Exadata Cloud Service cloud Exadata infrastructure resources.
 type UpdateExadataInfrastructureDetails struct {
 
 	// The IP address for the first control plane server.
@@ -39,6 +40,8 @@ type UpdateExadataInfrastructureDetails struct {
 
 	// The list of contacts for the Exadata infrastructure.
 	Contacts []ExadataInfrastructureContact `mandatory:"false" json:"contacts"`
+
+	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
 	// The list of DNS server IP addresses. Maximum of 3 allowed.
 	DnsServer []string `mandatory:"false" json:"dnsServer"`

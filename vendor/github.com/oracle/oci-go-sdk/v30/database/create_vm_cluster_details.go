@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// CreateVmClusterDetails Details for the create Exadata Cloud@Customer VM cluster operation.
+// CreateVmClusterDetails Details for the create Exadata VM cluster operation. Applies to Exadata Cloud@Customer instances only.
+// For details on the create cloud Exadata VM cluster operation used with Exadata Cloud Service instances, see CreateCloudVmClusterDetails
 type CreateVmClusterDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
