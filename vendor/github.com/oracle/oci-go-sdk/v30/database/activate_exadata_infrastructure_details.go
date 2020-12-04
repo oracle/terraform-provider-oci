@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// ActivateExadataInfrastructureDetails The activation details for the Exadata Cloud@Customer infrastructure.
+// ActivateExadataInfrastructureDetails The activation details for the Exadata Cloud@Customer infrastructure. Applies to Exadata Cloud@Customer instances only.
 type ActivateExadataInfrastructureDetails struct {
 
 	// The activation zip file.

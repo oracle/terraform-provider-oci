@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// CreateExadataInfrastructureDetails Request to create Exadata Cloud@Customer infrastructure resource.
+// CreateExadataInfrastructureDetails Request to create Exadata infrastructure resource. Applies to Exadata Cloud@Customer instances only.
+// See CreateCloudExadataInfrastructureDetails for information on creating a cloud Exadata infrastructure resource in an Exadata Cloud Service instance.
 type CreateExadataInfrastructureDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -58,6 +59,8 @@ type CreateExadataInfrastructureDetails struct {
 
 	// The list of contacts for the Exadata infrastructure.
 	Contacts []ExadataInfrastructureContact `mandatory:"false" json:"contacts"`
+
+	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

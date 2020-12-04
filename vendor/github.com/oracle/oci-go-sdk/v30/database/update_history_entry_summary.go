@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// UpdateHistoryEntrySummary The record of an update action on a specified target.
+// UpdateHistoryEntrySummary The record of an maintenance update action on a specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
 type UpdateHistoryEntrySummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the maintenance update history entry.

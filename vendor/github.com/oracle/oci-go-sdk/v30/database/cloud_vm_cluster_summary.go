@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// CloudVmClusterSummary Details of the cloud VM cluster.
+// CloudVmClusterSummary Details of the cloud VM cluster. Applies to Exadata Cloud Service instances only.
 type CloudVmClusterSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cloud VM cluster.

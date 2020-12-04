@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// CloudExadataInfrastructure Details of the cloud Exadata infrastructure resource.
+// CloudExadataInfrastructure Details of the cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
 type CloudExadataInfrastructure struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure resource.

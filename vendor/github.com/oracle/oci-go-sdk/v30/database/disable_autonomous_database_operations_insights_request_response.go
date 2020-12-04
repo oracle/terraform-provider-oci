@@ -46,8 +46,8 @@ type DisableAutonomousDatabaseOperationsInsightsResponse struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you must contact Oracle about
+	// a particular request, then provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 

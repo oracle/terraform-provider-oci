@@ -151,7 +151,7 @@ type AutonomousDatabase struct {
 	// Status of the Data Safe registration for this Autonomous Database.
 	DataSafeStatus AutonomousDatabaseDataSafeStatusEnum `mandatory:"false" json:"dataSafeStatus,omitempty"`
 
-	// Status of the Operations Insights for this Autonomous Database.
+	// Status of Operations Insights for this Autonomous Database.
 	OperationsInsightsStatus AutonomousDatabaseOperationsInsightsStatusEnum `mandatory:"false" json:"operationsInsightsStatus,omitempty"`
 
 	// The date and time when maintenance will begin.

@@ -110,6 +110,7 @@ const (
 	MaintenanceRunSummaryTargetResourceTypeAutonomousContainerDatabase     MaintenanceRunSummaryTargetResourceTypeEnum = "AUTONOMOUS_CONTAINER_DATABASE"
 	MaintenanceRunSummaryTargetResourceTypeExadataDbSystem                 MaintenanceRunSummaryTargetResourceTypeEnum = "EXADATA_DB_SYSTEM"
 	MaintenanceRunSummaryTargetResourceTypeCloudExadataInfrastructure      MaintenanceRunSummaryTargetResourceTypeEnum = "CLOUD_EXADATA_INFRASTRUCTURE"
+	MaintenanceRunSummaryTargetResourceTypeExaccInfrastructure             MaintenanceRunSummaryTargetResourceTypeEnum = "EXACC_INFRASTRUCTURE"
 )
 
 var mappingMaintenanceRunSummaryTargetResourceType = map[string]MaintenanceRunSummaryTargetResourceTypeEnum{
@@ -117,6 +118,7 @@ var mappingMaintenanceRunSummaryTargetResourceType = map[string]MaintenanceRunSu
 	"AUTONOMOUS_CONTAINER_DATABASE":     MaintenanceRunSummaryTargetResourceTypeAutonomousContainerDatabase,
 	"EXADATA_DB_SYSTEM":                 MaintenanceRunSummaryTargetResourceTypeExadataDbSystem,
 	"CLOUD_EXADATA_INFRASTRUCTURE":      MaintenanceRunSummaryTargetResourceTypeCloudExadataInfrastructure,
+	"EXACC_INFRASTRUCTURE":              MaintenanceRunSummaryTargetResourceTypeExaccInfrastructure,
 }
 
 // GetMaintenanceRunSummaryTargetResourceTypeEnumValues Enumerates the set of values for MaintenanceRunSummaryTargetResourceTypeEnum
