@@ -20,59 +20,7 @@ import (
 )
 
 var (
-	ServiceConnectorRequiredOnlyResource = ServiceConnectorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorRepresentation)
-
-	ServiceConnectorResourceConfig = ServiceConnectorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update, serviceConnectorRepresentation)
-
-	serviceConnectorSingularDataSourceRepresentation = map[string]interface{}{
-		"service_connector_id": Representation{repType: Required, create: `${oci_sch_service_connector.test_service_connector.id}`},
-	}
-
-	serviceConnectorDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `My_Service_Connector`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
-		"filter":         RepresentationGroup{Required, serviceConnectorDataSourceFilterRepresentation}}
-	serviceConnectorDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_sch_service_connector.test_service_connector.id}`}},
-	}
-
-	serviceConnectorRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `My_Service_Connector`, update: `displayName2`},
-		"source":         RepresentationGroup{Required, serviceConnectorSourceRepresentation},
-		"target":         RepresentationGroup{Required, serviceConnectorTargetRepresentation},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `My service connector description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"tasks":          RepresentationGroup{Optional, serviceConnectorTasksRepresentation},
-	}
-	serviceConnectorSourceRepresentation = map[string]interface{}{
-		"kind":        Representation{repType: Required, create: `logging`},
-		"log_sources": RepresentationGroup{Required, serviceConnectorSourceLogSourcesRepresentation},
-	}
-	serviceConnectorTargetRepresentation = map[string]interface{}{
-		"kind":        Representation{repType: Required, create: `functions`},
-		"function_id": Representation{repType: Required, create: `${oci_functions_function.test_function.id}`},
-	}
-
-	updatedServiceConnectorTargetRepresentation = map[string]interface{}{
-		"kind":      Representation{repType: Required, create: `streaming`},
-		"stream_id": Representation{repType: Optional, create: `${oci_streaming_stream.test_stream.id}`},
-	}
-	serviceConnectorTasksRepresentation = map[string]interface{}{
-		"condition": Representation{repType: Required, create: `data.action='REJECT'`, update: `logContent='20'`},
-		"kind":      Representation{repType: Required, create: `logRule`},
-	}
-	serviceConnectorSourceLogSourcesRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"log_group_id":   Representation{repType: Optional, create: `${oci_logging_log_group.test_log_group.id}`, update: `${oci_logging_log_group.test_update_log_group.id}`},
-		"log_id":         Representation{repType: Optional, create: `${oci_logging_log.test_log.id}`, update: `${oci_logging_log.test_update_log.id}`},
-	}
-
+	// Dependency definition
 	ServiceConnectorResourceDependencies = generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logRepresentation) +
 		generateResourceFromRepresentationMap("oci_logging_log", "test_update_log", Required, Update, getUpdatedRepresentationCopy("configuration.source.category", Representation{repType: Required, create: `read`}, logRepresentation)) +
 		LogResourceDependencies +
@@ -80,7 +28,91 @@ var (
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 		generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
-		generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
+		generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation) +
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+
+	// source definitions
+	serviceConnectorSourceLogSourcesRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"log_group_id":   Representation{repType: Optional, create: `${oci_logging_log_group.test_log_group.id}`, update: `${oci_logging_log_group.test_update_log_group.id}`},
+		"log_id":         Representation{repType: Optional, create: `${oci_logging_log.test_log.id}`, update: `${oci_logging_log.test_update_log.id}`},
+	}
+
+	serviceConnectorSourceRepresentation = map[string]interface{}{
+		"kind":        Representation{repType: Required, create: `logging`},
+		"log_sources": RepresentationGroup{Required, serviceConnectorSourceLogSourcesRepresentation},
+	}
+
+	serviceConnectorDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `My_Service_Connector`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"filter":         RepresentationGroup{Required, serviceConnectorDataSourceFilterRepresentation}}
+
+	// task definitions
+	serviceConnectorTasksRepresentation = map[string]interface{}{
+		"condition": Representation{repType: Required, create: `data.action='REJECT'`, update: `logContent='20'`},
+		"kind":      Representation{repType: Required, create: `logRule`},
+	}
+
+	// target definitions
+	functionTargetRepresentation = map[string]interface{}{
+		"kind":        Representation{repType: Required, create: `functions`},
+		"function_id": Representation{repType: Required, create: `${oci_functions_function.test_function.id}`},
+	}
+
+	objectStorageTargetRepresentation = map[string]interface{}{
+		"kind":                       Representation{repType: Required, create: `objectStorage`},
+		"bucket":                     Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace":                  Representation{repType: Optional, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object_name_prefix":         Representation{repType: Optional, create: `test_prefix`},
+		"batch_rollover_size_in_mbs": Representation{repType: Optional, create: `10`},
+		"batch_rollover_time_in_ms":  Representation{repType: Optional, create: `80000`},
+	}
+
+	logAnTargetRepresentation = map[string]interface{}{
+		"kind":         Representation{repType: Required, create: `loggingAnalytics`},
+		"log_group_id": Representation{repType: Required, create: `${var.logAn_log_group_ocid}`},
+	}
+
+	onsTargetRepresentation = map[string]interface{}{
+		"kind":     Representation{repType: Required, create: `notifications`},
+		"topic_id": Representation{repType: Required, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+	}
+
+	// create serviceConnector definitions
+	serviceConnectorRepresentationNoTarget = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Required, create: `My_Service_Connector`, update: `displayName2`},
+		"source":         RepresentationGroup{Required, serviceConnectorSourceRepresentation},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{repType: Optional, create: `My service connector description`, update: `description2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"tasks":          RepresentationGroup{Optional, serviceConnectorTasksRepresentation},
+	}
+
+	serviceConnectorFunctionTargetRepresentation      = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget, functionTargetRepresentation)
+	serviceConnectorObjectStorageTargetRepresentation = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget, objectStorageTargetRepresentation)
+	serviceConnectorLogAnTargetRepresentation         = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget, logAnTargetRepresentation)
+	serviceConnectorOnsTargetRepresentation           = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget, onsTargetRepresentation)
+
+	serviceConnectorSingularDataSourceRepresentation = map[string]interface{}{
+		"service_connector_id": Representation{repType: Required, create: `${oci_sch_service_connector.test_service_connector.id}`},
+	}
+
+	serviceConnectorDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_sch_service_connector.test_service_connector.id}`}},
+	}
+
+	// update serviceConnector definitions
+	updatedServiceConnectorTargetRepresentation = map[string]interface{}{
+		"kind":      Representation{repType: Required, create: `streaming`},
+		"stream_id": Representation{repType: Optional, create: `${oci_streaming_stream.test_stream.id}`},
+	}
+
+	ServiceConnectorResourceConfig = ServiceConnectorResourceDependencies +
+		generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update, serviceConnectorFunctionTargetRepresentation)
 )
 
 func TestSchServiceConnectorResource_basic(t *testing.T) {
@@ -99,6 +131,9 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 	image := getEnvSettingWithBlankDefault("image")
 	imageVariableStr := fmt.Sprintf("variable \"image\" { default = \"%s\" }\n", image)
 
+	logAnLogGroupId := getEnvSettingWithBlankDefault("logAn_log_group_ocid")
+	logAnLogGroupIdVariableStr := fmt.Sprintf("variable \"logAn_log_group_ocid\" { default = \"%s\" }\n", logAnLogGroupId)
+
 	resourceName := "oci_sch_service_connector.test_service_connector"
 	datasourceName := "data.oci_sch_service_connectors.test_service_connectors"
 	singularDatasourceName := "data.oci_sch_service_connector.test_service_connector"
@@ -110,12 +145,13 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+
 		CheckDestroy: testAccCheckSchServiceConnectorDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify create with functions
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorRepresentation),
+					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
@@ -138,10 +174,106 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
 			},
+
+			// verify create with objectstorage
+			{
+				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorObjectStorageTargetRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "objectStorage"),
+					resource.TestCheckResourceAttrSet(resourceName, "target.0.bucket"),
+					resource.TestCheckResourceAttr(resourceName, "target.0.batch_rollover_size_in_mbs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "target.0.batch_rollover_time_in_ms", "80000"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			},
+
+			// verify create with log analytics
+			{
+				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr + logAnLogGroupIdVariableStr +
+					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorLogAnTargetRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "loggingAnalytics"),
+					resource.TestCheckResourceAttrSet(resourceName, "target.0.log_group_id"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			},
+
+			// verify create with ons
+			{
+				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorOnsTargetRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "notifications"),
+					resource.TestCheckResourceAttrSet(resourceName, "target.0.topic_id"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			},
+
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorRepresentation),
+					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorFunctionTargetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -181,7 +313,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create,
-						representationCopyWithNewProperties(serviceConnectorRepresentation, map[string]interface{}{
+						representationCopyWithNewProperties(serviceConnectorFunctionTargetRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -221,7 +353,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorRepresentation, []string{"target"}), map[string]interface{}{
+						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -256,11 +388,12 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					},
 				),
 			},
+
 			// verify stop service connector
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorRepresentation, []string{"target"}), map[string]interface{}{
+						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 							"state":  Representation{repType: Optional, create: `INACTIVE`},
 						})),
@@ -296,11 +429,12 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					},
 				),
 			},
+
 			// verify start service connector
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorRepresentation, []string{"target"}), map[string]interface{}{
+						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 							"state":  Representation{repType: Optional, create: `ACTIVE`},
 						})),
@@ -336,13 +470,14 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					},
 				),
 			},
+
 			// verify datasource
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_sch_service_connectors", "test_service_connectors", Optional, Update, serviceConnectorDataSourceRepresentation) +
 					compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorRepresentation, []string{"target"}), map[string]interface{}{
+						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -354,13 +489,14 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "service_connector_collection.0.items.#", "1"),
 				),
 			},
+
 			// verify singular datasource
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorRepresentation, []string{"target"}), map[string]interface{}{
+						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -386,10 +522,12 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				),
 			},
+
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceConfig + imageVariableStr,
 			},
+
 			// verify resource import
 			{
 				Config:                  config,
@@ -521,4 +659,16 @@ func serviceConnectorSweepResponseFetchOperation(client *OracleClients, resource
 		},
 	})
 	return err
+}
+
+func createServiceConnectorRepresentation(sc map[string]interface{}, target map[string]interface{}) map[string]interface{} {
+	serviceConnector := make(map[string]interface{})
+
+	// Copy map and populate target
+	for key, value := range sc {
+		serviceConnector[key] = value
+	}
+	serviceConnector["target"] = RepresentationGroup{Required, target}
+
+	return serviceConnector
 }
