@@ -110,6 +110,18 @@ func (s *MysqlChannelsDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListChannels(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
 	return nil
 }
 
@@ -118,13 +130,23 @@ func (s *MysqlChannelsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("MysqlChannelsDataSource-", MysqlChannelsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
 		mysqlChannel := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}
+
+		if r.DefinedTags != nil {
+			mysqlChannel["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
+		if r.DisplayName != nil {
+			mysqlChannel["display_name"] = *r.DisplayName
+		}
+
+		mysqlChannel["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			mysqlChannel["id"] = *r.Id
@@ -134,14 +156,18 @@ func (s *MysqlChannelsDataSourceCrud) SetData() error {
 			mysqlChannel["is_enabled"] = *r.IsEnabled
 		}
 
-		if r.DefinedTags != nil {
-			mysqlChannel["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		if r.LifecycleDetails != nil {
+			mysqlChannel["lifecycle_details"] = *r.LifecycleDetails
 		}
 
-		mysqlChannel["freeform_tags"] = r.FreeformTags
-
-		if r.DisplayName != nil {
-			mysqlChannel["display_name"] = *r.DisplayName
+		if r.Source != nil {
+			sourceArray := []interface{}{}
+			if sourceMap := ChannelSourceToMap(&r.Source); sourceMap != nil {
+				sourceArray = append(sourceArray, sourceMap)
+			}
+			mysqlChannel["source"] = sourceArray
+		} else {
+			mysqlChannel["source"] = nil
 		}
 
 		mysqlChannel["state"] = r.LifecycleState
@@ -152,14 +178,8 @@ func (s *MysqlChannelsDataSourceCrud) SetData() error {
 				targetArray = append(targetArray, targetMap)
 			}
 			mysqlChannel["target"] = targetArray
-		}
-
-		if r.Source != nil {
-			sourceArray := []interface{}{}
-			if sourceMap := ChannelSourceToMap(&r.Source); sourceMap != nil {
-				sourceArray = append(sourceArray, sourceMap)
-			}
-			mysqlChannel["source"] = sourceArray
+		} else {
+			mysqlChannel["target"] = nil
 		}
 
 		if r.TimeCreated != nil {
@@ -174,7 +194,7 @@ func (s *MysqlChannelsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, MysqlMysqlDbSystemsDataSource().Schema["db_systems"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, MysqlChannelsDataSource().Schema["channels"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("channels", resources); err != nil {
