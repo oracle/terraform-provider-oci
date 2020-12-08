@@ -1472,6 +1472,18 @@ var exportMysqlMysqlDbSystemHints = &TerraformResourceHints{
 	},
 }
 
+var exportMysqlChannelHints = &TerraformResourceHints{
+	resourceClass:          "oci_mysql_channel",
+	datasourceClass:        "oci_mysql_channels",
+	datasourceItemsAttr:    "channels",
+	resourceAbbreviation:   "channel",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_mysql.ChannelLifecycleStateActive),
+		string(oci_mysql.ChannelLifecycleStateNeedsAttention),
+	},
+}
+
 var exportNosqlTableHints = &TerraformResourceHints{
 	resourceClass:          "oci_nosql_table",
 	datasourceClass:        "oci_nosql_tables",

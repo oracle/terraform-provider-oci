@@ -10,14 +10,10 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_mysql.ChannelsClient", &OracleClient{initClientFn: initMysqlChannelsClient})
 	RegisterOracleClient("oci_mysql.DbBackupsClient", &OracleClient{initClientFn: initMysqlDbBackupsClient})
 	RegisterOracleClient("oci_mysql.DbSystemClient", &OracleClient{initClientFn: initMysqlDbSystemClient})
 	RegisterOracleClient("oci_mysql.MysqlaasClient", &OracleClient{initClientFn: initMysqlMysqlaasClient})
-	RegisterOracleClient("oci_mysql.ChannelsClient", &OracleClient{initClientFn: initMysqlChannelsClient})
-}
-
-func (m *OracleClients) channelsClient() *oci_mysql.ChannelsClient {
-	return m.GetClient("oci_mysql.ChannelsClient").(*oci_mysql.ChannelsClient)
 }
 
 func initMysqlChannelsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
@@ -34,6 +30,10 @@ func initMysqlChannelsClient(configProvider oci_common.ConfigurationProvider, co
 		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
+}
+
+func (m *OracleClients) channelsClient() *oci_mysql.ChannelsClient {
+	return m.GetClient("oci_mysql.ChannelsClient").(*oci_mysql.ChannelsClient)
 }
 
 func initMysqlDbBackupsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

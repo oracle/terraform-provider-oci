@@ -67,35 +67,13 @@ func (s *MysqlChannelDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
-	}
-
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
-	if s.Res.IsEnabled != nil {
-		s.D.Set("is_enabled", *s.Res.IsEnabled)
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
-
-	if s.Res.Source != nil {
-		sourceArray := []interface{}{}
-		if sourceMap := ChannelSourceToMap(&s.Res.Source); sourceMap != nil {
-			sourceArray = append(sourceArray, sourceMap)
-		}
-		s.D.Set("source", sourceArray)
-	}
-
-	if s.Res.Target != nil {
-		targetArray := []interface{}{}
-		if targetMap := ChannelTargetToMap(&s.Res.Target); targetMap != nil {
-			targetArray = append(targetArray, targetMap)
-		}
-		s.D.Set("target", targetArray)
-	}
-
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
@@ -105,11 +83,37 @@ func (s *MysqlChannelDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsEnabled != nil {
+		s.D.Set("is_enabled", *s.Res.IsEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.Source != nil {
+		sourceArray := []interface{}{}
+		if sourceMap := ChannelSourceToMap(&s.Res.Source); sourceMap != nil {
+			sourceArray = append(sourceArray, sourceMap)
+		}
+		s.D.Set("source", sourceArray)
+	} else {
+		s.D.Set("source", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.Target != nil {
+		targetArray := []interface{}{}
+		if targetMap := ChannelTargetToMap(&s.Res.Target); targetMap != nil {
+			targetArray = append(targetArray, targetMap)
+		}
+		s.D.Set("target", targetArray)
+	} else {
+		s.D.Set("target", nil)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -118,5 +122,6 @@ func (s *MysqlChannelDataSourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
 	return nil
 }
