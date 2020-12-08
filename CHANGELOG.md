@@ -1,3 +1,8 @@
+## 4.10.0 (Unreleased)
+
+### Added
+- Support for Log Analytics as a destination
+
 ## 4.9.0 (January 13, 2021)
 
 ### Added

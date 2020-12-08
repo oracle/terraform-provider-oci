@@ -106,6 +106,7 @@ func SchServiceConnectorResource() *schema.Resource {
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"functions",
+								"loggingAnalytics",
 								"monitoring",
 								"notifications",
 								"objectStorage",
@@ -114,6 +115,16 @@ func SchServiceConnectorResource() *schema.Resource {
 						},
 
 						// Optional
+						"batch_rollover_size_in_mbs": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"batch_rollover_time_in_ms": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"bucket": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -125,6 +136,11 @@ func SchServiceConnectorResource() *schema.Resource {
 							Computed: true,
 						},
 						"function_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"log_group_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -899,6 +915,13 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 			details.FunctionId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("loggingAnalytics"):
+		details := oci_sch.LoggingAnalyticsTargetDetails{}
+		if logGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_group_id")); ok {
+			tmp := logGroupId.(string)
+			details.LogGroupId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("monitoring"):
 		details := oci_sch.MonitoringTargetDetails{}
 		if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
@@ -923,6 +946,14 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 		baseObject = details
 	case strings.ToLower("objectStorage"):
 		details := oci_sch.ObjectStorageTargetDetails{}
+		if batchRolloverSizeInMBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_rollover_size_in_mbs")); ok {
+			tmp := batchRolloverSizeInMBs.(int)
+			details.BatchRolloverSizeInMBs = &tmp
+		}
+		if batchRolloverTimeInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_rollover_time_in_ms")); ok {
+			tmp := batchRolloverTimeInMs.(int)
+			details.BatchRolloverTimeInMs = &tmp
+		}
 		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 			tmp := bucket.(string)
 			details.BucketName = &tmp
@@ -958,6 +989,12 @@ func TargetDetailsToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
 		if v.FunctionId != nil {
 			result["function_id"] = string(*v.FunctionId)
 		}
+	case oci_sch.LoggingAnalyticsTargetDetails:
+		result["kind"] = "loggingAnalytics"
+
+		if v.LogGroupId != nil {
+			result["log_group_id"] = string(*v.LogGroupId)
+		}
 	case oci_sch.MonitoringTargetDetails:
 		result["kind"] = "monitoring"
 
@@ -980,6 +1017,14 @@ func TargetDetailsToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
 		}
 	case oci_sch.ObjectStorageTargetDetails:
 		result["kind"] = "objectStorage"
+
+		if v.BatchRolloverSizeInMBs != nil {
+			result["batch_rollover_size_in_mbs"] = int(*v.BatchRolloverSizeInMBs)
+		}
+
+		if v.BatchRolloverTimeInMs != nil {
+			result["batch_rollover_time_in_ms"] = int(*v.BatchRolloverTimeInMs)
+		}
 
 		if v.BucketName != nil {
 			result["bucket"] = string(*v.BucketName)
