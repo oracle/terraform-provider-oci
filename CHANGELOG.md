@@ -1,4 +1,4 @@
-## 4.6.0 (Unreleased)
+## 4.6.0 (December 09, 2020)
 
 ### Added
 - Support for `metadata` field added to `identity_provider` datasources in `identity` service
