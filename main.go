@@ -5,9 +5,11 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/fatih/color"
 
@@ -31,6 +33,7 @@ func main() {
 	var help = flag.Bool("help", false, "Prints usage options")
 	var tfVersion = flag.String("tf_version", "0.12", "The version of terraform syntax to generate for configurations. The state file will be written in v0.12 only. The allowed values are :\n * 0.11\n * 0.12")
 	var retryTimeout = flag.String("retry_timeout", "15s", "[export] The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s")
+	var parallelism = flag.Int("parallelism", 4, "The number of concurrent resource type lookups for discovery. By default the value is 10")
 
 	flag.Parse()
 	provider.PrintVersion()
@@ -69,6 +72,7 @@ func main() {
 				TFVersion:                    &terraformVersion,
 				RetryTimeout:                 retryTimeout,
 				IsExportWithRelatedResources: *includeRelatedResources,
+				Parallelism:                  *parallelism,
 			}
 
 			if services != nil && *services != "" {
@@ -82,10 +86,17 @@ func main() {
 			if ids != nil && *ids != "" {
 				args.IDs = strings.Split(*ids, ",")
 			}
+
+			start := time.Now()
+
 			err, status := provider.RunExportCommand(args)
 			if err != nil {
 				color.Red("%v", err)
 			}
+
+			duration := time.Since(start)
+			fmt.Println(duration)
+
 			os.Exit(int(status))
 
 		case "list_export_resources":

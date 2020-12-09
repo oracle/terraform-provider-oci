@@ -3,7 +3,10 @@
 
 package oci
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestUnit_getValidDbVersion(t *testing.T) {
 	type args struct {
@@ -44,6 +47,57 @@ func TestUnit_getValidDbVersion(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := getValidDbVersion(tt.args.dbVersion); got != tt.want {
 				t.Errorf("getValidDbVersion() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_resourceDiscoveryBaseStep_mergeGeneratedStateFile(t *testing.T) {
+	outputDir := fmt.Sprintf("/Users/papakaur/go/src/github.com/terraform-providers/terraform-provider-oci/bin")
+
+	tfHclVersion = &TfHclVersion12{}
+	args := &ExportCommandArgs{
+		OutputDir: &outputDir,
+	}
+
+	// verify executable from system path
+	if _, _, err := createTerraformStruct(args); err != nil {
+		t.Errorf("createTerraformStruct() error = %v", err)
+		t.Fail()
+	}
+
+	type fields struct {
+		ctx                 *resourceDiscoveryContext
+		name                string
+		discoveredResources []*OCIResource
+		omittedResources    []*OCIResource
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		wantErr bool
+	}{
+		{
+			name: "test1",
+			fields: fields{
+				name: "core",
+				ctx: &resourceDiscoveryContext{
+					ExportCommandArgs: args,
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := &resourceDiscoveryBaseStep{
+				ctx:  tt.fields.ctx,
+				name: tt.fields.name,
+				//discoveredResources: tt.fields.discoveredResources,
+				//omittedResources:    tt.fields.omittedResources,
+			}
+			if err := r.mergeGeneratedStateFile(); (err != nil) != tt.wantErr {
+				t.Errorf("resourceDiscoveryBaseStep.mergeGeneratedStateFile() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
