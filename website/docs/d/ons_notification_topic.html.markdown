@@ -42,6 +42,7 @@ The following attributes are exported:
 * `etag` - For optimistic concurrency control. See `if-match`. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `name` - The name of the topic. 
+* `short_topic_id` - A unique short topic Id. This is used only for SMS subscriptions. 
 * `state` - The lifecycle state of the topic. 
 * `time_created` - The time the topic was created.
 * `topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic. 

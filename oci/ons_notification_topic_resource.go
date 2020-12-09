@@ -70,6 +70,10 @@ func OnsNotificationTopicResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"short_topic_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -307,6 +311,10 @@ func (s *OnsNotificationTopicResourceCrud) SetData() error {
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
+	}
+
+	if s.Res.ShortTopicId != nil {
+		s.D.Set("short_topic_id", *s.Res.ShortTopicId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
