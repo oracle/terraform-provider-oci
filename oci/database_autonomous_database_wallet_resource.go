@@ -14,34 +14,44 @@ import (
 )
 
 func init() {
-	RegisterDatasource("oci_database_autonomous_database_wallet", DatabaseAutonomousDatabaseWalletDataSource())
+	RegisterResource("oci_database_autonomous_database_wallet", DatabaseAutonomousDatabaseWalletResource())
 }
 
-func DatabaseAutonomousDatabaseWalletDataSource() *schema.Resource {
+func DatabaseAutonomousDatabaseWalletResource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularDatabaseAutonomousDatabaseWallet,
+		Timeouts: DefaultTimeout,
+		Create:   createDatabaseAutonomousDatabaseWallet,
+		Read:     readDatabaseAutonomousDatabaseWallet,
+		Delete:   deleteDatabaseAutonomousDatabaseWallet,
 		Schema: map[string]*schema.Schema{
+			// Required
 			"autonomous_database_id": {
-				Type:       schema.TypeString,
-				Required:   true,
-				Deprecated: ResourceDeprecatedForAnother("data.oci_database_autonomous_database_wallet", "oci_database_autonomous_database_wallet"),
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
+			"password": {
+				Type:      schema.TypeString,
+				Required:  true,
+				ForceNew:  true,
+				Sensitive: true,
+			},
+
+			// Optional
 			"base64_encode_content": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
+				ForceNew: true,
 			},
 			"generate_type": {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Default:          "SINGLE",
+				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
-			"password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				Sensitive: true,
-			},
+
 			// Computed
 			"content": {
 				Type:     schema.TypeString,
@@ -51,25 +61,34 @@ func DatabaseAutonomousDatabaseWalletDataSource() *schema.Resource {
 	}
 }
 
-func readSingularDatabaseAutonomousDatabaseWallet(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseAutonomousDatabaseWalletDataSourceCrud{}
+func createDatabaseAutonomousDatabaseWallet(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseWalletResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 
-	return ReadResource(sync)
+	return CreateResource(d, sync)
 }
 
-type DatabaseAutonomousDatabaseWalletDataSourceCrud struct {
-	D      *schema.ResourceData
-	Client *oci_database.DatabaseClient
-	Res    *[]byte
+func readDatabaseAutonomousDatabaseWallet(d *schema.ResourceData, m interface{}) error {
+	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) VoidState() {
-	s.D.SetId("")
+func deleteDatabaseAutonomousDatabaseWallet(d *schema.ResourceData, m interface{}) error {
+	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) Get() error {
+type DatabaseAutonomousDatabaseWalletResourceCrud struct {
+	BaseCrud
+	Client                 *oci_database.DatabaseClient
+	Res                    *[]byte
+	DisableNotFoundRetries bool
+}
+
+func (s *DatabaseAutonomousDatabaseWalletResourceCrud) ID() string {
+	return GenerateDataSourceHashID("DatabaseAutonomousDatabaseWalletResource-", DatabaseAutonomousDatabaseWalletResource(), s.D)
+}
+
+func (s *DatabaseAutonomousDatabaseWalletResourceCrud) Create() error {
 	request := oci_database.GenerateAutonomousDatabaseWalletRequest{}
 
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
@@ -86,7 +105,7 @@ func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) Get() error {
 		request.Password = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GenerateAutonomousDatabaseWallet(context.Background(), request)
 	if err != nil {
@@ -105,12 +124,12 @@ func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) SetData() error {
+func (s *DatabaseAutonomousDatabaseWalletResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("DatabaseAutonomousDatabaseWalletDataSource-", DatabaseAutonomousDatabaseWalletDataSource(), s.D))
+	s.D.SetId(GenerateDataSourceHashID("DatabaseAutonomousDatabaseWalletResource-", DatabaseAutonomousDatabaseWalletResource(), s.D))
 
 	base64EncodeContent := false
 	if tmp, ok := s.D.GetOkExists("base64_encode_content"); ok {
