@@ -44,6 +44,15 @@ type CreateIntegrationInstanceDetails struct {
 	// IDCS Authentication token. This is is required for pre-UCPIS cloud accounts, but not UCPIS, hence not a required parameter
 	IdcsAt *string `mandatory:"false" json:"idcsAt"`
 
+	// Visual Builder is enabled or not.
+	IsVisualBuilderEnabled *bool `mandatory:"false" json:"isVisualBuilderEnabled"`
+
+	CustomEndpoint *CreateCustomEndpointDetails `mandatory:"false" json:"customEndpoint"`
+
+	// A list of alternate custom endpoints to be used for the integration instance URL
+	// (contact Oracle for alternateCustomEndpoints availability for a specific instance).
+	AlternateCustomEndpoints []CreateCustomEndpointDetails `mandatory:"false" json:"alternateCustomEndpoints"`
+
 	// Optional parameter specifying which entitlement to use for billing purposes. Only required if the account possesses more than one entitlement.
 	ConsumptionModel CreateIntegrationInstanceDetailsConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
 

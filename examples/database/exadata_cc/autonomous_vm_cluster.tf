@@ -30,21 +30,21 @@ data "oci_database_autonomous_vm_clusters" "test_autonomous_vm_clusters" {
   state                     = "AVAILABLE"
 }
 
-variable "vault_id" {
+variable "kms_vault_ocid" {
 }
 
-variable "secret_id" {
+variable "okv_secret" {
 }
 
 resource "oci_database_key_store" "test_key_store" {
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
   display_name = "Key Store"
   type_details {
     admin_username = "username1"
     connection_ips = ["192.1.1.1", "192.1.1.2"]
-    secret_id = var.secret_id
+    secret_id = var.okv_secret
     type = "ORACLE_KEY_VAULT"
-    vault_id = var.vault_id
+    vault_id = var.kms_vault_ocid
   }
 }
 

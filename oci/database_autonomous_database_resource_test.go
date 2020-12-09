@@ -1111,7 +1111,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 }
 
 func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
-	t.Skip("skip long run database test")
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupFromId")
 	defer httpreplay.SaveScenario()
 
@@ -1192,7 +1191,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 }
 
 func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testing.T) {
-	t.Skip("skip long run database test")
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp")
 	defer httpreplay.SaveScenario()
 

@@ -95,21 +95,23 @@ type VmClusterSummaryLifecycleStateEnum string
 
 // Set of constants representing the allowable values for VmClusterSummaryLifecycleStateEnum
 const (
-	VmClusterSummaryLifecycleStateProvisioning VmClusterSummaryLifecycleStateEnum = "PROVISIONING"
-	VmClusterSummaryLifecycleStateAvailable    VmClusterSummaryLifecycleStateEnum = "AVAILABLE"
-	VmClusterSummaryLifecycleStateUpdating     VmClusterSummaryLifecycleStateEnum = "UPDATING"
-	VmClusterSummaryLifecycleStateTerminating  VmClusterSummaryLifecycleStateEnum = "TERMINATING"
-	VmClusterSummaryLifecycleStateTerminated   VmClusterSummaryLifecycleStateEnum = "TERMINATED"
-	VmClusterSummaryLifecycleStateFailed       VmClusterSummaryLifecycleStateEnum = "FAILED"
+	VmClusterSummaryLifecycleStateProvisioning          VmClusterSummaryLifecycleStateEnum = "PROVISIONING"
+	VmClusterSummaryLifecycleStateAvailable             VmClusterSummaryLifecycleStateEnum = "AVAILABLE"
+	VmClusterSummaryLifecycleStateUpdating              VmClusterSummaryLifecycleStateEnum = "UPDATING"
+	VmClusterSummaryLifecycleStateTerminating           VmClusterSummaryLifecycleStateEnum = "TERMINATING"
+	VmClusterSummaryLifecycleStateTerminated            VmClusterSummaryLifecycleStateEnum = "TERMINATED"
+	VmClusterSummaryLifecycleStateFailed                VmClusterSummaryLifecycleStateEnum = "FAILED"
+	VmClusterSummaryLifecycleStateMaintenanceInProgress VmClusterSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
 var mappingVmClusterSummaryLifecycleState = map[string]VmClusterSummaryLifecycleStateEnum{
-	"PROVISIONING": VmClusterSummaryLifecycleStateProvisioning,
-	"AVAILABLE":    VmClusterSummaryLifecycleStateAvailable,
-	"UPDATING":     VmClusterSummaryLifecycleStateUpdating,
-	"TERMINATING":  VmClusterSummaryLifecycleStateTerminating,
-	"TERMINATED":   VmClusterSummaryLifecycleStateTerminated,
-	"FAILED":       VmClusterSummaryLifecycleStateFailed,
+	"PROVISIONING":            VmClusterSummaryLifecycleStateProvisioning,
+	"AVAILABLE":               VmClusterSummaryLifecycleStateAvailable,
+	"UPDATING":                VmClusterSummaryLifecycleStateUpdating,
+	"TERMINATING":             VmClusterSummaryLifecycleStateTerminating,
+	"TERMINATED":              VmClusterSummaryLifecycleStateTerminated,
+	"FAILED":                  VmClusterSummaryLifecycleStateFailed,
+	"MAINTENANCE_IN_PROGRESS": VmClusterSummaryLifecycleStateMaintenanceInProgress,
 }
 
 // GetVmClusterSummaryLifecycleStateEnumValues Enumerates the set of values for VmClusterSummaryLifecycleStateEnum

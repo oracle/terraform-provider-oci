@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// ExadataDbSystemMigration Information about the Exadata DB system migration. The migration is used to move the system to the Exadata infrastructure resource model.
+// ExadataDbSystemMigration Information about the Exadata DB system migration. The migration is used to move the Exadata Cloud Service instance from the DB system resource model to the new cloud Exadata infrastructure resource model.
 type ExadataDbSystemMigration struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system.

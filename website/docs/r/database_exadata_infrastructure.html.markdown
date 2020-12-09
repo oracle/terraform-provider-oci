@@ -44,6 +44,23 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 	corporate_proxy = var.exadata_infrastructure_corporate_proxy
 	defined_tags = var.exadata_infrastructure_defined_tags
 	freeform_tags = {"Department"= "Finance"}
+	maintenance_window {
+		#Required
+		preference = var.exadata_infrastructure_maintenance_window_preference
+
+		#Optional
+		days_of_week {
+			#Required
+			name = var.exadata_infrastructure_maintenance_window_days_of_week_name
+		}
+		hours_of_day = var.exadata_infrastructure_maintenance_window_hours_of_day
+		lead_time_in_weeks = var.exadata_infrastructure_maintenance_window_lead_time_in_weeks
+		months {
+			#Required
+			name = var.exadata_infrastructure_maintenance_window_months_name
+		}
+		weeks_of_month = var.exadata_infrastructure_maintenance_window_weeks_of_month
+	}
 }
 ```
 
@@ -68,6 +85,16 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gateway` - (Required) (Updatable) The gateway for the control plane network.
 * `infini_band_network_cidr` - (Required) (Updatable) The CIDR block for the Exadata InfiniBand interconnect.
+* `maintenance_window` - (Optional) (Updatable) The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
+	* `days_of_week` - (Optional) (Updatable) Days during the week when maintenance should be performed.
+		* `name` - (Required) (Updatable) Name of the day of the week.
+	* `hours_of_day` - (Optional) (Updatable) The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
+		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
+	* `lead_time_in_weeks` - (Optional) (Updatable) Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. 
+	* `months` - (Optional) (Updatable) Months during the year when maintenance should be performed.
+		* `name` - (Required) (Updatable) Name of the month of the year.
+	* `preference` - (Required) (Updatable) The maintenance window scheduling preference.
+	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `netmask` - (Required) (Updatable) The netmask for the control plane network.
 * `ntp_server` - (Required) (Updatable) The list of NTP server IP addresses. Maximum of 3 allowed.
 * `shape` - (Required) The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
@@ -103,6 +130,16 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `infini_band_network_cidr` - The CIDR block for the Exadata InfiniBand interconnect.
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `maintenance_window` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
+	* `days_of_week` - Days during the week when maintenance should be performed.
+		* `name` - Name of the day of the week.
+	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
+		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
+	* `lead_time_in_weeks` - Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. 
+	* `months` - Months during the year when maintenance should be performed.
+		* `name` - Name of the month of the year.
+	* `preference` - The maintenance window scheduling preference.
+	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `max_cpu_count` - The total number of CPU cores available.
 * `max_data_storage_in_tbs` - The total available DATA disk group size.
 * `max_db_node_storage_in_gbs` - The total local node storage available in GBs.

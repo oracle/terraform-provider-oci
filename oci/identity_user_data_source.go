@@ -90,10 +90,6 @@ func (s *IdentityUserDataSourceCrud) SetData() error {
 		s.D.Set("email", *s.Res.Email)
 	}
 
-	if s.Res.EmailVerified != nil {
-		s.D.Set("email_verified", *s.Res.EmailVerified)
-	}
-
 	if s.Res.ExternalIdentifier != nil {
 		s.D.Set("external_identifier", *s.Res.ExternalIdentifier)
 	}

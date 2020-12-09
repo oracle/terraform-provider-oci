@@ -39,7 +39,10 @@ var (
 
 	VmClusterNetworkValidateResourceDependencies = DefinedTagsDependencies +
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}}))
+			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+				"activation_file":    Representation{repType: Optional, update: activationFilePath},
+				"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+			}))
 )
 
 func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {

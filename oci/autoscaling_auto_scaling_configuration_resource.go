@@ -478,15 +478,17 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Update() error {
 	}
 	request := oci_auto_scaling.UpdateAutoScalingConfigurationRequest{}
 
+	updateFlag := false
 	tmp := s.D.Id()
 	request.AutoScalingConfigurationId = &tmp
-
-	if coolDownInSeconds, ok := s.D.GetOkExists("cool_down_in_seconds"); ok {
+	if coolDownInSeconds, ok := s.D.GetOkExists("cool_down_in_seconds"); ok && s.D.HasChange("cool_down_in_seconds") {
+		updateFlag = true
 		tmp := coolDownInSeconds.(int)
 		request.CoolDownInSeconds = &tmp
 	}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
+		updateFlag = true
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -494,18 +496,25 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
+		updateFlag = true
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
+		updateFlag = true
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok && s.D.HasChange("is_enabled") {
+		updateFlag = true
 		tmp := isEnabled.(bool)
 		request.IsEnabled = &tmp
+	}
+
+	if !updateFlag {
+		return s.Get()
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
