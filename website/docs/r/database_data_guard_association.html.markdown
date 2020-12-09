@@ -78,7 +78,7 @@ The following arguments are supported:
 	**IMPORTANT** - The only protection mode currently supported by the Database service is MAXIMUM_PERFORMANCE. 
 * `shape` - (Applicable when creation_type=NewDbSystem) The virtual machine DB system shape to launch for the standby database in the Data Guard association. The shape determines the number of CPU cores and the amount of memory available for the DB system. Only virtual machine shapes are valid options. If you do not supply this parameter, the default shape is the shape of the primary DB system.
 
-	To get a list of all shapes, use the [ListDbSystemShapes](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes) operation. 
+	To get a list of all shapes, use the [ListDbSystemShapes](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbSystemShapeSummary/ListDbSystemShapes) operation. 
 * `subnet_id` - (Applicable when creation_type=NewDbSystem) The OCID of the subnet the DB system is associated with. **Subnet Restrictions:**
 	* For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28
 

@@ -10,7 +10,14 @@ description: |-
 # oci_database_exadata_iorm_config
 This resource provides the Exadata Iorm Config resource in Oracle Cloud Infrastructure Database service.
 
-Updates IORM settings for the specified Exadata system.
+Updates IORM settings for the specified Exadata DB system.
+
+**Note:** Deprecated for Exadata Cloud Service systems. Use the [new resource model APIs](/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+
+For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See [Switching an Exadata DB System to the New Resource Model and APIs](/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+
+The [UpdateCloudVmClusterIormConfig](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudVmCluster/UpdateCloudVmClusterIormConfig/) API is used for Exadata systems using the
+new resource model.
 
 
 ## Example Usage

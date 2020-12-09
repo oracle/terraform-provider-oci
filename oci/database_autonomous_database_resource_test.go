@@ -155,12 +155,24 @@ var (
 			}))
 
 	autonomousDatabaseExaccRepresentation = representationCopyWithNewProperties(
-		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbExaccName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled"}),
+		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbExaccName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "operations_insights_status"}),
 		map[string]interface{}{
 			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 			"is_dedicated":                     Representation{repType: Optional, create: `true`},
 			"display_name":                     Representation{repType: Optional, create: adbExaccName},
 			"is_access_control_enabled":        Representation{repType: Optional, create: `false`, update: `true`},
+		})
+	autonomousDatabaseDGExaccRepresentation = representationCopyWithNewProperties(
+		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbExaccName}, autonomousDatabaseRepresentation), []string{"license_model", "db_version", "is_auto_scaling_enabled", "operations_insights_status", "admin_password"}),
+		map[string]interface{}{
+			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
+			"is_dedicated":                     Representation{repType: Optional, create: `true`},
+			"display_name":                     Representation{repType: Optional, create: adbExaccName},
+			"is_access_control_enabled":        Representation{repType: Optional, create: `true`, update: `true`},
+			"whitelisted_ips":                  Representation{repType: Optional, create: []string{`1.1.1.1/28`}, update: []string{`1.1.1.1/28`, `2.2.2.2/28`}},
+			"standby_whitelisted_ips":          Representation{repType: Optional, update: []string{`3.4.5.6/28`, `3.6.7.8/28`}},
+			"are_primary_whitelisted_ips_used": Representation{repType: Optional, create: `true`, update: `false`},
+			"admin_password":                   Representation{repType: Required, create: `BEstrO0ng_#11`},
 		})
 	autonomousDatabaseUpdateExaccRepresentation = map[string]interface{}{
 		"admin_password":                   Representation{repType: Required, create: `BEstrO0ng_#11`},
@@ -183,6 +195,8 @@ var (
 		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseUpdateExaccRepresentation)
 
 	ExaccADBDatabaseResourceDependencies = ACDatabaseResourceConfig
+
+	ExaccADBWithDataguardResourceDependencies = ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig
 )
 
 func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
@@ -1870,6 +1884,97 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
+func TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard(t *testing.T) {
+	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataGuard")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	const standbyDbWaitConditionDuration = time.Duration(60 * time.Minute)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckDatabaseAutonomousDatabaseDestroy,
+		Steps: []resource.TestStep{
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + ExaccADBWithDataguardResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseDGExaccRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbExaccName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", adbExaccName),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "is_access_control_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "are_primary_whitelisted_ips_used", "true"),
+					resource.TestCheckResourceAttr(resourceName, "standby_whitelisted_ips.#", "1"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+			// verify updates to acl parameter for Exacc
+			{
+				Config: config + compartmentIdVariableStr + ExaccADBWithDataguardResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseDGExaccRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbExaccName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", adbExaccName),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_access_control_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "are_primary_whitelisted_ips_used", "false"),
+					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "2"),
+					resource.TestCheckResourceAttr(resourceName, "standby_whitelisted_ips.#", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 					func(s *terraform.State) (err error) {

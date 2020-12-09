@@ -72,6 +72,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"are_primary_whitelisted_ips_used": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"autonomous_container_database_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -341,6 +345,13 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"standby_whitelisted_ips": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -498,6 +509,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["apex_details"] = nil
 		}
 
+		if r.ArePrimaryWhitelistedIpsUsed != nil {
+			autonomousDatabasesClone["are_primary_whitelisted_ips_used"] = *r.ArePrimaryWhitelistedIpsUsed
+		}
+
 		if r.AutonomousContainerDatabaseId != nil {
 			autonomousDatabasesClone["autonomous_container_database_id"] = *r.AutonomousContainerDatabaseId
 		}
@@ -643,6 +658,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		} else {
 			autonomousDatabasesClone["standby_db"] = nil
 		}
+
+		autonomousDatabasesClone["standby_whitelisted_ips"] = r.StandbyWhitelistedIps
 
 		autonomousDatabasesClone["state"] = r.LifecycleState
 

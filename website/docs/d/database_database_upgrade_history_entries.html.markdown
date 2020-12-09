@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_database_upgrade_history_entries
 This data source provides the list of Database Upgrade History Entries in Oracle Cloud Infrastructure Database service.
 
-gets the upgrade history for a specified database.
+Gets the upgrade history for a specified database in a bare metal or virtual machine DB system.
 
 
 ## Example Usage
@@ -45,13 +45,16 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `action` - action for upgrading database.
+* `action` - The database upgrade action.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database upgrade history.
 * `lifecycle_details` - Additional information about the current lifecycle state.
-* `source` - The source of the database upgrade Use 'DB_HOME' for using existing db home to upgrade the database Use 'DB_VERSION' for using database version to upgrade the database Use 'DB_SOFTWARE_IMAGE' for using database software image to upgrade the database 
+* `source` - The source of the Oracle Database software to be used for the upgrade.
+	* Use `DB_HOME` to specify an existing Database Home to upgrade the database. The database is moved to the target Database Home and makes use of the Oracle Database software version of the target Database Home.
+	* Use `DB_VERSION` to specify a generally-available Oracle Database software version to upgrade the database.
+	* Use `DB_SOFTWARE_IMAGE` to specify a [database software image](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databasesoftwareimage.htm) to upgrade the database. 
 * `source_db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `state` - Status of database upgrade history SUCCEEDED|IN_PROGRESS|FAILED.
-* `target_db_version` - A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
+* `target_db_version` - A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
 * `target_database_software_image_id` - the database software image used for upgrading database.
 * `target_db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `time_ended` - The date and time when the database upgrade ended.
