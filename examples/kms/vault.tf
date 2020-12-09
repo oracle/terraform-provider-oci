@@ -28,7 +28,7 @@ resource "oci_kms_vault" "private-vault-kms" {
   compartment_id = var.compartment_id
 
   display_name = var.vault_display_name
-  vault_type   = var.vault_type[1]
+  vault_type   = var.vault_type[0]
   //Flip the trigger when restore operation on vault needs to be performed
   //restore_trigger = var.vault_restore_trigger
 }

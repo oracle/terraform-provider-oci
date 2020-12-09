@@ -29,6 +29,9 @@ resource "oci_kms_key" "test_key" {
 		#Required
 		algorithm = var.key_key_shape_algorithm
 		length = var.key_key_shape_length
+
+		#Optional
+		curve_id = oci_kms_curve.test_curve.id
 	}
 	management_endpoint = var.key_management_endpoint
 
@@ -50,7 +53,11 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `key_shape` - (Required) The cryptographic properties of a key.
 	* `algorithm` - (Required) The algorithm used by a key's key versions to encrypt or decrypt.
-	* `length` - (Required) The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
+	* `curve_id` - (Optional) Supported curve Ids for ECDSA keys
+	* `length` - (Required) The length of the key in bytes, expressed as an integer. Values supported:
+		* AES: 16, 24 or 32
+		* RSA: 256, 384 or 512
+		* ECDSA: 32, 48, 66 
 * `management_endpoint` - (Required) The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
 * `protection_mode` - (Optional) The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,  a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported. 
 * `restore_from_file` - (Optional) (Updatable) Details where key was backed up.
@@ -81,7 +88,11 @@ The following attributes are exported:
 * `id` - The OCID of the key.
 * `key_shape` - The cryptographic properties of a key.
 	* `algorithm` - The algorithm used by a key's key versions to encrypt or decrypt.
-	* `length` - The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
+	* `curve_id` - Supported curve Ids for ECDSA keys
+	* `length` - The length of the key in bytes, expressed as an integer. Values supported:
+		* AES: 16, 24 or 32
+		* RSA: 256, 384 or 512
+		* ECDSA: 32, 48, 66 
 * `protection_mode` - The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,  a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported. 
 * `restored_from_key_id` - The OCID of the key from which this key was restored.
 * `state` - The key's current lifecycle state.  Example: `ENABLED` 

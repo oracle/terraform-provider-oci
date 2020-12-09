@@ -50,6 +50,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains this key version.
 * `id` - The OCID of the key version.
 * `key_id` - The OCID of the master encryption key associated with this key version.
+* `public_key` - The public key in PEM format which will be populated only in case of RSA and ECDSA keys. 
 * `restored_from_key_version_id` - The OCID of the key version from which this key version was restored.
 * `state` - The key version's current lifecycle state.  Example: `ENABLED` 
 * `key_version_id` - The OCID of the key version.

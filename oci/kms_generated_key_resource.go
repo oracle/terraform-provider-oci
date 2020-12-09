@@ -61,6 +61,12 @@ func KmsGeneratedKeyResource() *schema.Resource {
 						},
 
 						// Optional
+						"curve_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 
 						// Computed
 					},
@@ -197,6 +203,10 @@ func (s *KmsGeneratedKeyResourceCrud) mapToKeyShape(fieldKeyFormat string) (oci_
 
 	if algorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "algorithm")); ok {
 		result.Algorithm = oci_kms.KeyShapeAlgorithmEnum(algorithm.(string))
+	}
+
+	if curveId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "curve_id")); ok {
+		result.CurveId = oci_kms.KeyShapeCurveIdEnum(curveId.(string))
 	}
 
 	if length, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "length")); ok {

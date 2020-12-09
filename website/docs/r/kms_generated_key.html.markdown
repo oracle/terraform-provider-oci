@@ -25,6 +25,9 @@ resource "oci_kms_generated_key" "test_generated_key" {
 		#Required
 		algorithm = var.generated_key_key_shape_algorithm
 		length = var.generated_key_key_shape_length
+
+		#Optional
+		curve_id = oci_kms_curve.test_curve.id
 	}
 
 	#Optional
@@ -43,7 +46,11 @@ The following arguments are supported:
 * `key_id` - (Required) The OCID of the master encryption key to encrypt the generated data encryption key with.
 * `key_shape` - (Required) The cryptographic properties of a key.
 	* `algorithm` - (Required) The algorithm used by a key's key versions to encrypt or decrypt.
-	* `length` - (Required) The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
+	* `curve_id` - (Optional) Supported curve Ids for ECDSA keys
+	* `length` - (Required) The length of the key in bytes, expressed as an integer. Values supported:
+		* AES: 16, 24 or 32
+		* RSA: 256, 384 or 512
+		* ECDSA: 32, 48, 66 
 * `logging_context` - (Optional) Information that provides context for audit logging. You can provide this additional data by formatting it as key-value pairs to include in audit logs when audit logging is enabled. 
 
 

@@ -5,7 +5,6 @@ package oci
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -15,22 +14,19 @@ import (
 )
 
 var (
-	EncryptedDataRequiredOnlyResource = EncryptedDataResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Required, Create, encryptedDataRepresentation)
-
 	EncryptedDataResourceConfig = EncryptedDataResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Required, Create, encryptedDataRepresentation)
+		generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation)
 
 	encryptedDataSingularDataSourceRepresentation = map[string]interface{}{
 		"crypto_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
-		"key_id":          Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"key_id":          Representation{repType: Required, create: getEnvSettingWithBlankDefault("kms_aes_key_ocid")},
 		"plaintext":       Representation{repType: Required, create: `aGVsbG8sIHdvcmxk`},
 		"associated_data": Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
 	}
 
 	encryptedDataRepresentation = map[string]interface{}{
 		"crypto_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
-		"key_id":          Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"key_id":          Representation{repType: Required, create: getEnvSettingWithBlankDefault("kms_aes_key_ocid")},
 		"plaintext":       Representation{repType: Required, create: `aGVsbG8sIHdvcmxk`},
 		"associated_data": Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
 		"logging_context": Representation{repType: Optional, create: map[string]string{"loggingContext": "loggingContext"}, update: map[string]string{"loggingContext2": "loggingContext2"}},
@@ -52,8 +48,6 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 	resourceName := "oci_kms_encrypted_data.test_encrypted_data"
 
 	singularDatasourceName := "data.oci_kms_encrypted_data.test_encrypted_data"
-
-	var resId string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -87,16 +81,6 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 					resource.TestCheckResourceAttr(resourceName, "logging_context.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "plaintext", "aGVsbG8sIHdvcmxk"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
 				),
 			},
 

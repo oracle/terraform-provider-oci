@@ -58,6 +58,14 @@ func KmsKeyVersionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"public_key": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"restored_from_key_version_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -281,6 +289,14 @@ func (s *KmsKeyVersionResourceCrud) SetData() error {
 
 	if s.Res.KeyId != nil {
 		s.D.Set("key_id", *s.Res.KeyId)
+	}
+
+	if s.Res.PublicKey != nil {
+		s.D.Set("public_key", *s.Res.PublicKey)
+	}
+
+	if s.Res.RestoredFromKeyVersionId != nil {
+		s.D.Set("restored_from_key_version_id", *s.Res.RestoredFromKeyVersionId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
