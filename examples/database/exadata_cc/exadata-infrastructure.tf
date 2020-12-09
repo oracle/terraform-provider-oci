@@ -47,11 +47,11 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   activation_file             = "activation.zip"
 
   #Optional
-  contacts = {
-    "email"        = "testuser2@testdomain.com"
-    "is_primary"   = "true"
-    "name"         = "name"
-    "phone_number" = "1234567891"
+  contacts {
+    email        = "testuser2@testdomain.com"
+    is_primary   = "true"
+    name         = "name"
+    phone_number = "1234567891"
   }
 
   corporate_proxy = "http://192.168.19.1:80"
@@ -62,6 +62,36 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   freeform_tags = {
     "Department" = "Accounting"
   }
+
+  maintenance_window {
+    preference = "CUSTOM_PREFERENCE"
+
+    days_of_week {
+      name = "TUESDAY"
+    }
+
+    hours_of_day = ["4"]
+    lead_time_in_weeks = 2
+
+    months {
+      name = "JANUARY"
+    }
+
+    months {
+      name = "APRIL"
+    }
+
+    months {
+      name = "JULY"
+    }
+
+    months {
+      name = "OCTOBER"
+    }
+
+    weeks_of_month = ["2"]
+  }
+  
 }
 
 data "oci_database_exadata_infrastructure_download_config_file" "test_exadata_infrastructure_download_config_file" {

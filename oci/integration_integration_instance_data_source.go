@@ -67,11 +67,23 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	alternateCustomEndpoints := []interface{}{}
+	for _, item := range s.Res.AlternateCustomEndpoints {
+		alternateCustomEndpoints = append(alternateCustomEndpoints, CustomEndpointDetailsToMap(&item))
+	}
+	s.D.Set("alternate_custom_endpoints", alternateCustomEndpoints)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
 	s.D.Set("consumption_model", s.Res.ConsumptionModel)
+
+	if s.Res.CustomEndpoint != nil {
+		s.D.Set("custom_endpoint", []interface{}{CustomEndpointDetailsToMap(s.Res.CustomEndpoint)})
+	} else {
+		s.D.Set("custom_endpoint", nil)
+	}
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
@@ -95,6 +107,10 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 
 	if s.Res.IsFileServerEnabled != nil {
 		s.D.Set("is_file_server_enabled", *s.Res.IsFileServerEnabled)
+	}
+
+	if s.Res.IsVisualBuilderEnabled != nil {
+		s.D.Set("is_visual_builder_enabled", *s.Res.IsVisualBuilderEnabled)
 	}
 
 	if s.Res.MessagePacks != nil {

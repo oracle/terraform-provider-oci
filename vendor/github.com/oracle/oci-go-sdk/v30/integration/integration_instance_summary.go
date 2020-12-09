@@ -52,6 +52,14 @@ type IntegrationInstanceSummary struct {
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 
+	// Visual Builder is enabled or not.
+	IsVisualBuilderEnabled *bool `mandatory:"false" json:"isVisualBuilderEnabled"`
+
+	CustomEndpoint *CustomEndpointDetails `mandatory:"false" json:"customEndpoint"`
+
+	// A list of alternate custom endpoints used for the integration instance URL.
+	AlternateCustomEndpoints []CustomEndpointDetails `mandatory:"false" json:"alternateCustomEndpoints"`
+
 	// The entitlement used for billing purposes.
 	ConsumptionModel IntegrationInstanceSummaryConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
 }

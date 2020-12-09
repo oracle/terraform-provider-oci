@@ -29,6 +29,8 @@ variable "authentication_policy_password_policy_minimum_password_length" {
   default = 11
 }
 
+// Please be careful while creating authentication policies and what ip ranges you are allowing in your network sources to access, as this might lock you out of console if ip ranges are not valid.
+/*
 resource "oci_identity_authentication_policy" "test_authentication_policy" {
   #Required
   compartment_id = var.tenancy_ocid
@@ -54,4 +56,5 @@ data "oci_identity_authentication_policy" "test_authentication_policy" {
   #Required
   compartment_id = var.tenancy_ocid
 }
+*/
 

@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// GenerateRecommendedNetworkDetails Generates a recommended VM cluster network configuration for an Exadata Cloud@Customer system.
+// GenerateRecommendedNetworkDetails Generates a recommended VM cluster network configuration for an Exadata Cloud@Customer system. Applies to Exadata Cloud@Customer instances only.
 type GenerateRecommendedNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

@@ -139,6 +139,87 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"maintenance_window": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"preference": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"days_of_week": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"hours_of_day": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 20,
+							MinItems: 0,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"months": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"weeks_of_month": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 4,
+							MinItems: 1,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"cpus_enabled": {
@@ -269,6 +350,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.ExadataInfrastructureLifecycleStateActivating),
 		string(oci_database.ExadataInfrastructureLifecycleStateUpdating),
+		string(oci_database.ExadataInfrastructureLifecycleStateMaintenanceInProgress),
 	}
 }
 
@@ -365,6 +447,17 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 	if infiniBandNetworkCIDR, ok := s.D.GetOkExists("infini_band_network_cidr"); ok {
 		tmp := infiniBandNetworkCIDR.(string)
 		request.InfiniBandNetworkCIDR = &tmp
+	}
+
+	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
+		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
+			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindow = &tmp
+		}
 	}
 
 	if netmask, ok := s.D.GetOkExists("netmask"); ok {
@@ -531,6 +624,17 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		request.InfiniBandNetworkCIDR = &tmp
 	}
 
+	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
+		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
+			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindow = &tmp
+		}
+	}
+
 	if netmask, ok := s.D.GetOkExists("netmask"); ok && s.D.HasChange("netmask") {
 		tmp := netmask.(string)
 		request.Netmask = &tmp
@@ -659,6 +763,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.MaintenanceWindow != nil {
+		s.D.Set("maintenance_window", []interface{}{ExadataInfrastructureMaintenanceWindowToMap(s.Res.MaintenanceWindow)})
+	} else {
+		s.D.Set("maintenance_window", nil)
+	}
+
 	if s.Res.MaxCpuCount != nil {
 		s.D.Set("max_cpu_count", *s.Res.MaxCpuCount)
 	}
@@ -700,6 +810,24 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DatabaseExadataInfrastructureResourceCrud) mapToDayOfWeek(fieldKeyFormat string) (oci_database.DayOfWeek, error) {
+	result := oci_database.DayOfWeek{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		result.Name = oci_database.DayOfWeekNameEnum(name.(string))
+	}
+
+	return result, nil
+}
+
+func ExadataInfrastructureDayOfWeekToMap(obj oci_database.DayOfWeek) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["name"] = string(obj.Name)
+
+	return result
 }
 
 func (s *DatabaseExadataInfrastructureResourceCrud) mapToExadataInfrastructureContact(fieldKeyFormat string) (oci_database.ExadataInfrastructureContact, error) {
@@ -746,6 +874,130 @@ func ExadataInfrastructureContactToMap(obj oci_database.ExadataInfrastructureCon
 	if obj.PhoneNumber != nil {
 		result["phone_number"] = string(*obj.PhoneNumber)
 	}
+
+	return result
+}
+
+func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {
+	result := oci_database.MaintenanceWindow{}
+
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
+		if result.Preference == oci_database.MaintenanceWindowPreferenceNoPreference {
+			return result, nil
+		}
+	}
+
+	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
+		interfaces := daysOfWeek.([]interface{})
+		tmp := make([]oci_database.DayOfWeek, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "days_of_week"), stateDataIndex)
+			converted, err := s.mapToDayOfWeek(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "days_of_week")) {
+			result.DaysOfWeek = tmp
+		}
+	}
+
+	if hoursOfDay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hours_of_day")); ok {
+		interfaces := hoursOfDay.([]interface{})
+		tmp := make([]int, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(int)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "hours_of_day")) {
+			result.HoursOfDay = tmp
+		}
+	}
+
+	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
+		tmp := leadTimeInWeeks.(int)
+		result.LeadTimeInWeeks = &tmp
+	}
+
+	if months, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "months")); ok {
+		interfaces := months.([]interface{})
+		tmp := make([]oci_database.Month, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "months"), stateDataIndex)
+			converted, err := s.mapToMonth(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "months")) {
+			result.Months = tmp
+		}
+	}
+
+	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
+		interfaces := weeksOfMonth.([]interface{})
+		tmp := make([]int, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(int)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")) {
+			result.WeeksOfMonth = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ExadataInfrastructureMaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	daysOfWeek := []interface{}{}
+	for _, item := range obj.DaysOfWeek {
+		daysOfWeek = append(daysOfWeek, ExadataInfrastructureDayOfWeekToMap(item))
+	}
+	result["days_of_week"] = daysOfWeek
+
+	result["hours_of_day"] = obj.HoursOfDay
+
+	if obj.LeadTimeInWeeks != nil {
+		result["lead_time_in_weeks"] = int(*obj.LeadTimeInWeeks)
+	}
+
+	months := []interface{}{}
+	for _, item := range obj.Months {
+		months = append(months, ExadataInfrastructureMonthToMap(item))
+	}
+	result["months"] = months
+
+	result["preference"] = string(obj.Preference)
+
+	result["weeks_of_month"] = obj.WeeksOfMonth
+
+	return result
+}
+
+func (s *DatabaseExadataInfrastructureResourceCrud) mapToMonth(fieldKeyFormat string) (oci_database.Month, error) {
+	result := oci_database.Month{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		result.Name = oci_database.MonthNameEnum(name.(string))
+	}
+
+	return result, nil
+}
+
+func ExadataInfrastructureMonthToMap(obj oci_database.Month) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["name"] = string(obj.Name)
 
 	return result
 }

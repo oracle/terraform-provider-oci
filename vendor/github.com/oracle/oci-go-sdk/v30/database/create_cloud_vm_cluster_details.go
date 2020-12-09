@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// CreateCloudVmClusterDetails Details for the create cloud VM cluster operation.
+// CreateCloudVmClusterDetails Details for the create cloud VM cluster operation. Applies to Exadata Cloud Service instances only.
 type CreateCloudVmClusterDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -64,6 +64,7 @@ type CreateCloudVmClusterDetails struct {
 	// A domain name used for the cloud VM cluster. If the Oracle-provided internet and VCN
 	// resolver is enabled for the specified subnet, the domain name for the subnet is used
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
+	// Applies to Exadata Cloud Service instances only.
 	Domain *string `mandatory:"false" json:"domain"`
 
 	// The Oracle license model that applies to the cloud VM cluster. The default is BRING_YOUR_OWN_LICENSE.

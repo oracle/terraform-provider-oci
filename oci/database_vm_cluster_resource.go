@@ -220,6 +220,7 @@ func (s *DatabaseVmClusterResourceCrud) DeletedTarget() []string {
 func (s *DatabaseVmClusterResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.VmClusterLifecycleStateUpdating),
+		string(oci_database.VmClusterLifecycleStateMaintenanceInProgress),
 	}
 }
 

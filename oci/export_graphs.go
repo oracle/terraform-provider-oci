@@ -233,6 +233,10 @@ var coreResourceGraph = TerraformResourceGraph{
 				"asset_id": "boot_volume_id",
 			},
 		},
+		{
+			TerraformResourceHints: exportCoreVnicAttachmentHints,
+			datasourceQueryParams:  map[string]string{"instance_id": "id"},
+		},
 	},
 	"oci_core_network_security_group": {
 		{
@@ -599,14 +603,17 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportLoadBalancerListenerHints},
 	},
 	"oci_load_balancer_load_balancer": {
+		// certificates have to be discovered before listeners in order to populate
+		// the references for certificate_name in listeners (dependency)
+		// If moving to parallel execution in future, this dependency needs to be maintained
 		{
-			TerraformResourceHints: exportLoadBalancerBackendSetHints,
+			TerraformResourceHints: exportLoadBalancerCertificateHints,
 			datasourceQueryParams: map[string]string{
 				"load_balancer_id": "id",
 			},
 		},
 		{
-			TerraformResourceHints: exportLoadBalancerCertificateHints,
+			TerraformResourceHints: exportLoadBalancerBackendSetHints,
 			datasourceQueryParams: map[string]string{
 				"load_balancer_id": "id",
 			},
