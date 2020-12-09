@@ -10,7 +10,7 @@ description: |-
 # oci_database_database_upgrade
 This resource provides the Database Upgrade resource in Oracle Cloud Infrastructure Database service.
 
-Upgrade the specified database.
+Upgrades the specified Oracle Database instance.
 
 Database upgrade requires source to be `DB_VERSION` or `DB_SOFTWARE_IMAGE`.
 	`db_home.0.db_version` is updated to target DB version specified in the upgrade request. 
@@ -47,13 +47,16 @@ resource "oci_database_database_upgrade" "test_database_upgrade" {
 
 The following arguments are supported:
 
-* `action` - (Required) action for upgrading database.
+* `action` - (Required) The database upgrade action.
 * `database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `database_upgrade_source_details` - (Optional) Details of upgrade source using which the database is upgraded. **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
-	* `database_software_image_id` - (Required when source=DB_SOFTWARE_IMAGE) the database software id used for upgrading the database.
+* `database_upgrade_source_details` - (Optional) Details for the database upgrade source. 
+	* `database_software_image_id` - (Required when source=DB_SOFTWARE_IMAGE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image to be used to upgrade a database.
 	* `db_home_id` - (Required when source=DB_HOME) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
-	* `db_version` - (Required when source=DB_VERSION) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
-	* `source` - (Optional) The source of the database upgrade Use 'DB_HOME' for using existing db home to upgrade the database Use 'DB_VERSION' for using database version to upgrade the database Use 'DB_SOFTWARE_IMAGE' for using database software image to upgrade the database 
+	* `db_version` - (Required when source=DB_VERSION) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
+	* `source` - (Optional) The source of the Oracle Database software to be used for the upgrade.
+		* Use `DB_HOME` to specify an existing Database Home to upgrade the database. The database is moved to the target Database Home and makes use of the Oracle Database software version of the target Database Home.
+		* Use `DB_VERSION` to specify a generally-available Oracle Database software version to upgrade the database.
+		* Use `DB_SOFTWARE_IMAGE` to specify a [database software image](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databasesoftwareimage.htm) to upgrade the database. 
 
 
 ** IMPORTANT **
@@ -89,7 +92,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 * `last_backup_timestamp` - The date and time when the latest database backup was created.
-* `lifecycle_details` - Additional information about the current lifecycleState.
+* `lifecycle_details` - Additional information about the current lifecycle state.
 * `ncharacter_set` - The national character set for the database.
 * `pdb_name` - The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 * `source_database_point_in_time_recovery_timestamp` - Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339)

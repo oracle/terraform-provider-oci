@@ -410,6 +410,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					"peer_autonomous_vm_cluster_id",
 					"peer_autonomous_container_database_display_name",
 					"peer_autonomous_exadata_infrastructure_id",
+					"peer_db_unique_name",
 					"protection_mode",
 				},
 				ResourceName: resourceName,
