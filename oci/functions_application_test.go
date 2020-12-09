@@ -32,7 +32,7 @@ var (
 
 	applicationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `ExampleApplication`},
+		"display_name":   Representation{repType: Optional, create: applicationDisplayName},
 		"id":             Representation{repType: Optional, create: `${oci_functions_application.test_application.id}`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, applicationDataSourceFilterRepresentation}}
@@ -41,9 +41,11 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_functions_application.test_application.id}`}},
 	}
 
+	applicationDisplayName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+
 	applicationRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `ExampleApplication`},
+		"display_name":   Representation{repType: Required, create: applicationDisplayName},
 		"subnet_ids":     Representation{repType: Required, create: []string{`${oci_core_subnet.test_subnet.id}`}},
 		"config":         Representation{repType: Optional, create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -88,7 +90,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleApplication"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 
 					func(s *terraform.State) (err error) {
@@ -110,7 +112,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleApplication"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
@@ -139,7 +141,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleApplication"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
@@ -163,7 +165,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleApplication"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
@@ -186,14 +188,14 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "ExampleApplication"),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", applicationDisplayName),
 					//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "applications.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "applications.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.display_name", "ExampleApplication"),
+					resource.TestCheckResourceAttr(datasourceName, "applications.0.display_name", applicationDisplayName),
 					resource.TestCheckResourceAttr(datasourceName, "applications.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
@@ -213,7 +215,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "ExampleApplication"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", applicationDisplayName),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
