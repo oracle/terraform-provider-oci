@@ -34,7 +34,7 @@ func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 	os.Setenv("disable_kms_version_delete", "true")
 
 	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
-	kmsKeyId := getEnvSettingWithBlankDefault("kms_key_ocid")
+	kmsKeyId := getEnvSettingWithBlankDefault("kms_aes_key_ocid")
 	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
 
 	resourceName := "oci_kms_key_version.test_key_version"

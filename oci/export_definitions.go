@@ -1333,6 +1333,16 @@ var exportKmsVaultHints = &TerraformResourceHints{
 	},
 }
 
+var exportKmsSignHints = &TerraformResourceHints{
+	resourceClass:        "oci_kms_sign",
+	resourceAbbreviation: "sign",
+}
+
+var exportKmsVerifyHints = &TerraformResourceHints{
+	resourceClass:        "oci_kms_verify",
+	resourceAbbreviation: "verify",
+}
+
 var exportIdentityNetworkSourceHints = &TerraformResourceHints{
 	resourceClass:          "oci_identity_network_source",
 	datasourceClass:        "oci_identity_network_sources",

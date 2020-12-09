@@ -94,6 +94,14 @@ func (s *KmsKeyVersionDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.PublicKey != nil {
+		s.D.Set("public_key", *s.Res.PublicKey)
+	}
+
+	if s.Res.RestoredFromKeyVersionId != nil {
+		s.D.Set("restored_from_key_version_id", *s.Res.RestoredFromKeyVersionId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

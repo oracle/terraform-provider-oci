@@ -29,6 +29,10 @@ func KmsKeysDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"curve_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"length": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -86,6 +90,10 @@ func (s *KmsKeysDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if curveId, ok := s.D.GetOkExists("curve_id"); ok {
+		request.CurveId = oci_kms.ListKeysCurveIdEnum(curveId.(string))
 	}
 
 	if length, ok := s.D.GetOkExists("length"); ok {
