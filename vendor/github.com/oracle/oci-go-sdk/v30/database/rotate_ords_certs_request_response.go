@@ -9,12 +9,14 @@ import (
 	"net/http"
 )
 
-// CreateVmClusterRequest wrapper for the CreateVmCluster operation
-type CreateVmClusterRequest struct {
+// RotateOrdsCertsRequest wrapper for the RotateOrdsCerts operation
+type RotateOrdsCertsRequest struct {
 
-	// Request to create a VM cluster. Applies to Exadata Cloud@Customer instances only.
-	// See CreateCloudVmClusterDetails for details on creating a cloud VM cluster in an Exadata Cloud Service instance.
-	CreateVmClusterDetails `contributesTo:"body"`
+	// The Autonomous Exadata Infrastructure  OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	AutonomousExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"autonomousExadataInfrastructureId"`
+
+	// Unique identifier for the request.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -23,53 +25,49 @@ type CreateVmClusterRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Unique identifier for the request.
-	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreateVmClusterRequest) String() string {
+func (request RotateOrdsCertsRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateVmClusterRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request RotateOrdsCertsRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateVmClusterRequest) RetryPolicy() *common.RetryPolicy {
+func (request RotateOrdsCertsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// CreateVmClusterResponse wrapper for the CreateVmCluster operation
-type CreateVmClusterResponse struct {
+// RotateOrdsCertsResponse wrapper for the RotateOrdsCerts operation
+type RotateOrdsCertsResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The VmCluster instance
-	VmCluster `presentIn:"body"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response CreateVmClusterResponse) String() string {
+func (response RotateOrdsCertsResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreateVmClusterResponse) HTTPResponse() *http.Response {
+func (response RotateOrdsCertsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

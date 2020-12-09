@@ -1,4 +1,3 @@
-
 ---
 subcategory: "Data Safe"
 layout: "oci"

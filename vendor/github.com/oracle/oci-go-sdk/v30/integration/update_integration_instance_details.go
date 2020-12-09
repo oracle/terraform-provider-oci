@@ -40,6 +40,15 @@ type UpdateIntegrationInstanceDetails struct {
 
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
+
+	// Visual Builder is enabled or not.
+	IsVisualBuilderEnabled *bool `mandatory:"false" json:"isVisualBuilderEnabled"`
+
+	CustomEndpoint *UpdateCustomEndpointDetails `mandatory:"false" json:"customEndpoint"`
+
+	// A list of alternate custom endpoints to be used for the integration instance URL
+	// (contact Oracle for alternateCustomEndpoints availability for a specific instance).
+	AlternateCustomEndpoints []UpdateCustomEndpointDetails `mandatory:"false" json:"alternateCustomEndpoints"`
 }
 
 func (m UpdateIntegrationInstanceDetails) String() string {

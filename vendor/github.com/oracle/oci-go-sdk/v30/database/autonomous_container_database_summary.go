@@ -69,8 +69,8 @@ type AutonomousContainerDatabaseSummary struct {
 
 	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
-	// The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database.
-	// This value represents the number of days before the primary database maintenance schedule.
+	// The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database.
+	// This value represents the number of days before scheduled maintenance of the primary database.
 	StandbyMaintenanceBufferInDays *int `mandatory:"false" json:"standbyMaintenanceBufferInDays"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

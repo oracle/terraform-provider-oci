@@ -1,4 +1,3 @@
-
 ---
 subcategory: "Log Analytics"
 layout: "oci"

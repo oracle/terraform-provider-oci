@@ -565,12 +565,6 @@ func structToRequestPart(request *http.Request, val reflect.Value) (err error) {
 		request.Header.Set(requestHeaderContentType, "application/json")
 	}
 
-	//If content length is zero, to avoid sending transfer-coding: chunked header, need to explicitly set the body to nil/Nobody.
-	if request.Header != nil && request.Body != nil && request.Body != http.NoBody &&
-		parseContentLength(request.Header.Get("Content-Length")) == 0 {
-		request.Body = http.NoBody
-	}
-
 	return
 }
 

@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// VmCluster Details of the Exadata Cloud@Customer VM cluster.
+// VmCluster Details of the VM cluster resource. Applies to Exadata Cloud@Customer instances only.
 type VmCluster struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
@@ -95,21 +95,23 @@ type VmClusterLifecycleStateEnum string
 
 // Set of constants representing the allowable values for VmClusterLifecycleStateEnum
 const (
-	VmClusterLifecycleStateProvisioning VmClusterLifecycleStateEnum = "PROVISIONING"
-	VmClusterLifecycleStateAvailable    VmClusterLifecycleStateEnum = "AVAILABLE"
-	VmClusterLifecycleStateUpdating     VmClusterLifecycleStateEnum = "UPDATING"
-	VmClusterLifecycleStateTerminating  VmClusterLifecycleStateEnum = "TERMINATING"
-	VmClusterLifecycleStateTerminated   VmClusterLifecycleStateEnum = "TERMINATED"
-	VmClusterLifecycleStateFailed       VmClusterLifecycleStateEnum = "FAILED"
+	VmClusterLifecycleStateProvisioning          VmClusterLifecycleStateEnum = "PROVISIONING"
+	VmClusterLifecycleStateAvailable             VmClusterLifecycleStateEnum = "AVAILABLE"
+	VmClusterLifecycleStateUpdating              VmClusterLifecycleStateEnum = "UPDATING"
+	VmClusterLifecycleStateTerminating           VmClusterLifecycleStateEnum = "TERMINATING"
+	VmClusterLifecycleStateTerminated            VmClusterLifecycleStateEnum = "TERMINATED"
+	VmClusterLifecycleStateFailed                VmClusterLifecycleStateEnum = "FAILED"
+	VmClusterLifecycleStateMaintenanceInProgress VmClusterLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
 var mappingVmClusterLifecycleState = map[string]VmClusterLifecycleStateEnum{
-	"PROVISIONING": VmClusterLifecycleStateProvisioning,
-	"AVAILABLE":    VmClusterLifecycleStateAvailable,
-	"UPDATING":     VmClusterLifecycleStateUpdating,
-	"TERMINATING":  VmClusterLifecycleStateTerminating,
-	"TERMINATED":   VmClusterLifecycleStateTerminated,
-	"FAILED":       VmClusterLifecycleStateFailed,
+	"PROVISIONING":            VmClusterLifecycleStateProvisioning,
+	"AVAILABLE":               VmClusterLifecycleStateAvailable,
+	"UPDATING":                VmClusterLifecycleStateUpdating,
+	"TERMINATING":             VmClusterLifecycleStateTerminating,
+	"TERMINATED":              VmClusterLifecycleStateTerminated,
+	"FAILED":                  VmClusterLifecycleStateFailed,
+	"MAINTENANCE_IN_PROGRESS": VmClusterLifecycleStateMaintenanceInProgress,
 }
 
 // GetVmClusterLifecycleStateEnumValues Enumerates the set of values for VmClusterLifecycleStateEnum

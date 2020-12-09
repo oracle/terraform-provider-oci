@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// ChangeCloudVmClusterCompartmentDetails The configuration details for moving the cloud VM cluster to another compartment.
+// ChangeCloudVmClusterCompartmentDetails The configuration details for moving the cloud VM cluster to another compartment. Applies to Exadata Cloud Service instances only.
 type ChangeCloudVmClusterCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

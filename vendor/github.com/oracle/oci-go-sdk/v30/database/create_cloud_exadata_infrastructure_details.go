@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// CreateCloudExadataInfrastructureDetails Request to create cloud Exadata infrastructure.
+// CreateCloudExadataInfrastructureDetails Request to create cloud Exadata infrastructure. Applies to Exadata Cloud Service instances only.
 type CreateCloudExadataInfrastructureDetails struct {
 
 	// The availability domain where the cloud Exadata infrastructure is located.

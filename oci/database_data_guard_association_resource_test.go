@@ -46,8 +46,9 @@ var (
 	ExadataBaseDependenciesForDataGuardWithExistingVMCluster = ExadataBaseDependencies +
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
 			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
-				"activation_file": Representation{repType: Optional, update: activationFilePath},
-				"shape":           Representation{repType: Required, create: `ExadataCC.Quarter2.92`},
+				"activation_file":    Representation{repType: Optional, update: activationFilePath},
+				"shape":              Representation{repType: Required, create: `ExadataCC.Quarter2.92`},
+				"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 			}),
 		) +
 		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +

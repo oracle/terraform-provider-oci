@@ -74,6 +74,9 @@ type Saml2IdentityProvider struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The XML that contains the information required for federating Identity with SAML2 Identity Provider.
+	Metadata *string `mandatory:"false" json:"metadata"`
+
 	// Extra name value pairs associated with this identity provider.
 	// Example: `{"clientId": "app_sf3kdjf3"}`
 	FreeformAttributes map[string]string `mandatory:"false" json:"freeformAttributes"`

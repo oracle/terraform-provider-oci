@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"strings"
 	"testing"
 	"time"
 
@@ -76,12 +75,17 @@ var (
 		"filter":         RepresentationGroup{Required, availabilityDomainDataSourceFilterRepresentation}}
 	availabilityDomainDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`NyKp:US-ASHBURN-AD-3`}},
+		"values": Representation{repType: Required, create: []string{`LOil:US-ASHBURN-AD-2`}},
 	}
 
 	AvailabilityDomainClusterNetworkConfig = generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceClusterNetworkRepresentation)
 
-	instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("shape", Representation{repType: Optional, create: `BM.HPC2.36`}, instanceConfigurationInstanceDetailsLaunchDetailsRepresentation), []string{"shape_config", "dedicated_vm_host_id", "is_pv_encryption_in_transit_enabled", "preferred_maintenance_action"})
+	instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = representationCopyWithRemovedProperties(getMultipleUpdatedRepresenationCopy(
+		[]string{"shape", "source_details"}, []interface{}{
+			Representation{repType: Optional, create: `BM.HPC2.36`},
+			RepresentationGroup{Optional, getUpdatedRepresentationCopy("image_id", Representation{repType: Optional, create: `${var.image_id}`}, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
+		}, instanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
+		[]string{"shape_config", "dedicated_vm_host_id", "is_pv_encryption_in_transit_enabled", "preferred_maintenance_action"})
 
 	ClusterNetworkResourceRequiredOnlyDependencies = AvailabilityDomainClusterNetworkConfig + DefinedTagsDependencies + VcnResourceConfig + DhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
 		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
@@ -96,14 +100,45 @@ var (
 		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 			getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
 				representationCopyWithRemovedProperties(instanceConfigurationInstanceDetailsClusterNetworkRepresentation, []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
+
+	marketplaceDependency = `
+
+		data "oci_core_app_catalog_listing" "app_catalog_listing" {
+			listing_id = var.listing_id
+		}
+
+		data "oci_core_app_catalog_listing_resource_versions" "app_catalog_listing_resource_versions" {
+			listing_id = var.listing_id
+		}
+
+		resource "oci_core_app_catalog_listing_resource_version_agreement" "mp_image_agreement" {
+		  count = 1
+		
+		  listing_id               = var.listing_id
+		  listing_resource_version = data.oci_core_app_catalog_listing_resource_versions.app_catalog_listing_resource_versions.app_catalog_listing_resource_versions[0].listing_resource_version
+		
+		}
+
+		resource "oci_core_app_catalog_subscription" "mp_image_subscription" {
+		  count                    = 1
+		  compartment_id           = var.compartment_id
+		  eula_link                = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].eula_link
+		  listing_id               = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].listing_id
+		  listing_resource_version = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].listing_resource_version
+		  oracle_terms_of_use_link = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].oracle_terms_of_use_link
+		  signature                = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].signature
+		  time_retrieved           = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].time_retrieved
+		
+		  timeouts {
+			create = "20m"
+		  }
+		}`
 )
 
 func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreClusterNetworkResource_basic")
 	defer httpreplay.SaveScenario()
-	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "ClusterNetwork") {
-		t.Skip("ClusterNetwork test not supported due to limited host capacity")
-	}
+
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -112,6 +147,12 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	imageId := getEnvSettingWithBlankDefault("image_id")
+	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
+
+	listingId := getEnvSettingWithBlankDefault("listing_id")
+	listingIdVariableStr := fmt.Sprintf("variable \"listing_id\" { default = \"%s\" }\n", listingId)
 
 	resourceName := "oci_core_cluster_network.test_cluster_network"
 	datasourceName := "data.oci_core_cluster_networks.test_cluster_networks"
@@ -128,7 +169,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic +
+				Config: config + compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic + marketplaceDependency +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -152,7 +193,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + ClusterNetworkResourceDependencies +
+				Config: config + compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies + marketplaceDependency +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create, clusterNetworkRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -198,7 +239,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ClusterNetworkResourceDependencies +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies + marketplaceDependency +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create,
 						representationCopyWithNewProperties(clusterNetworkRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
@@ -245,7 +286,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + ClusterNetworkResourceDependencies +
+				Config: config + compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies + marketplaceDependency +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -290,7 +331,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_cluster_networks", "test_cluster_networks", Optional, Update, clusterNetworkDataSourceRepresentation) +
-					compartmentIdVariableStr + ClusterNetworkResourceDependencies +
+					compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies + marketplaceDependency +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -323,7 +364,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ClusterNetworkResourceConfig,
+					compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig + marketplaceDependency,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_network_id"),
 
@@ -357,7 +398,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + ClusterNetworkResourceConfig,
+				Config: config + compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig + marketplaceDependency,
 			},
 			// verify resource import
 			{

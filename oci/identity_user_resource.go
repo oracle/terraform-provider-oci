@@ -109,10 +109,6 @@ func IdentityUserResource() *schema.Resource {
 					},
 				},
 			},
-			"email_verified": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
 			"external_identifier": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -367,10 +363,6 @@ func (s *IdentityUserResourceCrud) SetData() error {
 
 	if s.Res.Email != nil {
 		s.D.Set("email", *s.Res.Email)
-	}
-
-	if s.Res.EmailVerified != nil {
-		s.D.Set("email_verified", *s.Res.EmailVerified)
 	}
 
 	if s.Res.ExternalIdentifier != nil {

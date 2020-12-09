@@ -45,7 +45,9 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 
   #Optional
   consumption_model = "${var.integration_instance_consumption_model}"
-
+  custom_endpoint {
+    hostname = "hostname.com"
+  }
   freeform_tags = {
     "bar-key" = "value"
   }
