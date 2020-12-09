@@ -58,8 +58,13 @@ var (
 		"length":    Representation{repType: Required, create: `16`},
 	}
 
-	kmsVaultId            = getEnvSettingWithBlankDefault("kms_vault_ocid")
-	KmsVaultIdVariableStr = fmt.Sprintf("variable \"kms_vault_id\" { default = \"%s\" }\n", kmsVaultId)
+	kmsVaultId                = getEnvSettingWithBlankDefault("kms_vault_ocid")
+	KmsVaultIdVariableStr     = fmt.Sprintf("variable \"kms_vault_id\" { default = \"%s\" }\n", kmsVaultId)
+	kmsKeyIdForCreate         = getEnvSettingWithBlankDefault("key_ocid_for_create")
+	kmsKeyIdCreateVariableStr = fmt.Sprintf("variable \"kms_key_id_for_create\" { default = \"%s\" }\n", kmsKeyIdForCreate)
+
+	kmsKeyIdForUpdate         = getEnvSettingWithBlankDefault("key_ocid_for_update")
+	kmsKeyIdUpdateVariableStr = fmt.Sprintf("variable \"kms_key_id_for_update\" { default = \"%s\" }\n", kmsKeyIdForUpdate)
 
 	KeyResourceDependencies = KmsVaultIdVariableStr + `
 	data "oci_kms_vault" "test_vault" {

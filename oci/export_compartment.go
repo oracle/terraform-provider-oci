@@ -177,15 +177,16 @@ func RunListExportableServicesCommand(listExportServicesPath string) error {
 }
 
 type ExportCommandArgs struct {
-	CompartmentId   *string
-	CompartmentName *string
-	IDs             []string
-	Services        []string
-	OutputDir       *string
-	GenerateState   bool
-	TFVersion       *TfHclVersion
-	RetryTimeout    *string
-	ExcludeServices []string
+	CompartmentId                *string
+	CompartmentName              *string
+	IDs                          []string
+	Services                     []string
+	OutputDir                    *string
+	GenerateState                bool
+	TFVersion                    *TfHclVersion
+	RetryTimeout                 *string
+	ExcludeServices              []string
+	IsExportWithRelatedResources bool
 }
 
 func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
@@ -468,13 +469,17 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 				tfexec.State(tmpStateOutputFile),
 			}
 			if importErr := ctx.terraform.Import(backgroundCtx, resource.getTerraformReference(), importId, importArgs...); importErr != nil {
-				Logf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
+				Logf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s", resource.getTerraformReference(), importId, importErr.Error())
 
 				// mark resource as errored so that it can be skipped while writing configurations
 				resource.isErrorResource = true
 				ctx.isImportError = true
-				err := fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s Any references to this resource have been replaced with hard coded values in generated configurations", resource.getTerraformReference(), importId, importErr)
-				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, resource.parent.terraformName, err, nil})
+				err := fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s Any references to this resource have been replaced with hard coded values in generated configurations", resource.getTerraformReference(), importId, importErr.Error())
+				if ctx.targetSpecificResources {
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, "", err, nil})
+				} else {
+					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, resource.parent.terraformName, err, nil})
+				}
 			}
 		}
 
@@ -523,15 +528,26 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		}
 	}
 
-	if err := ctx.postValidate(); err != nil {
-		return err
-	}
+	ctx.postValidate()
 
 	return nil
 }
 
 func getDiscoverResourceSteps(ctx *resourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
-	return getDiscoverResourceWithGraphSteps(ctx)
+	if !ctx.targetSpecificResources {
+		return getDiscoverResourceWithGraphSteps(ctx)
+	}
+
+	result := make([]resourceDiscoveryStep, 1)
+	result[0] = &resourceDiscoveryWithTargetIds{
+		resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{
+			ctx:                 ctx,
+			name:                "resources",
+			discoveredResources: []*OCIResource{},
+			omittedResources:    []*OCIResource{},
+		},
+	}
+	return result, nil
 }
 
 func getDiscoverResourceWithGraphSteps(ctx *resourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
@@ -1306,6 +1322,34 @@ func generateOciResourceFromResourceData(d *schema.ResourceData, rawResource int
 
 	if tfMeta.getHCLStringOverrideFn != nil {
 		resource.getHclStringFn = tfMeta.getHCLStringOverrideFn
+	}
+
+	return resource, nil
+}
+
+func getOciResource(d *schema.ResourceData, resourceSchema map[string]*schema.Schema, compartmentId string, resourceHint *TerraformResourceHints) (*OCIResource, error) {
+	resourceMap, err := convertDatasourceItemToMap(d, "", resourceSchema)
+	if err != nil {
+		return nil, err
+	}
+
+	resource := &OCIResource{
+		compartmentId:    compartmentId,
+		sourceAttributes: resourceMap,
+		rawResource:      d,
+		TerraformResource: TerraformResource{
+			terraformClass:    resourceHint.resourceClass,
+			terraformTypeInfo: resourceHint,
+		},
+		getHclStringFn: getHclStringFromGenericMap,
+	}
+
+	if resourceId, resourceIdExists := resourceMap["id"]; resourceIdExists {
+		resource.id = resourceId.(string)
+	}
+
+	if resource.id == "" {
+		resource.id = d.Id()
 	}
 
 	return resource, nil

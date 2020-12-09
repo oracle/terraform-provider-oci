@@ -4,11 +4,13 @@
 package oci
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -27,11 +29,15 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createIntegrationIntegrationInstance,
-		Read:     readIntegrationIntegrationInstance,
-		Update:   updateIntegrationIntegrationInstance,
-		Delete:   deleteIntegrationIntegrationInstance,
+		Timeouts: &schema.ResourceTimeout{
+			Create: getTimeoutDuration("1h"),
+			Update: getTimeoutDuration("1h"),
+			Delete: getTimeoutDuration("1h"),
+		},
+		Create: createIntegrationIntegrationInstance,
+		Read:   readIntegrationIntegrationInstance,
+		Update: updateIntegrationIntegrationInstance,
+		Delete: deleteIntegrationIntegrationInstance,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -56,11 +62,68 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			},
 
 			// Optional
+			"alternate_custom_endpoints": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      alternateCustomEndpointsHashCodeForSets,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"hostname": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"certificate_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"certificate_secret_version": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"consumption_model": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"custom_endpoint": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"hostname": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"certificate_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"certificate_secret_version": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -82,6 +145,11 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Sensitive: true,
 			},
 			"is_file_server_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_visual_builder_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -248,6 +316,24 @@ func (s *IntegrationIntegrationInstanceResourceCrud) DeletedTarget() []string {
 func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 	request := oci_integration.CreateIntegrationInstanceRequest{}
 
+	if alternateCustomEndpoints, ok := s.D.GetOkExists("alternate_custom_endpoints"); ok {
+		set := alternateCustomEndpoints.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]oci_integration.CreateCustomEndpointDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := alternateCustomEndpointsHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "alternate_custom_endpoints", stateDataIndex)
+			converted, err := s.mapToCreateCustomEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("alternate_custom_endpoints") {
+			request.AlternateCustomEndpoints = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -255,6 +341,17 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 
 	if consumptionModel, ok := s.D.GetOkExists("consumption_model"); ok {
 		request.ConsumptionModel = oci_integration.CreateIntegrationInstanceDetailsConsumptionModelEnum(consumptionModel.(string))
+	}
+
+	if customEndpoint, ok := s.D.GetOkExists("custom_endpoint"); ok {
+		if tmpList := customEndpoint.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "custom_endpoint", 0)
+			tmp, err := s.mapToCreateCustomEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.CustomEndpoint = &tmp
+		}
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -291,6 +388,11 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 	if isFileServerEnabled, ok := s.D.GetOkExists("is_file_server_enabled"); ok {
 		tmp := isFileServerEnabled.(bool)
 		request.IsFileServerEnabled = &tmp
+	}
+
+	if isVisualBuilderEnabled, ok := s.D.GetOkExists("is_visual_builder_enabled"); ok {
+		tmp := isVisualBuilderEnabled.(bool)
+		request.IsVisualBuilderEnabled = &tmp
 	}
 
 	if messagePacks, ok := s.D.GetOkExists("message_packs"); ok {
@@ -454,6 +556,35 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 	}
 	request := oci_integration.UpdateIntegrationInstanceRequest{}
 
+	if alternateCustomEndpoints, ok := s.D.GetOkExists("alternate_custom_endpoints"); ok {
+		set := alternateCustomEndpoints.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]oci_integration.UpdateCustomEndpointDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := alternateCustomEndpointsHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "alternate_custom_endpoints", stateDataIndex)
+			converted, err := s.mapToUpdateCustomEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("alternate_custom_endpoints") {
+			request.AlternateCustomEndpoints = tmp
+		}
+	}
+
+	if customEndpoint, ok := s.D.GetOkExists("custom_endpoint"); ok {
+		if tmpList := customEndpoint.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "custom_endpoint", 0)
+			tmp, err := s.mapToUpdateCustomEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.CustomEndpoint = &tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -486,6 +617,11 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 	if isFileServerEnabled, ok := s.D.GetOkExists("is_file_server_enabled"); ok {
 		tmp := isFileServerEnabled.(bool)
 		request.IsFileServerEnabled = &tmp
+	}
+
+	if isVisualBuilderEnabled, ok := s.D.GetOkExists("is_visual_builder_enabled"); ok {
+		tmp := isVisualBuilderEnabled.(bool)
+		request.IsVisualBuilderEnabled = &tmp
 	}
 
 	if messagePacks, ok := s.D.GetOkExists("message_packs"); ok {
@@ -525,11 +661,23 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Delete() error {
 }
 
 func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
+	alternateCustomEndpoints := []interface{}{}
+	for _, item := range s.Res.AlternateCustomEndpoints {
+		alternateCustomEndpoints = append(alternateCustomEndpoints, CustomEndpointDetailsToMap(&item))
+	}
+	s.D.Set("alternate_custom_endpoints", schema.NewSet(alternateCustomEndpointsHashCodeForSets, alternateCustomEndpoints))
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
 	s.D.Set("consumption_model", s.Res.ConsumptionModel)
+
+	if s.Res.CustomEndpoint != nil {
+		s.D.Set("custom_endpoint", []interface{}{CustomEndpointDetailsToMap(s.Res.CustomEndpoint)})
+	} else {
+		s.D.Set("custom_endpoint", nil)
+	}
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
@@ -555,6 +703,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("is_file_server_enabled", *s.Res.IsFileServerEnabled)
 	}
 
+	if s.Res.IsVisualBuilderEnabled != nil {
+		s.D.Set("is_visual_builder_enabled", *s.Res.IsVisualBuilderEnabled)
+	}
+
 	if s.Res.MessagePacks != nil {
 		s.D.Set("message_packs", *s.Res.MessagePacks)
 	}
@@ -574,6 +726,68 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) mapToCreateCustomEndpointDetails(fieldKeyFormat string) (oci_integration.CreateCustomEndpointDetails, error) {
+	result := oci_integration.CreateCustomEndpointDetails{}
+
+	if certificateSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_secret_id")); ok {
+		tmp := certificateSecretId.(string)
+		result.CertificateSecretId = &tmp
+	}
+
+	if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
+		tmp := hostname.(string)
+		result.Hostname = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) mapToUpdateCustomEndpointDetails(fieldKeyFormat string) (oci_integration.UpdateCustomEndpointDetails, error) {
+	result := oci_integration.UpdateCustomEndpointDetails{}
+
+	if certificateSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_secret_id")); ok && certificateSecretId != "" {
+		tmp := certificateSecretId.(string)
+		result.CertificateSecretId = &tmp
+	}
+
+	if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
+		tmp := hostname.(string)
+		result.Hostname = &tmp
+	}
+
+	return result, nil
+}
+
+func CustomEndpointDetailsToMap(obj *oci_integration.CustomEndpointDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CertificateSecretId != nil {
+		result["certificate_secret_id"] = string(*obj.CertificateSecretId)
+	}
+
+	if obj.CertificateSecretVersion != nil {
+		result["certificate_secret_version"] = int(*obj.CertificateSecretVersion)
+	}
+
+	if obj.Hostname != nil {
+		result["hostname"] = string(*obj.Hostname)
+	}
+
+	return result
+}
+
+func alternateCustomEndpointsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if certificateSecretId, ok := m["certificate_secret_id"]; ok && certificateSecretId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", certificateSecretId))
+	}
+	if hostname, ok := m["hostname"]; ok && hostname != "" {
+		buf.WriteString(fmt.Sprintf("%v-", hostname))
+	}
+	return hashcode.String(buf.String())
 }
 
 func (s *IntegrationIntegrationInstanceResourceCrud) updateCompartment(compartment interface{}) error {

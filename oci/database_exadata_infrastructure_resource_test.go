@@ -37,6 +37,7 @@ var (
 		"corporate_proxy":             Representation{repType: Optional, create: `http://192.168.19.1:80`, update: `http://192.168.19.2:80`},
 		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"maintenance_window":          RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentation},
 	}
 
 	exadataInfrastructureRepresentationWithContacts = getUpdatedRepresentationCopy("contacts", RepresentationGroup{Required, getUpdatedRepresentationCopy("phone_number", Representation{repType: Required, create: `1234567891`, update: `1234567892`}, exadataInfrastructureContactsRepresentation)}, exadataInfrastructureRepresentation)
@@ -73,7 +74,10 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-						representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})),
+						representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+							"activation_file":    Representation{repType: Optional, update: activationFilePath},
+							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
@@ -102,7 +106,9 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-						representationCopyWithRemovedProperties(exadataInfrastructureActivateRepresentation, []string{`activation_file`})),
+						representationCopyWithNewProperties(representationCopyWithRemovedProperties(exadataInfrastructureActivateRepresentation, []string{`activation_file`}), map[string]interface{}{
+							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
@@ -132,7 +138,10 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-						representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})),
+						representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+							"activation_file":    Representation{repType: Optional, update: activationFilePath},
+							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),

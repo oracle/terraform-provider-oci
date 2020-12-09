@@ -177,6 +177,12 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.MaintenanceWindow != nil {
+			exadataInfrastructure["maintenance_window"] = []interface{}{ExadataInfrastructureMaintenanceWindowToMap(r.MaintenanceWindow)}
+		} else {
+			exadataInfrastructure["maintenance_window"] = nil
+		}
+
 		if r.MaxCpuCount != nil {
 			exadataInfrastructure["max_cpu_count"] = *r.MaxCpuCount
 		}

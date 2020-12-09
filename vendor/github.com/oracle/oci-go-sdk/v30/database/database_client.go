@@ -79,7 +79,7 @@ func (client *DatabaseClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
-// ActivateExadataInfrastructure Activates the specified Exadata Cloud@Customer infrastructure.
+// ActivateExadataInfrastructure Activates the specified Exadata infrastructure resource. Applies to Exadata Cloud@Customer instances only.
 func (client DatabaseClient) ActivateExadataInfrastructure(ctx context.Context, request ActivateExadataInfrastructureRequest) (response ActivateExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -473,8 +473,7 @@ func (client DatabaseClient) changeBackupDestinationCompartment(ctx context.Cont
 	return response, err
 }
 
-// ChangeCloudExadataInfrastructureCompartment To move a cloud Exadata infrastructure resource and its dependent resources to another compartment, use the
-// ChangeCloudExadataInfrastructureCompartment operation.
+// ChangeCloudExadataInfrastructureCompartment Moves a cloud Exadata infrastructure resource and its dependent resources to another compartment. Applies to Exadata Cloud Service instances only. For more information about moving resources to a different compartment, see Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeCloudExadataInfrastructureCompartment(ctx context.Context, request ChangeCloudExadataInfrastructureCompartmentRequest) (response ChangeCloudExadataInfrastructureCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -529,8 +528,7 @@ func (client DatabaseClient) changeCloudExadataInfrastructureCompartment(ctx con
 	return response, err
 }
 
-// ChangeCloudVmClusterCompartment To move a cloud VM cluster and its dependent resources to another compartment, use the
-// ChangeCloudVmClusterCompartment operation.
+// ChangeCloudVmClusterCompartment Moves a cloud VM cluster and its dependent resources to another compartment. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) ChangeCloudVmClusterCompartment(ctx context.Context, request ChangeCloudVmClusterCompartmentRequest) (response ChangeCloudVmClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -642,7 +640,7 @@ func (client DatabaseClient) changeDatabaseSoftwareImageCompartment(ctx context.
 	return response, err
 }
 
-// ChangeDbSystemCompartment Move the DB system and its dependent resources to the specified compartment.
+// ChangeDbSystemCompartment Moves the DB system and its dependent resources to the specified compartment.
 // For more information about moving DB systems, see
 // Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeDbSystemCompartment(ctx context.Context, request ChangeDbSystemCompartmentRequest) (response ChangeDbSystemCompartmentResponse, err error) {
@@ -699,8 +697,8 @@ func (client DatabaseClient) changeDbSystemCompartment(ctx context.Context, requ
 	return response, err
 }
 
-// ChangeExadataInfrastructureCompartment To move an Exadata Cloud@Customer infrastructure resource and its dependent resources to another compartment, use the
-// ChangeExadataInfrastructureCompartment operation.
+// ChangeExadataInfrastructureCompartment Moves an Exadata infrastructure resource and its dependent resources to another compartment. Applies to Exadata Cloud@Customer instances only.
+// To move an Exadata Cloud Service infrastructure resource to another compartment, use the  ChangeCloudExadataInfrastructureCompartment operation.
 func (client DatabaseClient) ChangeExadataInfrastructureCompartment(ctx context.Context, request ChangeExadataInfrastructureCompartmentRequest) (response ChangeExadataInfrastructureCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -812,8 +810,8 @@ func (client DatabaseClient) changeKeyStoreCompartment(ctx context.Context, requ
 	return response, err
 }
 
-// ChangeVmClusterCompartment To move an Exadata Cloud@Customer VM cluster and its dependent resources to another compartment, use the
-// ChangeVmClusterCompartment operation.
+// ChangeVmClusterCompartment Moves a VM cluster and its dependent resources to another compartment. Applies to Exadata Cloud@Customer instances only.
+// To move a cloud VM cluster in an Exadata Cloud Service instance to another compartment, use the ChangeCloudVmClusterCompartment operation.
 func (client DatabaseClient) ChangeVmClusterCompartment(ctx context.Context, request ChangeVmClusterCompartmentRequest) (response ChangeVmClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1364,7 +1362,7 @@ func (client DatabaseClient) createBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
-// CreateCloudExadataInfrastructure Creates a cloud Exadata infrastructure resource.
+// CreateCloudExadataInfrastructure Creates a cloud Exadata infrastructure resource. This resource is used to create an Exadata Cloud Service (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm) instance.
 func (client DatabaseClient) CreateCloudExadataInfrastructure(ctx context.Context, request CreateCloudExadataInfrastructureRequest) (response CreateCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1757,7 +1755,8 @@ func (client DatabaseClient) createDbHome(ctx context.Context, request common.OC
 	return response, err
 }
 
-// CreateExadataInfrastructure Creates Exadata Cloud@Customer infrastructure.
+// CreateExadataInfrastructure Creates an Exadata infrastructure resource. Applies to Exadata Cloud@Customer instances only.
+// To create an Exadata Cloud Service infrastructure resource, use the  CreateCloudExadataInfrastructure operation.
 func (client DatabaseClient) CreateExadataInfrastructure(ctx context.Context, request CreateExadataInfrastructureRequest) (response CreateExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1978,7 +1977,8 @@ func (client DatabaseClient) createVmCluster(ctx context.Context, request common
 	return response, err
 }
 
-// CreateVmClusterNetwork Creates the Exadata Cloud@Customer VM cluster network.
+// CreateVmClusterNetwork Creates the VM cluster network. Applies to Exadata Cloud@Customer instances only.
+// To create a cloud VM cluster in an Exadata Cloud Service instance, use the CreateCloudVmCluster operation.
 func (client DatabaseClient) CreateVmClusterNetwork(ctx context.Context, request CreateVmClusterNetworkRequest) (response CreateVmClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2349,7 +2349,7 @@ func (client DatabaseClient) deleteBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteCloudExadataInfrastructure Deletes the cloud Exadata infrastructure resource.
+// DeleteCloudExadataInfrastructure Deletes the cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) DeleteCloudExadataInfrastructure(ctx context.Context, request DeleteCloudExadataInfrastructureRequest) (response DeleteCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2399,7 +2399,7 @@ func (client DatabaseClient) deleteCloudExadataInfrastructure(ctx context.Contex
 	return response, err
 }
 
-// DeleteCloudVmCluster Deletes the specified cloud VM cluster.
+// DeleteCloudVmCluster Deletes the specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) DeleteCloudVmCluster(ctx context.Context, request DeleteCloudVmClusterRequest) (response DeleteCloudVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2751,7 +2751,7 @@ func (client DatabaseClient) deleteKeyStore(ctx context.Context, request common.
 	return response, err
 }
 
-// DeleteVmCluster Deletes the specified Exadata Cloud@Customer VM cluster.
+// DeleteVmCluster Deletes the specified VM cluster. Applies to Exadata Cloud@Customer instances only.
 func (client DatabaseClient) DeleteVmCluster(ctx context.Context, request DeleteVmClusterRequest) (response DeleteVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2801,7 +2801,8 @@ func (client DatabaseClient) deleteVmCluster(ctx context.Context, request common
 	return response, err
 }
 
-// DeleteVmClusterNetwork Deletes the specified Exadata Cloud@Customer VM cluster network.
+// DeleteVmClusterNetwork Deletes the specified VM cluster network. Applies to Exadata Cloud@Customer instances only.
+// To delete a cloud VM cluster in an Exadata Cloud Service instance, use the DeleteCloudVmCluster operation.
 func (client DatabaseClient) DeleteVmClusterNetwork(ctx context.Context, request DeleteVmClusterNetworkRequest) (response DeleteVmClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3005,7 +3006,7 @@ func (client DatabaseClient) downloadExadataInfrastructureConfigFile(ctx context
 	return response, err
 }
 
-// DownloadVmClusterNetworkConfigFile Downloads the configuration file for the specified Exadata Cloud@Customer VM cluster network.
+// DownloadVmClusterNetworkConfigFile Downloads the configuration file for the specified VM cluster network. Applies to Exadata Cloud@Customer instances only.
 func (client DatabaseClient) DownloadVmClusterNetworkConfigFile(ctx context.Context, request DownloadVmClusterNetworkConfigFileRequest) (response DownloadVmClusterNetworkConfigFileResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4131,7 +4132,7 @@ func (client DatabaseClient) getBackupDestination(ctx context.Context, request c
 	return response, err
 }
 
-// GetCloudExadataInfrastructure Gets information about the specified cloud Exadata infrastructure resource.
+// GetCloudExadataInfrastructure Gets information about the specified cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) GetCloudExadataInfrastructure(ctx context.Context, request GetCloudExadataInfrastructureRequest) (response GetCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4181,7 +4182,7 @@ func (client DatabaseClient) getCloudExadataInfrastructure(ctx context.Context, 
 	return response, err
 }
 
-// GetCloudVmCluster Gets information about the specified cloud VM cluster.
+// GetCloudVmCluster Gets information about the specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) GetCloudVmCluster(ctx context.Context, request GetCloudVmClusterRequest) (response GetCloudVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4231,7 +4232,7 @@ func (client DatabaseClient) getCloudVmCluster(ctx context.Context, request comm
 	return response, err
 }
 
-// GetCloudVmClusterIormConfig Gets the IORM configuration for the specified cloud VM cluster.
+// GetCloudVmClusterIormConfig Gets the IORM configuration for the specified cloud VM cluster in an Exadata Cloud Service instance.
 // If you have not specified an IORM configuration, the default configuration is returned.
 func (client DatabaseClient) GetCloudVmClusterIormConfig(ctx context.Context, request GetCloudVmClusterIormConfigRequest) (response GetCloudVmClusterIormConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4282,7 +4283,7 @@ func (client DatabaseClient) getCloudVmClusterIormConfig(ctx context.Context, re
 	return response, err
 }
 
-// GetCloudVmClusterUpdate Gets information about a specified maintenance update package.
+// GetCloudVmClusterUpdate Gets information about a specified maintenance update package for a cloud VM cluster. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) GetCloudVmClusterUpdate(ctx context.Context, request GetCloudVmClusterUpdateRequest) (response GetCloudVmClusterUpdateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4332,7 +4333,7 @@ func (client DatabaseClient) getCloudVmClusterUpdate(ctx context.Context, reques
 	return response, err
 }
 
-// GetCloudVmClusterUpdateHistoryEntry Gets the maintenance update history details for the specified update history entry.
+// GetCloudVmClusterUpdateHistoryEntry Gets the maintenance update history details for the specified update history entry. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) GetCloudVmClusterUpdateHistoryEntry(ctx context.Context, request GetCloudVmClusterUpdateHistoryEntryRequest) (response GetCloudVmClusterUpdateHistoryEntryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4982,7 +4983,8 @@ func (client DatabaseClient) getDbSystemPatchHistoryEntry(ctx context.Context, r
 	return response, err
 }
 
-// GetExadataInfrastructure Gets information about the specified Exadata Cloud@Customer infrastructure.
+// GetExadataInfrastructure Gets information about the specified Exadata infrastructure. Applies to Exadata Cloud@Customer instances only.
+// To get information on an Exadata Cloud Service infrastructure resource, use the  GetCloudExadataInfrastructure operation.
 func (client DatabaseClient) GetExadataInfrastructure(ctx context.Context, request GetExadataInfrastructureRequest) (response GetExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5284,7 +5286,7 @@ func (client DatabaseClient) getMaintenanceRun(ctx context.Context, request comm
 	return response, err
 }
 
-// GetVmCluster Gets information about the specified Exadata Cloud@Customer VM cluster.
+// GetVmCluster Gets information about the VM cluster. Applies to Exadata Cloud@Customer instances only.
 func (client DatabaseClient) GetVmCluster(ctx context.Context, request GetVmClusterRequest) (response GetVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5334,7 +5336,8 @@ func (client DatabaseClient) getVmCluster(ctx context.Context, request common.OC
 	return response, err
 }
 
-// GetVmClusterNetwork Gets information about the specified Exadata Cloud@Customer VM cluster network.
+// GetVmClusterNetwork Gets information about the specified VM cluster network. Applies to Exadata Cloud@Customer instances only.
+// To get information about a cloud VM cluster in an Exadata Cloud Service instance, use the GetCloudVmCluster operation.
 func (client DatabaseClient) GetVmClusterNetwork(ctx context.Context, request GetVmClusterNetworkRequest) (response GetVmClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5599,7 +5602,7 @@ func (client DatabaseClient) launchDbSystem(ctx context.Context, request common.
 	return response, err
 }
 
-// ListAutonomousContainerDatabaseDataguardAssociations Gets a list of the Autonomous Container Databases with Autonomous Data Guard enabled associated with the specified Autonomous Container Database.
+// ListAutonomousContainerDatabaseDataguardAssociations Gets a list of the Autonomous Container Databases with Autonomous Data Guard-enabled associated with the specified Autonomous Container Database.
 func (client DatabaseClient) ListAutonomousContainerDatabaseDataguardAssociations(ctx context.Context, request ListAutonomousContainerDatabaseDataguardAssociationsRequest) (response ListAutonomousContainerDatabaseDataguardAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6350,7 +6353,7 @@ func (client DatabaseClient) listBackups(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListCloudExadataInfrastructures Gets a list of the cloud Exadata infrastructure in the specified compartment.
+// ListCloudExadataInfrastructures Gets a list of the cloud Exadata infrastructure resources in the specified compartment. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) ListCloudExadataInfrastructures(ctx context.Context, request ListCloudExadataInfrastructuresRequest) (response ListCloudExadataInfrastructuresResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6400,7 +6403,7 @@ func (client DatabaseClient) listCloudExadataInfrastructures(ctx context.Context
 	return response, err
 }
 
-// ListCloudVmClusterUpdateHistoryEntries Gets the history of the maintenance update actions performed on the specified cloud VM cluster.
+// ListCloudVmClusterUpdateHistoryEntries Gets the history of the maintenance update actions performed on the specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) ListCloudVmClusterUpdateHistoryEntries(ctx context.Context, request ListCloudVmClusterUpdateHistoryEntriesRequest) (response ListCloudVmClusterUpdateHistoryEntriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6450,7 +6453,7 @@ func (client DatabaseClient) listCloudVmClusterUpdateHistoryEntries(ctx context.
 	return response, err
 }
 
-// ListCloudVmClusterUpdates Lists the maintenance updates that can be applied to the requested cloud VM cluster.
+// ListCloudVmClusterUpdates Lists the maintenance updates that can be applied to the specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) ListCloudVmClusterUpdates(ctx context.Context, request ListCloudVmClusterUpdatesRequest) (response ListCloudVmClusterUpdatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6500,7 +6503,7 @@ func (client DatabaseClient) listCloudVmClusterUpdates(ctx context.Context, requ
 	return response, err
 }
 
-// ListCloudVmClusters Gets a list of the cloud VM clusters in the specified compartment.
+// ListCloudVmClusters Gets a list of the cloud VM clusters in the specified compartment. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) ListCloudVmClusters(ctx context.Context, request ListCloudVmClustersRequest) (response ListCloudVmClustersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7300,7 +7303,8 @@ func (client DatabaseClient) listDbVersions(ctx context.Context, request common.
 	return response, err
 }
 
-// ListExadataInfrastructures Gets a list of the Exadata Cloud@Customer infrastructure resources in the specified compartment.
+// ListExadataInfrastructures Lists the Exadata infrastructure resources in the specified compartment. Applies to Exadata Cloud@Customer instances only.
+// To list the Exadata Cloud Service infrastructure resources in a compartment, use the  ListCloudExadataInfrastructures operation.
 func (client DatabaseClient) ListExadataInfrastructures(ctx context.Context, request ListExadataInfrastructuresRequest) (response ListExadataInfrastructuresResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7500,7 +7504,7 @@ func (client DatabaseClient) listMaintenanceRuns(ctx context.Context, request co
 	return response, err
 }
 
-// ListVmClusterNetworks Gets a list of the Exadata Cloud@Customer VM cluster networks in the specified compartment.
+// ListVmClusterNetworks Gets a list of the VM cluster networks in the specified compartment. Applies to Exadata Cloud@Customer instances only.
 func (client DatabaseClient) ListVmClusterNetworks(ctx context.Context, request ListVmClusterNetworksRequest) (response ListVmClusterNetworksResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7650,7 +7654,8 @@ func (client DatabaseClient) listVmClusterPatches(ctx context.Context, request c
 	return response, err
 }
 
-// ListVmClusters Gets a list of the Exadata Cloud@Customer VM clusters in the specified compartment.
+// ListVmClusters Lists the VM clusters in the specified compartment. Applies to Exadata Cloud@Customer instances only.
+// To list the cloud VM clusters in an Exadata Cloud Service instance, use the ListCloudVmClusters operation.
 func (client DatabaseClient) ListVmClusters(ctx context.Context, request ListVmClustersRequest) (response ListVmClustersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8265,6 +8270,116 @@ func (client DatabaseClient) rotateAutonomousDatabaseEncryptionKey(ctx context.C
 	return response, err
 }
 
+// RotateOrdsCerts Rotates Oracle REST Data Services (ORDS) certs for an Autonomous Exadata Infrastructure resource.
+func (client DatabaseClient) RotateOrdsCerts(ctx context.Context, request RotateOrdsCertsRequest) (response RotateOrdsCertsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rotateOrdsCerts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotateOrdsCertsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotateOrdsCertsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotateOrdsCertsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotateOrdsCertsResponse")
+	}
+	return
+}
+
+// rotateOrdsCerts implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) rotateOrdsCerts(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/actions/rotateOrdsCerts")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RotateOrdsCertsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RotateSslCerts Rotates SSL certs for an Autonomous Exadata Infrastructure resource.
+func (client DatabaseClient) RotateSslCerts(ctx context.Context, request RotateSslCertsRequest) (response RotateSslCertsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rotateSslCerts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotateSslCertsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotateSslCertsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotateSslCertsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotateSslCertsResponse")
+	}
+	return
+}
+
+// rotateSslCerts implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) rotateSslCerts(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/actions/rotateSslCerts")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RotateSslCertsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartAutonomousDataWarehouse **Deprecated.** To start an Autonomous Data Warehouse, use the StartAutonomousDatabase operation.
 func (client DatabaseClient) StartAutonomousDataWarehouse(ctx context.Context, request StartAutonomousDataWarehouseRequest) (response StartAutonomousDataWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8465,7 +8580,7 @@ func (client DatabaseClient) stopAutonomousDatabase(ctx context.Context, request
 	return response, err
 }
 
-// SwitchoverAutonomousContainerDatabaseDataguardAssociation Switches over the primary Autonomous Container Database of an Autonomous Data Guard peer association into a standby role. The standby Autonomous Container Database associated with autonomousContainerDatabaseDataguardAssociationId assumes the primary Autonomous Container Database role.
+// SwitchoverAutonomousContainerDatabaseDataguardAssociation Switches over the primary Autonomous Container Database of an Autonomous Data Guard peer association to standby role. The standby Autonomous Container Database associated with autonomousContainerDatabaseDataguardAssociationId assumes the primary Autonomous Container Database role.
 // A switchover incurs no data loss.
 func (client DatabaseClient) SwitchoverAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest) (response SwitchoverAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9175,7 +9290,7 @@ func (client DatabaseClient) updateBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateCloudExadataInfrastructure Updates the Cloud Exadata infrastructure resource.
+// UpdateCloudExadataInfrastructure Updates the Cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) UpdateCloudExadataInfrastructure(ctx context.Context, request UpdateCloudExadataInfrastructureRequest) (response UpdateCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9225,7 +9340,7 @@ func (client DatabaseClient) updateCloudExadataInfrastructure(ctx context.Contex
 	return response, err
 }
 
-// UpdateCloudVmCluster Updates the specified cloud VM cluster.
+// UpdateCloudVmCluster Updates the specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
 func (client DatabaseClient) UpdateCloudVmCluster(ctx context.Context, request UpdateCloudVmClusterRequest) (response UpdateCloudVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9275,7 +9390,7 @@ func (client DatabaseClient) updateCloudVmCluster(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateCloudVmClusterIormConfig Updates the IORM settings for the specified cloud VM cluster.
+// UpdateCloudVmClusterIormConfig Updates the IORM settings for the specified cloud VM cluster in an Exadata Cloud Service instance.
 func (client DatabaseClient) UpdateCloudVmClusterIormConfig(ctx context.Context, request UpdateCloudVmClusterIormConfigRequest) (response UpdateCloudVmClusterIormConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9525,7 +9640,8 @@ func (client DatabaseClient) updateDbSystem(ctx context.Context, request common.
 	return response, err
 }
 
-// UpdateExadataInfrastructure Updates the Exadata Cloud@Customer infrastructure.
+// UpdateExadataInfrastructure Updates the Exadata infrastructure resource. Applies to Exadata Cloud@Customer instances only.
+// To update an Exadata Cloud Service infrastructure resource, use the  UpdateCloudExadataInfrastructure operation.
 func (client DatabaseClient) UpdateExadataInfrastructure(ctx context.Context, request UpdateExadataInfrastructureRequest) (response UpdateExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9725,7 +9841,7 @@ func (client DatabaseClient) updateMaintenanceRun(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateVmCluster Updates the specified Exadata Cloud@Customer VM cluster.
+// UpdateVmCluster Updates the specified VM cluster. Applies to Exadata Cloud@Customer instances only.
 func (client DatabaseClient) UpdateVmCluster(ctx context.Context, request UpdateVmClusterRequest) (response UpdateVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9775,7 +9891,8 @@ func (client DatabaseClient) updateVmCluster(ctx context.Context, request common
 	return response, err
 }
 
-// UpdateVmClusterNetwork Updates the specified Exadata Cloud@Customer VM cluster network.
+// UpdateVmClusterNetwork Updates the specified VM cluster network. Applies to Exadata Cloud@Customer instances only.
+// To update a cloud VM cluster in an Exadata Cloud Service instance, use the UpdateCloudVmCluster operation.
 func (client DatabaseClient) UpdateVmClusterNetwork(ctx context.Context, request UpdateVmClusterNetworkRequest) (response UpdateVmClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9875,7 +9992,7 @@ func (client DatabaseClient) upgradeDatabase(ctx context.Context, request common
 	return response, err
 }
 
-// ValidateVmClusterNetwork Validates the specified Exadata Cloud@Customer VM cluster network.
+// ValidateVmClusterNetwork Validates the specified VM cluster network. Applies to Exadata Cloud@Customer instances only.
 func (client DatabaseClient) ValidateVmClusterNetwork(ctx context.Context, request ValidateVmClusterNetworkRequest) (response ValidateVmClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

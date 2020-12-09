@@ -197,6 +197,8 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_attributes.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.metadata"),
+					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.metadata_url", "metadataUrl2"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.name", "test-idp-saml2-adfs"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.product_type", "ADFS"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.protocol", "SAML2"),
@@ -207,13 +209,11 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"metadata",
-				},
-				ResourceName: resourceName,
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
 			},
 		},
 	})

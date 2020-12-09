@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// UpdateCloudExadataInfrastructureDetails Updates the cloud Exadata infrastructure.
+// UpdateCloudExadataInfrastructureDetails Updates the cloud Exadata infrastructure. Applies to Exadata Cloud Service instances only.
 type UpdateCloudExadataInfrastructureDetails struct {
 
 	// The user-friendly name for the cloud Exadata infrastructure. The name does not need to be unique.

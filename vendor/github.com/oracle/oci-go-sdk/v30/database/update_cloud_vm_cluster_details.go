@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// UpdateCloudVmClusterDetails Details for updating the cloud VM cluster.
+// UpdateCloudVmClusterDetails Details for updating the cloud VM cluster. Applies to Exadata Cloud Service instances only.
 type UpdateCloudVmClusterDetails struct {
 
 	// The user-friendly name for the cloud VM cluster. The name does not need to be unique.
@@ -22,7 +22,7 @@ type UpdateCloudVmClusterDetails struct {
 	// The number of CPU cores to enable for the cloud VM cluster.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
-	// The Oracle license model that applies to the cloud VM cluster. The default is BRING_YOUR_OWN_LICENSE.
+	// The Oracle license model that applies to the cloud VM cluster. The default is BRING_YOUR_OWN_LICENSE. Applies to Exadata Cloud Service instances only.
 	LicenseModel UpdateCloudVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
