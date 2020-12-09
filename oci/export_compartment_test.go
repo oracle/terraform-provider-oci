@@ -937,7 +937,7 @@ func TestUnitFindResources_errorList(t *testing.T) {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
 	}
-	if len(ctx.errorList) == 0 {
+	if len(ctx.errorList.errors) == 0 {
 		t.Logf("expected errors for failed resources in resourceDiscoveryContext errorList but found none")
 		t.Fail()
 	}
@@ -1314,9 +1314,7 @@ func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
-	}
+	ctx := &resourceDiscoveryContext{}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
@@ -1728,7 +1726,7 @@ func Test_createTerraformStruct(t *testing.T) {
 	}
 	tfHclVersion = &TfHclVersion12{}
 	// verify executable from system path
-	if _, err := createTerraformStruct(args); err != nil {
+	if _, _, err := createTerraformStruct(args); err != nil {
 		t.Errorf("createTerraformStruct() error = %v", err)
 		t.Fail()
 	}
@@ -1737,7 +1735,7 @@ func Test_createTerraformStruct(t *testing.T) {
 	// if invalid path is specified
 	_ = os.Setenv(terraformBinPathName, "invalidPath")
 
-	if _, err := createTerraformStruct(args); err == nil {
+	if _, _, err := createTerraformStruct(args); err == nil {
 		t.Errorf("createTerraformStruct() expected error but succeeded")
 		t.Fail()
 	}
@@ -1745,7 +1743,7 @@ func Test_createTerraformStruct(t *testing.T) {
 	// if path specified is a directory
 	_ = os.Setenv(terraformBinPathName, "./")
 
-	if _, err := createTerraformStruct(args); err == nil {
+	if _, _, err := createTerraformStruct(args); err == nil {
 		t.Errorf("createTerraformStruct() expected error but succeeded")
 		t.Fail()
 	}
