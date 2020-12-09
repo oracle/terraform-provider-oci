@@ -7,6 +7,9 @@
 - Support for ADBS Apex added
 - Support for Platform Integration: KMS Integration-Exadata (Phase 1)
 
+### Deprecated
+- Data source `oci_database_autonomous_database_wallet` is being deprecated in favor of resource `oci_database_autonomous_database_wallet` 
+
 ## 4.6.0 (December 09, 2020)
 
 ### Added

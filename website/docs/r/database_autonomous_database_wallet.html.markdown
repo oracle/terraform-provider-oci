@@ -2,23 +2,25 @@
 subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_database_wallet"
-sidebar_current: "docs-oci-datasource-database-autonomous_database_wallet"
+sidebar_current: "docs-oci-resource-database-autonomous_database_wallet"
 description: |-
-  Provides details about a specific Autonomous Database Wallet in Oracle Cloud Infrastructure Database service
+  Provides the Autonomous Database Wallet resource in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_autonomous_database_wallet
-**Deprecated. Use [oci_database_autonomous_database_wallet](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/database_autonomous_database_wallet) instead.**
-
-This data source provides details about a specific Autonomous Database Wallet resource in Oracle Cloud Infrastructure Database service.
+# oci_database_autonomous_database_wallet
+This resource provides the Autonomous Database Wallet resource in Oracle Cloud Infrastructure Database service.
 
 Creates and downloads a wallet for the specified Autonomous Database.
 
+If passing the base64 encoded content to a `local_file` resource, please use the `content_base64` attribute of the `local_file` resource.
+See this [example](https://github.com/terraform-providers/terraform-provider-oci/blob/master/examples/database/adb/autonomous_data_warehouse_wallet.tf) for more details.
+
+Recreate the resource to create and download a new wallet.
 
 ## Example Usage
 
 ```hcl
-data "oci_database_autonomous_database_wallet" "test_autonomous_database_wallet" {
+resource "oci_database_autonomous_database_wallet" "test_autonomous_database_wallet" {
 	#Required
 	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
 	password = var.autonomous_database_wallet_password
@@ -45,11 +47,16 @@ The following arguments are supported:
 * `password` - (Required) The password to encrypt the keys inside the wallet. The password must be at least 8 characters long and must include at least 1 letter and either 1 numeric character or 1 special character.
 
 
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+
 ## Attributes Reference
 
 The following attributes are exported:
 
 * `content` - content of the downloaded zipped wallet for the Autonomous Database. If `base64_encode_content` is set to `true`, then this content will be base64 encoded.
 
-If passing the base64 encoded content to a `local_file` resource, please use the `content_base64` attribute of the `local_file` resource.
-See this [example](https://github.com/terraform-providers/terraform-provider-oci/blob/master/examples/database/adb/autonomous_data_warehouse_wallet.tf) for more details.
+## Import
+
+Import is not supported for this resource.
+
