@@ -10,6 +10,10 @@ import (
 )
 
 // UpdatePeerRequest wrapper for the UpdatePeer operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/UpdatePeer.go.html to see an example of how to use UpdatePeerRequest.
 type UpdatePeerRequest struct {
 
 	// Unique service identifier.

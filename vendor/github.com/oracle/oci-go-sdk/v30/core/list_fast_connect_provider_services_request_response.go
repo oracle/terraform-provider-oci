@@ -10,6 +10,10 @@ import (
 )
 
 // ListFastConnectProviderServicesRequest wrapper for the ListFastConnectProviderServices operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListFastConnectProviderServices.go.html to see an example of how to use ListFastConnectProviderServicesRequest.
 type ListFastConnectProviderServicesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

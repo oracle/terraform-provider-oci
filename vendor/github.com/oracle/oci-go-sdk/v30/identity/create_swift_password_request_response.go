@@ -10,6 +10,10 @@ import (
 )
 
 // CreateSwiftPasswordRequest wrapper for the CreateSwiftPassword operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/CreateSwiftPassword.go.html to see an example of how to use CreateSwiftPasswordRequest.
 type CreateSwiftPasswordRequest struct {
 
 	// Request object for creating a new swift password.

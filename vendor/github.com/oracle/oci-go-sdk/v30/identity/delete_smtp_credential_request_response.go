@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteSmtpCredentialRequest wrapper for the DeleteSmtpCredential operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteSmtpCredential.go.html to see an example of how to use DeleteSmtpCredentialRequest.
 type DeleteSmtpCredentialRequest struct {
 
 	// The OCID of the user.

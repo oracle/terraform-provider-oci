@@ -10,6 +10,10 @@ import (
 )
 
 // ResetInstancePoolRequest wrapper for the ResetInstancePool operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ResetInstancePool.go.html to see an example of how to use ResetInstancePoolRequest.
 type ResetInstancePoolRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance pool.

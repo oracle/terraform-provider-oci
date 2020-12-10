@@ -10,6 +10,10 @@ import (
 )
 
 // GetResolverEndpointRequest wrapper for the GetResolverEndpoint operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetResolverEndpoint.go.html to see an example of how to use GetResolverEndpointRequest.
 type GetResolverEndpointRequest struct {
 
 	// The OCID of the target resolver.

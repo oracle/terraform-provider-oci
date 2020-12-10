@@ -10,6 +10,10 @@ import (
 )
 
 // ListConsoleConnectionsRequest wrapper for the ListConsoleConnections operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListConsoleConnections.go.html to see an example of how to use ListConsoleConnectionsRequest.
 type ListConsoleConnectionsRequest struct {
 
 	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

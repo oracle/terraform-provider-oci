@@ -10,6 +10,10 @@ import (
 )
 
 // ListCrossConnectGroupsRequest wrapper for the ListCrossConnectGroups operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnectGroups.go.html to see an example of how to use ListCrossConnectGroupsRequest.
 type ListCrossConnectGroupsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

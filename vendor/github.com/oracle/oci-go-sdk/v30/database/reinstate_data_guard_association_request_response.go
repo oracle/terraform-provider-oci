@@ -10,6 +10,10 @@ import (
 )
 
 // ReinstateDataGuardAssociationRequest wrapper for the ReinstateDataGuardAssociation operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ReinstateDataGuardAssociation.go.html to see an example of how to use ReinstateDataGuardAssociationRequest.
 type ReinstateDataGuardAssociationRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

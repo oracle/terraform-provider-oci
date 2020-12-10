@@ -10,6 +10,10 @@ import (
 )
 
 // RequestSummarizedConfigurationsRequest wrapper for the RequestSummarizedConfigurations operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/RequestSummarizedConfigurations.go.html to see an example of how to use RequestSummarizedConfigurationsRequest.
 type RequestSummarizedConfigurationsRequest struct {
 
 	// tenant id

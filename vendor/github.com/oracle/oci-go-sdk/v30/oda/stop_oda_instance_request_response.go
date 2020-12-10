@@ -10,6 +10,10 @@ import (
 )
 
 // StopOdaInstanceRequest wrapper for the StopOdaInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StopOdaInstance.go.html to see an example of how to use StopOdaInstanceRequest.
 type StopOdaInstanceRequest struct {
 
 	// Unique Digital Assistant instance identifier.

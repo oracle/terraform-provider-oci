@@ -10,6 +10,10 @@ import (
 )
 
 // GetTaskValidationRequest wrapper for the GetTaskValidation operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTaskValidation.go.html to see an example of how to use GetTaskValidationRequest.
 type GetTaskValidationRequest struct {
 
 	// The workspace ID.

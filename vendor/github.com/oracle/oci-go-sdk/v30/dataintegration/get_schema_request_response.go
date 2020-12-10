@@ -10,6 +10,10 @@ import (
 )
 
 // GetSchemaRequest wrapper for the GetSchema operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetSchema.go.html to see an example of how to use GetSchemaRequest.
 type GetSchemaRequest struct {
 
 	// The workspace ID.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListResponderActivitiesRequest wrapper for the ListResponderActivities operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResponderActivities.go.html to see an example of how to use ListResponderActivitiesRequest.
 type ListResponderActivitiesRequest struct {
 
 	// OCId of the problem.

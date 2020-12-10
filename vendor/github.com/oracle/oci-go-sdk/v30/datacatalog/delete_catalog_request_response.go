@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteCatalogRequest wrapper for the DeleteCatalog operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteCatalog.go.html to see an example of how to use DeleteCatalogRequest.
 type DeleteCatalogRequest struct {
 
 	// Unique catalog identifier.

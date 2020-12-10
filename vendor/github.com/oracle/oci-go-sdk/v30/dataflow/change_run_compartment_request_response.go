@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeRunCompartmentRequest wrapper for the ChangeRunCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeRunCompartment.go.html to see an example of how to use ChangeRunCompartmentRequest.
 type ChangeRunCompartmentRequest struct {
 
 	// The unique ID for the run

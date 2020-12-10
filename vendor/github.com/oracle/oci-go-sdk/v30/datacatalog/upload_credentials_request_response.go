@@ -10,6 +10,10 @@ import (
 )
 
 // UploadCredentialsRequest wrapper for the UploadCredentials operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UploadCredentials.go.html to see an example of how to use UploadCredentialsRequest.
 type UploadCredentialsRequest struct {
 
 	// Unique catalog identifier.

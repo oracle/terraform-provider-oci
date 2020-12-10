@@ -10,6 +10,10 @@ import (
 )
 
 // ListUserGroupMembershipsRequest wrapper for the ListUserGroupMemberships operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListUserGroupMemberships.go.html to see an example of how to use ListUserGroupMembershipsRequest.
 type ListUserGroupMembershipsRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).

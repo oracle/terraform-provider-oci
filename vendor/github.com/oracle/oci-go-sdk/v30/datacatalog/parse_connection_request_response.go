@@ -10,6 +10,10 @@ import (
 )
 
 // ParseConnectionRequest wrapper for the ParseConnection operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ParseConnection.go.html to see an example of how to use ParseConnectionRequest.
 type ParseConnectionRequest struct {
 
 	// Unique catalog identifier.

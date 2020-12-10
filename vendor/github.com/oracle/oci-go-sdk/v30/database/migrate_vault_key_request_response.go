@@ -9,11 +9,23 @@ import (
 	"net/http"
 )
 
-// CreateAutonomousDataWarehouseRequest wrapper for the CreateAutonomousDataWarehouse operation
-type CreateAutonomousDataWarehouseRequest struct {
+// MigrateVaultKeyRequest wrapper for the MigrateVaultKey operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/MigrateVaultKey.go.html to see an example of how to use MigrateVaultKeyRequest.
+type MigrateVaultKeyRequest struct {
 
-	// Request to create a new Autonomous Data Warehouse.
-	CreateAutonomousDataWarehouseDetails `contributesTo:"body"`
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
+
+	// Request to change the source of the encryption key for the database.
+	MigrateVaultKeyDetails `contributesTo:"body"`
+
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -22,8 +34,7 @@ type CreateAutonomousDataWarehouseRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -31,42 +42,45 @@ type CreateAutonomousDataWarehouseRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreateAutonomousDataWarehouseRequest) String() string {
+func (request MigrateVaultKeyRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateAutonomousDataWarehouseRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request MigrateVaultKeyRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateAutonomousDataWarehouseRequest) RetryPolicy() *common.RetryPolicy {
+func (request MigrateVaultKeyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// CreateAutonomousDataWarehouseResponse wrapper for the CreateAutonomousDataWarehouse operation
-type CreateAutonomousDataWarehouseResponse struct {
+// MigrateVaultKeyResponse wrapper for the MigrateVaultKey operation
+type MigrateVaultKeyResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The AutonomousDataWarehouse instance
-	AutonomousDataWarehouse `presentIn:"body"`
+	// The Database instance
+	Database `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response CreateAutonomousDataWarehouseResponse) String() string {
+func (response MigrateVaultKeyResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreateAutonomousDataWarehouseResponse) HTTPResponse() *http.Response {
+func (response MigrateVaultKeyResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

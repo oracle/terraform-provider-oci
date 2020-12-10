@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteNatGatewayRequest wrapper for the DeleteNatGateway operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteNatGateway.go.html to see an example of how to use DeleteNatGatewayRequest.
 type DeleteNatGatewayRequest struct {
 
 	// The NAT gateway's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

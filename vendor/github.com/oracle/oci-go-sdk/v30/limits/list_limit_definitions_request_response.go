@@ -10,6 +10,10 @@ import (
 )
 
 // ListLimitDefinitionsRequest wrapper for the ListLimitDefinitions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/ListLimitDefinitions.go.html to see an example of how to use ListLimitDefinitionsRequest.
 type ListLimitDefinitionsRequest struct {
 
 	// The OCID of the parent compartment (remember that the tenancy is simply the root compartment).

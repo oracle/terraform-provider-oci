@@ -10,6 +10,10 @@ import (
 )
 
 // CreateResponderRecipeRequest wrapper for the CreateResponderRecipe operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateResponderRecipe.go.html to see an example of how to use CreateResponderRecipeRequest.
 type CreateResponderRecipeRequest struct {
 
 	// Details for ResponderRecipe.

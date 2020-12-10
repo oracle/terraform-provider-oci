@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateAttributeRequest wrapper for the UpdateAttribute operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateAttribute.go.html to see an example of how to use UpdateAttributeRequest.
 type UpdateAttributeRequest struct {
 
 	// Unique catalog identifier.

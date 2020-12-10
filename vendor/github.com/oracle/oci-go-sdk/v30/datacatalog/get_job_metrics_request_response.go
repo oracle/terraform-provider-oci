@@ -10,6 +10,10 @@ import (
 )
 
 // GetJobMetricsRequest wrapper for the GetJobMetrics operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetJobMetrics.go.html to see an example of how to use GetJobMetricsRequest.
 type GetJobMetricsRequest struct {
 
 	// Unique catalog identifier.

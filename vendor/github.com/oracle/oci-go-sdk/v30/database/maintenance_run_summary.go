@@ -34,7 +34,7 @@ type MaintenanceRunSummary struct {
 	// Description of the maintenance run.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Additional information about the current lifecycleState.
+	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The date and time the maintenance run starts.

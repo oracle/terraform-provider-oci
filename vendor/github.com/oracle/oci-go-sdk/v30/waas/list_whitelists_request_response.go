@@ -10,6 +10,10 @@ import (
 )
 
 // ListWhitelistsRequest wrapper for the ListWhitelists operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWhitelists.go.html to see an example of how to use ListWhitelistsRequest.
 type ListWhitelistsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

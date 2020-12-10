@@ -10,6 +10,10 @@ import (
 )
 
 // GetSecretVersionRequest wrapper for the GetSecretVersion operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/GetSecretVersion.go.html to see an example of how to use GetSecretVersionRequest.
 type GetSecretVersionRequest struct {
 
 	// The OCID of the secret.

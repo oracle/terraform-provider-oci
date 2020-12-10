@@ -25,6 +25,12 @@ type CreateNewDatabaseDetails struct {
 
 	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
+
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 }
 
 //GetDbHomeId returns DbHomeId
@@ -35,6 +41,16 @@ func (m CreateNewDatabaseDetails) GetDbHomeId() *string {
 //GetDbVersion returns DbVersion
 func (m CreateNewDatabaseDetails) GetDbVersion() *string {
 	return m.DbVersion
+}
+
+//GetKmsKeyId returns KmsKeyId
+func (m CreateNewDatabaseDetails) GetKmsKeyId() *string {
+	return m.KmsKeyId
+}
+
+//GetKmsKeyVersionId returns KmsKeyVersionId
+func (m CreateNewDatabaseDetails) GetKmsKeyVersionId() *string {
+	return m.KmsKeyVersionId
 }
 
 func (m CreateNewDatabaseDetails) String() string {

@@ -10,6 +10,10 @@ import (
 )
 
 // ListIPSecConnectionsRequest wrapper for the ListIPSecConnections operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIPSecConnections.go.html to see an example of how to use ListIPSecConnectionsRequest.
 type ListIPSecConnectionsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

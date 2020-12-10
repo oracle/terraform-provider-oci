@@ -10,6 +10,10 @@ import (
 )
 
 // ReinstateAutonomousContainerDatabaseDataguardAssociationRequest wrapper for the ReinstateAutonomousContainerDatabaseDataguardAssociation operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ReinstateAutonomousContainerDatabaseDataguardAssociation.go.html to see an example of how to use ReinstateAutonomousContainerDatabaseDataguardAssociationRequest.
 type ReinstateAutonomousContainerDatabaseDataguardAssociationRequest struct {
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

@@ -10,6 +10,10 @@ import (
 )
 
 // DeletePeerRequest wrapper for the DeletePeer operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/DeletePeer.go.html to see an example of how to use DeletePeerRequest.
 type DeletePeerRequest struct {
 
 	// Unique service identifier.

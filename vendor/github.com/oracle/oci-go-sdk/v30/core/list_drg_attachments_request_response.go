@@ -10,6 +10,10 @@ import (
 )
 
 // ListDrgAttachmentsRequest wrapper for the ListDrgAttachments operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDrgAttachments.go.html to see an example of how to use ListDrgAttachmentsRequest.
 type ListDrgAttachmentsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

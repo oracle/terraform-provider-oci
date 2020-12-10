@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteCatalogPrivateEndpointRequest wrapper for the DeleteCatalogPrivateEndpoint operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteCatalogPrivateEndpoint.go.html to see an example of how to use DeleteCatalogPrivateEndpointRequest.
 type DeleteCatalogPrivateEndpointRequest struct {
 
 	// Unique private reverse connection identifier.

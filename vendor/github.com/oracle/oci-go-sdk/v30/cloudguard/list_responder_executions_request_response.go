@@ -10,6 +10,10 @@ import (
 )
 
 // ListResponderExecutionsRequest wrapper for the ListResponderExecutions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResponderExecutions.go.html to see an example of how to use ListResponderExecutionsRequest.
 type ListResponderExecutionsRequest struct {
 
 	// The ID of the compartment in which to list resources.

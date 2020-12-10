@@ -10,6 +10,10 @@ import (
 )
 
 // ListRetentionRulesRequest wrapper for the ListRetentionRules operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListRetentionRules.go.html to see an example of how to use ListRetentionRulesRequest.
 type ListRetentionRulesRequest struct {
 
 	// The Object Storage namespace used for the request.

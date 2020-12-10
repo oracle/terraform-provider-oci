@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteAppCatalogSubscriptionRequest wrapper for the DeleteAppCatalogSubscription operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteAppCatalogSubscription.go.html to see an example of how to use DeleteAppCatalogSubscriptionRequest.
 type DeleteAppCatalogSubscriptionRequest struct {
 
 	// The OCID of the listing.

@@ -10,6 +10,10 @@ import (
 )
 
 // RestartAutonomousContainerDatabaseRequest wrapper for the RestartAutonomousContainerDatabase operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RestartAutonomousContainerDatabase.go.html to see an example of how to use RestartAutonomousContainerDatabaseRequest.
 type RestartAutonomousContainerDatabaseRequest struct {
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

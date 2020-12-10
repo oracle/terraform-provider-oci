@@ -10,6 +10,10 @@ import (
 )
 
 // GenerateRecommendedVmClusterNetworkRequest wrapper for the GenerateRecommendedVmClusterNetwork operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GenerateRecommendedVmClusterNetwork.go.html to see an example of how to use GenerateRecommendedVmClusterNetworkRequest.
 type GenerateRecommendedVmClusterNetworkRequest struct {
 
 	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

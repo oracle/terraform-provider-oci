@@ -10,6 +10,10 @@ import (
 )
 
 // ListRuleSetsRequest wrapper for the ListRuleSets operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ListRuleSets.go.html to see an example of how to use ListRuleSetsRequest.
 type ListRuleSetsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the specified load balancer.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListStackResourceDriftDetailsRequest wrapper for the ListStackResourceDriftDetails operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListStackResourceDriftDetails.go.html to see an example of how to use ListStackResourceDriftDetailsRequest.
 type ListStackResourceDriftDetailsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.

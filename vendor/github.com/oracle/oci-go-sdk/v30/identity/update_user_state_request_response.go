@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateUserStateRequest wrapper for the UpdateUserState operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/UpdateUserState.go.html to see an example of how to use UpdateUserStateRequest.
 type UpdateUserStateRequest struct {
 
 	// The OCID of the user.

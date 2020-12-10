@@ -10,6 +10,10 @@ import (
 )
 
 // ListCatalogPrivateEndpointsRequest wrapper for the ListCatalogPrivateEndpoints operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListCatalogPrivateEndpoints.go.html to see an example of how to use ListCatalogPrivateEndpointsRequest.
 type ListCatalogPrivateEndpointsRequest struct {
 
 	// The OCID of the compartment where you want to list resources.

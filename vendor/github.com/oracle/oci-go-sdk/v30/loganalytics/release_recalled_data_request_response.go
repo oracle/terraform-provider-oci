@@ -10,6 +10,10 @@ import (
 )
 
 // ReleaseRecalledDataRequest wrapper for the ReleaseRecalledData operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ReleaseRecalledData.go.html to see an example of how to use ReleaseRecalledDataRequest.
 type ReleaseRecalledDataRequest struct {
 
 	// The Logging Analytics namespace used for the request.

@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteRemotePeeringConnectionRequest wrapper for the DeleteRemotePeeringConnection operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteRemotePeeringConnection.go.html to see an example of how to use DeleteRemotePeeringConnectionRequest.
 type DeleteRemotePeeringConnectionRequest struct {
 
 	// The OCID of the remote peering connection (RPC).

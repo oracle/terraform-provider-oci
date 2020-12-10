@@ -10,6 +10,10 @@ import (
 )
 
 // ResetIdpScimClientRequest wrapper for the ResetIdpScimClient operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ResetIdpScimClient.go.html to see an example of how to use ResetIdpScimClientRequest.
 type ResetIdpScimClientRequest struct {
 
 	// The OCID of the identity provider.

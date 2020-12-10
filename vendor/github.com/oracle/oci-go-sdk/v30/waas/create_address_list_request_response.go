@@ -10,6 +10,10 @@ import (
 )
 
 // CreateAddressListRequest wrapper for the CreateAddressList operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/CreateAddressList.go.html to see an example of how to use CreateAddressListRequest.
 type CreateAddressListRequest struct {
 
 	// The details of the address list resource to create.

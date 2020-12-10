@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateDeviceFingerprintChallengeRequest wrapper for the UpdateDeviceFingerprintChallenge operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateDeviceFingerprintChallenge.go.html to see an example of how to use UpdateDeviceFingerprintChallengeRequest.
 type UpdateDeviceFingerprintChallengeRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

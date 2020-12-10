@@ -10,6 +10,10 @@ import (
 )
 
 // ListManagementAgentPluginsRequest wrapper for the ListManagementAgentPlugins operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentPlugins.go.html to see an example of how to use ListManagementAgentPluginsRequest.
 type ListManagementAgentPluginsRequest struct {
 
 	// The ID of the compartment from which the Management Agents to be listed.

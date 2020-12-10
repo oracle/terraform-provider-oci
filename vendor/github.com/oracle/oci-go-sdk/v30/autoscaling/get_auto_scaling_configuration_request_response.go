@@ -10,6 +10,10 @@ import (
 )
 
 // GetAutoScalingConfigurationRequest wrapper for the GetAutoScalingConfiguration operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/GetAutoScalingConfiguration.go.html to see an example of how to use GetAutoScalingConfigurationRequest.
 type GetAutoScalingConfigurationRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.

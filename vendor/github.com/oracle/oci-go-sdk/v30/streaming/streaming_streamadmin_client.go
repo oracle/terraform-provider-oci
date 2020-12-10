@@ -80,6 +80,10 @@ func (client *StreamAdminClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // ChangeConnectHarnessCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeConnectHarnessCompartment.go.html to see an example of how to use ChangeConnectHarnessCompartment API.
 func (client StreamAdminClient) ChangeConnectHarnessCompartment(ctx context.Context, request ChangeConnectHarnessCompartmentRequest) (response ChangeConnectHarnessCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -132,6 +136,10 @@ func (client StreamAdminClient) changeConnectHarnessCompartment(ctx context.Cont
 // ChangeStreamCompartment Moves a resource into a different compartment.
 // When provided, If-Match is checked against ETag values of the resource.
 // The stream will also be moved into the default stream pool in the destination compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeStreamCompartment.go.html to see an example of how to use ChangeStreamCompartment API.
 func (client StreamAdminClient) ChangeStreamCompartment(ctx context.Context, request ChangeStreamCompartmentRequest) (response ChangeStreamCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -182,6 +190,10 @@ func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, req
 }
 
 // ChangeStreamPoolCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ChangeStreamPoolCompartment.go.html to see an example of how to use ChangeStreamPoolCompartment API.
 func (client StreamAdminClient) ChangeStreamPoolCompartment(ctx context.Context, request ChangeStreamPoolCompartmentRequest) (response ChangeStreamPoolCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -233,6 +245,10 @@ func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context,
 
 // CreateConnectHarness Starts the provisioning of a new connect harness.
 // To track the progress of the provisioning, you can periodically call ConnectHarness object tells you its current state.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateConnectHarness.go.html to see an example of how to use CreateConnectHarness API.
 func (client StreamAdminClient) CreateConnectHarness(ctx context.Context, request CreateConnectHarnessRequest) (response CreateConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -292,6 +308,10 @@ func (client StreamAdminClient) createConnectHarness(ctx context.Context, reques
 // Compartment id and stream pool id cannot be specified at the same time.
 // To track the progress of the provisioning, you can periodically call GetStream.
 // In the response, the `lifecycleState` parameter of the Stream object tells you its current state.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateStream.go.html to see an example of how to use CreateStream API.
 func (client StreamAdminClient) CreateStream(ctx context.Context, request CreateStreamRequest) (response CreateStreamResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -344,6 +364,10 @@ func (client StreamAdminClient) createStream(ctx context.Context, request common
 // CreateStreamPool Starts the provisioning of a new stream pool.
 // To track the progress of the provisioning, you can periodically call GetStreamPool.
 // In the response, the `lifecycleState` parameter of the object tells you its current state.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateStreamPool.go.html to see an example of how to use CreateStreamPool API.
 func (client StreamAdminClient) CreateStreamPool(ctx context.Context, request CreateStreamPoolRequest) (response CreateStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -403,6 +427,10 @@ func (client StreamAdminClient) createStreamPool(ctx context.Context, request co
 // To verify that a connect harness has been deleted, make a GetConnectHarness request. If the call returns the connect harness's
 // lifecycle state as `DELETED`, then the connect harness has been deleted. If the call returns a "404 Not Found" error, that means all records of the
 // connect harness have been deleted.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteConnectHarness.go.html to see an example of how to use DeleteConnectHarness API.
 func (client StreamAdminClient) DeleteConnectHarness(ctx context.Context, request DeleteConnectHarnessRequest) (response DeleteConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -457,6 +485,10 @@ func (client StreamAdminClient) deleteConnectHarness(ctx context.Context, reques
 // To verify that a stream has been deleted, make a GetStream request. If the call returns the stream's
 // lifecycle state as `DELETED`, then the stream has been deleted. If the call returns a "404 Not Found" error, that means all records of the
 // stream have been deleted.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteStream.go.html to see an example of how to use DeleteStream API.
 func (client StreamAdminClient) DeleteStream(ctx context.Context, request DeleteStreamRequest) (response DeleteStreamResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -508,6 +540,10 @@ func (client StreamAdminClient) deleteStream(ctx context.Context, request common
 
 // DeleteStreamPool Deletes a stream pool. All containing streams will also be deleted.
 // The default stream pool of a compartment cannot be deleted.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteStreamPool.go.html to see an example of how to use DeleteStreamPool API.
 func (client StreamAdminClient) DeleteStreamPool(ctx context.Context, request DeleteStreamPoolRequest) (response DeleteStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -558,6 +594,10 @@ func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request co
 }
 
 // GetConnectHarness Gets detailed information about a connect harness.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetConnectHarness.go.html to see an example of how to use GetConnectHarness API.
 func (client StreamAdminClient) GetConnectHarness(ctx context.Context, request GetConnectHarnessRequest) (response GetConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -608,6 +648,10 @@ func (client StreamAdminClient) getConnectHarness(ctx context.Context, request c
 }
 
 // GetStream Gets detailed information about a stream, including the number of partitions.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetStream.go.html to see an example of how to use GetStream API.
 func (client StreamAdminClient) GetStream(ctx context.Context, request GetStreamRequest) (response GetStreamResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -658,6 +702,10 @@ func (client StreamAdminClient) getStream(ctx context.Context, request common.OC
 }
 
 // GetStreamPool Gets detailed information about the stream pool, such as Kafka settings.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetStreamPool.go.html to see an example of how to use GetStreamPool API.
 func (client StreamAdminClient) GetStreamPool(ctx context.Context, request GetStreamPoolRequest) (response GetStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -708,6 +756,10 @@ func (client StreamAdminClient) getStreamPool(ctx context.Context, request commo
 }
 
 // ListConnectHarnesses Lists the connectharness.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListConnectHarnesses.go.html to see an example of how to use ListConnectHarnesses API.
 func (client StreamAdminClient) ListConnectHarnesses(ctx context.Context, request ListConnectHarnessesRequest) (response ListConnectHarnessesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -758,6 +810,10 @@ func (client StreamAdminClient) listConnectHarnesses(ctx context.Context, reques
 }
 
 // ListStreamPools List the stream pools for a given compartment ID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListStreamPools.go.html to see an example of how to use ListStreamPools API.
 func (client StreamAdminClient) ListStreamPools(ctx context.Context, request ListStreamPoolsRequest) (response ListStreamPoolsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -811,6 +867,10 @@ func (client StreamAdminClient) listStreamPools(ctx context.Context, request com
 // If the compartment id is specified, it will list streams in the compartment, regardless of their stream pool.
 // If the stream pool id is specified, the action will be scoped to that stream pool.
 // The compartment id and stream pool id cannot be specified at the same time.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListStreams.go.html to see an example of how to use ListStreams API.
 func (client StreamAdminClient) ListStreams(ctx context.Context, request ListStreamsRequest) (response ListStreamsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -861,6 +921,10 @@ func (client StreamAdminClient) listStreams(ctx context.Context, request common.
 }
 
 // UpdateConnectHarness Updates the tags applied to the connect harness.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateConnectHarness.go.html to see an example of how to use UpdateConnectHarness API.
 func (client StreamAdminClient) UpdateConnectHarness(ctx context.Context, request UpdateConnectHarnessRequest) (response UpdateConnectHarnessResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -911,6 +975,10 @@ func (client StreamAdminClient) updateConnectHarness(ctx context.Context, reques
 }
 
 // UpdateStream Updates the stream. Only specified values will be updated.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateStream.go.html to see an example of how to use UpdateStream API.
 func (client StreamAdminClient) UpdateStream(ctx context.Context, request UpdateStreamRequest) (response UpdateStreamResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -961,6 +1029,10 @@ func (client StreamAdminClient) updateStream(ctx context.Context, request common
 }
 
 // UpdateStreamPool Updates the specified stream pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateStreamPool.go.html to see an example of how to use UpdateStreamPool API.
 func (client StreamAdminClient) UpdateStreamPool(ctx context.Context, request UpdateStreamPoolRequest) (response UpdateStreamPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

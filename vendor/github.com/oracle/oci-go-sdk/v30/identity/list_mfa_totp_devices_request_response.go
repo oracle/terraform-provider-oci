@@ -10,6 +10,10 @@ import (
 )
 
 // ListMfaTotpDevicesRequest wrapper for the ListMfaTotpDevices operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListMfaTotpDevices.go.html to see an example of how to use ListMfaTotpDevicesRequest.
 type ListMfaTotpDevicesRequest struct {
 
 	// The OCID of the user.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateIPSecConnectionTunnelRequest wrapper for the UpdateIPSecConnectionTunnel operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateIPSecConnectionTunnel.go.html to see an example of how to use UpdateIPSecConnectionTunnelRequest.
 type UpdateIPSecConnectionTunnelRequest struct {
 
 	// The OCID of the IPSec connection.

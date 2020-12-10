@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateLoadBalancerRequest wrapper for the UpdateLoadBalancer operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/UpdateLoadBalancer.go.html to see an example of how to use UpdateLoadBalancerRequest.
 type UpdateLoadBalancerRequest struct {
 
 	// The details for updating a load balancer's configuration.

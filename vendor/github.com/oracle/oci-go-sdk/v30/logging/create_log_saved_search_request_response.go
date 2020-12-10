@@ -10,6 +10,10 @@ import (
 )
 
 // CreateLogSavedSearchRequest wrapper for the CreateLogSavedSearch operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/CreateLogSavedSearch.go.html to see an example of how to use CreateLogSavedSearchRequest.
 type CreateLogSavedSearchRequest struct {
 
 	// Specification of the Saved Search to create

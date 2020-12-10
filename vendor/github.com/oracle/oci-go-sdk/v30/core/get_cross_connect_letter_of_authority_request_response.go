@@ -10,6 +10,10 @@ import (
 )
 
 // GetCrossConnectLetterOfAuthorityRequest wrapper for the GetCrossConnectLetterOfAuthority operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnectLetterOfAuthority.go.html to see an example of how to use GetCrossConnectLetterOfAuthorityRequest.
 type GetCrossConnectLetterOfAuthorityRequest struct {
 
 	// The OCID of the cross-connect.

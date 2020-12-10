@@ -10,6 +10,10 @@ import (
 )
 
 // ListServicesRequest wrapper for the ListServices operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListServices.go.html to see an example of how to use ListServicesRequest.
 type ListServicesRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

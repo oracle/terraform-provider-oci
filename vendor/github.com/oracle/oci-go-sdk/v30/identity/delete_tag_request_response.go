@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteTagRequest wrapper for the DeleteTag operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteTag.go.html to see an example of how to use DeleteTagRequest.
 type DeleteTagRequest struct {
 
 	// The OCID of the tag namespace.

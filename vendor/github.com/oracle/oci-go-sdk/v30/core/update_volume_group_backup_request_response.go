@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateVolumeGroupBackupRequest wrapper for the UpdateVolumeGroupBackup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVolumeGroupBackup.go.html to see an example of how to use UpdateVolumeGroupBackupRequest.
 type UpdateVolumeGroupBackupRequest struct {
 
 	// The Oracle Cloud ID (OCID) that uniquely identifies the volume group backup.

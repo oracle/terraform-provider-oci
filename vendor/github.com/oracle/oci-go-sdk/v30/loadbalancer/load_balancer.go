@@ -50,6 +50,8 @@ type LoadBalancer struct {
 	// An array of IP addresses.
 	IpAddresses []IpAddress `mandatory:"false" json:"ipAddresses"`
 
+	ShapeDetails *ShapeDetails `mandatory:"false" json:"shapeDetails"`
+
 	// Whether the load balancer has a VCN-local (private) IP address.
 	// If "true", the service assigns a private IP address to the load balancer.
 	// If "false", the service assigns a public IP address to the load balancer.

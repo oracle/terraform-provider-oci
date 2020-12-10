@@ -10,6 +10,10 @@ import (
 )
 
 // ListZonesRequest wrapper for the ListZones operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListZones.go.html to see an example of how to use ListZonesRequest.
 type ListZonesRequest struct {
 
 	// The OCID of the compartment the resource belongs to.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListSchemasRequest wrapper for the ListSchemas operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListSchemas.go.html to see an example of how to use ListSchemasRequest.
 type ListSchemasRequest struct {
 
 	// The workspace ID.

@@ -10,6 +10,10 @@ import (
 )
 
 // HeadObjectRequest wrapper for the HeadObject operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/HeadObject.go.html to see an example of how to use HeadObjectRequest.
 type HeadObjectRequest struct {
 
 	// The Object Storage namespace used for the request.

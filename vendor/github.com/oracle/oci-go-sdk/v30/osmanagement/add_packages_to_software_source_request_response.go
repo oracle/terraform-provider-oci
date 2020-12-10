@@ -10,6 +10,10 @@ import (
 )
 
 // AddPackagesToSoftwareSourceRequest wrapper for the AddPackagesToSoftwareSource operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/AddPackagesToSoftwareSource.go.html to see an example of how to use AddPackagesToSoftwareSourceRequest.
 type AddPackagesToSoftwareSourceRequest struct {
 
 	// The OCID of the software source.

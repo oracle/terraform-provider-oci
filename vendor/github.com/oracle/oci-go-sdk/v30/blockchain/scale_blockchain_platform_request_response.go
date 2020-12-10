@@ -10,6 +10,10 @@ import (
 )
 
 // ScaleBlockchainPlatformRequest wrapper for the ScaleBlockchainPlatform operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/ScaleBlockchainPlatform.go.html to see an example of how to use ScaleBlockchainPlatformRequest.
 type ScaleBlockchainPlatformRequest struct {
 
 	// Unique service identifier.

@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeViewCompartmentRequest wrapper for the ChangeViewCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeViewCompartment.go.html to see an example of how to use ChangeViewCompartmentRequest.
 type ChangeViewCompartmentRequest struct {
 
 	// The OCID of the target view.

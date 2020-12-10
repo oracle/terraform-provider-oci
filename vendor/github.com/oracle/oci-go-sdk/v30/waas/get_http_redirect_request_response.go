@@ -10,6 +10,10 @@ import (
 )
 
 // GetHttpRedirectRequest wrapper for the GetHttpRedirect operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetHttpRedirect.go.html to see an example of how to use GetHttpRedirectRequest.
 type GetHttpRedirectRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the HTTP Redirect.

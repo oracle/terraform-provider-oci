@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateDataFlowRequest wrapper for the UpdateDataFlow operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateDataFlow.go.html to see an example of how to use UpdateDataFlowRequest.
 type UpdateDataFlowRequest struct {
 
 	// The workspace ID.

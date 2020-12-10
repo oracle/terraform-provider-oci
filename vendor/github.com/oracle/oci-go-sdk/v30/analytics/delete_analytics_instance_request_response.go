@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteAnalyticsInstanceRequest wrapper for the DeleteAnalyticsInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeleteAnalyticsInstance.go.html to see an example of how to use DeleteAnalyticsInstanceRequest.
 type DeleteAnalyticsInstanceRequest struct {
 
 	// The OCID of the AnalyticsInstance.

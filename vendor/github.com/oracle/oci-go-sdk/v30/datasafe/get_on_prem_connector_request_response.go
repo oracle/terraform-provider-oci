@@ -10,6 +10,10 @@ import (
 )
 
 // GetOnPremConnectorRequest wrapper for the GetOnPremConnector operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetOnPremConnector.go.html to see an example of how to use GetOnPremConnectorRequest.
 type GetOnPremConnectorRequest struct {
 
 	// The OCID of the on-premises connector.

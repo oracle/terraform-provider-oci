@@ -10,6 +10,10 @@ import (
 )
 
 // ValidateSourceExtendedFieldDetailsRequest wrapper for the ValidateSourceExtendedFieldDetails operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateSourceExtendedFieldDetails.go.html to see an example of how to use ValidateSourceExtendedFieldDetailsRequest.
 type ValidateSourceExtendedFieldDetailsRequest struct {
 
 	// The Logging Analytics namespace used for the request.

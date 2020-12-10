@@ -10,6 +10,10 @@ import (
 )
 
 // GetQueryWorkRequestRequest wrapper for the GetQueryWorkRequest operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetQueryWorkRequest.go.html to see an example of how to use GetQueryWorkRequestRequest.
 type GetQueryWorkRequestRequest struct {
 
 	// The Logging Analytics namespace used for the request.

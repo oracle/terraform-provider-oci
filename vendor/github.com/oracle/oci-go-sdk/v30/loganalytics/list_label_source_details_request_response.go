@@ -10,6 +10,10 @@ import (
 )
 
 // ListLabelSourceDetailsRequest wrapper for the ListLabelSourceDetails operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLabelSourceDetails.go.html to see an example of how to use ListLabelSourceDetailsRequest.
 type ListLabelSourceDetailsRequest struct {
 
 	// The Logging Analytics namespace used for the request.

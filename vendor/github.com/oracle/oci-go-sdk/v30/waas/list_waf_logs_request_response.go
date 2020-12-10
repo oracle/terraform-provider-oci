@@ -10,6 +10,10 @@ import (
 )
 
 // ListWafLogsRequest wrapper for the ListWafLogs operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWafLogs.go.html to see an example of how to use ListWafLogsRequest.
 type ListWafLogsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

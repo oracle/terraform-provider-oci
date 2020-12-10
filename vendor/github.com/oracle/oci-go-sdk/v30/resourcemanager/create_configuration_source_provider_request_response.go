@@ -10,6 +10,10 @@ import (
 )
 
 // CreateConfigurationSourceProviderRequest wrapper for the CreateConfigurationSourceProvider operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/CreateConfigurationSourceProvider.go.html to see an example of how to use CreateConfigurationSourceProviderRequest.
 type CreateConfigurationSourceProviderRequest struct {
 
 	// The properties for creating a ConfigurationSourceProvider.

@@ -10,6 +10,10 @@ import (
 )
 
 // CreateBootVolumeBackupRequest wrapper for the CreateBootVolumeBackup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateBootVolumeBackup.go.html to see an example of how to use CreateBootVolumeBackupRequest.
 type CreateBootVolumeBackupRequest struct {
 
 	// Request to create a new backup of given boot volume.

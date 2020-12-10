@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateTermRelationshipRequest wrapper for the UpdateTermRelationship operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateTermRelationship.go.html to see an example of how to use UpdateTermRelationshipRequest.
 type UpdateTermRelationshipRequest struct {
 
 	// Unique catalog identifier.

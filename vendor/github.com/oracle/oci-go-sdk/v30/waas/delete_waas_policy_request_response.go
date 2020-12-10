@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteWaasPolicyRequest wrapper for the DeleteWaasPolicy operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/DeleteWaasPolicy.go.html to see an example of how to use DeleteWaasPolicyRequest.
 type DeleteWaasPolicyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

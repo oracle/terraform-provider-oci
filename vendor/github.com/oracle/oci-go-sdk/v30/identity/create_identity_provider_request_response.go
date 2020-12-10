@@ -10,6 +10,10 @@ import (
 )
 
 // CreateIdentityProviderRequest wrapper for the CreateIdentityProvider operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/CreateIdentityProvider.go.html to see an example of how to use CreateIdentityProviderRequest.
 type CreateIdentityProviderRequest struct {
 
 	// Request object for creating a new SAML2 identity provider.

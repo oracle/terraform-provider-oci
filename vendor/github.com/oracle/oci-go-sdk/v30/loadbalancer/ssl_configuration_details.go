@@ -18,12 +18,6 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type SslConfigurationDetails struct {
 
-	// A friendly name for the certificate bundle. It must be unique and it cannot be changed.
-	// Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
-	// Certificate bundle names cannot contain spaces. Avoid entering confidential information.
-	// Example: `example_certificate_bundle`
-	CertificateName *string `mandatory:"true" json:"certificateName"`
-
 	// The maximum depth for peer certificate chain verification.
 	// Example: `3`
 	VerifyDepth *int `mandatory:"false" json:"verifyDepth"`
@@ -31,6 +25,12 @@ type SslConfigurationDetails struct {
 	// Whether the load balancer listener should verify peer certificates.
 	// Example: `true`
 	VerifyPeerCertificate *bool `mandatory:"false" json:"verifyPeerCertificate"`
+
+	// A friendly name for the certificate bundle. It must be unique and it cannot be changed.
+	// Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
+	// Certificate bundle names cannot contain spaces. Avoid entering confidential information.
+	// Example: `example_certificate_bundle`
+	CertificateName *string `mandatory:"false" json:"certificateName"`
 
 	// A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
 	// The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure

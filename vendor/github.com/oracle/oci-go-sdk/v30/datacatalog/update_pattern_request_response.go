@@ -10,6 +10,10 @@ import (
 )
 
 // UpdatePatternRequest wrapper for the UpdatePattern operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdatePattern.go.html to see an example of how to use UpdatePatternRequest.
 type UpdatePatternRequest struct {
 
 	// Unique catalog identifier.

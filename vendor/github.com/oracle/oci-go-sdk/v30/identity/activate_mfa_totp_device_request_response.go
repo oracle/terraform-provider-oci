@@ -10,6 +10,10 @@ import (
 )
 
 // ActivateMfaTotpDeviceRequest wrapper for the ActivateMfaTotpDevice operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ActivateMfaTotpDevice.go.html to see an example of how to use ActivateMfaTotpDeviceRequest.
 type ActivateMfaTotpDeviceRequest struct {
 
 	// The OCID of the user.

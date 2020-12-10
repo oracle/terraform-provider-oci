@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateCertificateRequest wrapper for the UpdateCertificate operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateCertificate.go.html to see an example of how to use UpdateCertificateRequest.
 type UpdateCertificateRequest struct {
 
 	// The ocid of the certificate.

@@ -10,6 +10,10 @@ import (
 )
 
 // GetColumnNamesRequest wrapper for the GetColumnNames operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetColumnNames.go.html to see an example of how to use GetColumnNamesRequest.
 type GetColumnNamesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

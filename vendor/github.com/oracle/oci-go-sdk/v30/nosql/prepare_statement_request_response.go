@@ -10,6 +10,10 @@ import (
 )
 
 // PrepareStatementRequest wrapper for the PrepareStatement operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/PrepareStatement.go.html to see an example of how to use PrepareStatementRequest.
 type PrepareStatementRequest struct {
 
 	// The ID of a table's compartment.

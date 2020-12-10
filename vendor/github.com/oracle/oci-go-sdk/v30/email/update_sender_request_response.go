@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateSenderRequest wrapper for the UpdateSender operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/UpdateSender.go.html to see an example of how to use UpdateSenderRequest.
 type UpdateSenderRequest struct {
 
 	// The unique OCID of the sender.

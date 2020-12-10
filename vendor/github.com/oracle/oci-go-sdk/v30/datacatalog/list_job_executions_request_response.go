@@ -10,6 +10,10 @@ import (
 )
 
 // ListJobExecutionsRequest wrapper for the ListJobExecutions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListJobExecutions.go.html to see an example of how to use ListJobExecutionsRequest.
 type ListJobExecutionsRequest struct {
 
 	// Unique catalog identifier.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListApisRequest wrapper for the ListApis operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListApis.go.html to see an example of how to use ListApisRequest.
 type ListApisRequest struct {
 
 	// The ocid of the compartment in which to list resources.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListWorkspacesRequest wrapper for the ListWorkspaces operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListWorkspaces.go.html to see an example of how to use ListWorkspacesRequest.
 type ListWorkspacesRequest struct {
 
 	// The OCID of the compartment containing the resources you want to list.

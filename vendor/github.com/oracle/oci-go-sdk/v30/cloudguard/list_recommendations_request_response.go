@@ -10,6 +10,10 @@ import (
 )
 
 // ListRecommendationsRequest wrapper for the ListRecommendations operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListRecommendations.go.html to see an example of how to use ListRecommendationsRequest.
 type ListRecommendationsRequest struct {
 
 	// The ID of the compartment in which to list resources.

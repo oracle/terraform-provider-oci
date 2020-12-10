@@ -37,11 +37,11 @@ type UpdateGitlabAccessTokenConfigurationSourceProviderDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The Git service API endpoint.
-	// Example: `https://gitlab.com/api/v4/`
+	// The Git service endpoint.
+	// Example: `https://gitlab.com`
 	ApiEndpoint *string `mandatory:"false" json:"apiEndpoint"`
 
-	// The personal access token to be configured on the Git repository.
+	// The personal access token to be configured on the GitLab repository.
 	AccessToken *string `mandatory:"false" json:"accessToken"`
 }
 

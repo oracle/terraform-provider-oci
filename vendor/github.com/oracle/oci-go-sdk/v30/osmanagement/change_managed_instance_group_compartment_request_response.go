@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeManagedInstanceGroupCompartmentRequest wrapper for the ChangeManagedInstanceGroupCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ChangeManagedInstanceGroupCompartment.go.html to see an example of how to use ChangeManagedInstanceGroupCompartmentRequest.
 type ChangeManagedInstanceGroupCompartmentRequest struct {
 
 	// OCID for the managed instance group

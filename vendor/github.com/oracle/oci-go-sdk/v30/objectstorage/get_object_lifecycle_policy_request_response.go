@@ -10,6 +10,10 @@ import (
 )
 
 // GetObjectLifecyclePolicyRequest wrapper for the GetObjectLifecyclePolicy operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetObjectLifecyclePolicy.go.html to see an example of how to use GetObjectLifecyclePolicyRequest.
 type GetObjectLifecyclePolicyRequest struct {
 
 	// The Object Storage namespace used for the request.

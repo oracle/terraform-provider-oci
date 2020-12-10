@@ -101,6 +101,10 @@ func (m *configurationsourceprovider) UnmarshalPolymorphicJSON(data []byte) (int
 
 	var err error
 	switch m.ConfigSourceProviderType {
+	case "GITHUB_ACCESS_TOKEN":
+		mm := GithubAccessTokenConfigurationSourceProvider{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB_ACCESS_TOKEN":
 		mm := GitlabAccessTokenConfigurationSourceProvider{}
 		err = json.Unmarshal(data, &mm)
@@ -181,10 +185,12 @@ type ConfigurationSourceProviderConfigSourceProviderTypeEnum string
 // Set of constants representing the allowable values for ConfigurationSourceProviderConfigSourceProviderTypeEnum
 const (
 	ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken ConfigurationSourceProviderConfigSourceProviderTypeEnum = "GITLAB_ACCESS_TOKEN"
+	ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken ConfigurationSourceProviderConfigSourceProviderTypeEnum = "GITHUB_ACCESS_TOKEN"
 )
 
 var mappingConfigurationSourceProviderConfigSourceProviderType = map[string]ConfigurationSourceProviderConfigSourceProviderTypeEnum{
 	"GITLAB_ACCESS_TOKEN": ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken,
+	"GITHUB_ACCESS_TOKEN": ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken,
 }
 
 // GetConfigurationSourceProviderConfigSourceProviderTypeEnumValues Enumerates the set of values for ConfigurationSourceProviderConfigSourceProviderTypeEnum

@@ -83,6 +83,10 @@ func (client *HealthChecksClient) ConfigurationProvider() *common.ConfigurationP
 
 // ChangeHttpMonitorCompartment Moves a monitor into a different compartment. When provided, `If-Match` is checked
 // against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ChangeHttpMonitorCompartment.go.html to see an example of how to use ChangeHttpMonitorCompartment API.
 func (client HealthChecksClient) ChangeHttpMonitorCompartment(ctx context.Context, request ChangeHttpMonitorCompartmentRequest) (response ChangeHttpMonitorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -139,6 +143,10 @@ func (client HealthChecksClient) changeHttpMonitorCompartment(ctx context.Contex
 
 // ChangePingMonitorCompartment Moves a monitor into a different compartment. When provided, `If-Match` is checked
 // against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ChangePingMonitorCompartment.go.html to see an example of how to use ChangePingMonitorCompartment API.
 func (client HealthChecksClient) ChangePingMonitorCompartment(ctx context.Context, request ChangePingMonitorCompartmentRequest) (response ChangePingMonitorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -196,6 +204,10 @@ func (client HealthChecksClient) changePingMonitorCompartment(ctx context.Contex
 // CreateHttpMonitor Creates an HTTP monitor. Vantage points will be automatically selected if not specified,
 // and probes will be initiated from each vantage point to each of the targets at the frequency
 // specified by `intervalInSeconds`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreateHttpMonitor.go.html to see an example of how to use CreateHttpMonitor API.
 func (client HealthChecksClient) CreateHttpMonitor(ctx context.Context, request CreateHttpMonitorRequest) (response CreateHttpMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -253,6 +265,10 @@ func (client HealthChecksClient) createHttpMonitor(ctx context.Context, request 
 // CreateOnDemandHttpProbe Creates an on-demand HTTP probe. The location response header contains the URL for
 // fetching the probe results.
 // *Note:* On-demand probe configurations are not saved.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreateOnDemandHttpProbe.go.html to see an example of how to use CreateOnDemandHttpProbe API.
 func (client HealthChecksClient) CreateOnDemandHttpProbe(ctx context.Context, request CreateOnDemandHttpProbeRequest) (response CreateOnDemandHttpProbeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -305,6 +321,10 @@ func (client HealthChecksClient) createOnDemandHttpProbe(ctx context.Context, re
 // CreateOnDemandPingProbe Creates an on-demand ping probe. The location response header contains the URL for
 // fetching probe results.
 // *Note:* The on-demand probe configuration is not saved.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreateOnDemandPingProbe.go.html to see an example of how to use CreateOnDemandPingProbe API.
 func (client HealthChecksClient) CreateOnDemandPingProbe(ctx context.Context, request CreateOnDemandPingProbeRequest) (response CreateOnDemandPingProbeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -357,6 +377,10 @@ func (client HealthChecksClient) createOnDemandPingProbe(ctx context.Context, re
 // CreatePingMonitor Creates a ping monitor. Vantage points will be automatically selected if not specified,
 // and probes will be initiated from each vantage point to each of the targets at the frequency
 // specified by `intervalInSeconds`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreatePingMonitor.go.html to see an example of how to use CreatePingMonitor API.
 func (client HealthChecksClient) CreatePingMonitor(ctx context.Context, request CreatePingMonitorRequest) (response CreatePingMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -413,6 +437,10 @@ func (client HealthChecksClient) createPingMonitor(ctx context.Context, request 
 
 // DeleteHttpMonitor Deletes the HTTP monitor and its configuration. All future probes of this
 // monitor are stopped. Results associated with the monitor are not deleted.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/DeleteHttpMonitor.go.html to see an example of how to use DeleteHttpMonitor API.
 func (client HealthChecksClient) DeleteHttpMonitor(ctx context.Context, request DeleteHttpMonitorRequest) (response DeleteHttpMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -464,6 +492,10 @@ func (client HealthChecksClient) deleteHttpMonitor(ctx context.Context, request 
 
 // DeletePingMonitor Deletes the ping monitor and its configuration. All future probes of this
 // monitor are stopped. Results associated with the monitor are not deleted.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/DeletePingMonitor.go.html to see an example of how to use DeletePingMonitor API.
 func (client HealthChecksClient) DeletePingMonitor(ctx context.Context, request DeletePingMonitorRequest) (response DeletePingMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -514,6 +546,10 @@ func (client HealthChecksClient) deletePingMonitor(ctx context.Context, request 
 }
 
 // GetHttpMonitor Gets the configuration for the specified monitor.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/GetHttpMonitor.go.html to see an example of how to use GetHttpMonitor API.
 func (client HealthChecksClient) GetHttpMonitor(ctx context.Context, request GetHttpMonitorRequest) (response GetHttpMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -564,6 +600,10 @@ func (client HealthChecksClient) getHttpMonitor(ctx context.Context, request com
 }
 
 // GetPingMonitor Gets the configuration for the specified ping monitor.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/GetPingMonitor.go.html to see an example of how to use GetPingMonitor API.
 func (client HealthChecksClient) GetPingMonitor(ctx context.Context, request GetPingMonitorRequest) (response GetPingMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -614,6 +654,10 @@ func (client HealthChecksClient) getPingMonitor(ctx context.Context, request com
 }
 
 // ListHealthChecksVantagePoints Gets information about all vantage points available to the user.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListHealthChecksVantagePoints.go.html to see an example of how to use ListHealthChecksVantagePoints API.
 func (client HealthChecksClient) ListHealthChecksVantagePoints(ctx context.Context, request ListHealthChecksVantagePointsRequest) (response ListHealthChecksVantagePointsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -664,6 +708,10 @@ func (client HealthChecksClient) listHealthChecksVantagePoints(ctx context.Conte
 }
 
 // ListHttpMonitors Gets a list of HTTP monitors.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListHttpMonitors.go.html to see an example of how to use ListHttpMonitors API.
 func (client HealthChecksClient) ListHttpMonitors(ctx context.Context, request ListHttpMonitorsRequest) (response ListHttpMonitorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -716,6 +764,10 @@ func (client HealthChecksClient) listHttpMonitors(ctx context.Context, request c
 // ListHttpProbeResults Gets the HTTP probe results for the specified probe or monitor, where
 // the `probeConfigurationId` is the OCID of either a monitor or an
 // on-demand probe.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListHttpProbeResults.go.html to see an example of how to use ListHttpProbeResults API.
 func (client HealthChecksClient) ListHttpProbeResults(ctx context.Context, request ListHttpProbeResultsRequest) (response ListHttpProbeResultsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -768,6 +820,10 @@ func (client HealthChecksClient) listHttpProbeResults(ctx context.Context, reque
 // ListPingMonitors Gets a list of configured ping monitors.
 // Results are paginated based on `page` and `limit`.  The `opc-next-page` header provides
 // a URL for fetching the next page.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListPingMonitors.go.html to see an example of how to use ListPingMonitors API.
 func (client HealthChecksClient) ListPingMonitors(ctx context.Context, request ListPingMonitorsRequest) (response ListPingMonitorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -823,6 +879,10 @@ func (client HealthChecksClient) listPingMonitors(ctx context.Context, request c
 // a URL for fetching the next page.  Use `sortOrder` to set the order of the
 // results.  If `sortOrder` is unspecified, results are sorted in ascending order by
 // `startTime`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListPingProbeResults.go.html to see an example of how to use ListPingProbeResults API.
 func (client HealthChecksClient) ListPingProbeResults(ctx context.Context, request ListPingProbeResultsRequest) (response ListPingProbeResultsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -875,6 +935,10 @@ func (client HealthChecksClient) listPingProbeResults(ctx context.Context, reque
 // UpdateHttpMonitor Updates the configuration of the specified HTTP monitor. Only the fields
 // specified in the request body will be updated; all other configuration
 // properties will remain unchanged.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/UpdateHttpMonitor.go.html to see an example of how to use UpdateHttpMonitor API.
 func (client HealthChecksClient) UpdateHttpMonitor(ctx context.Context, request UpdateHttpMonitorRequest) (response UpdateHttpMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -927,6 +991,10 @@ func (client HealthChecksClient) updateHttpMonitor(ctx context.Context, request 
 // UpdatePingMonitor Updates the configuration of the specified ping monitor. Only the fields
 // specified in the request body will be updated; all other configuration properties
 // will remain unchanged.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/UpdatePingMonitor.go.html to see an example of how to use UpdatePingMonitor API.
 func (client HealthChecksClient) UpdatePingMonitor(ctx context.Context, request UpdatePingMonitorRequest) (response UpdatePingMonitorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

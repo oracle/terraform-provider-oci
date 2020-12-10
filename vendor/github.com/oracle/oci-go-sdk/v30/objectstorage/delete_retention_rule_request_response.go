@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteRetentionRuleRequest wrapper for the DeleteRetentionRule operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteRetentionRule.go.html to see an example of how to use DeleteRetentionRuleRequest.
 type DeleteRetentionRuleRequest struct {
 
 	// The Object Storage namespace used for the request.

@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeDatabaseSoftwareImageCompartmentRequest wrapper for the ChangeDatabaseSoftwareImageCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeDatabaseSoftwareImageCompartment.go.html to see an example of how to use ChangeDatabaseSoftwareImageCompartmentRequest.
 type ChangeDatabaseSoftwareImageCompartmentRequest struct {
 
 	// Request to move Database Software Image to a different compartment

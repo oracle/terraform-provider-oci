@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteLoadBalancerRequest wrapper for the DeleteLoadBalancer operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/DeleteLoadBalancer.go.html to see an example of how to use DeleteLoadBalancerRequest.
 type DeleteLoadBalancerRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer to delete.

@@ -10,6 +10,10 @@ import (
 )
 
 // RequestRiskScoresRequest wrapper for the RequestRiskScores operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestRiskScores.go.html to see an example of how to use RequestRiskScoresRequest.
 type RequestRiskScoresRequest struct {
 
 	// The ID of the compartment in which to list resources.

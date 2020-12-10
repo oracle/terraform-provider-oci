@@ -79,6 +79,10 @@ func (m *updateconfigurationsourceproviderdetails) UnmarshalPolymorphicJSON(data
 		mm := UpdateGitlabAccessTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GITHUB_ACCESS_TOKEN":
+		mm := UpdateGithubAccessTokenConfigurationSourceProviderDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

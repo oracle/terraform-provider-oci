@@ -10,6 +10,10 @@ import (
 )
 
 // ListBucketsRequest wrapper for the ListBuckets operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListBuckets.go.html to see an example of how to use ListBucketsRequest.
 type ListBucketsRequest struct {
 
 	// The Object Storage namespace used for the request.

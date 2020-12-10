@@ -10,6 +10,10 @@ import (
 )
 
 // ListSmtpCredentialsRequest wrapper for the ListSmtpCredentials operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListSmtpCredentials.go.html to see an example of how to use ListSmtpCredentialsRequest.
 type ListSmtpCredentialsRequest struct {
 
 	// The OCID of the user.

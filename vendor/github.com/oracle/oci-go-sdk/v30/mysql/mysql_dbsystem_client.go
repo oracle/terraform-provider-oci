@@ -80,6 +80,10 @@ func (client *DbSystemClient) ConfigurationProvider() *common.ConfigurationProvi
 }
 
 // AddAnalyticsCluster Adds an Analytics Cluster to the DB System.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/AddAnalyticsCluster.go.html to see an example of how to use AddAnalyticsCluster API.
 func (client DbSystemClient) AddAnalyticsCluster(ctx context.Context, request AddAnalyticsClusterRequest) (response AddAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -135,6 +139,10 @@ func (client DbSystemClient) addAnalyticsCluster(ctx context.Context, request co
 }
 
 // CreateDbSystem Creates and launches a DB System.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateDbSystem.go.html to see an example of how to use CreateDbSystem API.
 func (client DbSystemClient) CreateDbSystem(ctx context.Context, request CreateDbSystemRequest) (response CreateDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -191,6 +199,10 @@ func (client DbSystemClient) createDbSystem(ctx context.Context, request common.
 
 // DeleteAnalyticsCluster Deletes the Analytics Cluster including terminating, detaching, removing, finalizing and
 // otherwise deleting all related resources.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteAnalyticsCluster.go.html to see an example of how to use DeleteAnalyticsCluster API.
 func (client DbSystemClient) DeleteAnalyticsCluster(ctx context.Context, request DeleteAnalyticsClusterRequest) (response DeleteAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -242,6 +254,10 @@ func (client DbSystemClient) deleteAnalyticsCluster(ctx context.Context, request
 
 // DeleteDbSystem Delete a DB System, including terminating, detaching,
 // removing, finalizing and otherwise deleting all related resources.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteDbSystem.go.html to see an example of how to use DeleteDbSystem API.
 func (client DbSystemClient) DeleteDbSystem(ctx context.Context, request DeleteDbSystemRequest) (response DeleteDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -292,6 +308,10 @@ func (client DbSystemClient) deleteDbSystem(ctx context.Context, request common.
 }
 
 // GenerateAnalyticsClusterMemoryEstimate Sends a request to estimate the memory footprints of user tables when loaded to Analytics Cluster memory.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GenerateAnalyticsClusterMemoryEstimate.go.html to see an example of how to use GenerateAnalyticsClusterMemoryEstimate API.
 func (client DbSystemClient) GenerateAnalyticsClusterMemoryEstimate(ctx context.Context, request GenerateAnalyticsClusterMemoryEstimateRequest) (response GenerateAnalyticsClusterMemoryEstimateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -347,6 +367,10 @@ func (client DbSystemClient) generateAnalyticsClusterMemoryEstimate(ctx context.
 }
 
 // GetAnalyticsCluster Gets information about the Analytics Cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetAnalyticsCluster.go.html to see an example of how to use GetAnalyticsCluster API.
 func (client DbSystemClient) GetAnalyticsCluster(ctx context.Context, request GetAnalyticsClusterRequest) (response GetAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -398,6 +422,10 @@ func (client DbSystemClient) getAnalyticsCluster(ctx context.Context, request co
 
 // GetAnalyticsClusterMemoryEstimate Gets the most recent Analytics Cluster memory estimate that can be used to determine a suitable
 // Analytics Cluster size.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetAnalyticsClusterMemoryEstimate.go.html to see an example of how to use GetAnalyticsClusterMemoryEstimate API.
 func (client DbSystemClient) GetAnalyticsClusterMemoryEstimate(ctx context.Context, request GetAnalyticsClusterMemoryEstimateRequest) (response GetAnalyticsClusterMemoryEstimateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -448,6 +476,10 @@ func (client DbSystemClient) getAnalyticsClusterMemoryEstimate(ctx context.Conte
 }
 
 // GetDbSystem Get information about the specified DB System.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetDbSystem.go.html to see an example of how to use GetDbSystem API.
 func (client DbSystemClient) GetDbSystem(ctx context.Context, request GetDbSystemRequest) (response GetDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -499,6 +531,10 @@ func (client DbSystemClient) getDbSystem(ctx context.Context, request common.OCI
 
 // ListDbSystems Get a list of DB Systems in the specified compartment.
 // The default sort order is by timeUpdated, descending.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListDbSystems.go.html to see an example of how to use ListDbSystems API.
 func (client DbSystemClient) ListDbSystems(ctx context.Context, request ListDbSystemsRequest) (response ListDbSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -549,6 +585,10 @@ func (client DbSystemClient) listDbSystems(ctx context.Context, request common.O
 }
 
 // RestartAnalyticsCluster Restarts the Analytics Cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/RestartAnalyticsCluster.go.html to see an example of how to use RestartAnalyticsCluster API.
 func (client DbSystemClient) RestartAnalyticsCluster(ctx context.Context, request RestartAnalyticsClusterRequest) (response RestartAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -604,6 +644,10 @@ func (client DbSystemClient) restartAnalyticsCluster(ctx context.Context, reques
 }
 
 // RestartDbSystem Restarts the specified DB System.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/RestartDbSystem.go.html to see an example of how to use RestartDbSystem API.
 func (client DbSystemClient) RestartDbSystem(ctx context.Context, request RestartDbSystemRequest) (response RestartDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -659,6 +703,10 @@ func (client DbSystemClient) restartDbSystem(ctx context.Context, request common
 }
 
 // StartAnalyticsCluster Starts the Analytics Cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StartAnalyticsCluster.go.html to see an example of how to use StartAnalyticsCluster API.
 func (client DbSystemClient) StartAnalyticsCluster(ctx context.Context, request StartAnalyticsClusterRequest) (response StartAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -714,6 +762,10 @@ func (client DbSystemClient) startAnalyticsCluster(ctx context.Context, request 
 }
 
 // StartDbSystem Start the specified DB System.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StartDbSystem.go.html to see an example of how to use StartDbSystem API.
 func (client DbSystemClient) StartDbSystem(ctx context.Context, request StartDbSystemRequest) (response StartDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -769,6 +821,10 @@ func (client DbSystemClient) startDbSystem(ctx context.Context, request common.O
 }
 
 // StopAnalyticsCluster Stops the Analytics Cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StopAnalyticsCluster.go.html to see an example of how to use StopAnalyticsCluster API.
 func (client DbSystemClient) StopAnalyticsCluster(ctx context.Context, request StopAnalyticsClusterRequest) (response StopAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -825,6 +881,10 @@ func (client DbSystemClient) stopAnalyticsCluster(ctx context.Context, request c
 
 // StopDbSystem Stops the specified DB System.
 // A stopped DB System is not billed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StopDbSystem.go.html to see an example of how to use StopDbSystem API.
 func (client DbSystemClient) StopDbSystem(ctx context.Context, request StopDbSystemRequest) (response StopDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -880,6 +940,10 @@ func (client DbSystemClient) stopDbSystem(ctx context.Context, request common.OC
 }
 
 // UpdateAnalyticsCluster Updates the Analytics Cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateAnalyticsCluster.go.html to see an example of how to use UpdateAnalyticsCluster API.
 func (client DbSystemClient) UpdateAnalyticsCluster(ctx context.Context, request UpdateAnalyticsClusterRequest) (response UpdateAnalyticsClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -936,6 +1000,10 @@ func (client DbSystemClient) updateAnalyticsCluster(ctx context.Context, request
 // DB System is an asynchronous operation that involves provisioning new
 // Compute resources, pausing the DB System and migrating storage
 // before making the DB System available again.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateDbSystem.go.html to see an example of how to use UpdateDbSystem API.
 func (client DbSystemClient) UpdateDbSystem(ctx context.Context, request UpdateDbSystemRequest) (response UpdateDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

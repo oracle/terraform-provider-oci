@@ -10,6 +10,10 @@ import (
 )
 
 // TerminateAutonomousContainerDatabaseRequest wrapper for the TerminateAutonomousContainerDatabase operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/TerminateAutonomousContainerDatabase.go.html to see an example of how to use TerminateAutonomousContainerDatabaseRequest.
 type TerminateAutonomousContainerDatabaseRequest struct {
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

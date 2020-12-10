@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeIPSecConnectionCompartmentRequest wrapper for the ChangeIPSecConnectionCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeIPSecConnectionCompartment.go.html to see an example of how to use ChangeIPSecConnectionCompartmentRequest.
 type ChangeIPSecConnectionCompartmentRequest struct {
 
 	// The OCID of the IPSec connection.

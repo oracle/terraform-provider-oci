@@ -10,6 +10,10 @@ import (
 )
 
 // CreateMountTargetRequest wrapper for the CreateMountTarget operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateMountTarget.go.html to see an example of how to use CreateMountTargetRequest.
 type CreateMountTargetRequest struct {
 
 	// Details for creating a new mount target.

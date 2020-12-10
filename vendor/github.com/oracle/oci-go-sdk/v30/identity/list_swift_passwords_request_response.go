@@ -10,6 +10,10 @@ import (
 )
 
 // ListSwiftPasswordsRequest wrapper for the ListSwiftPasswords operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListSwiftPasswords.go.html to see an example of how to use ListSwiftPasswordsRequest.
 type ListSwiftPasswordsRequest struct {
 
 	// The OCID of the user.

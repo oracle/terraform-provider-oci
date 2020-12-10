@@ -10,6 +10,10 @@ import (
 )
 
 // GetIpv6Request wrapper for the GetIpv6 operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIpv6.go.html to see an example of how to use GetIpv6Request.
 type GetIpv6Request struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IPv6.

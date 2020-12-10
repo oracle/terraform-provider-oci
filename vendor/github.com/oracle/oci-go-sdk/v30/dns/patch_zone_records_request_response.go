@@ -10,6 +10,10 @@ import (
 )
 
 // PatchZoneRecordsRequest wrapper for the PatchZoneRecords operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/PatchZoneRecords.go.html to see an example of how to use PatchZoneRecordsRequest.
 type PatchZoneRecordsRequest struct {
 
 	// The name or OCID of the target zone.

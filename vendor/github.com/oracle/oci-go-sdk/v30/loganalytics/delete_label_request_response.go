@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteLabelRequest wrapper for the DeleteLabel operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLabel.go.html to see an example of how to use DeleteLabelRequest.
 type DeleteLabelRequest struct {
 
 	// The Logging Analytics namespace used for the request.

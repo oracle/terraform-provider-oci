@@ -10,6 +10,10 @@ import (
 )
 
 // GetDataSafePrivateEndpointRequest wrapper for the GetDataSafePrivateEndpoint operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDataSafePrivateEndpoint.go.html to see an example of how to use GetDataSafePrivateEndpointRequest.
 type GetDataSafePrivateEndpointRequest struct {
 
 	// The OCID of the private endpoint.

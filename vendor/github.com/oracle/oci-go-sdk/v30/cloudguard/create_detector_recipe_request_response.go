@@ -10,6 +10,10 @@ import (
 )
 
 // CreateDetectorRecipeRequest wrapper for the CreateDetectorRecipe operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateDetectorRecipe.go.html to see an example of how to use CreateDetectorRecipeRequest.
 type CreateDetectorRecipeRequest struct {
 
 	// Details for the new DetectorRecipe.

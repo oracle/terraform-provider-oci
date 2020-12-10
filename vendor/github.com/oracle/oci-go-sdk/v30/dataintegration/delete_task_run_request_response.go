@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteTaskRunRequest wrapper for the DeleteTaskRun operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteTaskRun.go.html to see an example of how to use DeleteTaskRunRequest.
 type DeleteTaskRunRequest struct {
 
 	// The workspace ID.

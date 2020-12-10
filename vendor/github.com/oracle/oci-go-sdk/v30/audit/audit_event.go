@@ -23,36 +23,36 @@ type AuditEvent struct {
 	// A service implementing these type changes would publish a new version of an `eventType` and
 	// revise the `eventTypeVersion` field.
 	// Example: `com.oraclecloud.ComputeApi.GetInstance`
-	EventType *string `mandatory:"false" json:"eventType"`
+	EventType *string `mandatory:"true" json:"eventType"`
 
 	// The version of the CloudEvents specification. The structure of the envelope follows the
 	// CloudEvents (https://github.com/cloudevents/spec) industry standard format hosted by the
 	// Cloud Native Computing Foundation ( CNCF) (https://www.cncf.io/).
 	// Audit uses version 0.1 specification of the CloudEvents event envelope.
 	// Example: `0.1`
-	CloudEventsVersion *string `mandatory:"false" json:"cloudEventsVersion"`
+	CloudEventsVersion *string `mandatory:"true" json:"cloudEventsVersion"`
 
 	// The version of the event type. This version applies to the payload of the event, not the envelope.
 	// Use `cloudEventsVersion` to determine the version of the envelope.
 	// Example: `2.0`
-	EventTypeVersion *string `mandatory:"false" json:"eventTypeVersion"`
+	EventTypeVersion *string `mandatory:"true" json:"eventTypeVersion"`
 
 	// The source of the event.
 	// Example: `ComputeApi`
-	Source *string `mandatory:"false" json:"source"`
+	Source *string `mandatory:"true" json:"source"`
 
 	// The GUID of the event.
-	EventId *string `mandatory:"false" json:"eventId"`
+	EventId *string `mandatory:"true" json:"eventId"`
 
 	// The time the event occurred, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-09-18T00:10:59.252Z`
-	EventTime *common.SDKTime `mandatory:"false" json:"eventTime"`
+	EventTime *common.SDKTime `mandatory:"true" json:"eventTime"`
 
 	// The content type of the data contained in `data`.
 	// Example: `application/json`
-	ContentType *string `mandatory:"false" json:"contentType"`
+	ContentType *string `mandatory:"true" json:"contentType"`
 
-	Data *Data `mandatory:"false" json:"data"`
+	Data *Data `mandatory:"true" json:"data"`
 }
 
 func (m AuditEvent) String() string {

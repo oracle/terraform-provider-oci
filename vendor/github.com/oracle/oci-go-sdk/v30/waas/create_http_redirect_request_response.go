@@ -10,6 +10,10 @@ import (
 )
 
 // CreateHttpRedirectRequest wrapper for the CreateHttpRedirect operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/CreateHttpRedirect.go.html to see an example of how to use CreateHttpRedirectRequest.
 type CreateHttpRedirectRequest struct {
 
 	// The details of the HTTP Redirect.

@@ -10,6 +10,10 @@ import (
 )
 
 // GetSSLCipherSuiteRequest wrapper for the GetSSLCipherSuite operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetSSLCipherSuite.go.html to see an example of how to use GetSSLCipherSuiteRequest.
 type GetSSLCipherSuiteRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated load balancer.

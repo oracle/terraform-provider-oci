@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteAutoScalingConfigurationRequest wrapper for the DeleteAutoScalingConfiguration operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/DeleteAutoScalingConfiguration.go.html to see an example of how to use DeleteAutoScalingConfigurationRequest.
 type DeleteAutoScalingConfigurationRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.

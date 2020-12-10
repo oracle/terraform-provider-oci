@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateScheduledTaskRequest wrapper for the UpdateScheduledTask operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateScheduledTask.go.html to see an example of how to use UpdateScheduledTaskRequest.
 type UpdateScheduledTaskRequest struct {
 
 	// The Logging Analytics namespace used for the request.

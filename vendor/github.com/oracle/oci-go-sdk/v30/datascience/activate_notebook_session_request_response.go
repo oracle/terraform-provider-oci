@@ -10,6 +10,10 @@ import (
 )
 
 // ActivateNotebookSessionRequest wrapper for the ActivateNotebookSession operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ActivateNotebookSession.go.html to see an example of how to use ActivateNotebookSessionRequest.
 type ActivateNotebookSessionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the notebook session.

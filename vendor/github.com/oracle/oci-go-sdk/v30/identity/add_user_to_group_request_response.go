@@ -10,6 +10,10 @@ import (
 )
 
 // AddUserToGroupRequest wrapper for the AddUserToGroup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/AddUserToGroup.go.html to see an example of how to use AddUserToGroupRequest.
 type AddUserToGroupRequest struct {
 
 	// Request object for adding a user to a group.

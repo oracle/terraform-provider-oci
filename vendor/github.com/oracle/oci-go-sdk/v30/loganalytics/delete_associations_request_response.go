@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteAssociationsRequest wrapper for the DeleteAssociations operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteAssociations.go.html to see an example of how to use DeleteAssociationsRequest.
 type DeleteAssociationsRequest struct {
 
 	// The Logging Analytics namespace used for the request.

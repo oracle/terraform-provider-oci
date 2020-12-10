@@ -27,14 +27,15 @@ type CreateAutonomousDatabaseBase interface {
 	// The number of OCPU cores to be made available to the database.
 	GetCpuCoreCount() *int
 
-	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
-	GetDataStorageSizeInTBs() *int
-
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
+	// - APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type.
 	GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum
+
+	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
+	GetDataStorageSizeInTBs() *int
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	GetIsFreeTier() *bool
@@ -45,7 +46,9 @@ type CreateAutonomousDatabaseBase interface {
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	GetDisplayName() *string
 
-	// The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
+	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
+	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
+	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
 	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum
 
@@ -118,8 +121,8 @@ type createautonomousdatabasebase struct {
 	CompartmentId                            *string                                      `mandatory:"true" json:"compartmentId"`
 	DbName                                   *string                                      `mandatory:"true" json:"dbName"`
 	CpuCoreCount                             *int                                         `mandatory:"true" json:"cpuCoreCount"`
-	DataStorageSizeInTBs                     *int                                         `mandatory:"true" json:"dataStorageSizeInTBs"`
 	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum   `mandatory:"false" json:"dbWorkload,omitempty"`
+	DataStorageSizeInTBs                     *int                                         `mandatory:"false" json:"dataStorageSizeInTBs"`
 	IsFreeTier                               *bool                                        `mandatory:"false" json:"isFreeTier"`
 	AdminPassword                            *string                                      `mandatory:"false" json:"adminPassword"`
 	DisplayName                              *string                                      `mandatory:"false" json:"displayName"`
@@ -154,8 +157,8 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.CompartmentId = s.Model.CompartmentId
 	m.DbName = s.Model.DbName
 	m.CpuCoreCount = s.Model.CpuCoreCount
-	m.DataStorageSizeInTBs = s.Model.DataStorageSizeInTBs
 	m.DbWorkload = s.Model.DbWorkload
+	m.DataStorageSizeInTBs = s.Model.DataStorageSizeInTBs
 	m.IsFreeTier = s.Model.IsFreeTier
 	m.AdminPassword = s.Model.AdminPassword
 	m.DisplayName = s.Model.DisplayName
@@ -227,14 +230,14 @@ func (m createautonomousdatabasebase) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
-//GetDataStorageSizeInTBs returns DataStorageSizeInTBs
-func (m createautonomousdatabasebase) GetDataStorageSizeInTBs() *int {
-	return m.DataStorageSizeInTBs
-}
-
 //GetDbWorkload returns DbWorkload
 func (m createautonomousdatabasebase) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
+}
+
+//GetDataStorageSizeInTBs returns DataStorageSizeInTBs
+func (m createautonomousdatabasebase) GetDataStorageSizeInTBs() *int {
+	return m.DataStorageSizeInTBs
 }
 
 //GetIsFreeTier returns IsFreeTier
@@ -334,12 +337,14 @@ const (
 	CreateAutonomousDatabaseBaseDbWorkloadOltp CreateAutonomousDatabaseBaseDbWorkloadEnum = "OLTP"
 	CreateAutonomousDatabaseBaseDbWorkloadDw   CreateAutonomousDatabaseBaseDbWorkloadEnum = "DW"
 	CreateAutonomousDatabaseBaseDbWorkloadAjd  CreateAutonomousDatabaseBaseDbWorkloadEnum = "AJD"
+	CreateAutonomousDatabaseBaseDbWorkloadApex CreateAutonomousDatabaseBaseDbWorkloadEnum = "APEX"
 )
 
 var mappingCreateAutonomousDatabaseBaseDbWorkload = map[string]CreateAutonomousDatabaseBaseDbWorkloadEnum{
 	"OLTP": CreateAutonomousDatabaseBaseDbWorkloadOltp,
 	"DW":   CreateAutonomousDatabaseBaseDbWorkloadDw,
 	"AJD":  CreateAutonomousDatabaseBaseDbWorkloadAjd,
+	"APEX": CreateAutonomousDatabaseBaseDbWorkloadApex,
 }
 
 // GetCreateAutonomousDatabaseBaseDbWorkloadEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseDbWorkloadEnum

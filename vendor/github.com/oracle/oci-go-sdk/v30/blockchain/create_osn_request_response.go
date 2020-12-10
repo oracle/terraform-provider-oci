@@ -10,6 +10,10 @@ import (
 )
 
 // CreateOsnRequest wrapper for the CreateOsn operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/CreateOsn.go.html to see an example of how to use CreateOsnRequest.
 type CreateOsnRequest struct {
 
 	// Unique service identifier.

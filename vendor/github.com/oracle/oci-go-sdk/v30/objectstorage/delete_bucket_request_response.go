@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteBucketRequest wrapper for the DeleteBucket operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteBucket.go.html to see an example of how to use DeleteBucketRequest.
 type DeleteBucketRequest struct {
 
 	// The Object Storage namespace used for the request.

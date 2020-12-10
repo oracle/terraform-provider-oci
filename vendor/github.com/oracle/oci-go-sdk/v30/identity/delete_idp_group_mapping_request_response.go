@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteIdpGroupMappingRequest wrapper for the DeleteIdpGroupMapping operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteIdpGroupMapping.go.html to see an example of how to use DeleteIdpGroupMappingRequest.
 type DeleteIdpGroupMappingRequest struct {
 
 	// The OCID of the identity provider.

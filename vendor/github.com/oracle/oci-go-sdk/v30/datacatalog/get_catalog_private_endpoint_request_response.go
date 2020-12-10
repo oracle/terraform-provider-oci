@@ -10,6 +10,10 @@ import (
 )
 
 // GetCatalogPrivateEndpointRequest wrapper for the GetCatalogPrivateEndpoint operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetCatalogPrivateEndpoint.go.html to see an example of how to use GetCatalogPrivateEndpointRequest.
 type GetCatalogPrivateEndpointRequest struct {
 
 	// Unique private reverse connection identifier.

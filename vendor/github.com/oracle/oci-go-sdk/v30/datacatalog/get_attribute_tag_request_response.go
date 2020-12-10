@@ -10,6 +10,10 @@ import (
 )
 
 // GetAttributeTagRequest wrapper for the GetAttributeTag operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetAttributeTag.go.html to see an example of how to use GetAttributeTagRequest.
 type GetAttributeTagRequest struct {
 
 	// Unique catalog identifier.

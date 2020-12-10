@@ -10,6 +10,10 @@ import (
 )
 
 // GetCatalogRequest wrapper for the GetCatalog operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetCatalog.go.html to see an example of how to use GetCatalogRequest.
 type GetCatalogRequest struct {
 
 	// Unique catalog identifier.

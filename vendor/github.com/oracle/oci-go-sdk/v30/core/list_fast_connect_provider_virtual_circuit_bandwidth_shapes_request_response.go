@@ -10,6 +10,10 @@ import (
 )
 
 // ListFastConnectProviderVirtualCircuitBandwidthShapesRequest wrapper for the ListFastConnectProviderVirtualCircuitBandwidthShapes operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListFastConnectProviderVirtualCircuitBandwidthShapes.go.html to see an example of how to use ListFastConnectProviderVirtualCircuitBandwidthShapesRequest.
 type ListFastConnectProviderVirtualCircuitBandwidthShapesRequest struct {
 
 	// The OCID of the provider service.

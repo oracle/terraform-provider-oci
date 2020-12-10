@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteTargetDetectorRecipeRequest wrapper for the DeleteTargetDetectorRecipe operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteTargetDetectorRecipe.go.html to see an example of how to use DeleteTargetDetectorRecipeRequest.
 type DeleteTargetDetectorRecipeRequest struct {
 
 	// OCID of target

@@ -10,6 +10,10 @@ import (
 )
 
 // GetAutonomousContainerDatabaseRequest wrapper for the GetAutonomousContainerDatabase operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousContainerDatabase.go.html to see an example of how to use GetAutonomousContainerDatabaseRequest.
 type GetAutonomousContainerDatabaseRequest struct {
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

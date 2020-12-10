@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteDatabaseSoftwareImageRequest wrapper for the DeleteDatabaseSoftwareImage operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteDatabaseSoftwareImage.go.html to see an example of how to use DeleteDatabaseSoftwareImageRequest.
 type DeleteDatabaseSoftwareImageRequest struct {
 
 	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

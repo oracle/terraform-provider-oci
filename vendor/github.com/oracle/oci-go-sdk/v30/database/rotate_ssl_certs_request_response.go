@@ -10,6 +10,10 @@ import (
 )
 
 // RotateSslCertsRequest wrapper for the RotateSslCerts operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RotateSslCerts.go.html to see an example of how to use RotateSslCertsRequest.
 type RotateSslCertsRequest struct {
 
 	// The Autonomous Exadata Infrastructure  OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

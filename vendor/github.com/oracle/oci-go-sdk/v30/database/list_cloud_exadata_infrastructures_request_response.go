@@ -10,6 +10,10 @@ import (
 )
 
 // ListCloudExadataInfrastructuresRequest wrapper for the ListCloudExadataInfrastructures operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListCloudExadataInfrastructures.go.html to see an example of how to use ListCloudExadataInfrastructuresRequest.
 type ListCloudExadataInfrastructuresRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

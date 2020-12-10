@@ -10,6 +10,10 @@ import (
 )
 
 // ListVmClusterPatchHistoryEntriesRequest wrapper for the ListVmClusterPatchHistoryEntries operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListVmClusterPatchHistoryEntries.go.html to see an example of how to use ListVmClusterPatchHistoryEntriesRequest.
 type ListVmClusterPatchHistoryEntriesRequest struct {
 
 	// The VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

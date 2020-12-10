@@ -10,6 +10,10 @@ import (
 )
 
 // ListVcnsRequest wrapper for the ListVcns operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVcns.go.html to see an example of how to use ListVcnsRequest.
 type ListVcnsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

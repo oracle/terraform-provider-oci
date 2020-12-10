@@ -10,6 +10,10 @@ import (
 )
 
 // GetCrossConnectStatusRequest wrapper for the GetCrossConnectStatus operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnectStatus.go.html to see an example of how to use GetCrossConnectStatusRequest.
 type GetCrossConnectStatusRequest struct {
 
 	// The OCID of the cross-connect.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateUnifiedAgentConfigurationRequest wrapper for the UpdateUnifiedAgentConfiguration operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/UpdateUnifiedAgentConfiguration.go.html to see an example of how to use UpdateUnifiedAgentConfigurationRequest.
 type UpdateUnifiedAgentConfigurationRequest struct {
 
 	// The OCID of the Unified Agent configuration.

@@ -10,6 +10,10 @@ import (
 )
 
 // SummarizeMetricsDataRequest wrapper for the SummarizeMetricsData operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/SummarizeMetricsData.go.html to see an example of how to use SummarizeMetricsDataRequest.
 type SummarizeMetricsDataRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the

@@ -10,6 +10,10 @@ import (
 )
 
 // ValidatePatternRequest wrapper for the ValidatePattern operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ValidatePattern.go.html to see an example of how to use ValidatePatternRequest.
 type ValidatePatternRequest struct {
 
 	// Unique catalog identifier.

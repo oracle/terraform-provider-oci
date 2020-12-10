@@ -10,6 +10,10 @@ import (
 )
 
 // ListIpv6sRequest wrapper for the ListIpv6s operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIpv6s.go.html to see an example of how to use ListIpv6sRequest.
 type ListIpv6sRequest struct {
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

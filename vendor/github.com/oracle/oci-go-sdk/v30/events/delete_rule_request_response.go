@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteRuleRequest wrapper for the DeleteRule operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/DeleteRule.go.html to see an example of how to use DeleteRuleRequest.
 type DeleteRuleRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.

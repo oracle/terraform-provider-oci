@@ -111,8 +111,36 @@ type Attribute struct {
 	// attributes have required properties within the "default" category.
 	// Example: `{"properties": { "default": { "key1": "value1"}}}`
 	Properties map[string]map[string]string `mandatory:"false" json:"properties"`
+
+	// Rule types associated with attribute.
+	AssociatedRuleTypes []AttributeAssociatedRuleTypesEnum `mandatory:"false" json:"associatedRuleTypes,omitempty"`
 }
 
 func (m Attribute) String() string {
 	return common.PointerString(m)
+}
+
+// AttributeAssociatedRuleTypesEnum Enum with underlying type: string
+type AttributeAssociatedRuleTypesEnum string
+
+// Set of constants representing the allowable values for AttributeAssociatedRuleTypesEnum
+const (
+	AttributeAssociatedRuleTypesPrimarykey AttributeAssociatedRuleTypesEnum = "PRIMARYKEY"
+	AttributeAssociatedRuleTypesForeignkey AttributeAssociatedRuleTypesEnum = "FOREIGNKEY"
+	AttributeAssociatedRuleTypesUniquekey  AttributeAssociatedRuleTypesEnum = "UNIQUEKEY"
+)
+
+var mappingAttributeAssociatedRuleTypes = map[string]AttributeAssociatedRuleTypesEnum{
+	"PRIMARYKEY": AttributeAssociatedRuleTypesPrimarykey,
+	"FOREIGNKEY": AttributeAssociatedRuleTypesForeignkey,
+	"UNIQUEKEY":  AttributeAssociatedRuleTypesUniquekey,
+}
+
+// GetAttributeAssociatedRuleTypesEnumValues Enumerates the set of values for AttributeAssociatedRuleTypesEnum
+func GetAttributeAssociatedRuleTypesEnumValues() []AttributeAssociatedRuleTypesEnum {
+	values := make([]AttributeAssociatedRuleTypesEnum, 0)
+	for _, v := range mappingAttributeAssociatedRuleTypes {
+		values = append(values, v)
+	}
+	return values
 }

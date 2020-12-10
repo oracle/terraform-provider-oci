@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteVolumeBackupPolicyAssignmentRequest wrapper for the DeleteVolumeBackupPolicyAssignment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVolumeBackupPolicyAssignment.go.html to see an example of how to use DeleteVolumeBackupPolicyAssignmentRequest.
 type DeleteVolumeBackupPolicyAssignmentRequest struct {
 
 	// The OCID of the volume backup policy assignment.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateAddressListRequest wrapper for the UpdateAddressList operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateAddressList.go.html to see an example of how to use UpdateAddressListRequest.
 type UpdateAddressListRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the address list. This number is generated when the address list is added to the compartment.

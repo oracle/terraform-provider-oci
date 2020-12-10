@@ -10,6 +10,10 @@ import (
 )
 
 // CreateSteeringPolicyAttachmentRequest wrapper for the CreateSteeringPolicyAttachment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateSteeringPolicyAttachment.go.html to see an example of how to use CreateSteeringPolicyAttachmentRequest.
 type CreateSteeringPolicyAttachmentRequest struct {
 
 	// Details for creating a new steering policy attachment.

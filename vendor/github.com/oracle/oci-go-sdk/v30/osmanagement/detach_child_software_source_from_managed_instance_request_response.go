@@ -10,6 +10,10 @@ import (
 )
 
 // DetachChildSoftwareSourceFromManagedInstanceRequest wrapper for the DetachChildSoftwareSourceFromManagedInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DetachChildSoftwareSourceFromManagedInstance.go.html to see an example of how to use DetachChildSoftwareSourceFromManagedInstanceRequest.
 type DetachChildSoftwareSourceFromManagedInstanceRequest struct {
 
 	// OCID for the managed instance

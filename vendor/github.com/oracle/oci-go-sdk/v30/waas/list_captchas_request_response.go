@@ -10,6 +10,10 @@ import (
 )
 
 // ListCaptchasRequest wrapper for the ListCaptchas operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListCaptchas.go.html to see an example of how to use ListCaptchasRequest.
 type ListCaptchasRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

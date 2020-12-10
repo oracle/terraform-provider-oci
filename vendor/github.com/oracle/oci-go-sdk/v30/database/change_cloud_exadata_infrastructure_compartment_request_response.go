@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeCloudExadataInfrastructureCompartmentRequest wrapper for the ChangeCloudExadataInfrastructureCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeCloudExadataInfrastructureCompartment.go.html to see an example of how to use ChangeCloudExadataInfrastructureCompartmentRequest.
 type ChangeCloudExadataInfrastructureCompartmentRequest struct {
 
 	// Request to move cloud Exadata infrastructure resource to a different compartment.

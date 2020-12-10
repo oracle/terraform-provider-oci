@@ -10,6 +10,10 @@ import (
 )
 
 // GetInstanceConsoleConnectionRequest wrapper for the GetInstanceConsoleConnection operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstanceConsoleConnection.go.html to see an example of how to use GetInstanceConsoleConnectionRequest.
 type GetInstanceConsoleConnectionRequest struct {
 
 	// The OCID of the instance console connection.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListDynamicGroupsRequest wrapper for the ListDynamicGroups operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListDynamicGroups.go.html to see an example of how to use ListDynamicGroupsRequest.
 type ListDynamicGroupsRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).

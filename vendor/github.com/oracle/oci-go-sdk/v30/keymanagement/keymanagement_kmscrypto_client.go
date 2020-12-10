@@ -74,6 +74,10 @@ func (client *KmsCryptoClient) ConfigurationProvider() *common.ConfigurationProv
 }
 
 // Decrypt Decrypts data using the given DecryptDataDetails (https://docs.cloud.oracle.com/api/#/en/key/latest/datatypes/DecryptDataDetails) resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Decrypt.go.html to see an example of how to use Decrypt API.
 func (client KmsCryptoClient) Decrypt(ctx context.Context, request DecryptRequest) (response DecryptResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -125,6 +129,10 @@ func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIReq
 
 // Encrypt Encrypts data using the given EncryptDataDetails (https://docs.cloud.oracle.com/api/#/en/key/latest/datatypes/EncryptDataDetails) resource.
 // Plaintext included in the example request is a base64-encoded value of a UTF-8 string.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Encrypt.go.html to see an example of how to use Encrypt API.
 func (client KmsCryptoClient) Encrypt(ctx context.Context, request EncryptRequest) (response EncryptResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -177,6 +185,10 @@ func (client KmsCryptoClient) encrypt(ctx context.Context, request common.OCIReq
 // ExportKey Exports a specific version of a master encryption key according to the details of the request. For their protection,
 // keys that you create and store on a hardware security module (HSM) can never leave the HSM. You can only export keys
 // stored on the server. For export, the key version is encrypted by an RSA public key that you provide.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ExportKey.go.html to see an example of how to use ExportKey API.
 func (client KmsCryptoClient) ExportKey(ctx context.Context, request ExportKeyRequest) (response ExportKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -227,6 +239,10 @@ func (client KmsCryptoClient) exportKey(ctx context.Context, request common.OCIR
 }
 
 // GenerateDataEncryptionKey Generates a key that you can use to encrypt or decrypt data.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GenerateDataEncryptionKey.go.html to see an example of how to use GenerateDataEncryptionKey API.
 func (client KmsCryptoClient) GenerateDataEncryptionKey(ctx context.Context, request GenerateDataEncryptionKeyRequest) (response GenerateDataEncryptionKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

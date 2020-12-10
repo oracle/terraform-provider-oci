@@ -10,6 +10,10 @@ import (
 )
 
 // CancelWorkRequestRequest wrapper for the CancelWorkRequest operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequestRequest.
 type CancelWorkRequestRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. This number is generated when work request is created.

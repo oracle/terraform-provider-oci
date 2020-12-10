@@ -80,6 +80,10 @@ func (client *FileStorageClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // ChangeFileSystemCompartment Moves a file system and its associated snapshots into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeFileSystemCompartment.go.html to see an example of how to use ChangeFileSystemCompartment API.
 func (client FileStorageClient) ChangeFileSystemCompartment(ctx context.Context, request ChangeFileSystemCompartmentRequest) (response ChangeFileSystemCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -130,6 +134,10 @@ func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context,
 }
 
 // ChangeMountTargetCompartment Moves a mount target and its associated export set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeMountTargetCompartment.go.html to see an example of how to use ChangeMountTargetCompartment API.
 func (client FileStorageClient) ChangeMountTargetCompartment(ctx context.Context, request ChangeMountTargetCompartmentRequest) (response ChangeMountTargetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -181,6 +189,10 @@ func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context
 
 // CreateExport Creates a new export in the specified export set, path, and
 // file system.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateExport.go.html to see an example of how to use CreateExport API.
 func (client FileStorageClient) CreateExport(ctx context.Context, request CreateExportRequest) (response CreateExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -259,6 +271,10 @@ func (client FileStorageClient) createExport(ctx context.Context, request common
 // find its OCID in the response. You can also retrieve a
 // resource's OCID by using a List API operation on that resource
 // type or by viewing the resource in the Console.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateFileSystem.go.html to see an example of how to use CreateFileSystem API.
 func (client FileStorageClient) CreateFileSystem(ctx context.Context, request CreateFileSystemRequest) (response CreateFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -341,6 +357,10 @@ func (client FileStorageClient) createFileSystem(ctx context.Context, request co
 // you can find its OCID in the response. You can also retrieve a
 // resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateMountTarget.go.html to see an example of how to use CreateMountTarget API.
 func (client FileStorageClient) CreateMountTarget(ctx context.Context, request CreateMountTargetRequest) (response CreateMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -397,6 +417,10 @@ func (client FileStorageClient) createMountTarget(ctx context.Context, request c
 
 // CreateSnapshot Creates a new snapshot of the specified file system. You
 // can access the snapshot at `.snapshot/<name>`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateSnapshot.go.html to see an example of how to use CreateSnapshot API.
 func (client FileStorageClient) CreateSnapshot(ctx context.Context, request CreateSnapshotRequest) (response CreateSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -452,6 +476,10 @@ func (client FileStorageClient) createSnapshot(ctx context.Context, request comm
 }
 
 // DeleteExport Deletes the specified export.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteExport.go.html to see an example of how to use DeleteExport API.
 func (client FileStorageClient) DeleteExport(ctx context.Context, request DeleteExportRequest) (response DeleteExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -504,6 +532,10 @@ func (client FileStorageClient) deleteExport(ctx context.Context, request common
 // DeleteFileSystem Deletes the specified file system. Before you delete the file system,
 // verify that no remaining export resources still reference it. Deleting a
 // file system also deletes all of its snapshots.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteFileSystem.go.html to see an example of how to use DeleteFileSystem API.
 func (client FileStorageClient) DeleteFileSystem(ctx context.Context, request DeleteFileSystemRequest) (response DeleteFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -555,6 +587,10 @@ func (client FileStorageClient) deleteFileSystem(ctx context.Context, request co
 
 // DeleteMountTarget Deletes the specified mount target. This operation also deletes the
 // mount target's VNICs.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteMountTarget.go.html to see an example of how to use DeleteMountTarget API.
 func (client FileStorageClient) DeleteMountTarget(ctx context.Context, request DeleteMountTargetRequest) (response DeleteMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -605,6 +641,10 @@ func (client FileStorageClient) deleteMountTarget(ctx context.Context, request c
 }
 
 // DeleteSnapshot Deletes the specified snapshot.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteSnapshot.go.html to see an example of how to use DeleteSnapshot API.
 func (client FileStorageClient) DeleteSnapshot(ctx context.Context, request DeleteSnapshotRequest) (response DeleteSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -655,6 +695,10 @@ func (client FileStorageClient) deleteSnapshot(ctx context.Context, request comm
 }
 
 // GetExport Gets the specified export's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetExport.go.html to see an example of how to use GetExport API.
 func (client FileStorageClient) GetExport(ctx context.Context, request GetExportRequest) (response GetExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -705,6 +749,10 @@ func (client FileStorageClient) getExport(ctx context.Context, request common.OC
 }
 
 // GetExportSet Gets the specified export set's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetExportSet.go.html to see an example of how to use GetExportSet API.
 func (client FileStorageClient) GetExportSet(ctx context.Context, request GetExportSetRequest) (response GetExportSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -755,6 +803,10 @@ func (client FileStorageClient) getExportSet(ctx context.Context, request common
 }
 
 // GetFileSystem Gets the specified file system's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetFileSystem.go.html to see an example of how to use GetFileSystem API.
 func (client FileStorageClient) GetFileSystem(ctx context.Context, request GetFileSystemRequest) (response GetFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -805,6 +857,10 @@ func (client FileStorageClient) getFileSystem(ctx context.Context, request commo
 }
 
 // GetMountTarget Gets the specified mount target's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetMountTarget.go.html to see an example of how to use GetMountTarget API.
 func (client FileStorageClient) GetMountTarget(ctx context.Context, request GetMountTargetRequest) (response GetMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -855,6 +911,10 @@ func (client FileStorageClient) getMountTarget(ctx context.Context, request comm
 }
 
 // GetSnapshot Gets the specified snapshot's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetSnapshot.go.html to see an example of how to use GetSnapshot API.
 func (client FileStorageClient) GetSnapshot(ctx context.Context, request GetSnapshotRequest) (response GetSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -905,6 +965,10 @@ func (client FileStorageClient) getSnapshot(ctx context.Context, request common.
 }
 
 // ListExportSets Lists the export set resources in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExportSets.go.html to see an example of how to use ListExportSets API.
 func (client FileStorageClient) ListExportSets(ctx context.Context, request ListExportSetsRequest) (response ListExportSetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -957,6 +1021,10 @@ func (client FileStorageClient) listExportSets(ctx context.Context, request comm
 // ListExports Lists export resources by compartment, file system, or export
 // set. You must specify an export set ID, a file system ID, and
 // / or a compartment ID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExports.go.html to see an example of how to use ListExports API.
 func (client FileStorageClient) ListExports(ctx context.Context, request ListExportsRequest) (response ListExportsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1007,6 +1075,10 @@ func (client FileStorageClient) listExports(ctx context.Context, request common.
 }
 
 // ListFileSystems Lists the file system resources in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFileSystems.go.html to see an example of how to use ListFileSystems API.
 func (client FileStorageClient) ListFileSystems(ctx context.Context, request ListFileSystemsRequest) (response ListFileSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1057,6 +1129,10 @@ func (client FileStorageClient) listFileSystems(ctx context.Context, request com
 }
 
 // ListMountTargets Lists the mount target resources in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListMountTargets.go.html to see an example of how to use ListMountTargets API.
 func (client FileStorageClient) ListMountTargets(ctx context.Context, request ListMountTargetsRequest) (response ListMountTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1107,6 +1183,10 @@ func (client FileStorageClient) listMountTargets(ctx context.Context, request co
 }
 
 // ListSnapshots Lists snapshots of the specified file system.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListSnapshots.go.html to see an example of how to use ListSnapshots API.
 func (client FileStorageClient) ListSnapshots(ctx context.Context, request ListSnapshotsRequest) (response ListSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1157,6 +1237,10 @@ func (client FileStorageClient) listSnapshots(ctx context.Context, request commo
 }
 
 // UpdateExport Updates the specified export's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateExport.go.html to see an example of how to use UpdateExport API.
 func (client FileStorageClient) UpdateExport(ctx context.Context, request UpdateExportRequest) (response UpdateExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1207,6 +1291,10 @@ func (client FileStorageClient) updateExport(ctx context.Context, request common
 }
 
 // UpdateExportSet Updates the specified export set's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateExportSet.go.html to see an example of how to use UpdateExportSet API.
 func (client FileStorageClient) UpdateExportSet(ctx context.Context, request UpdateExportSetRequest) (response UpdateExportSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1258,6 +1346,10 @@ func (client FileStorageClient) updateExportSet(ctx context.Context, request com
 
 // UpdateFileSystem Updates the specified file system's information.
 // You can use this operation to rename a file system.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateFileSystem.go.html to see an example of how to use UpdateFileSystem API.
 func (client FileStorageClient) UpdateFileSystem(ctx context.Context, request UpdateFileSystemRequest) (response UpdateFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1308,6 +1400,10 @@ func (client FileStorageClient) updateFileSystem(ctx context.Context, request co
 }
 
 // UpdateMountTarget Updates the specified mount target's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateMountTarget.go.html to see an example of how to use UpdateMountTarget API.
 func (client FileStorageClient) UpdateMountTarget(ctx context.Context, request UpdateMountTargetRequest) (response UpdateMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1358,6 +1454,10 @@ func (client FileStorageClient) updateMountTarget(ctx context.Context, request c
 }
 
 // UpdateSnapshot Updates the specified snapshot's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateSnapshot.go.html to see an example of how to use UpdateSnapshot API.
 func (client FileStorageClient) UpdateSnapshot(ctx context.Context, request UpdateSnapshotRequest) (response UpdateSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

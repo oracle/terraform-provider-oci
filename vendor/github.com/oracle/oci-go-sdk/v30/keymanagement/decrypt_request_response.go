@@ -10,6 +10,10 @@ import (
 )
 
 // DecryptRequest wrapper for the Decrypt operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Decrypt.go.html to see an example of how to use DecryptRequest.
 type DecryptRequest struct {
 
 	// DecryptDataDetails

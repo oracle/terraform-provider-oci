@@ -10,6 +10,10 @@ import (
 )
 
 // GetSecurityListRequest wrapper for the GetSecurityList operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetSecurityList.go.html to see an example of how to use GetSecurityListRequest.
 type GetSecurityListRequest struct {
 
 	// The OCID of the security list.

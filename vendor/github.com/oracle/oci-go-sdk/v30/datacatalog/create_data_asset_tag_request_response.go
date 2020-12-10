@@ -10,6 +10,10 @@ import (
 )
 
 // CreateDataAssetTagRequest wrapper for the CreateDataAssetTag operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateDataAssetTag.go.html to see an example of how to use CreateDataAssetTagRequest.
 type CreateDataAssetTagRequest struct {
 
 	// Unique catalog identifier.

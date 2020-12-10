@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeSubscriptionCompartmentRequest wrapper for the ChangeSubscriptionCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ChangeSubscriptionCompartment.go.html to see an example of how to use ChangeSubscriptionCompartmentRequest.
 type ChangeSubscriptionCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to move.

@@ -10,6 +10,10 @@ import (
 )
 
 // RemoveImageShapeCompatibilityEntryRequest wrapper for the RemoveImageShapeCompatibilityEntry operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveImageShapeCompatibilityEntry.go.html to see an example of how to use RemoveImageShapeCompatibilityEntryRequest.
 type RemoveImageShapeCompatibilityEntryRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.

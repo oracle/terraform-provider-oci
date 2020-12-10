@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeLocalPeeringGatewayCompartmentRequest wrapper for the ChangeLocalPeeringGatewayCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeLocalPeeringGatewayCompartment.go.html to see an example of how to use ChangeLocalPeeringGatewayCompartmentRequest.
 type ChangeLocalPeeringGatewayCompartmentRequest struct {
 
 	// The OCID of the local peering gateway.

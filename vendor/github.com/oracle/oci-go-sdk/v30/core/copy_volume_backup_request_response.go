@@ -10,6 +10,10 @@ import (
 )
 
 // CopyVolumeBackupRequest wrapper for the CopyVolumeBackup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CopyVolumeBackup.go.html to see an example of how to use CopyVolumeBackupRequest.
 type CopyVolumeBackupRequest struct {
 
 	// The OCID of the volume backup.

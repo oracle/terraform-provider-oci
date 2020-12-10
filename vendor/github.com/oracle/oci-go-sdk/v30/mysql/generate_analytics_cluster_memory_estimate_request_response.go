@@ -10,6 +10,10 @@ import (
 )
 
 // GenerateAnalyticsClusterMemoryEstimateRequest wrapper for the GenerateAnalyticsClusterMemoryEstimate operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GenerateAnalyticsClusterMemoryEstimate.go.html to see an example of how to use GenerateAnalyticsClusterMemoryEstimateRequest.
 type GenerateAnalyticsClusterMemoryEstimateRequest struct {
 
 	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

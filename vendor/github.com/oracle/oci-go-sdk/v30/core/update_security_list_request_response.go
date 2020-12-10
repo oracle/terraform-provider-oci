@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateSecurityListRequest wrapper for the UpdateSecurityList operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateSecurityList.go.html to see an example of how to use UpdateSecurityListRequest.
 type UpdateSecurityListRequest struct {
 
 	// The OCID of the security list.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListSourcePatternsRequest wrapper for the ListSourcePatterns operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourcePatterns.go.html to see an example of how to use ListSourcePatternsRequest.
 type ListSourcePatternsRequest struct {
 
 	// The Logging Analytics namespace used for the request.

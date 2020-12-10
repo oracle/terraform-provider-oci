@@ -10,6 +10,10 @@ import (
 )
 
 // CreateVolumeBackupPolicyRequest wrapper for the CreateVolumeBackupPolicy operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVolumeBackupPolicy.go.html to see an example of how to use CreateVolumeBackupPolicyRequest.
 type CreateVolumeBackupPolicyRequest struct {
 
 	// Request to create a new scheduled backup policy.

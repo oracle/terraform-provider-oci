@@ -10,6 +10,10 @@ import (
 )
 
 // GetBackendHealthRequest wrapper for the GetBackendHealth operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetBackendHealth.go.html to see an example of how to use GetBackendHealthRequest.
 type GetBackendHealthRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend server health status to be retrieved.

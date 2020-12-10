@@ -48,8 +48,8 @@ type GitlabAccessTokenConfigurationSourceProviderSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The Git service API endpoint.
-	// Example: `https://gitlab.com/api/v4/`
+	// The Git service endpoint.
+	// Example: `https://gitlab.com`
 	ApiEndpoint *string `mandatory:"false" json:"apiEndpoint"`
 
 	// Current state of the specified configuration source provider.

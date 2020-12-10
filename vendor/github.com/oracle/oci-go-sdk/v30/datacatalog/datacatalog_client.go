@@ -80,6 +80,10 @@ func (client *DataCatalogClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // AddDataSelectorPatterns Add data selector pattern to the data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AddDataSelectorPatterns.go.html to see an example of how to use AddDataSelectorPatterns API.
 func (client DataCatalogClient) AddDataSelectorPatterns(ctx context.Context, request AddDataSelectorPatternsRequest) (response AddDataSelectorPatternsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -135,6 +139,10 @@ func (client DataCatalogClient) addDataSelectorPatterns(ctx context.Context, req
 }
 
 // AssociateCustomProperty Associate the custom property for the given type
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AssociateCustomProperty.go.html to see an example of how to use AssociateCustomProperty API.
 func (client DataCatalogClient) AssociateCustomProperty(ctx context.Context, request AssociateCustomPropertyRequest) (response AssociateCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -190,6 +198,10 @@ func (client DataCatalogClient) associateCustomProperty(ctx context.Context, req
 }
 
 // AttachCatalogPrivateEndpoint Attaches a private reverse connection endpoint resource to a data catalog resource. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AttachCatalogPrivateEndpoint.go.html to see an example of how to use AttachCatalogPrivateEndpoint API.
 func (client DataCatalogClient) AttachCatalogPrivateEndpoint(ctx context.Context, request AttachCatalogPrivateEndpointRequest) (response AttachCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -245,6 +257,10 @@ func (client DataCatalogClient) attachCatalogPrivateEndpoint(ctx context.Context
 }
 
 // ChangeCatalogCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ChangeCatalogCompartment.go.html to see an example of how to use ChangeCatalogCompartment API.
 func (client DataCatalogClient) ChangeCatalogCompartment(ctx context.Context, request ChangeCatalogCompartmentRequest) (response ChangeCatalogCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -295,6 +311,10 @@ func (client DataCatalogClient) changeCatalogCompartment(ctx context.Context, re
 }
 
 // ChangeCatalogPrivateEndpointCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ChangeCatalogPrivateEndpointCompartment.go.html to see an example of how to use ChangeCatalogPrivateEndpointCompartment API.
 func (client DataCatalogClient) ChangeCatalogPrivateEndpointCompartment(ctx context.Context, request ChangeCatalogPrivateEndpointCompartmentRequest) (response ChangeCatalogPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -345,6 +365,10 @@ func (client DataCatalogClient) changeCatalogPrivateEndpointCompartment(ctx cont
 }
 
 // CreateAttribute Creates a new entity attribute.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateAttribute.go.html to see an example of how to use CreateAttribute API.
 func (client DataCatalogClient) CreateAttribute(ctx context.Context, request CreateAttributeRequest) (response CreateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -400,6 +424,10 @@ func (client DataCatalogClient) createAttribute(ctx context.Context, request com
 }
 
 // CreateAttributeTag Creates a new entity attribute tag.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateAttributeTag.go.html to see an example of how to use CreateAttributeTag API.
 func (client DataCatalogClient) CreateAttributeTag(ctx context.Context, request CreateAttributeTagRequest) (response CreateAttributeTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -456,6 +484,10 @@ func (client DataCatalogClient) createAttributeTag(ctx context.Context, request 
 
 // CreateCatalog Creates a new data catalog instance that includes a console and an API URL for managing metadata operations.
 // For more information, please see the documentation.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateCatalog.go.html to see an example of how to use CreateCatalog API.
 func (client DataCatalogClient) CreateCatalog(ctx context.Context, request CreateCatalogRequest) (response CreateCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -511,6 +543,10 @@ func (client DataCatalogClient) createCatalog(ctx context.Context, request commo
 }
 
 // CreateCatalogPrivateEndpoint Create a new private reverse connection endpoint.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateCatalogPrivateEndpoint.go.html to see an example of how to use CreateCatalogPrivateEndpoint API.
 func (client DataCatalogClient) CreateCatalogPrivateEndpoint(ctx context.Context, request CreateCatalogPrivateEndpointRequest) (response CreateCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -566,6 +602,10 @@ func (client DataCatalogClient) createCatalogPrivateEndpoint(ctx context.Context
 }
 
 // CreateConnection Creates a new connection.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateConnection.go.html to see an example of how to use CreateConnection API.
 func (client DataCatalogClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -621,6 +661,10 @@ func (client DataCatalogClient) createConnection(ctx context.Context, request co
 }
 
 // CreateCustomProperty Create a new Custom Property
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateCustomProperty.go.html to see an example of how to use CreateCustomProperty API.
 func (client DataCatalogClient) CreateCustomProperty(ctx context.Context, request CreateCustomPropertyRequest) (response CreateCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -676,6 +720,10 @@ func (client DataCatalogClient) createCustomProperty(ctx context.Context, reques
 }
 
 // CreateDataAsset Create a new data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateDataAsset.go.html to see an example of how to use CreateDataAsset API.
 func (client DataCatalogClient) CreateDataAsset(ctx context.Context, request CreateDataAssetRequest) (response CreateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -731,6 +779,10 @@ func (client DataCatalogClient) createDataAsset(ctx context.Context, request com
 }
 
 // CreateDataAssetTag Creates a new data asset tag.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateDataAssetTag.go.html to see an example of how to use CreateDataAssetTag API.
 func (client DataCatalogClient) CreateDataAssetTag(ctx context.Context, request CreateDataAssetTagRequest) (response CreateDataAssetTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -786,6 +838,10 @@ func (client DataCatalogClient) createDataAssetTag(ctx context.Context, request 
 }
 
 // CreateEntity Creates a new data entity.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateEntity.go.html to see an example of how to use CreateEntity API.
 func (client DataCatalogClient) CreateEntity(ctx context.Context, request CreateEntityRequest) (response CreateEntityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -841,6 +897,10 @@ func (client DataCatalogClient) createEntity(ctx context.Context, request common
 }
 
 // CreateEntityTag Creates a new entity tag.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateEntityTag.go.html to see an example of how to use CreateEntityTag API.
 func (client DataCatalogClient) CreateEntityTag(ctx context.Context, request CreateEntityTagRequest) (response CreateEntityTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -896,6 +956,10 @@ func (client DataCatalogClient) createEntityTag(ctx context.Context, request com
 }
 
 // CreateFolder Creates a new folder.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateFolder.go.html to see an example of how to use CreateFolder API.
 func (client DataCatalogClient) CreateFolder(ctx context.Context, request CreateFolderRequest) (response CreateFolderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -951,6 +1015,10 @@ func (client DataCatalogClient) createFolder(ctx context.Context, request common
 }
 
 // CreateFolderTag Creates a new folder tag.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateFolderTag.go.html to see an example of how to use CreateFolderTag API.
 func (client DataCatalogClient) CreateFolderTag(ctx context.Context, request CreateFolderTagRequest) (response CreateFolderTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1006,6 +1074,10 @@ func (client DataCatalogClient) createFolderTag(ctx context.Context, request com
 }
 
 // CreateGlossary Creates a new glossary.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateGlossary.go.html to see an example of how to use CreateGlossary API.
 func (client DataCatalogClient) CreateGlossary(ctx context.Context, request CreateGlossaryRequest) (response CreateGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1061,6 +1133,10 @@ func (client DataCatalogClient) createGlossary(ctx context.Context, request comm
 }
 
 // CreateJob Creates a new job.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateJob.go.html to see an example of how to use CreateJob API.
 func (client DataCatalogClient) CreateJob(ctx context.Context, request CreateJobRequest) (response CreateJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1116,6 +1192,10 @@ func (client DataCatalogClient) createJob(ctx context.Context, request common.OC
 }
 
 // CreateJobDefinition Creates a new job definition.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateJobDefinition.go.html to see an example of how to use CreateJobDefinition API.
 func (client DataCatalogClient) CreateJobDefinition(ctx context.Context, request CreateJobDefinitionRequest) (response CreateJobDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1171,6 +1251,10 @@ func (client DataCatalogClient) createJobDefinition(ctx context.Context, request
 }
 
 // CreateJobExecution Creates a new job execution.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateJobExecution.go.html to see an example of how to use CreateJobExecution API.
 func (client DataCatalogClient) CreateJobExecution(ctx context.Context, request CreateJobExecutionRequest) (response CreateJobExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1226,6 +1310,10 @@ func (client DataCatalogClient) createJobExecution(ctx context.Context, request 
 }
 
 // CreateNamespace Create a new Namespace to be used by a custom property
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateNamespace.go.html to see an example of how to use CreateNamespace API.
 func (client DataCatalogClient) CreateNamespace(ctx context.Context, request CreateNamespaceRequest) (response CreateNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1281,6 +1369,10 @@ func (client DataCatalogClient) createNamespace(ctx context.Context, request com
 }
 
 // CreatePattern Create a new pattern.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreatePattern.go.html to see an example of how to use CreatePattern API.
 func (client DataCatalogClient) CreatePattern(ctx context.Context, request CreatePatternRequest) (response CreatePatternResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1336,6 +1428,10 @@ func (client DataCatalogClient) createPattern(ctx context.Context, request commo
 }
 
 // CreateTerm Create a new term within a glossary.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateTerm.go.html to see an example of how to use CreateTerm API.
 func (client DataCatalogClient) CreateTerm(ctx context.Context, request CreateTermRequest) (response CreateTermResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1391,6 +1487,10 @@ func (client DataCatalogClient) createTerm(ctx context.Context, request common.O
 }
 
 // CreateTermRelationship Creates a new term relationship for this term within a glossary.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateTermRelationship.go.html to see an example of how to use CreateTermRelationship API.
 func (client DataCatalogClient) CreateTermRelationship(ctx context.Context, request CreateTermRelationshipRequest) (response CreateTermRelationshipResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1446,6 +1546,10 @@ func (client DataCatalogClient) createTermRelationship(ctx context.Context, requ
 }
 
 // DeleteAttribute Deletes a specific entity attribute.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteAttribute.go.html to see an example of how to use DeleteAttribute API.
 func (client DataCatalogClient) DeleteAttribute(ctx context.Context, request DeleteAttributeRequest) (response DeleteAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1496,6 +1600,10 @@ func (client DataCatalogClient) deleteAttribute(ctx context.Context, request com
 }
 
 // DeleteAttributeTag Deletes a specific entity attribute tag.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteAttributeTag.go.html to see an example of how to use DeleteAttributeTag API.
 func (client DataCatalogClient) DeleteAttributeTag(ctx context.Context, request DeleteAttributeTagRequest) (response DeleteAttributeTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1546,6 +1654,10 @@ func (client DataCatalogClient) deleteAttributeTag(ctx context.Context, request 
 }
 
 // DeleteCatalog Deletes a data catalog resource by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteCatalog.go.html to see an example of how to use DeleteCatalog API.
 func (client DataCatalogClient) DeleteCatalog(ctx context.Context, request DeleteCatalogRequest) (response DeleteCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1596,6 +1708,10 @@ func (client DataCatalogClient) deleteCatalog(ctx context.Context, request commo
 }
 
 // DeleteCatalogPrivateEndpoint Deletes a private reverse connection endpoint by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteCatalogPrivateEndpoint.go.html to see an example of how to use DeleteCatalogPrivateEndpoint API.
 func (client DataCatalogClient) DeleteCatalogPrivateEndpoint(ctx context.Context, request DeleteCatalogPrivateEndpointRequest) (response DeleteCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1646,6 +1762,10 @@ func (client DataCatalogClient) deleteCatalogPrivateEndpoint(ctx context.Context
 }
 
 // DeleteConnection Deletes a specific connection of a data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteConnection.go.html to see an example of how to use DeleteConnection API.
 func (client DataCatalogClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1696,6 +1816,10 @@ func (client DataCatalogClient) deleteConnection(ctx context.Context, request co
 }
 
 // DeleteCustomProperty Deletes a specific custom property identified by it's key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteCustomProperty.go.html to see an example of how to use DeleteCustomProperty API.
 func (client DataCatalogClient) DeleteCustomProperty(ctx context.Context, request DeleteCustomPropertyRequest) (response DeleteCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1746,6 +1870,10 @@ func (client DataCatalogClient) deleteCustomProperty(ctx context.Context, reques
 }
 
 // DeleteDataAsset Deletes a specific data asset identified by it's key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteDataAsset.go.html to see an example of how to use DeleteDataAsset API.
 func (client DataCatalogClient) DeleteDataAsset(ctx context.Context, request DeleteDataAssetRequest) (response DeleteDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1796,6 +1924,10 @@ func (client DataCatalogClient) deleteDataAsset(ctx context.Context, request com
 }
 
 // DeleteDataAssetTag Deletes a specific data asset tag.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteDataAssetTag.go.html to see an example of how to use DeleteDataAssetTag API.
 func (client DataCatalogClient) DeleteDataAssetTag(ctx context.Context, request DeleteDataAssetTagRequest) (response DeleteDataAssetTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1846,6 +1978,10 @@ func (client DataCatalogClient) deleteDataAssetTag(ctx context.Context, request 
 }
 
 // DeleteEntity Deletes a specific data entity.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteEntity.go.html to see an example of how to use DeleteEntity API.
 func (client DataCatalogClient) DeleteEntity(ctx context.Context, request DeleteEntityRequest) (response DeleteEntityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1896,6 +2032,10 @@ func (client DataCatalogClient) deleteEntity(ctx context.Context, request common
 }
 
 // DeleteEntityTag Deletes a specific entity tag.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteEntityTag.go.html to see an example of how to use DeleteEntityTag API.
 func (client DataCatalogClient) DeleteEntityTag(ctx context.Context, request DeleteEntityTagRequest) (response DeleteEntityTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1946,6 +2086,10 @@ func (client DataCatalogClient) deleteEntityTag(ctx context.Context, request com
 }
 
 // DeleteFolder Deletes a specific folder of a data asset identified by it's key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteFolder.go.html to see an example of how to use DeleteFolder API.
 func (client DataCatalogClient) DeleteFolder(ctx context.Context, request DeleteFolderRequest) (response DeleteFolderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1996,6 +2140,10 @@ func (client DataCatalogClient) deleteFolder(ctx context.Context, request common
 }
 
 // DeleteFolderTag Deletes a specific folder tag.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteFolderTag.go.html to see an example of how to use DeleteFolderTag API.
 func (client DataCatalogClient) DeleteFolderTag(ctx context.Context, request DeleteFolderTagRequest) (response DeleteFolderTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2046,6 +2194,10 @@ func (client DataCatalogClient) deleteFolderTag(ctx context.Context, request com
 }
 
 // DeleteGlossary Deletes a specific glossary identified by it's key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteGlossary.go.html to see an example of how to use DeleteGlossary API.
 func (client DataCatalogClient) DeleteGlossary(ctx context.Context, request DeleteGlossaryRequest) (response DeleteGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2096,6 +2248,10 @@ func (client DataCatalogClient) deleteGlossary(ctx context.Context, request comm
 }
 
 // DeleteJob Deletes a specific job identified by it's key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteJob.go.html to see an example of how to use DeleteJob API.
 func (client DataCatalogClient) DeleteJob(ctx context.Context, request DeleteJobRequest) (response DeleteJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2146,6 +2302,10 @@ func (client DataCatalogClient) deleteJob(ctx context.Context, request common.OC
 }
 
 // DeleteJobDefinition Deletes a specific job definition identified by it's key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteJobDefinition.go.html to see an example of how to use DeleteJobDefinition API.
 func (client DataCatalogClient) DeleteJobDefinition(ctx context.Context, request DeleteJobDefinitionRequest) (response DeleteJobDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2196,6 +2356,10 @@ func (client DataCatalogClient) deleteJobDefinition(ctx context.Context, request
 }
 
 // DeleteNamespace Deletes a specific Namespace identified by it's key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteNamespace.go.html to see an example of how to use DeleteNamespace API.
 func (client DataCatalogClient) DeleteNamespace(ctx context.Context, request DeleteNamespaceRequest) (response DeleteNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2246,6 +2410,10 @@ func (client DataCatalogClient) deleteNamespace(ctx context.Context, request com
 }
 
 // DeletePattern Deletes a specific pattern identified by it's key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeletePattern.go.html to see an example of how to use DeletePattern API.
 func (client DataCatalogClient) DeletePattern(ctx context.Context, request DeletePatternRequest) (response DeletePatternResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2296,6 +2464,10 @@ func (client DataCatalogClient) deletePattern(ctx context.Context, request commo
 }
 
 // DeleteTerm Deletes a specific glossary term.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteTerm.go.html to see an example of how to use DeleteTerm API.
 func (client DataCatalogClient) DeleteTerm(ctx context.Context, request DeleteTermRequest) (response DeleteTermResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2346,6 +2518,10 @@ func (client DataCatalogClient) deleteTerm(ctx context.Context, request common.O
 }
 
 // DeleteTermRelationship Deletes a specific glossary term relationship.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteTermRelationship.go.html to see an example of how to use DeleteTermRelationship API.
 func (client DataCatalogClient) DeleteTermRelationship(ctx context.Context, request DeleteTermRelationshipRequest) (response DeleteTermRelationshipResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2396,6 +2572,10 @@ func (client DataCatalogClient) deleteTermRelationship(ctx context.Context, requ
 }
 
 // DetachCatalogPrivateEndpoint Detaches a private reverse connection endpoint resource to a data catalog resource. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DetachCatalogPrivateEndpoint.go.html to see an example of how to use DetachCatalogPrivateEndpoint API.
 func (client DataCatalogClient) DetachCatalogPrivateEndpoint(ctx context.Context, request DetachCatalogPrivateEndpointRequest) (response DetachCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2446,6 +2626,10 @@ func (client DataCatalogClient) detachCatalogPrivateEndpoint(ctx context.Context
 }
 
 // DisassociateCustomProperty Remove the custom property for the given type
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DisassociateCustomProperty.go.html to see an example of how to use DisassociateCustomProperty API.
 func (client DataCatalogClient) DisassociateCustomProperty(ctx context.Context, request DisassociateCustomPropertyRequest) (response DisassociateCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2501,6 +2685,10 @@ func (client DataCatalogClient) disassociateCustomProperty(ctx context.Context, 
 }
 
 // ExpandTreeForGlossary Returns the fully expanded tree hierarchy of parent and child terms in this glossary.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ExpandTreeForGlossary.go.html to see an example of how to use ExpandTreeForGlossary API.
 func (client DataCatalogClient) ExpandTreeForGlossary(ctx context.Context, request ExpandTreeForGlossaryRequest) (response ExpandTreeForGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2556,6 +2744,10 @@ func (client DataCatalogClient) expandTreeForGlossary(ctx context.Context, reque
 }
 
 // ExportGlossary Export the glossary and the terms and return the exported glossary as csv or json.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ExportGlossary.go.html to see an example of how to use ExportGlossary API.
 func (client DataCatalogClient) ExportGlossary(ctx context.Context, request ExportGlossaryRequest) (response ExportGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2611,6 +2803,10 @@ func (client DataCatalogClient) exportGlossary(ctx context.Context, request comm
 }
 
 // GetAttribute Gets a specific entity attribute by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetAttribute.go.html to see an example of how to use GetAttribute API.
 func (client DataCatalogClient) GetAttribute(ctx context.Context, request GetAttributeRequest) (response GetAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2661,6 +2857,10 @@ func (client DataCatalogClient) getAttribute(ctx context.Context, request common
 }
 
 // GetAttributeTag Gets a specific entity attribute tag by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetAttributeTag.go.html to see an example of how to use GetAttributeTag API.
 func (client DataCatalogClient) GetAttributeTag(ctx context.Context, request GetAttributeTagRequest) (response GetAttributeTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2711,6 +2911,10 @@ func (client DataCatalogClient) getAttributeTag(ctx context.Context, request com
 }
 
 // GetCatalog Gets a data catalog by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetCatalog.go.html to see an example of how to use GetCatalog API.
 func (client DataCatalogClient) GetCatalog(ctx context.Context, request GetCatalogRequest) (response GetCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2761,6 +2965,10 @@ func (client DataCatalogClient) getCatalog(ctx context.Context, request common.O
 }
 
 // GetCatalogPrivateEndpoint Gets a specific private reverse connection by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetCatalogPrivateEndpoint.go.html to see an example of how to use GetCatalogPrivateEndpoint API.
 func (client DataCatalogClient) GetCatalogPrivateEndpoint(ctx context.Context, request GetCatalogPrivateEndpointRequest) (response GetCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2811,6 +3019,10 @@ func (client DataCatalogClient) getCatalogPrivateEndpoint(ctx context.Context, r
 }
 
 // GetConnection Gets a specific data asset connection by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetConnection.go.html to see an example of how to use GetConnection API.
 func (client DataCatalogClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2861,6 +3073,10 @@ func (client DataCatalogClient) getConnection(ctx context.Context, request commo
 }
 
 // GetCustomProperty Gets a specific custom property for the given key within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetCustomProperty.go.html to see an example of how to use GetCustomProperty API.
 func (client DataCatalogClient) GetCustomProperty(ctx context.Context, request GetCustomPropertyRequest) (response GetCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2911,6 +3127,10 @@ func (client DataCatalogClient) getCustomProperty(ctx context.Context, request c
 }
 
 // GetDataAsset Gets a specific data asset for the given key within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetDataAsset.go.html to see an example of how to use GetDataAsset API.
 func (client DataCatalogClient) GetDataAsset(ctx context.Context, request GetDataAssetRequest) (response GetDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2961,6 +3181,10 @@ func (client DataCatalogClient) getDataAsset(ctx context.Context, request common
 }
 
 // GetDataAssetTag Gets a specific data asset tag by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetDataAssetTag.go.html to see an example of how to use GetDataAssetTag API.
 func (client DataCatalogClient) GetDataAssetTag(ctx context.Context, request GetDataAssetTagRequest) (response GetDataAssetTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3011,6 +3235,10 @@ func (client DataCatalogClient) getDataAssetTag(ctx context.Context, request com
 }
 
 // GetEntity Gets a specific data entity by key for a data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetEntity.go.html to see an example of how to use GetEntity API.
 func (client DataCatalogClient) GetEntity(ctx context.Context, request GetEntityRequest) (response GetEntityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3061,6 +3289,10 @@ func (client DataCatalogClient) getEntity(ctx context.Context, request common.OC
 }
 
 // GetEntityTag Gets a specific entity tag by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetEntityTag.go.html to see an example of how to use GetEntityTag API.
 func (client DataCatalogClient) GetEntityTag(ctx context.Context, request GetEntityTagRequest) (response GetEntityTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3111,6 +3343,10 @@ func (client DataCatalogClient) getEntityTag(ctx context.Context, request common
 }
 
 // GetFolder Gets a specific data asset folder by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetFolder.go.html to see an example of how to use GetFolder API.
 func (client DataCatalogClient) GetFolder(ctx context.Context, request GetFolderRequest) (response GetFolderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3161,6 +3397,10 @@ func (client DataCatalogClient) getFolder(ctx context.Context, request common.OC
 }
 
 // GetFolderTag Gets a specific folder tag by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetFolderTag.go.html to see an example of how to use GetFolderTag API.
 func (client DataCatalogClient) GetFolderTag(ctx context.Context, request GetFolderTagRequest) (response GetFolderTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3211,6 +3451,10 @@ func (client DataCatalogClient) getFolderTag(ctx context.Context, request common
 }
 
 // GetGlossary Gets a specific glossary by key within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetGlossary.go.html to see an example of how to use GetGlossary API.
 func (client DataCatalogClient) GetGlossary(ctx context.Context, request GetGlossaryRequest) (response GetGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3261,6 +3505,10 @@ func (client DataCatalogClient) getGlossary(ctx context.Context, request common.
 }
 
 // GetJob Gets a specific job by key within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetJob.go.html to see an example of how to use GetJob API.
 func (client DataCatalogClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3311,6 +3559,10 @@ func (client DataCatalogClient) getJob(ctx context.Context, request common.OCIRe
 }
 
 // GetJobDefinition Gets a specific job definition by key within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetJobDefinition.go.html to see an example of how to use GetJobDefinition API.
 func (client DataCatalogClient) GetJobDefinition(ctx context.Context, request GetJobDefinitionRequest) (response GetJobDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3361,6 +3613,10 @@ func (client DataCatalogClient) getJobDefinition(ctx context.Context, request co
 }
 
 // GetJobExecution Gets a specific job execution by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetJobExecution.go.html to see an example of how to use GetJobExecution API.
 func (client DataCatalogClient) GetJobExecution(ctx context.Context, request GetJobExecutionRequest) (response GetJobExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3411,6 +3667,10 @@ func (client DataCatalogClient) getJobExecution(ctx context.Context, request com
 }
 
 // GetJobLog Gets a specific job log by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetJobLog.go.html to see an example of how to use GetJobLog API.
 func (client DataCatalogClient) GetJobLog(ctx context.Context, request GetJobLogRequest) (response GetJobLogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3461,6 +3721,10 @@ func (client DataCatalogClient) getJobLog(ctx context.Context, request common.OC
 }
 
 // GetJobMetrics Gets a specific job metric by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetJobMetrics.go.html to see an example of how to use GetJobMetrics API.
 func (client DataCatalogClient) GetJobMetrics(ctx context.Context, request GetJobMetricsRequest) (response GetJobMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3511,6 +3775,10 @@ func (client DataCatalogClient) getJobMetrics(ctx context.Context, request commo
 }
 
 // GetNamespace Gets a specific namespace for the given key within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetNamespace.go.html to see an example of how to use GetNamespace API.
 func (client DataCatalogClient) GetNamespace(ctx context.Context, request GetNamespaceRequest) (response GetNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3561,6 +3829,10 @@ func (client DataCatalogClient) getNamespace(ctx context.Context, request common
 }
 
 // GetPattern Gets a specific pattern for the given key within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetPattern.go.html to see an example of how to use GetPattern API.
 func (client DataCatalogClient) GetPattern(ctx context.Context, request GetPatternRequest) (response GetPatternResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3611,6 +3883,10 @@ func (client DataCatalogClient) getPattern(ctx context.Context, request common.O
 }
 
 // GetTerm Gets a specific glossary term by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetTerm.go.html to see an example of how to use GetTerm API.
 func (client DataCatalogClient) GetTerm(ctx context.Context, request GetTermRequest) (response GetTermResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3661,6 +3937,10 @@ func (client DataCatalogClient) getTerm(ctx context.Context, request common.OCIR
 }
 
 // GetTermRelationship Gets a specific glossary term relationship by key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetTermRelationship.go.html to see an example of how to use GetTermRelationship API.
 func (client DataCatalogClient) GetTermRelationship(ctx context.Context, request GetTermRelationshipRequest) (response GetTermRelationshipResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3711,6 +3991,10 @@ func (client DataCatalogClient) getTermRelationship(ctx context.Context, request
 }
 
 // GetType Gets a specific type by key within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetType.go.html to see an example of how to use GetType API.
 func (client DataCatalogClient) GetType(ctx context.Context, request GetTypeRequest) (response GetTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3761,6 +4045,10 @@ func (client DataCatalogClient) getType(ctx context.Context, request common.OCIR
 }
 
 // GetWorkRequest Gets the status of the work request with the given OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client DataCatalogClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3811,6 +4099,10 @@ func (client DataCatalogClient) getWorkRequest(ctx context.Context, request comm
 }
 
 // ImportConnection Import new connection for this data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ImportConnection.go.html to see an example of how to use ImportConnection API.
 func (client DataCatalogClient) ImportConnection(ctx context.Context, request ImportConnectionRequest) (response ImportConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3866,6 +4158,10 @@ func (client DataCatalogClient) importConnection(ctx context.Context, request co
 }
 
 // ImportGlossary Import the glossary and the terms from csv or json files and return the imported glossary resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ImportGlossary.go.html to see an example of how to use ImportGlossary API.
 func (client DataCatalogClient) ImportGlossary(ctx context.Context, request ImportGlossaryRequest) (response ImportGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3921,6 +4217,10 @@ func (client DataCatalogClient) importGlossary(ctx context.Context, request comm
 }
 
 // ListAggregatedPhysicalEntities List the physical entities aggregated by this logical entity.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListAggregatedPhysicalEntities.go.html to see an example of how to use ListAggregatedPhysicalEntities API.
 func (client DataCatalogClient) ListAggregatedPhysicalEntities(ctx context.Context, request ListAggregatedPhysicalEntitiesRequest) (response ListAggregatedPhysicalEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3971,6 +4271,10 @@ func (client DataCatalogClient) listAggregatedPhysicalEntities(ctx context.Conte
 }
 
 // ListAttributeTags Returns a list of all tags for an entity attribute.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListAttributeTags.go.html to see an example of how to use ListAttributeTags API.
 func (client DataCatalogClient) ListAttributeTags(ctx context.Context, request ListAttributeTagsRequest) (response ListAttributeTagsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4021,6 +4325,10 @@ func (client DataCatalogClient) listAttributeTags(ctx context.Context, request c
 }
 
 // ListAttributes Returns a list of all attributes of an data entity.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListAttributes.go.html to see an example of how to use ListAttributes API.
 func (client DataCatalogClient) ListAttributes(ctx context.Context, request ListAttributesRequest) (response ListAttributesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4071,6 +4379,10 @@ func (client DataCatalogClient) listAttributes(ctx context.Context, request comm
 }
 
 // ListCatalogPrivateEndpoints Returns a list of all the catalog private endpoints in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListCatalogPrivateEndpoints.go.html to see an example of how to use ListCatalogPrivateEndpoints API.
 func (client DataCatalogClient) ListCatalogPrivateEndpoints(ctx context.Context, request ListCatalogPrivateEndpointsRequest) (response ListCatalogPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4121,6 +4433,10 @@ func (client DataCatalogClient) listCatalogPrivateEndpoints(ctx context.Context,
 }
 
 // ListCatalogs Returns a list of all the data catalogs in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListCatalogs.go.html to see an example of how to use ListCatalogs API.
 func (client DataCatalogClient) ListCatalogs(ctx context.Context, request ListCatalogsRequest) (response ListCatalogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4171,6 +4487,10 @@ func (client DataCatalogClient) listCatalogs(ctx context.Context, request common
 }
 
 // ListConnections Returns a list of all Connections for a data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListConnections.go.html to see an example of how to use ListConnections API.
 func (client DataCatalogClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4221,6 +4541,10 @@ func (client DataCatalogClient) listConnections(ctx context.Context, request com
 }
 
 // ListCustomProperties Returns a list of custom properties within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListCustomProperties.go.html to see an example of how to use ListCustomProperties API.
 func (client DataCatalogClient) ListCustomProperties(ctx context.Context, request ListCustomPropertiesRequest) (response ListCustomPropertiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4271,6 +4595,10 @@ func (client DataCatalogClient) listCustomProperties(ctx context.Context, reques
 }
 
 // ListDataAssetTags Returns a list of all tags for a data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListDataAssetTags.go.html to see an example of how to use ListDataAssetTags API.
 func (client DataCatalogClient) ListDataAssetTags(ctx context.Context, request ListDataAssetTagsRequest) (response ListDataAssetTagsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4321,6 +4649,10 @@ func (client DataCatalogClient) listDataAssetTags(ctx context.Context, request c
 }
 
 // ListDataAssets Returns a list of data assets within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListDataAssets.go.html to see an example of how to use ListDataAssets API.
 func (client DataCatalogClient) ListDataAssets(ctx context.Context, request ListDataAssetsRequest) (response ListDataAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4371,6 +4703,10 @@ func (client DataCatalogClient) listDataAssets(ctx context.Context, request comm
 }
 
 // ListDerivedLogicalEntities List logical entities derived from this pattern.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListDerivedLogicalEntities.go.html to see an example of how to use ListDerivedLogicalEntities API.
 func (client DataCatalogClient) ListDerivedLogicalEntities(ctx context.Context, request ListDerivedLogicalEntitiesRequest) (response ListDerivedLogicalEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4426,6 +4762,10 @@ func (client DataCatalogClient) listDerivedLogicalEntities(ctx context.Context, 
 }
 
 // ListEntities Returns a list of all entities of a data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListEntities.go.html to see an example of how to use ListEntities API.
 func (client DataCatalogClient) ListEntities(ctx context.Context, request ListEntitiesRequest) (response ListEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4476,6 +4816,10 @@ func (client DataCatalogClient) listEntities(ctx context.Context, request common
 }
 
 // ListEntityTags Returns a list of all tags for a data entity.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListEntityTags.go.html to see an example of how to use ListEntityTags API.
 func (client DataCatalogClient) ListEntityTags(ctx context.Context, request ListEntityTagsRequest) (response ListEntityTagsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4526,6 +4870,10 @@ func (client DataCatalogClient) listEntityTags(ctx context.Context, request comm
 }
 
 // ListFolderTags Returns a list of all tags for a folder.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListFolderTags.go.html to see an example of how to use ListFolderTags API.
 func (client DataCatalogClient) ListFolderTags(ctx context.Context, request ListFolderTagsRequest) (response ListFolderTagsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4576,6 +4924,10 @@ func (client DataCatalogClient) listFolderTags(ctx context.Context, request comm
 }
 
 // ListFolders Returns a list of all folders.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListFolders.go.html to see an example of how to use ListFolders API.
 func (client DataCatalogClient) ListFolders(ctx context.Context, request ListFoldersRequest) (response ListFoldersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4626,6 +4978,10 @@ func (client DataCatalogClient) listFolders(ctx context.Context, request common.
 }
 
 // ListGlossaries Returns a list of all glossaries within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListGlossaries.go.html to see an example of how to use ListGlossaries API.
 func (client DataCatalogClient) ListGlossaries(ctx context.Context, request ListGlossariesRequest) (response ListGlossariesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4676,6 +5032,10 @@ func (client DataCatalogClient) listGlossaries(ctx context.Context, request comm
 }
 
 // ListJobDefinitions Returns a list of job definitions within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListJobDefinitions.go.html to see an example of how to use ListJobDefinitions API.
 func (client DataCatalogClient) ListJobDefinitions(ctx context.Context, request ListJobDefinitionsRequest) (response ListJobDefinitionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4726,6 +5086,10 @@ func (client DataCatalogClient) listJobDefinitions(ctx context.Context, request 
 }
 
 // ListJobExecutions Returns a list of job executions for a job.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListJobExecutions.go.html to see an example of how to use ListJobExecutions API.
 func (client DataCatalogClient) ListJobExecutions(ctx context.Context, request ListJobExecutionsRequest) (response ListJobExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4776,6 +5140,10 @@ func (client DataCatalogClient) listJobExecutions(ctx context.Context, request c
 }
 
 // ListJobLogs Returns a list of job logs.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListJobLogs.go.html to see an example of how to use ListJobLogs API.
 func (client DataCatalogClient) ListJobLogs(ctx context.Context, request ListJobLogsRequest) (response ListJobLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4826,6 +5194,10 @@ func (client DataCatalogClient) listJobLogs(ctx context.Context, request common.
 }
 
 // ListJobMetrics Returns a list of job metrics.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListJobMetrics.go.html to see an example of how to use ListJobMetrics API.
 func (client DataCatalogClient) ListJobMetrics(ctx context.Context, request ListJobMetricsRequest) (response ListJobMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4876,6 +5248,10 @@ func (client DataCatalogClient) listJobMetrics(ctx context.Context, request comm
 }
 
 // ListJobs Returns a list of jobs within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListJobs.go.html to see an example of how to use ListJobs API.
 func (client DataCatalogClient) ListJobs(ctx context.Context, request ListJobsRequest) (response ListJobsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4926,6 +5302,10 @@ func (client DataCatalogClient) listJobs(ctx context.Context, request common.OCI
 }
 
 // ListNamespaces Returns a list of namespaces within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListNamespaces.go.html to see an example of how to use ListNamespaces API.
 func (client DataCatalogClient) ListNamespaces(ctx context.Context, request ListNamespacesRequest) (response ListNamespacesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4976,6 +5356,10 @@ func (client DataCatalogClient) listNamespaces(ctx context.Context, request comm
 }
 
 // ListPatterns Returns a list of patterns within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListPatterns.go.html to see an example of how to use ListPatterns API.
 func (client DataCatalogClient) ListPatterns(ctx context.Context, request ListPatternsRequest) (response ListPatternsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5025,7 +5409,65 @@ func (client DataCatalogClient) listPatterns(ctx context.Context, request common
 	return response, err
 }
 
+// ListRules Returns a list of all rules of a data entity.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListRules.go.html to see an example of how to use ListRules API.
+func (client DataCatalogClient) ListRules(ctx context.Context, request ListRulesRequest) (response ListRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRulesResponse")
+	}
+	return
+}
+
+// listRules implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) listRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/rules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListTags Returns a list of all user created tags in the system.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListTags.go.html to see an example of how to use ListTags API.
 func (client DataCatalogClient) ListTags(ctx context.Context, request ListTagsRequest) (response ListTagsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5076,6 +5518,10 @@ func (client DataCatalogClient) listTags(ctx context.Context, request common.OCI
 }
 
 // ListTermRelationships Returns a list of all term relationships within a glossary.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListTermRelationships.go.html to see an example of how to use ListTermRelationships API.
 func (client DataCatalogClient) ListTermRelationships(ctx context.Context, request ListTermRelationshipsRequest) (response ListTermRelationshipsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5126,6 +5572,10 @@ func (client DataCatalogClient) listTermRelationships(ctx context.Context, reque
 }
 
 // ListTerms Returns a list of all terms within a glossary.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListTerms.go.html to see an example of how to use ListTerms API.
 func (client DataCatalogClient) ListTerms(ctx context.Context, request ListTermsRequest) (response ListTermsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5176,6 +5626,10 @@ func (client DataCatalogClient) listTerms(ctx context.Context, request common.OC
 }
 
 // ListTypes Returns a list of all types within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListTypes.go.html to see an example of how to use ListTypes API.
 func (client DataCatalogClient) ListTypes(ctx context.Context, request ListTypesRequest) (response ListTypesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5226,6 +5680,10 @@ func (client DataCatalogClient) listTypes(ctx context.Context, request common.OC
 }
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for a given work request.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client DataCatalogClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5276,6 +5734,10 @@ func (client DataCatalogClient) listWorkRequestErrors(ctx context.Context, reque
 }
 
 // ListWorkRequestLogs Returns a (paginated) list of logs for a given work request.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client DataCatalogClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5326,6 +5788,10 @@ func (client DataCatalogClient) listWorkRequestLogs(ctx context.Context, request
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client DataCatalogClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5376,6 +5842,10 @@ func (client DataCatalogClient) listWorkRequests(ctx context.Context, request co
 }
 
 // ObjectStats Returns stats on objects by type in the repository.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ObjectStats.go.html to see an example of how to use ObjectStats API.
 func (client DataCatalogClient) ObjectStats(ctx context.Context, request ObjectStatsRequest) (response ObjectStatsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5426,6 +5896,10 @@ func (client DataCatalogClient) objectStats(ctx context.Context, request common.
 }
 
 // ParseConnection Parse data asset references through connections from this data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ParseConnection.go.html to see an example of how to use ParseConnection API.
 func (client DataCatalogClient) ParseConnection(ctx context.Context, request ParseConnectionRequest) (response ParseConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5481,6 +5955,10 @@ func (client DataCatalogClient) parseConnection(ctx context.Context, request com
 }
 
 // RemoveDataSelectorPatterns Remove data selector pattern from the data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/RemoveDataSelectorPatterns.go.html to see an example of how to use RemoveDataSelectorPatterns API.
 func (client DataCatalogClient) RemoveDataSelectorPatterns(ctx context.Context, request RemoveDataSelectorPatternsRequest) (response RemoveDataSelectorPatternsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5536,6 +6014,10 @@ func (client DataCatalogClient) removeDataSelectorPatterns(ctx context.Context, 
 }
 
 // SearchCriteria Returns a list of search results within a data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/SearchCriteria.go.html to see an example of how to use SearchCriteria API.
 func (client DataCatalogClient) SearchCriteria(ctx context.Context, request SearchCriteriaRequest) (response SearchCriteriaResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5586,6 +6068,10 @@ func (client DataCatalogClient) searchCriteria(ctx context.Context, request comm
 }
 
 // TestConnection Test the connection by connecting to the data asset using credentials in the metadata.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/TestConnection.go.html to see an example of how to use TestConnection API.
 func (client DataCatalogClient) TestConnection(ctx context.Context, request TestConnectionRequest) (response TestConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5641,6 +6127,10 @@ func (client DataCatalogClient) testConnection(ctx context.Context, request comm
 }
 
 // UpdateAttribute Updates a specific data asset attribute.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateAttribute.go.html to see an example of how to use UpdateAttribute API.
 func (client DataCatalogClient) UpdateAttribute(ctx context.Context, request UpdateAttributeRequest) (response UpdateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5691,6 +6181,10 @@ func (client DataCatalogClient) updateAttribute(ctx context.Context, request com
 }
 
 // UpdateCatalog Updates the data catalog.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateCatalog.go.html to see an example of how to use UpdateCatalog API.
 func (client DataCatalogClient) UpdateCatalog(ctx context.Context, request UpdateCatalogRequest) (response UpdateCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5741,6 +6235,10 @@ func (client DataCatalogClient) updateCatalog(ctx context.Context, request commo
 }
 
 // UpdateCatalogPrivateEndpoint Updates the private reverse connection endpoint.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateCatalogPrivateEndpoint.go.html to see an example of how to use UpdateCatalogPrivateEndpoint API.
 func (client DataCatalogClient) UpdateCatalogPrivateEndpoint(ctx context.Context, request UpdateCatalogPrivateEndpointRequest) (response UpdateCatalogPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5791,6 +6289,10 @@ func (client DataCatalogClient) updateCatalogPrivateEndpoint(ctx context.Context
 }
 
 // UpdateConnection Updates a specific connection of a data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateConnection.go.html to see an example of how to use UpdateConnection API.
 func (client DataCatalogClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5841,6 +6343,10 @@ func (client DataCatalogClient) updateConnection(ctx context.Context, request co
 }
 
 // UpdateCustomProperty Updates a specific custom property identified by the given key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateCustomProperty.go.html to see an example of how to use UpdateCustomProperty API.
 func (client DataCatalogClient) UpdateCustomProperty(ctx context.Context, request UpdateCustomPropertyRequest) (response UpdateCustomPropertyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5891,6 +6397,10 @@ func (client DataCatalogClient) updateCustomProperty(ctx context.Context, reques
 }
 
 // UpdateDataAsset Updates a specific data asset identified by the given key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateDataAsset.go.html to see an example of how to use UpdateDataAsset API.
 func (client DataCatalogClient) UpdateDataAsset(ctx context.Context, request UpdateDataAssetRequest) (response UpdateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5941,6 +6451,10 @@ func (client DataCatalogClient) updateDataAsset(ctx context.Context, request com
 }
 
 // UpdateEntity Updates a specific data entity.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateEntity.go.html to see an example of how to use UpdateEntity API.
 func (client DataCatalogClient) UpdateEntity(ctx context.Context, request UpdateEntityRequest) (response UpdateEntityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5991,6 +6505,10 @@ func (client DataCatalogClient) updateEntity(ctx context.Context, request common
 }
 
 // UpdateFolder Updates a specific folder of a data asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateFolder.go.html to see an example of how to use UpdateFolder API.
 func (client DataCatalogClient) UpdateFolder(ctx context.Context, request UpdateFolderRequest) (response UpdateFolderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6041,6 +6559,10 @@ func (client DataCatalogClient) updateFolder(ctx context.Context, request common
 }
 
 // UpdateGlossary Updates a specific glossary identified by the given key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateGlossary.go.html to see an example of how to use UpdateGlossary API.
 func (client DataCatalogClient) UpdateGlossary(ctx context.Context, request UpdateGlossaryRequest) (response UpdateGlossaryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6091,6 +6613,10 @@ func (client DataCatalogClient) updateGlossary(ctx context.Context, request comm
 }
 
 // UpdateJob Updates a specific job identified by the given key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateJob.go.html to see an example of how to use UpdateJob API.
 func (client DataCatalogClient) UpdateJob(ctx context.Context, request UpdateJobRequest) (response UpdateJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6141,6 +6667,10 @@ func (client DataCatalogClient) updateJob(ctx context.Context, request common.OC
 }
 
 // UpdateJobDefinition Update a specific job definition identified by the given key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateJobDefinition.go.html to see an example of how to use UpdateJobDefinition API.
 func (client DataCatalogClient) UpdateJobDefinition(ctx context.Context, request UpdateJobDefinitionRequest) (response UpdateJobDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6191,6 +6721,10 @@ func (client DataCatalogClient) updateJobDefinition(ctx context.Context, request
 }
 
 // UpdateNamespace Updates a specific namespace identified by the given key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateNamespace.go.html to see an example of how to use UpdateNamespace API.
 func (client DataCatalogClient) UpdateNamespace(ctx context.Context, request UpdateNamespaceRequest) (response UpdateNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6241,6 +6775,10 @@ func (client DataCatalogClient) updateNamespace(ctx context.Context, request com
 }
 
 // UpdatePattern Updates a specific pattern identified by the given key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdatePattern.go.html to see an example of how to use UpdatePattern API.
 func (client DataCatalogClient) UpdatePattern(ctx context.Context, request UpdatePatternRequest) (response UpdatePatternResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6291,6 +6829,10 @@ func (client DataCatalogClient) updatePattern(ctx context.Context, request commo
 }
 
 // UpdateTerm Updates a specific glossary term.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateTerm.go.html to see an example of how to use UpdateTerm API.
 func (client DataCatalogClient) UpdateTerm(ctx context.Context, request UpdateTermRequest) (response UpdateTermResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6341,6 +6883,10 @@ func (client DataCatalogClient) updateTerm(ctx context.Context, request common.O
 }
 
 // UpdateTermRelationship Updates a specific glossary term relationship.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateTermRelationship.go.html to see an example of how to use UpdateTermRelationship API.
 func (client DataCatalogClient) UpdateTermRelationship(ctx context.Context, request UpdateTermRelationshipRequest) (response UpdateTermRelationshipResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6391,6 +6937,10 @@ func (client DataCatalogClient) updateTermRelationship(ctx context.Context, requ
 }
 
 // UploadCredentials Upload connection credentails and metadata for this connection.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UploadCredentials.go.html to see an example of how to use UploadCredentials API.
 func (client DataCatalogClient) UploadCredentials(ctx context.Context, request UploadCredentialsRequest) (response UploadCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6446,6 +6996,10 @@ func (client DataCatalogClient) uploadCredentials(ctx context.Context, request c
 }
 
 // Users Returns active users in the system.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/Users.go.html to see an example of how to use Users API.
 func (client DataCatalogClient) Users(ctx context.Context, request UsersRequest) (response UsersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6496,6 +7050,10 @@ func (client DataCatalogClient) users(ctx context.Context, request common.OCIReq
 }
 
 // ValidateConnection Validate connection by connecting to the data asset using credentials in metadata.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ValidateConnection.go.html to see an example of how to use ValidateConnection API.
 func (client DataCatalogClient) ValidateConnection(ctx context.Context, request ValidateConnectionRequest) (response ValidateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6551,6 +7109,10 @@ func (client DataCatalogClient) validateConnection(ctx context.Context, request 
 }
 
 // ValidatePattern Validate pattern by deriving file groups representing logical entities using the expression
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ValidatePattern.go.html to see an example of how to use ValidatePattern API.
 func (client DataCatalogClient) ValidatePattern(ctx context.Context, request ValidatePatternRequest) (response ValidatePatternResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

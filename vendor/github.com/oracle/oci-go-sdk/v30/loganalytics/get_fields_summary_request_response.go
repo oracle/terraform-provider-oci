@@ -10,6 +10,10 @@ import (
 )
 
 // GetFieldsSummaryRequest wrapper for the GetFieldsSummary operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetFieldsSummary.go.html to see an example of how to use GetFieldsSummaryRequest.
 type GetFieldsSummaryRequest struct {
 
 	// The Logging Analytics namespace used for the request.

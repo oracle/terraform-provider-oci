@@ -10,6 +10,10 @@ import (
 )
 
 // ListAvailableUpdatesForManagedInstanceRequest wrapper for the ListAvailableUpdatesForManagedInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailableUpdatesForManagedInstance.go.html to see an example of how to use ListAvailableUpdatesForManagedInstanceRequest.
 type ListAvailableUpdatesForManagedInstanceRequest struct {
 
 	// OCID for the managed instance

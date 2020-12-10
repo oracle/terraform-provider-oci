@@ -10,6 +10,10 @@ import (
 )
 
 // GetDbHomeRequest wrapper for the GetDbHome operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbHome.go.html to see an example of how to use GetDbHomeRequest.
 type GetDbHomeRequest struct {
 
 	// The Database Home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

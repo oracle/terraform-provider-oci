@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateIdpGroupMappingRequest wrapper for the UpdateIdpGroupMapping operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/UpdateIdpGroupMapping.go.html to see an example of how to use UpdateIdpGroupMappingRequest.
 type UpdateIdpGroupMappingRequest struct {
 
 	// The OCID of the identity provider.

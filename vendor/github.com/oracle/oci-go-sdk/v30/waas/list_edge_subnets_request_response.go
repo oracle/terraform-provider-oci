@@ -10,6 +10,10 @@ import (
 )
 
 // ListEdgeSubnetsRequest wrapper for the ListEdgeSubnets operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListEdgeSubnets.go.html to see an example of how to use ListEdgeSubnetsRequest.
 type ListEdgeSubnetsRequest struct {
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

@@ -10,6 +10,10 @@ import (
 )
 
 // CreateCpeRequest wrapper for the CreateCpe operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateCpe.go.html to see an example of how to use CreateCpeRequest.
 type CreateCpeRequest struct {
 
 	// Details for creating a CPE.

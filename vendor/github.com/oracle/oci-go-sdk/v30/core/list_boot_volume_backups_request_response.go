@@ -10,6 +10,10 @@ import (
 )
 
 // ListBootVolumeBackupsRequest wrapper for the ListBootVolumeBackups operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListBootVolumeBackups.go.html to see an example of how to use ListBootVolumeBackupsRequest.
 type ListBootVolumeBackupsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateProjectRequest wrapper for the UpdateProject operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateProject.go.html to see an example of how to use UpdateProjectRequest.
 type UpdateProjectRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the project.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateCrossConnectGroupRequest wrapper for the UpdateCrossConnectGroup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCrossConnectGroup.go.html to see an example of how to use UpdateCrossConnectGroupRequest.
 type UpdateCrossConnectGroupRequest struct {
 
 	// The OCID of the cross-connect group.

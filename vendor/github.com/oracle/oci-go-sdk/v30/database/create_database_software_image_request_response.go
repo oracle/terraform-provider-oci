@@ -10,6 +10,10 @@ import (
 )
 
 // CreateDatabaseSoftwareImageRequest wrapper for the CreateDatabaseSoftwareImage operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateDatabaseSoftwareImage.go.html to see an example of how to use CreateDatabaseSoftwareImageRequest.
 type CreateDatabaseSoftwareImageRequest struct {
 
 	// Request to create database software image.

@@ -10,6 +10,10 @@ import (
 )
 
 // GetVaultRequest wrapper for the GetVault operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetVault.go.html to see an example of how to use GetVaultRequest.
 type GetVaultRequest struct {
 
 	// The OCID of the vault.

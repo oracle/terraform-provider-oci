@@ -10,6 +10,10 @@ import (
 )
 
 // ListDbSystemPatchesRequest wrapper for the ListDbSystemPatches operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbSystemPatches.go.html to see an example of how to use ListDbSystemPatchesRequest.
 type ListDbSystemPatchesRequest struct {
 
 	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

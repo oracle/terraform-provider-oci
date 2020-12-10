@@ -10,6 +10,10 @@ import (
 )
 
 // ListTagsRequest wrapper for the ListTags operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListTags.go.html to see an example of how to use ListTagsRequest.
 type ListTagsRequest struct {
 
 	// The OCID of the tag namespace.

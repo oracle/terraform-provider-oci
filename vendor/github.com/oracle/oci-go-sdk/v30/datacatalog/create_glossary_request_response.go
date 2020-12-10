@@ -10,6 +10,10 @@ import (
 )
 
 // CreateGlossaryRequest wrapper for the CreateGlossary operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateGlossary.go.html to see an example of how to use CreateGlossaryRequest.
 type CreateGlossaryRequest struct {
 
 	// Unique catalog identifier.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateDbHomeRequest wrapper for the UpdateDbHome operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateDbHome.go.html to see an example of how to use UpdateDbHomeRequest.
 type UpdateDbHomeRequest struct {
 
 	// The Database Home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

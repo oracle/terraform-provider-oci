@@ -10,6 +10,10 @@ import (
 )
 
 // LaunchAutonomousExadataInfrastructureRequest wrapper for the LaunchAutonomousExadataInfrastructure operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/LaunchAutonomousExadataInfrastructure.go.html to see an example of how to use LaunchAutonomousExadataInfrastructureRequest.
 type LaunchAutonomousExadataInfrastructureRequest struct {
 
 	// Request to create an Autonomous Exadata Infrastructure resource.

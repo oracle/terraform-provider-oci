@@ -10,6 +10,10 @@ import (
 )
 
 // GetCloudExadataInfrastructureRequest wrapper for the GetCloudExadataInfrastructure operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetCloudExadataInfrastructure.go.html to see an example of how to use GetCloudExadataInfrastructureRequest.
 type GetCloudExadataInfrastructureRequest struct {
 
 	// The cloud Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

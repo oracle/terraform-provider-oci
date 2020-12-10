@@ -10,6 +10,10 @@ import (
 )
 
 // CreateDbHomeRequest wrapper for the CreateDbHome operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateDbHome.go.html to see an example of how to use CreateDbHomeRequest.
 type CreateDbHomeRequest struct {
 
 	// Request to create a new Database Home.

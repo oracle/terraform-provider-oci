@@ -10,6 +10,10 @@ import (
 )
 
 // RemoveAlarmSuppressionRequest wrapper for the RemoveAlarmSuppression operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/RemoveAlarmSuppression.go.html to see an example of how to use RemoveAlarmSuppressionRequest.
 type RemoveAlarmSuppressionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.

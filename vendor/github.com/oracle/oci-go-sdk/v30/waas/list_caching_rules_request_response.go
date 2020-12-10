@@ -10,6 +10,10 @@ import (
 )
 
 // ListCachingRulesRequest wrapper for the ListCachingRules operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListCachingRules.go.html to see an example of how to use ListCachingRulesRequest.
 type ListCachingRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

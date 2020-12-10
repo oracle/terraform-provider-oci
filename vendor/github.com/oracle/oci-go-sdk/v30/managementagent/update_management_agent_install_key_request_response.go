@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateManagementAgentInstallKeyRequest wrapper for the UpdateManagementAgentInstallKey operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/UpdateManagementAgentInstallKey.go.html to see an example of how to use UpdateManagementAgentInstallKeyRequest.
 type UpdateManagementAgentInstallKeyRequest struct {
 
 	// Unique Management Agent Install Key identifier

@@ -10,6 +10,10 @@ import (
 )
 
 // GetCertificateRequest wrapper for the GetCertificate operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetCertificate.go.html to see an example of how to use GetCertificateRequest.
 type GetCertificateRequest struct {
 
 	// The ocid of the certificate.

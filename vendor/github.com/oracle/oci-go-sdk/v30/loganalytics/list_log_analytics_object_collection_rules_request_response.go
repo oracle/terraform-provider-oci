@@ -10,6 +10,10 @@ import (
 )
 
 // ListLogAnalyticsObjectCollectionRulesRequest wrapper for the ListLogAnalyticsObjectCollectionRules operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogAnalyticsObjectCollectionRules.go.html to see an example of how to use ListLogAnalyticsObjectCollectionRulesRequest.
 type ListLogAnalyticsObjectCollectionRulesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

@@ -10,6 +10,10 @@ import (
 )
 
 // CaptureConsoleHistoryRequest wrapper for the CaptureConsoleHistory operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CaptureConsoleHistory.go.html to see an example of how to use CaptureConsoleHistoryRequest.
 type CaptureConsoleHistoryRequest struct {
 
 	// Console history details

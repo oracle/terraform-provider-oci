@@ -10,6 +10,10 @@ import (
 )
 
 // GetBucketRequest wrapper for the GetBucket operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetBucket.go.html to see an example of how to use GetBucketRequest.
 type GetBucketRequest struct {
 
 	// The Object Storage namespace used for the request.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListDataSafePrivateEndpointsRequest wrapper for the ListDataSafePrivateEndpoints operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDataSafePrivateEndpoints.go.html to see an example of how to use ListDataSafePrivateEndpointsRequest.
 type ListDataSafePrivateEndpointsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

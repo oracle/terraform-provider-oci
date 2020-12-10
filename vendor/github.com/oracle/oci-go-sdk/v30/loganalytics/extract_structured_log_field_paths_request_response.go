@@ -10,6 +10,10 @@ import (
 )
 
 // ExtractStructuredLogFieldPathsRequest wrapper for the ExtractStructuredLogFieldPaths operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ExtractStructuredLogFieldPaths.go.html to see an example of how to use ExtractStructuredLogFieldPathsRequest.
 type ExtractStructuredLogFieldPathsRequest struct {
 
 	// The Logging Analytics namespace used for the request.

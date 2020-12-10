@@ -10,6 +10,10 @@ import (
 )
 
 // ListStreamsRequest wrapper for the ListStreams operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListStreams.go.html to see an example of how to use ListStreamsRequest.
 type ListStreamsRequest struct {
 
 	// The OCID of the compartment. Is exclusive with the `streamPoolId` parameter. One of them is required.

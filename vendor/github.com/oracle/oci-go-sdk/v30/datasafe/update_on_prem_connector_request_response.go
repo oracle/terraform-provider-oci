@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateOnPremConnectorRequest wrapper for the UpdateOnPremConnector operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateOnPremConnector.go.html to see an example of how to use UpdateOnPremConnectorRequest.
 type UpdateOnPremConnectorRequest struct {
 
 	// The OCID of the on-premises connector.

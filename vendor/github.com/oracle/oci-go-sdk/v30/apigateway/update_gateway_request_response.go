@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateGatewayRequest wrapper for the UpdateGateway operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateGateway.go.html to see an example of how to use UpdateGatewayRequest.
 type UpdateGatewayRequest struct {
 
 	// The ocid of the gateway.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateOsnRequest wrapper for the UpdateOsn operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/UpdateOsn.go.html to see an example of how to use UpdateOsnRequest.
 type UpdateOsnRequest struct {
 
 	// Unique service identifier.

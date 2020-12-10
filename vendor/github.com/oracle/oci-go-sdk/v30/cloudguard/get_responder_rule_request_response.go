@@ -10,6 +10,10 @@ import (
 )
 
 // GetResponderRuleRequest wrapper for the GetResponderRule operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetResponderRule.go.html to see an example of how to use GetResponderRuleRequest.
 type GetResponderRuleRequest struct {
 
 	// The id of ResponderRule

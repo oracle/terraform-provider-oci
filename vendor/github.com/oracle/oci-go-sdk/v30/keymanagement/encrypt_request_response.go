@@ -10,6 +10,10 @@ import (
 )
 
 // EncryptRequest wrapper for the Encrypt operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Encrypt.go.html to see an example of how to use EncryptRequest.
 type EncryptRequest struct {
 
 	// EncryptDataDetails

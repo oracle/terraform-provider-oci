@@ -10,6 +10,10 @@ import (
 )
 
 // ListSuppressionsRequest wrapper for the ListSuppressions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSuppressions.go.html to see an example of how to use ListSuppressionsRequest.
 type ListSuppressionsRequest struct {
 
 	// The OCID for the compartment.

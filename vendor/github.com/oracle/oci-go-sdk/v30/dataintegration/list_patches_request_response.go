@@ -10,6 +10,10 @@ import (
 )
 
 // ListPatchesRequest wrapper for the ListPatches operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListPatches.go.html to see an example of how to use ListPatchesRequest.
 type ListPatchesRequest struct {
 
 	// The workspace ID.

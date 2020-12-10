@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeCatalogPrivateEndpointCompartmentRequest wrapper for the ChangeCatalogPrivateEndpointCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ChangeCatalogPrivateEndpointCompartment.go.html to see an example of how to use ChangeCatalogPrivateEndpointCompartmentRequest.
 type ChangeCatalogPrivateEndpointCompartmentRequest struct {
 
 	// Details for the target compartment.

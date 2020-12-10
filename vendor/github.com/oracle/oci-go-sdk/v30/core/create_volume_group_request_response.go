@@ -10,6 +10,10 @@ import (
 )
 
 // CreateVolumeGroupRequest wrapper for the CreateVolumeGroup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVolumeGroup.go.html to see an example of how to use CreateVolumeGroupRequest.
 type CreateVolumeGroupRequest struct {
 
 	// Request to create a new volume group.

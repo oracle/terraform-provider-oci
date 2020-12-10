@@ -10,6 +10,10 @@ import (
 )
 
 // GetWrappingKeyRequest wrapper for the GetWrappingKey operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetWrappingKey.go.html to see an example of how to use GetWrappingKeyRequest.
 type GetWrappingKeyRequest struct {
 
 	// Unique identifier for the request. If provided, the returned request ID

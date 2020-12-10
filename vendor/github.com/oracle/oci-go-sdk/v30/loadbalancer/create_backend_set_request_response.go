@@ -10,6 +10,10 @@ import (
 )
 
 // CreateBackendSetRequest wrapper for the CreateBackendSet operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/CreateBackendSet.go.html to see an example of how to use CreateBackendSetRequest.
 type CreateBackendSetRequest struct {
 
 	// The details for adding a backend set.

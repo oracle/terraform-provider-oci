@@ -10,6 +10,10 @@ import (
 )
 
 // AddPublicIpPoolCapacityRequest wrapper for the AddPublicIpPoolCapacity operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddPublicIpPoolCapacity.go.html to see an example of how to use AddPublicIpPoolCapacityRequest.
 type AddPublicIpPoolCapacityRequest struct {
 
 	// The OCID of the Public Ip Pool object.

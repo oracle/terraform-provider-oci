@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteDataSafePrivateEndpointRequest wrapper for the DeleteDataSafePrivateEndpoint operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteDataSafePrivateEndpoint.go.html to see an example of how to use DeleteDataSafePrivateEndpointRequest.
 type DeleteDataSafePrivateEndpointRequest struct {
 
 	// The OCID of the private endpoint.

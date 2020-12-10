@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateLocalPeeringGatewayRequest wrapper for the UpdateLocalPeeringGateway operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateLocalPeeringGateway.go.html to see an example of how to use UpdateLocalPeeringGatewayRequest.
 type UpdateLocalPeeringGatewayRequest struct {
 
 	// The OCID of the local peering gateway.

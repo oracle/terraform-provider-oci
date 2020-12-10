@@ -10,6 +10,10 @@ import (
 )
 
 // ListWaasPoliciesRequest wrapper for the ListWaasPolicies operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWaasPolicies.go.html to see an example of how to use ListWaasPoliciesRequest.
 type ListWaasPoliciesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This number is generated when the compartment is created.

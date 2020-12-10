@@ -10,6 +10,10 @@ import (
 )
 
 // CreateDatabaseRequest wrapper for the CreateDatabase operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateDatabase.go.html to see an example of how to use CreateDatabaseRequest.
 type CreateDatabaseRequest struct {
 
 	// Request to create a new database.

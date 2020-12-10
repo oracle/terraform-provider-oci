@@ -10,6 +10,10 @@ import (
 )
 
 // CreateExternalPublicationRequest wrapper for the CreateExternalPublication operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateExternalPublication.go.html to see an example of how to use CreateExternalPublicationRequest.
 type CreateExternalPublicationRequest struct {
 
 	// The workspace ID.

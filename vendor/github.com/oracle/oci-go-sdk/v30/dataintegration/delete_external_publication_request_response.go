@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteExternalPublicationRequest wrapper for the DeleteExternalPublication operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteExternalPublication.go.html to see an example of how to use DeleteExternalPublicationRequest.
 type DeleteExternalPublicationRequest struct {
 
 	// The workspace ID.

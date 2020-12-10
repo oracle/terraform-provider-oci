@@ -10,6 +10,10 @@ import (
 )
 
 // ListUnifiedAgentConfigurationsRequest wrapper for the ListUnifiedAgentConfigurations operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListUnifiedAgentConfigurations.go.html to see an example of how to use ListUnifiedAgentConfigurationsRequest.
 type ListUnifiedAgentConfigurationsRequest struct {
 
 	// Compartment OCID to list resources in. See compartmentIdInSubtree

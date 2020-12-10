@@ -10,6 +10,10 @@ import (
 )
 
 // ListAutonomousDbPreviewVersionsRequest wrapper for the ListAutonomousDbPreviewVersions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousDbPreviewVersions.go.html to see an example of how to use ListAutonomousDbPreviewVersionsRequest.
 type ListAutonomousDbPreviewVersionsRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

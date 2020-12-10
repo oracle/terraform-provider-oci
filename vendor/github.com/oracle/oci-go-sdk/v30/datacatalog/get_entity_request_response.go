@@ -10,6 +10,10 @@ import (
 )
 
 // GetEntityRequest wrapper for the GetEntity operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetEntity.go.html to see an example of how to use GetEntityRequest.
 type GetEntityRequest struct {
 
 	// Unique catalog identifier.

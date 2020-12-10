@@ -81,6 +81,10 @@ func (client *OdaClient) ConfigurationProvider() *common.ConfigurationProvider {
 
 // ChangeOdaInstanceCompartment Moves an Digital Assistant instance into a different compartment. When provided, If-Match is checked against
 // ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ChangeOdaInstanceCompartment.go.html to see an example of how to use ChangeOdaInstanceCompartment API.
 func (client OdaClient) ChangeOdaInstanceCompartment(ctx context.Context, request ChangeOdaInstanceCompartmentRequest) (response ChangeOdaInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -138,6 +142,10 @@ func (client OdaClient) changeOdaInstanceCompartment(ctx context.Context, reques
 // CreateOdaInstance Starts an asynchronous job to create a Digital Assistant instance.
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestID}`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaInstance.go.html to see an example of how to use CreateOdaInstance API.
 func (client OdaClient) CreateOdaInstance(ctx context.Context, request CreateOdaInstanceRequest) (response CreateOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -194,6 +202,10 @@ func (client OdaClient) createOdaInstance(ctx context.Context, request common.OC
 
 // DeleteOdaInstance Starts an asynchronous job to delete the specified Digital Assistant instance.
 // To monitor the status of the job, take the `opc-work-request-id` response header value and use it to call `GET /workRequests/{workRequestID}`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaInstance.go.html to see an example of how to use DeleteOdaInstance API.
 func (client OdaClient) DeleteOdaInstance(ctx context.Context, request DeleteOdaInstanceRequest) (response DeleteOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -244,6 +256,10 @@ func (client OdaClient) deleteOdaInstance(ctx context.Context, request common.OC
 }
 
 // GetOdaInstance Gets the specified Digital Assistant instance.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaInstance.go.html to see an example of how to use GetOdaInstance API.
 func (client OdaClient) GetOdaInstance(ctx context.Context, request GetOdaInstanceRequest) (response GetOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -296,6 +312,10 @@ func (client OdaClient) getOdaInstance(ctx context.Context, request common.OCIRe
 // GetWorkRequest Gets information about the work request with the specified ID, including its status.
 // You can use this operation to monitor the status of jobs that you
 // requested to create, delete, and update instances.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client OdaClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -350,6 +370,10 @@ func (client OdaClient) getWorkRequest(ctx context.Context, request common.OCIRe
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaInstances.go.html to see an example of how to use ListOdaInstances API.
 func (client OdaClient) ListOdaInstances(ctx context.Context, request ListOdaInstancesRequest) (response ListOdaInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -403,6 +427,10 @@ func (client OdaClient) listOdaInstances(ctx context.Context, request common.OCI
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client OdaClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -456,6 +484,10 @@ func (client OdaClient) listWorkRequestErrors(ctx context.Context, request commo
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client OdaClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -509,6 +541,10 @@ func (client OdaClient) listWorkRequestLogs(ctx context.Context, request common.
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client OdaClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -560,6 +596,10 @@ func (client OdaClient) listWorkRequests(ctx context.Context, request common.OCI
 
 // StartOdaInstance Starts an inactive Digital Assistant instance. Once active, the instance will be accessible and metering
 // of requests will be started again.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StartOdaInstance.go.html to see an example of how to use StartOdaInstance API.
 func (client OdaClient) StartOdaInstance(ctx context.Context, request StartOdaInstanceRequest) (response StartOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -617,6 +657,10 @@ func (client OdaClient) startOdaInstance(ctx context.Context, request common.OCI
 // StopOdaInstance Stops an active Digital Assistant instance. Once inactive, the instance will not be accessible and metering
 // of requests will be stopped until the instance is started again. Data associated with the instance
 // is not affected.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StopOdaInstance.go.html to see an example of how to use StopOdaInstance API.
 func (client OdaClient) StopOdaInstance(ctx context.Context, request StopOdaInstanceRequest) (response StopOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -672,6 +716,10 @@ func (client OdaClient) stopOdaInstance(ctx context.Context, request common.OCIR
 }
 
 // UpdateOdaInstance Updates the specified Digital Assistant instance with the information in the request body.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateOdaInstance.go.html to see an example of how to use UpdateOdaInstance API.
 func (client OdaClient) UpdateOdaInstance(ctx context.Context, request UpdateOdaInstanceRequest) (response UpdateOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

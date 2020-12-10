@@ -10,6 +10,10 @@ import (
 )
 
 // CreateVlanRequest wrapper for the CreateVlan operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVlan.go.html to see an example of how to use CreateVlanRequest.
 type CreateVlanRequest struct {
 
 	// Details for creating a VLAN

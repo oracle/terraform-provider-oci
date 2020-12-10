@@ -10,6 +10,10 @@ import (
 )
 
 // GetQuotaRequest wrapper for the GetQuota operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/GetQuota.go.html to see an example of how to use GetQuotaRequest.
 type GetQuotaRequest struct {
 
 	// The OCID of the quota.

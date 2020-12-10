@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteSnapshotRequest wrapper for the DeleteSnapshot operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteSnapshot.go.html to see an example of how to use DeleteSnapshotRequest.
 type DeleteSnapshotRequest struct {
 
 	// The OCID of the snapshot.

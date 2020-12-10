@@ -10,6 +10,10 @@ import (
 )
 
 // GetRuleSetRequest wrapper for the GetRuleSet operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetRuleSet.go.html to see an example of how to use GetRuleSetRequest.
 type GetRuleSetRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the specified load balancer.

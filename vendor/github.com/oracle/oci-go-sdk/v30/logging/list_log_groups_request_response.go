@@ -10,6 +10,10 @@ import (
 )
 
 // ListLogGroupsRequest wrapper for the ListLogGroups operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListLogGroups.go.html to see an example of how to use ListLogGroupsRequest.
 type ListLogGroupsRequest struct {
 
 	// Compartment OCID to list resources in. See compartmentIdInSubtree

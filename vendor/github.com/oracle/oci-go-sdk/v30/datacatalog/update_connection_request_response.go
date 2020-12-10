@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateConnectionRequest wrapper for the UpdateConnection operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateConnection.go.html to see an example of how to use UpdateConnectionRequest.
 type UpdateConnectionRequest struct {
 
 	// Unique catalog identifier.

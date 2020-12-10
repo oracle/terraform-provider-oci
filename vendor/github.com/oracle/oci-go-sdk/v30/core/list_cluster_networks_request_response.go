@@ -10,6 +10,10 @@ import (
 )
 
 // ListClusterNetworksRequest wrapper for the ListClusterNetworks operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListClusterNetworks.go.html to see an example of how to use ListClusterNetworksRequest.
 type ListClusterNetworksRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

@@ -10,6 +10,10 @@ import (
 )
 
 // SearchSoftwarePackagesRequest wrapper for the SearchSoftwarePackages operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/SearchSoftwarePackages.go.html to see an example of how to use SearchSoftwarePackagesRequest.
 type SearchSoftwarePackagesRequest struct {
 
 	// the identifier for the software package (not an OCID)

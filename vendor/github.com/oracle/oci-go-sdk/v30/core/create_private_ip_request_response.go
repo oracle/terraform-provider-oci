@@ -10,6 +10,10 @@ import (
 )
 
 // CreatePrivateIpRequest wrapper for the CreatePrivateIp operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreatePrivateIp.go.html to see an example of how to use CreatePrivateIpRequest.
 type CreatePrivateIpRequest struct {
 
 	// Create private IP details.

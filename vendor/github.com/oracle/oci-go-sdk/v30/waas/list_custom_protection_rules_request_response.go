@@ -10,6 +10,10 @@ import (
 )
 
 // ListCustomProtectionRulesRequest wrapper for the ListCustomProtectionRules operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListCustomProtectionRules.go.html to see an example of how to use ListCustomProtectionRulesRequest.
 type ListCustomProtectionRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This number is generated when the compartment is created.

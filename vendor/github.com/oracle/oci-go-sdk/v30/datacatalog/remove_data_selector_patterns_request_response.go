@@ -10,6 +10,10 @@ import (
 )
 
 // RemoveDataSelectorPatternsRequest wrapper for the RemoveDataSelectorPatterns operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/RemoveDataSelectorPatterns.go.html to see an example of how to use RemoveDataSelectorPatternsRequest.
 type RemoveDataSelectorPatternsRequest struct {
 
 	// Unique catalog identifier.

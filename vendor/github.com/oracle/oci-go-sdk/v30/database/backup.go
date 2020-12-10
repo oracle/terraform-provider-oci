@@ -37,7 +37,7 @@ type Backup struct {
 	// The date and time the backup was completed.
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 
-	// Additional information about the current lifecycleState.
+	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The name of the availability domain where the database backup is stored.
@@ -57,6 +57,9 @@ type Backup struct {
 
 	// Version of the backup's source database
 	Version *string `mandatory:"false" json:"version"`
+
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m Backup) String() string {

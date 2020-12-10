@@ -10,6 +10,10 @@ import (
 )
 
 // ModifyVcnCidrRequest wrapper for the ModifyVcnCidr operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ModifyVcnCidr.go.html to see an example of how to use ModifyVcnCidrRequest.
 type ModifyVcnCidrRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN.

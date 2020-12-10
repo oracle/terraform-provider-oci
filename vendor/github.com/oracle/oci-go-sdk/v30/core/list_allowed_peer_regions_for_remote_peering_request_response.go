@@ -10,6 +10,10 @@ import (
 )
 
 // ListAllowedPeerRegionsForRemotePeeringRequest wrapper for the ListAllowedPeerRegionsForRemotePeering operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAllowedPeerRegionsForRemotePeering.go.html to see an example of how to use ListAllowedPeerRegionsForRemotePeeringRequest.
 type ListAllowedPeerRegionsForRemotePeeringRequest struct {
 
 	// Unique Oracle-assigned identifier for the request.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateVnicRequest wrapper for the UpdateVnic operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVnic.go.html to see an example of how to use UpdateVnicRequest.
 type UpdateVnicRequest struct {
 
 	// The OCID of the VNIC.

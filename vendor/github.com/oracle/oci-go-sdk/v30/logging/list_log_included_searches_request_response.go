@@ -10,6 +10,10 @@ import (
 )
 
 // ListLogIncludedSearchesRequest wrapper for the ListLogIncludedSearches operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListLogIncludedSearches.go.html to see an example of how to use ListLogIncludedSearchesRequest.
 type ListLogIncludedSearchesRequest struct {
 
 	// Compartment OCID to list resources in. See compartmentIdInSubtree

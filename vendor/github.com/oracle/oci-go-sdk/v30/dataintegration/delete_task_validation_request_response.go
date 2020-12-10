@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteTaskValidationRequest wrapper for the DeleteTaskValidation operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteTaskValidation.go.html to see an example of how to use DeleteTaskValidationRequest.
 type DeleteTaskValidationRequest struct {
 
 	// The workspace ID.

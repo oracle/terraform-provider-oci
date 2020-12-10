@@ -10,6 +10,10 @@ import (
 )
 
 // ListWorkRequestsRequest wrapper for the ListWorkRequests operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
 type ListWorkRequestsRequest struct {
 
 	// The ID of the compartment in which to list resources.
