@@ -69,6 +69,7 @@ func CoreLocalPeeringGatewayResource() *schema.Resource {
 			"peer_id": {
 				Type:         schema.TypeString,
 				Optional:     true,
+				Computed:     true,
 				ForceNew:     true,
 				ValidateFunc: validateNotEmptyString(), //Don't allow empty string, it results in a terraform error when switching from valid value to empty string
 			},
@@ -376,6 +377,10 @@ func (s *CoreLocalPeeringGatewayResourceCrud) SetData() error {
 	}
 
 	s.D.Set("peer_advertised_cidr_details", s.Res.PeerAdvertisedCidrDetails)
+
+	if s.Res.PeerId != nil {
+		s.D.Set("peer_id", *s.Res.PeerId)
+	}
 
 	s.D.Set("peering_status", s.Res.PeeringStatus)
 

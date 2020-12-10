@@ -127,6 +127,10 @@ func (s *CoreLocalPeeringGatewaysDataSourceCrud) SetData() error {
 
 		localPeeringGateway["peer_advertised_cidr_details"] = r.PeerAdvertisedCidrDetails
 
+		if r.PeerId != nil {
+			localPeeringGateway["peer_id"] = *r.PeerId
+		}
+
 		localPeeringGateway["peering_status"] = r.PeeringStatus
 
 		if r.PeeringStatusDetails != nil {
