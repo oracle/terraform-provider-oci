@@ -1,8 +1,9 @@
 ## 4.22.0 (Unreleased)
 
 ### Added
-- Support for IPv6
+- Support for VCN API: include OCID of Local Peering Gateway in return model
 - Support for Streaming analytics in OCI Connector Hub
+- Support for IPv6
 
 ## 4.21.0 (April 07, 2021)
 
