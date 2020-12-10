@@ -10,6 +10,10 @@ import (
 )
 
 // GetInternetGatewayRequest wrapper for the GetInternetGateway operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInternetGateway.go.html to see an example of how to use GetInternetGatewayRequest.
 type GetInternetGatewayRequest struct {
 
 	// The OCID of the internet gateway.

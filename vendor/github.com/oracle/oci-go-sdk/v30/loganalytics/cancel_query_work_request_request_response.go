@@ -10,6 +10,10 @@ import (
 )
 
 // CancelQueryWorkRequestRequest wrapper for the CancelQueryWorkRequest operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CancelQueryWorkRequest.go.html to see an example of how to use CancelQueryWorkRequestRequest.
 type CancelQueryWorkRequestRequest struct {
 
 	// The Logging Analytics namespace used for the request.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListRegionsRequest wrapper for the ListRegions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListRegions.go.html to see an example of how to use ListRegionsRequest.
 type ListRegionsRequest struct {
 
 	// Unique Oracle-assigned identifier for the request.

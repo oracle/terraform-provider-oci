@@ -81,6 +81,10 @@ func (client *AnalyticsClient) ConfigurationProvider() *common.ConfigurationProv
 
 // ChangeAnalyticsInstanceCompartment Change the compartment of an Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ChangeAnalyticsInstanceCompartment.go.html to see an example of how to use ChangeAnalyticsInstanceCompartment API.
 func (client AnalyticsClient) ChangeAnalyticsInstanceCompartment(ctx context.Context, request ChangeAnalyticsInstanceCompartmentRequest) (response ChangeAnalyticsInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -137,6 +141,10 @@ func (client AnalyticsClient) changeAnalyticsInstanceCompartment(ctx context.Con
 
 // ChangeAnalyticsInstanceNetworkEndpoint Change an Analytics instance network endpoint. The operation is long-running
 // and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ChangeAnalyticsInstanceNetworkEndpoint.go.html to see an example of how to use ChangeAnalyticsInstanceNetworkEndpoint API.
 func (client AnalyticsClient) ChangeAnalyticsInstanceNetworkEndpoint(ctx context.Context, request ChangeAnalyticsInstanceNetworkEndpointRequest) (response ChangeAnalyticsInstanceNetworkEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -193,6 +201,10 @@ func (client AnalyticsClient) changeAnalyticsInstanceNetworkEndpoint(ctx context
 
 // CreateAnalyticsInstance Create a new AnalyticsInstance in the specified compartment. The operation is long-running
 // and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/CreateAnalyticsInstance.go.html to see an example of how to use CreateAnalyticsInstance API.
 func (client AnalyticsClient) CreateAnalyticsInstance(ctx context.Context, request CreateAnalyticsInstanceRequest) (response CreateAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -249,6 +261,10 @@ func (client AnalyticsClient) createAnalyticsInstance(ctx context.Context, reque
 
 // DeleteAnalyticsInstance Terminates the specified Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeleteAnalyticsInstance.go.html to see an example of how to use DeleteAnalyticsInstance API.
 func (client AnalyticsClient) DeleteAnalyticsInstance(ctx context.Context, request DeleteAnalyticsInstanceRequest) (response DeleteAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -304,6 +320,10 @@ func (client AnalyticsClient) deleteAnalyticsInstance(ctx context.Context, reque
 }
 
 // DeleteWorkRequest Cancel a work request that has not started yet.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeleteWorkRequest.go.html to see an example of how to use DeleteWorkRequest API.
 func (client AnalyticsClient) DeleteWorkRequest(ctx context.Context, request DeleteWorkRequestRequest) (response DeleteWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -354,6 +374,10 @@ func (client AnalyticsClient) deleteWorkRequest(ctx context.Context, request com
 }
 
 // GetAnalyticsInstance Info for a specific Analytics instance.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/GetAnalyticsInstance.go.html to see an example of how to use GetAnalyticsInstance API.
 func (client AnalyticsClient) GetAnalyticsInstance(ctx context.Context, request GetAnalyticsInstanceRequest) (response GetAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -404,6 +428,10 @@ func (client AnalyticsClient) getAnalyticsInstance(ctx context.Context, request 
 }
 
 // GetWorkRequest Get the details of a work request.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client AnalyticsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -454,6 +482,10 @@ func (client AnalyticsClient) getWorkRequest(ctx context.Context, request common
 }
 
 // ListAnalyticsInstances List Analytics instances.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ListAnalyticsInstances.go.html to see an example of how to use ListAnalyticsInstances API.
 func (client AnalyticsClient) ListAnalyticsInstances(ctx context.Context, request ListAnalyticsInstancesRequest) (response ListAnalyticsInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -504,6 +536,10 @@ func (client AnalyticsClient) listAnalyticsInstances(ctx context.Context, reques
 }
 
 // ListWorkRequestErrors Get the errors of a work request.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client AnalyticsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -554,6 +590,10 @@ func (client AnalyticsClient) listWorkRequestErrors(ctx context.Context, request
 }
 
 // ListWorkRequestLogs Get the logs of a work request.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client AnalyticsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -604,6 +644,10 @@ func (client AnalyticsClient) listWorkRequestLogs(ctx context.Context, request c
 }
 
 // ListWorkRequests List all work requests in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client AnalyticsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -655,6 +699,10 @@ func (client AnalyticsClient) listWorkRequests(ctx context.Context, request comm
 
 // ScaleAnalyticsInstance Scale an Analytics instance up or down. The operation is long-running
 // and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ScaleAnalyticsInstance.go.html to see an example of how to use ScaleAnalyticsInstance API.
 func (client AnalyticsClient) ScaleAnalyticsInstance(ctx context.Context, request ScaleAnalyticsInstanceRequest) (response ScaleAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -711,6 +759,10 @@ func (client AnalyticsClient) scaleAnalyticsInstance(ctx context.Context, reques
 
 // StartAnalyticsInstance Starts the specified Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/StartAnalyticsInstance.go.html to see an example of how to use StartAnalyticsInstance API.
 func (client AnalyticsClient) StartAnalyticsInstance(ctx context.Context, request StartAnalyticsInstanceRequest) (response StartAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -767,6 +819,10 @@ func (client AnalyticsClient) startAnalyticsInstance(ctx context.Context, reques
 
 // StopAnalyticsInstance Stop the specified Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/StopAnalyticsInstance.go.html to see an example of how to use StopAnalyticsInstance API.
 func (client AnalyticsClient) StopAnalyticsInstance(ctx context.Context, request StopAnalyticsInstanceRequest) (response StopAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -823,6 +879,10 @@ func (client AnalyticsClient) stopAnalyticsInstance(ctx context.Context, request
 
 // UpdateAnalyticsInstance Updates certain fields of an Analytics instance. Fields that are not provided in the
 // request will not be updated.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdateAnalyticsInstance.go.html to see an example of how to use UpdateAnalyticsInstance API.
 func (client AnalyticsClient) UpdateAnalyticsInstance(ctx context.Context, request UpdateAnalyticsInstanceRequest) (response UpdateAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -10,6 +10,10 @@ import (
 )
 
 // GetComputeGlobalImageCapabilitySchemaVersionRequest wrapper for the GetComputeGlobalImageCapabilitySchemaVersion operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeGlobalImageCapabilitySchemaVersion.go.html to see an example of how to use GetComputeGlobalImageCapabilitySchemaVersionRequest.
 type GetComputeGlobalImageCapabilitySchemaVersionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compute global image capability schema

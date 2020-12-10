@@ -10,6 +10,10 @@ import (
 )
 
 // ListAutonomousVmClustersRequest wrapper for the ListAutonomousVmClusters operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousVmClusters.go.html to see an example of how to use ListAutonomousVmClustersRequest.
 type ListAutonomousVmClustersRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateHostnameRequest wrapper for the UpdateHostname operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/UpdateHostname.go.html to see an example of how to use UpdateHostnameRequest.
 type UpdateHostnameRequest struct {
 
 	// The configuration details to update a virtual hostname.

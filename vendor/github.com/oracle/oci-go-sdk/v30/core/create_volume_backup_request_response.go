@@ -10,6 +10,10 @@ import (
 )
 
 // CreateVolumeBackupRequest wrapper for the CreateVolumeBackup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVolumeBackup.go.html to see an example of how to use CreateVolumeBackupRequest.
 type CreateVolumeBackupRequest struct {
 
 	// Request to create a new backup of given volume.

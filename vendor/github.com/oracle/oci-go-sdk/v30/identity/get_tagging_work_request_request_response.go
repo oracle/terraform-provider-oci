@@ -10,6 +10,10 @@ import (
 )
 
 // GetTaggingWorkRequestRequest wrapper for the GetTaggingWorkRequest operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetTaggingWorkRequest.go.html to see an example of how to use GetTaggingWorkRequestRequest.
 type GetTaggingWorkRequestRequest struct {
 
 	// The OCID of the work request.

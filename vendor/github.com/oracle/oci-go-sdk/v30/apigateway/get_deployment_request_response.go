@@ -10,6 +10,10 @@ import (
 )
 
 // GetDeploymentRequest wrapper for the GetDeployment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetDeployment.go.html to see an example of how to use GetDeploymentRequest.
 type GetDeploymentRequest struct {
 
 	// The ocid of the deployment.

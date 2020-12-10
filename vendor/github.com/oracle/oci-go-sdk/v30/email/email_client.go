@@ -83,6 +83,10 @@ func (client *EmailClient) ConfigurationProvider() *common.ConfigurationProvider
 }
 
 // ChangeSenderCompartment Moves a sender into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ChangeSenderCompartment.go.html to see an example of how to use ChangeSenderCompartment API.
 func (client EmailClient) ChangeSenderCompartment(ctx context.Context, request ChangeSenderCompartmentRequest) (response ChangeSenderCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -133,6 +137,10 @@ func (client EmailClient) changeSenderCompartment(ctx context.Context, request c
 }
 
 // CreateSender Creates a sender for a tenancy in a given compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateSender.go.html to see an example of how to use CreateSender API.
 func (client EmailClient) CreateSender(ctx context.Context, request CreateSenderRequest) (response CreateSenderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -186,6 +194,10 @@ func (client EmailClient) createSender(ctx context.Context, request common.OCIRe
 // Addresses added to the suppression list via the API are denoted as
 // "MANUAL" in the `reason` field. *Note:* All email addresses added to the
 // suppression list are normalized to include only lowercase letters.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateSuppression.go.html to see an example of how to use CreateSuppression API.
 func (client EmailClient) CreateSuppression(ctx context.Context, request CreateSuppressionRequest) (response CreateSuppressionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -237,6 +249,10 @@ func (client EmailClient) createSuppression(ctx context.Context, request common.
 
 // DeleteSender Deletes an approved sender for a tenancy in a given compartment for a
 // provided `senderId`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteSender.go.html to see an example of how to use DeleteSender API.
 func (client EmailClient) DeleteSender(ctx context.Context, request DeleteSenderRequest) (response DeleteSenderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -288,6 +304,10 @@ func (client EmailClient) deleteSender(ctx context.Context, request common.OCIRe
 
 // DeleteSuppression Removes a suppressed recipient email address from the suppression list
 // for a tenancy in a given compartment for a provided `suppressionId`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteSuppression.go.html to see an example of how to use DeleteSuppression API.
 func (client EmailClient) DeleteSuppression(ctx context.Context, request DeleteSuppressionRequest) (response DeleteSuppressionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -338,6 +358,10 @@ func (client EmailClient) deleteSuppression(ctx context.Context, request common.
 }
 
 // GetSender Gets an approved sender for a given `senderId`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetSender.go.html to see an example of how to use GetSender API.
 func (client EmailClient) GetSender(ctx context.Context, request GetSenderRequest) (response GetSenderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -389,6 +413,10 @@ func (client EmailClient) getSender(ctx context.Context, request common.OCIReque
 
 // GetSuppression Gets the details of a suppressed recipient email address for a given
 // `suppressionId`. Each suppression is given a unique OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetSuppression.go.html to see an example of how to use GetSuppression API.
 func (client EmailClient) GetSuppression(ctx context.Context, request GetSuppressionRequest) (response GetSuppressionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -439,6 +467,10 @@ func (client EmailClient) getSuppression(ctx context.Context, request common.OCI
 }
 
 // ListSenders Gets a collection of approved sender email addresses and sender IDs.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSenders.go.html to see an example of how to use ListSenders API.
 func (client EmailClient) ListSenders(ctx context.Context, request ListSendersRequest) (response ListSendersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -491,6 +523,10 @@ func (client EmailClient) listSenders(ctx context.Context, request common.OCIReq
 // ListSuppressions Gets a list of suppressed recipient email addresses for a user. The
 // `compartmentId` for suppressions must be a tenancy OCID. The returned list
 // is sorted by creation time in descending order.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSuppressions.go.html to see an example of how to use ListSuppressions API.
 func (client EmailClient) ListSuppressions(ctx context.Context, request ListSuppressionsRequest) (response ListSuppressionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -544,6 +580,10 @@ func (client EmailClient) listSuppressions(ctx context.Context, request common.O
 // or defined tags are omitted, the tags for that set remain the same. Each set must
 // include the full set of tags for the sender, partial updates are not permitted.
 // For more information about tagging, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/UpdateSender.go.html to see an example of how to use UpdateSender API.
 func (client EmailClient) UpdateSender(ctx context.Context, request UpdateSenderRequest) (response UpdateSenderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

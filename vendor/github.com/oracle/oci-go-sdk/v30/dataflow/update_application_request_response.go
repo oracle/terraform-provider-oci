@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateApplicationRequest wrapper for the UpdateApplication operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdateApplication.go.html to see an example of how to use UpdateApplicationRequest.
 type UpdateApplicationRequest struct {
 
 	// Details for updating an application.

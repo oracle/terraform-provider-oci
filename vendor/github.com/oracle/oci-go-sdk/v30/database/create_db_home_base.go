@@ -21,6 +21,12 @@ type CreateDbHomeBase interface {
 	// The user-provided name of the Database Home.
 	GetDisplayName() *string
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	GetKmsKeyId() *string
+
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	GetKmsKeyVersionId() *string
+
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	GetDatabaseSoftwareImageId() *string
 
@@ -37,6 +43,8 @@ type CreateDbHomeBase interface {
 type createdbhomebase struct {
 	JsonData                []byte
 	DisplayName             *string                           `mandatory:"false" json:"displayName"`
+	KmsKeyId                *string                           `mandatory:"false" json:"kmsKeyId"`
+	KmsKeyVersionId         *string                           `mandatory:"false" json:"kmsKeyVersionId"`
 	DatabaseSoftwareImageId *string                           `mandatory:"false" json:"databaseSoftwareImageId"`
 	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -55,6 +63,8 @@ func (m *createdbhomebase) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.DisplayName = s.Model.DisplayName
+	m.KmsKeyId = s.Model.KmsKeyId
+	m.KmsKeyVersionId = s.Model.KmsKeyVersionId
 	m.DatabaseSoftwareImageId = s.Model.DatabaseSoftwareImageId
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
@@ -100,6 +110,16 @@ func (m *createdbhomebase) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 //GetDisplayName returns DisplayName
 func (m createdbhomebase) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+//GetKmsKeyId returns KmsKeyId
+func (m createdbhomebase) GetKmsKeyId() *string {
+	return m.KmsKeyId
+}
+
+//GetKmsKeyVersionId returns KmsKeyVersionId
+func (m createdbhomebase) GetKmsKeyVersionId() *string {
+	return m.KmsKeyVersionId
 }
 
 //GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId

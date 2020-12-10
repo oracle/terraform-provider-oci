@@ -10,6 +10,10 @@ import (
 )
 
 // GetClusterOptionsRequest wrapper for the GetClusterOptions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetClusterOptions.go.html to see an example of how to use GetClusterOptionsRequest.
 type GetClusterOptionsRequest struct {
 
 	// The id of the option set to retrieve. Only "all" is supported.

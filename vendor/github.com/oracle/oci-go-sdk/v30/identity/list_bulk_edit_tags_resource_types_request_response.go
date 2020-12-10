@@ -10,6 +10,10 @@ import (
 )
 
 // ListBulkEditTagsResourceTypesRequest wrapper for the ListBulkEditTagsResourceTypes operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListBulkEditTagsResourceTypes.go.html to see an example of how to use ListBulkEditTagsResourceTypesRequest.
 type ListBulkEditTagsResourceTypesRequest struct {
 
 	// The value of the `opc-next-page` response header from the previous "List" call.

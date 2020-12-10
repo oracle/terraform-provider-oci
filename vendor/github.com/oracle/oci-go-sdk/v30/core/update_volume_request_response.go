@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateVolumeRequest wrapper for the UpdateVolume operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVolume.go.html to see an example of how to use UpdateVolumeRequest.
 type UpdateVolumeRequest struct {
 
 	// The OCID of the volume.

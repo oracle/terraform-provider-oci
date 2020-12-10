@@ -10,6 +10,10 @@ import (
 )
 
 // ListPoliciesRequest wrapper for the ListPolicies operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ListPolicies.go.html to see an example of how to use ListPoliciesRequest.
 type ListPoliciesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer policies to list.

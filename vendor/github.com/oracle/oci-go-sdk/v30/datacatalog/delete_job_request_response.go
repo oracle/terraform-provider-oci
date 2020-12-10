@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteJobRequest wrapper for the DeleteJob operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteJob.go.html to see an example of how to use DeleteJobRequest.
 type DeleteJobRequest struct {
 
 	// Unique catalog identifier.

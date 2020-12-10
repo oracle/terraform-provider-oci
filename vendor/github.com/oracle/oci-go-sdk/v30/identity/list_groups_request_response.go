@@ -10,6 +10,10 @@ import (
 )
 
 // ListGroupsRequest wrapper for the ListGroups operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListGroups.go.html to see an example of how to use ListGroupsRequest.
 type ListGroupsRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).

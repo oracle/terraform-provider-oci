@@ -10,6 +10,10 @@ import (
 )
 
 // ListLabelPrioritiesRequest wrapper for the ListLabelPriorities operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLabelPriorities.go.html to see an example of how to use ListLabelPrioritiesRequest.
 type ListLabelPrioritiesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

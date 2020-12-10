@@ -10,6 +10,10 @@ import (
 )
 
 // CreateNotebookSessionRequest wrapper for the CreateNotebookSession operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateNotebookSession.go.html to see an example of how to use CreateNotebookSessionRequest.
 type CreateNotebookSessionRequest struct {
 
 	// Details for creating a new notebook session.

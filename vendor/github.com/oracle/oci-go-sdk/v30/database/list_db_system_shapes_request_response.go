@@ -10,6 +10,10 @@ import (
 )
 
 // ListDbSystemShapesRequest wrapper for the ListDbSystemShapes operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbSystemShapes.go.html to see an example of how to use ListDbSystemShapesRequest.
 type ListDbSystemShapesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

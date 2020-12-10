@@ -10,6 +10,10 @@ import (
 )
 
 // ListFoldersRequest wrapper for the ListFolders operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListFolders.go.html to see an example of how to use ListFoldersRequest.
 type ListFoldersRequest struct {
 
 	// Unique catalog identifier.

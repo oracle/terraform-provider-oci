@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateNamespaceRequest wrapper for the UpdateNamespace operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateNamespace.go.html to see an example of how to use UpdateNamespaceRequest.
 type UpdateNamespaceRequest struct {
 
 	// Unique catalog identifier.

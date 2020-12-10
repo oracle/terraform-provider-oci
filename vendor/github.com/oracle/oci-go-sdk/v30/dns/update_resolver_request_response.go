@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateResolverRequest wrapper for the UpdateResolver operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateResolver.go.html to see an example of how to use UpdateResolverRequest.
 type UpdateResolverRequest struct {
 
 	// The OCID of the target resolver.

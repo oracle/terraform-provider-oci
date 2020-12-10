@@ -10,6 +10,10 @@ import (
 )
 
 // AddImageShapeCompatibilityEntryRequest wrapper for the AddImageShapeCompatibilityEntry operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddImageShapeCompatibilityEntry.go.html to see an example of how to use AddImageShapeCompatibilityEntryRequest.
 type AddImageShapeCompatibilityEntryRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.

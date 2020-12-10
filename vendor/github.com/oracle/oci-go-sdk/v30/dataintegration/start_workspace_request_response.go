@@ -10,6 +10,10 @@ import (
 )
 
 // StartWorkspaceRequest wrapper for the StartWorkspace operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/StartWorkspace.go.html to see an example of how to use StartWorkspaceRequest.
 type StartWorkspaceRequest struct {
 
 	// The workspace ID.

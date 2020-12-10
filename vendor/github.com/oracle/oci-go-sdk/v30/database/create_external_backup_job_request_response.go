@@ -10,6 +10,10 @@ import (
 )
 
 // CreateExternalBackupJobRequest wrapper for the CreateExternalBackupJob operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateExternalBackupJob.go.html to see an example of how to use CreateExternalBackupJobRequest.
 type CreateExternalBackupJobRequest struct {
 
 	// Request to create a cloud backup resource for a database running outside the cloud.

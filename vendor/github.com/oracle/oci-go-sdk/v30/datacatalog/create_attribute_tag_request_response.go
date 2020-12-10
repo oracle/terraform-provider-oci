@@ -10,6 +10,10 @@ import (
 )
 
 // CreateAttributeTagRequest wrapper for the CreateAttributeTag operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateAttributeTag.go.html to see an example of how to use CreateAttributeTagRequest.
 type CreateAttributeTagRequest struct {
 
 	// Unique catalog identifier.

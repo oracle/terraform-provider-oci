@@ -10,6 +10,10 @@ import (
 )
 
 // GetCrossConnectGroupRequest wrapper for the GetCrossConnectGroup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnectGroup.go.html to see an example of how to use GetCrossConnectGroupRequest.
 type GetCrossConnectGroupRequest struct {
 
 	// The OCID of the cross-connect group.

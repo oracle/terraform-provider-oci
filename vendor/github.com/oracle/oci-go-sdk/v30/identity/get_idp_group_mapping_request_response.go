@@ -10,6 +10,10 @@ import (
 )
 
 // GetIdpGroupMappingRequest wrapper for the GetIdpGroupMapping operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetIdpGroupMapping.go.html to see an example of how to use GetIdpGroupMappingRequest.
 type GetIdpGroupMappingRequest struct {
 
 	// The OCID of the identity provider.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListMetricsRequest wrapper for the ListMetrics operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ListMetrics.go.html to see an example of how to use ListMetricsRequest.
 type ListMetricsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the

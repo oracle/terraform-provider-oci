@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateConnectionRequest wrapper for the UpdateConnection operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateConnection.go.html to see an example of how to use UpdateConnectionRequest.
 type UpdateConnectionRequest struct {
 
 	// The workspace ID.

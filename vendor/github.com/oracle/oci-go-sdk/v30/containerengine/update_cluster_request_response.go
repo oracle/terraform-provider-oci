@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateClusterRequest wrapper for the UpdateCluster operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateCluster.go.html to see an example of how to use UpdateClusterRequest.
 type UpdateClusterRequest struct {
 
 	// The OCID of the cluster.

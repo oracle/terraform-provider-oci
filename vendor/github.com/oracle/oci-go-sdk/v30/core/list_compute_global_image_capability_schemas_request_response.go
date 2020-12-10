@@ -10,6 +10,10 @@ import (
 )
 
 // ListComputeGlobalImageCapabilitySchemasRequest wrapper for the ListComputeGlobalImageCapabilitySchemas operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeGlobalImageCapabilitySchemas.go.html to see an example of how to use ListComputeGlobalImageCapabilitySchemasRequest.
 type ListComputeGlobalImageCapabilitySchemasRequest struct {
 
 	// A filter to return only resources that match the given compartment OCID exactly.

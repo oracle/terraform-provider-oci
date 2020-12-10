@@ -10,6 +10,10 @@ import (
 )
 
 // GetFieldRequest wrapper for the GetField operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetField.go.html to see an example of how to use GetFieldRequest.
 type GetFieldRequest struct {
 
 	// The Logging Analytics namespace used for the request.

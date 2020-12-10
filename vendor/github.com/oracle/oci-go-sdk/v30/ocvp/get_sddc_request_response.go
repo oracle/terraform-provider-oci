@@ -10,6 +10,10 @@ import (
 )
 
 // GetSddcRequest wrapper for the GetSddc operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetSddc.go.html to see an example of how to use GetSddcRequest.
 type GetSddcRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.

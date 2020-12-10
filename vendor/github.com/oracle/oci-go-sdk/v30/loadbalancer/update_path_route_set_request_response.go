@@ -10,6 +10,10 @@ import (
 )
 
 // UpdatePathRouteSetRequest wrapper for the UpdatePathRouteSet operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/UpdatePathRouteSet.go.html to see an example of how to use UpdatePathRouteSetRequest.
 type UpdatePathRouteSetRequest struct {
 
 	// The configuration details to update a path route set.

@@ -10,6 +10,10 @@ import (
 )
 
 // GetProblemRequest wrapper for the GetProblem operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetProblem.go.html to see an example of how to use GetProblemRequest.
 type GetProblemRequest struct {
 
 	// OCId of the problem.

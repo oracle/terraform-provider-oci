@@ -10,6 +10,10 @@ import (
 )
 
 // CreateOnDemandPingProbeRequest wrapper for the CreateOnDemandPingProbe operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreateOnDemandPingProbe.go.html to see an example of how to use CreateOnDemandPingProbeRequest.
 type CreateOnDemandPingProbeRequest struct {
 
 	// Configuration details for creating an on-demand ping probe.

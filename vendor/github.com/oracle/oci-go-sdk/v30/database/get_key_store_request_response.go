@@ -10,6 +10,10 @@ import (
 )
 
 // GetKeyStoreRequest wrapper for the GetKeyStore operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetKeyStore.go.html to see an example of how to use GetKeyStoreRequest.
 type GetKeyStoreRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store.

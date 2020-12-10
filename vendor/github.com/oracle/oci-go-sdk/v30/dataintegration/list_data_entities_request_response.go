@@ -10,6 +10,10 @@ import (
 )
 
 // ListDataEntitiesRequest wrapper for the ListDataEntities operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDataEntities.go.html to see an example of how to use ListDataEntitiesRequest.
 type ListDataEntitiesRequest struct {
 
 	// The workspace ID.

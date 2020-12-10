@@ -10,6 +10,10 @@ import (
 )
 
 // ListListenerRulesRequest wrapper for the ListListenerRules operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ListListenerRules.go.html to see an example of how to use ListListenerRulesRequest.
 type ListListenerRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the listener.

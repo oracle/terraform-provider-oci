@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteExternalPublicationValidationRequest wrapper for the DeleteExternalPublicationValidation operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteExternalPublicationValidation.go.html to see an example of how to use DeleteExternalPublicationValidationRequest.
 type DeleteExternalPublicationValidationRequest struct {
 
 	// The workspace ID.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListTagDefaultsRequest wrapper for the ListTagDefaults operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListTagDefaults.go.html to see an example of how to use ListTagDefaultsRequest.
 type ListTagDefaultsRequest struct {
 
 	// The value of the `opc-next-page` response header from the previous "List" call.

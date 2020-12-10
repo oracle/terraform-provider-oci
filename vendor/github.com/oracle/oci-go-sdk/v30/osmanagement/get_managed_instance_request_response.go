@@ -10,6 +10,10 @@ import (
 )
 
 // GetManagedInstanceRequest wrapper for the GetManagedInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetManagedInstance.go.html to see an example of how to use GetManagedInstanceRequest.
 type GetManagedInstanceRequest struct {
 
 	// OCID for the managed instance

@@ -10,6 +10,10 @@ import (
 )
 
 // ListBackupDestinationRequest wrapper for the ListBackupDestination operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListBackupDestination.go.html to see an example of how to use ListBackupDestinationRequest.
 type ListBackupDestinationRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

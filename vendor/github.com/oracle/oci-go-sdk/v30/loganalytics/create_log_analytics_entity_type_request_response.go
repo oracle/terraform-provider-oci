@@ -10,6 +10,10 @@ import (
 )
 
 // CreateLogAnalyticsEntityTypeRequest wrapper for the CreateLogAnalyticsEntityType operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateLogAnalyticsEntityType.go.html to see an example of how to use CreateLogAnalyticsEntityTypeRequest.
 type CreateLogAnalyticsEntityTypeRequest struct {
 
 	// The Logging Analytics namespace used for the request.

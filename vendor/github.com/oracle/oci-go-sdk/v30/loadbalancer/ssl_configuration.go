@@ -31,7 +31,7 @@ type SslConfiguration struct {
 	// Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
 	// Certificate bundle names cannot contain spaces. Avoid entering confidential information.
 	// Example: `example_certificate_bundle`
-	CertificateName *string `mandatory:"true" json:"certificateName"`
+	CertificateName *string `mandatory:"false" json:"certificateName"`
 
 	// When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client
 	// ciphers.

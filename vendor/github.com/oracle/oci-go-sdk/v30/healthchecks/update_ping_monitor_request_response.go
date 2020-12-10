@@ -10,6 +10,10 @@ import (
 )
 
 // UpdatePingMonitorRequest wrapper for the UpdatePingMonitor operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/UpdatePingMonitor.go.html to see an example of how to use UpdatePingMonitorRequest.
 type UpdatePingMonitorRequest struct {
 
 	// The OCID of a monitor.

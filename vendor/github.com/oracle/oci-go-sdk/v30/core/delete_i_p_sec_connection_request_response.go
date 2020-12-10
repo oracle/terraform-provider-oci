@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteIPSecConnectionRequest wrapper for the DeleteIPSecConnection operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteIPSecConnection.go.html to see an example of how to use DeleteIPSecConnectionRequest.
 type DeleteIPSecConnectionRequest struct {
 
 	// The OCID of the IPSec connection.

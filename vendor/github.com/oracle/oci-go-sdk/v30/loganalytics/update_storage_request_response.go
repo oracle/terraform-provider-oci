@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateStorageRequest wrapper for the UpdateStorage operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateStorage.go.html to see an example of how to use UpdateStorageRequest.
 type UpdateStorageRequest struct {
 
 	// The Logging Analytics namespace used for the request.

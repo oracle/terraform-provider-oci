@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateTsigKeyRequest wrapper for the UpdateTsigKey operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateTsigKey.go.html to see an example of how to use UpdateTsigKeyRequest.
 type UpdateTsigKeyRequest struct {
 
 	// The OCID of the target TSIG key.

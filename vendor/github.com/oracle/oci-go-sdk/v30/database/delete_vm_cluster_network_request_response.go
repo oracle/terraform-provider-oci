@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteVmClusterNetworkRequest wrapper for the DeleteVmClusterNetwork operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteVmClusterNetwork.go.html to see an example of how to use DeleteVmClusterNetworkRequest.
 type DeleteVmClusterNetworkRequest struct {
 
 	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

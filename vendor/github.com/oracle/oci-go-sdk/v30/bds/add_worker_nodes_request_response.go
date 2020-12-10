@@ -10,6 +10,10 @@ import (
 )
 
 // AddWorkerNodesRequest wrapper for the AddWorkerNodes operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddWorkerNodes.go.html to see an example of how to use AddWorkerNodesRequest.
 type AddWorkerNodesRequest struct {
 
 	// The OCID of the BDS instance

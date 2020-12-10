@@ -10,6 +10,10 @@ import (
 )
 
 // ListSendersRequest wrapper for the ListSenders operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSenders.go.html to see an example of how to use ListSendersRequest.
 type ListSendersRequest struct {
 
 	// The OCID for the compartment.

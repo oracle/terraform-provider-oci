@@ -10,6 +10,10 @@ import (
 )
 
 // ListDatabaseSoftwareImagesRequest wrapper for the ListDatabaseSoftwareImages operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDatabaseSoftwareImages.go.html to see an example of how to use ListDatabaseSoftwareImagesRequest.
 type ListDatabaseSoftwareImagesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

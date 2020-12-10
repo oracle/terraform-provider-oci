@@ -10,6 +10,10 @@ import (
 )
 
 // ListEntitiesRequest wrapper for the ListEntities operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListEntities.go.html to see an example of how to use ListEntitiesRequest.
 type ListEntitiesRequest struct {
 
 	// Unique catalog identifier.

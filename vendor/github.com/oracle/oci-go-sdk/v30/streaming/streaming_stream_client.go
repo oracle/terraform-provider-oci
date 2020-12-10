@@ -74,6 +74,10 @@ func (client *StreamClient) ConfigurationProvider() *common.ConfigurationProvide
 
 // ConsumerCommit Provides a mechanism to manually commit offsets, if not using commit-on-get consumer semantics.
 // This commits offsets assicated with the provided cursor, extends the timeout on each of the affected partitions, and returns an updated cursor.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ConsumerCommit.go.html to see an example of how to use ConsumerCommit API.
 func (client StreamClient) ConsumerCommit(ctx context.Context, request ConsumerCommitRequest) (response ConsumerCommitResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -124,6 +128,10 @@ func (client StreamClient) consumerCommit(ctx context.Context, request common.OC
 }
 
 // ConsumerHeartbeat Allows long-running processes to extend the timeout on partitions reserved by a consumer instance.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ConsumerHeartbeat.go.html to see an example of how to use ConsumerHeartbeat API.
 func (client StreamClient) ConsumerHeartbeat(ctx context.Context, request ConsumerHeartbeatRequest) (response ConsumerHeartbeatResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -178,6 +186,10 @@ func (client StreamClient) consumerHeartbeat(ctx context.Context, request common
 // inside the retention period boundary, using the trim horizon effectively lets you consume all messages in the stream. A cursor based
 // on the most recent message allows consumption of only messages that are added to the stream after you create the cursor. Cursors expire
 // five minutes after you receive them from the service.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateCursor.go.html to see an example of how to use CreateCursor API.
 func (client StreamClient) CreateCursor(ctx context.Context, request CreateCursorRequest) (response CreateCursorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -228,6 +240,10 @@ func (client StreamClient) createCursor(ctx context.Context, request common.OCIR
 }
 
 // CreateGroupCursor Creates a group-cursor.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateGroupCursor.go.html to see an example of how to use CreateGroupCursor API.
 func (client StreamClient) CreateGroupCursor(ctx context.Context, request CreateGroupCursorRequest) (response CreateGroupCursorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -278,6 +294,10 @@ func (client StreamClient) createGroupCursor(ctx context.Context, request common
 }
 
 // GetGroup Returns the current state of a consumer group.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetGroup.go.html to see an example of how to use GetGroup API.
 func (client StreamClient) GetGroup(ctx context.Context, request GetGroupRequest) (response GetGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -330,6 +350,10 @@ func (client StreamClient) getGroup(ctx context.Context, request common.OCIReque
 // GetMessages Returns messages from the specified stream using the specified cursor as the starting point for consumption. By default, the number of messages returned is undefined, but the service returns as many as possible.
 // To get messages, you must first obtain a cursor using the CreateCursor operation.
 // In the response, retrieve the value of the 'opc-next-cursor' header to pass as a parameter to get the next batch of messages in the stream.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetMessages.go.html to see an example of how to use GetMessages API.
 func (client StreamClient) GetMessages(ctx context.Context, request GetMessagesRequest) (response GetMessagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -383,6 +407,10 @@ func (client StreamClient) getMessages(ctx context.Context, request common.OCIRe
 // The service calculates the partition ID from the message key and stores messages that share a key on the same partition.
 // If a message does not contain a key or if the key is null, the service generates a message key for you.
 // The partition ID cannot be passed as a parameter.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/PutMessages.go.html to see an example of how to use PutMessages API.
 func (client StreamClient) PutMessages(ctx context.Context, request PutMessagesRequest) (response PutMessagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -443,6 +471,10 @@ func (client StreamClient) putMessages(ctx context.Context, request common.OCIRe
 }
 
 // UpdateGroup Forcefully changes the current location of a group as a whole; reseting processing location of all consumers to a particular location in the stream.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateGroup.go.html to see an example of how to use UpdateGroup API.
 func (client StreamClient) UpdateGroup(ctx context.Context, request UpdateGroupRequest) (response UpdateGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

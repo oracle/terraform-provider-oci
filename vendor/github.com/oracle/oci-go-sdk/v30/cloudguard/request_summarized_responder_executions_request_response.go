@@ -10,6 +10,10 @@ import (
 )
 
 // RequestSummarizedResponderExecutionsRequest wrapper for the RequestSummarizedResponderExecutions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedResponderExecutions.go.html to see an example of how to use RequestSummarizedResponderExecutionsRequest.
 type RequestSummarizedResponderExecutionsRequest struct {
 
 	// The possible attributes based on which the responder executions can be distinguished

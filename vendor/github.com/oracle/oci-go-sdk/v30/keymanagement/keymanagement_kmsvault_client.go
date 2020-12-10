@@ -83,6 +83,10 @@ func (client *KmsVaultClient) ConfigurationProvider() *common.ConfigurationProvi
 // BackupVault Backs up an encrypted file that contains all the metadata of a vault so that you can restore the vault later.
 // You can backup a vault whether or not it contains keys. This operation only backs up the
 // metadata of the vault, and does not include key metadata.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/BackupVault.go.html to see an example of how to use BackupVault API.
 func (client KmsVaultClient) BackupVault(ctx context.Context, request BackupVaultRequest) (response BackupVaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,6 +149,10 @@ func (client KmsVaultClient) backupVault(ctx context.Context, request common.OCI
 // the total number of requests across all provisioning write operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CancelVaultDeletion.go.html to see an example of how to use CancelVaultDeletion API.
 func (client KmsVaultClient) CancelVaultDeletion(ctx context.Context, request CancelVaultDeletionRequest) (response CancelVaultDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -206,6 +214,10 @@ func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request co
 // the total number of requests across all provisioning write operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ChangeVaultCompartment.go.html to see an example of how to use ChangeVaultCompartment API.
 func (client KmsVaultClient) ChangeVaultCompartment(ctx context.Context, request ChangeVaultCompartmentRequest) (response ChangeVaultCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -268,6 +280,10 @@ func (client KmsVaultClient) changeVaultCompartment(ctx context.Context, request
 // the total number of requests across all provisioning write operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateVault.go.html to see an example of how to use CreateVault API.
 func (client KmsVaultClient) CreateVault(ctx context.Context, request CreateVaultRequest) (response CreateVaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -327,6 +343,10 @@ func (client KmsVaultClient) createVault(ctx context.Context, request common.OCI
 // the total number of requests across all provisioning read operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // read operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetVault.go.html to see an example of how to use GetVault API.
 func (client KmsVaultClient) GetVault(ctx context.Context, request GetVaultRequest) (response GetVaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -377,6 +397,10 @@ func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIReq
 }
 
 // GetVaultUsage Gets the count of keys and key versions in the specified vault to calculate usage against service limits.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetVaultUsage.go.html to see an example of how to use GetVaultUsage API.
 func (client KmsVaultClient) GetVaultUsage(ctx context.Context, request GetVaultUsageRequest) (response GetVaultUsageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -431,6 +455,10 @@ func (client KmsVaultClient) getVaultUsage(ctx context.Context, request common.O
 // the total number of requests across all provisioning read operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // read operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListVaults.go.html to see an example of how to use ListVaults API.
 func (client KmsVaultClient) ListVaults(ctx context.Context, request ListVaultsRequest) (response ListVaultsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -483,6 +511,10 @@ func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIR
 // RestoreVaultFromFile Restores a vault from an encrypted backup file. If a vault
 // with the same OCID already exists, this operation returns a response with a
 // 409 HTTP status error code.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreVaultFromFile.go.html to see an example of how to use RestoreVaultFromFile API.
 func (client KmsVaultClient) RestoreVaultFromFile(ctx context.Context, request RestoreVaultFromFileRequest) (response RestoreVaultFromFileResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -540,6 +572,10 @@ func (client KmsVaultClient) restoreVaultFromFile(ctx context.Context, request c
 // RestoreVaultFromObjectStore Restores a vault from an encrypted backup file stored in Oracle Cloud Infrastructure Object
 // Storage. If a vault with the same OCID already exists, this operation returns
 // a response with a 409 HTTP status error code.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreVaultFromObjectStore.go.html to see an example of how to use RestoreVaultFromObjectStore API.
 func (client KmsVaultClient) RestoreVaultFromObjectStore(ctx context.Context, request RestoreVaultFromObjectStoreRequest) (response RestoreVaultFromObjectStoreResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -603,6 +639,10 @@ func (client KmsVaultClient) restoreVaultFromObjectStore(ctx context.Context, re
 // the total number of requests across all provisioning write operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ScheduleVaultDeletion.go.html to see an example of how to use ScheduleVaultDeletion API.
 func (client KmsVaultClient) ScheduleVaultDeletion(ctx context.Context, request ScheduleVaultDeletionRequest) (response ScheduleVaultDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -664,6 +704,10 @@ func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request 
 // the total number of requests across all provisioning write operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateVault.go.html to see an example of how to use UpdateVault API.
 func (client KmsVaultClient) UpdateVault(ctx context.Context, request UpdateVaultRequest) (response UpdateVaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -10,6 +10,10 @@ import (
 )
 
 // ListPrivateIpsRequest wrapper for the ListPrivateIps operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListPrivateIps.go.html to see an example of how to use ListPrivateIpsRequest.
 type ListPrivateIpsRequest struct {
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

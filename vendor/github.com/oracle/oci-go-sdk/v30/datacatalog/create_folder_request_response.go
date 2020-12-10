@@ -10,6 +10,10 @@ import (
 )
 
 // CreateFolderRequest wrapper for the CreateFolder operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateFolder.go.html to see an example of how to use CreateFolderRequest.
 type CreateFolderRequest struct {
 
 	// Unique catalog identifier.

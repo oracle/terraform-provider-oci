@@ -10,6 +10,10 @@ import (
 )
 
 // GetTermRequest wrapper for the GetTerm operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetTerm.go.html to see an example of how to use GetTermRequest.
 type GetTermRequest struct {
 
 	// Unique catalog identifier.

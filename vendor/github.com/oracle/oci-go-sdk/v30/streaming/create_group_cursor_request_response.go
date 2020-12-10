@@ -10,6 +10,10 @@ import (
 )
 
 // CreateGroupCursorRequest wrapper for the CreateGroupCursor operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateGroupCursor.go.html to see an example of how to use CreateGroupCursorRequest.
 type CreateGroupCursorRequest struct {
 
 	// The OCID of the stream.

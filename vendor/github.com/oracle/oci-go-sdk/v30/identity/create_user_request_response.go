@@ -10,6 +10,10 @@ import (
 )
 
 // CreateUserRequest wrapper for the CreateUser operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/CreateUser.go.html to see an example of how to use CreateUserRequest.
 type CreateUserRequest struct {
 
 	// Request object for creating a new user.

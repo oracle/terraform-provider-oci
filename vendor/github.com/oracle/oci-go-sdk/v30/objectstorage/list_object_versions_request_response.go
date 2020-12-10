@@ -10,6 +10,10 @@ import (
 )
 
 // ListObjectVersionsRequest wrapper for the ListObjectVersions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListObjectVersions.go.html to see an example of how to use ListObjectVersionsRequest.
 type ListObjectVersionsRequest struct {
 
 	// The Object Storage namespace used for the request.

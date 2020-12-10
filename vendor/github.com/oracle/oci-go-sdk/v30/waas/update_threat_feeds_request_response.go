@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateThreatFeedsRequest wrapper for the UpdateThreatFeeds operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateThreatFeeds.go.html to see an example of how to use UpdateThreatFeedsRequest.
 type UpdateThreatFeedsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

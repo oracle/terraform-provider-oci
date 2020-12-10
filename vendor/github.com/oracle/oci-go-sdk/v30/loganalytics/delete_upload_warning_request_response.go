@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteUploadWarningRequest wrapper for the DeleteUploadWarning operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteUploadWarning.go.html to see an example of how to use DeleteUploadWarningRequest.
 type DeleteUploadWarningRequest struct {
 
 	// The Logging Analytics namespace used for the request.

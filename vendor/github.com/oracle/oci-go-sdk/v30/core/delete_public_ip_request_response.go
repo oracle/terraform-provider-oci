@@ -10,6 +10,10 @@ import (
 )
 
 // DeletePublicIpRequest wrapper for the DeletePublicIp operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeletePublicIp.go.html to see an example of how to use DeletePublicIpRequest.
 type DeletePublicIpRequest struct {
 
 	// The OCID of the public IP.

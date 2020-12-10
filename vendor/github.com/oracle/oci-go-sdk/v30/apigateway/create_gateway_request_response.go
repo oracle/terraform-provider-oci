@@ -10,6 +10,10 @@ import (
 )
 
 // CreateGatewayRequest wrapper for the CreateGateway operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateGateway.go.html to see an example of how to use CreateGatewayRequest.
 type CreateGatewayRequest struct {
 
 	// Details for the new gateway.

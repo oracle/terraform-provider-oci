@@ -10,6 +10,10 @@ import (
 )
 
 // CreateReplicationPolicyRequest wrapper for the CreateReplicationPolicy operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CreateReplicationPolicy.go.html to see an example of how to use CreateReplicationPolicyRequest.
 type CreateReplicationPolicyRequest struct {
 
 	// The Object Storage namespace used for the request.

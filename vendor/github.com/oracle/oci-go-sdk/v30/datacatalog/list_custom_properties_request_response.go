@@ -10,6 +10,10 @@ import (
 )
 
 // ListCustomPropertiesRequest wrapper for the ListCustomProperties operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListCustomProperties.go.html to see an example of how to use ListCustomPropertiesRequest.
 type ListCustomPropertiesRequest struct {
 
 	// Unique catalog identifier.
@@ -168,6 +172,8 @@ const (
 	ListCustomPropertiesTypeNameCategory                        ListCustomPropertiesTypeNameEnum = "CATEGORY"
 	ListCustomPropertiesTypeNameFile                            ListCustomPropertiesTypeNameEnum = "FILE"
 	ListCustomPropertiesTypeNameBucket                          ListCustomPropertiesTypeNameEnum = "BUCKET"
+	ListCustomPropertiesTypeNameMessage                         ListCustomPropertiesTypeNameEnum = "MESSAGE"
+	ListCustomPropertiesTypeNameUnrecognizedFile                ListCustomPropertiesTypeNameEnum = "UNRECOGNIZED_FILE"
 )
 
 var mappingListCustomPropertiesTypeName = map[string]ListCustomPropertiesTypeNameEnum{
@@ -195,6 +201,8 @@ var mappingListCustomPropertiesTypeName = map[string]ListCustomPropertiesTypeNam
 	"CATEGORY":                          ListCustomPropertiesTypeNameCategory,
 	"FILE":                              ListCustomPropertiesTypeNameFile,
 	"BUCKET":                            ListCustomPropertiesTypeNameBucket,
+	"MESSAGE":                           ListCustomPropertiesTypeNameMessage,
+	"UNRECOGNIZED_FILE":                 ListCustomPropertiesTypeNameUnrecognizedFile,
 }
 
 // GetListCustomPropertiesTypeNameEnumValues Enumerates the set of values for ListCustomPropertiesTypeNameEnum

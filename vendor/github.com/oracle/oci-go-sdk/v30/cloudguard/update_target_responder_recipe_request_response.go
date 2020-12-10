@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateTargetResponderRecipeRequest wrapper for the UpdateTargetResponderRecipe operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateTargetResponderRecipe.go.html to see an example of how to use UpdateTargetResponderRecipeRequest.
 type UpdateTargetResponderRecipeRequest struct {
 
 	// OCID of target

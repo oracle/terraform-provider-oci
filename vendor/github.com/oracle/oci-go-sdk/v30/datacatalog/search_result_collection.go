@@ -28,6 +28,9 @@ type SearchResultCollection struct {
 
 	// Aggregations/facets on properties of data objects.
 	FacetedSearchAggregation []FacetedSearchAggregation `mandatory:"false" json:"facetedSearchAggregation"`
+
+	// A list of fields or properties used in the sorting of a search result.
+	SortableFields []string `mandatory:"false" json:"sortableFields"`
 }
 
 func (m SearchResultCollection) String() string {

@@ -83,6 +83,10 @@ func (client *NosqlClient) ConfigurationProvider() *common.ConfigurationProvider
 }
 
 // ChangeTableCompartment Change a table's compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ChangeTableCompartment.go.html to see an example of how to use ChangeTableCompartment API.
 func (client NosqlClient) ChangeTableCompartment(ctx context.Context, request ChangeTableCompartmentRequest) (response ChangeTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -138,6 +142,10 @@ func (client NosqlClient) changeTableCompartment(ctx context.Context, request co
 }
 
 // CreateIndex Create a new index on the table identified by tableNameOrId.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/CreateIndex.go.html to see an example of how to use CreateIndex API.
 func (client NosqlClient) CreateIndex(ctx context.Context, request CreateIndexRequest) (response CreateIndexResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -193,6 +201,10 @@ func (client NosqlClient) createIndex(ctx context.Context, request common.OCIReq
 }
 
 // CreateTable Create a new table.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/CreateTable.go.html to see an example of how to use CreateTable API.
 func (client NosqlClient) CreateTable(ctx context.Context, request CreateTableRequest) (response CreateTableResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -248,6 +260,10 @@ func (client NosqlClient) createTable(ctx context.Context, request common.OCIReq
 }
 
 // DeleteIndex Delete an index from the table identified by tableNameOrId.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/DeleteIndex.go.html to see an example of how to use DeleteIndex API.
 func (client NosqlClient) DeleteIndex(ctx context.Context, request DeleteIndexRequest) (response DeleteIndexResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -298,6 +314,10 @@ func (client NosqlClient) deleteIndex(ctx context.Context, request common.OCIReq
 }
 
 // DeleteRow Delete a single row from the table, by primary key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/DeleteRow.go.html to see an example of how to use DeleteRow API.
 func (client NosqlClient) DeleteRow(ctx context.Context, request DeleteRowRequest) (response DeleteRowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -348,6 +368,10 @@ func (client NosqlClient) deleteRow(ctx context.Context, request common.OCIReque
 }
 
 // DeleteTable Delete a table by tableNameOrId.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/DeleteTable.go.html to see an example of how to use DeleteTable API.
 func (client NosqlClient) DeleteTable(ctx context.Context, request DeleteTableRequest) (response DeleteTableResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -398,6 +422,10 @@ func (client NosqlClient) deleteTable(ctx context.Context, request common.OCIReq
 }
 
 // DeleteWorkRequest Cancel a work request operation with the given ID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/DeleteWorkRequest.go.html to see an example of how to use DeleteWorkRequest API.
 func (client NosqlClient) DeleteWorkRequest(ctx context.Context, request DeleteWorkRequestRequest) (response DeleteWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -448,6 +476,10 @@ func (client NosqlClient) deleteWorkRequest(ctx context.Context, request common.
 }
 
 // GetIndex Get information about a single index.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetIndex.go.html to see an example of how to use GetIndex API.
 func (client NosqlClient) GetIndex(ctx context.Context, request GetIndexRequest) (response GetIndexResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -498,6 +530,10 @@ func (client NosqlClient) getIndex(ctx context.Context, request common.OCIReques
 }
 
 // GetRow Get a single row from the table by primary key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetRow.go.html to see an example of how to use GetRow API.
 func (client NosqlClient) GetRow(ctx context.Context, request GetRowRequest) (response GetRowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -548,6 +584,10 @@ func (client NosqlClient) getRow(ctx context.Context, request common.OCIRequest)
 }
 
 // GetTable Get table info by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetTable.go.html to see an example of how to use GetTable API.
 func (client NosqlClient) GetTable(ctx context.Context, request GetTableRequest) (response GetTableResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -598,6 +638,10 @@ func (client NosqlClient) getTable(ctx context.Context, request common.OCIReques
 }
 
 // GetWorkRequest Get the status of the work request with the given ID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client NosqlClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -648,6 +692,10 @@ func (client NosqlClient) getWorkRequest(ctx context.Context, request common.OCI
 }
 
 // ListIndexes Get a list of indexes on a table.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListIndexes.go.html to see an example of how to use ListIndexes API.
 func (client NosqlClient) ListIndexes(ctx context.Context, request ListIndexesRequest) (response ListIndexesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -698,6 +746,10 @@ func (client NosqlClient) listIndexes(ctx context.Context, request common.OCIReq
 }
 
 // ListTableUsage Get table usage info.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListTableUsage.go.html to see an example of how to use ListTableUsage API.
 func (client NosqlClient) ListTableUsage(ctx context.Context, request ListTableUsageRequest) (response ListTableUsageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -748,6 +800,10 @@ func (client NosqlClient) listTableUsage(ctx context.Context, request common.OCI
 }
 
 // ListTables Get a list of tables in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListTables.go.html to see an example of how to use ListTables API.
 func (client NosqlClient) ListTables(ctx context.Context, request ListTablesRequest) (response ListTablesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -798,6 +854,10 @@ func (client NosqlClient) listTables(ctx context.Context, request common.OCIRequ
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client NosqlClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -848,6 +908,10 @@ func (client NosqlClient) listWorkRequestErrors(ctx context.Context, request com
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client NosqlClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -898,6 +962,10 @@ func (client NosqlClient) listWorkRequestLogs(ctx context.Context, request commo
 }
 
 // ListWorkRequests List the work requests in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client NosqlClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -948,6 +1016,10 @@ func (client NosqlClient) listWorkRequests(ctx context.Context, request common.O
 }
 
 // PrepareStatement Prepare a SQL statement for use in a query with variable substitution.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/PrepareStatement.go.html to see an example of how to use PrepareStatement API.
 func (client NosqlClient) PrepareStatement(ctx context.Context, request PrepareStatementRequest) (response PrepareStatementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -998,6 +1070,10 @@ func (client NosqlClient) prepareStatement(ctx context.Context, request common.O
 }
 
 // Query Execute a SQL query.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/Query.go.html to see an example of how to use Query API.
 func (client NosqlClient) Query(ctx context.Context, request QueryRequest) (response QueryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1048,6 +1124,10 @@ func (client NosqlClient) query(ctx context.Context, request common.OCIRequest) 
 }
 
 // SummarizeStatement Check the syntax and return a brief summary of a SQL statement.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/SummarizeStatement.go.html to see an example of how to use SummarizeStatement API.
 func (client NosqlClient) SummarizeStatement(ctx context.Context, request SummarizeStatementRequest) (response SummarizeStatementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1098,6 +1178,10 @@ func (client NosqlClient) summarizeStatement(ctx context.Context, request common
 }
 
 // UpdateRow Write a single row into the table.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/UpdateRow.go.html to see an example of how to use UpdateRow API.
 func (client NosqlClient) UpdateRow(ctx context.Context, request UpdateRowRequest) (response UpdateRowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1149,6 +1233,10 @@ func (client NosqlClient) updateRow(ctx context.Context, request common.OCIReque
 
 // UpdateTable Alter the table identified by tableNameOrId,
 // changing schema, limits, or tags
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/UpdateTable.go.html to see an example of how to use UpdateTable API.
 func (client NosqlClient) UpdateTable(ctx context.Context, request UpdateTableRequest) (response UpdateTableResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

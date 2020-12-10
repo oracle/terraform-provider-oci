@@ -11,6 +11,10 @@ import (
 )
 
 // GetRunLogRequest wrapper for the GetRunLog operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetRunLog.go.html to see an example of how to use GetRunLogRequest.
 type GetRunLogRequest struct {
 
 	// The unique ID for the run

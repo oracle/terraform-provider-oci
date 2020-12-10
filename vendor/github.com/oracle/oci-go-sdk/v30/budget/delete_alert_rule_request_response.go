@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteAlertRuleRequest wrapper for the DeleteAlertRule operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/DeleteAlertRule.go.html to see an example of how to use DeleteAlertRuleRequest.
 type DeleteAlertRuleRequest struct {
 
 	// The unique Budget OCID

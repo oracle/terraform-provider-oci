@@ -10,6 +10,10 @@ import (
 )
 
 // CreateJobExecutionRequest wrapper for the CreateJobExecution operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateJobExecution.go.html to see an example of how to use CreateJobExecutionRequest.
 type CreateJobExecutionRequest struct {
 
 	// Unique catalog identifier.

@@ -10,6 +10,10 @@ import (
 )
 
 // ChangePingMonitorCompartmentRequest wrapper for the ChangePingMonitorCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ChangePingMonitorCompartment.go.html to see an example of how to use ChangePingMonitorCompartmentRequest.
 type ChangePingMonitorCompartmentRequest struct {
 
 	// The OCID of a monitor.

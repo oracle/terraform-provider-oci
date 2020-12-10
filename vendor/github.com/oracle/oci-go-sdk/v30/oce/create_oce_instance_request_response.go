@@ -10,6 +10,10 @@ import (
 )
 
 // CreateOceInstanceRequest wrapper for the CreateOceInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/CreateOceInstance.go.html to see an example of how to use CreateOceInstanceRequest.
 type CreateOceInstanceRequest struct {
 
 	// Details for the new OceInstance.

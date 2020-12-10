@@ -10,6 +10,10 @@ import (
 )
 
 // GetTaskRunRequest wrapper for the GetTaskRun operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTaskRun.go.html to see an example of how to use GetTaskRunRequest.
 type GetTaskRunRequest struct {
 
 	// The workspace ID.

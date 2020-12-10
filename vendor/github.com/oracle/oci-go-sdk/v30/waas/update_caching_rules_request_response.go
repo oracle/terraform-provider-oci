@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateCachingRulesRequest wrapper for the UpdateCachingRules operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateCachingRules.go.html to see an example of how to use UpdateCachingRulesRequest.
 type UpdateCachingRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

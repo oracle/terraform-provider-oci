@@ -82,6 +82,10 @@ func (client *DnsClient) ConfigurationProvider() *common.ConfigurationProvider {
 
 // ChangeResolverCompartment Moves a resolver into a different compartment along with its protected default view and any endpoints.
 // Zones in the default view are not moved.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeResolverCompartment.go.html to see an example of how to use ChangeResolverCompartment API.
 func (client DnsClient) ChangeResolverCompartment(ctx context.Context, request ChangeResolverCompartmentRequest) (response ChangeResolverCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -137,6 +141,10 @@ func (client DnsClient) changeResolverCompartment(ctx context.Context, request c
 }
 
 // ChangeSteeringPolicyCompartment Moves a steering policy into a different compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeSteeringPolicyCompartment.go.html to see an example of how to use ChangeSteeringPolicyCompartment API.
 func (client DnsClient) ChangeSteeringPolicyCompartment(ctx context.Context, request ChangeSteeringPolicyCompartmentRequest) (response ChangeSteeringPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -192,6 +200,10 @@ func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, req
 }
 
 // ChangeTsigKeyCompartment Moves a TSIG key into a different compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeTsigKeyCompartment.go.html to see an example of how to use ChangeTsigKeyCompartment API.
 func (client DnsClient) ChangeTsigKeyCompartment(ctx context.Context, request ChangeTsigKeyCompartmentRequest) (response ChangeTsigKeyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -247,6 +259,10 @@ func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request co
 }
 
 // ChangeViewCompartment Moves a view into a different compartment. Protected views cannot have their compartment changed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeViewCompartment.go.html to see an example of how to use ChangeViewCompartment API.
 func (client DnsClient) ChangeViewCompartment(ctx context.Context, request ChangeViewCompartmentRequest) (response ChangeViewCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -303,6 +319,10 @@ func (client DnsClient) changeViewCompartment(ctx context.Context, request commo
 
 // ChangeZoneCompartment Moves a zone into a different compartment. Protected zones cannot have their compartment changed.
 // **Note:** All SteeringPolicyAttachment objects associated with this zone will also be moved into the provided compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeZoneCompartment.go.html to see an example of how to use ChangeZoneCompartment API.
 func (client DnsClient) ChangeZoneCompartment(ctx context.Context, request ChangeZoneCompartmentRequest) (response ChangeZoneCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -358,6 +378,10 @@ func (client DnsClient) changeZoneCompartment(ctx context.Context, request commo
 }
 
 // CreateResolverEndpoint Creates a new resolver endpoint.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateResolverEndpoint.go.html to see an example of how to use CreateResolverEndpoint API.
 func (client DnsClient) CreateResolverEndpoint(ctx context.Context, request CreateResolverEndpointRequest) (response CreateResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -414,6 +438,10 @@ func (client DnsClient) createResolverEndpoint(ctx context.Context, request comm
 
 // CreateSteeringPolicy Creates a new steering policy in the specified compartment. For more information on
 // creating policies with templates, see Traffic Management API Guide (https://docs.cloud.oracle.com/iaas/Content/TrafficManagement/Concepts/trafficmanagementapi.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateSteeringPolicy.go.html to see an example of how to use CreateSteeringPolicy API.
 func (client DnsClient) CreateSteeringPolicy(ctx context.Context, request CreateSteeringPolicyRequest) (response CreateSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -473,6 +501,10 @@ func (client DnsClient) createSteeringPolicy(ctx context.Context, request common
 // be attached to a domain for the policy to answer DNS queries for that domain.
 // For the purposes of access control, the attachment is automatically placed
 // into the same compartment as the domain's zone.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateSteeringPolicyAttachment.go.html to see an example of how to use CreateSteeringPolicyAttachment API.
 func (client DnsClient) CreateSteeringPolicyAttachment(ctx context.Context, request CreateSteeringPolicyAttachmentRequest) (response CreateSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -529,6 +561,10 @@ func (client DnsClient) createSteeringPolicyAttachment(ctx context.Context, requ
 
 // CreateTsigKey Creates a new TSIG key in the specified compartment. There is no
 // `opc-retry-token` header since TSIG key names must be globally unique.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateTsigKey.go.html to see an example of how to use CreateTsigKey API.
 func (client DnsClient) CreateTsigKey(ctx context.Context, request CreateTsigKeyRequest) (response CreateTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -579,6 +615,10 @@ func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIReq
 }
 
 // CreateView Creates a new view in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateView.go.html to see an example of how to use CreateView API.
 func (client DnsClient) CreateView(ctx context.Context, request CreateViewRequest) (response CreateViewResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -636,6 +676,10 @@ func (client DnsClient) createView(ctx context.Context, request common.OCIReques
 // CreateZone Creates a new zone in the specified compartment. If the `Content-Type` header for the request is `text/dns`, the
 // `compartmentId` query parameter is required. Additionally, for `text/dns`, the `scope` and `viewId` query
 // parameters are required to create a private zone.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateZone.go.html to see an example of how to use CreateZone API.
 func (client DnsClient) CreateZone(ctx context.Context, request CreateZoneRequest) (response CreateZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -686,6 +730,10 @@ func (client DnsClient) createZone(ctx context.Context, request common.OCIReques
 }
 
 // DeleteDomainRecords Deletes all records at the specified zone and domain.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteDomainRecords.go.html to see an example of how to use DeleteDomainRecords API.
 func (client DnsClient) DeleteDomainRecords(ctx context.Context, request DeleteDomainRecordsRequest) (response DeleteDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -736,6 +784,10 @@ func (client DnsClient) deleteDomainRecords(ctx context.Context, request common.
 }
 
 // DeleteRRSet Deletes all records in the specified RRSet.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteRRSet.go.html to see an example of how to use DeleteRRSet API.
 func (client DnsClient) DeleteRRSet(ctx context.Context, request DeleteRRSetRequest) (response DeleteRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -788,6 +840,10 @@ func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIReque
 // DeleteResolverEndpoint Deletes the specified resolver endpoint. Note that attempting to delete a resolver endpoint in the
 // DELETED lifecycle state will result in a 404 to be consistent with other operations of the API.
 // Resolver endpoints may not be deleted if they are referenced by a resolver rule.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteResolverEndpoint.go.html to see an example of how to use DeleteResolverEndpoint API.
 func (client DnsClient) DeleteResolverEndpoint(ctx context.Context, request DeleteResolverEndpointRequest) (response DeleteResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -841,6 +897,10 @@ func (client DnsClient) deleteResolverEndpoint(ctx context.Context, request comm
 // A `204` response indicates that the delete has been successful.
 // Deletion will fail if the policy is attached to any zones. To detach a
 // policy from a zone, see `DeleteSteeringPolicyAttachment`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteSteeringPolicy.go.html to see an example of how to use DeleteSteeringPolicy API.
 func (client DnsClient) DeleteSteeringPolicy(ctx context.Context, request DeleteSteeringPolicyRequest) (response DeleteSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -892,6 +952,10 @@ func (client DnsClient) deleteSteeringPolicy(ctx context.Context, request common
 
 // DeleteSteeringPolicyAttachment Deletes the specified steering policy attachment.
 // A `204` response indicates that the delete has been successful.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteSteeringPolicyAttachment.go.html to see an example of how to use DeleteSteeringPolicyAttachment API.
 func (client DnsClient) DeleteSteeringPolicyAttachment(ctx context.Context, request DeleteSteeringPolicyAttachmentRequest) (response DeleteSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -942,6 +1006,10 @@ func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, requ
 }
 
 // DeleteTsigKey Deletes the specified TSIG key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteTsigKey.go.html to see an example of how to use DeleteTsigKey API.
 func (client DnsClient) DeleteTsigKey(ctx context.Context, request DeleteTsigKeyRequest) (response DeleteTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -996,6 +1064,10 @@ func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIReq
 // consistent with other operations of the API. Views can not be
 // deleted if they are referenced by non-deleted zones or resolvers.
 // Protected views cannot be deleted.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteView.go.html to see an example of how to use DeleteView API.
 func (client DnsClient) DeleteView(ctx context.Context, request DeleteViewRequest) (response DeleteViewResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1048,6 +1120,10 @@ func (client DnsClient) deleteView(ctx context.Context, request common.OCIReques
 // DeleteZone Deletes the specified zone and all its steering policy attachments.
 // A `204` response indicates that the zone has been successfully deleted.
 // Protected zones cannot be deleted.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteZone.go.html to see an example of how to use DeleteZone API.
 func (client DnsClient) DeleteZone(ctx context.Context, request DeleteZoneRequest) (response DeleteZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1100,6 +1176,10 @@ func (client DnsClient) deleteZone(ctx context.Context, request common.OCIReques
 // GetDomainRecords Gets a list of all records at the specified zone and domain.
 // The results are sorted by `rtype` in alphabetical order by default. You
 // can optionally filter and/or sort the results using the listed parameters.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetDomainRecords.go.html to see an example of how to use GetDomainRecords API.
 func (client DnsClient) GetDomainRecords(ctx context.Context, request GetDomainRecordsRequest) (response GetDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1151,6 +1231,10 @@ func (client DnsClient) getDomainRecords(ctx context.Context, request common.OCI
 
 // GetRRSet Gets a list of all records in the specified RRSet. The results are
 // sorted by `recordHash` by default.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetRRSet.go.html to see an example of how to use GetRRSet API.
 func (client DnsClient) GetRRSet(ctx context.Context, request GetRRSetRequest) (response GetRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1203,6 +1287,10 @@ func (client DnsClient) getRRSet(ctx context.Context, request common.OCIRequest)
 // GetResolver Get information about a specific resolver. Note that attempting to get a
 // resolver in the DELETED lifecycleState will result in a 404 to be
 // consistent with other operations of the API.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetResolver.go.html to see an example of how to use GetResolver API.
 func (client DnsClient) GetResolver(ctx context.Context, request GetResolverRequest) (response GetResolverResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1254,6 +1342,10 @@ func (client DnsClient) getResolver(ctx context.Context, request common.OCIReque
 
 // GetResolverEndpoint Get information about a specific resolver endpoint. Note that attempting to get a resolver endpoint
 // in the DELETED lifecycle state will result in a 404 to be consistent with other operations of the API.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetResolverEndpoint.go.html to see an example of how to use GetResolverEndpoint API.
 func (client DnsClient) GetResolverEndpoint(ctx context.Context, request GetResolverEndpointRequest) (response GetResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1304,6 +1396,10 @@ func (client DnsClient) getResolverEndpoint(ctx context.Context, request common.
 }
 
 // GetSteeringPolicy Gets information about the specified steering policy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetSteeringPolicy.go.html to see an example of how to use GetSteeringPolicy API.
 func (client DnsClient) GetSteeringPolicy(ctx context.Context, request GetSteeringPolicyRequest) (response GetSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1354,6 +1450,10 @@ func (client DnsClient) getSteeringPolicy(ctx context.Context, request common.OC
 }
 
 // GetSteeringPolicyAttachment Gets information about the specified steering policy attachment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetSteeringPolicyAttachment.go.html to see an example of how to use GetSteeringPolicyAttachment API.
 func (client DnsClient) GetSteeringPolicyAttachment(ctx context.Context, request GetSteeringPolicyAttachmentRequest) (response GetSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1404,6 +1504,10 @@ func (client DnsClient) getSteeringPolicyAttachment(ctx context.Context, request
 }
 
 // GetTsigKey Gets information about the specified TSIG key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetTsigKey.go.html to see an example of how to use GetTsigKey API.
 func (client DnsClient) GetTsigKey(ctx context.Context, request GetTsigKeyRequest) (response GetTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1456,6 +1560,10 @@ func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIReques
 // GetView Get information about a specific view. Note that attempting to get a
 // view in the DELETED lifecycleState will result in a 404 to be
 // consistent with other operations of the API.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetView.go.html to see an example of how to use GetView API.
 func (client DnsClient) GetView(ctx context.Context, request GetViewRequest) (response GetViewResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1507,6 +1615,10 @@ func (client DnsClient) getView(ctx context.Context, request common.OCIRequest) 
 
 // GetZone Gets information about the specified zone, including its creation date,
 // zone type, and serial.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetZone.go.html to see an example of how to use GetZone API.
 func (client DnsClient) GetZone(ctx context.Context, request GetZoneRequest) (response GetZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1559,6 +1671,10 @@ func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest) 
 // GetZoneRecords Gets all records in the specified zone. The results are
 // sorted by `domain` in alphabetical order by default. For more
 // information about records, see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetZoneRecords.go.html to see an example of how to use GetZoneRecords API.
 func (client DnsClient) GetZoneRecords(ctx context.Context, request GetZoneRecordsRequest) (response GetZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1628,6 +1744,10 @@ func (m *listresolverendpointsummary) UnmarshalPolymorphicJSON(data []byte) (int
 // It can be sorted on creation time or name both in ASC or DESC order. Note that when no lifecycleState
 // query parameter is provided that the collection does not include resolver endpoints in the DELETED
 // lifecycle state to be consistent with other operations of the API.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListResolverEndpoints.go.html to see an example of how to use ListResolverEndpoints API.
 func (client DnsClient) ListResolverEndpoints(ctx context.Context, request ListResolverEndpointsRequest) (response ListResolverEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1683,6 +1803,10 @@ func (client DnsClient) listResolverEndpoints(ctx context.Context, request commo
 // when no lifecycleState query parameter is provided that the collection
 // does not include resolvers in the DELETED lifecycleState to be consistent
 // with other operations of the API.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListResolvers.go.html to see an example of how to use ListResolvers API.
 func (client DnsClient) ListResolvers(ctx context.Context, request ListResolversRequest) (response ListResolversResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1733,6 +1857,10 @@ func (client DnsClient) listResolvers(ctx context.Context, request common.OCIReq
 }
 
 // ListSteeringPolicies Gets a list of all steering policies in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListSteeringPolicies.go.html to see an example of how to use ListSteeringPolicies API.
 func (client DnsClient) ListSteeringPolicies(ctx context.Context, request ListSteeringPoliciesRequest) (response ListSteeringPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1783,6 +1911,10 @@ func (client DnsClient) listSteeringPolicies(ctx context.Context, request common
 }
 
 // ListSteeringPolicyAttachments Lists the steering policy attachments in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListSteeringPolicyAttachments.go.html to see an example of how to use ListSteeringPolicyAttachments API.
 func (client DnsClient) ListSteeringPolicyAttachments(ctx context.Context, request ListSteeringPolicyAttachmentsRequest) (response ListSteeringPolicyAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1833,6 +1965,10 @@ func (client DnsClient) listSteeringPolicyAttachments(ctx context.Context, reque
 }
 
 // ListTsigKeys Gets a list of all TSIG keys in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListTsigKeys.go.html to see an example of how to use ListTsigKeys API.
 func (client DnsClient) ListTsigKeys(ctx context.Context, request ListTsigKeysRequest) (response ListTsigKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1888,6 +2024,10 @@ func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequ
 // when no lifecycleState query parameter is provided that the collection
 // does not include views in the DELETED lifecycleState to be consistent
 // with other operations of the API.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListViews.go.html to see an example of how to use ListViews API.
 func (client DnsClient) ListViews(ctx context.Context, request ListViewsRequest) (response ListViewsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1939,6 +2079,10 @@ func (client DnsClient) listViews(ctx context.Context, request common.OCIRequest
 
 // ListZones Gets a list of all zones in the specified compartment. The collection
 // can be filtered by name, time created, scope, associated view, and zone type.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListZones.go.html to see an example of how to use ListZones API.
 func (client DnsClient) ListZones(ctx context.Context, request ListZonesRequest) (response ListZonesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1992,6 +2136,10 @@ func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest
 // one record or all records for the specified zone depending on the changes
 // provided in the request body. You can also add or remove records using this
 // function.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/PatchDomainRecords.go.html to see an example of how to use PatchDomainRecords API.
 func (client DnsClient) PatchDomainRecords(ctx context.Context, request PatchDomainRecordsRequest) (response PatchDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2042,6 +2190,10 @@ func (client DnsClient) patchDomainRecords(ctx context.Context, request common.O
 }
 
 // PatchRRSet Updates records in the specified RRSet.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/PatchRRSet.go.html to see an example of how to use PatchRRSet API.
 func (client DnsClient) PatchRRSet(ctx context.Context, request PatchRRSetRequest) (response PatchRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2095,6 +2247,10 @@ func (client DnsClient) patchRRSet(ctx context.Context, request common.OCIReques
 // one record or all records for the specified zone depending on the
 // changes provided in the request body. You can also add or remove records
 // using this function.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/PatchZoneRecords.go.html to see an example of how to use PatchZoneRecords API.
 func (client DnsClient) PatchZoneRecords(ctx context.Context, request PatchZoneRecordsRequest) (response PatchZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2150,6 +2306,10 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 // represent the record in the body of the request. If a record in the zone
 // does not exist in the request body, the record will be removed from the
 // zone.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateDomainRecords.go.html to see an example of how to use UpdateDomainRecords API.
 func (client DnsClient) UpdateDomainRecords(ctx context.Context, request UpdateDomainRecordsRequest) (response UpdateDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2200,6 +2360,10 @@ func (client DnsClient) updateDomainRecords(ctx context.Context, request common.
 }
 
 // UpdateRRSet Replaces records in the specified RRSet.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateRRSet.go.html to see an example of how to use UpdateRRSet API.
 func (client DnsClient) UpdateRRSet(ctx context.Context, request UpdateRRSetRequest) (response UpdateRRSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2250,6 +2414,10 @@ func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIReque
 }
 
 // UpdateResolver Updates the specified resolver with your new information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateResolver.go.html to see an example of how to use UpdateResolver API.
 func (client DnsClient) UpdateResolver(ctx context.Context, request UpdateResolverRequest) (response UpdateResolverResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2300,6 +2468,10 @@ func (client DnsClient) updateResolver(ctx context.Context, request common.OCIRe
 }
 
 // UpdateResolverEndpoint Updates the specified resolver endpoint with your new information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateResolverEndpoint.go.html to see an example of how to use UpdateResolverEndpoint API.
 func (client DnsClient) UpdateResolverEndpoint(ctx context.Context, request UpdateResolverEndpointRequest) (response UpdateResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2350,6 +2522,10 @@ func (client DnsClient) updateResolverEndpoint(ctx context.Context, request comm
 }
 
 // UpdateSteeringPolicy Updates the configuration of the specified steering policy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateSteeringPolicy.go.html to see an example of how to use UpdateSteeringPolicy API.
 func (client DnsClient) UpdateSteeringPolicy(ctx context.Context, request UpdateSteeringPolicyRequest) (response UpdateSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2400,6 +2576,10 @@ func (client DnsClient) updateSteeringPolicy(ctx context.Context, request common
 }
 
 // UpdateSteeringPolicyAttachment Updates the specified steering policy attachment with your new information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateSteeringPolicyAttachment.go.html to see an example of how to use UpdateSteeringPolicyAttachment API.
 func (client DnsClient) UpdateSteeringPolicyAttachment(ctx context.Context, request UpdateSteeringPolicyAttachmentRequest) (response UpdateSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2450,6 +2630,10 @@ func (client DnsClient) updateSteeringPolicyAttachment(ctx context.Context, requ
 }
 
 // UpdateTsigKey Updates the specified TSIG key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateTsigKey.go.html to see an example of how to use UpdateTsigKey API.
 func (client DnsClient) UpdateTsigKey(ctx context.Context, request UpdateTsigKeyRequest) (response UpdateTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2500,6 +2684,10 @@ func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIReq
 }
 
 // UpdateView Updates the specified view with your new information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateView.go.html to see an example of how to use UpdateView API.
 func (client DnsClient) UpdateView(ctx context.Context, request UpdateViewRequest) (response UpdateViewResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2552,6 +2740,10 @@ func (client DnsClient) updateView(ctx context.Context, request common.OCIReques
 // UpdateZone Updates the specified secondary zone with your new external master
 // server information. For more information about secondary zone, see
 // Manage DNS Service Zone (https://docs.cloud.oracle.com/iaas/Content/DNS/Tasks/managingdnszones.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateZone.go.html to see an example of how to use UpdateZone API.
 func (client DnsClient) UpdateZone(ctx context.Context, request UpdateZoneRequest) (response UpdateZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2606,6 +2798,10 @@ func (client DnsClient) updateZone(ctx context.Context, request common.OCIReques
 // If the record exists, then it will be updated to represent the record in
 // the body of the request. If a record in the zone does not exist in the
 // request body, the record will be removed from the zone.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateZoneRecords.go.html to see an example of how to use UpdateZoneRecords API.
 func (client DnsClient) UpdateZoneRecords(ctx context.Context, request UpdateZoneRecordsRequest) (response UpdateZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

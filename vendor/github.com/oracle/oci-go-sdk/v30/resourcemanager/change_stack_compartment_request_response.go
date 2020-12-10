@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeStackCompartmentRequest wrapper for the ChangeStackCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ChangeStackCompartment.go.html to see an example of how to use ChangeStackCompartmentRequest.
 type ChangeStackCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.

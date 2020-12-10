@@ -10,6 +10,10 @@ import (
 )
 
 // ListServicesRequest wrapper for the ListServices operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/ListServices.go.html to see an example of how to use ListServicesRequest.
 type ListServicesRequest struct {
 
 	// The OCID of the parent compartment (remember that the tenancy is simply the root compartment).

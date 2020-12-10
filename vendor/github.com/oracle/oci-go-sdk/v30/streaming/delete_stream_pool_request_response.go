@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteStreamPoolRequest wrapper for the DeleteStreamPool operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteStreamPool.go.html to see an example of how to use DeleteStreamPoolRequest.
 type DeleteStreamPoolRequest struct {
 
 	// The OCID of the stream pool.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateOdaInstanceRequest wrapper for the UpdateOdaInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateOdaInstance.go.html to see an example of how to use UpdateOdaInstanceRequest.
 type UpdateOdaInstanceRequest struct {
 
 	// Unique Digital Assistant instance identifier.

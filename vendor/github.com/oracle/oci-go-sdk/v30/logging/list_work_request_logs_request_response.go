@@ -10,6 +10,10 @@ import (
 )
 
 // ListWorkRequestLogsRequest wrapper for the ListWorkRequestLogs operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogsRequest.
 type ListWorkRequestLogsRequest struct {
 
 	// The asynchronous request ID.

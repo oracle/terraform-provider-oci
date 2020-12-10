@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateAccessRulesRequest wrapper for the UpdateAccessRules operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateAccessRules.go.html to see an example of how to use UpdateAccessRulesRequest.
 type UpdateAccessRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

@@ -10,6 +10,10 @@ import (
 )
 
 // GetJobExecutionRequest wrapper for the GetJobExecution operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetJobExecution.go.html to see an example of how to use GetJobExecutionRequest.
 type GetJobExecutionRequest struct {
 
 	// Unique catalog identifier.

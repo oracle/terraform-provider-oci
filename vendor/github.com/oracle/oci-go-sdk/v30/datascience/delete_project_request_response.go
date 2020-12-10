@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteProjectRequest wrapper for the DeleteProject operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteProject.go.html to see an example of how to use DeleteProjectRequest.
 type DeleteProjectRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the project.

@@ -10,6 +10,10 @@ import (
 )
 
 // GetBudgetRequest wrapper for the GetBudget operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/GetBudget.go.html to see an example of how to use GetBudgetRequest.
 type GetBudgetRequest struct {
 
 	// The unique Budget OCID

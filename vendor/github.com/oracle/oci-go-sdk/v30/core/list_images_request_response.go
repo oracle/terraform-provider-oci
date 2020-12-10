@@ -10,6 +10,10 @@ import (
 )
 
 // ListImagesRequest wrapper for the ListImages operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListImages.go.html to see an example of how to use ListImagesRequest.
 type ListImagesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

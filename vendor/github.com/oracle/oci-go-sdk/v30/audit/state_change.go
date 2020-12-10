@@ -16,13 +16,6 @@ import (
 )
 
 // StateChange A container object for state change attributes.
-// Example:
-//   -----
-//     {
-//       "previous": null,
-//       "current": null
-//     }
-//   -----
 type StateChange struct {
 
 	// Provides the previous state of fields that may have changed during an operation. To determine

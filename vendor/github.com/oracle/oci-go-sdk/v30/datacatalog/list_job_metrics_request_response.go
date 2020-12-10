@@ -10,6 +10,10 @@ import (
 )
 
 // ListJobMetricsRequest wrapper for the ListJobMetrics operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListJobMetrics.go.html to see an example of how to use ListJobMetricsRequest.
 type ListJobMetricsRequest struct {
 
 	// Unique catalog identifier.

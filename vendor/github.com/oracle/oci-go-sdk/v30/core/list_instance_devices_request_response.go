@@ -10,6 +10,10 @@ import (
 )
 
 // ListInstanceDevicesRequest wrapper for the ListInstanceDevices operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstanceDevices.go.html to see an example of how to use ListInstanceDevicesRequest.
 type ListInstanceDevicesRequest struct {
 
 	// The OCID of the instance.

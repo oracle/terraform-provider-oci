@@ -10,6 +10,10 @@ import (
 )
 
 // GenerateTotpSeedRequest wrapper for the GenerateTotpSeed operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GenerateTotpSeed.go.html to see an example of how to use GenerateTotpSeedRequest.
 type GenerateTotpSeedRequest struct {
 
 	// The OCID of the user.

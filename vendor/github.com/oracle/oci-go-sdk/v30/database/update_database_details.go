@@ -24,7 +24,7 @@ type UpdateDatabaseDetails struct {
 	// A new strong password for SYS, SYSTEM, and the plugbable database ADMIN user. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
 	NewAdminPassword *string `mandatory:"false" json:"newAdminPassword"`
 
-	// The existing password to open the TDE wallet. It is required to set a new tde password.
+	// The existing TDE wallet password. You must provide the existing password in order to set a new TDE wallet password.
 	OldTdeWalletPassword *string `mandatory:"false" json:"oldTdeWalletPassword"`
 
 	// The new password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.

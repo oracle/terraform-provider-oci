@@ -10,6 +10,10 @@ import (
 )
 
 // ListTaskRunsRequest wrapper for the ListTaskRuns operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListTaskRuns.go.html to see an example of how to use ListTaskRunsRequest.
 type ListTaskRunsRequest struct {
 
 	// The workspace ID.

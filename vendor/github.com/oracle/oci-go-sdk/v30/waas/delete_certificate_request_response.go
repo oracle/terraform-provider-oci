@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteCertificateRequest wrapper for the DeleteCertificate operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/DeleteCertificate.go.html to see an example of how to use DeleteCertificateRequest.
 type DeleteCertificateRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SSL certificate used in the WAAS policy. This number is generated when the certificate is added to the policy.

@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteExadataInfrastructureRequest wrapper for the DeleteExadataInfrastructure operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteExadataInfrastructure.go.html to see an example of how to use DeleteExadataInfrastructureRequest.
 type DeleteExadataInfrastructureRequest struct {
 
 	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

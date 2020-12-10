@@ -10,6 +10,10 @@ import (
 )
 
 // ListAutoScalingConfigurationsRequest wrapper for the ListAutoScalingConfigurations operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/ListAutoScalingConfigurations.go.html to see an example of how to use ListAutoScalingConfigurationsRequest.
 type ListAutoScalingConfigurationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the

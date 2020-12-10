@@ -10,6 +10,10 @@ import (
 )
 
 // GetFolderRequest wrapper for the GetFolder operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetFolder.go.html to see an example of how to use GetFolderRequest.
 type GetFolderRequest struct {
 
 	// Unique catalog identifier.

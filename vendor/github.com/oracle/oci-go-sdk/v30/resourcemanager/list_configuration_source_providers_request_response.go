@@ -10,6 +10,10 @@ import (
 )
 
 // ListConfigurationSourceProvidersRequest wrapper for the ListConfigurationSourceProviders operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListConfigurationSourceProviders.go.html to see an example of how to use ListConfigurationSourceProvidersRequest.
 type ListConfigurationSourceProvidersRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -40,6 +44,9 @@ type ListConfigurationSourceProvidersRequest struct {
 	// The value of the `opc-next-page` response header from the preceding `List` call.
 	// For information about pagination, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
+
+	// A filter to return only configuration source providers of the specified type (GitHub or GitLab).
+	ConfigSourceProviderType *string `mandatory:"false" contributesTo:"query" name:"configSourceProviderType"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

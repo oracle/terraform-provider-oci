@@ -10,6 +10,10 @@ import (
 )
 
 // GetTagRequest wrapper for the GetTag operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetTag.go.html to see an example of how to use GetTagRequest.
 type GetTagRequest struct {
 
 	// The OCID of the tag namespace.

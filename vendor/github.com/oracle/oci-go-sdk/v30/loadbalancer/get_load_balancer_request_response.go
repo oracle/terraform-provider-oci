@@ -10,6 +10,10 @@ import (
 )
 
 // GetLoadBalancerRequest wrapper for the GetLoadBalancer operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetLoadBalancer.go.html to see an example of how to use GetLoadBalancerRequest.
 type GetLoadBalancerRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer to retrieve.

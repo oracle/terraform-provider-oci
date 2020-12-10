@@ -80,6 +80,10 @@ func (client *IntegrationInstanceClient) ConfigurationProvider() *common.Configu
 }
 
 // ChangeIntegrationInstanceCompartment Change the compartment for an integration instance
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangeIntegrationInstanceCompartment.go.html to see an example of how to use ChangeIntegrationInstanceCompartment API.
 func (client IntegrationInstanceClient) ChangeIntegrationInstanceCompartment(ctx context.Context, request ChangeIntegrationInstanceCompartmentRequest) (response ChangeIntegrationInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -135,6 +139,10 @@ func (client IntegrationInstanceClient) changeIntegrationInstanceCompartment(ctx
 }
 
 // CreateIntegrationInstance Creates a new Integration Instance.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/CreateIntegrationInstance.go.html to see an example of how to use CreateIntegrationInstance API.
 func (client IntegrationInstanceClient) CreateIntegrationInstance(ctx context.Context, request CreateIntegrationInstanceRequest) (response CreateIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -190,6 +198,10 @@ func (client IntegrationInstanceClient) createIntegrationInstance(ctx context.Co
 }
 
 // DeleteIntegrationInstance Deletes an Integration Instance resource by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/DeleteIntegrationInstance.go.html to see an example of how to use DeleteIntegrationInstance API.
 func (client IntegrationInstanceClient) DeleteIntegrationInstance(ctx context.Context, request DeleteIntegrationInstanceRequest) (response DeleteIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -240,6 +252,10 @@ func (client IntegrationInstanceClient) deleteIntegrationInstance(ctx context.Co
 }
 
 // GetIntegrationInstance Gets a IntegrationInstance by identifier
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/GetIntegrationInstance.go.html to see an example of how to use GetIntegrationInstance API.
 func (client IntegrationInstanceClient) GetIntegrationInstance(ctx context.Context, request GetIntegrationInstanceRequest) (response GetIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -290,6 +306,10 @@ func (client IntegrationInstanceClient) getIntegrationInstance(ctx context.Conte
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client IntegrationInstanceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -340,6 +360,10 @@ func (client IntegrationInstanceClient) getWorkRequest(ctx context.Context, requ
 }
 
 // ListIntegrationInstances Returns a list of Integration Instances.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListIntegrationInstances.go.html to see an example of how to use ListIntegrationInstances API.
 func (client IntegrationInstanceClient) ListIntegrationInstances(ctx context.Context, request ListIntegrationInstancesRequest) (response ListIntegrationInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -390,6 +414,10 @@ func (client IntegrationInstanceClient) listIntegrationInstances(ctx context.Con
 }
 
 // ListWorkRequestErrors Get the errors of a work request.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client IntegrationInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -440,6 +468,10 @@ func (client IntegrationInstanceClient) listWorkRequestErrors(ctx context.Contex
 }
 
 // ListWorkRequestLogs Get the logs of a work request.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client IntegrationInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -490,6 +522,10 @@ func (client IntegrationInstanceClient) listWorkRequestLogs(ctx context.Context,
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client IntegrationInstanceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -540,6 +576,10 @@ func (client IntegrationInstanceClient) listWorkRequests(ctx context.Context, re
 }
 
 // StartIntegrationInstance Start an integration instance that was previously in an INACTIVE state
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StartIntegrationInstance.go.html to see an example of how to use StartIntegrationInstance API.
 func (client IntegrationInstanceClient) StartIntegrationInstance(ctx context.Context, request StartIntegrationInstanceRequest) (response StartIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -595,6 +635,10 @@ func (client IntegrationInstanceClient) startIntegrationInstance(ctx context.Con
 }
 
 // StopIntegrationInstance Stop an integration instance that was previously in an ACTIVE state
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StopIntegrationInstance.go.html to see an example of how to use StopIntegrationInstance API.
 func (client IntegrationInstanceClient) StopIntegrationInstance(ctx context.Context, request StopIntegrationInstanceRequest) (response StopIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -650,6 +694,10 @@ func (client IntegrationInstanceClient) stopIntegrationInstance(ctx context.Cont
 }
 
 // UpdateIntegrationInstance Updates the Integration Instance.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/UpdateIntegrationInstance.go.html to see an example of how to use UpdateIntegrationInstance API.
 func (client IntegrationInstanceClient) UpdateIntegrationInstance(ctx context.Context, request UpdateIntegrationInstanceRequest) (response UpdateIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

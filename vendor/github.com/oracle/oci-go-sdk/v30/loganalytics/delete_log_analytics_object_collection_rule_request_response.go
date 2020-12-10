@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteLogAnalyticsObjectCollectionRuleRequest wrapper for the DeleteLogAnalyticsObjectCollectionRule operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsObjectCollectionRule.go.html to see an example of how to use DeleteLogAnalyticsObjectCollectionRuleRequest.
 type DeleteLogAnalyticsObjectCollectionRuleRequest struct {
 
 	// The Logging Analytics namespace used for the request.

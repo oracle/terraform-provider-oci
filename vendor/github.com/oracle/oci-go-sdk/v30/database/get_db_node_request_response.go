@@ -10,6 +10,10 @@ import (
 )
 
 // GetDbNodeRequest wrapper for the GetDbNode operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbNode.go.html to see an example of how to use GetDbNodeRequest.
 type GetDbNodeRequest struct {
 
 	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateConsoleHistoryRequest wrapper for the UpdateConsoleHistory operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateConsoleHistory.go.html to see an example of how to use UpdateConsoleHistoryRequest.
 type UpdateConsoleHistoryRequest struct {
 
 	// The OCID of the console history.

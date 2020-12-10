@@ -10,6 +10,10 @@ import (
 )
 
 // CreateAutonomousVmClusterRequest wrapper for the CreateAutonomousVmCluster operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateAutonomousVmCluster.go.html to see an example of how to use CreateAutonomousVmClusterRequest.
 type CreateAutonomousVmClusterRequest struct {
 
 	// Request to create an Autonomous VM cluster.

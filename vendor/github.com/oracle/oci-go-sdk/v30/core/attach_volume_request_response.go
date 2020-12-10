@@ -10,6 +10,10 @@ import (
 )
 
 // AttachVolumeRequest wrapper for the AttachVolume operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachVolume.go.html to see an example of how to use AttachVolumeRequest.
 type AttachVolumeRequest struct {
 
 	// Attach volume request

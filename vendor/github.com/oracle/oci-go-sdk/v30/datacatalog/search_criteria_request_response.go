@@ -10,6 +10,10 @@ import (
 )
 
 // SearchCriteriaRequest wrapper for the SearchCriteria operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/SearchCriteria.go.html to see an example of how to use SearchCriteriaRequest.
 type SearchCriteriaRequest struct {
 
 	// Unique catalog identifier.

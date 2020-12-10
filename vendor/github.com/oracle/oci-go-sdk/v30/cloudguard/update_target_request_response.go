@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateTargetRequest wrapper for the UpdateTarget operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateTarget.go.html to see an example of how to use UpdateTargetRequest.
 type UpdateTargetRequest struct {
 
 	// OCID of target

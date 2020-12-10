@@ -10,6 +10,10 @@ import (
 )
 
 // GetStorageWorkRequestRequest wrapper for the GetStorageWorkRequest operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetStorageWorkRequest.go.html to see an example of how to use GetStorageWorkRequestRequest.
 type GetStorageWorkRequestRequest struct {
 
 	// Work Request Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.

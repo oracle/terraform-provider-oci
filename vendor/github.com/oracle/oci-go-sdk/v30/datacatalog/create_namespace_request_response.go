@@ -10,6 +10,10 @@ import (
 )
 
 // CreateNamespaceRequest wrapper for the CreateNamespace operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateNamespace.go.html to see an example of how to use CreateNamespaceRequest.
 type CreateNamespaceRequest struct {
 
 	// Unique catalog identifier.

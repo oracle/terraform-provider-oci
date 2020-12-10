@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateGlossaryRequest wrapper for the UpdateGlossary operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateGlossary.go.html to see an example of how to use UpdateGlossaryRequest.
 type UpdateGlossaryRequest struct {
 
 	// Unique catalog identifier.

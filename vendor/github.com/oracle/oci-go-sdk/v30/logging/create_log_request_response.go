@@ -10,6 +10,10 @@ import (
 )
 
 // CreateLogRequest wrapper for the CreateLog operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/CreateLog.go.html to see an example of how to use CreateLogRequest.
 type CreateLogRequest struct {
 
 	// OCID of a log group to work with.

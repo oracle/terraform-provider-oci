@@ -10,6 +10,10 @@ import (
 )
 
 // ListVolumeAttachmentsRequest wrapper for the ListVolumeAttachments operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumeAttachments.go.html to see an example of how to use ListVolumeAttachmentsRequest.
 type ListVolumeAttachmentsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

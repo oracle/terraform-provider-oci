@@ -10,6 +10,10 @@ import (
 )
 
 // CreateDataFlowRequest wrapper for the CreateDataFlow operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateDataFlow.go.html to see an example of how to use CreateDataFlowRequest.
 type CreateDataFlowRequest struct {
 
 	// The workspace ID.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListResourceActionsRequest wrapper for the ListResourceActions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListResourceActions.go.html to see an example of how to use ListResourceActionsRequest.
 type ListResourceActionsRequest struct {
 
 	// The OCID of the compartment.

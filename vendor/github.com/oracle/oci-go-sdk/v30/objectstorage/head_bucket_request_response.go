@@ -10,6 +10,10 @@ import (
 )
 
 // HeadBucketRequest wrapper for the HeadBucket operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/HeadBucket.go.html to see an example of how to use HeadBucketRequest.
 type HeadBucketRequest struct {
 
 	// The Object Storage namespace used for the request.

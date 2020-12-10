@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteDedicatedVmHostRequest wrapper for the DeleteDedicatedVmHost operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteDedicatedVmHost.go.html to see an example of how to use DeleteDedicatedVmHostRequest.
 type DeleteDedicatedVmHostRequest struct {
 
 	// The OCID of the dedicated VM host.

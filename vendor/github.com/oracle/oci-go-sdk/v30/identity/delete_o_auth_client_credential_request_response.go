@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteOAuthClientCredentialRequest wrapper for the DeleteOAuthClientCredential operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteOAuthClientCredential.go.html to see an example of how to use DeleteOAuthClientCredentialRequest.
 type DeleteOAuthClientCredentialRequest struct {
 
 	// The OCID of the user.

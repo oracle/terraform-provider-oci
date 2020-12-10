@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteTagNamespaceRequest wrapper for the DeleteTagNamespace operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteTagNamespace.go.html to see an example of how to use DeleteTagNamespaceRequest.
 type DeleteTagNamespaceRequest struct {
 
 	// The OCID of the tag namespace.

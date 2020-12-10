@@ -10,6 +10,10 @@ import (
 )
 
 // ListVolumeBackupPoliciesRequest wrapper for the ListVolumeBackupPolicies operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumeBackupPolicies.go.html to see an example of how to use ListVolumeBackupPoliciesRequest.
 type ListVolumeBackupPoliciesRequest struct {
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

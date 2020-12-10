@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteTargetResponderRecipeRequest wrapper for the DeleteTargetResponderRecipe operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteTargetResponderRecipe.go.html to see an example of how to use DeleteTargetResponderRecipeRequest.
 type DeleteTargetResponderRecipeRequest struct {
 
 	// OCID of target

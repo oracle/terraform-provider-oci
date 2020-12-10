@@ -10,6 +10,10 @@ import (
 )
 
 // ListAttributeTagsRequest wrapper for the ListAttributeTags operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListAttributeTags.go.html to see an example of how to use ListAttributeTagsRequest.
 type ListAttributeTagsRequest struct {
 
 	// Unique catalog identifier.

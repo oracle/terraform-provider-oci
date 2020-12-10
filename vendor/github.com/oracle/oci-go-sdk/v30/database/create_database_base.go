@@ -23,13 +23,21 @@ type CreateDatabaseBase interface {
 
 	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
 	GetDbVersion() *string
+
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	GetKmsKeyId() *string
+
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	GetKmsKeyVersionId() *string
 }
 
 type createdatabasebase struct {
-	JsonData  []byte
-	DbHomeId  *string `mandatory:"true" json:"dbHomeId"`
-	DbVersion *string `mandatory:"false" json:"dbVersion"`
-	Source    string  `json:"source"`
+	JsonData        []byte
+	DbHomeId        *string `mandatory:"true" json:"dbHomeId"`
+	DbVersion       *string `mandatory:"false" json:"dbVersion"`
+	KmsKeyId        *string `mandatory:"false" json:"kmsKeyId"`
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+	Source          string  `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -45,6 +53,8 @@ func (m *createdatabasebase) UnmarshalJSON(data []byte) error {
 	}
 	m.DbHomeId = s.Model.DbHomeId
 	m.DbVersion = s.Model.DbVersion
+	m.KmsKeyId = s.Model.KmsKeyId
+	m.KmsKeyVersionId = s.Model.KmsKeyVersionId
 	m.Source = s.Model.Source
 
 	return err
@@ -80,6 +90,16 @@ func (m createdatabasebase) GetDbHomeId() *string {
 //GetDbVersion returns DbVersion
 func (m createdatabasebase) GetDbVersion() *string {
 	return m.DbVersion
+}
+
+//GetKmsKeyId returns KmsKeyId
+func (m createdatabasebase) GetKmsKeyId() *string {
+	return m.KmsKeyId
+}
+
+//GetKmsKeyVersionId returns KmsKeyVersionId
+func (m createdatabasebase) GetKmsKeyVersionId() *string {
+	return m.KmsKeyVersionId
 }
 
 func (m createdatabasebase) String() string {

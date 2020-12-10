@@ -10,6 +10,10 @@ import (
 )
 
 // ListResolversRequest wrapper for the ListResolvers operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListResolvers.go.html to see an example of how to use ListResolversRequest.
 type ListResolversRequest struct {
 
 	// The OCID of the compartment the resource belongs to.

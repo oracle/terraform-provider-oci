@@ -10,6 +10,10 @@ import (
 )
 
 // CreatePrivateEndpointRequest wrapper for the CreatePrivateEndpoint operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreatePrivateEndpoint.go.html to see an example of how to use CreatePrivateEndpointRequest.
 type CreatePrivateEndpointRequest struct {
 
 	// Details to create a private endpoint.

@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteVlanRequest wrapper for the DeleteVlan operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVlan.go.html to see an example of how to use DeleteVlanRequest.
 type DeleteVlanRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN.

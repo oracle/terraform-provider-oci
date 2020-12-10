@@ -53,6 +53,9 @@ type AutonomousDatabaseSummary struct {
 
 	BackupConfig *AutonomousDatabaseBackupConfig `mandatory:"false" json:"backupConfig"`
 
+	// The quantity of data in the database, in gigabytes.
+	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
+
 	// The infrastructure type this resource belongs to.
 	InfrastructureType AutonomousDatabaseSummaryInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
 
@@ -76,7 +79,9 @@ type AutonomousDatabaseSummary struct {
 
 	ConnectionUrls *AutonomousDatabaseConnectionUrls `mandatory:"false" json:"connectionUrls"`
 
-	// The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
+	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
+	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
+	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
 	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel AutonomousDatabaseSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
@@ -126,6 +131,7 @@ type AutonomousDatabaseSummary struct {
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
+	// - APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type.
 	DbWorkload AutonomousDatabaseSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// Indicates if the database-level access control is enabled.
@@ -145,6 +151,9 @@ type AutonomousDatabaseSummary struct {
 	// Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	WhitelistedIps []string `mandatory:"false" json:"whitelistedIps"`
+
+	// Information about Autonomous Application Express.
+	ApexDetails *AutonomousDatabaseApex `mandatory:"false" json:"apexDetails"`
 
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
@@ -330,12 +339,14 @@ const (
 	AutonomousDatabaseSummaryDbWorkloadOltp AutonomousDatabaseSummaryDbWorkloadEnum = "OLTP"
 	AutonomousDatabaseSummaryDbWorkloadDw   AutonomousDatabaseSummaryDbWorkloadEnum = "DW"
 	AutonomousDatabaseSummaryDbWorkloadAjd  AutonomousDatabaseSummaryDbWorkloadEnum = "AJD"
+	AutonomousDatabaseSummaryDbWorkloadApex AutonomousDatabaseSummaryDbWorkloadEnum = "APEX"
 )
 
 var mappingAutonomousDatabaseSummaryDbWorkload = map[string]AutonomousDatabaseSummaryDbWorkloadEnum{
 	"OLTP": AutonomousDatabaseSummaryDbWorkloadOltp,
 	"DW":   AutonomousDatabaseSummaryDbWorkloadDw,
 	"AJD":  AutonomousDatabaseSummaryDbWorkloadAjd,
+	"APEX": AutonomousDatabaseSummaryDbWorkloadApex,
 }
 
 // GetAutonomousDatabaseSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDatabaseSummaryDbWorkloadEnum

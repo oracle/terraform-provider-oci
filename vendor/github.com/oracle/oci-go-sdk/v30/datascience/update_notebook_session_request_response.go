@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateNotebookSessionRequest wrapper for the UpdateNotebookSession operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateNotebookSession.go.html to see an example of how to use UpdateNotebookSessionRequest.
 type UpdateNotebookSessionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the notebook session.

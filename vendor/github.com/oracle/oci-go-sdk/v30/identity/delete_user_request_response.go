@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteUserRequest wrapper for the DeleteUser operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteUser.go.html to see an example of how to use DeleteUserRequest.
 type DeleteUserRequest struct {
 
 	// The OCID of the user.

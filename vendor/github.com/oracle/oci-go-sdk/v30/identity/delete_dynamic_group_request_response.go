@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteDynamicGroupRequest wrapper for the DeleteDynamicGroup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteDynamicGroup.go.html to see an example of how to use DeleteDynamicGroupRequest.
 type DeleteDynamicGroupRequest struct {
 
 	// The OCID of the dynamic group.

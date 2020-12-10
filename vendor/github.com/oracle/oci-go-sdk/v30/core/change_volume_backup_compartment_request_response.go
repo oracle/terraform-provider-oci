@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeVolumeBackupCompartmentRequest wrapper for the ChangeVolumeBackupCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVolumeBackupCompartment.go.html to see an example of how to use ChangeVolumeBackupCompartmentRequest.
 type ChangeVolumeBackupCompartmentRequest struct {
 
 	// The OCID of the volume backup.

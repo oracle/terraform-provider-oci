@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteSteeringPolicyAttachmentRequest wrapper for the DeleteSteeringPolicyAttachment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteSteeringPolicyAttachment.go.html to see an example of how to use DeleteSteeringPolicyAttachmentRequest.
 type DeleteSteeringPolicyAttachmentRequest struct {
 
 	// The OCID of the target steering policy attachment.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListBulkActionResourceTypesRequest wrapper for the ListBulkActionResourceTypes operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListBulkActionResourceTypes.go.html to see an example of how to use ListBulkActionResourceTypesRequest.
 type ListBulkActionResourceTypesRequest struct {
 
 	// The type of bulk action.

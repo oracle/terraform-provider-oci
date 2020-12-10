@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteDrgAttachmentRequest wrapper for the DeleteDrgAttachment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteDrgAttachment.go.html to see an example of how to use DeleteDrgAttachmentRequest.
 type DeleteDrgAttachmentRequest struct {
 
 	// The OCID of the DRG attachment.

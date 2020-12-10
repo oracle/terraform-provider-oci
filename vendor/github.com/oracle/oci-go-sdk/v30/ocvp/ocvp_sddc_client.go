@@ -82,6 +82,10 @@ func (client *SddcClient) ConfigurationProvider() *common.ConfigurationProvider 
 // ChangeSddcCompartment Moves an SDDC into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ChangeSddcCompartment.go.html to see an example of how to use ChangeSddcCompartment API.
 func (client SddcClient) ChangeSddcCompartment(ctx context.Context, request ChangeSddcCompartmentRequest) (response ChangeSddcCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -139,6 +143,10 @@ func (client SddcClient) changeSddcCompartment(ctx context.Context, request comm
 // CreateSddc Creates a software-defined data center (SDDC).
 // Use the WorkRequest operations to track the
 // creation of the SDDC.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CreateSddc.go.html to see an example of how to use CreateSddc API.
 func (client SddcClient) CreateSddc(ctx context.Context, request CreateSddcRequest) (response CreateSddcResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -198,6 +206,10 @@ func (client SddcClient) createSddc(ctx context.Context, request common.OCIReque
 // and so on.
 // Use the WorkRequest operations to track the
 // deletion of the SDDC.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteSddc.go.html to see an example of how to use DeleteSddc API.
 func (client SddcClient) DeleteSddc(ctx context.Context, request DeleteSddcRequest) (response DeleteSddcResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -248,6 +260,10 @@ func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIReque
 }
 
 // GetSddc Gets the specified SDDC's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetSddc.go.html to see an example of how to use GetSddc API.
 func (client SddcClient) GetSddc(ctx context.Context, request GetSddcRequest) (response GetSddcResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -299,6 +315,10 @@ func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest)
 
 // ListSddcs Lists the SDDCs in the specified compartment. The list can be
 // filtered by display name or availability domain.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSddcs.go.html to see an example of how to use ListSddcs API.
 func (client SddcClient) ListSddcs(ctx context.Context, request ListSddcsRequest) (response ListSddcsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -350,6 +370,10 @@ func (client SddcClient) listSddcs(ctx context.Context, request common.OCIReques
 
 // ListSupportedVmwareSoftwareVersions Lists the versions of bundled VMware software supported by the Oracle Cloud
 // VMware Solution.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedVmwareSoftwareVersions.go.html to see an example of how to use ListSupportedVmwareSoftwareVersions API.
 func (client SddcClient) ListSupportedVmwareSoftwareVersions(ctx context.Context, request ListSupportedVmwareSoftwareVersionsRequest) (response ListSupportedVmwareSoftwareVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -404,6 +428,10 @@ func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context
 // object and does not affect the VMware environment currently running in
 // the SDDC. For more information, see
 // UpdateSddcDetails.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpdateSddc.go.html to see an example of how to use UpdateSddc API.
 func (client SddcClient) UpdateSddc(ctx context.Context, request UpdateSddcRequest) (response UpdateSddcResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -10,6 +10,10 @@ import (
 )
 
 // ListTsigKeysRequest wrapper for the ListTsigKeys operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListTsigKeys.go.html to see an example of how to use ListTsigKeysRequest.
 type ListTsigKeysRequest struct {
 
 	// The OCID of the compartment the resource belongs to.

@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteAttributeTagRequest wrapper for the DeleteAttributeTag operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteAttributeTag.go.html to see an example of how to use DeleteAttributeTagRequest.
 type DeleteAttributeTagRequest struct {
 
 	// Unique catalog identifier.

@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteCrossConnectRequest wrapper for the DeleteCrossConnect operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCrossConnect.go.html to see an example of how to use DeleteCrossConnectRequest.
 type DeleteCrossConnectRequest struct {
 
 	// The OCID of the cross-connect.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateTaskRunRequest wrapper for the UpdateTaskRun operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateTaskRun.go.html to see an example of how to use UpdateTaskRunRequest.
 type UpdateTaskRunRequest struct {
 
 	// The workspace ID.

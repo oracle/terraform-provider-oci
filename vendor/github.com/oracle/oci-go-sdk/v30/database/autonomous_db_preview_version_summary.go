@@ -29,6 +29,7 @@ type AutonomousDbPreviewVersionSummary struct {
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
+	// - APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type.
 	DbWorkload AutonomousDbPreviewVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// A URL that points to a detailed description of the preview version.
@@ -47,12 +48,14 @@ const (
 	AutonomousDbPreviewVersionSummaryDbWorkloadOltp AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "OLTP"
 	AutonomousDbPreviewVersionSummaryDbWorkloadDw   AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "DW"
 	AutonomousDbPreviewVersionSummaryDbWorkloadAjd  AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "AJD"
+	AutonomousDbPreviewVersionSummaryDbWorkloadApex AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "APEX"
 )
 
 var mappingAutonomousDbPreviewVersionSummaryDbWorkload = map[string]AutonomousDbPreviewVersionSummaryDbWorkloadEnum{
 	"OLTP": AutonomousDbPreviewVersionSummaryDbWorkloadOltp,
 	"DW":   AutonomousDbPreviewVersionSummaryDbWorkloadDw,
 	"AJD":  AutonomousDbPreviewVersionSummaryDbWorkloadAjd,
+	"APEX": AutonomousDbPreviewVersionSummaryDbWorkloadApex,
 }
 
 // GetAutonomousDbPreviewVersionSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDbPreviewVersionSummaryDbWorkloadEnum

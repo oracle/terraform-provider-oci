@@ -10,6 +10,10 @@ import (
 )
 
 // ListAutonomousContainerDatabaseDataguardAssociationsRequest wrapper for the ListAutonomousContainerDatabaseDataguardAssociations operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousContainerDatabaseDataguardAssociations.go.html to see an example of how to use ListAutonomousContainerDatabaseDataguardAssociationsRequest.
 type ListAutonomousContainerDatabaseDataguardAssociationsRequest struct {
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

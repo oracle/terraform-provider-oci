@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeByoipRangeCompartmentRequest wrapper for the ChangeByoipRangeCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeByoipRangeCompartment.go.html to see an example of how to use ChangeByoipRangeCompartmentRequest.
 type ChangeByoipRangeCompartmentRequest struct {
 
 	// The OCID of the Byoip Range object.

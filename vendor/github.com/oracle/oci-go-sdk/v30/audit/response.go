@@ -16,38 +16,6 @@ import (
 )
 
 // Response A container object for response attributes.
-// Example:
-//   -----
-//     {
-//       "status": "200",
-//       "responseTime": "2019-09-18T00:10:59.278Z",
-//       "headers": {
-//         "ETag": [
-//           "<unique_ID>"
-//         ],
-//         "Connection": [
-//           "close"
-//         ],
-//         "Content-Length": [
-//           "1828"
-//         ],
-//         "opc-request-id": [
-//           "<unique_ID>"
-//         ],
-//         "Date": [
-//           "Wed, 18 Sep 2019 00:10:59 GMT"
-//         ],
-//         "Content-Type": [
-//           "application/json"
-//         ]
-//       },
-//       "payload": {
-//         "resourceName": "my_instance",
-//         "id": "ocid1.instance.oc1.phx.<unique_ID>"
-//       },
-//       "message": null
-//     }
-//   -----
 type Response struct {
 
 	// The status code of the response.

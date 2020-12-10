@@ -10,6 +10,10 @@ import (
 )
 
 // EnableDataSafeConfigurationRequest wrapper for the EnableDataSafeConfiguration operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/EnableDataSafeConfiguration.go.html to see an example of how to use EnableDataSafeConfigurationRequest.
 type EnableDataSafeConfigurationRequest struct {
 
 	// The details used to enable Data Safe.

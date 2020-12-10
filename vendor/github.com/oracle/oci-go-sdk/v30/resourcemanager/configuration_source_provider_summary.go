@@ -42,7 +42,7 @@ type ConfigurationSourceProviderSummary interface {
 	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#CSPStates).
 	// Allowable values:
 	// - ACTIVE
-	GetLifecycleState() ConfigurationSourceProviderSummary
+	GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum
 
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -57,15 +57,15 @@ type ConfigurationSourceProviderSummary interface {
 
 type configurationsourceprovidersummary struct {
 	JsonData                 []byte
-	Id                       *string                            `mandatory:"false" json:"id"`
-	CompartmentId            *string                            `mandatory:"false" json:"compartmentId"`
-	DisplayName              *string                            `mandatory:"false" json:"displayName"`
-	Description              *string                            `mandatory:"false" json:"description"`
-	TimeCreated              *common.SDKTime                    `mandatory:"false" json:"timeCreated"`
-	LifecycleState           ConfigurationSourceProviderSummary `mandatory:"false" json:"lifecycleState,omitempty"`
-	FreeformTags             map[string]string                  `mandatory:"false" json:"freeformTags"`
-	DefinedTags              map[string]map[string]interface{}  `mandatory:"false" json:"definedTags"`
-	ConfigSourceProviderType string                             `json:"configSourceProviderType"`
+	Id                       *string                                       `mandatory:"false" json:"id"`
+	CompartmentId            *string                                       `mandatory:"false" json:"compartmentId"`
+	DisplayName              *string                                       `mandatory:"false" json:"displayName"`
+	Description              *string                                       `mandatory:"false" json:"description"`
+	TimeCreated              *common.SDKTime                               `mandatory:"false" json:"timeCreated"`
+	LifecycleState           ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	FreeformTags             map[string]string                             `mandatory:"false" json:"freeformTags"`
+	DefinedTags              map[string]map[string]interface{}             `mandatory:"false" json:"definedTags"`
+	ConfigSourceProviderType string                                        `json:"configSourceProviderType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -105,6 +105,10 @@ func (m *configurationsourceprovidersummary) UnmarshalPolymorphicJSON(data []byt
 		mm := GitlabAccessTokenConfigurationSourceProviderSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GITHUB_ACCESS_TOKEN":
+		mm := GithubAccessTokenConfigurationSourceProviderSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -136,7 +140,7 @@ func (m configurationsourceprovidersummary) GetTimeCreated() *common.SDKTime {
 }
 
 //GetLifecycleState returns LifecycleState
-func (m configurationsourceprovidersummary) GetLifecycleState() ConfigurationSourceProviderSummary {
+func (m configurationsourceprovidersummary) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
 }
 

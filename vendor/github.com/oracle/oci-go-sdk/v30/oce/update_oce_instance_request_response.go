@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateOceInstanceRequest wrapper for the UpdateOceInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/UpdateOceInstance.go.html to see an example of how to use UpdateOceInstanceRequest.
 type UpdateOceInstanceRequest struct {
 
 	// unique OceInstance identifier

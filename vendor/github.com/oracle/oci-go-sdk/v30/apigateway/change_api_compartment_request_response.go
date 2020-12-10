@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeApiCompartmentRequest wrapper for the ChangeApiCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeApiCompartment.go.html to see an example of how to use ChangeApiCompartmentRequest.
 type ChangeApiCompartmentRequest struct {
 
 	// The ocid of the API.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateVolumeBackupRequest wrapper for the UpdateVolumeBackup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVolumeBackup.go.html to see an example of how to use UpdateVolumeBackupRequest.
 type UpdateVolumeBackupRequest struct {
 
 	// The OCID of the volume backup.

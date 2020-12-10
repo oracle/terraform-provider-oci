@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateModelRequest wrapper for the UpdateModel operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModel.go.html to see an example of how to use UpdateModelRequest.
 type UpdateModelRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the model.

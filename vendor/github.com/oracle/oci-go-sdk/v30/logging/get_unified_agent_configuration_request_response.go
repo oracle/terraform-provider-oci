@@ -10,6 +10,10 @@ import (
 )
 
 // GetUnifiedAgentConfigurationRequest wrapper for the GetUnifiedAgentConfiguration operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/GetUnifiedAgentConfiguration.go.html to see an example of how to use GetUnifiedAgentConfigurationRequest.
 type GetUnifiedAgentConfigurationRequest struct {
 
 	// The OCID of the Unified Agent configuration.

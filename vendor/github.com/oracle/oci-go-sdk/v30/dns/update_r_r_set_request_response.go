@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateRRSetRequest wrapper for the UpdateRRSet operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateRRSet.go.html to see an example of how to use UpdateRRSetRequest.
 type UpdateRRSetRequest struct {
 
 	// The name or OCID of the target zone.

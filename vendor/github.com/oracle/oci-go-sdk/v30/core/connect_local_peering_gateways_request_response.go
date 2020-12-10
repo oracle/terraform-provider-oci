@@ -10,6 +10,10 @@ import (
 )
 
 // ConnectLocalPeeringGatewaysRequest wrapper for the ConnectLocalPeeringGateways operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ConnectLocalPeeringGateways.go.html to see an example of how to use ConnectLocalPeeringGatewaysRequest.
 type ConnectLocalPeeringGatewaysRequest struct {
 
 	// The OCID of the local peering gateway.

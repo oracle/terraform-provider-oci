@@ -10,6 +10,10 @@ import (
 )
 
 // GetDatabaseSoftwareImageRequest wrapper for the GetDatabaseSoftwareImage operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDatabaseSoftwareImage.go.html to see an example of how to use GetDatabaseSoftwareImageRequest.
 type GetDatabaseSoftwareImageRequest struct {
 
 	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

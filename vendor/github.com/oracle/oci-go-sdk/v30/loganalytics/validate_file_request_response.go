@@ -10,6 +10,10 @@ import (
 )
 
 // ValidateFileRequest wrapper for the ValidateFile operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateFile.go.html to see an example of how to use ValidateFileRequest.
 type ValidateFileRequest struct {
 
 	// The Logging Analytics namespace used for the request.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateBdsInstanceRequest wrapper for the UpdateBdsInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateBdsInstance.go.html to see an example of how to use UpdateBdsInstanceRequest.
 type UpdateBdsInstanceRequest struct {
 
 	// The OCID of the BDS instance

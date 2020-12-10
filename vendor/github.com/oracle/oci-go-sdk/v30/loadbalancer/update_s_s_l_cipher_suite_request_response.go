@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateSSLCipherSuiteRequest wrapper for the UpdateSSLCipherSuite operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/UpdateSSLCipherSuite.go.html to see an example of how to use UpdateSSLCipherSuiteRequest.
 type UpdateSSLCipherSuiteRequest struct {
 
 	// The configuration details to update an SSL cipher suite.

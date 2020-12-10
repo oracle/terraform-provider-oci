@@ -13,13 +13,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// RestoreAutonomousDataWarehouseDetails **Deprecated.** See RestoreAutonomousDatabaseDetails for reference information about restoring an Autonomous Data Warehouse.
-type RestoreAutonomousDataWarehouseDetails struct {
+// AutonomousDatabaseApex Oracle Application Express (APEX) is a low-code development platform that enables you to build scalable, secure enterprise apps, with world-class features. Autonomous Database with the APEX workload type is optimized to support APEX development.
+type AutonomousDatabaseApex struct {
 
-	// The time to restore the database to.
-	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
+	// The Oracle Application Express service version.
+	ApexVersion *string `mandatory:"false" json:"apexVersion"`
+
+	// The Oracle REST Data Services (ORDS) version.
+	OrdsVersion *string `mandatory:"false" json:"ordsVersion"`
 }
 
-func (m RestoreAutonomousDataWarehouseDetails) String() string {
+func (m AutonomousDatabaseApex) String() string {
 	return common.PointerString(m)
 }

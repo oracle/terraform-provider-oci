@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeOceInstanceCompartmentRequest wrapper for the ChangeOceInstanceCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/ChangeOceInstanceCompartment.go.html to see an example of how to use ChangeOceInstanceCompartmentRequest.
 type ChangeOceInstanceCompartmentRequest struct {
 
 	// unique OceInstance identifier

@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeLogAnalyticsLogGroupCompartmentRequest wrapper for the ChangeLogAnalyticsLogGroupCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeLogAnalyticsLogGroupCompartment.go.html to see an example of how to use ChangeLogAnalyticsLogGroupCompartmentRequest.
 type ChangeLogAnalyticsLogGroupCompartmentRequest struct {
 
 	// The Logging Analytics namespace used for the request.

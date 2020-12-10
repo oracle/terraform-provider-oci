@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteConnectionRequest wrapper for the DeleteConnection operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteConnection.go.html to see an example of how to use DeleteConnectionRequest.
 type DeleteConnectionRequest struct {
 
 	// The workspace ID.

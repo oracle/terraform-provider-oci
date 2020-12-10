@@ -51,9 +51,12 @@ type UpdateAutonomousDatabaseDetails struct {
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
+	// - APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type.
 	DbWorkload UpdateAutonomousDatabaseDetailsDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
-	// The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
+	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
+	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
+	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
 	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel UpdateAutonomousDatabaseDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
@@ -127,12 +130,14 @@ const (
 	UpdateAutonomousDatabaseDetailsDbWorkloadOltp UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "OLTP"
 	UpdateAutonomousDatabaseDetailsDbWorkloadDw   UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "DW"
 	UpdateAutonomousDatabaseDetailsDbWorkloadAjd  UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "AJD"
+	UpdateAutonomousDatabaseDetailsDbWorkloadApex UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "APEX"
 )
 
 var mappingUpdateAutonomousDatabaseDetailsDbWorkload = map[string]UpdateAutonomousDatabaseDetailsDbWorkloadEnum{
 	"OLTP": UpdateAutonomousDatabaseDetailsDbWorkloadOltp,
 	"DW":   UpdateAutonomousDatabaseDetailsDbWorkloadDw,
 	"AJD":  UpdateAutonomousDatabaseDetailsDbWorkloadAjd,
+	"APEX": UpdateAutonomousDatabaseDetailsDbWorkloadApex,
 }
 
 // GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsDbWorkloadEnum

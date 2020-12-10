@@ -10,6 +10,10 @@ import (
 )
 
 // CreateTargetDetectorRecipeRequest wrapper for the CreateTargetDetectorRecipe operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateTargetDetectorRecipe.go.html to see an example of how to use CreateTargetDetectorRecipeRequest.
 type CreateTargetDetectorRecipeRequest struct {
 
 	// OCID of target

@@ -10,6 +10,10 @@ import (
 )
 
 // ListDhcpOptionsRequest wrapper for the ListDhcpOptions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDhcpOptions.go.html to see an example of how to use ListDhcpOptionsRequest.
 type ListDhcpOptionsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

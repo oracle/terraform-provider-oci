@@ -10,6 +10,10 @@ import (
 )
 
 // CreateDataSafePrivateEndpointRequest wrapper for the CreateDataSafePrivateEndpoint operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateDataSafePrivateEndpoint.go.html to see an example of how to use CreateDataSafePrivateEndpointRequest.
 type CreateDataSafePrivateEndpointRequest struct {
 
 	// Details to create a new private endpoint.

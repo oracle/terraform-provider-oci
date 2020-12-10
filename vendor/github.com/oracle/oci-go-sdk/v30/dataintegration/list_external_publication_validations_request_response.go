@@ -10,6 +10,10 @@ import (
 )
 
 // ListExternalPublicationValidationsRequest wrapper for the ListExternalPublicationValidations operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListExternalPublicationValidations.go.html to see an example of how to use ListExternalPublicationValidationsRequest.
 type ListExternalPublicationValidationsRequest struct {
 
 	// The workspace ID.

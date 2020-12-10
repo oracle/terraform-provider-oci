@@ -10,6 +10,10 @@ import (
 )
 
 // CreateExportRequest wrapper for the CreateExport operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateExport.go.html to see an example of how to use CreateExportRequest.
 type CreateExportRequest struct {
 
 	// Details for creating a new export.

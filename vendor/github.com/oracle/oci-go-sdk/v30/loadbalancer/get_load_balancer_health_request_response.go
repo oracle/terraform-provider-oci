@@ -10,6 +10,10 @@ import (
 )
 
 // GetLoadBalancerHealthRequest wrapper for the GetLoadBalancerHealth operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetLoadBalancerHealth.go.html to see an example of how to use GetLoadBalancerHealthRequest.
 type GetLoadBalancerHealthRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer to return health status for.

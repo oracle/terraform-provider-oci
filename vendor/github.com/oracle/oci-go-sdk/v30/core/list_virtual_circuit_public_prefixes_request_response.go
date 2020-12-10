@@ -10,6 +10,10 @@ import (
 )
 
 // ListVirtualCircuitPublicPrefixesRequest wrapper for the ListVirtualCircuitPublicPrefixes operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVirtualCircuitPublicPrefixes.go.html to see an example of how to use ListVirtualCircuitPublicPrefixesRequest.
 type ListVirtualCircuitPublicPrefixesRequest struct {
 
 	// The OCID of the virtual circuit.

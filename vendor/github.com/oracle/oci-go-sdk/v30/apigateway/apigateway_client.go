@@ -82,6 +82,10 @@ func (client *ApiGatewayClient) ConfigurationProvider() *common.ConfigurationPro
 }
 
 // ChangeApiCompartment Changes the API compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeApiCompartment.go.html to see an example of how to use ChangeApiCompartment API.
 func (client ApiGatewayClient) ChangeApiCompartment(ctx context.Context, request ChangeApiCompartmentRequest) (response ChangeApiCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -137,6 +141,10 @@ func (client ApiGatewayClient) changeApiCompartment(ctx context.Context, request
 }
 
 // ChangeCertificateCompartment Changes the certificate compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeCertificateCompartment.go.html to see an example of how to use ChangeCertificateCompartment API.
 func (client ApiGatewayClient) ChangeCertificateCompartment(ctx context.Context, request ChangeCertificateCompartmentRequest) (response ChangeCertificateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -192,6 +200,10 @@ func (client ApiGatewayClient) changeCertificateCompartment(ctx context.Context,
 }
 
 // CreateApi Creates a new API.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateApi.go.html to see an example of how to use CreateApi API.
 func (client ApiGatewayClient) CreateApi(ctx context.Context, request CreateApiRequest) (response CreateApiResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -247,6 +259,10 @@ func (client ApiGatewayClient) createApi(ctx context.Context, request common.OCI
 }
 
 // CreateCertificate Creates a new Certificate.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateCertificate.go.html to see an example of how to use CreateCertificate API.
 func (client ApiGatewayClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -302,6 +318,10 @@ func (client ApiGatewayClient) createCertificate(ctx context.Context, request co
 }
 
 // DeleteApi Deletes the API with the given identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteApi.go.html to see an example of how to use DeleteApi API.
 func (client ApiGatewayClient) DeleteApi(ctx context.Context, request DeleteApiRequest) (response DeleteApiResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -352,6 +372,10 @@ func (client ApiGatewayClient) deleteApi(ctx context.Context, request common.OCI
 }
 
 // DeleteCertificate Deletes the certificate with the given identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteCertificate.go.html to see an example of how to use DeleteCertificate API.
 func (client ApiGatewayClient) DeleteCertificate(ctx context.Context, request DeleteCertificateRequest) (response DeleteCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -402,6 +426,10 @@ func (client ApiGatewayClient) deleteCertificate(ctx context.Context, request co
 }
 
 // GetApi Gets an API by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetApi.go.html to see an example of how to use GetApi API.
 func (client ApiGatewayClient) GetApi(ctx context.Context, request GetApiRequest) (response GetApiResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -452,6 +480,10 @@ func (client ApiGatewayClient) getApi(ctx context.Context, request common.OCIReq
 }
 
 // GetApiContent Get the raw API content.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetApiContent.go.html to see an example of how to use GetApiContent API.
 func (client ApiGatewayClient) GetApiContent(ctx context.Context, request GetApiContentRequest) (response GetApiContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -501,6 +533,10 @@ func (client ApiGatewayClient) getApiContent(ctx context.Context, request common
 }
 
 // GetApiDeploymentSpecification Gets an API Deployment specification by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetApiDeploymentSpecification.go.html to see an example of how to use GetApiDeploymentSpecification API.
 func (client ApiGatewayClient) GetApiDeploymentSpecification(ctx context.Context, request GetApiDeploymentSpecificationRequest) (response GetApiDeploymentSpecificationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -551,6 +587,10 @@ func (client ApiGatewayClient) getApiDeploymentSpecification(ctx context.Context
 }
 
 // GetApiValidations Gets the API validation results.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetApiValidations.go.html to see an example of how to use GetApiValidations API.
 func (client ApiGatewayClient) GetApiValidations(ctx context.Context, request GetApiValidationsRequest) (response GetApiValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -601,6 +641,10 @@ func (client ApiGatewayClient) getApiValidations(ctx context.Context, request co
 }
 
 // GetCertificate Gets a certificate by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetCertificate.go.html to see an example of how to use GetCertificate API.
 func (client ApiGatewayClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -651,6 +695,10 @@ func (client ApiGatewayClient) getCertificate(ctx context.Context, request commo
 }
 
 // ListApis Returns a list of APIs.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListApis.go.html to see an example of how to use ListApis API.
 func (client ApiGatewayClient) ListApis(ctx context.Context, request ListApisRequest) (response ListApisResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -701,6 +749,10 @@ func (client ApiGatewayClient) listApis(ctx context.Context, request common.OCIR
 }
 
 // ListCertificates Returns a list of certificates.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListCertificates.go.html to see an example of how to use ListCertificates API.
 func (client ApiGatewayClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -751,6 +803,10 @@ func (client ApiGatewayClient) listCertificates(ctx context.Context, request com
 }
 
 // UpdateApi Updates the API with the given identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateApi.go.html to see an example of how to use UpdateApi API.
 func (client ApiGatewayClient) UpdateApi(ctx context.Context, request UpdateApiRequest) (response UpdateApiResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -801,6 +857,10 @@ func (client ApiGatewayClient) updateApi(ctx context.Context, request common.OCI
 }
 
 // UpdateCertificate Updates a certificate with the given identifier
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateCertificate.go.html to see an example of how to use UpdateCertificate API.
 func (client ApiGatewayClient) UpdateCertificate(ctx context.Context, request UpdateCertificateRequest) (response UpdateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

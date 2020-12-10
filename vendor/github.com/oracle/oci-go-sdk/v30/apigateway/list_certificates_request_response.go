@@ -10,6 +10,10 @@ import (
 )
 
 // ListCertificatesRequest wrapper for the ListCertificates operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListCertificates.go.html to see an example of how to use ListCertificatesRequest.
 type ListCertificatesRequest struct {
 
 	// The ocid of the compartment in which to list resources.

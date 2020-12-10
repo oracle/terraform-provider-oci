@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateMountTargetRequest wrapper for the UpdateMountTarget operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateMountTarget.go.html to see an example of how to use UpdateMountTargetRequest.
 type UpdateMountTargetRequest struct {
 
 	// The OCID of the mount target.

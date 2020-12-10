@@ -10,6 +10,10 @@ import (
 )
 
 // GetSubnetRequest wrapper for the GetSubnet operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetSubnet.go.html to see an example of how to use GetSubnetRequest.
 type GetSubnetRequest struct {
 
 	// The OCID of the subnet.

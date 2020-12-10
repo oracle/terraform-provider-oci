@@ -13,13 +13,11 @@ import (
 	"github.com/oracle/oci-go-sdk/v30/common"
 )
 
-// GenerateAutonomousDataWarehouseWalletDetails **Deprecated.** See GenerateAutonomousDatabaseWalletDetails for reference information about creating and downloading a wallet for an Oracle Autonomous Data Warehouse.
-type GenerateAutonomousDataWarehouseWalletDetails struct {
-
-	// The password to encrypt the keys inside the wallet. The password must be at least 8 characters long and must include at least 1 letter and either 1 numeric character or 1 special character.
-	Password *string `mandatory:"true" json:"password"`
+// FlexComponentCollection Results of a FlexComponent lists. Contains FlexComponentSummary items.
+type FlexComponentCollection struct {
+	Items []FlexComponentSummary `mandatory:"true" json:"items"`
 }
 
-func (m GenerateAutonomousDataWarehouseWalletDetails) String() string {
+func (m FlexComponentCollection) String() string {
 	return common.PointerString(m)
 }

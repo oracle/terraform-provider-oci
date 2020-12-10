@@ -10,6 +10,10 @@ import (
 )
 
 // ExportGlossaryRequest wrapper for the ExportGlossary operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ExportGlossary.go.html to see an example of how to use ExportGlossaryRequest.
 type ExportGlossaryRequest struct {
 
 	// Unique catalog identifier.

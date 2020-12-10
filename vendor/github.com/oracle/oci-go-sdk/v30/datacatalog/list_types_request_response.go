@@ -10,6 +10,10 @@ import (
 )
 
 // ListTypesRequest wrapper for the ListTypes operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListTypes.go.html to see an example of how to use ListTypesRequest.
 type ListTypesRequest struct {
 
 	// Unique catalog identifier.

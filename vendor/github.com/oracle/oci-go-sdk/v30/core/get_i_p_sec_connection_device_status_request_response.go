@@ -10,6 +10,10 @@ import (
 )
 
 // GetIPSecConnectionDeviceStatusRequest wrapper for the GetIPSecConnectionDeviceStatus operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionDeviceStatus.go.html to see an example of how to use GetIPSecConnectionDeviceStatusRequest.
 type GetIPSecConnectionDeviceStatusRequest struct {
 
 	// The OCID of the IPSec connection.

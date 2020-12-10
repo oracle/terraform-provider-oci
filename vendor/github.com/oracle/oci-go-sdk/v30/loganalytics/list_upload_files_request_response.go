@@ -10,6 +10,10 @@ import (
 )
 
 // ListUploadFilesRequest wrapper for the ListUploadFiles operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListUploadFiles.go.html to see an example of how to use ListUploadFilesRequest.
 type ListUploadFilesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

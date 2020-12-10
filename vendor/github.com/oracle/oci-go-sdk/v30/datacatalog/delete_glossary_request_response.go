@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteGlossaryRequest wrapper for the DeleteGlossary operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteGlossary.go.html to see an example of how to use DeleteGlossaryRequest.
 type DeleteGlossaryRequest struct {
 
 	// Unique catalog identifier.

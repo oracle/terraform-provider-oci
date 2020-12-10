@@ -10,6 +10,10 @@ import (
 )
 
 // ListDedicatedVmHostsRequest wrapper for the ListDedicatedVmHosts operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDedicatedVmHosts.go.html to see an example of how to use ListDedicatedVmHostsRequest.
 type ListDedicatedVmHostsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

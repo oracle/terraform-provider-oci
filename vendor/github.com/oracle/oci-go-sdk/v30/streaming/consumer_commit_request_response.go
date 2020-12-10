@@ -10,6 +10,10 @@ import (
 )
 
 // ConsumerCommitRequest wrapper for the ConsumerCommit operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ConsumerCommit.go.html to see an example of how to use ConsumerCommitRequest.
 type ConsumerCommitRequest struct {
 
 	// The OCID of the stream.

@@ -10,6 +10,10 @@ import (
 )
 
 // RemoveUserFromGroupRequest wrapper for the RemoveUserFromGroup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/RemoveUserFromGroup.go.html to see an example of how to use RemoveUserFromGroupRequest.
 type RemoveUserFromGroupRequest struct {
 
 	// The OCID of the userGroupMembership.

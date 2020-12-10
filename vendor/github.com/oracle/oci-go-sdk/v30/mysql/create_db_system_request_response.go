@@ -10,6 +10,10 @@ import (
 )
 
 // CreateDbSystemRequest wrapper for the CreateDbSystem operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateDbSystem.go.html to see an example of how to use CreateDbSystemRequest.
 type CreateDbSystemRequest struct {
 
 	// Request to create a DB System.

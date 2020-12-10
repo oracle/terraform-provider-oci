@@ -10,6 +10,10 @@ import (
 )
 
 // ListNotebookSessionShapesRequest wrapper for the ListNotebookSessionShapes operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListNotebookSessionShapes.go.html to see an example of how to use ListNotebookSessionShapesRequest.
 type ListNotebookSessionShapesRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the compartment.

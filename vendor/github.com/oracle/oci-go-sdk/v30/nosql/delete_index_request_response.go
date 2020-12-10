@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteIndexRequest wrapper for the DeleteIndex operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/DeleteIndex.go.html to see an example of how to use DeleteIndexRequest.
 type DeleteIndexRequest struct {
 
 	// A table name within the compartment, or a table OCID.

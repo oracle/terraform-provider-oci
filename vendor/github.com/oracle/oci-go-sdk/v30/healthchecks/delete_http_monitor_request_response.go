@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteHttpMonitorRequest wrapper for the DeleteHttpMonitor operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/DeleteHttpMonitor.go.html to see an example of how to use DeleteHttpMonitorRequest.
 type DeleteHttpMonitorRequest struct {
 
 	// The OCID of a monitor.

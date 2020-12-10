@@ -10,6 +10,10 @@ import (
 )
 
 // GetConfigurationRequest wrapper for the GetConfiguration operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/GetConfiguration.go.html to see an example of how to use GetConfigurationRequest.
 type GetConfigurationRequest struct {
 
 	// ID of the root compartment (tenancy)

@@ -84,6 +84,10 @@ func (client *VirtualNetworkClient) ConfigurationProvider() *common.Configuratio
 }
 
 // AddNetworkSecurityGroupSecurityRules Adds one or more security rules to the specified network security group.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddNetworkSecurityGroupSecurityRules.go.html to see an example of how to use AddNetworkSecurityGroupSecurityRules API.
 func (client VirtualNetworkClient) AddNetworkSecurityGroupSecurityRules(ctx context.Context, request AddNetworkSecurityGroupSecurityRulesRequest) (response AddNetworkSecurityGroupSecurityRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -137,6 +141,10 @@ func (client VirtualNetworkClient) addNetworkSecurityGroupSecurityRules(ctx cont
 // The cidr must be a subset of the Byoip Range in question.
 // The cidr must not overlap with any other cidr already added to this
 // or any other Public Ip Pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddPublicIpPoolCapacity.go.html to see an example of how to use AddPublicIpPoolCapacity API.
 func (client VirtualNetworkClient) AddPublicIpPoolCapacity(ctx context.Context, request AddPublicIpPoolCapacityRequest) (response AddPublicIpPoolCapacityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -196,6 +204,10 @@ func (client VirtualNetworkClient) addPublicIpPoolCapacity(ctx context.Context, 
 // b. The new CIDR range should not overlap with any existing CIDRs
 // c. The new CIDR should not exceed the max limit of CIDRs per VCNs
 // d. The new CIDR range does not overlap with any peered VCNs
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddVcnCidr.go.html to see an example of how to use AddVcnCidr API.
 func (client VirtualNetworkClient) AddVcnCidr(ctx context.Context, request AddVcnCidrRequest) (response AddVcnCidrResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -252,6 +264,10 @@ func (client VirtualNetworkClient) addVcnCidr(ctx context.Context, request commo
 
 // AdvertiseByoipRange initiate route advertisements for the Byoip Range prefix.
 // the prefix must be in PROVISIONED state
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AdvertiseByoipRange.go.html to see an example of how to use AdvertiseByoipRange API.
 func (client VirtualNetworkClient) AdvertiseByoipRange(ctx context.Context, request AdvertiseByoipRangeRequest) (response AdvertiseByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -310,6 +326,10 @@ func (client VirtualNetworkClient) advertiseByoipRange(ctx context.Context, requ
 // UpdateServiceGateway, which replaces
 // the entire existing list of enabled `Service` objects with the list that you provide in the
 // `Update` call.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachServiceId.go.html to see an example of how to use AttachServiceId API.
 func (client VirtualNetworkClient) AttachServiceId(ctx context.Context, request AttachServiceIdRequest) (response AttachServiceIdResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -363,6 +383,10 @@ func (client VirtualNetworkClient) attachServiceId(ctx context.Context, request 
 // Use this operation (and not UpdateVirtualCircuit)
 // to add prefixes to the virtual circuit. Oracle must verify the customer's ownership
 // of each prefix before traffic for that prefix will flow across the virtual circuit.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/BulkAddVirtualCircuitPublicPrefixes.go.html to see an example of how to use BulkAddVirtualCircuitPublicPrefixes API.
 func (client VirtualNetworkClient) BulkAddVirtualCircuitPublicPrefixes(ctx context.Context, request BulkAddVirtualCircuitPublicPrefixesRequest) (response BulkAddVirtualCircuitPublicPrefixesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -411,6 +435,10 @@ func (client VirtualNetworkClient) bulkAddVirtualCircuitPublicPrefixes(ctx conte
 // Use this operation (and not UpdateVirtualCircuit)
 // to remove prefixes from the virtual circuit. When the virtual circuit's state switches
 // back to PROVISIONED, Oracle stops advertising the specified prefixes across the connection.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/BulkDeleteVirtualCircuitPublicPrefixes.go.html to see an example of how to use BulkDeleteVirtualCircuitPublicPrefixes API.
 func (client VirtualNetworkClient) BulkDeleteVirtualCircuitPublicPrefixes(ctx context.Context, request BulkDeleteVirtualCircuitPublicPrefixesRequest) (response BulkDeleteVirtualCircuitPublicPrefixesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -458,6 +486,10 @@ func (client VirtualNetworkClient) bulkDeleteVirtualCircuitPublicPrefixes(ctx co
 // ChangeByoipRangeCompartment Moves a byoip range into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeByoipRangeCompartment.go.html to see an example of how to use ChangeByoipRangeCompartment API.
 func (client VirtualNetworkClient) ChangeByoipRangeCompartment(ctx context.Context, request ChangeByoipRangeCompartmentRequest) (response ChangeByoipRangeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -515,6 +547,10 @@ func (client VirtualNetworkClient) changeByoipRangeCompartment(ctx context.Conte
 // ChangeCpeCompartment Moves a CPE object into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeCpeCompartment.go.html to see an example of how to use ChangeCpeCompartment API.
 func (client VirtualNetworkClient) ChangeCpeCompartment(ctx context.Context, request ChangeCpeCompartmentRequest) (response ChangeCpeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -572,6 +608,10 @@ func (client VirtualNetworkClient) changeCpeCompartment(ctx context.Context, req
 // ChangeCrossConnectCompartment Moves a cross-connect into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeCrossConnectCompartment.go.html to see an example of how to use ChangeCrossConnectCompartment API.
 func (client VirtualNetworkClient) ChangeCrossConnectCompartment(ctx context.Context, request ChangeCrossConnectCompartmentRequest) (response ChangeCrossConnectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -629,6 +669,10 @@ func (client VirtualNetworkClient) changeCrossConnectCompartment(ctx context.Con
 // ChangeCrossConnectGroupCompartment Moves a cross-connect group into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeCrossConnectGroupCompartment.go.html to see an example of how to use ChangeCrossConnectGroupCompartment API.
 func (client VirtualNetworkClient) ChangeCrossConnectGroupCompartment(ctx context.Context, request ChangeCrossConnectGroupCompartmentRequest) (response ChangeCrossConnectGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -686,6 +730,10 @@ func (client VirtualNetworkClient) changeCrossConnectGroupCompartment(ctx contex
 // ChangeDhcpOptionsCompartment Moves a set of DHCP options into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeDhcpOptionsCompartment.go.html to see an example of how to use ChangeDhcpOptionsCompartment API.
 func (client VirtualNetworkClient) ChangeDhcpOptionsCompartment(ctx context.Context, request ChangeDhcpOptionsCompartmentRequest) (response ChangeDhcpOptionsCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -743,6 +791,10 @@ func (client VirtualNetworkClient) changeDhcpOptionsCompartment(ctx context.Cont
 // ChangeDrgCompartment Moves a DRG into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeDrgCompartment.go.html to see an example of how to use ChangeDrgCompartment API.
 func (client VirtualNetworkClient) ChangeDrgCompartment(ctx context.Context, request ChangeDrgCompartmentRequest) (response ChangeDrgCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -800,6 +852,10 @@ func (client VirtualNetworkClient) changeDrgCompartment(ctx context.Context, req
 // ChangeIPSecConnectionCompartment Moves an IPSec connection into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeIPSecConnectionCompartment.go.html to see an example of how to use ChangeIPSecConnectionCompartment API.
 func (client VirtualNetworkClient) ChangeIPSecConnectionCompartment(ctx context.Context, request ChangeIPSecConnectionCompartmentRequest) (response ChangeIPSecConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -857,6 +913,10 @@ func (client VirtualNetworkClient) changeIPSecConnectionCompartment(ctx context.
 // ChangeInternetGatewayCompartment Moves an internet gateway into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeInternetGatewayCompartment.go.html to see an example of how to use ChangeInternetGatewayCompartment API.
 func (client VirtualNetworkClient) ChangeInternetGatewayCompartment(ctx context.Context, request ChangeInternetGatewayCompartmentRequest) (response ChangeInternetGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -914,6 +974,10 @@ func (client VirtualNetworkClient) changeInternetGatewayCompartment(ctx context.
 // ChangeLocalPeeringGatewayCompartment Moves a local peering gateway into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeLocalPeeringGatewayCompartment.go.html to see an example of how to use ChangeLocalPeeringGatewayCompartment API.
 func (client VirtualNetworkClient) ChangeLocalPeeringGatewayCompartment(ctx context.Context, request ChangeLocalPeeringGatewayCompartmentRequest) (response ChangeLocalPeeringGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -971,6 +1035,10 @@ func (client VirtualNetworkClient) changeLocalPeeringGatewayCompartment(ctx cont
 // ChangeNatGatewayCompartment Moves a NAT gateway into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeNatGatewayCompartment.go.html to see an example of how to use ChangeNatGatewayCompartment API.
 func (client VirtualNetworkClient) ChangeNatGatewayCompartment(ctx context.Context, request ChangeNatGatewayCompartmentRequest) (response ChangeNatGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1027,6 +1095,10 @@ func (client VirtualNetworkClient) changeNatGatewayCompartment(ctx context.Conte
 
 // ChangeNetworkSecurityGroupCompartment Moves a network security group into a different compartment within the same tenancy. For
 // information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeNetworkSecurityGroupCompartment.go.html to see an example of how to use ChangeNetworkSecurityGroupCompartment API.
 func (client VirtualNetworkClient) ChangeNetworkSecurityGroupCompartment(ctx context.Context, request ChangeNetworkSecurityGroupCompartmentRequest) (response ChangeNetworkSecurityGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1086,6 +1158,10 @@ func (client VirtualNetworkClient) changeNetworkSecurityGroupCompartment(ctx con
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // This operation applies only to reserved public IPs. Ephemeral public IPs always belong to the
 // same compartment as their VNIC and move accordingly.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangePublicIpCompartment.go.html to see an example of how to use ChangePublicIpCompartment API.
 func (client VirtualNetworkClient) ChangePublicIpCompartment(ctx context.Context, request ChangePublicIpCompartmentRequest) (response ChangePublicIpCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1143,6 +1219,10 @@ func (client VirtualNetworkClient) changePublicIpCompartment(ctx context.Context
 // ChangePublicIpPoolCompartment Moves a public IP pool into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangePublicIpPoolCompartment.go.html to see an example of how to use ChangePublicIpPoolCompartment API.
 func (client VirtualNetworkClient) ChangePublicIpPoolCompartment(ctx context.Context, request ChangePublicIpPoolCompartmentRequest) (response ChangePublicIpPoolCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1200,6 +1280,10 @@ func (client VirtualNetworkClient) changePublicIpPoolCompartment(ctx context.Con
 // ChangeRemotePeeringConnectionCompartment Moves a remote peering connection (RPC) into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeRemotePeeringConnectionCompartment.go.html to see an example of how to use ChangeRemotePeeringConnectionCompartment API.
 func (client VirtualNetworkClient) ChangeRemotePeeringConnectionCompartment(ctx context.Context, request ChangeRemotePeeringConnectionCompartmentRequest) (response ChangeRemotePeeringConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1257,6 +1341,10 @@ func (client VirtualNetworkClient) changeRemotePeeringConnectionCompartment(ctx 
 // ChangeRouteTableCompartment Moves a route table into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeRouteTableCompartment.go.html to see an example of how to use ChangeRouteTableCompartment API.
 func (client VirtualNetworkClient) ChangeRouteTableCompartment(ctx context.Context, request ChangeRouteTableCompartmentRequest) (response ChangeRouteTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1314,6 +1402,10 @@ func (client VirtualNetworkClient) changeRouteTableCompartment(ctx context.Conte
 // ChangeSecurityListCompartment Moves a security list into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeSecurityListCompartment.go.html to see an example of how to use ChangeSecurityListCompartment API.
 func (client VirtualNetworkClient) ChangeSecurityListCompartment(ctx context.Context, request ChangeSecurityListCompartmentRequest) (response ChangeSecurityListCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1371,6 +1463,10 @@ func (client VirtualNetworkClient) changeSecurityListCompartment(ctx context.Con
 // ChangeServiceGatewayCompartment Moves a service gateway into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeServiceGatewayCompartment.go.html to see an example of how to use ChangeServiceGatewayCompartment API.
 func (client VirtualNetworkClient) ChangeServiceGatewayCompartment(ctx context.Context, request ChangeServiceGatewayCompartmentRequest) (response ChangeServiceGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1428,6 +1524,10 @@ func (client VirtualNetworkClient) changeServiceGatewayCompartment(ctx context.C
 // ChangeSubnetCompartment Moves a subnet into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeSubnetCompartment.go.html to see an example of how to use ChangeSubnetCompartment API.
 func (client VirtualNetworkClient) ChangeSubnetCompartment(ctx context.Context, request ChangeSubnetCompartmentRequest) (response ChangeSubnetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1485,6 +1585,10 @@ func (client VirtualNetworkClient) changeSubnetCompartment(ctx context.Context, 
 // ChangeVcnCompartment Moves a VCN into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVcnCompartment.go.html to see an example of how to use ChangeVcnCompartment API.
 func (client VirtualNetworkClient) ChangeVcnCompartment(ctx context.Context, request ChangeVcnCompartmentRequest) (response ChangeVcnCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1542,6 +1646,10 @@ func (client VirtualNetworkClient) changeVcnCompartment(ctx context.Context, req
 // ChangeVirtualCircuitCompartment Moves a virtual circuit into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVirtualCircuitCompartment.go.html to see an example of how to use ChangeVirtualCircuitCompartment API.
 func (client VirtualNetworkClient) ChangeVirtualCircuitCompartment(ctx context.Context, request ChangeVirtualCircuitCompartmentRequest) (response ChangeVirtualCircuitCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1599,6 +1707,10 @@ func (client VirtualNetworkClient) changeVirtualCircuitCompartment(ctx context.C
 // ChangeVlanCompartment Moves a VLAN into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVlanCompartment.go.html to see an example of how to use ChangeVlanCompartment API.
 func (client VirtualNetworkClient) ChangeVlanCompartment(ctx context.Context, request ChangeVlanCompartmentRequest) (response ChangeVlanCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1660,6 +1772,10 @@ func (client VirtualNetworkClient) changeVlanCompartment(ctx context.Context, re
 // to connect to LPGs in the acceptor's compartment. Without that permission, this
 // operation will fail. For more information, see
 // VCN Peering (https://docs.cloud.oracle.com/Content/Network/Tasks/VCNpeering.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ConnectLocalPeeringGateways.go.html to see an example of how to use ConnectLocalPeeringGateways API.
 func (client VirtualNetworkClient) ConnectLocalPeeringGateways(ctx context.Context, request ConnectLocalPeeringGatewaysRequest) (response ConnectLocalPeeringGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1716,6 +1832,10 @@ func (client VirtualNetworkClient) connectLocalPeeringGateways(ctx context.Conte
 // to connect to RPCs in the acceptor's compartment. Without that permission, this
 // operation will fail. For more information, see
 // VCN Peering (https://docs.cloud.oracle.com/Content/Network/Tasks/VCNpeering.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ConnectRemotePeeringConnections.go.html to see an example of how to use ConnectRemotePeeringConnections API.
 func (client VirtualNetworkClient) ConnectRemotePeeringConnections(ctx context.Context, request ConnectRemotePeeringConnectionsRequest) (response ConnectRemotePeeringConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1766,6 +1886,10 @@ func (client VirtualNetworkClient) connectRemotePeeringConnections(ctx context.C
 }
 
 // CreateByoipRange Creates a Byoip Range prefix.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateByoipRange.go.html to see an example of how to use CreateByoipRange API.
 func (client VirtualNetworkClient) CreateByoipRange(ctx context.Context, request CreateByoipRangeRequest) (response CreateByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1832,6 +1956,10 @@ func (client VirtualNetworkClient) createByoipRange(ctx context.Context, request
 // Configuring Your On-Premises Router for an IPSec VPN (https://docs.cloud.oracle.com/Content/Network/Tasks/configuringCPE.htm).
 // You may optionally specify a *display name* for the CPE, otherwise a default is provided. It does not have to
 // be unique, and you can change it. Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateCpe.go.html to see an example of how to use CreateCpe API.
 func (client VirtualNetworkClient) CreateCpe(ctx context.Context, request CreateCpeRequest) (response CreateCpeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1902,6 +2030,10 @@ func (client VirtualNetworkClient) createCpe(ctx context.Context, request common
 // Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the cross-connect.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateCrossConnect.go.html to see an example of how to use CreateCrossConnect API.
 func (client VirtualNetworkClient) CreateCrossConnect(ctx context.Context, request CreateCrossConnectRequest) (response CreateCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1969,6 +2101,10 @@ func (client VirtualNetworkClient) createCrossConnect(ctx context.Context, reque
 // Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the cross-connect group.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateCrossConnectGroup.go.html to see an example of how to use CreateCrossConnectGroup API.
 func (client VirtualNetworkClient) CreateCrossConnectGroup(ctx context.Context, request CreateCrossConnectGroupRequest) (response CreateCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2033,6 +2169,10 @@ func (client VirtualNetworkClient) createCrossConnectGroup(ctx context.Context, 
 // Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the set of DHCP options, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateDhcpOptions.go.html to see an example of how to use CreateDhcpOptions API.
 func (client VirtualNetworkClient) CreateDhcpOptions(ctx context.Context, request CreateDhcpOptionsRequest) (response CreateDhcpOptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2097,6 +2237,10 @@ func (client VirtualNetworkClient) createDhcpOptions(ctx context.Context, reques
 // For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the DRG, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateDrg.go.html to see an example of how to use CreateDrg API.
 func (client VirtualNetworkClient) CreateDrg(ctx context.Context, request CreateDrgRequest) (response CreateDrgResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2160,6 +2304,10 @@ func (client VirtualNetworkClient) createDrg(ctx context.Context, request common
 // For the purposes of access control, the DRG attachment is automatically placed into the same compartment
 // as the VCN. For more information about compartments and access control, see
 // Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateDrgAttachment.go.html to see an example of how to use CreateDrgAttachment API.
 func (client VirtualNetworkClient) CreateDrgAttachment(ctx context.Context, request CreateDrgAttachmentRequest) (response CreateDrgAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2237,6 +2385,10 @@ func (client VirtualNetworkClient) createDrgAttachment(ctx context.Context, requ
 // For each tunnel, you need the IP address of Oracle's VPN headend and the shared secret
 // (that is, the pre-shared key). For more information, see
 // Configuring Your On-Premises Router for an IPSec VPN (https://docs.cloud.oracle.com/Content/Network/Tasks/configuringCPE.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateIPSecConnection.go.html to see an example of how to use CreateIPSecConnection API.
 func (client VirtualNetworkClient) CreateIPSecConnection(ctx context.Context, request CreateIPSecConnectionRequest) (response CreateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2308,6 +2460,10 @@ func (client VirtualNetworkClient) createIPSecConnection(ctx context.Context, re
 // traffic will flow to/from the internet even if there's a route rule that enables that traffic. You can later
 // use UpdateInternetGateway to easily disable/enable
 // the gateway without changing the route rule.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateInternetGateway.go.html to see an example of how to use CreateInternetGateway API.
 func (client VirtualNetworkClient) CreateInternetGateway(ctx context.Context, request CreateInternetGatewayRequest) (response CreateInternetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2363,6 +2519,10 @@ func (client VirtualNetworkClient) createInternetGateway(ctx context.Context, re
 }
 
 // CreateIpv6 Creates an IPv6 for the specified VNIC.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateIpv6.go.html to see an example of how to use CreateIpv6 API.
 func (client VirtualNetworkClient) CreateIpv6(ctx context.Context, request CreateIpv6Request) (response CreateIpv6Response, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2418,6 +2578,10 @@ func (client VirtualNetworkClient) createIpv6(ctx context.Context, request commo
 }
 
 // CreateLocalPeeringGateway Creates a new local peering gateway (LPG) for the specified VCN.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateLocalPeeringGateway.go.html to see an example of how to use CreateLocalPeeringGateway API.
 func (client VirtualNetworkClient) CreateLocalPeeringGateway(ctx context.Context, request CreateLocalPeeringGatewayRequest) (response CreateLocalPeeringGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2474,6 +2638,10 @@ func (client VirtualNetworkClient) createLocalPeeringGateway(ctx context.Context
 
 // CreateNatGateway Creates a new NAT gateway for the specified VCN. You must also set up a route rule with the
 // NAT gateway as the rule's target. See RouteTable.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateNatGateway.go.html to see an example of how to use CreateNatGateway API.
 func (client VirtualNetworkClient) CreateNatGateway(ctx context.Context, request CreateNatGatewayRequest) (response CreateNatGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2529,6 +2697,10 @@ func (client VirtualNetworkClient) createNatGateway(ctx context.Context, request
 }
 
 // CreateNetworkSecurityGroup Creates a new network security group for the specified VCN.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateNetworkSecurityGroup.go.html to see an example of how to use CreateNetworkSecurityGroup API.
 func (client VirtualNetworkClient) CreateNetworkSecurityGroup(ctx context.Context, request CreateNetworkSecurityGroupRequest) (response CreateNetworkSecurityGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2586,6 +2758,10 @@ func (client VirtualNetworkClient) createNetworkSecurityGroup(ctx context.Contex
 // CreatePrivateIp Creates a secondary private IP for the specified VNIC.
 // For more information about secondary private IPs, see
 // IP Addresses (https://docs.cloud.oracle.com/Content/Network/Tasks/managingIPaddresses.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreatePrivateIp.go.html to see an example of how to use CreatePrivateIp API.
 func (client VirtualNetworkClient) CreatePrivateIp(ctx context.Context, request CreatePrivateIpRequest) (response CreatePrivateIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2657,6 +2833,10 @@ func (client VirtualNetworkClient) createPrivateIp(ctx context.Context, request 
 // Also, for reserved public IPs, the optional assignment part of this operation is
 // asynchronous. Poll the public IP's `lifecycleState` to determine if the assignment
 // succeeded.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreatePublicIp.go.html to see an example of how to use CreatePublicIp API.
 func (client VirtualNetworkClient) CreatePublicIp(ctx context.Context, request CreatePublicIpRequest) (response CreatePublicIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2712,6 +2892,10 @@ func (client VirtualNetworkClient) createPublicIp(ctx context.Context, request c
 }
 
 // CreatePublicIpPool Creates a Public Ip Pool
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreatePublicIpPool.go.html to see an example of how to use CreatePublicIpPool API.
 func (client VirtualNetworkClient) CreatePublicIpPool(ctx context.Context, request CreatePublicIpPoolRequest) (response CreatePublicIpPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2767,6 +2951,10 @@ func (client VirtualNetworkClient) createPublicIpPool(ctx context.Context, reque
 }
 
 // CreateRemotePeeringConnection Creates a new remote peering connection (RPC) for the specified DRG.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateRemotePeeringConnection.go.html to see an example of how to use CreateRemotePeeringConnection API.
 func (client VirtualNetworkClient) CreateRemotePeeringConnection(ctx context.Context, request CreateRemotePeeringConnectionRequest) (response CreateRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2834,6 +3022,10 @@ func (client VirtualNetworkClient) createRemotePeeringConnection(ctx context.Con
 // Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the route table, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateRouteTable.go.html to see an example of how to use CreateRouteTable API.
 func (client VirtualNetworkClient) CreateRouteTable(ctx context.Context, request CreateRouteTableRequest) (response CreateRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2900,6 +3092,10 @@ func (client VirtualNetworkClient) createRouteTable(ctx context.Context, request
 // Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the security list, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateSecurityList.go.html to see an example of how to use CreateSecurityList API.
 func (client VirtualNetworkClient) CreateSecurityList(ctx context.Context, request CreateSecurityListRequest) (response CreateSecurityListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2961,6 +3157,10 @@ func (client VirtualNetworkClient) createSecurityList(ctx context.Context, reque
 // For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the service gateway, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateServiceGateway.go.html to see an example of how to use CreateServiceGateway API.
 func (client VirtualNetworkClient) CreateServiceGateway(ctx context.Context, request CreateServiceGatewayRequest) (response CreateServiceGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3040,6 +3240,10 @@ func (client VirtualNetworkClient) createServiceGateway(ctx context.Context, req
 // You can also add a DNS label for the subnet, which is required if you want the Internet and
 // VCN Resolver to resolve hostnames for instances in the subnet. For more information, see
 // DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateSubnet.go.html to see an example of how to use CreateSubnet API.
 func (client VirtualNetworkClient) CreateSubnet(ctx context.Context, request CreateSubnetRequest) (response CreateSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3122,6 +3326,10 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 // The VCN and subnets you create are not accessible until you attach an internet gateway or set up an IPSec VPN
 // or FastConnect. For more information, see
 // Overview of the Networking Service (https://docs.cloud.oracle.com/Content/Network/Concepts/overview.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVcn.go.html to see an example of how to use CreateVcn API.
 func (client VirtualNetworkClient) CreateVcn(ctx context.Context, request CreateVcnRequest) (response CreateVcnResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3194,6 +3402,10 @@ func (client VirtualNetworkClient) createVcn(ctx context.Context, request common
 // VCN and confirm the VCN's routing sends traffic to the DRG. Otherwise
 // traffic will not flow. For more information, see
 // Route Tables (https://docs.cloud.oracle.com/Content/Network/Tasks/managingroutetables.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVirtualCircuit.go.html to see an example of how to use CreateVirtualCircuit API.
 func (client VirtualNetworkClient) CreateVirtualCircuit(ctx context.Context, request CreateVirtualCircuitRequest) (response CreateVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3249,6 +3461,10 @@ func (client VirtualNetworkClient) createVirtualCircuit(ctx context.Context, req
 }
 
 // CreateVlan Creates a VLAN in the specified VCN and the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVlan.go.html to see an example of how to use CreateVlan API.
 func (client VirtualNetworkClient) CreateVlan(ctx context.Context, request CreateVlanRequest) (response CreateVlanResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3308,6 +3524,10 @@ func (client VirtualNetworkClient) createVlan(ctx context.Context, request commo
 // It must not have any subranges allocated to a Public Ip Pool object.
 // You must specify the object's OCID.
 // In case the range is currently PROVISIONED, the operation will be asynchronous as it needs to be de-ptovisioned first.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteByoipRange.go.html to see an example of how to use DeleteByoipRange API.
 func (client VirtualNetworkClient) DeleteByoipRange(ctx context.Context, request DeleteByoipRangeRequest) (response DeleteByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3360,6 +3580,10 @@ func (client VirtualNetworkClient) deleteByoipRange(ctx context.Context, request
 // DeleteCpe Deletes the specified CPE object. The CPE must not be connected to a DRG. This is an asynchronous
 // operation. The CPE's `lifecycleState` will change to TERMINATING temporarily until the CPE is completely
 // removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCpe.go.html to see an example of how to use DeleteCpe API.
 func (client VirtualNetworkClient) DeleteCpe(ctx context.Context, request DeleteCpeRequest) (response DeleteCpeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3411,6 +3635,10 @@ func (client VirtualNetworkClient) deleteCpe(ctx context.Context, request common
 
 // DeleteCrossConnect Deletes the specified cross-connect. It must not be mapped to a
 // VirtualCircuit.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCrossConnect.go.html to see an example of how to use DeleteCrossConnect API.
 func (client VirtualNetworkClient) DeleteCrossConnect(ctx context.Context, request DeleteCrossConnectRequest) (response DeleteCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3463,6 +3691,10 @@ func (client VirtualNetworkClient) deleteCrossConnect(ctx context.Context, reque
 // DeleteCrossConnectGroup Deletes the specified cross-connect group. It must not contain any
 // cross-connects, and it cannot be mapped to a
 // VirtualCircuit.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCrossConnectGroup.go.html to see an example of how to use DeleteCrossConnectGroup API.
 func (client VirtualNetworkClient) DeleteCrossConnectGroup(ctx context.Context, request DeleteCrossConnectGroupRequest) (response DeleteCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3516,6 +3748,10 @@ func (client VirtualNetworkClient) deleteCrossConnectGroup(ctx context.Context, 
 // VCN's default set of DHCP options.
 // This is an asynchronous operation. The state of the set of options will switch to TERMINATING temporarily
 // until the set is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteDhcpOptions.go.html to see an example of how to use DeleteDhcpOptions API.
 func (client VirtualNetworkClient) DeleteDhcpOptions(ctx context.Context, request DeleteDhcpOptionsRequest) (response DeleteDhcpOptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3569,6 +3805,10 @@ func (client VirtualNetworkClient) deleteDhcpOptions(ctx context.Context, reques
 // network. Also, there must not be a route table that lists the DRG as a target. This is an asynchronous
 // operation. The DRG's `lifecycleState` will change to TERMINATING temporarily until the DRG is completely
 // removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteDrg.go.html to see an example of how to use DeleteDrg API.
 func (client VirtualNetworkClient) DeleteDrg(ctx context.Context, request DeleteDrgRequest) (response DeleteDrgResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3621,6 +3861,10 @@ func (client VirtualNetworkClient) deleteDrg(ctx context.Context, request common
 // DeleteDrgAttachment Detaches a DRG from a VCN by deleting the corresponding `DrgAttachment`. This is an asynchronous
 // operation. The attachment's `lifecycleState` will change to DETACHING temporarily until the attachment
 // is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteDrgAttachment.go.html to see an example of how to use DeleteDrgAttachment API.
 func (client VirtualNetworkClient) DeleteDrgAttachment(ctx context.Context, request DeleteDrgAttachmentRequest) (response DeleteDrgAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3677,6 +3921,10 @@ func (client VirtualNetworkClient) deleteDrgAttachment(ctx context.Context, requ
 // CreateIPSecConnection.
 // This is an asynchronous operation. The connection's `lifecycleState` will change to TERMINATING temporarily
 // until the connection is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteIPSecConnection.go.html to see an example of how to use DeleteIPSecConnection API.
 func (client VirtualNetworkClient) DeleteIPSecConnection(ctx context.Context, request DeleteIPSecConnectionRequest) (response DeleteIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3730,6 +3978,10 @@ func (client VirtualNetworkClient) deleteIPSecConnection(ctx context.Context, re
 // there must not be a route table that lists it as a target.
 // This is an asynchronous operation. The gateway's `lifecycleState` will change to TERMINATING temporarily
 // until the gateway is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteInternetGateway.go.html to see an example of how to use DeleteInternetGateway API.
 func (client VirtualNetworkClient) DeleteInternetGateway(ctx context.Context, request DeleteInternetGatewayRequest) (response DeleteInternetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3781,6 +4033,10 @@ func (client VirtualNetworkClient) deleteInternetGateway(ctx context.Context, re
 
 // DeleteIpv6 Unassigns and deletes the specified IPv6. You must specify the object's OCID.
 // The IPv6 address is returned to the subnet's pool of available addresses.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteIpv6.go.html to see an example of how to use DeleteIpv6 API.
 func (client VirtualNetworkClient) DeleteIpv6(ctx context.Context, request DeleteIpv6Request) (response DeleteIpv6Response, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3833,6 +4089,10 @@ func (client VirtualNetworkClient) deleteIpv6(ctx context.Context, request commo
 // DeleteLocalPeeringGateway Deletes the specified local peering gateway (LPG).
 // This is an asynchronous operation; the local peering gateway's `lifecycleState` changes to TERMINATING temporarily
 // until the local peering gateway is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteLocalPeeringGateway.go.html to see an example of how to use DeleteLocalPeeringGateway API.
 func (client VirtualNetworkClient) DeleteLocalPeeringGateway(ctx context.Context, request DeleteLocalPeeringGatewayRequest) (response DeleteLocalPeeringGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3886,6 +4146,10 @@ func (client VirtualNetworkClient) deleteLocalPeeringGateway(ctx context.Context
 // must not be a route rule that lists the NAT gateway as a target.
 // This is an asynchronous operation. The NAT gateway's `lifecycleState` will change to
 // TERMINATING temporarily until the NAT gateway is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteNatGateway.go.html to see an example of how to use DeleteNatGateway API.
 func (client VirtualNetworkClient) DeleteNatGateway(ctx context.Context, request DeleteNatGatewayRequest) (response DeleteNatGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3941,6 +4205,10 @@ func (client VirtualNetworkClient) deleteNatGateway(ctx context.Context, request
 // Each returned NetworkSecurityGroupVnic object
 // contains both the OCID of the VNIC and the OCID of the VNIC's parent resource (for example,
 // the Compute instance that the VNIC is attached to).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteNetworkSecurityGroup.go.html to see an example of how to use DeleteNetworkSecurityGroup API.
 func (client VirtualNetworkClient) DeleteNetworkSecurityGroup(ctx context.Context, request DeleteNetworkSecurityGroupRequest) (response DeleteNetworkSecurityGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3999,6 +4267,10 @@ func (client VirtualNetworkClient) deleteNetworkSecurityGroup(ctx context.Contex
 // target of a route rule (https://docs.cloud.oracle.com/Content/Network/Tasks/managingroutetables.htm#privateip),
 // unassigning it from the VNIC causes that route rule to blackhole and the traffic
 // will be dropped.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeletePrivateIp.go.html to see an example of how to use DeletePrivateIp API.
 func (client VirtualNetworkClient) DeletePrivateIp(ctx context.Context, request DeletePrivateIpRequest) (response DeletePrivateIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4060,6 +4332,10 @@ func (client VirtualNetworkClient) deletePrivateIp(ctx context.Context, request 
 // If you want to simply unassign a reserved public IP and return it to your pool
 // of reserved public IPs, instead use
 // UpdatePublicIp.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeletePublicIp.go.html to see an example of how to use DeletePublicIp API.
 func (client VirtualNetworkClient) DeletePublicIp(ctx context.Context, request DeletePublicIpRequest) (response DeletePublicIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4112,6 +4388,10 @@ func (client VirtualNetworkClient) deletePublicIp(ctx context.Context, request c
 // DeletePublicIpPool Deletes the specified Public Ip Pool
 // It must not have any active address allocations
 // You must specify the object's OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeletePublicIpPool.go.html to see an example of how to use DeletePublicIpPool API.
 func (client VirtualNetworkClient) DeletePublicIpPool(ctx context.Context, request DeletePublicIpPoolRequest) (response DeletePublicIpPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4164,6 +4444,10 @@ func (client VirtualNetworkClient) deletePublicIpPool(ctx context.Context, reque
 // DeleteRemotePeeringConnection Deletes the remote peering connection (RPC).
 // This is an asynchronous operation; the RPC's `lifecycleState` changes to TERMINATING temporarily
 // until the RPC is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteRemotePeeringConnection.go.html to see an example of how to use DeleteRemotePeeringConnection API.
 func (client VirtualNetworkClient) DeleteRemotePeeringConnection(ctx context.Context, request DeleteRemotePeeringConnectionRequest) (response DeleteRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4217,6 +4501,10 @@ func (client VirtualNetworkClient) deleteRemotePeeringConnection(ctx context.Con
 // VCN's default route table.
 // This is an asynchronous operation. The route table's `lifecycleState` will change to TERMINATING temporarily
 // until the route table is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteRouteTable.go.html to see an example of how to use DeleteRouteTable API.
 func (client VirtualNetworkClient) DeleteRouteTable(ctx context.Context, request DeleteRouteTableRequest) (response DeleteRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4270,6 +4558,10 @@ func (client VirtualNetworkClient) deleteRouteTable(ctx context.Context, request
 // a VCN's default security list.
 // This is an asynchronous operation. The security list's `lifecycleState` will change to TERMINATING temporarily
 // until the security list is completely removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteSecurityList.go.html to see an example of how to use DeleteSecurityList API.
 func (client VirtualNetworkClient) DeleteSecurityList(ctx context.Context, request DeleteSecurityListRequest) (response DeleteSecurityListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4321,6 +4613,10 @@ func (client VirtualNetworkClient) deleteSecurityList(ctx context.Context, reque
 
 // DeleteServiceGateway Deletes the specified service gateway. There must not be a route table that lists the service
 // gateway as a target.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteServiceGateway.go.html to see an example of how to use DeleteServiceGateway API.
 func (client VirtualNetworkClient) DeleteServiceGateway(ctx context.Context, request DeleteServiceGatewayRequest) (response DeleteServiceGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4373,6 +4669,10 @@ func (client VirtualNetworkClient) deleteServiceGateway(ctx context.Context, req
 // DeleteSubnet Deletes the specified subnet, but only if there are no instances in the subnet. This is an asynchronous
 // operation. The subnet's `lifecycleState` will change to TERMINATING temporarily. If there are any
 // instances in the subnet, the state will instead change back to AVAILABLE.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteSubnet.go.html to see an example of how to use DeleteSubnet API.
 func (client VirtualNetworkClient) DeleteSubnet(ctx context.Context, request DeleteSubnetRequest) (response DeleteSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4425,6 +4725,10 @@ func (client VirtualNetworkClient) deleteSubnet(ctx context.Context, request com
 // DeleteVcn Deletes the specified VCN. The VCN must be empty and have no attached gateways. This is an asynchronous
 // operation. The VCN's `lifecycleState` will change to TERMINATING temporarily until the VCN is completely
 // removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVcn.go.html to see an example of how to use DeleteVcn API.
 func (client VirtualNetworkClient) DeleteVcn(ctx context.Context, request DeleteVcnRequest) (response DeleteVcnResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4478,6 +4782,10 @@ func (client VirtualNetworkClient) deleteVcn(ctx context.Context, request common
 // **Important:** If you're using FastConnect via a provider,
 // make sure to also terminate the connection with
 // the provider, or else the provider may continue to bill you.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVirtualCircuit.go.html to see an example of how to use DeleteVirtualCircuit API.
 func (client VirtualNetworkClient) DeleteVirtualCircuit(ctx context.Context, request DeleteVirtualCircuitRequest) (response DeleteVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4528,6 +4836,10 @@ func (client VirtualNetworkClient) deleteVirtualCircuit(ctx context.Context, req
 }
 
 // DeleteVlan Deletes the specified VLAN, but only if there are no VNICs in the VLAN.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVlan.go.html to see an example of how to use DeleteVlan API.
 func (client VirtualNetworkClient) DeleteVlan(ctx context.Context, request DeleteVlanRequest) (response DeleteVlanResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4588,6 +4900,10 @@ func (client VirtualNetworkClient) deleteVlan(ctx context.Context, request commo
 // the entire existing list of enabled `Service` objects with the list that you provide in the
 // `Update` call. `UpdateServiceGateway` also lets you block all traffic through the service
 // gateway without having to remove each of the individual `Service` objects.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachServiceId.go.html to see an example of how to use DetachServiceId API.
 func (client VirtualNetworkClient) DetachServiceId(ctx context.Context, request DetachServiceIdRequest) (response DetachServiceIdResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4638,6 +4954,10 @@ func (client VirtualNetworkClient) detachServiceId(ctx context.Context, request 
 }
 
 // GetByoipRange Gets the specified Byoip Range object. You must specify the object's OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetByoipRange.go.html to see an example of how to use GetByoipRange API.
 func (client VirtualNetworkClient) GetByoipRange(ctx context.Context, request GetByoipRangeRequest) (response GetByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4688,6 +5008,10 @@ func (client VirtualNetworkClient) getByoipRange(ctx context.Context, request co
 }
 
 // GetCpe Gets the specified CPE's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCpe.go.html to see an example of how to use GetCpe API.
 func (client VirtualNetworkClient) GetCpe(ctx context.Context, request GetCpeRequest) (response GetCpeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4752,6 +5076,10 @@ func (client VirtualNetworkClient) getCpe(ctx context.Context, request common.OC
 //   returns CPE configuration content for all tunnels in a single IPSec connection.
 //   * GetTunnelCpeDeviceConfigContent
 //   returns CPE configuration content for a specific tunnel within an IPSec connection.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCpeDeviceConfigContent.go.html to see an example of how to use GetCpeDeviceConfigContent API.
 func (client VirtualNetworkClient) GetCpeDeviceConfigContent(ctx context.Context, request GetCpeDeviceConfigContentRequest) (response GetCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4808,6 +5136,10 @@ func (client VirtualNetworkClient) getCpeDeviceConfigContent(ctx context.Context
 //   * GetCpeDeviceConfigContent
 //   * GetIpsecCpeDeviceConfigContent
 //   * GetTunnelCpeDeviceConfigContent
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCpeDeviceShape.go.html to see an example of how to use GetCpeDeviceShape API.
 func (client VirtualNetworkClient) GetCpeDeviceShape(ctx context.Context, request GetCpeDeviceShapeRequest) (response GetCpeDeviceShapeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4858,6 +5190,10 @@ func (client VirtualNetworkClient) getCpeDeviceShape(ctx context.Context, reques
 }
 
 // GetCrossConnect Gets the specified cross-connect's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnect.go.html to see an example of how to use GetCrossConnect API.
 func (client VirtualNetworkClient) GetCrossConnect(ctx context.Context, request GetCrossConnectRequest) (response GetCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4908,6 +5244,10 @@ func (client VirtualNetworkClient) getCrossConnect(ctx context.Context, request 
 }
 
 // GetCrossConnectGroup Gets the specified cross-connect group's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnectGroup.go.html to see an example of how to use GetCrossConnectGroup API.
 func (client VirtualNetworkClient) GetCrossConnectGroup(ctx context.Context, request GetCrossConnectGroupRequest) (response GetCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4958,6 +5298,10 @@ func (client VirtualNetworkClient) getCrossConnectGroup(ctx context.Context, req
 }
 
 // GetCrossConnectLetterOfAuthority Gets the Letter of Authority for the specified cross-connect.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnectLetterOfAuthority.go.html to see an example of how to use GetCrossConnectLetterOfAuthority API.
 func (client VirtualNetworkClient) GetCrossConnectLetterOfAuthority(ctx context.Context, request GetCrossConnectLetterOfAuthorityRequest) (response GetCrossConnectLetterOfAuthorityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5008,6 +5352,10 @@ func (client VirtualNetworkClient) getCrossConnectLetterOfAuthority(ctx context.
 }
 
 // GetCrossConnectStatus Gets the status of the specified cross-connect.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCrossConnectStatus.go.html to see an example of how to use GetCrossConnectStatus API.
 func (client VirtualNetworkClient) GetCrossConnectStatus(ctx context.Context, request GetCrossConnectStatusRequest) (response GetCrossConnectStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5058,6 +5406,10 @@ func (client VirtualNetworkClient) getCrossConnectStatus(ctx context.Context, re
 }
 
 // GetDhcpOptions Gets the specified set of DHCP options.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDhcpOptions.go.html to see an example of how to use GetDhcpOptions API.
 func (client VirtualNetworkClient) GetDhcpOptions(ctx context.Context, request GetDhcpOptionsRequest) (response GetDhcpOptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5108,6 +5460,10 @@ func (client VirtualNetworkClient) getDhcpOptions(ctx context.Context, request c
 }
 
 // GetDrg Gets the specified DRG's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDrg.go.html to see an example of how to use GetDrg API.
 func (client VirtualNetworkClient) GetDrg(ctx context.Context, request GetDrgRequest) (response GetDrgResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5158,6 +5514,10 @@ func (client VirtualNetworkClient) getDrg(ctx context.Context, request common.OC
 }
 
 // GetDrgAttachment Gets the information for the specified `DrgAttachment`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDrgAttachment.go.html to see an example of how to use GetDrgAttachment API.
 func (client VirtualNetworkClient) GetDrgAttachment(ctx context.Context, request GetDrgAttachmentRequest) (response GetDrgAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5209,6 +5569,10 @@ func (client VirtualNetworkClient) getDrgAttachment(ctx context.Context, request
 
 // GetDrgRedundancyStatus Gets the redundancy status for the specified DRG. For more information, see
 // Redundancy Remedies (https://docs.cloud.oracle.com/Content/Network/Troubleshoot/drgredundancy.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDrgRedundancyStatus.go.html to see an example of how to use GetDrgRedundancyStatus API.
 func (client VirtualNetworkClient) GetDrgRedundancyStatus(ctx context.Context, request GetDrgRedundancyStatusRequest) (response GetDrgRedundancyStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5260,6 +5624,10 @@ func (client VirtualNetworkClient) getDrgRedundancyStatus(ctx context.Context, r
 
 // GetFastConnectProviderService Gets the specified provider service.
 // For more information, see FastConnect Overview (https://docs.cloud.oracle.com/Content/Network/Concepts/fastconnect.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetFastConnectProviderService.go.html to see an example of how to use GetFastConnectProviderService API.
 func (client VirtualNetworkClient) GetFastConnectProviderService(ctx context.Context, request GetFastConnectProviderServiceRequest) (response GetFastConnectProviderServiceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5311,6 +5679,10 @@ func (client VirtualNetworkClient) getFastConnectProviderService(ctx context.Con
 
 // GetFastConnectProviderServiceKey Gets the specified provider service key's information. Use this operation to validate a
 // provider service key. An invalid key returns a 404 error.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetFastConnectProviderServiceKey.go.html to see an example of how to use GetFastConnectProviderServiceKey API.
 func (client VirtualNetworkClient) GetFastConnectProviderServiceKey(ctx context.Context, request GetFastConnectProviderServiceKeyRequest) (response GetFastConnectProviderServiceKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5363,6 +5735,10 @@ func (client VirtualNetworkClient) getFastConnectProviderServiceKey(ctx context.
 // GetIPSecConnection Gets the specified IPSec connection's basic information, including the static routes for the
 // on-premises router. If you want the status of the connection (whether it's up or down), use
 // GetIPSecConnectionTunnel.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnection.go.html to see an example of how to use GetIPSecConnection API.
 func (client VirtualNetworkClient) GetIPSecConnection(ctx context.Context, request GetIPSecConnectionRequest) (response GetIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5415,6 +5791,10 @@ func (client VirtualNetworkClient) getIPSecConnection(ctx context.Context, reque
 // GetIPSecConnectionDeviceConfig Deprecated. To get tunnel information, instead use:
 // * GetIPSecConnectionTunnel
 // * GetIPSecConnectionTunnelSharedSecret
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionDeviceConfig.go.html to see an example of how to use GetIPSecConnectionDeviceConfig API.
 func (client VirtualNetworkClient) GetIPSecConnectionDeviceConfig(ctx context.Context, request GetIPSecConnectionDeviceConfigRequest) (response GetIPSecConnectionDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5466,6 +5846,10 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceConfig(ctx context.Co
 
 // GetIPSecConnectionDeviceStatus Deprecated. To get the tunnel status, instead use
 // GetIPSecConnectionTunnel.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionDeviceStatus.go.html to see an example of how to use GetIPSecConnectionDeviceStatus API.
 func (client VirtualNetworkClient) GetIPSecConnectionDeviceStatus(ctx context.Context, request GetIPSecConnectionDeviceStatusRequest) (response GetIPSecConnectionDeviceStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5518,6 +5902,10 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceStatus(ctx context.Co
 // GetIPSecConnectionTunnel Gets the specified tunnel's information. The resulting object does not include the tunnel's
 // shared secret (pre-shared key). To retrieve that, use
 // GetIPSecConnectionTunnelSharedSecret.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionTunnel.go.html to see an example of how to use GetIPSecConnectionTunnel API.
 func (client VirtualNetworkClient) GetIPSecConnectionTunnel(ctx context.Context, request GetIPSecConnectionTunnelRequest) (response GetIPSecConnectionTunnelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5569,6 +5957,10 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnel(ctx context.Context,
 
 // GetIPSecConnectionTunnelSharedSecret Gets the specified tunnel's shared secret (pre-shared key). To get other information
 // about the tunnel, use GetIPSecConnectionTunnel.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionTunnelSharedSecret.go.html to see an example of how to use GetIPSecConnectionTunnelSharedSecret API.
 func (client VirtualNetworkClient) GetIPSecConnectionTunnelSharedSecret(ctx context.Context, request GetIPSecConnectionTunnelSharedSecretRequest) (response GetIPSecConnectionTunnelSharedSecretResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5619,6 +6011,10 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnelSharedSecret(ctx cont
 }
 
 // GetInternetGateway Gets the specified internet gateway's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInternetGateway.go.html to see an example of how to use GetInternetGateway API.
 func (client VirtualNetworkClient) GetInternetGateway(ctx context.Context, request GetInternetGatewayRequest) (response GetInternetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5684,6 +6080,10 @@ func (client VirtualNetworkClient) getInternetGateway(ctx context.Context, reque
 //   returns CPE configuration content for a specific tunnel within an IPSec connection.
 //   * GetCpeDeviceConfigContent
 //   returns CPE configuration content for *all* IPSec connections that use a specific CPE.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIpsecCpeDeviceConfigContent.go.html to see an example of how to use GetIpsecCpeDeviceConfigContent API.
 func (client VirtualNetworkClient) GetIpsecCpeDeviceConfigContent(ctx context.Context, request GetIpsecCpeDeviceConfigContentRequest) (response GetIpsecCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5736,6 +6136,10 @@ func (client VirtualNetworkClient) getIpsecCpeDeviceConfigContent(ctx context.Co
 // Alternatively, you can get the object by using
 // ListIpv6s
 // with the IPv6 address (for example, 2001:0db8:0123:1111:98fe:dcba:9876:4321) and subnet OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIpv6.go.html to see an example of how to use GetIpv6 API.
 func (client VirtualNetworkClient) GetIpv6(ctx context.Context, request GetIpv6Request) (response GetIpv6Response, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5786,6 +6190,10 @@ func (client VirtualNetworkClient) getIpv6(ctx context.Context, request common.O
 }
 
 // GetLocalPeeringGateway Gets the specified local peering gateway's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetLocalPeeringGateway.go.html to see an example of how to use GetLocalPeeringGateway API.
 func (client VirtualNetworkClient) GetLocalPeeringGateway(ctx context.Context, request GetLocalPeeringGatewayRequest) (response GetLocalPeeringGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5836,6 +6244,10 @@ func (client VirtualNetworkClient) getLocalPeeringGateway(ctx context.Context, r
 }
 
 // GetNatGateway Gets the specified NAT gateway's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetNatGateway.go.html to see an example of how to use GetNatGateway API.
 func (client VirtualNetworkClient) GetNatGateway(ctx context.Context, request GetNatGatewayRequest) (response GetNatGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5890,6 +6302,10 @@ func (client VirtualNetworkClient) getNatGateway(ctx context.Context, request co
 // ListNetworkSecurityGroupVnics.
 // To list the security rules in an NSG, see
 // ListNetworkSecurityGroupSecurityRules.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetNetworkSecurityGroup.go.html to see an example of how to use GetNetworkSecurityGroup API.
 func (client VirtualNetworkClient) GetNetworkSecurityGroup(ctx context.Context, request GetNetworkSecurityGroupRequest) (response GetNetworkSecurityGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5943,6 +6359,10 @@ func (client VirtualNetworkClient) getNetworkSecurityGroup(ctx context.Context, 
 // Alternatively, you can get the object by using
 // ListPrivateIps
 // with the private IP address (for example, 10.0.3.3) and subnet OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetPrivateIp.go.html to see an example of how to use GetPrivateIp API.
 func (client VirtualNetworkClient) GetPrivateIp(ctx context.Context, request GetPrivateIpRequest) (response GetPrivateIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6000,6 +6420,10 @@ func (client VirtualNetworkClient) getPrivateIp(ctx context.Context, request com
 // **Note:** If you're fetching a reserved public IP that is in the process of being
 // moved to a different private IP, the service returns the public IP object with
 // `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID of the target private IP.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetPublicIp.go.html to see an example of how to use GetPublicIp API.
 func (client VirtualNetworkClient) GetPublicIp(ctx context.Context, request GetPublicIpRequest) (response GetPublicIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6053,6 +6477,10 @@ func (client VirtualNetworkClient) getPublicIp(ctx context.Context, request comm
 // **Note:** If you're fetching a reserved public IP that is in the process of being
 // moved to a different private IP, the service returns the public IP object with
 // `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID of the target private IP.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetPublicIpByIpAddress.go.html to see an example of how to use GetPublicIpByIpAddress API.
 func (client VirtualNetworkClient) GetPublicIpByIpAddress(ctx context.Context, request GetPublicIpByIpAddressRequest) (response GetPublicIpByIpAddressResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6112,6 +6540,10 @@ func (client VirtualNetworkClient) getPublicIpByIpAddress(ctx context.Context, r
 // GetPublicIpByIpAddress, the
 // service returns the public IP object with `lifecycleState` = ASSIGNING and
 // `assignedEntityId` = OCID of the target private IP.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetPublicIpByPrivateIpId.go.html to see an example of how to use GetPublicIpByPrivateIpId API.
 func (client VirtualNetworkClient) GetPublicIpByPrivateIpId(ctx context.Context, request GetPublicIpByPrivateIpIdRequest) (response GetPublicIpByPrivateIpIdResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6162,6 +6594,10 @@ func (client VirtualNetworkClient) getPublicIpByPrivateIpId(ctx context.Context,
 }
 
 // GetPublicIpPool Gets the specified Public Ip Pool object. You must specify the object's OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetPublicIpPool.go.html to see an example of how to use GetPublicIpPool API.
 func (client VirtualNetworkClient) GetPublicIpPool(ctx context.Context, request GetPublicIpPoolRequest) (response GetPublicIpPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6212,6 +6648,10 @@ func (client VirtualNetworkClient) getPublicIpPool(ctx context.Context, request 
 }
 
 // GetRemotePeeringConnection Get the specified remote peering connection's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetRemotePeeringConnection.go.html to see an example of how to use GetRemotePeeringConnection API.
 func (client VirtualNetworkClient) GetRemotePeeringConnection(ctx context.Context, request GetRemotePeeringConnectionRequest) (response GetRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6262,6 +6702,10 @@ func (client VirtualNetworkClient) getRemotePeeringConnection(ctx context.Contex
 }
 
 // GetRouteTable Gets the specified route table's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetRouteTable.go.html to see an example of how to use GetRouteTable API.
 func (client VirtualNetworkClient) GetRouteTable(ctx context.Context, request GetRouteTableRequest) (response GetRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6312,6 +6756,10 @@ func (client VirtualNetworkClient) getRouteTable(ctx context.Context, request co
 }
 
 // GetSecurityList Gets the specified security list's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetSecurityList.go.html to see an example of how to use GetSecurityList API.
 func (client VirtualNetworkClient) GetSecurityList(ctx context.Context, request GetSecurityListRequest) (response GetSecurityListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6362,6 +6810,10 @@ func (client VirtualNetworkClient) getSecurityList(ctx context.Context, request 
 }
 
 // GetService Gets the specified Service object.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetService.go.html to see an example of how to use GetService API.
 func (client VirtualNetworkClient) GetService(ctx context.Context, request GetServiceRequest) (response GetServiceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6412,6 +6864,10 @@ func (client VirtualNetworkClient) getService(ctx context.Context, request commo
 }
 
 // GetServiceGateway Gets the specified service gateway's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetServiceGateway.go.html to see an example of how to use GetServiceGateway API.
 func (client VirtualNetworkClient) GetServiceGateway(ctx context.Context, request GetServiceGatewayRequest) (response GetServiceGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6462,6 +6918,10 @@ func (client VirtualNetworkClient) getServiceGateway(ctx context.Context, reques
 }
 
 // GetSubnet Gets the specified subnet's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetSubnet.go.html to see an example of how to use GetSubnet API.
 func (client VirtualNetworkClient) GetSubnet(ctx context.Context, request GetSubnetRequest) (response GetSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6516,6 +6976,10 @@ func (client VirtualNetworkClient) getSubnet(ctx context.Context, request common
 // To get the full set of content for the tunnel (any answers merged with the template of other
 // information specific to the CPE device type), use
 // GetTunnelCpeDeviceConfigContent.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetTunnelCpeDeviceConfig.go.html to see an example of how to use GetTunnelCpeDeviceConfig API.
 func (client VirtualNetworkClient) GetTunnelCpeDeviceConfig(ctx context.Context, request GetTunnelCpeDeviceConfigRequest) (response GetTunnelCpeDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6580,6 +7044,10 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfig(ctx context.Context,
 //   returns CPE configuration content for all tunnels in a single IPSec connection.
 //   * GetCpeDeviceConfigContent
 //   returns CPE configuration content for *all* IPSec connections that use a specific CPE.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetTunnelCpeDeviceConfigContent.go.html to see an example of how to use GetTunnelCpeDeviceConfigContent API.
 func (client VirtualNetworkClient) GetTunnelCpeDeviceConfigContent(ctx context.Context, request GetTunnelCpeDeviceConfigContentRequest) (response GetTunnelCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6629,6 +7097,10 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfigContent(ctx context.C
 }
 
 // GetVcn Gets the specified VCN's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVcn.go.html to see an example of how to use GetVcn API.
 func (client VirtualNetworkClient) GetVcn(ctx context.Context, request GetVcnRequest) (response GetVcnResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6679,6 +7151,10 @@ func (client VirtualNetworkClient) getVcn(ctx context.Context, request common.OC
 }
 
 // GetVcnDnsResolverAssociation Get the associated DNS resolver information with a vcn
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVcnDnsResolverAssociation.go.html to see an example of how to use GetVcnDnsResolverAssociation API.
 func (client VirtualNetworkClient) GetVcnDnsResolverAssociation(ctx context.Context, request GetVcnDnsResolverAssociationRequest) (response GetVcnDnsResolverAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6729,6 +7205,10 @@ func (client VirtualNetworkClient) getVcnDnsResolverAssociation(ctx context.Cont
 }
 
 // GetVirtualCircuit Gets the specified virtual circuit's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVirtualCircuit.go.html to see an example of how to use GetVirtualCircuit API.
 func (client VirtualNetworkClient) GetVirtualCircuit(ctx context.Context, request GetVirtualCircuitRequest) (response GetVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6779,6 +7259,10 @@ func (client VirtualNetworkClient) getVirtualCircuit(ctx context.Context, reques
 }
 
 // GetVlan Gets the specified VLAN's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVlan.go.html to see an example of how to use GetVlan API.
 func (client VirtualNetworkClient) GetVlan(ctx context.Context, request GetVlanRequest) (response GetVlanResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6832,6 +7316,10 @@ func (client VirtualNetworkClient) getVlan(ctx context.Context, request common.O
 // You can get the VNIC OCID from the
 // ListVnicAttachments
 // operation.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVnic.go.html to see an example of how to use GetVnic API.
 func (client VirtualNetworkClient) GetVnic(ctx context.Context, request GetVnicRequest) (response GetVnicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6883,6 +7371,10 @@ func (client VirtualNetworkClient) getVnic(ctx context.Context, request common.O
 
 // ListAllowedPeerRegionsForRemotePeering Lists the regions that support remote VCN peering (which is peering across regions).
 // For more information, see VCN Peering (https://docs.cloud.oracle.com/Content/Network/Tasks/VCNpeering.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAllowedPeerRegionsForRemotePeering.go.html to see an example of how to use ListAllowedPeerRegionsForRemotePeering API.
 func (client VirtualNetworkClient) ListAllowedPeerRegionsForRemotePeering(ctx context.Context, request ListAllowedPeerRegionsForRemotePeeringRequest) (response ListAllowedPeerRegionsForRemotePeeringResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6934,6 +7426,10 @@ func (client VirtualNetworkClient) listAllowedPeerRegionsForRemotePeering(ctx co
 
 // ListByoipAllocatedRanges Lists the ByoipAllocatedRange objects for the ByoipRange.
 // Each ByoipAllocatedRange object has a CIDR block part of the ByoipRange and the PublicIpPool it is assigned to.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListByoipAllocatedRanges.go.html to see an example of how to use ListByoipAllocatedRanges API.
 func (client VirtualNetworkClient) ListByoipAllocatedRanges(ctx context.Context, request ListByoipAllocatedRangesRequest) (response ListByoipAllocatedRangesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6985,6 +7481,10 @@ func (client VirtualNetworkClient) listByoipAllocatedRanges(ctx context.Context,
 
 // ListByoipRanges Lists the ByoipRange objects in the specified compartment.
 // You can filter the list by using query parameters.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListByoipRanges.go.html to see an example of how to use ListByoipRanges API.
 func (client VirtualNetworkClient) ListByoipRanges(ctx context.Context, request ListByoipRangesRequest) (response ListByoipRangesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7044,6 +7544,10 @@ func (client VirtualNetworkClient) listByoipRanges(ctx context.Context, request 
 //   * GetCpeDeviceConfigContent
 //   * GetIpsecCpeDeviceConfigContent
 //   * GetTunnelCpeDeviceConfigContent
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCpeDeviceShapes.go.html to see an example of how to use ListCpeDeviceShapes API.
 func (client VirtualNetworkClient) ListCpeDeviceShapes(ctx context.Context, request ListCpeDeviceShapesRequest) (response ListCpeDeviceShapesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7094,6 +7598,10 @@ func (client VirtualNetworkClient) listCpeDeviceShapes(ctx context.Context, requ
 }
 
 // ListCpes Lists the customer-premises equipment objects (CPEs) in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCpes.go.html to see an example of how to use ListCpes API.
 func (client VirtualNetworkClient) ListCpes(ctx context.Context, request ListCpesRequest) (response ListCpesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7144,6 +7652,10 @@ func (client VirtualNetworkClient) listCpes(ctx context.Context, request common.
 }
 
 // ListCrossConnectGroups Lists the cross-connect groups in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnectGroups.go.html to see an example of how to use ListCrossConnectGroups API.
 func (client VirtualNetworkClient) ListCrossConnectGroups(ctx context.Context, request ListCrossConnectGroupsRequest) (response ListCrossConnectGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7195,6 +7707,10 @@ func (client VirtualNetworkClient) listCrossConnectGroups(ctx context.Context, r
 
 // ListCrossConnectLocations Lists the available FastConnect locations for cross-connect installation. You need
 // this information so you can specify your desired location when you create a cross-connect.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnectLocations.go.html to see an example of how to use ListCrossConnectLocations API.
 func (client VirtualNetworkClient) ListCrossConnectLocations(ctx context.Context, request ListCrossConnectLocationsRequest) (response ListCrossConnectLocationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7246,6 +7762,10 @@ func (client VirtualNetworkClient) listCrossConnectLocations(ctx context.Context
 
 // ListCrossConnects Lists the cross-connects in the specified compartment. You can filter the list
 // by specifying the OCID of a cross-connect group.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnects.go.html to see an example of how to use ListCrossConnects API.
 func (client VirtualNetworkClient) ListCrossConnects(ctx context.Context, request ListCrossConnectsRequest) (response ListCrossConnectsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7298,6 +7818,10 @@ func (client VirtualNetworkClient) listCrossConnects(ctx context.Context, reques
 // ListCrossconnectPortSpeedShapes Lists the available port speeds for cross-connects. You need this information
 // so you can specify your desired port speed (that is, shape) when you create a
 // cross-connect.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossconnectPortSpeedShapes.go.html to see an example of how to use ListCrossconnectPortSpeedShapes API.
 func (client VirtualNetworkClient) ListCrossconnectPortSpeedShapes(ctx context.Context, request ListCrossconnectPortSpeedShapesRequest) (response ListCrossconnectPortSpeedShapesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7351,6 +7875,10 @@ func (client VirtualNetworkClient) listCrossconnectPortSpeedShapes(ctx context.C
 // If the VCN ID is not provided, then the list includes the sets of DHCP options from all VCNs in the specified compartment.
 // The response includes the default set of options that automatically comes with each VCN,
 // plus any other sets you've created.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDhcpOptions.go.html to see an example of how to use ListDhcpOptions API.
 func (client VirtualNetworkClient) ListDhcpOptions(ctx context.Context, request ListDhcpOptionsRequest) (response ListDhcpOptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7402,6 +7930,10 @@ func (client VirtualNetworkClient) listDhcpOptions(ctx context.Context, request 
 
 // ListDrgAttachments Lists the `DrgAttachment` objects for the specified compartment. You can filter the
 // results by VCN or DRG.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDrgAttachments.go.html to see an example of how to use ListDrgAttachments API.
 func (client VirtualNetworkClient) ListDrgAttachments(ctx context.Context, request ListDrgAttachmentsRequest) (response ListDrgAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7452,6 +7984,10 @@ func (client VirtualNetworkClient) listDrgAttachments(ctx context.Context, reque
 }
 
 // ListDrgs Lists the DRGs in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDrgs.go.html to see an example of how to use ListDrgs API.
 func (client VirtualNetworkClient) ListDrgs(ctx context.Context, request ListDrgsRequest) (response ListDrgsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7506,6 +8042,10 @@ func (client VirtualNetworkClient) listDrgs(ctx context.Context, request common.
 // offering when you create a virtual circuit.
 // For the compartment ID, provide the OCID of your tenancy (the root compartment).
 // For more information, see FastConnect Overview (https://docs.cloud.oracle.com/Content/Network/Concepts/fastconnect.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListFastConnectProviderServices.go.html to see an example of how to use ListFastConnectProviderServices API.
 func (client VirtualNetworkClient) ListFastConnectProviderServices(ctx context.Context, request ListFastConnectProviderServicesRequest) (response ListFastConnectProviderServicesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7558,6 +8098,10 @@ func (client VirtualNetworkClient) listFastConnectProviderServices(ctx context.C
 // ListFastConnectProviderVirtualCircuitBandwidthShapes Gets the list of available virtual circuit bandwidth levels for a provider.
 // You need this information so you can specify your desired bandwidth level (shape) when you create a virtual circuit.
 // For more information about virtual circuits, see FastConnect Overview (https://docs.cloud.oracle.com/Content/Network/Concepts/fastconnect.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListFastConnectProviderVirtualCircuitBandwidthShapes.go.html to see an example of how to use ListFastConnectProviderVirtualCircuitBandwidthShapes API.
 func (client VirtualNetworkClient) ListFastConnectProviderVirtualCircuitBandwidthShapes(ctx context.Context, request ListFastConnectProviderVirtualCircuitBandwidthShapesRequest) (response ListFastConnectProviderVirtualCircuitBandwidthShapesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7608,6 +8152,10 @@ func (client VirtualNetworkClient) listFastConnectProviderVirtualCircuitBandwidt
 }
 
 // ListIPSecConnectionTunnels Lists the tunnel information for the specified IPSec connection.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIPSecConnectionTunnels.go.html to see an example of how to use ListIPSecConnectionTunnels API.
 func (client VirtualNetworkClient) ListIPSecConnectionTunnels(ctx context.Context, request ListIPSecConnectionTunnelsRequest) (response ListIPSecConnectionTunnelsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7659,6 +8207,10 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnels(ctx context.Contex
 
 // ListIPSecConnections Lists the IPSec connections for the specified compartment. You can filter the
 // results by DRG or CPE.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIPSecConnections.go.html to see an example of how to use ListIPSecConnections API.
 func (client VirtualNetworkClient) ListIPSecConnections(ctx context.Context, request ListIPSecConnectionsRequest) (response ListIPSecConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7710,6 +8262,10 @@ func (client VirtualNetworkClient) listIPSecConnections(ctx context.Context, req
 
 // ListInternetGateways Lists the internet gateways in the specified VCN and the specified compartment.
 // If the VCN ID is not provided, then the list includes the internet gateways from all VCNs in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInternetGateways.go.html to see an example of how to use ListInternetGateways API.
 func (client VirtualNetworkClient) ListInternetGateways(ctx context.Context, request ListInternetGatewaysRequest) (response ListInternetGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7766,6 +8322,10 @@ func (client VirtualNetworkClient) listInternetGateways(ctx context.Context, req
 //   * Both IPv6 address and subnet OCID: This lets you get an `Ipv6` object based on its private
 //   IPv6 address (for example, 2001:0db8:0123:1111:abcd:ef01:2345:6789) and not its OCID. For comparison,
 //   GetIpv6 requires the OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIpv6s.go.html to see an example of how to use ListIpv6s API.
 func (client VirtualNetworkClient) ListIpv6s(ctx context.Context, request ListIpv6sRequest) (response ListIpv6sResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7817,6 +8377,10 @@ func (client VirtualNetworkClient) listIpv6s(ctx context.Context, request common
 
 // ListLocalPeeringGateways Lists the local peering gateways (LPGs) for the specified VCN and specified compartment.
 // If the VCN ID is not provided, then the list includes the LPGs from all VCNs in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListLocalPeeringGateways.go.html to see an example of how to use ListLocalPeeringGateways API.
 func (client VirtualNetworkClient) ListLocalPeeringGateways(ctx context.Context, request ListLocalPeeringGatewaysRequest) (response ListLocalPeeringGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7868,6 +8432,10 @@ func (client VirtualNetworkClient) listLocalPeeringGateways(ctx context.Context,
 
 // ListNatGateways Lists the NAT gateways in the specified compartment. You may optionally specify a VCN OCID
 // to filter the results by VCN.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListNatGateways.go.html to see an example of how to use ListNatGateways API.
 func (client VirtualNetworkClient) ListNatGateways(ctx context.Context, request ListNatGatewaysRequest) (response ListNatGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7918,6 +8486,10 @@ func (client VirtualNetworkClient) listNatGateways(ctx context.Context, request 
 }
 
 // ListNetworkSecurityGroupSecurityRules Lists the security rules in the specified network security group.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListNetworkSecurityGroupSecurityRules.go.html to see an example of how to use ListNetworkSecurityGroupSecurityRules API.
 func (client VirtualNetworkClient) ListNetworkSecurityGroupSecurityRules(ctx context.Context, request ListNetworkSecurityGroupSecurityRulesRequest) (response ListNetworkSecurityGroupSecurityRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7968,6 +8540,10 @@ func (client VirtualNetworkClient) listNetworkSecurityGroupSecurityRules(ctx con
 }
 
 // ListNetworkSecurityGroupVnics Lists the VNICs in the specified network security group.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListNetworkSecurityGroupVnics.go.html to see an example of how to use ListNetworkSecurityGroupVnics API.
 func (client VirtualNetworkClient) ListNetworkSecurityGroupVnics(ctx context.Context, request ListNetworkSecurityGroupVnicsRequest) (response ListNetworkSecurityGroupVnicsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8018,6 +8594,10 @@ func (client VirtualNetworkClient) listNetworkSecurityGroupVnics(ctx context.Con
 }
 
 // ListNetworkSecurityGroups Lists the network security groups in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListNetworkSecurityGroups.go.html to see an example of how to use ListNetworkSecurityGroups API.
 func (client VirtualNetworkClient) ListNetworkSecurityGroups(ctx context.Context, request ListNetworkSecurityGroupsRequest) (response ListNetworkSecurityGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8080,6 +8660,10 @@ func (client VirtualNetworkClient) listNetworkSecurityGroups(ctx context.Context
 // or VNIC, the response includes both primary and secondary private IPs.
 // If you are an Oracle Cloud VMware Solution customer and have VLANs
 // in your VCN, you can filter the list by VLAN OCID. See Vlan.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListPrivateIps.go.html to see an example of how to use ListPrivateIps API.
 func (client VirtualNetworkClient) ListPrivateIps(ctx context.Context, request ListPrivateIpsRequest) (response ListPrivateIpsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8131,6 +8715,10 @@ func (client VirtualNetworkClient) listPrivateIps(ctx context.Context, request c
 
 // ListPublicIpPools Lists the PublicIpPool objects in the specified compartment.
 // You can filter the list by using query parameters.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListPublicIpPools.go.html to see an example of how to use ListPublicIpPools API.
 func (client VirtualNetworkClient) ListPublicIpPools(ctx context.Context, request ListPublicIpPoolsRequest) (response ListPublicIpPoolsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8196,6 +8784,10 @@ func (client VirtualNetworkClient) listPublicIpPools(ctx context.Context, reques
 //   * Set `lifetime` = `EPHEMERAL`
 // **Note:** An ephemeral public IP assigned to a private IP
 // is always in the same availability domain and compartment as the private IP.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListPublicIps.go.html to see an example of how to use ListPublicIps API.
 func (client VirtualNetworkClient) ListPublicIps(ctx context.Context, request ListPublicIpsRequest) (response ListPublicIpsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8247,6 +8839,10 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 
 // ListRemotePeeringConnections Lists the remote peering connections (RPCs) for the specified DRG and compartment
 // (the RPC's compartment).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListRemotePeeringConnections.go.html to see an example of how to use ListRemotePeeringConnections API.
 func (client VirtualNetworkClient) ListRemotePeeringConnections(ctx context.Context, request ListRemotePeeringConnectionsRequest) (response ListRemotePeeringConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8300,6 +8896,10 @@ func (client VirtualNetworkClient) listRemotePeeringConnections(ctx context.Cont
 // If the VCN ID is not provided, then the list includes the route tables from all VCNs in the specified compartment.
 // The response includes the default route table that automatically comes with
 // each VCN in the specified compartment, plus any route tables you've created.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListRouteTables.go.html to see an example of how to use ListRouteTables API.
 func (client VirtualNetworkClient) ListRouteTables(ctx context.Context, request ListRouteTablesRequest) (response ListRouteTablesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8351,6 +8951,10 @@ func (client VirtualNetworkClient) listRouteTables(ctx context.Context, request 
 
 // ListSecurityLists Lists the security lists in the specified VCN and compartment.
 // If the VCN ID is not provided, then the list includes the security lists from all VCNs in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListSecurityLists.go.html to see an example of how to use ListSecurityLists API.
 func (client VirtualNetworkClient) ListSecurityLists(ctx context.Context, request ListSecurityListsRequest) (response ListSecurityListsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8402,6 +9006,10 @@ func (client VirtualNetworkClient) listSecurityLists(ctx context.Context, reques
 
 // ListServiceGateways Lists the service gateways in the specified compartment. You may optionally specify a VCN OCID
 // to filter the results by VCN.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListServiceGateways.go.html to see an example of how to use ListServiceGateways API.
 func (client VirtualNetworkClient) ListServiceGateways(ctx context.Context, request ListServiceGatewaysRequest) (response ListServiceGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8453,6 +9061,10 @@ func (client VirtualNetworkClient) listServiceGateways(ctx context.Context, requ
 
 // ListServices Lists the available Service objects that you can enable for a
 // service gateway in this region.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListServices.go.html to see an example of how to use ListServices API.
 func (client VirtualNetworkClient) ListServices(ctx context.Context, request ListServicesRequest) (response ListServicesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8504,6 +9116,10 @@ func (client VirtualNetworkClient) listServices(ctx context.Context, request com
 
 // ListSubnets Lists the subnets in the specified VCN and the specified compartment.
 // If the VCN ID is not provided, then the list includes the subnets from all VCNs in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListSubnets.go.html to see an example of how to use ListSubnets API.
 func (client VirtualNetworkClient) ListSubnets(ctx context.Context, request ListSubnetsRequest) (response ListSubnetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8554,6 +9170,10 @@ func (client VirtualNetworkClient) listSubnets(ctx context.Context, request comm
 }
 
 // ListVcns Lists the virtual cloud networks (VCNs) in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVcns.go.html to see an example of how to use ListVcns API.
 func (client VirtualNetworkClient) ListVcns(ctx context.Context, request ListVcnsRequest) (response ListVcnsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8604,6 +9224,10 @@ func (client VirtualNetworkClient) listVcns(ctx context.Context, request common.
 }
 
 // ListVirtualCircuitBandwidthShapes The deprecated operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID of your tenancy (the root compartment).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVirtualCircuitBandwidthShapes.go.html to see an example of how to use ListVirtualCircuitBandwidthShapes API.
 func (client VirtualNetworkClient) ListVirtualCircuitBandwidthShapes(ctx context.Context, request ListVirtualCircuitBandwidthShapesRequest) (response ListVirtualCircuitBandwidthShapesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8655,6 +9279,10 @@ func (client VirtualNetworkClient) listVirtualCircuitBandwidthShapes(ctx context
 
 // ListVirtualCircuitPublicPrefixes Lists the public IP prefixes and their details for the specified
 // public virtual circuit.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVirtualCircuitPublicPrefixes.go.html to see an example of how to use ListVirtualCircuitPublicPrefixes API.
 func (client VirtualNetworkClient) ListVirtualCircuitPublicPrefixes(ctx context.Context, request ListVirtualCircuitPublicPrefixesRequest) (response ListVirtualCircuitPublicPrefixesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8705,6 +9333,10 @@ func (client VirtualNetworkClient) listVirtualCircuitPublicPrefixes(ctx context.
 }
 
 // ListVirtualCircuits Lists the virtual circuits in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVirtualCircuits.go.html to see an example of how to use ListVirtualCircuits API.
 func (client VirtualNetworkClient) ListVirtualCircuits(ctx context.Context, request ListVirtualCircuitsRequest) (response ListVirtualCircuitsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8755,6 +9387,10 @@ func (client VirtualNetworkClient) listVirtualCircuits(ctx context.Context, requ
 }
 
 // ListVlans Lists the VLANs in the specified VCN and the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVlans.go.html to see an example of how to use ListVlans API.
 func (client VirtualNetworkClient) ListVlans(ctx context.Context, request ListVlansRequest) (response ListVlansResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8811,6 +9447,10 @@ func (client VirtualNetworkClient) listVlans(ctx context.Context, request common
 // d. The new CIDR range does not overlap with any peered VCNs
 // e. The new CIDR should overlap with any existing route rule within a VCN
 // f. All existing subnet CIDRs are subsets of the updated CIDR ranges
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ModifyVcnCidr.go.html to see an example of how to use ModifyVcnCidr API.
 func (client VirtualNetworkClient) ModifyVcnCidr(ctx context.Context, request ModifyVcnCidrRequest) (response ModifyVcnCidrResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8866,6 +9506,10 @@ func (client VirtualNetworkClient) modifyVcnCidr(ctx context.Context, request co
 }
 
 // RemoveNetworkSecurityGroupSecurityRules Removes one or more security rules from the specified network security group.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveNetworkSecurityGroupSecurityRules.go.html to see an example of how to use RemoveNetworkSecurityGroupSecurityRules API.
 func (client VirtualNetworkClient) RemoveNetworkSecurityGroupSecurityRules(ctx context.Context, request RemoveNetworkSecurityGroupSecurityRulesRequest) (response RemoveNetworkSecurityGroupSecurityRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8916,6 +9560,10 @@ func (client VirtualNetworkClient) removeNetworkSecurityGroupSecurityRules(ctx c
 }
 
 // RemovePublicIpPoolCapacity Removes a Cidr from the referenced Public IP Pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemovePublicIpPoolCapacity.go.html to see an example of how to use RemovePublicIpPoolCapacity API.
 func (client VirtualNetworkClient) RemovePublicIpPoolCapacity(ctx context.Context, request RemovePublicIpPoolCapacityRequest) (response RemovePublicIpPoolCapacityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8972,6 +9620,10 @@ func (client VirtualNetworkClient) removePublicIpPoolCapacity(ctx context.Contex
 
 // RemoveVcnCidr Remove a CIDR from a VCN. The CIDR being removed should not have
 // any resources allocated from it.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveVcnCidr.go.html to see an example of how to use RemoveVcnCidr API.
 func (client VirtualNetworkClient) RemoveVcnCidr(ctx context.Context, request RemoveVcnCidrRequest) (response RemoveVcnCidrResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9027,6 +9679,10 @@ func (client VirtualNetworkClient) removeVcnCidr(ctx context.Context, request co
 }
 
 // UpdateByoipRange Updates the specified Byoip Range.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateByoipRange.go.html to see an example of how to use UpdateByoipRange API.
 func (client VirtualNetworkClient) UpdateByoipRange(ctx context.Context, request UpdateByoipRangeRequest) (response UpdateByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9078,6 +9734,10 @@ func (client VirtualNetworkClient) updateByoipRange(ctx context.Context, request
 
 // UpdateCpe Updates the specified CPE's display name or tags.
 // Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCpe.go.html to see an example of how to use UpdateCpe API.
 func (client VirtualNetworkClient) UpdateCpe(ctx context.Context, request UpdateCpeRequest) (response UpdateCpeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9128,6 +9788,10 @@ func (client VirtualNetworkClient) updateCpe(ctx context.Context, request common
 }
 
 // UpdateCrossConnect Updates the specified cross-connect.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCrossConnect.go.html to see an example of how to use UpdateCrossConnect API.
 func (client VirtualNetworkClient) UpdateCrossConnect(ctx context.Context, request UpdateCrossConnectRequest) (response UpdateCrossConnectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9179,6 +9843,10 @@ func (client VirtualNetworkClient) updateCrossConnect(ctx context.Context, reque
 
 // UpdateCrossConnectGroup Updates the specified cross-connect group's display name.
 // Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCrossConnectGroup.go.html to see an example of how to use UpdateCrossConnectGroup API.
 func (client VirtualNetworkClient) UpdateCrossConnectGroup(ctx context.Context, request UpdateCrossConnectGroupRequest) (response UpdateCrossConnectGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9231,6 +9899,10 @@ func (client VirtualNetworkClient) updateCrossConnectGroup(ctx context.Context, 
 // UpdateDhcpOptions Updates the specified set of DHCP options. You can update the display name or the options
 // themselves. Avoid entering confidential information.
 // Note that the `options` object you provide replaces the entire existing set of options.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDhcpOptions.go.html to see an example of how to use UpdateDhcpOptions API.
 func (client VirtualNetworkClient) UpdateDhcpOptions(ctx context.Context, request UpdateDhcpOptionsRequest) (response UpdateDhcpOptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9281,6 +9953,10 @@ func (client VirtualNetworkClient) updateDhcpOptions(ctx context.Context, reques
 }
 
 // UpdateDrg Updates the specified DRG's display name or tags. Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDrg.go.html to see an example of how to use UpdateDrg API.
 func (client VirtualNetworkClient) UpdateDrg(ctx context.Context, request UpdateDrgRequest) (response UpdateDrgResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9332,6 +10008,10 @@ func (client VirtualNetworkClient) updateDrg(ctx context.Context, request common
 
 // UpdateDrgAttachment Updates the display name for the specified `DrgAttachment`.
 // Avoid entering confidential information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDrgAttachment.go.html to see an example of how to use UpdateDrgAttachment API.
 func (client VirtualNetworkClient) UpdateDrgAttachment(ctx context.Context, request UpdateDrgAttachmentRequest) (response UpdateDrgAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9384,6 +10064,10 @@ func (client VirtualNetworkClient) updateDrgAttachment(ctx context.Context, requ
 // UpdateIPSecConnection Updates the specified IPSec connection.
 // To update an individual IPSec tunnel's attributes, use
 // UpdateIPSecConnectionTunnel.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateIPSecConnection.go.html to see an example of how to use UpdateIPSecConnection API.
 func (client VirtualNetworkClient) UpdateIPSecConnection(ctx context.Context, request UpdateIPSecConnectionRequest) (response UpdateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9442,6 +10126,10 @@ func (client VirtualNetworkClient) updateIPSecConnection(ctx context.Context, re
 //   * If you want to switch the tunnel's `routing` from `BGP` to `STATIC`, make sure the
 //     IPSecConnection already has at least one valid CIDR
 //     static route.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateIPSecConnectionTunnel.go.html to see an example of how to use UpdateIPSecConnectionTunnel API.
 func (client VirtualNetworkClient) UpdateIPSecConnectionTunnel(ctx context.Context, request UpdateIPSecConnectionTunnelRequest) (response UpdateIPSecConnectionTunnelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9493,6 +10181,10 @@ func (client VirtualNetworkClient) updateIPSecConnectionTunnel(ctx context.Conte
 
 // UpdateIPSecConnectionTunnelSharedSecret Updates the shared secret (pre-shared key) for the specified tunnel.
 // **Important:** If you change the shared secret, the tunnel will go down while it's reprovisioned.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateIPSecConnectionTunnelSharedSecret.go.html to see an example of how to use UpdateIPSecConnectionTunnelSharedSecret API.
 func (client VirtualNetworkClient) UpdateIPSecConnectionTunnelSharedSecret(ctx context.Context, request UpdateIPSecConnectionTunnelSharedSecretRequest) (response UpdateIPSecConnectionTunnelSharedSecretResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9546,6 +10238,10 @@ func (client VirtualNetworkClient) updateIPSecConnectionTunnelSharedSecret(ctx c
 // or tags. Avoid entering confidential information.
 // If the gateway is disabled, that means no traffic will flow to/from the internet even if there's
 // a route rule that enables that traffic.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInternetGateway.go.html to see an example of how to use UpdateInternetGateway API.
 func (client VirtualNetworkClient) UpdateInternetGateway(ctx context.Context, request UpdateInternetGatewayRequest) (response UpdateInternetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9601,6 +10297,10 @@ func (client VirtualNetworkClient) updateInternetGateway(ctx context.Context, re
 //   * Enable/disable internet access for an IPv6.
 //   * Change the display name for an IPv6.
 //   * Update resource tags for an IPv6.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateIpv6.go.html to see an example of how to use UpdateIpv6 API.
 func (client VirtualNetworkClient) UpdateIpv6(ctx context.Context, request UpdateIpv6Request) (response UpdateIpv6Response, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9651,6 +10351,10 @@ func (client VirtualNetworkClient) updateIpv6(ctx context.Context, request commo
 }
 
 // UpdateLocalPeeringGateway Updates the specified local peering gateway (LPG).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateLocalPeeringGateway.go.html to see an example of how to use UpdateLocalPeeringGateway API.
 func (client VirtualNetworkClient) UpdateLocalPeeringGateway(ctx context.Context, request UpdateLocalPeeringGatewayRequest) (response UpdateLocalPeeringGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9701,6 +10405,10 @@ func (client VirtualNetworkClient) updateLocalPeeringGateway(ctx context.Context
 }
 
 // UpdateNatGateway Updates the specified NAT gateway.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateNatGateway.go.html to see an example of how to use UpdateNatGateway API.
 func (client VirtualNetworkClient) UpdateNatGateway(ctx context.Context, request UpdateNatGatewayRequest) (response UpdateNatGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9761,6 +10469,10 @@ func (client VirtualNetworkClient) updateNatGateway(ctx context.Context, request
 // RemoveNetworkSecurityGroupSecurityRules.
 // To edit the contents of existing security rules in the group, use
 // UpdateNetworkSecurityGroupSecurityRules.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateNetworkSecurityGroup.go.html to see an example of how to use UpdateNetworkSecurityGroup API.
 func (client VirtualNetworkClient) UpdateNetworkSecurityGroup(ctx context.Context, request UpdateNetworkSecurityGroupRequest) (response UpdateNetworkSecurityGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9811,6 +10523,10 @@ func (client VirtualNetworkClient) updateNetworkSecurityGroup(ctx context.Contex
 }
 
 // UpdateNetworkSecurityGroupSecurityRules Updates one or more security rules in the specified network security group.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateNetworkSecurityGroupSecurityRules.go.html to see an example of how to use UpdateNetworkSecurityGroupSecurityRules API.
 func (client VirtualNetworkClient) UpdateNetworkSecurityGroupSecurityRules(ctx context.Context, request UpdateNetworkSecurityGroupSecurityRulesRequest) (response UpdateNetworkSecurityGroupSecurityRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9868,6 +10584,10 @@ func (client VirtualNetworkClient) updateNetworkSecurityGroupSecurityRules(ctx c
 // This operation cannot be used with primary private IPs.
 // To update the hostname for the primary IP on a VNIC, use
 // UpdateVnic.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdatePrivateIp.go.html to see an example of how to use UpdatePrivateIp API.
 func (client VirtualNetworkClient) UpdatePrivateIp(ctx context.Context, request UpdatePrivateIpRequest) (response UpdatePrivateIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9949,6 +10669,10 @@ func (client VirtualNetworkClient) updatePrivateIp(ctx context.Context, request 
 // to a VNIC or instance that has already reached its public IP limit, an error is
 // returned. For information about the public IP limits, see
 // Public IP Addresses (https://docs.cloud.oracle.com/Content/Network/Tasks/managingpublicIPs.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdatePublicIp.go.html to see an example of how to use UpdatePublicIp API.
 func (client VirtualNetworkClient) UpdatePublicIp(ctx context.Context, request UpdatePublicIpRequest) (response UpdatePublicIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9999,6 +10723,10 @@ func (client VirtualNetworkClient) updatePublicIp(ctx context.Context, request c
 }
 
 // UpdatePublicIpPool Updates the specified Public Ip Pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdatePublicIpPool.go.html to see an example of how to use UpdatePublicIpPool API.
 func (client VirtualNetworkClient) UpdatePublicIpPool(ctx context.Context, request UpdatePublicIpPoolRequest) (response UpdatePublicIpPoolResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10049,6 +10777,10 @@ func (client VirtualNetworkClient) updatePublicIpPool(ctx context.Context, reque
 }
 
 // UpdateRemotePeeringConnection Updates the specified remote peering connection (RPC).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateRemotePeeringConnection.go.html to see an example of how to use UpdateRemotePeeringConnection API.
 func (client VirtualNetworkClient) UpdateRemotePeeringConnection(ctx context.Context, request UpdateRemotePeeringConnectionRequest) (response UpdateRemotePeeringConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10101,6 +10833,10 @@ func (client VirtualNetworkClient) updateRemotePeeringConnection(ctx context.Con
 // UpdateRouteTable Updates the specified route table's display name or route rules.
 // Avoid entering confidential information.
 // Note that the `routeRules` object you provide replaces the entire existing set of rules.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateRouteTable.go.html to see an example of how to use UpdateRouteTable API.
 func (client VirtualNetworkClient) UpdateRouteTable(ctx context.Context, request UpdateRouteTableRequest) (response UpdateRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10154,6 +10890,10 @@ func (client VirtualNetworkClient) updateRouteTable(ctx context.Context, request
 // Avoid entering confidential information.
 // Note that the `egressSecurityRules` or `ingressSecurityRules` objects you provide replace the entire
 // existing objects.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateSecurityList.go.html to see an example of how to use UpdateSecurityList API.
 func (client VirtualNetworkClient) UpdateSecurityList(ctx context.Context, request UpdateSecurityListRequest) (response UpdateSecurityListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10205,6 +10945,10 @@ func (client VirtualNetworkClient) updateSecurityList(ctx context.Context, reque
 
 // UpdateServiceGateway Updates the specified service gateway. The information you provide overwrites the existing
 // attributes of the gateway.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateServiceGateway.go.html to see an example of how to use UpdateServiceGateway API.
 func (client VirtualNetworkClient) UpdateServiceGateway(ctx context.Context, request UpdateServiceGatewayRequest) (response UpdateServiceGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10255,6 +10999,10 @@ func (client VirtualNetworkClient) updateServiceGateway(ctx context.Context, req
 }
 
 // UpdateSubnet Updates the specified subnet.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateSubnet.go.html to see an example of how to use UpdateSubnet API.
 func (client VirtualNetworkClient) UpdateSubnet(ctx context.Context, request UpdateSubnetRequest) (response UpdateSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10307,6 +11055,10 @@ func (client VirtualNetworkClient) updateSubnet(ctx context.Context, request com
 // UpdateTunnelCpeDeviceConfig Creates or updates the set of CPE configuration answers for the specified tunnel.
 // The answers correlate to the questions that are specific to the CPE device type (see the
 // `parameters` attribute of CpeDeviceShapeDetail).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateTunnelCpeDeviceConfig.go.html to see an example of how to use UpdateTunnelCpeDeviceConfig API.
 func (client VirtualNetworkClient) UpdateTunnelCpeDeviceConfig(ctx context.Context, request UpdateTunnelCpeDeviceConfigRequest) (response UpdateTunnelCpeDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10362,6 +11114,10 @@ func (client VirtualNetworkClient) updateTunnelCpeDeviceConfig(ctx context.Conte
 }
 
 // UpdateVcn Updates the specified VCN.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVcn.go.html to see an example of how to use UpdateVcn API.
 func (client VirtualNetworkClient) UpdateVcn(ctx context.Context, request UpdateVcnRequest) (response UpdateVcnResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10433,6 +11189,10 @@ func (client VirtualNetworkClient) updateVcn(ctx context.Context, request common
 // Updating the list of prefixes does NOT cause the BGP session to go down. However,
 // Oracle must verify the customer's ownership of each added prefix before
 // traffic for that prefix will flow across the virtual circuit.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVirtualCircuit.go.html to see an example of how to use UpdateVirtualCircuit API.
 func (client VirtualNetworkClient) UpdateVirtualCircuit(ctx context.Context, request UpdateVirtualCircuitRequest) (response UpdateVirtualCircuitResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10485,6 +11245,10 @@ func (client VirtualNetworkClient) updateVirtualCircuit(ctx context.Context, req
 // UpdateVlan Updates the specified VLAN. This could result in changes to all
 // the VNICs in the VLAN, which can take time. During that transition
 // period, the VLAN will be in the UPDATING state.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVlan.go.html to see an example of how to use UpdateVlan API.
 func (client VirtualNetworkClient) UpdateVlan(ctx context.Context, request UpdateVlanRequest) (response UpdateVlanResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10535,6 +11299,10 @@ func (client VirtualNetworkClient) updateVlan(ctx context.Context, request commo
 }
 
 // UpdateVnic Updates the specified VNIC.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVnic.go.html to see an example of how to use UpdateVnic API.
 func (client VirtualNetworkClient) UpdateVnic(ctx context.Context, request UpdateVnicRequest) (response UpdateVnicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10586,6 +11354,10 @@ func (client VirtualNetworkClient) updateVnic(ctx context.Context, request commo
 
 // ValidateByoipRange submit the Byoip Range for validation. This presumes the user has
 // updated their IP registry record in accordance to validation requirements
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ValidateByoipRange.go.html to see an example of how to use ValidateByoipRange API.
 func (client VirtualNetworkClient) ValidateByoipRange(ctx context.Context, request ValidateByoipRangeRequest) (response ValidateByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10636,6 +11408,10 @@ func (client VirtualNetworkClient) validateByoipRange(ctx context.Context, reque
 }
 
 // WithdrawByoipRange stop route advertisements for the Byoip Range prefix.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/WithdrawByoipRange.go.html to see an example of how to use WithdrawByoipRange API.
 func (client VirtualNetworkClient) WithdrawByoipRange(ctx context.Context, request WithdrawByoipRangeRequest) (response WithdrawByoipRangeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -81,6 +81,10 @@ func (client *MarketplaceClient) ConfigurationProvider() *common.ConfigurationPr
 
 // CreateAcceptedAgreement Accepts a terms of use agreement for a specific package version of a listing. You must accept all
 // terms of use for a package before you can deploy the package.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/CreateAcceptedAgreement.go.html to see an example of how to use CreateAcceptedAgreement API.
 func (client MarketplaceClient) CreateAcceptedAgreement(ctx context.Context, request CreateAcceptedAgreementRequest) (response CreateAcceptedAgreementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -138,6 +142,10 @@ func (client MarketplaceClient) createAcceptedAgreement(ctx context.Context, req
 // DeleteAcceptedAgreement Removes a previously accepted terms of use agreement from the list of agreements that Marketplace checks
 // before initiating a deployment. Listings in the Marketplace that require acceptance of the specified terms
 // of use can no longer be deployed, but existing deployments aren't affected.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/DeleteAcceptedAgreement.go.html to see an example of how to use DeleteAcceptedAgreement API.
 func (client MarketplaceClient) DeleteAcceptedAgreement(ctx context.Context, request DeleteAcceptedAgreementRequest) (response DeleteAcceptedAgreementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -188,6 +196,10 @@ func (client MarketplaceClient) deleteAcceptedAgreement(ctx context.Context, req
 }
 
 // GetAcceptedAgreement Gets the details of a specific, previously accepted terms of use agreement.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetAcceptedAgreement.go.html to see an example of how to use GetAcceptedAgreement API.
 func (client MarketplaceClient) GetAcceptedAgreement(ctx context.Context, request GetAcceptedAgreementRequest) (response GetAcceptedAgreementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -239,6 +251,10 @@ func (client MarketplaceClient) getAcceptedAgreement(ctx context.Context, reques
 
 // GetAgreement Returns a terms of use agreement for a package with a time-based signature that can be used to
 // accept the agreement.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetAgreement.go.html to see an example of how to use GetAgreement API.
 func (client MarketplaceClient) GetAgreement(ctx context.Context, request GetAgreementRequest) (response GetAgreementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -300,6 +316,10 @@ func (client MarketplaceClient) getAgreement(ctx context.Context, request common
 // CreateAppCatalogSubscription (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
 // To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
 // Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetListing.go.html to see an example of how to use GetListing API.
 func (client MarketplaceClient) GetListing(ctx context.Context, request GetListingRequest) (response GetListingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -360,6 +380,10 @@ func (client MarketplaceClient) getListing(ctx context.Context, request common.O
 // CreateAppCatalogSubscription (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
 // To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
 // Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetPackage.go.html to see an example of how to use GetPackage API.
 func (client MarketplaceClient) GetPackage(ctx context.Context, request GetPackageRequest) (response GetPackageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -411,6 +435,10 @@ func (client MarketplaceClient) getPackage(ctx context.Context, request common.O
 
 // ListAcceptedAgreements Lists the terms of use agreements that have been accepted in the specified compartment.
 // You can filter results by specifying query parameters.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListAcceptedAgreements.go.html to see an example of how to use ListAcceptedAgreements API.
 func (client MarketplaceClient) ListAcceptedAgreements(ctx context.Context, request ListAcceptedAgreementsRequest) (response ListAcceptedAgreementsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -461,6 +489,10 @@ func (client MarketplaceClient) listAcceptedAgreements(ctx context.Context, requ
 }
 
 // ListAgreements Returns the terms of use agreements that must be accepted before you can deploy the specified version of a package.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListAgreements.go.html to see an example of how to use ListAgreements API.
 func (client MarketplaceClient) ListAgreements(ctx context.Context, request ListAgreementsRequest) (response ListAgreementsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -512,6 +544,10 @@ func (client MarketplaceClient) listAgreements(ctx context.Context, request comm
 
 // ListCategories Gets the list of all the categories for listings published to Oracle Cloud Infrastructure Marketplace. Categories apply
 // to the software product provided by the listing.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListCategories.go.html to see an example of how to use ListCategories API.
 func (client MarketplaceClient) ListCategories(ctx context.Context, request ListCategoriesRequest) (response ListCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -573,6 +609,10 @@ func (client MarketplaceClient) listCategories(ctx context.Context, request comm
 // CreateAppCatalogSubscription (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
 // To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
 // Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListListings.go.html to see an example of how to use ListListings API.
 func (client MarketplaceClient) ListListings(ctx context.Context, request ListListingsRequest) (response ListListingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -633,6 +673,10 @@ func (client MarketplaceClient) listListings(ctx context.Context, request common
 // CreateAppCatalogSubscription (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
 // To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
 // Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListPackages.go.html to see an example of how to use ListPackages API.
 func (client MarketplaceClient) ListPackages(ctx context.Context, request ListPackagesRequest) (response ListPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -683,6 +727,10 @@ func (client MarketplaceClient) listPackages(ctx context.Context, request common
 }
 
 // ListPublishers Gets the list of all the publishers of listings available in Oracle Cloud Infrastructure Marketplace.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListPublishers.go.html to see an example of how to use ListPublishers API.
 func (client MarketplaceClient) ListPublishers(ctx context.Context, request ListPublishersRequest) (response ListPublishersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -733,6 +781,10 @@ func (client MarketplaceClient) listPublishers(ctx context.Context, request comm
 }
 
 // ListReportTypes Lists available types of reports for the compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListReportTypes.go.html to see an example of how to use ListReportTypes API.
 func (client MarketplaceClient) ListReportTypes(ctx context.Context, request ListReportTypesRequest) (response ListReportTypesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -783,6 +835,10 @@ func (client MarketplaceClient) listReportTypes(ctx context.Context, request com
 }
 
 // ListReports Lists reports in the compartment that match the specified report type and date.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListReports.go.html to see an example of how to use ListReports API.
 func (client MarketplaceClient) ListReports(ctx context.Context, request ListReportsRequest) (response ListReportsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -833,6 +889,10 @@ func (client MarketplaceClient) listReports(ctx context.Context, request common.
 }
 
 // ListTaxes Returns list of all tax implications that current tenant may be liable to once they launch the listing.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListTaxes.go.html to see an example of how to use ListTaxes API.
 func (client MarketplaceClient) ListTaxes(ctx context.Context, request ListTaxesRequest) (response ListTaxesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -883,6 +943,10 @@ func (client MarketplaceClient) listTaxes(ctx context.Context, request common.OC
 }
 
 // UpdateAcceptedAgreement Updates the display name or tags associated with a listing's previously accepted terms of use agreement.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/UpdateAcceptedAgreement.go.html to see an example of how to use UpdateAcceptedAgreement API.
 func (client MarketplaceClient) UpdateAcceptedAgreement(ctx context.Context, request UpdateAcceptedAgreementRequest) (response UpdateAcceptedAgreementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

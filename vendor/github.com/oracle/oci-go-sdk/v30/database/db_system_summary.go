@@ -90,6 +90,9 @@ type DbSystemSummary struct {
 	// The time zone of the DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// The Oracle Database version of the DB system.
 	Version *string `mandatory:"false" json:"version"`
 
@@ -109,7 +112,7 @@ type DbSystemSummary struct {
 	// The date and time the DB system was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// Additional information about the current lifecycleState.
+	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The type of redundancy configured for the DB system.

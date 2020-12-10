@@ -10,6 +10,10 @@ import (
 )
 
 // DeletePathRouteSetRequest wrapper for the DeletePathRouteSet operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/DeletePathRouteSet.go.html to see an example of how to use DeletePathRouteSetRequest.
 type DeletePathRouteSetRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the path route set to delete.

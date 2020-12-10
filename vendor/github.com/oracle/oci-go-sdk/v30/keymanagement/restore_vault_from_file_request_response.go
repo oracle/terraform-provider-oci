@@ -11,6 +11,10 @@ import (
 )
 
 // RestoreVaultFromFileRequest wrapper for the RestoreVaultFromFile operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreVaultFromFile.go.html to see an example of how to use RestoreVaultFromFileRequest.
 type RestoreVaultFromFileRequest struct {
 
 	// The OCID of the compartment.

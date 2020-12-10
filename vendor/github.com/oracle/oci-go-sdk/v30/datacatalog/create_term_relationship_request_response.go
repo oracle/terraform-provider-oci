@@ -10,6 +10,10 @@ import (
 )
 
 // CreateTermRelationshipRequest wrapper for the CreateTermRelationship operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateTermRelationship.go.html to see an example of how to use CreateTermRelationshipRequest.
 type CreateTermRelationshipRequest struct {
 
 	// Unique catalog identifier.

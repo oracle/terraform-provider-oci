@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteDbHomeRequest wrapper for the DeleteDbHome operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteDbHome.go.html to see an example of how to use DeleteDbHomeRequest.
 type DeleteDbHomeRequest struct {
 
 	// The Database Home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

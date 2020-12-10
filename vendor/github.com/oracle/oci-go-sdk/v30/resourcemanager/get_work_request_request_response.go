@@ -10,6 +10,10 @@ import (
 )
 
 // GetWorkRequestRequest wrapper for the GetWorkRequest operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetWorkRequest.go.html to see an example of how to use GetWorkRequestRequest.
 type GetWorkRequestRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.

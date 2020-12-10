@@ -10,6 +10,10 @@ import (
 )
 
 // CreateConnectionValidationRequest wrapper for the CreateConnectionValidation operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateConnectionValidation.go.html to see an example of how to use CreateConnectionValidationRequest.
 type CreateConnectionValidationRequest struct {
 
 	// The workspace ID.

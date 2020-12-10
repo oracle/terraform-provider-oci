@@ -10,6 +10,10 @@ import (
 )
 
 // GetBootVolumeBackupRequest wrapper for the GetBootVolumeBackup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetBootVolumeBackup.go.html to see an example of how to use GetBootVolumeBackupRequest.
 type GetBootVolumeBackupRequest struct {
 
 	// The OCID of the boot volume backup.

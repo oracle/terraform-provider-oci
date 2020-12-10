@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeIntegrationInstanceCompartmentRequest wrapper for the ChangeIntegrationInstanceCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangeIntegrationInstanceCompartment.go.html to see an example of how to use ChangeIntegrationInstanceCompartmentRequest.
 type ChangeIntegrationInstanceCompartmentRequest struct {
 
 	// Unique Integration Instance identifier.

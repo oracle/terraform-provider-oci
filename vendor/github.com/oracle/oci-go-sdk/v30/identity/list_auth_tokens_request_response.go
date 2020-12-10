@@ -10,6 +10,10 @@ import (
 )
 
 // ListAuthTokensRequest wrapper for the ListAuthTokens operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListAuthTokens.go.html to see an example of how to use ListAuthTokensRequest.
 type ListAuthTokensRequest struct {
 
 	// The OCID of the user.

@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteOsnRequest wrapper for the DeleteOsn operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/DeleteOsn.go.html to see an example of how to use DeleteOsnRequest.
 type DeleteOsnRequest struct {
 
 	// Unique service identifier.

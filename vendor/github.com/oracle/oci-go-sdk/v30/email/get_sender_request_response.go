@@ -10,6 +10,10 @@ import (
 )
 
 // GetSenderRequest wrapper for the GetSender operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetSender.go.html to see an example of how to use GetSenderRequest.
 type GetSenderRequest struct {
 
 	// The unique OCID of the sender.

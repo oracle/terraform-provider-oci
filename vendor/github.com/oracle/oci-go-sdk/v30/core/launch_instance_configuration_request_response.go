@@ -10,6 +10,10 @@ import (
 )
 
 // LaunchInstanceConfigurationRequest wrapper for the LaunchInstanceConfiguration operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/LaunchInstanceConfiguration.go.html to see an example of how to use LaunchInstanceConfigurationRequest.
 type LaunchInstanceConfigurationRequest struct {
 
 	// The OCID of the instance configuration.

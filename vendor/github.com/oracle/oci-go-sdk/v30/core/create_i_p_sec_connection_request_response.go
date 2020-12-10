@@ -10,6 +10,10 @@ import (
 )
 
 // CreateIPSecConnectionRequest wrapper for the CreateIPSecConnection operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateIPSecConnection.go.html to see an example of how to use CreateIPSecConnectionRequest.
 type CreateIPSecConnectionRequest struct {
 
 	// Details for creating an `IPSecConnection`.

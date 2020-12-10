@@ -10,6 +10,10 @@ import (
 )
 
 // ScheduleKeyDeletionRequest wrapper for the ScheduleKeyDeletion operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ScheduleKeyDeletion.go.html to see an example of how to use ScheduleKeyDeletionRequest.
 type ScheduleKeyDeletionRequest struct {
 
 	// The OCID of the key.

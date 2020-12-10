@@ -10,6 +10,10 @@ import (
 )
 
 // CreateDedicatedVmHostRequest wrapper for the CreateDedicatedVmHost operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateDedicatedVmHost.go.html to see an example of how to use CreateDedicatedVmHostRequest.
 type CreateDedicatedVmHostRequest struct {
 
 	// The details for creating a new dedicated virtual machine host.

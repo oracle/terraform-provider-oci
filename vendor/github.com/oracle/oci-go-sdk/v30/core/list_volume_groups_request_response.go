@@ -10,6 +10,10 @@ import (
 )
 
 // ListVolumeGroupsRequest wrapper for the ListVolumeGroups operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumeGroups.go.html to see an example of how to use ListVolumeGroupsRequest.
 type ListVolumeGroupsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

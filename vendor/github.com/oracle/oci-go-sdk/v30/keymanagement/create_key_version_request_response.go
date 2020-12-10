@@ -10,6 +10,10 @@ import (
 )
 
 // CreateKeyVersionRequest wrapper for the CreateKeyVersion operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateKeyVersion.go.html to see an example of how to use CreateKeyVersionRequest.
 type CreateKeyVersionRequest struct {
 
 	// The OCID of the key.

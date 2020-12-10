@@ -10,6 +10,10 @@ import (
 )
 
 // ListStacksRequest wrapper for the ListStacks operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListStacks.go.html to see an example of how to use ListStacksRequest.
 type ListStacksRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

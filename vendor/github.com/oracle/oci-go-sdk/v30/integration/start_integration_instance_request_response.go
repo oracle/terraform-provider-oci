@@ -10,6 +10,10 @@ import (
 )
 
 // StartIntegrationInstanceRequest wrapper for the StartIntegrationInstance operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StartIntegrationInstance.go.html to see an example of how to use StartIntegrationInstanceRequest.
 type StartIntegrationInstanceRequest struct {
 
 	// Unique Integration Instance identifier.

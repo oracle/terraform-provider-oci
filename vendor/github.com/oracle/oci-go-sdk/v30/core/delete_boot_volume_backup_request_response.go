@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteBootVolumeBackupRequest wrapper for the DeleteBootVolumeBackup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteBootVolumeBackup.go.html to see an example of how to use DeleteBootVolumeBackupRequest.
 type DeleteBootVolumeBackupRequest struct {
 
 	// The OCID of the boot volume backup.

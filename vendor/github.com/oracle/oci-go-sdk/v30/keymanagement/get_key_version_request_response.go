@@ -10,6 +10,10 @@ import (
 )
 
 // GetKeyVersionRequest wrapper for the GetKeyVersion operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetKeyVersion.go.html to see an example of how to use GetKeyVersionRequest.
 type GetKeyVersionRequest struct {
 
 	// The OCID of the key.

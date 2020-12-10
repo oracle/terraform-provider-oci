@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteNetworkSourceRequest wrapper for the DeleteNetworkSource operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteNetworkSource.go.html to see an example of how to use DeleteNetworkSourceRequest.
 type DeleteNetworkSourceRequest struct {
 
 	// The OCID of the network source.

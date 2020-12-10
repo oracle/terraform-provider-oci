@@ -10,6 +10,10 @@ import (
 )
 
 // ListReportsRequest wrapper for the ListReports operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListReports.go.html to see an example of how to use ListReportsRequest.
 type ListReportsRequest struct {
 
 	// The type of the report.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListIPSecConnectionTunnelsRequest wrapper for the ListIPSecConnectionTunnels operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIPSecConnectionTunnels.go.html to see an example of how to use ListIPSecConnectionTunnelsRequest.
 type ListIPSecConnectionTunnelsRequest struct {
 
 	// The OCID of the IPSec connection.

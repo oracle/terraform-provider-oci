@@ -10,6 +10,10 @@ import (
 )
 
 // ListManagedListTypesRequest wrapper for the ListManagedListTypes operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListManagedListTypes.go.html to see an example of how to use ListManagedListTypesRequest.
 type ListManagedListTypesRequest struct {
 
 	// The ID of the compartment in which to list resources.

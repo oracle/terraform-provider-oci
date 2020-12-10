@@ -10,6 +10,10 @@ import (
 )
 
 // LaunchDbSystemRequest wrapper for the LaunchDbSystem operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/LaunchDbSystem.go.html to see an example of how to use LaunchDbSystemRequest.
 type LaunchDbSystemRequest struct {
 
 	// Request to launch a DB system.

@@ -21,8 +21,39 @@ type FacetedSearchAggregation struct {
 
 	// Count of number of data objects having property.
 	Aggregation map[string]int64 `mandatory:"false" json:"aggregation"`
+
+	// Data type of object property.
+	DataType *string `mandatory:"false" json:"dataType"`
+
+	// Type of property that indicates if it was defined by the user or system.
+	// CUSTOM_PROPERTY is defined by the user on a data object.
+	// DEFAULT_PROPERTY is defined by the system on a data object.
+	PropertyType FacetedSearchAggregationPropertyTypeEnum `mandatory:"false" json:"propertyType,omitempty"`
 }
 
 func (m FacetedSearchAggregation) String() string {
 	return common.PointerString(m)
+}
+
+// FacetedSearchAggregationPropertyTypeEnum Enum with underlying type: string
+type FacetedSearchAggregationPropertyTypeEnum string
+
+// Set of constants representing the allowable values for FacetedSearchAggregationPropertyTypeEnum
+const (
+	FacetedSearchAggregationPropertyTypeCustomProperty  FacetedSearchAggregationPropertyTypeEnum = "CUSTOM_PROPERTY"
+	FacetedSearchAggregationPropertyTypeDefaultProperty FacetedSearchAggregationPropertyTypeEnum = "DEFAULT_PROPERTY"
+)
+
+var mappingFacetedSearchAggregationPropertyType = map[string]FacetedSearchAggregationPropertyTypeEnum{
+	"CUSTOM_PROPERTY":  FacetedSearchAggregationPropertyTypeCustomProperty,
+	"DEFAULT_PROPERTY": FacetedSearchAggregationPropertyTypeDefaultProperty,
+}
+
+// GetFacetedSearchAggregationPropertyTypeEnumValues Enumerates the set of values for FacetedSearchAggregationPropertyTypeEnum
+func GetFacetedSearchAggregationPropertyTypeEnumValues() []FacetedSearchAggregationPropertyTypeEnum {
+	values := make([]FacetedSearchAggregationPropertyTypeEnum, 0)
+	for _, v := range mappingFacetedSearchAggregationPropertyType {
+		values = append(values, v)
+	}
+	return values
 }

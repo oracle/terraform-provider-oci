@@ -81,6 +81,10 @@ func (client *FunctionsManagementClient) ConfigurationProvider() *common.Configu
 
 // ChangeApplicationCompartment Moves an application into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/ChangeApplicationCompartment.go.html to see an example of how to use ChangeApplicationCompartment API.
 func (client FunctionsManagementClient) ChangeApplicationCompartment(ctx context.Context, request ChangeApplicationCompartmentRequest) (response ChangeApplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -131,6 +135,10 @@ func (client FunctionsManagementClient) changeApplicationCompartment(ctx context
 }
 
 // CreateApplication Creates a new application.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/CreateApplication.go.html to see an example of how to use CreateApplication API.
 func (client FunctionsManagementClient) CreateApplication(ctx context.Context, request CreateApplicationRequest) (response CreateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -181,6 +189,10 @@ func (client FunctionsManagementClient) createApplication(ctx context.Context, r
 }
 
 // CreateFunction Creates a new function.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/CreateFunction.go.html to see an example of how to use CreateFunction API.
 func (client FunctionsManagementClient) CreateFunction(ctx context.Context, request CreateFunctionRequest) (response CreateFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -231,6 +243,10 @@ func (client FunctionsManagementClient) createFunction(ctx context.Context, requ
 }
 
 // DeleteApplication Deletes an application.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/DeleteApplication.go.html to see an example of how to use DeleteApplication API.
 func (client FunctionsManagementClient) DeleteApplication(ctx context.Context, request DeleteApplicationRequest) (response DeleteApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -281,6 +297,10 @@ func (client FunctionsManagementClient) deleteApplication(ctx context.Context, r
 }
 
 // DeleteFunction Deletes a function.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/DeleteFunction.go.html to see an example of how to use DeleteFunction API.
 func (client FunctionsManagementClient) DeleteFunction(ctx context.Context, request DeleteFunctionRequest) (response DeleteFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -331,6 +351,10 @@ func (client FunctionsManagementClient) deleteFunction(ctx context.Context, requ
 }
 
 // GetApplication Retrieves an application.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/GetApplication.go.html to see an example of how to use GetApplication API.
 func (client FunctionsManagementClient) GetApplication(ctx context.Context, request GetApplicationRequest) (response GetApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -381,6 +405,10 @@ func (client FunctionsManagementClient) getApplication(ctx context.Context, requ
 }
 
 // GetFunction Retrieves a function.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/GetFunction.go.html to see an example of how to use GetFunction API.
 func (client FunctionsManagementClient) GetFunction(ctx context.Context, request GetFunctionRequest) (response GetFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -431,6 +459,10 @@ func (client FunctionsManagementClient) getFunction(ctx context.Context, request
 }
 
 // ListApplications Lists applications for a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/ListApplications.go.html to see an example of how to use ListApplications API.
 func (client FunctionsManagementClient) ListApplications(ctx context.Context, request ListApplicationsRequest) (response ListApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -481,6 +513,10 @@ func (client FunctionsManagementClient) listApplications(ctx context.Context, re
 }
 
 // ListFunctions Lists functions for an application.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/ListFunctions.go.html to see an example of how to use ListFunctions API.
 func (client FunctionsManagementClient) ListFunctions(ctx context.Context, request ListFunctionsRequest) (response ListFunctionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -531,6 +567,10 @@ func (client FunctionsManagementClient) listFunctions(ctx context.Context, reque
 }
 
 // UpdateApplication Modifies an application
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/UpdateApplication.go.html to see an example of how to use UpdateApplication API.
 func (client FunctionsManagementClient) UpdateApplication(ctx context.Context, request UpdateApplicationRequest) (response UpdateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -581,6 +621,10 @@ func (client FunctionsManagementClient) updateApplication(ctx context.Context, r
 }
 
 // UpdateFunction Modifies a function
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/UpdateFunction.go.html to see an example of how to use UpdateFunction API.
 func (client FunctionsManagementClient) UpdateFunction(ctx context.Context, request UpdateFunctionRequest) (response UpdateFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

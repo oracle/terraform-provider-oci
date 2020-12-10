@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateAuthenticationPolicyRequest wrapper for the UpdateAuthenticationPolicy operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/UpdateAuthenticationPolicy.go.html to see an example of how to use UpdateAuthenticationPolicyRequest.
 type UpdateAuthenticationPolicyRequest struct {
 
 	// The OCID of the compartment.

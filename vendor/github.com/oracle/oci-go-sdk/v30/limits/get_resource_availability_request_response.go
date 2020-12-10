@@ -10,6 +10,10 @@ import (
 )
 
 // GetResourceAvailabilityRequest wrapper for the GetResourceAvailability operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/GetResourceAvailability.go.html to see an example of how to use GetResourceAvailabilityRequest.
 type GetResourceAvailabilityRequest struct {
 
 	// The service name of the target quota.

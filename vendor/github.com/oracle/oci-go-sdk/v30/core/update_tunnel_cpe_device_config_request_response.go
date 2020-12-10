@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateTunnelCpeDeviceConfigRequest wrapper for the UpdateTunnelCpeDeviceConfig operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateTunnelCpeDeviceConfig.go.html to see an example of how to use UpdateTunnelCpeDeviceConfigRequest.
 type UpdateTunnelCpeDeviceConfigRequest struct {
 
 	// The OCID of the IPSec connection.

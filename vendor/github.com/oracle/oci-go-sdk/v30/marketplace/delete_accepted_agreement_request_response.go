@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteAcceptedAgreementRequest wrapper for the DeleteAcceptedAgreement operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/DeleteAcceptedAgreement.go.html to see an example of how to use DeleteAcceptedAgreementRequest.
 type DeleteAcceptedAgreementRequest struct {
 
 	// The unique identifier for the accepted terms of use agreement.

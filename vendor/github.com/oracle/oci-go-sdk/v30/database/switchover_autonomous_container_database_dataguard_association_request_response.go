@@ -10,6 +10,10 @@ import (
 )
 
 // SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest wrapper for the SwitchoverAutonomousContainerDatabaseDataguardAssociation operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/SwitchoverAutonomousContainerDatabaseDataguardAssociation.go.html to see an example of how to use SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest.
 type SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest struct {
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

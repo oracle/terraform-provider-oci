@@ -10,6 +10,10 @@ import (
 )
 
 // ListDbSystemPatchHistoryEntriesRequest wrapper for the ListDbSystemPatchHistoryEntries operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbSystemPatchHistoryEntries.go.html to see an example of how to use ListDbSystemPatchHistoryEntriesRequest.
 type ListDbSystemPatchHistoryEntriesRequest struct {
 
 	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

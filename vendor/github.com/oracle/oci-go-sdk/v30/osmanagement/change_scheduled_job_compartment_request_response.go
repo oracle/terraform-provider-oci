@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeScheduledJobCompartmentRequest wrapper for the ChangeScheduledJobCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ChangeScheduledJobCompartment.go.html to see an example of how to use ChangeScheduledJobCompartmentRequest.
 type ChangeScheduledJobCompartmentRequest struct {
 
 	// The ID of the scheduled job.

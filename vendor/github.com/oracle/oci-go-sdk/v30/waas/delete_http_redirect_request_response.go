@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteHttpRedirectRequest wrapper for the DeleteHttpRedirect operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/DeleteHttpRedirect.go.html to see an example of how to use DeleteHttpRedirectRequest.
 type DeleteHttpRedirectRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the HTTP Redirect.

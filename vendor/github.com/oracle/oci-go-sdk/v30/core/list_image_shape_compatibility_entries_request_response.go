@@ -10,6 +10,10 @@ import (
 )
 
 // ListImageShapeCompatibilityEntriesRequest wrapper for the ListImageShapeCompatibilityEntries operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListImageShapeCompatibilityEntries.go.html to see an example of how to use ListImageShapeCompatibilityEntriesRequest.
 type ListImageShapeCompatibilityEntriesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.

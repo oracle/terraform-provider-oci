@@ -10,6 +10,10 @@ import (
 )
 
 // QueryRequest wrapper for the Query operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/Query.go.html to see an example of how to use QueryRequest.
 type QueryRequest struct {
 
 	// SQL query statement and ancillary information.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListCustomerSecretKeysRequest wrapper for the ListCustomerSecretKeys operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListCustomerSecretKeys.go.html to see an example of how to use ListCustomerSecretKeysRequest.
 type ListCustomerSecretKeysRequest struct {
 
 	// The OCID of the user.

@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateListenerRequest wrapper for the UpdateListener operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/UpdateListener.go.html to see an example of how to use UpdateListenerRequest.
 type UpdateListenerRequest struct {
 
 	// Details to update a listener.

@@ -10,6 +10,10 @@ import (
 )
 
 // ListLogsRequest wrapper for the ListLogs operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListLogs.go.html to see an example of how to use ListLogsRequest.
 type ListLogsRequest struct {
 
 	// OCID of a log group to work with.

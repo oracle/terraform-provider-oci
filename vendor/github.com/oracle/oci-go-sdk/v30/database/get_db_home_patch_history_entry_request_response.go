@@ -10,6 +10,10 @@ import (
 )
 
 // GetDbHomePatchHistoryEntryRequest wrapper for the GetDbHomePatchHistoryEntry operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbHomePatchHistoryEntry.go.html to see an example of how to use GetDbHomePatchHistoryEntryRequest.
 type GetDbHomePatchHistoryEntryRequest struct {
 
 	// The Database Home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

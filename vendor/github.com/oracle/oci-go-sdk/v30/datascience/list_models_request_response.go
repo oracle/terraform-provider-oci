@@ -10,6 +10,10 @@ import (
 )
 
 // ListModelsRequest wrapper for the ListModels operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListModels.go.html to see an example of how to use ListModelsRequest.
 type ListModelsRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the compartment.

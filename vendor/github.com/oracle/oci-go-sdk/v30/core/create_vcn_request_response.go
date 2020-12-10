@@ -10,6 +10,10 @@ import (
 )
 
 // CreateVcnRequest wrapper for the CreateVcn operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVcn.go.html to see an example of how to use CreateVcnRequest.
 type CreateVcnRequest struct {
 
 	// Details for creating a new VCN.

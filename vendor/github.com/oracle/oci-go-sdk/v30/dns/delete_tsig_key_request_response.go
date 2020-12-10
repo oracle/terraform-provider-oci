@@ -10,6 +10,10 @@ import (
 )
 
 // DeleteTsigKeyRequest wrapper for the DeleteTsigKey operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteTsigKey.go.html to see an example of how to use DeleteTsigKeyRequest.
 type DeleteTsigKeyRequest struct {
 
 	// The OCID of the target TSIG key.

@@ -11,6 +11,10 @@ import (
 )
 
 // GenerateAutonomousDatabaseWalletRequest wrapper for the GenerateAutonomousDatabaseWallet operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GenerateAutonomousDatabaseWallet.go.html to see an example of how to use GenerateAutonomousDatabaseWalletRequest.
 type GenerateAutonomousDatabaseWalletRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

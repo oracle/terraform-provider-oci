@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeDbSystemCompartmentRequest wrapper for the ChangeDbSystemCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeDbSystemCompartment.go.html to see an example of how to use ChangeDbSystemCompartmentRequest.
 type ChangeDbSystemCompartmentRequest struct {
 
 	// Request to move the DB system to a different compartment.

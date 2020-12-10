@@ -10,6 +10,10 @@ import (
 )
 
 // GetLogAnalyticsEntityTypeRequest wrapper for the GetLogAnalyticsEntityType operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsEntityType.go.html to see an example of how to use GetLogAnalyticsEntityTypeRequest.
 type GetLogAnalyticsEntityTypeRequest struct {
 
 	// The Logging Analytics namespace used for the request.
