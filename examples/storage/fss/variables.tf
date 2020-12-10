@@ -42,6 +42,14 @@ variable "file_system_2_display_name" {
   default = "my_fs_2"
 }
 
+variable "file_system_clone_display_name" {
+	default= "my_fs_clone"
+}
+
+variable "file_system_simple_display_name" {
+	default= "my_fs_simple"
+}
+
 variable "mount_target_1_display_name" {
   default = "my_mount_target_1"
 }
@@ -64,6 +72,10 @@ variable "export_path_fs2_mt1" {
 
 variable "snapshot_name" {
   default = "20180320_daily"
+}
+
+variable "snapshot_name_clone" {
+  default = "snapshot_clone"
 }
 
 variable "export_set_name_1" {

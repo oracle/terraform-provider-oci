@@ -5,6 +5,7 @@ package oci
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -22,6 +23,33 @@ var (
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}},
 		"kms_key_id":          Representation{repType: Optional, create: `${var.kms_key_id_for_create}`, update: ``},
 	}
+	snapshotRepresentationNoTags = map[string]interface{}{
+		"file_system_id": Representation{repType: Required, create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"name":           Representation{repType: Required, create: `snapshot-1`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
+	fileSystemRepresentationNoTags = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"source_snapshot_id":  Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+	}
+
+	SnapshotResourceDependenciesNoTags = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentationNoTags) +
+		AvailabilityDomainConfig
+
+	fileSystemRepresentationClone = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"source_snapshot_id":  Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+	}
+
+	FileSystemResourceDependenciesNoTags = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentationNoTags) +
+		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentationNoTags) +
+		AvailabilityDomainConfig
 )
 
 func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
@@ -118,6 +146,79 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.metered_bytes", "oci_file_storage_file_system.test_file_system", "metered_bytes"),
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.state", "oci_file_storage_file_system.test_file_system", "state"),
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.time_created", "oci_file_storage_file_system.test_file_system", "time_created"),
+				),
+			},
+		},
+	})
+}
+
+func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
+	httpreplay.SetScenario("TestFileStorageFileSystemResource_cloneFromSnapshot")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_file_storage_snapshot.test_snapshot"
+	resourceName2 := "oci_file_storage_file_system.test_file_system_clone"
+
+	var resId string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckFileStorageFileSystemDestroy,
+		Steps: []resource.TestStep{
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + SnapshotResourceDependenciesNoTags +
+					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentationNoTags),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+			// verify create FileSystem via cloning Snapshot
+			{
+				Config: config + compartmentIdVariableStr + FileSystemResourceDependenciesNoTags +
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system_clone", Optional, Create, fileSystemRepresentationClone),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName2, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName2, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName2, "display_name", "media-files-1"),
+					resource.TestCheckResourceAttr(resourceName2, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName2, "id"),
+					resource.TestCheckResourceAttrSet(resourceName2, "metered_bytes"),
+					resource.TestCheckResourceAttrSet(resourceName2, "source_snapshot_id"),
+					resource.TestCheckResourceAttrSet(resourceName2, "state"),
+					resource.TestCheckResourceAttrSet(resourceName2, "time_created"),
+					//verify ids match
+					func(s *terraform.State) (err error) {
+						snapshotId, err := fromInstanceState(s, resourceName2, "source_snapshot_id")
+						if resId != snapshotId {
+							return fmt.Errorf("Resource source snapshot id [%v] was different from expected [%v].", snapshotId, resId)
+						}
+
+						return err
+					},
 				),
 			},
 		},
