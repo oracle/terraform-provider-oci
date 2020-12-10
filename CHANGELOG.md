@@ -1,3 +1,8 @@
+## 4.7.0 (Unreleased)
+
+### Added
+- Update document for service `audit`
+
 ## 4.6.0 (December 09, 2020)
 
 ### Added
