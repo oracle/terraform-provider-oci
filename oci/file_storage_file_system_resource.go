@@ -62,11 +62,52 @@ func FileStorageFileSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"source_snapshot_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
+			"is_clone_parent": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_hydrated": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"metered_bytes": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"source_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"parent_file_system_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_snapshot_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -183,6 +224,11 @@ func (s *FileStorageFileSystemResourceCrud) Create() error {
 		request.KmsKeyId = &tmp
 	}
 
+	if sourceSnapshotId, ok := s.D.GetOkExists("source_snapshot_id"); ok {
+		tmp := sourceSnapshotId.(string)
+		request.SourceSnapshotId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.CreateFileSystem(context.Background(), request)
@@ -290,12 +336,30 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsCloneParent != nil {
+		s.D.Set("is_clone_parent", *s.Res.IsCloneParent)
+	}
+
+	if s.Res.IsHydrated != nil {
+		s.D.Set("is_hydrated", *s.Res.IsHydrated)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.MeteredBytes != nil {
 		s.D.Set("metered_bytes", strconv.FormatInt(*s.Res.MeteredBytes, 10))
+	}
+
+	if s.Res.SourceDetails != nil {
+		s.D.Set("source_details", []interface{}{FileSystemSourceDetailsToMap(s.Res.SourceDetails)})
+	} else {
+		s.D.Set("source_details", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -305,6 +369,20 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func FileSystemSourceDetailsToMap(obj *oci_file_storage.SourceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ParentFileSystemId != nil {
+		result["parent_file_system_id"] = string(*obj.ParentFileSystemId)
+	}
+
+	if obj.SourceSnapshotId != nil {
+		result["source_snapshot_id"] = string(*obj.SourceSnapshotId)
+	}
+
+	return result
 }
 
 func (s *FileStorageFileSystemResourceCrud) updateCompartment(compartment interface{}) error {

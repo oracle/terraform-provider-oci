@@ -121,8 +121,20 @@ func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 			snapshot["id"] = *r.Id
 		}
 
+		if r.IsCloneSource != nil {
+			snapshot["is_clone_source"] = *r.IsCloneSource
+		}
+
+		if r.LifecycleDetails != nil {
+			snapshot["lifecycle_details"] = *r.LifecycleDetails
+		}
+
 		if r.Name != nil {
 			snapshot["name"] = *r.Name
+		}
+
+		if r.ProvenanceId != nil {
+			snapshot["provenance_id"] = *r.ProvenanceId
 		}
 
 		snapshot["state"] = r.LifecycleState

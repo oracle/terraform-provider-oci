@@ -1,3 +1,8 @@
+## 4.16.0 (Unreleased)
+
+### Added
+- Support for File storage file system clones
+
 ## 4.15.0 (February 24, 2021)
 
 ### Added
