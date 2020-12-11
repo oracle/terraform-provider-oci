@@ -85,11 +85,15 @@ type ResourceDiscoveryError struct {
 }
 
 type ErrorList struct {
-	lock   sync.Mutex
 	errors []*ResourceDiscoveryError
 }
 
+/*  ctxLock is the common lock for the whole struct
+WARN: Make sure NOT to pass resourceDiscoveryContext as value,
+as that would copy the struct and locks should not be copied
+*/
 type resourceDiscoveryContext struct {
+	ctxLock                     sync.Mutex // common lock for the whole context, make sure to acquire the lock before modifying any field in the resourceDiscoveryContext
 	terraformProviderBinaryPath string
 	terraformCLIPath            string
 	terraform                   *tfexec.Terraform
@@ -123,15 +127,15 @@ const (
 )
 
 func (ctx *resourceDiscoveryContext) addErrorToList(error *ResourceDiscoveryError) {
-	ctx.errorList.lock.Lock()
-	defer ctx.errorList.lock.Unlock()
-	ctx.errorList.errors = append(ctx.errorList.errors)
+	ctx.ctxLock.Lock()
+	defer ctx.ctxLock.Unlock()
+	ctx.errorList.errors = append(ctx.errorList.errors, error)
 
 }
 
 func (ctx *resourceDiscoveryContext) postValidate() {
 	// Check that all expected resource IDs were found, if any were given
-	missingResourceIds := []string{}
+	var missingResourceIds []string
 	for resourceId, found := range ctx.expectedResourceIds {
 		if !found {
 			missingResourceIds = append(missingResourceIds, resourceId)
@@ -144,11 +148,13 @@ func (ctx *resourceDiscoveryContext) postValidate() {
 		for _, resourceId := range missingResourceIds {
 			ctx.summaryStatements = append(ctx.summaryStatements, fmt.Sprintf("- %s", resourceId))
 		}
-		ctx.errorList.errors = append(ctx.errorList.errors, &ResourceDiscoveryError{
+		rdError := &ResourceDiscoveryError{
 			"",
 			"",
 			fmt.Errorf("[ERROR] one or more expected resource ids were not found"),
-			nil})
+			nil}
+
+		ctx.addErrorToList(rdError)
 	}
 }
 
@@ -214,7 +220,6 @@ func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandA
 		discoveredResources: []*OCIResource{},
 		summaryStatements:   []string{},
 		errorList: ErrorList{
-			lock:   sync.Mutex{},
 			errors: []*ResourceDiscoveryError{},
 		},
 		targetSpecificResources:     false,
@@ -257,8 +262,8 @@ type resourceDiscoveryStep interface {
 	writeTmpConfigurationForImport() error
 	writeConfiguration() error
 	writeTmpState() error
-	//mergeGeneratedStateFile() error
-	mergeGeneratedStateFileJson() error
+	mergeGeneratedStateFile() error
+	getDiscoveredResources() []*OCIResource
 }
 
 type resourceDiscoveryBaseStep struct {
@@ -267,15 +272,12 @@ type resourceDiscoveryBaseStep struct {
 	discoveredResources []*OCIResource
 	omittedResources    []*OCIResource
 	tempState           interface{}
-}
-
-func (r *resourceDiscoveryBaseStep) discover() error {
-	panic("implement me")
+	terraform           *tfexec.Terraform
 }
 
 func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 
-	// Run init and import commands
+	// Run init command
 	backgroundCtx := context.Background()
 
 	var initArgs []tfexec.InitOption
@@ -300,54 +302,25 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 		return err
 	}
 
+	isAllDataSources := true
 	for _, resource := range r.discoveredResources {
-		if resource.isErrorResource {
-			Logf("[INFO] ===> Skippinh Importing error resource '%s'", resource.getTerraformReference())
-
-			continue
+		importResource(r.ctx, resource, tmpStateOutputFile)
+		if resource.terraformTypeInfo != nil && !resource.terraformTypeInfo.isDataSource {
+			isAllDataSources = false
 		}
-		Logf("[INFO] ===> Importing resource '%s'", resource.getTerraformReference())
+	}
 
-		resourceDefinition, exists := resourcesMap[resource.terraformClass]
-		if !exists {
-			Logf("[INFO] skip importing '%s' since it is not a Terraform OCI resource", resource.getTerraformReference())
-			continue
-		}
-
-		if resourceDefinition.Importer == nil {
-			Logf("[WARN] unable to import '%s' because import is not supported for '%s'", resource.getTerraformReference(), resource.terraformClass)
-			continue
-		}
-
-		importId := resource.importId
-		if len(importId) == 0 {
-			importId = resource.id
-		}
-
-		importArgs := []tfexec.ImportOption{
-			tfexec.Config(*r.ctx.OutputDir),
-			tfexec.State(tmpStateOutputFile),
-		}
-
-		if importErr := r.ctx.terraform.Import(backgroundCtx, resource.getTerraformReference(), importId, importArgs...); importErr != nil {
-			Logf("[ERROR] terraform import command failed for resource '%s' at id '%s'", resource.getTerraformReference(), importId)
-
-			// mark resource as errored so that it can be skipped while writing configurations
-			resource.isErrorResource = true
-			r.ctx.isImportError = true
-			rdError := &ResourceDiscoveryError{
-				resource.terraformClass,
-				resource.parent.terraformName,
-				fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s'. Any references to this resource have been replaced with hard coded values in generated configurations", resource.getTerraformReference(), importId),
-				nil}
-			r.ctx.addErrorToList(rdError)
-		}
+	// The found resource only include the data sources (ADs and namespaces) that resource discovery adds
+	if isAllDataSources {
+		return nil
 	}
 
 	if _, err := os.Stat(tmpStateOutputFile); !os.IsNotExist(err) {
 		if err := os.Rename(tmpStateOutputFile, stateOutputFile); err != nil {
 			return err
 		}
+	} else {
+		return fmt.Errorf("[ERROR] temporary state file %s not found for %s: %s", stateOutputFile, r.name, err.Error())
 	}
 
 	if jsonState, err := ioutil.ReadFile(stateOutputFile); err != nil {
@@ -366,7 +339,6 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 // It only writes the resource block and skips the resource fields
 // The configuration will be discarded and written again after import is completed for all resources
 func (r *resourceDiscoveryBaseStep) writeTmpConfigurationForImport() error {
-	Debugln("writing temp config files for import")
 
 	configOutputFile := fmt.Sprintf("%s%s%s.tf", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
 	tmpConfigOutputFile := fmt.Sprintf("%s%s%s.tf.tmp", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
@@ -385,8 +357,9 @@ func (r *resourceDiscoveryBaseStep) writeTmpConfigurationForImport() error {
 		} else {
 			builder.WriteString(fmt.Sprintf("resource %s %s {}\n\n", resource.terraformClass, resource.terraformName))
 		}
-
+		r.ctx.ctxLock.Lock()
 		r.ctx.discoveredResources = append(r.ctx.discoveredResources, resource)
+		r.ctx.ctxLock.Unlock()
 	}
 
 	_, err = file.WriteString(string(builder.String()))
@@ -486,35 +459,9 @@ func (r *resourceDiscoveryBaseStep) getOmittedResources() []*OCIResource {
 	return r.omittedResources
 }
 
-//func (r *resourceDiscoveryBaseStep) mergeGeneratedStateFile() error {
-//
-//	//Programmatically call `terraform state mv -state=<tmp> -state-out=<final_state> resource_type.name resource_type.name
-//
-//	stepStateOutputFile := fmt.Sprintf("%s%s%s%s%s%s%s", *r.ctx.OutputDir, string(os.PathSeparator), "tmp", string(os.PathSeparator), r.name, string(os.PathSeparator), defaultStateFilename)
-//	finalStateOutputFile := fmt.Sprintf("%s%s%s", *r.ctx.OutputDir, string(os.PathSeparator), defaultStateFilename)
-//
-//	state := fmt.Sprintf("-state=%s", stepStateOutputFile)
-//	stateOut := fmt.Sprintf("-state-out=%s", finalStateOutputFile)
-//
-//	for _, res := range r.discoveredResources {
-//		// skip writing state if it is error resource or a data source
-//		if !res.isErrorResource && (res.terraformTypeInfo == nil || !res.terraformTypeInfo.isDataSource) {
-//			resourceToMove := res.terraformClass + "." + res.terraformName
-//			cmd := exec.Command(fmt.Sprintf("%s", r.ctx.terraformCLIPath), "state", "mv", state, stateOut, resourceToMove, resourceToMove)
-//			Logf("Running command: %v", cmd)
-//
-//			output, err := cmd.CombinedOutput()
-//
-//			if err != nil {
-//				Logf("[ERROR] Terraform state mv command Failed. Output: %s", output)
-//				return err
-//			}
-//		}
-//	}
-//
-//	return nil
-//
-//}
+func (r *resourceDiscoveryBaseStep) getDiscoveredResources() []*OCIResource {
+	return r.discoveredResources
+}
 
 type resourceDiscoveryWithGraph struct {
 	resourceDiscoveryBaseStep
@@ -525,7 +472,7 @@ type resourceDiscoveryWithGraph struct {
 func (r *resourceDiscoveryWithGraph) discover() error {
 	var err error
 	var ociResources []*OCIResource
-	//var unfilteredDiscoveredResources chan *OCIResource
+
 	ociResources, err = findResources(r.ctx, r.root, r.resourceGraph)
 	if err != nil {
 		return err
@@ -1657,16 +1604,23 @@ func processCoreVcns(clients *OracleClients, resources []*OCIResource) ([]*OCIRe
 	return resources, nil
 }
 
+/*
+mergeState merges 2 json state files
+*/
 func mergeState(state1 interface{}, state2 interface{}) (interface{}, error) {
 
 	state1Bytes, _ := json.MarshalIndent(state1, "", "\t")
 	state2Bytes, _ := json.MarshalIndent(state2, "", "\t")
 
 	out1 := map[string]interface{}{}
-	json.Unmarshal(state1Bytes, &out1)
+	if err := json.Unmarshal(state1Bytes, &out1); err != nil {
+		return out1, fmt.Errorf("[ERROR] error occurred while generating state file for resource discovery: %s", err.Error())
+	}
 
 	out2 := map[string]interface{}{}
-	json.Unmarshal(state2Bytes, &out2)
+	if err := json.Unmarshal(state2Bytes, &out2); err != nil {
+		return out1, fmt.Errorf("[ERROR] error occurred while generating state file for resource discovery: %s", err.Error())
+	}
 
 	state1resources, _ := out1["resources"].([]interface{})
 	state2resources, _ := out2["resources"].([]interface{})
@@ -1677,12 +1631,16 @@ func mergeState(state1 interface{}, state2 interface{}) (interface{}, error) {
 
 }
 
-func (r *resourceDiscoveryBaseStep) mergeGeneratedStateFileJson() error {
-
+func (r *resourceDiscoveryBaseStep) mergeGeneratedStateFile() error {
+	if r.tempState == nil {
+		return nil
+	}
 	Debugf("[DEBUG] merging state file for %s", r.name)
 	if r.ctx.state == nil {
+		// if state exists for the step, initialize the final state
 		r.ctx.state = r.tempState
 	} else {
+		// merge the state for step to final state
 		r.ctx.state, _ = mergeState(r.ctx.state, r.tempState)
 	}
 
