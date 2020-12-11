@@ -465,6 +465,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	exportCommandArgs.OutputDir = &outputDir
 	var tfVersion TfHclVersion = &TfHclVersion12{Value: TfVersion12}
 	exportCommandArgs.TFVersion = &tfVersion
+	exportCommandArgs.Parallelism = 10
 
 	if errExport, _ := RunExportCommand(exportCommandArgs); errExport != nil {
 		return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport)
