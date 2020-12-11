@@ -133,11 +133,11 @@ var (
 	}
 
 	databaseRepresentation = map[string]interface{}{
-		"database":   RepresentationGroup{Required, databaseDatabaseRepresentation},
-		"db_home_id": Representation{repType: Required, create: `${oci_database_db_home.test_db_home.id}`},
-		"source":     Representation{repType: Required, create: `NONE`},
-		"db_version": Representation{repType: Optional, create: `12.1.0.2`},
-		"kms_key_id": Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"database":         RepresentationGroup{Required, databaseDatabaseRepresentation},
+		"db_home_id":       Representation{repType: Required, create: `${oci_database_db_home.test_db_home.id}`},
+		"source":           Representation{repType: Required, create: `NONE`},
+		"db_version":       Representation{repType: Optional, create: `12.1.0.2`},
+		"kms_key_id":       Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"kms_key_rotation": Representation{repType: Optional, update: `1`},
 	}
 
