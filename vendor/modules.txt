@@ -247,6 +247,7 @@ github.com/oracle/oci-go-sdk/v30/loadbalancer
 github.com/oracle/oci-go-sdk/v30/loganalytics
 github.com/oracle/oci-go-sdk/v30/logging
 github.com/oracle/oci-go-sdk/v30/managementagent
+github.com/oracle/oci-go-sdk/v30/managementdashboard
 github.com/oracle/oci-go-sdk/v30/marketplace
 github.com/oracle/oci-go-sdk/v30/monitoring
 github.com/oracle/oci-go-sdk/v30/mysql
