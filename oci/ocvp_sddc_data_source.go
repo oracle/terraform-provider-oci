@@ -162,6 +162,14 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("provisioning_subnet_id", *s.Res.ProvisioningSubnetId)
 	}
 
+	if s.Res.ProvisioningVlanId != nil {
+		s.D.Set("provisioning_vlan_id", *s.Res.ProvisioningVlanId)
+	}
+
+	if s.Res.ReplicationVlanId != nil {
+		s.D.Set("replication_vlan_id", *s.Res.ReplicationVlanId)
+	}
+
 	if s.Res.SshAuthorizedKeys != nil {
 		s.D.Set("ssh_authorized_keys", *s.Res.SshAuthorizedKeys)
 	}
