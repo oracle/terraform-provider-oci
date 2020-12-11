@@ -127,6 +127,16 @@ func OcvpSddcResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"provisioning_vlan_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"replication_vlan_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"workload_network_cidr": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -359,6 +369,16 @@ func (s *OcvpSddcResourceCrud) Create() error {
 		request.ProvisioningSubnetId = &tmp
 	}
 
+	if provisioningVlanId, ok := s.D.GetOkExists("provisioning_vlan_id"); ok {
+		tmp := provisioningVlanId.(string)
+		request.ProvisioningVlanId = &tmp
+	}
+
+	if replicationVlanId, ok := s.D.GetOkExists("replication_vlan_id"); ok {
+		tmp := replicationVlanId.(string)
+		request.ReplicationVlanId = &tmp
+	}
+
 	if sshAuthorizedKeys, ok := s.D.GetOkExists("ssh_authorized_keys"); ok {
 		tmp := sshAuthorizedKeys.(string)
 		request.SshAuthorizedKeys = &tmp
@@ -586,6 +606,16 @@ func (s *OcvpSddcResourceCrud) Update() error {
 		request.NsxVTepVlanId = &tmp
 	}
 
+	if provisioningVlanId, ok := s.D.GetOkExists("provisioning_vlan_id"); ok {
+		tmp := provisioningVlanId.(string)
+		request.ProvisioningVlanId = &tmp
+	}
+
+	if replicationVlanId, ok := s.D.GetOkExists("replication_vlan_id"); ok {
+		tmp := replicationVlanId.(string)
+		request.ReplicationVlanId = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.SddcId = &tmp
 
@@ -751,6 +781,14 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 
 	if s.Res.ProvisioningSubnetId != nil {
 		s.D.Set("provisioning_subnet_id", *s.Res.ProvisioningSubnetId)
+	}
+
+	if s.Res.ProvisioningVlanId != nil {
+		s.D.Set("provisioning_vlan_id", *s.Res.ProvisioningVlanId)
+	}
+
+	if s.Res.ReplicationVlanId != nil {
+		s.D.Set("replication_vlan_id", *s.Res.ReplicationVlanId)
 	}
 
 	if s.Res.SshAuthorizedKeys != nil {
