@@ -129,6 +129,10 @@ resource "oci_core_route_table" "routetable1" {
 resource "oci_core_public_ip" "test_reserved_ip" {
   compartment_id = "${var.compartment_ocid}"
   lifetime       = "RESERVED"
+
+  lifecycle {
+    ignore_changes = [private_ip_id]
+  }
 }
 
 resource "oci_core_security_list" "securitylist1" {
