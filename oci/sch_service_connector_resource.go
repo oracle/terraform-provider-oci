@@ -486,11 +486,6 @@ func serviceConnectorWaitForWorkRequest(wId *string, entityType string, action o
 
 	response := oci_sch.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_sch.OperationStatusInProgress),
-			string(oci_sch.OperationStatusAccepted),
-			string(oci_sch.OperationStatusCanceling),
-		},
 		Target: []string{
 			string(oci_sch.OperationStatusSucceeded),
 			string(oci_sch.OperationStatusFailed),

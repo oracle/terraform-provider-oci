@@ -531,11 +531,6 @@ func blockchainPlatformWaitForWorkRequest(wId *string, entityType string, action
 
 	response := oci_blockchain.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_blockchain.WorkRequestStatusInProgress),
-			string(oci_blockchain.WorkRequestStatusAccepted),
-			string(oci_blockchain.WorkRequestStatusCanceling),
-		},
 		Target: []string{
 			string(oci_blockchain.WorkRequestStatusSucceeded),
 			string(oci_blockchain.WorkRequestStatusFailed),

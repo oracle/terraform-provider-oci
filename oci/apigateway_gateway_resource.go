@@ -295,11 +295,6 @@ func gatewayWaitForWorkRequest(wId *string, entityType string, action oci_apigat
 
 	response := oci_apigateway.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_apigateway.WorkRequestStatusInProgress),
-			string(oci_apigateway.WorkRequestStatusAccepted),
-			string(oci_apigateway.WorkRequestStatusCanceling),
-		},
 		Target: []string{
 			string(oci_apigateway.WorkRequestStatusSucceeded),
 			string(oci_apigateway.WorkRequestStatusFailed),

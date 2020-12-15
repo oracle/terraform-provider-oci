@@ -774,11 +774,6 @@ func bdsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_bd
 
 	response := oci_bds.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_bds.OperationStatusInProgress),
-			string(oci_bds.OperationStatusAccepted),
-			string(oci_bds.OperationStatusCanceling),
-		},
 		Target: []string{
 			string(oci_bds.OperationStatusSucceeded),
 			string(oci_bds.OperationStatusFailed),

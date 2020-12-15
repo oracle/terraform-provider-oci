@@ -1500,11 +1500,6 @@ func waasPolicyWaitForWorkRequest(wId *string, entityType string, action oci_waa
 
 	response := oci_waas.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_waas.WorkRequestStatusInProgress),
-			string(oci_waas.WorkRequestStatusAccepted),
-			string(oci_waas.WorkRequestStatusCanceling),
-		},
 		Target: []string{
 			string(oci_waas.WorkRequestStatusSucceeded),
 			string(oci_waas.WorkRequestStatusFailed),

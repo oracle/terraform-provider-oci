@@ -220,11 +220,6 @@ func osnWaitForWorkRequest(wId *string, entityType string, action oci_blockchain
 
 	response := oci_blockchain.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_blockchain.WorkRequestStatusInProgress),
-			string(oci_blockchain.WorkRequestStatusAccepted),
-			string(oci_blockchain.WorkRequestStatusCanceling),
-		},
 		Target: []string{
 			string(oci_blockchain.WorkRequestStatusSucceeded),
 			string(oci_blockchain.WorkRequestStatusFailed),

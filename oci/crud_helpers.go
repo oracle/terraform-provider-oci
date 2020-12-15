@@ -198,10 +198,6 @@ func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *sc
 
 func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
-			string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
-		},
 		Target: []string{
 			string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 			string(oci_load_balancer.WorkRequestLifecycleStateFailed),
@@ -234,11 +230,6 @@ func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 
 func IdentityWaitForWorkRequest(client *oci_identity.IdentityClient, d *schema.ResourceData, wr *oci_identity.WorkRequest, retryPolicy *oci_common.RetryPolicy, timeout time.Duration) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_identity.WorkRequestStatusInProgress),
-			string(oci_identity.WorkRequestStatusAccepted),
-			string(oci_identity.WorkRequestStatusCanceling),
-		},
 		Target: []string{
 			string(oci_identity.WorkRequestStatusSucceeded),
 			string(oci_identity.WorkRequestStatusFailed),
@@ -289,7 +280,7 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error 
 		}
 	}
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		if e := waitForStateRefresh(stateful, timeout, "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, timeout, "creation", stateful.CreatedTarget()); e != nil {
 			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
 			if setDataErr := sync.SetData(); setDataErr != nil {
 				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
@@ -345,7 +336,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 	d.SetId(sync.ID())
 
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedTarget()); e != nil {
 			if stateful.State() == FAILED {
 				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 				// TODO: automatic retry on WorkRequestFailed
@@ -427,7 +418,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 	d.Partial(false)
 
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedTarget()); e != nil {
 			if metrics.ShouldWriteMetrics() {
 				metrics.SaveResourceDurationMetric(getResourceName(sync), "Update", FAILED, elaspedInMillisecond(start))
 			}
@@ -476,7 +467,7 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 	}
 
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedTarget()); e != nil {
 			handleMissingResourceError(sync, &e)
 			if e != nil {
 				result = FAILED
@@ -532,7 +523,7 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 // Useful in situations where more than one update is needed and prior update needs to complete
 func waitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedTarget()); e != nil {
 			return e
 		}
 	}
@@ -545,7 +536,7 @@ func waitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
 func waitForCreatedState(d *schema.ResourceData, sync ResourceCreator) error {
 	d.SetId(sync.ID())
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedTarget()); e != nil {
 			return e
 		}
 	}
@@ -557,10 +548,9 @@ func waitForCreatedState(d *schema.ResourceData, sync ResourceCreator) error {
 //
 // sync.D.Id must be set.
 // It does not set state from that refreshed state.
-func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) error {
+func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operationName string, target []string) error {
 	// TODO: try to move this onto sync
 	stateConf := &resource.StateChangeConf{
-		Pending: pending,
 		Target:  target,
 		Refresh: stateRefreshFunc(sync),
 		Timeout: timeout,
