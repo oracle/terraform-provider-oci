@@ -562,6 +562,8 @@ func init() {
 	}
 	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = processDatabases
 
+	exportDatabaseExadataInfrastructureHints.processDiscoveredResourcesFn = processDatabaseExadataInfrastructures
+
 	exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]interface{}{
 		"artifact_content_length": "0",
 	}
@@ -1407,6 +1409,20 @@ func processDatabases(clients *OracleClients, resources []*OCIResource) ([]*OCIR
 			if database, ok := databases[0].(map[string]interface{}); ok {
 				if dbVersion, ok := database["db_version"].(string); ok {
 					database["db_version"] = getValidDbVersion(dbVersion)
+				}
+			}
+		}
+	}
+	return resources, nil
+}
+
+func processDatabaseExadataInfrastructures(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	// Remove weeks_of_month if there is no item in response
+	for _, resource := range resources {
+		if maintenanceWindow, ok := resource.sourceAttributes["maintenance_window"].([]interface{}); ok {
+			if mWindow, ok := maintenanceWindow[0].(map[string]interface{}); ok {
+				if weeksOfMonth, ok := mWindow["weeks_of_month"].([]interface{}); ok && len(weeksOfMonth) == 0 {
+					delete(mWindow, "weeks_of_month")
 				}
 			}
 		}
