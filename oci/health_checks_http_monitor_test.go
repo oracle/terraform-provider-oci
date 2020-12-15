@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
-	oci_health_checks "github.com/oracle/oci-go-sdk/v30/healthchecks"
+	"github.com/oracle/oci-go-sdk/v31/common"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v31/healthchecks"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
