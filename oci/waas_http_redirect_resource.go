@@ -303,11 +303,6 @@ func httpRedirectWaitForWorkRequest(wId *string, entityType string, action oci_w
 
 	response := oci_waas.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_waas.WorkRequestStatusValuesInProgress),
-			string(oci_waas.WorkRequestStatusValuesAccepted),
-			string(oci_waas.WorkRequestStatusValuesCanceling),
-		},
 		Target: []string{
 			string(oci_waas.WorkRequestStatusValuesSucceeded),
 			string(oci_waas.WorkRequestStatusValuesFailed),

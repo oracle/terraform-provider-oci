@@ -287,11 +287,6 @@ func managementAgentWaitForWorkRequest(wId *string, entityType string, action oc
 
 	response := oci_management_agent.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_management_agent.WorkDeliveryStatusInProgress),
-			string(oci_management_agent.WorkDeliveryStatusAccepted),
-			string(oci_management_agent.WorkDeliveryStatusCanceling),
-		},
 		Target: []string{
 			string(oci_management_agent.WorkDeliveryStatusSucceeded),
 			string(oci_management_agent.WorkDeliveryStatusFailed),

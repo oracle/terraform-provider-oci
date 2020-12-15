@@ -336,11 +336,6 @@ func logWaitForWorkRequest(wId *string, entityType string, action oci_logging.Ac
 
 	response := oci_logging.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_logging.OperationStatusInProgress),
-			string(oci_logging.OperationStatusAccepted),
-			string(oci_logging.OperationStatusCancelling),
-		},
 		Target: []string{
 			string(oci_logging.OperationStatusSucceeded),
 			string(oci_logging.OperationStatusFailed),
