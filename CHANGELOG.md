@@ -6,6 +6,7 @@
 - Support for KMS filter listKeys based on KeyShape added
 - Support for ADBS Apex added
 - Support for Platform Integration: KMS Integration-Exadata (Phase 1)
+- Support for Management Dashboards Import
 
 ### Deprecated
 - Data source `oci_database_autonomous_database_wallet` is being deprecated in favor of resource `oci_database_autonomous_database_wallet` 
