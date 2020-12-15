@@ -46,16 +46,17 @@ var (
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"compute_shape":       Representation{repType: Required, create: `ENTERPRISE_MEDIUM`},
 		"display_name":        Representation{repType: Required, create: blockchainPlatformDisplayName},
+		"idcs_access_token":   Representation{repType: Required, create: `${var.idcs_access_token}`},
 		"platform_role":       Representation{repType: Required, create: `FOUNDER`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":         Representation{repType: Optional, create: `description`, update: `description2`},
 		"federated_user_id":   Representation{repType: Optional, create: `${oci_identity_user.test_user.id}`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"idcs_access_token":   Representation{repType: Required, create: `${var.idcs_access_token}`},
 		"is_byol":             Representation{repType: Optional, create: `false`},
 		"replicas":            RepresentationGroup{Optional, blockchainPlatformReplicasRepresentation},
 		"storage_size_in_tbs": Representation{repType: Optional, create: `1.0`, update: `2.0`},
-		"total_ocpu_capacity": Representation{repType: Optional, create: `4`, update: `16`},
+		"total_ocpu_capacity": Representation{repType: Optional, create: `16`, update: `32`},
+		"load_balancer_shape": Representation{repType: Optional, create: `LB_100_MBPS`, update: `LB_400_MBPS`},
 	}
 	blockchainPlatformReplicasRepresentation = map[string]interface{}{
 		"ca_count":      Representation{repType: Optional, create: `3`, update: `4`},
@@ -104,6 +105,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
+					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
 
 					func(s *terraform.State) (err error) {
@@ -137,7 +139,8 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "replicas.0.console_count", "3"),
 					resource.TestCheckResourceAttr(resourceName, "replicas.0.proxy_count", "3"),
 					resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "4"),
+					resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "16"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_100_MBPS"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -171,7 +174,8 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
 					resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "4"),
+					resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "16"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_100_MBPS"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -203,7 +207,8 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "replicas.0.console_count", "3"),
 					resource.TestCheckResourceAttr(resourceName, "replicas.0.proxy_count", "4"),
 					resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "2"),
-					resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "16"),
+					resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "32"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_400_MBPS"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -247,6 +252,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "false"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_multi_ad"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_shape"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_role", "FOUNDER"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_shape_type"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "replicas.#", "1"),
@@ -260,7 +266,8 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_used_in_tbs"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "total_ocpu_capacity", "16"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "total_ocpu_capacity", "32"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancer_shape", "LB_400_MBPS"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

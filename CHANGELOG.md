@@ -2,6 +2,7 @@
 
 ### Added
 - Support Asymmetric Keys in KMS
+- Support for Blockchain API improvements
 
 ## 4.10.0 (January 20, 2021)
 
