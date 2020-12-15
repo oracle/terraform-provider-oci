@@ -21,6 +21,7 @@ resource "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
 	compartment_id = var.compartment_id
 	compute_shape = var.blockchain_platform_compute_shape
 	display_name = var.blockchain_platform_display_name
+	idcs_access_token = var.blockchain_platform_idcs_access_token
 	platform_role = var.blockchain_platform_platform_role
 
 	#Optional
@@ -29,7 +30,6 @@ resource "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
 	description = var.blockchain_platform_description
 	federated_user_id = oci_identity_user.test_user.id
 	freeform_tags = {"bar-key"= "value"}
-	idcs_access_token = var.blockchain_platform_idcs_access_token
 	is_byol = var.blockchain_platform_is_byol
 }
 ```
@@ -46,9 +46,10 @@ The following arguments are supported:
 * `display_name` - (Required) Platform Instance Display name, can be renamed
 * `federated_user_id` - (Optional) Identifier for a federated user
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `idcs_access_token` - (Optional) IDCS access token with Identity Domain Administrator role
+* `idcs_access_token` - (Required) IDCS access token with Identity Domain Administrator role
 * `is_byol` - (Optional) Bring your own license
 * `platform_role` - (Required) Role of platform - founder or participant
+* `load_balancer_shape` - (Optional) (Updatable) Type of Load Balancer shape - LB_100_MBPS or LB_400_MBPS. Default is LB_100_MBPS.
 
 
 ** IMPORTANT **
@@ -88,6 +89,7 @@ The following attributes are exported:
 * `is_byol` - Bring your own license
 * `is_multi_ad` - True for multi-AD blockchain plaforms, false for single-AD
 * `lifecycle_details` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `load_balancer_shape` - Type of Load Balancer shape - LB_100_MBPS or LB_400_MBPS. Default is LB_100_MBPS.
 * `platform_role` - Role of platform - FOUNDER or PARTICIPANT
 * `platform_shape_type` - Type of Platform shape - DEFAULT or CUSTOM
 * `replicas` - Number of replicas of service components like Rest Proxy, CA and Console

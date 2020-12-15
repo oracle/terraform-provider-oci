@@ -62,6 +62,7 @@ The following attributes are exported:
 * `is_byol` - Bring your own license
 * `is_multi_ad` - True for multi-AD blockchain plaforms, false for single-AD
 * `lifecycle_details` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `load_balancer_shape` - Type of Load Balancer shape - LB_100_MBPS or LB_400_MBPS. Default is LB_100_MBPS.
 * `platform_role` - Role of platform - FOUNDER or PARTICIPANT
 * `platform_shape_type` - Type of Platform shape - DEFAULT or CUSTOM
 * `replicas` - Number of replicas of service components like Rest Proxy, CA and Console
