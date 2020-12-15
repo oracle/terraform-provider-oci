@@ -118,7 +118,7 @@ const (
 	// Exit statuses
 	StatusSuccess Status = iota
 	StatusFail
-	StatusPartialSuccess
+	StatusPartialSuccess Status = 64
 
 	// Tags to filter resources
 	OracleTagsCreatedBy           = "Oracle-Tags.CreatedBy"
