@@ -59,6 +59,8 @@ resource "oci_database_db_home" "test_db_home" {
 	defined_tags = var.db_home_defined_tags
 	display_name = var.db_home_display_name
 	freeform_tags = {"Department"= "Finance"}
+	kms_key_id = oci_kms_key.test_key.id
+	kms_key_version_id = oci_kms_key_version.test_key_version.id
 	source = var.db_home_source
 	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
@@ -99,6 +101,8 @@ The following arguments are supported:
 * `db_version` - (Applicable when source=NONE | VM_CLUSTER_NEW) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
 * `defined_tags` - (Optional Applicable when source=VM_CLUSTER_NEW) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Optional) The user-provided name of the Database Home.
+* `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+* `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
 * `freeform_tags` - (Optional Applicable when source=VM_CLUSTER_NEW) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `source` - (Optional) The source of database: NONE for creating a new database. DB_BACKUP for creating a new database by restoring from a database backup. VM_CLUSTER_NEW for creating a database for VM Cluster.
 * `vm_cluster_id` - (Required when source=VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
@@ -120,8 +124,9 @@ The following attributes are exported:
 * `display_name` - The user-provided name for the Database Home. The name does not need to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
+* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
-* `lifecycle_details` - Additional information about the current lifecycleState.
+* `lifecycle_details` - Additional information about the current lifecycle state.
 * `one_off_patches` - List of one-off patches for Database Homes.
 * `state` - The current state of the Database Home.
 * `time_created` - The date and time the Database Home was created.

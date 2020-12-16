@@ -94,6 +94,8 @@ resource "oci_database_db_system" "test_db_system" {
 	domain = var.db_system_domain
 	fault_domains = var.db_system_fault_domains
 	freeform_tags = {"Department"= "Finance"}
+	kms_key_id = oci_kms_key.test_key.id
+	kms_key_version_id = oci_kms_key_version.test_key_version.id
 	license_model = var.db_system_license_model
 	maintenance_window_details {
 
@@ -205,6 +207,8 @@ The following arguments are supported:
 	The maximum length of the combined hostname and domain is 63 characters.
 
 	**Note:** The hostname must be unique within the subnet. If it is not unique, the DB system will fail to provision. 
+* `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+* `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED. 
 * `maintenance_window_details` - (Applicable when source=NONE) (Updatable) The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
 	* `days_of_week` - (Applicable when source=NONE) (Updatable) Days during the week when maintenance should be performed.
@@ -267,10 +271,11 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname` - The hostname for the DB system.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
+* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation starts.
 * `license_model` - The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED. 
-* `lifecycle_details` - Additional information about the current lifecycleState.
+* `lifecycle_details` - Additional information about the current lifecycle state.
 * `listener_port` - The port number configured for the listener on the DB system.
 * `maintenance_window` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
 	* `days_of_week` - Days during the week when maintenance should be performed.

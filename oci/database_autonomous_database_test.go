@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
+	"github.com/oracle/oci-go-sdk/v31/common"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -122,7 +122,6 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 					// verify computed field db_workload to be defaulted to OLTP
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
@@ -433,12 +432,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.apex_details.#"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.available_upgrade_versions.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.backup_config.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_urls.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.cpu_core_count", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.data_storage_size_in_gb"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.db_version"),
@@ -472,6 +473,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "apex_details.#"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "available_upgrade_versions.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -485,6 +487,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_safe_status", "NOT_REGISTERED"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_gb"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbName),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_workload", "OLTP"),

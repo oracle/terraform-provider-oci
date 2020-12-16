@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
 )
 
 func init() {
@@ -172,6 +172,12 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.ApexDetails != nil {
+			autonomousDatabase["apex_details"] = []interface{}{AutonomousDatabaseApexToMap(r.ApexDetails)}
+		} else {
+			autonomousDatabase["apex_details"] = nil
+		}
+
 		if r.AutonomousContainerDatabaseId != nil {
 			autonomousDatabase["autonomous_container_database_id"] = *r.AutonomousContainerDatabaseId
 		}
@@ -201,6 +207,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabase["data_safe_status"] = r.DataSafeStatus
+
+		if r.DataStorageSizeInGBs != nil {
+			autonomousDatabase["data_storage_size_in_gb"] = *r.DataStorageSizeInGBs
+		}
 
 		if r.DataStorageSizeInTBs != nil {
 			autonomousDatabase["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs

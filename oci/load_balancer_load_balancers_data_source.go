@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v30/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v31/loadbalancer"
 )
 
 func init() {
@@ -162,6 +162,12 @@ func (s *LoadBalancerLoadBalancersDataSourceCrud) SetData() error {
 
 		if r.ShapeName != nil {
 			loadBalancer["shape"] = *r.ShapeName
+		}
+
+		if r.ShapeDetails != nil {
+			loadBalancer["shape_details"] = []interface{}{ShapeDetailsToMap(r.ShapeDetails)}
+		} else {
+			loadBalancer["shape_details"] = nil
 		}
 
 		loadBalancer["state"] = r.LifecycleState

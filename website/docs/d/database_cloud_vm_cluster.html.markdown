@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_database_cloud_vm_cluster
 This data source provides details about a specific Cloud Vm Cluster resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified cloud VM cluster.
+Gets information about the specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
+
 
 ## Example Usage
 

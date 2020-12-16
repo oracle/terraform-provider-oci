@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v30/datasafe"
+	"github.com/oracle/oci-go-sdk/v31/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v31/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -117,11 +117,6 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
 						return err
 					},
 				),
@@ -172,6 +167,11 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
 						}
 						return err
 					},

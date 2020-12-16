@@ -8,6 +8,8 @@ description: |-
 ---
 
 # Data Source: oci_database_autonomous_database_wallet
+**Deprecated. Use [oci_database_autonomous_database_wallet](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/database_autonomous_database_wallet) instead.**
+
 This data source provides details about a specific Autonomous Database Wallet resource in Oracle Cloud Infrastructure Database service.
 
 Creates and downloads a wallet for the specified Autonomous Database.

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v30/mysql"
+	"github.com/oracle/oci-go-sdk/v31/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v31/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -24,6 +24,9 @@ const (
 )
 
 var (
+	ChannelRequiredOnlyResource = ChannelResourceDependencies +
+		generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation)
+
 	channelSingularDataSourceRepresentation = map[string]interface{}{
 		"channel_id": Representation{repType: Required, create: `${oci_mysql_channel.test_channel.id}`},
 	}
@@ -47,7 +50,7 @@ var (
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":     Representation{repType: Optional, create: `true`, update: `false`},
 	}
 
@@ -81,9 +84,6 @@ var (
 		"channel_name":     Representation{repType: Optional, create: `channelname`, update: `channelname2`},
 	}
 
-	ChannelRequiredOnlyResource = ChannelResourceDependencies +
-		generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation)
-
 	ChannelWithOptionalsResource = ChannelResourceDependencies +
 		generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Optional, Create, channelRepresentation)
 
@@ -108,9 +108,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_mysql_channel.test_channel"
-
 	datasourceName := "data.oci_mysql_channels.test_channels"
-
 	singularDatasourceName := "data.oci_mysql_channel.test_channel"
 
 	var resId, resId2 string
@@ -130,8 +128,8 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname.my.company.com"),
 					resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.username", "username"),
 					resource.TestCheckResourceAttr(resourceName, "source.0.ssl_mode", "REQUIRED"),
+					resource.TestCheckResourceAttr(resourceName, "source.0.username", "username"),
 					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
@@ -220,8 +218,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_channels", "test_channels", Optional, Update, channelDataSourceRepresentation) +
-					compartmentIdVariableStr + ChannelResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Optional, Update, channelRepresentation),
+					compartmentIdVariableStr + ChannelUpdateResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "channel_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -236,14 +233,14 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ChannelResourceConfig,
+					compartmentIdVariableStr + ChannelUpdateResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "channel_id"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + ChannelResourceConfig,
+				Config: config + compartmentIdVariableStr + ChannelUpdateResource,
 			},
 			// verify resource import
 			{
@@ -251,14 +248,8 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
-					"compartment_id",
-					"defined_tags",
-					"description",
-					"display_name",
-					"freeform_tags",
-					"is_enabled",
-					"source",
-					"target",
+					"lifecycle_details",
+					"source.0.password",
 				},
 				ResourceName: resourceName,
 			},
