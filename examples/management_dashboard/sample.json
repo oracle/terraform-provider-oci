@@ -1,0 +1,237 @@
+{
+  "dashboards": [
+    {
+      "dashboardId": "ocid1.managementdashboard.dev..aaaaaaaazrrxainoaive7adj77uqejld45vch7zkoqrlh5fwv2_dummy_ocids",
+      "providerId": "log-analytics",
+      "providerName": "Logging Analytics",
+      "providerVersion": "2.0",
+      "tiles": [
+        {
+          "displayName": "Total Log Trend ($(nls.dashboard.TARGETS_WITH_STATUS))",
+          "savedSearchId": "ocid1.managementsavedsearch.dev..aaaaaaaakxkuh457mjwoenvzxfmuevgrt5levwhovolkp6fieq_dummy_ocids",
+          "row": 0,
+          "column": 0,
+          "height": 3,
+          "width": 6,
+          "nls": {},
+          "uiConfig": {},
+          "dataConfig": [],
+          "state": "DEFAULT",
+          "drilldownConfig": []
+        },
+        {
+          "displayName": "Simple table",
+          "savedSearchId": "ocid1.managementsavedsearch.dev..aaaaaaaaycxfhipu5wjd56jrzbnffz633nwzgtt4cvuejhk5vr_dummy_ocids",
+          "row": 0,
+          "column": 6,
+          "height": 3,
+          "width": 6,
+          "nls": {},
+          "uiConfig": {
+            "vizType": "table",
+            "defaultDataSource": "severityValues",
+            "tableInfo": {
+              "cols": [
+                {
+                  "val": "severity"
+                },
+                {
+                  "val": "value"
+                }
+              ]
+            }
+          },
+          "dataConfig": [
+            {
+              "name": "severityValues",
+              "type": "staticJsonDataSource",
+              "parameters": {
+                "jsonData": [
+                  {
+                    "severity": "CRITICAL",
+                    "value": 1
+                  },
+                  {
+                    "severity": "ERROR",
+                    "value": 2
+                  },
+                  {
+                    "severity": "WARNING",
+                    "value": 5
+                  }
+                ]
+              }
+            }
+          ],
+          "state": "DEFAULT",
+          "drilldownConfig": []
+        },
+        {
+          "displayName": "Simple Pie Chart",
+          "savedSearchId": "ocid1.managementsavedsearch.dev..aaaaaaaa2ir5taiwkghohoe2ajr4pjkn6vt56mh2remeeljjnp_dummy_ocids",
+          "row": 3,
+          "column": 0,
+          "height": 3,
+          "width": 6,
+          "nls": {},
+          "uiConfig": {},
+          "dataConfig": [],
+          "state": "DEFAULT",
+          "drilldownConfig": []
+        }
+      ],
+      "displayName": "Sample dashboard 1 - Dummy",
+      "description": "Dashboard that shows some sample widgets.",
+      "compartmentId": "ocid1.compartment.oc1..aaaaaaaa2spgr6ewrwzxqddbrv4y7ty6xiqzbh7n7bv3n6pd_dummy_ocids",
+      "isOobDashboard": false,
+      "isShowInHome": false,
+      "createdBy": "ocid1.compartment.oc1..aaaaaaaagbgan4ik55kburvwtgtbzaghmmz6jvf2qzsncgaws7_dummy_ocids",
+      "timeCreated": "2020-12-15T17:21:39.605Z",
+      "updatedBy": "ocid1.compartment.oc1..aaaaaaaagbgan4ik55kburvwtgtbzaghmmz6jvf2qzsncgaws7_dummy_ocids",
+      "timeUpdated": "2020-12-15T17:21:39.605Z",
+      "metadataVersion": "2.0",
+      "isShowDescription": true,
+      "screenImage": "....",
+      "nls": {
+        "TARGETS_WITH_STATUS": {
+          "key": "dashboardMetadata.agent_dashboard_100.DATA_SENT_TITLE",
+          "bundle": "resources/nls/DashboardMsg"
+        }
+      },
+      "uiConfig": {
+        "isFilteringEnabled": true,
+        "isTimeRangeEnabled": true,
+        "isRefreshEnabled": true
+      },
+      "dataConfig": [],
+      "type": "normal",
+      "isFavorite": false,
+      "savedSearches": [
+        {
+          "id": "ocid1.managementsavedsearch.dev..aaaaaaaaycxfhipu5wjd56jrzbnffz633nwzgtt4cvuejhk5vr_dummy_ocids",
+          "displayName": "Generic Chart",
+          "providerId": "log-analytics",
+          "providerVersion": "2.0",
+          "providerName": "Logging Analytics",
+          "compartmentId": "ocid1.compartment.oc1..aaaaaaaa2spgr6ewrwzxqddbrv4y7ty6xiqzbh7n7bv3n6pd_dummy_ocids",
+          "isOobSavedSearch": false,
+          "description": "This is a sample Widget to demonstrate saved widget metadata",
+          "nls": {},
+          "type": "WIDGET_SHOW_IN_DASHBOARD",
+          "uiConfig": {},
+          "dataConfig": [],
+          "createdBy": "ocid1.compartment.oc1..aaaaaaaagbgan4ik55kburvwtgtbzaghmmz6jvf2qzsncgaws7_dummy_ocids",
+          "updatedBy": "ocid1.compartment.oc1..aaaaaaaagbgan4ik55kburvwtgtbzaghmmz6jvf2qzsncgaws7_dummy_ocids",
+          "timeCreated": "2020-12-15T17:21:39.605Z",
+          "timeUpdated": "2020-12-15T17:21:39.605Z",
+          "screenImage": "...",
+          "metadataVersion": "2.0",
+          "widgetTemplate": "visualizations/chartWidgetTemplate.html",
+          "widgetVM": "visualizations/chartWidget",
+          "freeformTags": {},
+          "definedTags": {}
+        },
+        {
+          "id": "ocid1.managementsavedsearch.dev..aaaaaaaakxkuh457mjwoenvzxfmuevgrt5levwhovolkp6fieq_dummy_ocids",
+          "displayName": "Widget1",
+          "providerId": "log-analytics",
+          "providerVersion": "2.0",
+          "providerName": "Logging Analytics",
+          "compartmentId": "ocid1.compartment.oc1..aaaaaaaa2spgr6ewrwzxqddbrv4y7ty6xiqzbh7n7bv3n6pd_dummy_ocids",
+          "isOobSavedSearch": false,
+          "description": "This is a sample Widget to demonstrate saved widget metadata",
+          "nls": {},
+          "type": "WIDGET_SHOW_IN_DASHBOARD",
+          "uiConfig": {
+            "timeSelection": "Last 60 mins",
+            "entity": "qosd1b4joxnanbzk37w4",
+            "compartment": "OMC",
+            "option4": "others"
+          },
+          "dataConfig": [],
+          "createdBy": "ocid1.compartment.oc1..aaaaaaaagbgan4ik55kburvwtgtbzaghmmz6jvf2qzsncgaws7_dummy_ocids",
+          "updatedBy": "ocid1.compartment.oc1..aaaaaaaagbgan4ik55kburvwtgtbzaghmmz6jvf2qzsncgaws7_dummy_ocids",
+          "timeCreated": "2020-12-15T17:21:39.605Z",
+          "timeUpdated": "2020-12-15T17:21:39.605Z",
+          "screenImage": "...",
+          "metadataVersion": "2.0",
+          "widgetTemplate": "visualizations/widgetTemplate1.html",
+          "widgetVM": "visualizations/Widget1",
+          "freeformTags": {},
+          "definedTags": {}
+        },
+        {
+          "id": "ocid1.managementsavedsearch.dev..aaaaaaaa2ir5taiwkghohoe2ajr4pjkn6vt56mh2remeeljjnp_dummy_ocids",
+          "displayName": "Pie chart",
+          "providerId": "log-analytics",
+          "providerVersion": "2.0",
+          "providerName": "Logging Analytics",
+          "compartmentId": "ocid1.compartment.oc1..aaaaaaaa2spgr6ewrwzxqddbrv4y7ty6xiqzbh7n7bv3n6pd_dummy_ocids",
+          "isOobSavedSearch": false,
+          "description": "This is a sample Widget to demonstrate saved widget metadata",
+          "nls": {},
+          "type": "WIDGET_SHOW_IN_DASHBOARD",
+          "uiConfig": {
+            "defaultDataSource": "severityValues",
+            "chartInfo": {
+              "colorBy": "severity",
+              "value": "value",
+              "group": "",
+              "series": "severity"
+            },
+            "advancedChartSettings": {
+              "chartType": "pie",
+              "selectionMode": "none",
+              "orientation": "vertical",
+              "coordinateSystem": "cartesian",
+              "sorting": "off",
+              "stack": "off",
+              "stackLabel": "on",
+              "dataCursor": "on",
+              "legendRendered": true,
+              "legendPosition": "top",
+              "timeAxisType": "enabled",
+              "styleDefaults": {
+                "lineWidth": 2
+              }
+            }
+          },
+          "dataConfig": [
+            {
+              "name": "severityValues",
+              "type": "staticJsonDataSource",
+              "parameters": {
+                "jsonData": [
+                  {
+                    "severity": "CRITICAL",
+                    "value": 1
+                  },
+                  {
+                    "severity": "ERROR",
+                    "value": 2
+                  },
+                  {
+                    "severity": "WARNING",
+                    "value": 5
+                  }
+                ]
+              }
+            }
+          ],
+          "createdBy": "ocid1.compartment.oc1..aaaaaaaagbgan4ik55kburvwtgtbzaghmmz6jvf2qzsncgaws7_dummy_ocids",
+          "updatedBy": "ocid1.compartment.oc1..aaaaaaaagbgan4ik55kburvwtgtbzaghmmz6jvf2qzsncgaws7_dummy_ocids",
+          "timeCreated": "2020-12-15T17:21:39.605Z",
+          "timeUpdated": "2020-12-15T17:21:39.605Z",
+          "screenImage": "...",
+          "metadataVersion": "2.0",
+          "widgetTemplate": "visualizations/chartWidgetTemplate.html",
+          "widgetVM": "visualizations/chartWidget",
+          "freeformTags": {},
+          "definedTags": {}
+        }
+      ],
+      "freeformTags": {},
+      "definedTags": {}
+    }
+  ]
+}

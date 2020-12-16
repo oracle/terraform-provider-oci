@@ -14,6 +14,12 @@ import (
 )
 
 var (
+	AutonomousDatabaseWalletRequiredOnlyResource = AutonomousDatabaseWalletResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletRepresentation)
+
+	AutonomousDatabaseWalletResourceConfig = AutonomousDatabaseWalletResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Update, autonomousDatabaseWalletRepresentation)
+
 	adbWalletDbName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	autonomousDatabaseWalletSingularDataSourceRepresentation = map[string]interface{}{
@@ -23,7 +29,14 @@ var (
 		"base64_encode_content":  Representation{repType: Optional, create: `true`},
 	}
 
-	AutonomousDatabaseWalletResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
+	autonomousDatabaseWalletRepresentation = map[string]interface{}{
+		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"password":               Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"base64_encode_content":  Representation{repType: Optional, create: `true`},
+		"generate_type":          Representation{repType: Optional, create: `ALL`},
+	}
+
+	AutonomousDatabaseWalletResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
 		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbWalletDbName}, autonomousDatabaseRepresentation))
 )
 
@@ -37,6 +50,8 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	resourceName := "oci_database_autonomous_database_wallet.test_autonomous_database_wallet"
+
 	singularDatasourceName := "data.oci_database_autonomous_database_wallet.test_autonomous_database_wallet"
 
 	resource.Test(t, resource.TestCase{
@@ -45,11 +60,38 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
+			// verify create
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+					resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
+			},
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+					resource.TestCheckResourceAttr(resourceName, "base64_encode_content", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "content"),
+					resource.TestCheckResourceAttr(resourceName, "generate_type", "ALL"),
+					resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
+				),
+			},
+
 			// verify singular datasource
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseWalletResourceConfig,
+					compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "generate_type", "SINGLE"),
@@ -62,7 +104,7 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseWalletResourceConfig,
+					compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "generate_type", "ALL"),

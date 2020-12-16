@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
-	oci_core "github.com/oracle/oci-go-sdk/v30/core"
+	"github.com/oracle/oci-go-sdk/v31/common"
+	oci_core "github.com/oracle/oci-go-sdk/v31/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -131,7 +131,8 @@ resource "oci_core_instance" "test_instance" {
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{repType: Required, create: `dnslabel`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create,
+			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.1.0/30`}, vlanRepresentation)) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig

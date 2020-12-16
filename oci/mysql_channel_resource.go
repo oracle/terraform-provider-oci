@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v30/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v31/mysql"
 )
 
 func init() {
@@ -60,11 +60,11 @@ func MysqlChannelResource() *schema.Resource {
 								"MYSQL",
 							}, true),
 						},
-						"username": {
+						"ssl_mode": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"ssl_mode": {
+						"username": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
@@ -184,6 +184,10 @@ func MysqlChannelResource() *schema.Resource {
 			},
 
 			// Computed
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -451,26 +455,6 @@ func (s *MysqlChannelResourceCrud) SetData() error {
 		s.D.SetId(*s.Res.Id)
 	}
 
-	if s.Res.IsEnabled != nil {
-		s.D.Set("is_enabled", *s.Res.IsEnabled)
-	}
-
-	if s.Res.Source != nil {
-		sourceArray := []interface{}{}
-		if sourceMap := s.ChannelSourceToMap(&s.Res.Source); sourceMap != nil {
-			sourceArray = append(sourceArray, sourceMap)
-		}
-		s.D.Set("source", sourceArray)
-	}
-
-	if s.Res.Target != nil {
-		targetArray := []interface{}{}
-		if targetMap := ChannelTargetToMap(&s.Res.Target); targetMap != nil {
-			targetArray = append(targetArray, targetMap)
-		}
-		s.D.Set("target", targetArray)
-	}
-
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -489,11 +473,36 @@ func (s *MysqlChannelResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsEnabled != nil {
+		s.D.Set("is_enabled", *s.Res.IsEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.Source != nil {
+		sourceArray := []interface{}{}
+		if sourceMap := s.ChannelSourceToMap(&s.Res.Source); sourceMap != nil {
+			sourceArray = append(sourceArray, sourceMap)
+		}
+		s.D.Set("source", sourceArray)
+	} else {
+		s.D.Set("source", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.Target != nil {
+		targetArray := []interface{}{}
+		if targetMap := ChannelTargetToMap(&s.Res.Target); targetMap != nil {
+			targetArray = append(targetArray, targetMap)
+		}
+		s.D.Set("target", targetArray)
+	} else {
+		s.D.Set("target", nil)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -501,6 +510,7 @@ func (s *MysqlChannelResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
 	return nil
 }
 
@@ -631,6 +641,9 @@ func (s *MysqlChannelResourceCrud) mapToUpdateChannelSourceDetails(fieldKeyForma
 				}
 				details.SslCaCertificate = tmp
 			}
+		}
+		if sslMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssl_mode")); ok {
+			details.SslMode = oci_mysql.ChannelSourceMysqlSslModeEnum(sslMode.(string))
 		}
 		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
 			tmp := username.(string)

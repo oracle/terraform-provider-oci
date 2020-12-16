@@ -1,9 +1,23 @@
+## 4.7.0 (Unreleased)
+
+### Added
+- Update document for service `audit`
+- Support for Flexible Load Balancer
+- Support for KMS filter listKeys based on KeyShape added
+- Support for ADBS Apex added
+- Support for Platform Integration: KMS Integration-Exadata (Phase 1)
+- Support for Management Dashboards Import
+
+### Deprecated
+- Data source `oci_database_autonomous_database_wallet` is being deprecated in favor of resource `oci_database_autonomous_database_wallet` 
+
 ## 4.6.0 (December 09, 2020)
 
 ### Added
 - Support for `metadata` field added to `identity_provider` datasources in `identity` service
 - Support for vanity hostnames in `oci_integration_integration_instance`
 - Support for Exacc infrastructure patching operation
+- Support for Flex components added in database
 
 ## 4.5.0 (December 02, 2020)
 

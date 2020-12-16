@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
+	"github.com/oracle/oci-go-sdk/v31/common"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -99,6 +99,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_size_in_gbs"),
 					resource.TestCheckResourceAttr(datasourceName, "backups.0.display_name", "Monthly Backup"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.id"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.shape"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),
