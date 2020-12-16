@@ -11,9 +11,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
+	"github.com/oracle/oci-go-sdk/v31/common"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v30/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v31/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -34,6 +34,8 @@ var (
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 		"protection_mode":     Representation{repType: Optional, create: `SOFTWARE`},
+		"algorithm":           Representation{repType: Optional, create: `AES`},
+		"length":              Representation{repType: Optional, create: `16`},
 		"filter":              RepresentationGroup{Required, keyDataSourceFilterRepresentation}}
 	keyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -228,8 +230,10 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "algorithm", "AES"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "protection_mode", "SOFTWARE"),
+					resource.TestCheckResourceAttr(datasourceName, "length", "16"),
 
 					resource.TestCheckResourceAttr(datasourceName, "keys.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", compartmentId),

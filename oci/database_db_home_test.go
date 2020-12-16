@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
+	"github.com/oracle/oci-go-sdk/v31/common"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -43,6 +43,9 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_database_db_home.test_db_home_source_none.id}`}},
 	}
 
+	dbHomeRepresentation = map[string]interface{}{
+		"kms_key_id": Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+	}
 	dbHomeRepresentationBase = map[string]interface{}{
 		"db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
 	}
@@ -158,6 +161,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})) +
 		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
 		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation) +
+		KeyResourceDependencyConfig +
 		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
 )
 
@@ -351,6 +355,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestMatchResourceAttr(resourceName+"_source_none", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+					//resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "state"),
 
@@ -431,6 +437,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestMatchResourceAttr(resourceName+"_source_none", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+					//resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "state"),
 
@@ -517,6 +525,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestMatchResourceAttr(datasourceName, "db_homes.0.db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
 					resource.TestCheckResourceAttr(datasourceName, "db_homes.0.display_name", "createdDbHomeNone"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.kms_key_id"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.kms_key_version_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.time_created"),
 				),
@@ -555,6 +565,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"database.0.admin_password",
+					"kms_key_version_id",
 				},
 				ResourceName: resourceName + "_source_none",
 			},

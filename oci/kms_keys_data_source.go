@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v30/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v31/keymanagement"
 )
 
 func init() {
@@ -21,9 +21,17 @@ func KmsKeysDataSource() *schema.Resource {
 		Read: readKmsKeys,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"algorithm": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"length": {
+				Type:     schema.TypeInt,
+				Optional: true,
 			},
 			"management_endpoint": {
 				Type:     schema.TypeString,
@@ -71,9 +79,18 @@ func (s *KmsKeysDataSourceCrud) VoidState() {
 func (s *KmsKeysDataSourceCrud) Get() error {
 	request := oci_kms.ListKeysRequest{}
 
+	if algorithm, ok := s.D.GetOkExists("algorithm"); ok {
+		request.Algorithm = oci_kms.ListKeysAlgorithmEnum(algorithm.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if length, ok := s.D.GetOkExists("length"); ok {
+		tmp := length.(int)
+		request.Length = &tmp
 	}
 
 	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {

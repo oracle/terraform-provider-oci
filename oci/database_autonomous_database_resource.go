@@ -12,9 +12,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v30/common"
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v30/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v31/common"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v31/workrequests"
 )
 
 func init() {
@@ -42,10 +42,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Required: true,
 			},
 			"cpu_core_count": {
-				Type:     schema.TypeInt,
-				Required: true,
-			},
-			"data_storage_size_in_tbs": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
@@ -95,6 +91,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					string(oci_database.AutonomousDatabaseDataSafeStatusRegistered),
 					string(oci_database.AutonomousDatabaseSummaryDataSafeStatusNotRegistered),
 				}, true),
+			},
+			"data_storage_size_in_tbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 			"db_version": {
 				Type:             schema.TypeString,
@@ -247,6 +248,29 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 
 			// Computed
+			"apex_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"apex_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ords_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"available_upgrade_versions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -339,6 +363,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"data_storage_size_in_gb": {
+				Type:     schema.TypeInt,
+				Computed: true,
 			},
 			"failed_data_recovery_in_seconds": {
 				Type:     schema.TypeInt,
@@ -940,6 +968,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Delete() error {
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
+	if s.Res.ApexDetails != nil {
+		s.D.Set("apex_details", []interface{}{AutonomousDatabaseApexToMap(s.Res.ApexDetails)})
+	} else {
+		s.D.Set("apex_details", nil)
+	}
+
 	if s.Res.AutonomousContainerDatabaseId != nil {
 		s.D.Set("autonomous_container_database_id", *s.Res.AutonomousContainerDatabaseId)
 	}
@@ -973,6 +1007,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("data_safe_status", s.Res.DataSafeStatus)
+
+	if s.Res.DataStorageSizeInGBs != nil {
+		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
+	}
 
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
@@ -1153,6 +1191,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	s.D.Set("whitelisted_ips", schema.NewSet(literalTypeHashCodeForSets, whitelistedIps))
 
 	return nil
+}
+
+func AutonomousDatabaseApexToMap(obj *oci_database.AutonomousDatabaseApex) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ApexVersion != nil {
+		result["apex_version"] = string(*obj.ApexVersion)
+	}
+
+	if obj.OrdsVersion != nil {
+		result["ords_version"] = string(*obj.OrdsVersion)
+	}
+
+	return result
 }
 
 func AutonomousDatabaseBackupConfigToMap(obj *oci_database.AutonomousDatabaseBackupConfig) map[string]interface{} {

@@ -34,18 +34,19 @@ Data Sources do not have deprecation guide as one should be able to directly rep
 
 **IMPORTANT**: Before executing any deprecation guide, please ensure that you have backed up your Terraform state file to avoid any **data loss**.
 
-| Version | Type        | Old Deprecated Resource Name            | New Resource Name                   | Migration? | Guide  |
-|---------|-------------|-----------------------------------------|-------------------------------------|------------|--------|
-| 3.97.0  | Resource    | `oci_dns_records`                       | `oci_dns_rrset`                     | N/A        | N/A    |
-| 3.97.0  | Resource    | `oci_dns_record`                        | `oci_dns_rrset`                     | N/A        | N/A    |
-| 3.18    | Resource    | `oci_autonomous_data_warehouse`         | `oci_autonomous_database`           | Yes        | N/A    |
-| 3.18    | Data Source | `oci_autonomous_data_warehouse`         | `oci_autonomous_database`           | N/A        | N/A    |
-| 3.18    | Data Source | `oci_autonomous_data_warehouses`        | `oci_autonomous_databases`          | N/A        | N/A    |
-| 3.18    | Resource    | `oci_autonomous_data_warehouse_backup`  | `oci_autonomous_database_backup`    | Yes        | N/A    |
-| 3.18    | Data Source | `oci_autonomous_data_warehouse_backup`  | `oci_autonomous_database_backup`    | N/A        | N/A    |
-| 3.18    | Data Source | `oci_autonomous_data_warehouse_backups` | `oci_autonomous_database_backups`   | N/A        | N/A    |
-| 2.1.12  | Resource    | `oci_swift_password`                    | `oci_identity_auth_token`           | No         | N/A    |
-| 2.1.12  | Data Source | `oci_swift_passwords`                   | `oci_identity_auth_tokens`          | N/A        | N/A    |
+| Version | Type        | Old Deprecated Resource Name              | New Resource Name                         | Migration? | Guide  |
+|---------|-------------|-------------------------------------------|-------------------------------------------|------------|--------|
+| 4.7.0   | Data Source | `oci_database_autonomous_database_wallet` | `oci_database_autonomous_database_wallet` | N/A        | N/A    |
+| 3.97.0  | Resource    | `oci_dns_records`                         | `oci_dns_rrset`                           | N/A        | N/A    |
+| 3.97.0  | Resource    | `oci_dns_record`                          | `oci_dns_rrset`                           | N/A        | N/A    |
+| 3.18    | Resource    | `oci_autonomous_data_warehouse`           | `oci_autonomous_database`                 | Yes        | N/A    |
+| 3.18    | Data Source | `oci_autonomous_data_warehouse`           | `oci_autonomous_database`                 | N/A        | N/A    |
+| 3.18    | Data Source | `oci_autonomous_data_warehouses`          | `oci_autonomous_databases`                | N/A        | N/A    |
+| 3.18    | Resource    | `oci_autonomous_data_warehouse_backup`    | `oci_autonomous_database_backup`          | Yes        | N/A    |
+| 3.18    | Data Source | `oci_autonomous_data_warehouse_backup`    | `oci_autonomous_database_backup`          | N/A        | N/A    |
+| 3.18    | Data Source | `oci_autonomous_data_warehouse_backups`   | `oci_autonomous_database_backups`         | N/A        | N/A    |
+| 2.1.12  | Resource    | `oci_swift_password`                      | `oci_identity_auth_token`                 | No         | N/A    |
+| 2.1.12  | Data Source | `oci_swift_passwords`                     | `oci_identity_auth_tokens`                | N/A        | N/A    |
 
 ### Deprecated Fields
 

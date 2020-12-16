@@ -676,6 +676,7 @@ var mysqlResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMysqlMysqlBackupHints},
 		{TerraformResourceHints: exportMysqlMysqlDbSystemHints},
+		{TerraformResourceHints: exportMysqlChannelHints},
 	},
 }
 

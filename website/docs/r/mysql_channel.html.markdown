@@ -28,7 +28,11 @@ resource "oci_mysql_channel" "test_channel" {
 
 		#Optional
 		port = var.channel_source_port
-		ssl_ca_certificatemode = var.channel_source_ssl_ca_certificate
+		ssl_ca_certificate {
+			#Required
+			certificate_type = var.channel_source_ssl_ca_certificate_certificate_type
+			contents = var.channel_source_ssl_ca_certificate_contents
+		}
 	}
 	target {
 		#Required
@@ -42,10 +46,10 @@ resource "oci_mysql_channel" "test_channel" {
 
 	#Optional
 	compartment_id = var.compartment_id
-	defined_tags = var.channel_defined_tags
+	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.channel_description
 	display_name = var.channel_display_name
-	freeform_tags = var.channel_freeform_tags
+	freeform_tags = {"bar-key"= "value"}
 	is_enabled = var.channel_is_enabled
 }
 ```
@@ -60,15 +64,17 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) The user-friendly name for the Channel. It does not have to be unique.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_enabled` - (Optional) (Updatable) Whether the Channel should be enabled upon creation. If set to true, the Channel will be asynchronously started as a result of the create Channel operation. 
-* `source` - (Required) (Updatable) 
+* `source` - (Required) (Updatable) Parameters detailing how to provision the source for the given Channel.
 	* `hostname` - (Required) (Updatable) The network address of the MySQL instance.
 	* `password` - (Required) (Updatable) The password for the replication user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special (nonalphanumeric) character. 
 	* `port` - (Optional) (Updatable) The port the source MySQL instance listens on.
 	* `source_type` - (Required) (Updatable) The specific source identifier.
 	* `ssl_ca_certificate` - (Optional) (Updatable) The CA certificate of the server used for VERIFY_IDENTITY and VERIFY_CA ssl modes.
+		* `certificate_type` - (Required) (Updatable) The type of CA certificate.
+		* `contents` - (Required) (Updatable) The string containing the CA certificate in PEM format.
 	* `ssl_mode` - (Required) (Updatable) The SSL mode of the Channel.
 	* `username` - (Required) (Updatable) The name of the replication user on the source MySQL instance. The username has a maximum length of 96 characters. For more information, please see the [MySQL documentation](https://dev.mysql.com/doc/refman/8.0/en/change-master-to.html) 
-* `target` - (Required) (Updatable) 
+* `target` - (Required) (Updatable) Parameters detailing how to provision the target for the given Channel.
 	* `applier_username` - (Optional) (Updatable) The username for the replication applier of the target MySQL DB System.
 	* `channel_name` - (Optional) (Updatable) The case-insensitive name that identifies the replication channel. Channel names must follow the rules defined for [MySQL identifiers](https://dev.mysql.com/doc/refman/8.0/en/identifiers.html). The names of non-Deleted Channels must be unique for each DB System. 
 	* `db_system_id` - (Required) The OCID of the target DB System.
@@ -84,21 +90,22 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment.
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
-* `display_name` - The user-friendly name for the Channel. It does not have to be unique.
 * `description` - User provided description of the Channel.
+* `display_name` - The user-friendly name for the Channel. It does not have to be unique.
 * `freeform_tags` - Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_enabled` - Whether the Channel has been enabled by the user.
 * `lifecycle_details` - A message describing the state of the Channel.
-* `source` - 
+* `source` - Parameters detailing how to provision the source for the given Channel.
 	* `hostname` - The network address of the MySQL instance.
 	* `port` - The port the source MySQL instance listens on.
 	* `source_type` - The specific source identifier.
 	* `ssl_ca_certificate` - The CA certificate of the server used for VERIFY_IDENTITY and VERIFY_CA ssl modes.
-	* `ssl_mode` - The state of the Channel.
+		* `certificate_type` - The type of CA certificate.
+		* `contents` - The string containing the CA certificate in PEM format.
+	* `ssl_mode` - The SSL mode of the Channel.
 	* `username` - The name of the replication user on the source MySQL instance. The username has a maximum length of 96 characters. For more information, please see the [MySQL documentation](https://dev.mysql.com/doc/refman/8.0/en/change-master-to.html) 
-	* `password` - The password for the replication user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special (nonalphanumeric) character.
 * `state` - The state of the Channel.
-* `target` - 
+* `target` - Details about the Channel target.
 	* `applier_username` - The username for the replication applier of the target MySQL DB System.
 	* `channel_name` - The case-insensitive name that identifies the replication channel. Channel names must follow the rules defined for [MySQL identifiers](https://dev.mysql.com/doc/refman/8.0/en/identifiers.html). The names of non-Deleted Channels must be unique for each DB System. 
 	* `db_system_id` - The OCID of the source DB System.

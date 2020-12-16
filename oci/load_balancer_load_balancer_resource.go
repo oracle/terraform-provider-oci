@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v30/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v31/loadbalancer"
 )
 
 func init() {
@@ -100,6 +100,33 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+
+						// Computed
+					},
+				},
+			},
+			"shape_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"maximum_bandwidth_in_mbps": {
+							Type:     schema.TypeInt,
+							Required: true,
+							ForceNew: true,
+						},
+						"minimum_bandwidth_in_mbps": {
+							Type:     schema.TypeInt,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
 
 						// Computed
 					},
@@ -325,6 +352,17 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		request.ShapeName = &tmp
 	}
 
+	if shapeDetails, ok := s.D.GetOkExists("shape_details"); ok {
+		if tmpList := shapeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_details", 0)
+			tmp, err := s.mapToShapeDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ShapeDetails = &tmp
+		}
+	}
+
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
 		interfaces := subnetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -546,6 +584,12 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 		s.D.Set("shape", *s.Res.ShapeName)
 	}
 
+	if s.Res.ShapeDetails != nil {
+		s.D.Set("shape_details", []interface{}{ShapeDetailsToMap(s.Res.ShapeDetails)})
+	} else {
+		s.D.Set("shape_details", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)
@@ -595,6 +639,36 @@ func ReservedIPToMap(obj oci_load_balancer.ReservedIp) map[string]interface{} {
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	return result
+}
+
+func (s *LoadBalancerLoadBalancerResourceCrud) mapToShapeDetails(fieldKeyFormat string) (oci_load_balancer.ShapeDetails, error) {
+	result := oci_load_balancer.ShapeDetails{}
+
+	if maximumBandwidthInMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_bandwidth_in_mbps")); ok {
+		tmp := maximumBandwidthInMbps.(int)
+		result.MaximumBandwidthInMbps = &tmp
+	}
+
+	if minimumBandwidthInMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "minimum_bandwidth_in_mbps")); ok {
+		tmp := minimumBandwidthInMbps.(int)
+		result.MinimumBandwidthInMbps = &tmp
+	}
+
+	return result, nil
+}
+
+func ShapeDetailsToMap(obj *oci_load_balancer.ShapeDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MaximumBandwidthInMbps != nil {
+		result["maximum_bandwidth_in_mbps"] = int(*obj.MaximumBandwidthInMbps)
+	}
+
+	if obj.MinimumBandwidthInMbps != nil {
+		result["minimum_bandwidth_in_mbps"] = int(*obj.MinimumBandwidthInMbps)
 	}
 
 	return result

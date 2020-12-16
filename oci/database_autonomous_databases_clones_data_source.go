@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
 )
 
 func init() {
@@ -49,6 +49,29 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"apex_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"apex_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ords_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"autonomous_container_database_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -156,6 +179,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						},
 						"data_safe_status": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"data_storage_size_in_gb": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"data_storage_size_in_tbs": {
@@ -465,6 +492,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.ApexDetails != nil {
+			autonomousDatabasesClone["apex_details"] = []interface{}{AutonomousDatabaseApexToMap(r.ApexDetails)}
+		} else {
+			autonomousDatabasesClone["apex_details"] = nil
+		}
+
 		if r.AutonomousContainerDatabaseId != nil {
 			autonomousDatabasesClone["autonomous_container_database_id"] = *r.AutonomousContainerDatabaseId
 		}
@@ -494,6 +527,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabasesClone["data_safe_status"] = r.DataSafeStatus
+
+		if r.DataStorageSizeInGBs != nil {
+			autonomousDatabasesClone["data_storage_size_in_gb"] = *r.DataStorageSizeInGBs
+		}
 
 		if r.DataStorageSizeInTBs != nil {
 			autonomousDatabasesClone["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
