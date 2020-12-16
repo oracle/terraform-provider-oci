@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
+	"github.com/oracle/oci-go-sdk/v31/common"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -133,11 +133,22 @@ var (
 	}
 
 	databaseRepresentation = map[string]interface{}{
-		"database":   RepresentationGroup{Required, databaseDatabaseRepresentation},
-		"db_home_id": Representation{repType: Required, create: `${oci_database_db_home.test_db_home.id}`},
-		"source":     Representation{repType: Required, create: `NONE`},
-		"db_version": Representation{repType: Optional, create: `12.1.0.2`},
+		"database":         RepresentationGroup{Required, databaseDatabaseRepresentation},
+		"db_home_id":       Representation{repType: Required, create: `${oci_database_db_home.test_db_home.id}`},
+		"source":           Representation{repType: Required, create: `NONE`},
+		"db_version":       Representation{repType: Optional, create: `12.1.0.2`},
+		"kms_key_id":       Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"kms_key_rotation": Representation{repType: Optional, update: `1`},
 	}
+
+	databaseRepresentationMigration = map[string]interface{}{
+		"database":          RepresentationGroup{Required, databaseDatabaseRepresentation},
+		"db_home_id":        Representation{repType: Required, create: `${oci_database_db_home.test_db_home.id}`},
+		"source":            Representation{repType: Required, create: `NONE`},
+		"kms_key_migration": Representation{repType: Required, create: `true`},
+		"kms_key_id":        Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+	}
+
 	databaseDatabaseRepresentation = map[string]interface{}{
 		"admin_password":   Representation{repType: Required, create: `BEstrO0ng_#11`},
 		"db_name":          Representation{repType: Required, create: `myTestDb`},
@@ -161,7 +172,7 @@ var (
 		"id":   Representation{repType: Optional, create: `${oci_database_backup_destination.test_backup_destination.id}`},
 	}
 
-	DatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+	DatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
 		generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceNone)
 )
 
@@ -200,7 +211,19 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
 				),
 			},
-
+			// verify migrate kms_key
+			{
+				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseRepresentationMigration),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
+					resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+					resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				),
+			},
 			// delete before next create
 			{
 				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies,
@@ -230,6 +253,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
 					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -269,6 +293,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
 					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -302,8 +327,10 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_unique_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_workload"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.kms_key_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.ncharacter_set"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.pdb_name"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "databases.0.source_database_point_in_time_recovery_timestamp"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.time_created"),
 				),
@@ -324,8 +351,10 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_unique_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_workload"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "ncharacter_set"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "pdb_name"),
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "source_database_point_in_time_recovery_timestamp"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
@@ -342,6 +371,9 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				ImportStateVerifyIgnore: []string{
 					"database",
 					"db_version",
+					"kms_key_migration",
+					"kms_key_rotation",
+					"kms_key_version_id",
 					"source",
 				},
 				ResourceName: resourceName,

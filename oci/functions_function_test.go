@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v30/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v30/functions"
+	"github.com/oracle/oci-go-sdk/v31/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v31/functions"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -53,9 +53,12 @@ var (
 		"timeout_in_seconds": Representation{repType: Optional, create: `30`, update: `31`},
 	}
 
+	functionApplicationDisplayName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+
 	FunctionResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create,
+			getUpdatedRepresentationCopy("display_name", Representation{repType: Required, create: functionApplicationDisplayName}, applicationRepresentation)) +
 		DefinedTagsDependencies
 )
 

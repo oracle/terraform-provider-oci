@@ -20,7 +20,6 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	#Required
 	compartment_id = var.compartment_id
 	cpu_core_count = var.autonomous_database_cpu_core_count
-	data_storage_size_in_tbs = var.autonomous_database_data_storage_size_in_tbs
 	db_name = var.autonomous_database_db_name
 
 	#Optional
@@ -30,6 +29,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
 	clone_type = var.autonomous_database_clone_type
 	data_safe_status = var.autonomous_database_data_safe_status
+	data_storage_size_in_tbs = var.autonomous_database_data_storage_size_in_tbs
 	db_version = var.autonomous_database_db_version
 	db_workload = var.autonomous_database_db_workload
 	defined_tags = var.autonomous_database_defined_tags
@@ -67,13 +67,14 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 * `cpu_core_count` - (Required) (Updatable) The number of OCPU cores to be made available to the database. This input is ignored for Always Free resources.
 * `data_safe_status` - (Optional) (Updatable) Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
-* `data_storage_size_in_tbs` - (Required) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. This input is ignored for Always Free resources.
+* `data_storage_size_in_tbs` - (Optional) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. This input is ignored for Always Free resources.
 * `db_name` - (Required) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
-* `db_version` - (Optional) (Updatable) A valid Oracle Database version for Autonomous Database.`db_workload` AJD is only supported for `db_version` `19c` and above.
+* `db_version` - (Optional) (Updatable) A valid Oracle Database version for Autonomous Database.`db_workload` AJD and APEX are only supported for `db_version` `19c` and above.
 * `db_workload` - (Optional) (Updatable) The Autonomous Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous Transaction Processing database
 	* DW - indicates an Autonomous Data Warehouse database
-	* AJD - indicates an Autonomous JSON Database *Note: `db_workload` can only be updated from AJD to OLTP or from a free OLTP to AJD.
+	* AJD - indicates an Autonomous JSON Database
+	* APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type. *Note: `db_workload` can only be updated from AJD/APEX to OLTP or from a free OLTP to AJD/APEX.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Optional) (Updatable) The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -83,10 +84,10 @@ The following arguments are supported:
 * `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`. 
 * `is_data_guard_enabled` - (Optional) (Updatable) Indicates whether the Autonomous Database has Data Guard enabled.
 * `is_dedicated` - (Optional) True if the database is on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
-* `is_free_tier` - (Optional) (Updatable) Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. When `db_workload` is `AJD` it cannot be `true`.
+* `is_free_tier` - (Optional) (Updatable) Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. When `db_workload` is `AJD` or `APEX` it cannot be `true`.
 * `is_preview_version_with_service_terms_accepted` - (Optional) If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI). 
 * `is_refreshable_clone` - (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) True for creating a refreshable clone and False for detaching the clone from source Autonomous Database. Detaching is one time operation and clone becomes a regular Autonomous Database.
-* `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the Autonomous Exadata Infrastructure level. When using [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`. It is a required field when `db_workload` is AJD and needs to be set to `LICENSE_INCLUDED` as AJD does not support default `license_model` value `BRING_YOUR_OWN_LICENSE`.
+* `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the Autonomous Exadata Infrastructure level. When using [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`. It is a required field when `db_workload` is AJD or APEX and needs to be set to `LICENSE_INCLUDED` as AJD and APEX do not support default `license_model` value `BRING_YOUR_OWN_LICENSE`.
 * `nsg_ids` - (Optional) (Updatable) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
 * `private_endpoint_label` - (Optional) (Updatable) The private endpoint label for the resource.
@@ -121,6 +122,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `apex_details` - Information about Autonomous Application Express.
+	* `apex_version` - The Oracle Application Express service version.
+	* `ords_version` - The Oracle REST Data Services (ORDS) version.
 * `autonomous_container_database_id` - The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `available_upgrade_versions` - List of Oracle Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
 * `backup_config` - Autonomous Database configuration details for storing [manual backups](https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/adbbackingup.htm) in the [Object Storage](https://docs.cloud.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) service. 
@@ -139,13 +143,15 @@ The following attributes are exported:
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of OCPU cores to be made available to the database.
 * `data_safe_status` - Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
+* `data_storage_size_in_gb` - The quantity of data in the database, in gigabytes.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
 * `db_version` - A valid Oracle Database version for Autonomous Database.
 * `db_workload` - The Autonomous Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous Transaction Processing database
 	* DW - indicates an Autonomous Data Warehouse database
-	* AJD - indicates an Autonomous JSON Database 
+	* AJD - indicates an Autonomous JSON Database
+	* APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
@@ -168,7 +174,7 @@ The following attributes are exported:
 * `nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
 * `open_mode` - The `DATABASE OPEN` mode. You can open the database in `READ_ONLY` or `READ_WRITE` mode.
-* `operations_insights_status` - Status of the Operations Insights for this Autonomous Database.
+* `operations_insights_status` - Status of Operations Insights for this Autonomous Database.
 * `permission_level` - The Autonomous Database permission level. Restricted mode allows access only to admin users.
 * `private_endpoint` - The private endpoint for the resource.
 * `private_endpoint_ip` - The private endpoint Ip address for the resource.

@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
 )
 
 func init() {
@@ -59,6 +59,10 @@ func DatabaseBackupResource() *schema.Resource {
 			},
 			"database_size_in_gbs": {
 				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"lifecycle_details": {
@@ -228,6 +232,10 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
 
 	if s.Res.LifecycleDetails != nil {

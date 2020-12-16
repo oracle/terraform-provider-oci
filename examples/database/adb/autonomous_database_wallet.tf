@@ -6,14 +6,14 @@ resource "random_string" "autonomous_database_wallet_password" {
   special = true
 }
 
-data "oci_database_autonomous_database_wallet" "autonomous_database_wallet" {
+resource "oci_database_autonomous_database_wallet" "autonomous_database_wallet" {
   autonomous_database_id = oci_database_autonomous_database.autonomous_database.id
   password               = random_string.autonomous_database_wallet_password.result
   base64_encode_content  = "true"
 }
 
 resource "local_file" "autonomous_database_wallet_file" {
-  content_base64 = data.oci_database_autonomous_database_wallet.autonomous_database_wallet.content
+  content_base64 = oci_database_autonomous_database_wallet.autonomous_database_wallet.content
   filename       = "${path.module}/autonomous_database_wallet.zip"
 }
 

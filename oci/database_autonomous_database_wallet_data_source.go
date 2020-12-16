@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
 )
 
 func init() {
@@ -22,8 +22,9 @@ func DatabaseAutonomousDatabaseWalletDataSource() *schema.Resource {
 		Read: readSingularDatabaseAutonomousDatabaseWallet,
 		Schema: map[string]*schema.Schema{
 			"autonomous_database_id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:       schema.TypeString,
+				Required:   true,
+				Deprecated: ResourceDeprecatedForAnother("data.oci_database_autonomous_database_wallet", "oci_database_autonomous_database_wallet"),
 			},
 			"base64_encode_content": {
 				Type:     schema.TypeBool,

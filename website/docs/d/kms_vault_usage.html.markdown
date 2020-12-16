@@ -33,8 +33,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `key_count` - The number of keys in this vault that persist on a hardware security module (HSM), across all compartments, excluding keys in a `DELETED` state.
-* `key_version_count` - The number of key versions in this vault that persist on a hardware security module (HSM), across all compartments, excluding key versions in a `DELETED` state.
+* `key_count` - The number of keys in this vault, across all compartments, excluding keys in a `DELETED` state.
+* `key_version_count` - The number of key versions in this vault, across all compartments, excluding key versions in a `DELETED` state.
 * `software_key_count` - The number of keys in this vault that persist on the server, across all compartments, excluding keys in a `DELETED` state.
 * `software_key_version_count` - The number of key versions in this vault that persist on the server, across all compartments, excluding key versions in a `DELETED` state.
 

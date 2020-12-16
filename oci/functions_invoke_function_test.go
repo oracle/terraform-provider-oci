@@ -31,7 +31,10 @@ var (
 		"fn_invoke_type":       Representation{repType: Optional, create: `sync`},
 	}
 
-	InvokeFunctionResourceDependencies = generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+	invokeApplicationDisplayName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+
+	InvokeFunctionResourceDependencies = generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create,
+		getUpdatedRepresentationCopy("display_name", Representation{repType: Required, create: invokeApplicationDisplayName}, applicationRepresentation)) +
 		generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
 		AvailabilityDomainConfig +
 		DhcpOptionsRequiredOnlyResource +

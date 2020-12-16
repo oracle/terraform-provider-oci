@@ -28,7 +28,7 @@ resource "oci_database_autonomous_database" "autonomous_database" {
   compartment_id           = var.compartment_ocid
   cpu_core_count           = "1"
   data_storage_size_in_tbs = "1"
-  db_name                  = "adbdb1"
+  db_name                  = "adbdb1f"
 
   #Optional
   db_version                                     = data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions[0].version
@@ -46,9 +46,21 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   compartment_id           = var.compartment_ocid
   cpu_core_count           = "1"
   data_storage_size_in_tbs = "1"
-  db_name                  = "adbdb11"
+  db_name                  = "adbdb11f"
   db_version               = "19c"
   db_workload              = "AJD"
+  license_model            = "LICENSE_INCLUDED"
+  is_free_tier             = "false"
+}
+
+resource "oci_database_autonomous_database" "test_autonomous_database_apex" {
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  cpu_core_count           = "1"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbapex"
+  db_version               = "19c"
+  db_workload              = "APEX"
   license_model            = "LICENSE_INCLUDED"
   is_free_tier             = "false"
 }
@@ -58,7 +70,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database_actions" {
   compartment_id           = var.compartment_ocid
   cpu_core_count           = "1"
   data_storage_size_in_tbs = "1"
-  db_name                  = "adbdb111"
+  db_name                  = "adbdb11ff"
   db_version               = "19c"
   db_workload              = "AJD"
   license_model            = "LICENSE_INCLUDED"

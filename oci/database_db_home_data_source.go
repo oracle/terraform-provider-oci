@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v30/database"
+	oci_database "github.com/oracle/oci-go-sdk/v31/database"
 )
 
 func init() {
@@ -96,6 +96,10 @@ func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
 
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)

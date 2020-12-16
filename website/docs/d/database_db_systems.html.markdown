@@ -70,10 +70,11 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname` - The hostname for the DB system.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
+* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation starts.
 * `license_model` - The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED. 
-* `lifecycle_details` - Additional information about the current lifecycleState.
+* `lifecycle_details` - Additional information about the current lifecycle state.
 * `listener_port` - The port number configured for the listener on the DB system.
 * `maintenance_window` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
 	* `days_of_week` - Days during the week when maintenance should be performed.
