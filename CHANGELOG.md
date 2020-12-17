@@ -2,6 +2,7 @@
 
 ### Added
 - add list to existing API (Erratum) to OS Management Service
+- Support for Database Performance and Management DB Admin
 
 ### Added
 - Support for Infrequent Access object storage tier added
