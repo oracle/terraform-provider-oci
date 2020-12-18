@@ -538,6 +538,7 @@ func init() {
 	exportCoreNetworkSecurityGroupSecurityRuleHints.processDiscoveredResourcesFn = processNetworkSecurityGroupRules
 	exportCoreRouteTableHints.processDiscoveredResourcesFn = processDefaultRouteTables
 	exportCoreSecurityListHints.processDiscoveredResourcesFn = processDefaultSecurityLists
+	exportCoreVcnHints.processDiscoveredResourcesFn = processCoreVcns
 	exportCoreVnicAttachmentHints.requireResourceRefresh = true
 	exportCoreVnicAttachmentHints.processDiscoveredResourcesFn = filterSecondaryVnicAttachments
 	exportCoreVolumeGroupHints.processDiscoveredResourcesFn = processVolumeGroups
@@ -1454,4 +1455,16 @@ func getLogId(resource *OCIResource) (string, error) {
 	}
 	logGroupId := resource.parent.id
 	return getLogCompositeId(logGroupId, logId), nil
+}
+
+func processCoreVcns(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	// remove deprecated cidr_block field from discovered vcns,
+	// either cidr_block or cidr_blocks should be specified in config
+	// service returns the cidr_block value in cidr_blocks field
+	for _, resource := range resources {
+		if _, ok := resource.sourceAttributes["cidr_block"].(string); ok {
+			delete(resource.sourceAttributes, "cidr_block")
+		}
+	}
+	return resources, nil
 }
