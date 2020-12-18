@@ -27,21 +27,14 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_core_vcn" "vcn1" {
-  cidr_block     = "10.0.0.0/16"
-  dns_label      = "vcn1"
-  compartment_id = var.compartment_ocid
-  display_name   = "vcn1"
-}
-
-resource "oci_core_vcn" "vcn2" {
+resource "oci_core_vcn" "vcn" {
   cidr_blocks    = ["10.0.0.0/16","11.0.0.0/16"]
-  dns_label      = "vcn2"
+  dns_label      = "vcn"
   compartment_id = var.compartment_ocid
-  display_name   = "vcn2"
+  display_name   = "vcn"
 }
 
 output "vcn_id" {
-  value = oci_core_vcn.vcn1.id
+  value = oci_core_vcn.vcn.id
 }
 
