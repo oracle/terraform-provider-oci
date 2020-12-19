@@ -177,3 +177,10 @@ func ipv6CompressionDiffSuppressFunction(key string, old string, new string, d *
 	newSubnetMask := oldIp[1]
 	return strings.EqualFold(oldParsedIp.String(), newParsedIp.String()) && strings.EqualFold(oldSubnetMask, newSubnetMask)
 }
+
+func Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
