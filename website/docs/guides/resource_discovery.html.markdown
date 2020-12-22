@@ -91,12 +91,12 @@ If the parameters have multiple sources, the priority will be in the following o
 Once you have specified the prerequisite authentication settings, the command can be used as follows with a compartment being specified by name or OCID:
 
 ```
-terraform-provider-oci -command=export -compartment_name=<name of compartment to export> -output_path=<directory under which to generate Terraform files>
+terraform-provider-oci -command=export -compartment_name=<name of compartment to export> -output_path=<absolute path to directory under which to generate Terraform files>
 ```
 
 
 ```
-terraform-provider-oci -command=export -compartment_id=<OCID of compartment to export> -output_path=<directory under which to generate Terraform files>
+terraform-provider-oci -command=export -compartment_id=<OCID of compartment to export> -output_path=<absolute path to directory under which to generate Terraform files>
 ```
 
 This command will discover resources within your compartment and generates Terraform configuration files in the given `output_path`.
@@ -113,7 +113,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
 * `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported
 * `list_export_services_path` - Path to output list of supported services in json format, must include json file name
-* `output_path` - Path to output generated configurations and state files of the exported compartment
+* `output_path` - Absolute path to output generated configurations and state files of the exported compartment
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
@@ -213,7 +213,7 @@ Some resources, such as identity resources, may exist only at the tenancy level 
 the following command.
 
 ```
-terraform-provider-oci -command=export -output_path=<directory under which to generate Terraform files> -services=identity
+terraform-provider-oci -command=export -output_path=<absolute path to directory under which to generate Terraform files> -services=identity
 ```
 
 > **Note**: When exporting identity resources, a `compartment_id` is not required. If a `compartment_id` is specified, the value will be ignored for discovering identity resources.
@@ -241,7 +241,7 @@ terraform apply
 Using this command it is also possible to generate a Terraform state file to manage the discovered resources. To do so, run the following command:
 
 ```
-terraform-provider-oci -command=export -compartment_id=<compartment to export> -output_path=<directory under which to generate Terraform files> -generate_state
+terraform-provider-oci -command=export -compartment_id=<compartment to export> -output_path=<absolute path to directory under which to generate Terraform files> -generate_state
 ```
 
 The results of this command are both the `.tf` files representing the Terraform configuration and a `terraform.tfstate` file representing the state.
