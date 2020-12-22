@@ -1204,6 +1204,7 @@ a_string = "string3"
 compartment_id = "string3"
 parent_id = "ocid1.parent.abcdefghiklmnop.3"
 }
+
 `
 	if expectedHclResult != resultHcl {
 		t.Log("resulting Hcl does not match expected Hcl")
