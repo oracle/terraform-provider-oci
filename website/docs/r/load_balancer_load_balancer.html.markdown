@@ -107,9 +107,8 @@ The following arguments are supported:
 
 	Example: `["ocid1.nsg.oc1.phx.unique_ID"]` 
 * `reserved_ips` - (Optional) An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
-	* `id` - (Optional) Ocid of the pre-created public IP. That should be attahed to this load balancer.
+	* `id` - (Optional) Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP. **Note** If public IP resource is present in the config, the terraform plan will throw `After applying this step and refreshing, the plan was not empty` error, and `private_ip_id` needs to be added as an input argument to the public IP resource block or ignore from its lifecycle as shown in [examples](https://github.com/terraform-providers/terraform-provider-oci/blob/507acd0ed6517dbca2fbcfb8100874929c8fd8e1/examples/load_balancer/lb_full/lb_full.tf#L133) to resolve this error.
 * `shape` - (Required) (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `100Mbps` *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also `10Mbps-Micro` shape cannot be updated to any other shape nor can any other shape be updated to `10Mbps-Micro`.
-
 * `shape_details` - (Optional) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is `Flexible`. 
 	* `maximum_bandwidth_in_mbps` - (Required) Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
 
