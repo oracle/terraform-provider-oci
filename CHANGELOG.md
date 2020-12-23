@@ -1,8 +1,11 @@
-## 4.12.0 (February 03, 2021)
+## 4.13.0 (Unreleased)
 
 ### Added
 - add list to existing API (Erratum) to OS Management Service
 - Support for Database Performance and Management DB Admin
+- Support for instance agent plugin configuration
+
+## 4.12.0 (February 03, 2021)
 
 ### Added
 - Support for Infrequent Access object storage tier added
