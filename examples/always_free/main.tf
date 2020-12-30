@@ -196,7 +196,11 @@ resource "oci_load_balancer" "free_load_balancer" {
   #Required
   compartment_id = var.compartment_ocid
   display_name   = "alwaysFreeLoadBalancer"
-  shape          = "10Mbps-Micro"
+  shape = "flexible"
+  shape_details {
+      maximum_bandwidth_in_mbps = 10
+      minimum_bandwidth_in_mbps = 10
+  }
 
   subnet_ids = [
     oci_core_subnet.test_subnet.id,
