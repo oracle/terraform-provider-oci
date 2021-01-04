@@ -191,7 +191,7 @@ func (s *HealthChecksPingMonitorResourceCrud) Create() error {
 	}
 
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
-		request.Protocol = oci_health_checks.CreatePingMonitorDetailsProtocolEnum(protocol.(string))
+		request.Protocol = oci_health_checks.PingProbeProtocolEnum(protocol.(string))
 	}
 
 	if targets, ok := s.D.GetOkExists("targets"); ok {
@@ -301,7 +301,7 @@ func (s *HealthChecksPingMonitorResourceCrud) Update() error {
 	}
 
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
-		request.Protocol = oci_health_checks.UpdatePingMonitorDetailsProtocolEnum(protocol.(string))
+		request.Protocol = oci_health_checks.PingProbeProtocolEnum(protocol.(string))
 	}
 
 	if targets, ok := s.D.GetOkExists("targets"); ok {
