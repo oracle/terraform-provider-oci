@@ -144,7 +144,7 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 	}
 
 	if method, ok := s.D.GetOkExists("method"); ok {
-		request.Method = oci_health_checks.CreateOnDemandHttpProbeDetailsMethodEnum(method.(string))
+		request.Method = oci_health_checks.HttpProbeMethodEnum(method.(string))
 	}
 
 	if path, ok := s.D.GetOkExists("path"); ok {
@@ -158,7 +158,7 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 	}
 
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
-		request.Protocol = oci_health_checks.CreateOnDemandHttpProbeDetailsProtocolEnum(protocol.(string))
+		request.Protocol = oci_health_checks.HttpProbeProtocolEnum(protocol.(string))
 	}
 
 	if targets, ok := s.D.GetOkExists("targets"); ok {

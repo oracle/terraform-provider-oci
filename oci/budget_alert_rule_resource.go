@@ -214,11 +214,11 @@ func (s *BudgetAlertRuleResourceCrud) Create() error {
 	}
 
 	if thresholdType, ok := s.D.GetOkExists("threshold_type"); ok {
-		request.ThresholdType = oci_budget.CreateAlertRuleDetailsThresholdTypeEnum(thresholdType.(string))
+		request.ThresholdType = oci_budget.ThresholdTypeEnum(thresholdType.(string))
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {
-		request.Type = oci_budget.CreateAlertRuleDetailsTypeEnum(type_.(string))
+		request.Type = oci_budget.AlertTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
@@ -311,11 +311,11 @@ func (s *BudgetAlertRuleResourceCrud) Update() error {
 	}
 
 	if thresholdType, ok := s.D.GetOkExists("threshold_type"); ok {
-		request.ThresholdType = oci_budget.UpdateAlertRuleDetailsThresholdTypeEnum(thresholdType.(string))
+		request.ThresholdType = oci_budget.ThresholdTypeEnum(thresholdType.(string))
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {
-		request.Type = oci_budget.UpdateAlertRuleDetailsTypeEnum(type_.(string))
+		request.Type = oci_budget.AlertTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")

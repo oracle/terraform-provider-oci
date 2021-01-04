@@ -225,7 +225,7 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 	}
 
 	if resetPeriod, ok := s.D.GetOkExists("reset_period"); ok {
-		request.ResetPeriod = oci_budget.CreateBudgetDetailsResetPeriodEnum(resetPeriod.(string))
+		request.ResetPeriod = oci_budget.ResetPeriodEnum(resetPeriod.(string))
 	}
 
 	if targetCompartmentId, ok := s.D.GetOkExists("target_compartment_id"); ok {
@@ -234,7 +234,7 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 	}
 
 	if targetType, ok := s.D.GetOkExists("target_type"); ok {
-		request.TargetType = oci_budget.CreateBudgetDetailsTargetTypeEnum(targetType.(string))
+		request.TargetType = oci_budget.TargetTypeEnum(targetType.(string))
 	}
 
 	if targets, ok := s.D.GetOkExists("targets"); ok {
@@ -312,7 +312,7 @@ func (s *BudgetBudgetResourceCrud) Update() error {
 	}
 
 	if resetPeriod, ok := s.D.GetOkExists("reset_period"); ok {
-		request.ResetPeriod = oci_budget.UpdateBudgetDetailsResetPeriodEnum(resetPeriod.(string))
+		request.ResetPeriod = oci_budget.ResetPeriodEnum(resetPeriod.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")

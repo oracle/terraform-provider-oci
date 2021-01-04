@@ -206,7 +206,7 @@ func (s *HealthChecksHttpMonitorResourceCrud) Create() error {
 	}
 
 	if method, ok := s.D.GetOkExists("method"); ok {
-		request.Method = oci_health_checks.CreateHttpMonitorDetailsMethodEnum(method.(string))
+		request.Method = oci_health_checks.HttpProbeMethodEnum(method.(string))
 	}
 
 	if path, ok := s.D.GetOkExists("path"); ok {
@@ -220,7 +220,7 @@ func (s *HealthChecksHttpMonitorResourceCrud) Create() error {
 	}
 
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
-		request.Protocol = oci_health_checks.CreateHttpMonitorDetailsProtocolEnum(protocol.(string))
+		request.Protocol = oci_health_checks.HttpProbeProtocolEnum(protocol.(string))
 	}
 
 	if targets, ok := s.D.GetOkExists("targets"); ok {
@@ -326,7 +326,7 @@ func (s *HealthChecksHttpMonitorResourceCrud) Update() error {
 	}
 
 	if method, ok := s.D.GetOkExists("method"); ok {
-		request.Method = oci_health_checks.UpdateHttpMonitorDetailsMethodEnum(method.(string))
+		request.Method = oci_health_checks.HttpProbeMethodEnum(method.(string))
 	}
 
 	tmp := s.D.Id()
@@ -343,7 +343,7 @@ func (s *HealthChecksHttpMonitorResourceCrud) Update() error {
 	}
 
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
-		request.Protocol = oci_health_checks.UpdateHttpMonitorDetailsProtocolEnum(protocol.(string))
+		request.Protocol = oci_health_checks.HttpProbeProtocolEnum(protocol.(string))
 	}
 
 	if targets, ok := s.D.GetOkExists("targets"); ok {

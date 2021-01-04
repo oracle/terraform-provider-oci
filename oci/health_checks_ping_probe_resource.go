@@ -126,7 +126,7 @@ func (s *HealthChecksPingProbeResourceCrud) Create() error {
 	}
 
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
-		request.Protocol = oci_health_checks.CreateOnDemandPingProbeDetailsProtocolEnum(protocol.(string))
+		request.Protocol = oci_health_checks.PingProbeProtocolEnum(protocol.(string))
 	}
 
 	if targets, ok := s.D.GetOkExists("targets"); ok {
