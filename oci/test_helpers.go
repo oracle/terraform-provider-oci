@@ -434,7 +434,7 @@ func testExportCompartmentWithResourceName(id *string, compartmentId *string, re
 func testExportCompartment(compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
 	// checking for provider_bin_path here because parent func will also be
 	// called for resources that do not support RD
-	if os.Getenv("provider_bin_path") == "" {
+	if providerBinPath := getEnvSettingWithBlankDefault("provider_bin_path"); providerBinPath == "" {
 		goPath := os.Getenv("GOPATH")
 		if goPath == "" {
 			return fmt.Errorf("not able to set 'provider_bin_path', either specificy 'provider_bin_path' env variable or set GOPATH to use default provider bin path ($GOPATH/bin)")
