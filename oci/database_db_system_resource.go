@@ -1083,12 +1083,6 @@ func (s *DatabaseDbSystemResourceCrud) Delete() error {
 
 func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
-	if s.Res.IormConfigCache != nil {
-		s.D.Set("iorm_config_cache", []interface{}{IormConfigCacheToMap(s.Res.IormConfigCache)})
-	} else {
-		s.D.Set("iorm_config_cache", []interface{}{})
-	}
-
 	if s.DbHome != nil {
 		s.D.Set("db_home", []interface{}{s.DbHomeToMap(s.DbHome)})
 	}
@@ -1161,6 +1155,12 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
+	}
+
+	if s.Res.IormConfigCache != nil {
+		s.D.Set("iorm_config_cache", []interface{}{ExadataIormConfigToMap(s.Res.IormConfigCache)})
+	} else {
+		s.D.Set("iorm_config_cache", nil)
 	}
 
 	if s.Res.KmsKeyId != nil {
@@ -1866,6 +1866,26 @@ func DbSystemOptionsToMap(obj *oci_database.DbSystemOptions) map[string]interfac
 	result := map[string]interface{}{}
 
 	result["storage_management"] = string(obj.StorageManagement)
+
+	return result
+}
+
+func ExadataIormConfigToMap(obj *oci_database.ExadataIormConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	dbPlans := []interface{}{}
+	for _, item := range obj.DbPlans {
+		dbPlans = append(dbPlans, dbIormConfigToMap(item))
+	}
+	result["db_plans"] = dbPlans
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	result["objective"] = string(obj.Objective)
+
+	result["state"] = string(obj.LifecycleState)
 
 	return result
 }
@@ -3082,28 +3102,6 @@ func (s *DatabaseDbSystemResourceCrud) DatabaseToMap(obj *oci_database.Database)
 	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf("db_home.0.database.0.time_stamp_for_point_in_time_recovery")); ok {
 		result["time_stamp_for_point_in_time_recovery"] = timeStampForPointInTimeRecovery
 	}
-
-	return result
-}
-
-func IormConfigCacheToMap(obj *oci_database.ExadataIormConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	dbPlans := []interface{}{}
-	for _, item := range obj.DbPlans {
-		if configMap := dbIormConfigToMap(item); configMap != nil {
-			dbPlans = append(dbPlans, configMap)
-		}
-	}
-	result["db_plans"] = dbPlans
-
-	if obj.LifecycleDetails != nil {
-		result["lifecycle_details"] = *obj.LifecycleDetails
-	}
-
-	result["objective"] = obj.Objective
-
-	result["state"] = obj.LifecycleState
 
 	return result
 }

@@ -161,6 +161,58 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"iorm_config_cache": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"db_plans": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"db_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"flash_cache_limit": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"share": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"objective": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"last_update_history_entry_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -638,6 +690,12 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
+	}
+
+	if s.Res.IormConfigCache != nil {
+		s.D.Set("iorm_config_cache", []interface{}{ExadataIormConfigToMap(s.Res.IormConfigCache)})
+	} else {
+		s.D.Set("iorm_config_cache", nil)
 	}
 
 	if s.Res.IsLocalBackupEnabled != nil {
