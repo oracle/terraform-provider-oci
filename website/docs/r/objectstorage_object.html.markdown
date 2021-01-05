@@ -38,6 +38,7 @@ resource "oci_objectstorage_object" "test_object" {
 	content_type = var.object_content_type
 	delete_all_object_versions = var.object_delete_all_object_versions
 	metadata = var.object_metadata
+	storage_tier = var.object_storage_tier
 }
 ```
 
@@ -46,21 +47,22 @@ resource "oci_objectstorage_object" "test_object" {
 The following arguments are supported:
 
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
-* `cache_control` - (Optional) The cache-control header value to be returned in GetObjectResponse.
+* `cache_control` - (Optional) The optional Cache-Control header that defines the caching behavior value to be returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify objects that require caching restrictions. 
 * `content` - (Optional) The object to upload to the object store. Cannot be defined if `source` or `source_uri_details` is defined.
-* `content_disposition` - (Optional) The Content-Disposition header value to be returned in GetObjectResponse.
-* `content_encoding` - (Optional) The content encoding of the object.
-* `content_language` - (Optional) The content language of the object.
-* `content_md5` - (Optional) The optional base-64 header that defines the encoded MD5 hash of the body. If the optional Content-MD5 header is present, Object Storage performs an integrity check on the body of the HTTP request by computing the MD5 hash for the body and comparing it to the MD5 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content MD5 error is returned with the message:
-"The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)".
+* `content_disposition` - (Optional) The optional Content-Disposition header that defines presentational information for the object to be returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to let users download objects with custom filenames in a browser. 
+* `content_encoding` - (Optional) The optional Content-Encoding header that defines the content encodings that were applied to the object to upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to determine what decoding mechanisms need to be applied to obtain the media-type specified by the Content-Type header of the object. 
+* `content_language` - (Optional) The optional Content-Language header that defines the content language of the object to upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify and differentiate objects based on a particular language. 
+* `content_length` - (Required) (Updatable) The content length of the body.
+* `content_md5` - (Optional) (Updatable) The optional base-64 header that defines the encoded MD5 hash of the body. If the optional Content-MD5 header is present, Object Storage performs an integrity check on the body of the HTTP request by computing the MD5 hash for the body and comparing it to the MD5 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content MD5 error is returned with the message:
 
-    This supports either base64-encoded or hex-encoded checksums.
-* `content_type` - (Optional) The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
+	"The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)" 
+* `content_type` - (Optional) The optional Content-Type header that defines the standard MIME type format of the object. Content type defaults to 'application/octet-stream' if not specified in the PutObject call. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify and perform special operations on text only objects. 
 * `delete_all_object_versions` - (Optional) (Updatable) A boolean to delete all object versions for an object in a bucket that has or ever had versioning enabled.
 * `metadata` - (Optional) Optional user-defined metadata key and value.
 Note: All specified keys must be in lower case.
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Required) (Updatable) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
+* `storage_tier` - (Optional) (Updatable) The storage tier that the object should be stored in. If not specified, the object will be stored in the same storage tier as the bucket. 
 * `source` - (Optional) An absolute path to a file on the local system. Cannot be defined if `content` or `source_uri_details` is defined.
 * `source_uri_details` - (Optional) Details of the source URI of the object in the cloud. Cannot be defined if `content` or `source` is defined. 
 Note: To enable object copy, you must authorize the service to manage objects on your behalf.

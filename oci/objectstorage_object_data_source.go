@@ -109,6 +109,10 @@ func ObjectStorageObjectDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"storage_tier": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Elem:     schema.TypeString,
@@ -280,6 +284,8 @@ func (s *ObjectStorageObjectDataSourceCrud) SetData() error {
 	if s.Res.VersionId != nil {
 		s.D.Set("version_id", *s.Res.VersionId)
 	}
+
+	s.D.Set("storage_tier", string(s.Res.StorageTier))
 
 	if s.Res.OpcMeta != nil {
 		if err := s.D.Set("metadata", s.Res.OpcMeta); err != nil {

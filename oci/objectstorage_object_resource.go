@@ -147,6 +147,11 @@ func ObjectStorageObjectResource() *schema.Resource {
 				ForceNew:     true,
 				ValidateFunc: validateLowerCaseKeysInMetadata,
 			},
+			"storage_tier": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"source": {
 				Type:          schema.TypeString,
 				Optional:      true,
@@ -287,6 +292,11 @@ func (s *ObjectStorageObjectResourceCrud) createMultiPartObject() error {
 		multipartUploadData.BucketName = &tmp
 	}
 
+	if storageTier, ok := s.D.GetOkExists("storage_tier"); ok {
+		tmp := storageTier.(string)
+		multipartUploadData.StorageTier = StorageTierEnumFromString(tmp)
+	}
+
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		multipartUploadData.Metadata = metadata.(map[string]interface{})
 	}
@@ -386,6 +396,11 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		copyObjectRequest.DestinationObjectMetadata = resourceObjectStorageMapToOPCMetadata(metadata.(map[string]interface{}))
+	}
+
+	if storageTier, ok := s.D.GetOkExists("storage_tier"); ok {
+		tmp := storageTier.(string)
+		copyObjectRequest.DestinationObjectStorageTier = StorageTierEnumFromString(tmp)
 	}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
@@ -615,6 +630,11 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 	if object, ok := s.D.GetOkExists("object"); ok {
 		tmp := object.(string)
 		request.ObjectName = &tmp
+	}
+
+	if storageTier, ok := s.D.GetOkExists("storage_tier"); ok {
+		tmp := storageTier.(string)
+		request.StorageTier = PutObjectStorageTierEnumFromString(tmp)
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
@@ -909,6 +929,10 @@ func (s *ObjectStorageObjectResourceCrud) setDataObjectHead() error {
 		s.D.Set("version_id", *response.VersionId)
 	}
 
+	s.D.Set("storage_tier", string(response.StorageTier))
+
+	s.D.Set("archival_state", string(s.Res.ObjectResponse.ArchivalState))
+
 	if response.OpcMeta != nil {
 		if err := s.D.Set("metadata", response.OpcMeta); err != nil {
 			log.Printf("Unable to set 'metadata'. Error: %q", err)
@@ -988,6 +1012,8 @@ func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 		s.D.Set("version_id", *s.Res.ObjectResponse.VersionId)
 	}
 
+	s.D.Set("storage_tier", string(s.Res.ObjectResponse.StorageTier))
+
 	if s.Res.ObjectResponse.OpcMeta != nil {
 		// Note: regardless of what we sent to the SDK, the keys we get back from OpcMeta will always be
 		// converted to lower case
@@ -1001,6 +1027,8 @@ func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 
 func ObjectSummaryToMap(obj oci_object_storage.ObjectSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["archival_state"] = string(obj.ArchivalState)
 
 	if obj.Etag != nil {
 		result["etag"] = string(*obj.Etag)
@@ -1017,6 +1045,8 @@ func ObjectSummaryToMap(obj oci_object_storage.ObjectSummary) map[string]interfa
 	if obj.Size != nil {
 		result["size"] = strconv.FormatInt(*obj.Size, 10)
 	}
+
+	result["storage_tier"] = string(obj.StorageTier)
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

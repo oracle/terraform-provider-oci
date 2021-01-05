@@ -44,6 +44,14 @@ func ObjectStorageObjectHeadDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"storage_tier": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"archival_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -122,6 +130,10 @@ func (s *ObjectHeadDataSourceCrud) SetData() error {
 	if s.Res.ETag != nil {
 		s.D.Set("etag", *s.Res.ETag)
 	}
+
+	s.D.Set("storage_tier", string(s.Res.StorageTier))
+
+	s.D.Set("archival_state", string(s.Res.ArchivalState))
 
 	return nil
 }
