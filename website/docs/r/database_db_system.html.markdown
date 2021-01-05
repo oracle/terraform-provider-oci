@@ -271,6 +271,14 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname` - The hostname for the DB system.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
+* `iorm_config_cache` - The IORM settings of the Exadata DB system. 
+	* `db_plans` - An array of IORM settings for all the database in the Exadata DB system. 
+		* `db_name` - The database name. For the default `DbPlan`, the `dbName` is `default`. 
+		* `flash_cache_limit` - The flash cache limit for this database. This value is internally configured based on the share value assigned to the database. 
+		* `share` - The relative priority of this database. 
+	* `lifecycle_details` - Additional information about the current `lifecycleState`. 
+	* `objective` - The current value for the IORM objective. The default is `AUTO`. 
+	* `state` - The current state of IORM configuration for the Exadata DB system. 
 * `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation starts.

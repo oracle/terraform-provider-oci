@@ -493,17 +493,12 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectNameFilter(f
 		}
 		result.InclusionPrefixes = tmp
 	}
+
 	return result, nil
 }
 
 func ObjectNameFilterToMap(obj *oci_object_storage.ObjectNameFilter) map[string]interface{} {
 	result := map[string]interface{}{}
-
-	inclusionPrefixes := []interface{}{}
-	for _, item := range obj.InclusionPrefixes {
-		inclusionPrefixes = append(inclusionPrefixes, item)
-	}
-	result["inclusion_prefixes"] = schema.NewSet(literalTypeHashCodeForSets, inclusionPrefixes)
 
 	exclusionPatterns := []interface{}{}
 	for _, item := range obj.ExclusionPatterns {
@@ -517,6 +512,11 @@ func ObjectNameFilterToMap(obj *oci_object_storage.ObjectNameFilter) map[string]
 	}
 	result["inclusion_patterns"] = schema.NewSet(literalTypeHashCodeForSets, inclusionPatterns)
 
+	inclusionPrefixes := []interface{}{}
+	for _, item := range obj.InclusionPrefixes {
+		inclusionPrefixes = append(inclusionPrefixes, item)
+	}
+	result["inclusion_prefixes"] = schema.NewSet(literalTypeHashCodeForSets, inclusionPrefixes)
 	return result
 }
 
@@ -536,14 +536,6 @@ func rulesHashCodeForSets(v interface{}) int {
 		if tmpList := objectNameFilter.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("object_name_filter-")
 			objectNameFilterRaw := tmpList[0].(map[string]interface{})
-			if inclusionPrefixes, ok := objectNameFilterRaw["inclusion_prefixes"]; ok && inclusionPrefixes != "" {
-				buf.WriteString(fmt.Sprintf("inclusionPrefix-"))
-				set := inclusionPrefixes.(*schema.Set)
-				inclusionPrefixesArr := set.List()
-				for _, inclusionPrefix := range inclusionPrefixesArr {
-					buf.WriteString(fmt.Sprintf("%v-", inclusionPrefix))
-				}
-			}
 			if exclusionPatterns, ok := objectNameFilterRaw["exclusion_patterns"]; ok && exclusionPatterns != "" {
 				buf.WriteString(fmt.Sprintf("exclusion_patterns-"))
 				set := exclusionPatterns.(*schema.Set)
@@ -558,6 +550,14 @@ func rulesHashCodeForSets(v interface{}) int {
 				inclusionPatternsArr := set.List()
 				for _, inclusionPattern := range inclusionPatternsArr {
 					buf.WriteString(fmt.Sprintf("%v-", inclusionPattern))
+				}
+			}
+			if inclusionPrefixes, ok := objectNameFilterRaw["inclusion_prefixes"]; ok && inclusionPrefixes != "" {
+				buf.WriteString(fmt.Sprintf("inclusionPrefix-"))
+				set := inclusionPrefixes.(*schema.Set)
+				inclusionPrefixesArr := set.List()
+				for _, inclusionPrefix := range inclusionPrefixesArr {
+					buf.WriteString(fmt.Sprintf("%v-", inclusionPrefix))
 				}
 			}
 		}

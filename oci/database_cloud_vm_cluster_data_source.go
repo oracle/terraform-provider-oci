@@ -122,6 +122,12 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
 
+	if s.Res.IormConfigCache != nil {
+		s.D.Set("iorm_config_cache", []interface{}{ExadataIormConfigToMap(s.Res.IormConfigCache)})
+	} else {
+		s.D.Set("iorm_config_cache", nil)
+	}
+
 	if s.Res.IsLocalBackupEnabled != nil {
 		s.D.Set("is_local_backup_enabled", *s.Res.IsLocalBackupEnabled)
 	}
