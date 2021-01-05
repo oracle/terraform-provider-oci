@@ -16,6 +16,10 @@
 ### Deprecated
 - Data source `oci_database_autonomous_database_wallet` is being deprecated in favor of resource `oci_database_autonomous_database_wallet` 
 
+### Fixed
+- Fix `idcs_access_token` as `required` now. Note that this will break current import scenario, user need to add `idcs_access_token` to Terraform config.
+[Github issue 1264](https://github.com/terraform-providers/terraform-provider-oci/issues/1264)
+
 ## 4.6.0 (December 09, 2020)
 
 ### Added
