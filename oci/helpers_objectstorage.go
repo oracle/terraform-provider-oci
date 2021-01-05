@@ -41,6 +41,7 @@ type MultipartUploadData struct {
 	ContentType         *string
 	ContentLanguage     *string
 	ContentEncoding     *string
+	StorageTier         oci_object_storage.StorageTierEnum
 	Metadata            map[string]interface{}
 	OpcClientRequestID  *string
 	RequestMetadata     common.RequestMetadata
@@ -157,6 +158,7 @@ func singlePartUpload(multipartUploadData MultipartUploadData) (string, error) {
 		OpcMeta:            resourceObjectStorageMapToMetadata(multipartUploadData.Metadata),
 		NamespaceName:      multipartUploadData.NamespaceName,
 		ObjectName:         multipartUploadData.ObjectName,
+		StorageTier:        PutObjectStorageTierEnumFromString(string(multipartUploadData.StorageTier)),
 	}
 	putObjectRequest.RequestMetadata.RetryPolicy = multipartUploadData.RequestMetadata.RetryPolicy
 
@@ -168,6 +170,32 @@ func singlePartUpload(multipartUploadData MultipartUploadData) (string, error) {
 	id := getObjectCompositeId(*putObjectRequest.BucketName, *putObjectRequest.NamespaceName, *putObjectRequest.ObjectName)
 
 	return id, nil
+}
+
+func StorageTierEnumFromString(s string) oci_object_storage.StorageTierEnum {
+	switch s {
+	case "Standard":
+		return oci_object_storage.StorageTierStandard
+	case "Archive":
+		return oci_object_storage.StorageTierArchive
+	case "InfrequentAccess":
+		return oci_object_storage.StorageTierInfrequentAccess
+	default:
+		return ""
+	}
+}
+
+func PutObjectStorageTierEnumFromString(s string) oci_object_storage.PutObjectStorageTierEnum {
+	switch s {
+	case "Standard":
+		return oci_object_storage.PutObjectStorageTierStandard
+	case "Archive":
+		return oci_object_storage.PutObjectStorageTierArchive
+	case "InfrequentAccess":
+		return oci_object_storage.PutObjectStorageTierInfrequentaccess
+	default:
+		return ""
+	}
 }
 
 func MultiPartUpload(multipartUploadData MultipartUploadData) (string, error) {
@@ -194,6 +222,7 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 			ContentLanguage:    multipartUploadData.ContentLanguage,
 			ContentType:        multipartUploadData.ContentType,
 			Object:             multipartUploadData.ObjectName,
+			StorageTier:        multipartUploadData.StorageTier,
 			Metadata:           resourceObjectStorageMapToOPCMetadata(multipartUploadData.Metadata),
 		},
 	}

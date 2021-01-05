@@ -17,7 +17,7 @@ resource "oci_objectstorage_bucket" "bucket_with_versioning" {
   namespace      = data.oci_objectstorage_namespace.ns.namespace
   name           = "bucketWithVersioning"
   access_type    = "NoPublicAccess"
-  versioning     = "Suspended"
+  versioning     = "Enabled"
 }
 
 data "oci_objectstorage_bucket_summaries" "buckets1" {

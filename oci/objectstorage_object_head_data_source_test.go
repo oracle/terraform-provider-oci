@@ -43,6 +43,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 		bucket = "${oci_objectstorage_bucket.t.name}"
 		object = "-tf-object"
 		content = "test content"
+		storage_tier = "InfrequentAccess"
 		metadata = {
 			"content-type" = "text/plain"
 		}
@@ -70,6 +71,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageObjectHead
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/plain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "content_type"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "content_length"),
+					resource.TestCheckResourceAttr(s.ResourceName, "storage_tier", "InfrequentAccess"),
 				),
 			},
 		},

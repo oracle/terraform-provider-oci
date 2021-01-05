@@ -16,6 +16,7 @@ resource "oci_objectstorage_object" "object1" {
   content_type        = "text/html"
   content             = file("index.html")
   content_disposition = "attachment; filename=\"filename.html\""
+  storage_tier        = "InfrequentAccess"
 }
 
 resource "oci_objectstorage_object" "object_with_content_md5" {
@@ -39,6 +40,7 @@ resource "oci_objectstorage_object" "source_object" {
   content_type        = "text/html"
   source              = oci_objectstorage_object.object1.object
   content_disposition = "attachment; filename=\"filename.html\""
+  storage_tier        = "InfrequentAccess"
 }
 
 resource "oci_objectstorage_object" "source_uri_object" {
@@ -48,6 +50,7 @@ resource "oci_objectstorage_object" "source_uri_object" {
   content_language    = "en-US"
   content_type        = "text/html"
   content_disposition = "attachment; filename=\"filename.html\""
+  storage_tier        = "InfrequentAccess"
 
   source_uri_details {
     region    = local.source_region
@@ -115,6 +118,7 @@ output "object-head-data" {
   object = ${data.oci_objectstorage_object_head.object_head1.object}
   content-length = ${data.oci_objectstorage_object_head.object_head1.content_length}
   content-type = ${data.oci_objectstorage_object_head.object_head1.content_type}
+  storage-tier = ${data.oci_objectstorage_object_head.object_head1.storage_tier}
 EOF
 
 }
@@ -125,6 +129,7 @@ output "object-source-head-data" {
   object = ${data.oci_objectstorage_object_head.source_object_head.object}
   content-length = ${data.oci_objectstorage_object_head.source_object_head.content_length}
   content-type = ${data.oci_objectstorage_object_head.source_object_head.content_type}
+  storage-tier = ${data.oci_objectstorage_object_head.source_object_head.storage_tier}
 EOF
 
 }

@@ -33,7 +33,7 @@ The following arguments are supported:
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
 * `destination_bucket_name` - (Required) The bucket to replicate to in the destination region. Replication policy creation does not automatically create a destination bucket. Create the destination bucket before creating the policy. 
 * `destination_region_name` - (Required) The destination region to replicate to, for example "us-ashburn-1".
-* `name` - (Required) The name of the policy.
+* `name` - (Required) The name of the policy. Avoid entering confidential information.
 * `namespace` - (Required) The Object Storage namespace used for the request.
 
 

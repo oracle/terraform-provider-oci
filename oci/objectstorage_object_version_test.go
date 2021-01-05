@@ -64,6 +64,7 @@ func TestObjectStorageObjectVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "start_after", "a"),
 
 					resource.TestCheckResourceAttr(datasourceName, "items.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "items.0.storage_tier", "InfrequentAccess"),
 				),
 			},
 		},
