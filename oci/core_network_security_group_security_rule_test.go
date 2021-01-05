@@ -125,7 +125,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						networkSecurityGroupId, _ := fromInstanceState(s, resourceName, "network_security_group_id")
 						compositeId = "networkSecurityGroups/" + networkSecurityGroupId + "/securityRules/" + resId
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}

@@ -36,8 +36,8 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"integration":         integrationResourceGraph,
 	"kms":                 kmsResourceGraph,
 	"load_balancer":       loadBalancerResourceGraph,
-	"management_agent":    managementAgentResourceGraph,
 	"logging":             loggingResourceGraph,
+	"management_agent":    managementAgentResourceGraph,
 	"marketplace":         marketplaceResourceGraph,
 	"monitoring":          monitoringResourceGraph,
 	"mysql":               mysqlResourceGraph,
@@ -232,10 +232,6 @@ var coreResourceGraph = TerraformResourceGraph{
 			datasourceQueryParams: map[string]string{
 				"asset_id": "boot_volume_id",
 			},
-		},
-		{
-			TerraformResourceHints: exportCoreVnicAttachmentHints,
-			datasourceQueryParams:  map[string]string{"instance_id": "id"},
 		},
 	},
 	"oci_core_network_security_group": {
@@ -639,13 +635,6 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 	},
 }
 
-var managementAgentResourceGraph = TerraformResourceGraph{
-	"oci_identity_compartment": {
-		{TerraformResourceHints: exportManagementAgentManagementAgentHints},
-		{TerraformResourceHints: exportManagementAgentManagementAgentInstallKeyHints},
-	},
-}
-
 var loggingResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLoggingLogGroupHints},
@@ -657,6 +646,13 @@ var loggingResourceGraph = TerraformResourceGraph{
 				"log_group_id": "id",
 			},
 		},
+	},
+}
+
+var managementAgentResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportManagementAgentManagementAgentHints},
+		{TerraformResourceHints: exportManagementAgentManagementAgentInstallKeyHints},
 	},
 }
 

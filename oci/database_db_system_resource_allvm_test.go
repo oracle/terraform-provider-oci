@@ -303,7 +303,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_db_node.t", "software_storage_size_in_gb", "200"),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "oci_database_db_system.t", "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, ResourceDatabaseResourceName); errExport != nil {
 								return errExport
 							}
