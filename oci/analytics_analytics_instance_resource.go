@@ -71,6 +71,12 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"idcs_access_token": {
+				Type:      schema.TypeString,
+				Required:  true,
+				Sensitive: true,
+				StateFunc: getMd5Hash,
+			},
 			"license_type": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -104,12 +110,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
-			},
-			"idcs_access_token": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				StateFunc: getMd5Hash,
-				Sensitive: true,
 			},
 			"state": {
 				Type:             schema.TypeString,

@@ -120,6 +120,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceName),
 
