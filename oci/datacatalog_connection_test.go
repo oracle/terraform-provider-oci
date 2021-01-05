@@ -139,7 +139,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 						catalogId, _ := fromInstanceState(s, resourceName, "catalog_id")
 						compositeId = getConnectionCompositeId(catalogId, resId, dataAssetKey)
 						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
