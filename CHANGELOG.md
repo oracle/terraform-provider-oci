@@ -3,6 +3,7 @@
 ### Added
 - Support for customer self-service allow-listing for service ingress through the load balancer added to `integration` service
 - Support for DNS api added to `database`
+- Support for New compute shape E4-Dense
 
 ## 4.13.0 (February 10, 2021)
 

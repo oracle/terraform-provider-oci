@@ -119,15 +119,19 @@ resource "oci_core_instance" "test_instance" {
 		network_type = var.instance_launch_options_network_type
 		remote_data_volume_type = var.instance_launch_options_remote_data_volume_type
 	}
+	metadata = var.instance_metadata
+	platform_config {
+		#Required
+		type = var.instance_platform_config_type
+
+		#Optional
+		numa_nodes_per_socket = var.instance_platform_config_numa_nodes_per_socket
+	}
 	shape_config {
 
 		#Optional
 		memory_in_gbs = "${var.instance_shape_config_memory_in_gbs}"
 		ocpus = "${var.instance_shape_config_ocpus}"
-	}
-	metadata = {
-		ssh_authorized_keys = var.ssh_public_key
-		user_data = base64encode(file(var.custom_bootstrap_file_name))
 	}
 	source_details {
 		#Required
@@ -303,6 +307,13 @@ The following arguments are supported:
 	The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
 	
 	**Note:** Both the 'user_data' and 'ssh_authorized_keys' fields cannot be changed after an instance has launched. Any request which updates, removes, or adds either of these fields will be rejected. You must provide the same values for 'user_data' and 'ssh_authorized_keys' that already exist on the instance. 
+* `platform_config` - (Optional) The platform configuration requested for the instance.
+
+	If the parameter is provided, the instance is created with the platform configured as specified. If some properties are missing or the entire parameter is not provided, the instance is created with the default configuration values for the `shape` that you specify.
+
+	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
+	* `numa_nodes_per_socket` - (Optional) The number of NUMA nodes per socket. 
+	* `type` - (Required) The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
 * `preserve_boot_volume` - (Optional) Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
 * `shape` - (Required) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
@@ -419,6 +430,9 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle-provided images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 * `metadata` - Custom metadata that you provide.
+* `platform_config` - The platform configuration for the instance. The type of platform configuration is determined by the `type`. 
+	* `numa_nodes_per_socket` - The number of NUMA nodes per socket. 
+	* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
 * `preserve_boot_volume` - Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
 * `private_ip` - The private IP address of instance VNIC. To set the private IP address, use the `private_ip` argument in create_vnic_details.
 * `public_ip` - The public IP address of instance VNIC (if enabled).
