@@ -64,7 +64,7 @@ func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 
 						compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + kmsKeyId + "/keyVersions/" + keyVersionId
 
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
 								return errExport
 							}

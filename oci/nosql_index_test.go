@@ -127,7 +127,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 						tableName, _ := fromInstanceState(s, resourceName, "table_name_or_id")
 						compositeId = "tables/" + tableName + "/indexes/" + indexName
 						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}

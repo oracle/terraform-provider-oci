@@ -5,6 +5,7 @@ package oci
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -37,6 +38,8 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 
 	resourceName := "oci_waas_purge_cache.test_purge_cache"
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -63,6 +66,16 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Required, Create, purgeCacheRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 		},
