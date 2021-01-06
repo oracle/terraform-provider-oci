@@ -2,6 +2,7 @@
 
 ### Added
 - Support for File storage file system clones
+- Support for Log Analytics Entities
 
 ## 4.15.0 (February 24, 2021)
 
