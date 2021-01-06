@@ -168,10 +168,13 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
   instance_details {
     instance_type = "compute"
 
+    /*
+      Attach multiple block volumes
+    */
     block_volumes {
       create_details {
         compartment_id      = var.compartment_ocid
-        display_name        = "TestCreateVolumeDetails"
+        display_name        = "TestCreateVolumeDetails-1"
         availability_domain = data.oci_identity_availability_domain.ad.name
         size_in_gbs         = 50
         vpus_per_gb         = 2
@@ -179,9 +182,28 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
       attach_details {
         type                                = "paravirtualized"
-        display_name                        = "TestAttachVolumeDetails"
+        display_name                        = "TestAttachVolumeDetails-1"
         is_read_only                        = true
-        device                              = "TestDeviceName"
+        device                              = "TestDeviceName-1"
+        is_pv_encryption_in_transit_enabled = true
+        is_shareable                        = true
+      }
+    }
+
+    block_volumes {
+      create_details {
+        compartment_id      = var.compartment_ocid
+        display_name        = "TestCreateVolumeDetails-2"
+        availability_domain = data.oci_identity_availability_domain.ad.name
+        size_in_gbs         = 50
+        vpus_per_gb         = 2
+      }
+
+      attach_details {
+        type                                = "paravirtualized"
+        display_name                        = "TestAttachVolumeDetails-2"
+        is_read_only                        = true
+        device                              = "TestDeviceName-2"
         is_pv_encryption_in_transit_enabled = true
         is_shareable                        = true
       }
