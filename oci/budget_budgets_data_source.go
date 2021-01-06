@@ -131,6 +131,10 @@ func (s *BudgetBudgetsDataSourceCrud) SetData() error {
 			budget["amount"] = *r.Amount
 		}
 
+		if r.BudgetProcessingPeriodStartOffset != nil {
+			budget["budget_processing_period_start_offset"] = *r.BudgetProcessingPeriodStartOffset
+		}
+
 		if r.DefinedTags != nil {
 			budget["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

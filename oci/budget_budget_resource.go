@@ -42,6 +42,11 @@ func BudgetBudgetResource() *schema.Resource {
 			},
 
 			// Optional
+			"budget_processing_period_start_offset": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -197,6 +202,11 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 		request.Amount = &tmp
 	}
 
+	if budgetProcessingPeriodStartOffset, ok := s.D.GetOkExists("budget_processing_period_start_offset"); ok {
+		tmp := budgetProcessingPeriodStartOffset.(int)
+		request.BudgetProcessingPeriodStartOffset = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -289,6 +299,11 @@ func (s *BudgetBudgetResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.BudgetId = &tmp
 
+	if budgetProcessingPeriodStartOffset, ok := s.D.GetOkExists("budget_processing_period_start_offset"); ok {
+		tmp := budgetProcessingPeriodStartOffset.(int)
+		request.BudgetProcessingPeriodStartOffset = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -349,6 +364,10 @@ func (s *BudgetBudgetResourceCrud) SetData() error {
 
 	if s.Res.Amount != nil {
 		s.D.Set("amount", *s.Res.Amount)
+	}
+
+	if s.Res.BudgetProcessingPeriodStartOffset != nil {
+		s.D.Set("budget_processing_period_start_offset", *s.Res.BudgetProcessingPeriodStartOffset)
 	}
 
 	if s.Res.CompartmentId != nil {
