@@ -83,7 +83,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 						identityProviderId, _ := fromInstanceState(s, resourceName, "identity_provider_id")
 						compositeId = "identityProviders/" + identityProviderId + "/groupMappings/" + resId
 						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}

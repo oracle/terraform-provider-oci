@@ -1004,7 +1004,7 @@ func getHclStringFromGenericMap(builder *strings.Builder, ociRes *OCIResource, i
 		builder.WriteString("]\n" +
 			"}\n")
 	}
-	builder.WriteString("}\n")
+	builder.WriteString("}\n\n")
 
 	return nil
 }
@@ -1268,11 +1268,12 @@ func generateTerraformNameFromResource(resourceAttributes map[string]interface{}
 			if value, exists := resourceAttributes[nameAttribute]; exists {
 				terraformName := getNormalizedTerraformName(value.(string))
 				if count, resourceNameExists := resourceNameCount[terraformName]; resourceNameExists {
+					// update count for existing name
 					resourceNameCount[terraformName] = count + 1
 					terraformName = fmt.Sprintf("%s_%d", terraformName, count)
-				} else {
-					resourceNameCount[terraformName] = 1
 				}
+				// add the newly generated name to map
+				resourceNameCount[terraformName] = 1
 				return terraformName, nil
 			}
 		}

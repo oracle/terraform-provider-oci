@@ -5,6 +5,7 @@ package oci
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -211,6 +212,8 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_data_guard_associations.test_data_guard_associations"
 	singularDatasourceName := "data.oci_database_data_guard_association.test_data_guard_association"
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -254,6 +257,16 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "role"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 

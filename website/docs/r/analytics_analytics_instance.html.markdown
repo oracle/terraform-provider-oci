@@ -26,6 +26,7 @@ resource "oci_analytics_analytics_instance" "test_analytics_instance" {
 	}
 	compartment_id = var.compartment_id
 	feature_set = var.analytics_instance_feature_set
+	idcs_access_token = var.analytics_instance_idcs_access_token
 	license_type = var.analytics_instance_license_type
 	name = var.analytics_instance_name
 
@@ -34,7 +35,6 @@ resource "oci_analytics_analytics_instance" "test_analytics_instance" {
 	description = var.analytics_instance_description
 	email_notification = var.analytics_instance_email_notification
 	freeform_tags = {"Department"= "Finance"}
-	idcs_access_token = var.analytics_instance_idcs_access_token
 	network_endpoint_details {
 		#Required
 		network_endpoint_type = var.analytics_instance_network_endpoint_details_network_endpoint_type
@@ -66,7 +66,7 @@ The following arguments are supported:
 * `email_notification` - (Optional) (Updatable) Email address receiving notifications. 
 * `feature_set` - (Required) Analytics feature set. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `idcs_access_token` - (Optional) IDCS access token identifying a stripe and service administrator user. 
+* `idcs_access_token` - (Required) IDCS access token identifying a stripe and service administrator user. 
 * `license_type` - (Required) (Updatable) The license used for the service. 
 * `name` - (Required) The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed. 
 * `state` - (Optional) (Updatable) The target state for the instance. Could be set to `ACTIVE` or `INACTIVE`. 
