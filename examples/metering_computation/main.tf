@@ -58,7 +58,7 @@ resource "oci_metering_computation_usage" "test_usage" {
                 "dimensions": [
 				    {
                         "key": "compartmentName",
-                        "value": var.dimensions_value
+                        "value": "${var.dimensions_value}"
 					}
                 ],
                 "filters": [],
