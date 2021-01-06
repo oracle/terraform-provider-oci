@@ -8,7 +8,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/url"
 	"os"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -236,8 +238,11 @@ func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandA
 
 	result.expectedResourceIds = convertStringSliceToSet(args.IDs, true)
 
+	re := regexp.MustCompile(`oci_([^:]+):(.+$)`)
+
 	for id := range result.expectedResourceIds {
-		if len(strings.SplitN(id, ":", 2)) == 2 {
+		subMatchAll := re.FindStringSubmatch(id)
+		if subMatchAll != nil && len(subMatchAll) == 3 {
 			result.targetSpecificResources = true
 			break
 		}
@@ -541,15 +546,17 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 	}
 	sort.Strings(sortedIds)
 
+	re := regexp.MustCompile(`(oci_[^:]+):(.+$)`)
+
 	for _, id := range sortedIds {
-		tuple := strings.SplitN(id, ":", 2)
-		if len(tuple) != 2 {
+		subMatchAll := re.FindStringSubmatch(id)
+		if len(subMatchAll) != 3 {
 			Logf("[WARN] Encountered invalid ID tuple '%s'", id)
 			continue
 		}
 
-		resourceClass := tuple[0]
-		resourceId := tuple[1]
+		resourceClass := subMatchAll[1]
+		resourceId, _ := url.PathUnescape(subMatchAll[2])
 
 		Logf("===> Finding resource with ID '%s' and type '%s'", resourceId, resourceClass)
 		resourceSchema, exists := resourcesMap[resourceClass]
@@ -574,7 +581,7 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 		if err != nil {
 			continue
 		}
-		ociResource, err := getOciResource(d, resourceSchema.Schema, *r.ctx.CompartmentId, resourceHint)
+		ociResource, err := getOciResource(d, resourceSchema.Schema, *r.ctx.CompartmentId, resourceHint, resourceId)
 		if err != nil {
 			return err
 		}
@@ -739,6 +746,9 @@ var loadBalancerCertificateNameMap map[string]map[string]string // helper map to
 func processDnsRrset(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 
 	for _, record := range resources {
+		if record.parent == nil {
+			continue
+		}
 		// Populate config file from compositeId
 		record.compartmentId = record.parent.compartmentId
 		domain, rtype, zoneNameOrId, _, _, err := parseRrsetCompositeId(record.id)
@@ -830,6 +840,9 @@ func processStreamingStream(ctx *resourceDiscoveryContext, resources []*OCIResou
 
 func processNosqlIndex(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, index := range resources {
+		if index.parent == nil {
+			continue
+		}
 		index.sourceAttributes["table_name_or_id"] = index.parent.id
 	}
 	return resources, nil
@@ -837,6 +850,9 @@ func processNosqlIndex(ctx *resourceDiscoveryContext, resources []*OCIResource) 
 
 func processKmsKey(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
 		resource.sourceAttributes["management_endpoint"] = resource.parent.sourceAttributes["management_endpoint"].(string)
 		var resourceSchema *schema.ResourceData = resource.rawResource.(*schema.ResourceData)
 		resource.sourceAttributes["id"] = resourceSchema.Id()
@@ -846,6 +862,9 @@ func processKmsKey(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*
 
 func processKmsKeyVersion(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
 		resource.sourceAttributes["management_endpoint"] = resource.parent.sourceAttributes["management_endpoint"].(string)
 		resource.importId = resource.id
 	}
@@ -1215,6 +1234,9 @@ func processLoadBalancerCertificates(ctx *resourceDiscoveryContext, resources []
 
 func processObjectStoragePreauthenticatedRequest(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
 		resource.sourceAttributes["bucket"] = resource.parent.sourceAttributes["name"].(string)
 		resource.sourceAttributes["namespace"] = resource.parent.sourceAttributes["namespace"].(string)
 
@@ -1245,6 +1267,9 @@ func processAutonomousDatabaseSource(ctx *resourceDiscoveryContext, resources []
 
 func processObjectStorageReplicationPolicy(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
 		resource.sourceAttributes["bucket"] = resource.parent.sourceAttributes["name"].(string)
 		resource.sourceAttributes["namespace"] = resource.parent.sourceAttributes["namespace"].(string)
 	}
@@ -1380,6 +1405,9 @@ func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformR
 func processLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 
 	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
 		if sslConfiguration, ok := resource.sourceAttributes["ssl_configuration"].([]interface{}); ok && len(sslConfiguration) > 0 {
 			if sslConfig, ok := sslConfiguration[0].(map[string]interface{}); ok {
 				if certificateName, ok := sslConfig["certificate_name"]; ok {
@@ -1429,11 +1457,14 @@ func processNetworkSecurityGroupRules(ctx *resourceDiscoveryContext, resources [
 
 func filterPrimaryDbHomes(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// No need to filter if db homes are in vm cluster
-	if len(resources) > 0 && resources[0].parent.terraformClass == "oci_database_vm_cluster" {
+	if len(resources) > 0 && resources[0].parent != nil && resources[0].parent.terraformClass == "oci_database_vm_cluster" {
 		return resources, nil
 	}
 	results := []*OCIResource{}
 	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
 		// If we found a db home that matches the db system's primary home, then don't return it as part of result
 		if dbSystem := resource.parent; dbSystem != nil {
 			if dbHomes, ok := dbSystem.sourceAttributes["db_home"].([]interface{}); ok && len(dbHomes) > 0 {
@@ -1456,6 +1487,9 @@ func filterPrimaryDbHomes(ctx *resourceDiscoveryContext, resources []*OCIResourc
 func filterPrimaryDatabases(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
 		// Only return database resources that don't match the database ID of the dbHome resource.
 		if databases, ok := resource.parent.sourceAttributes["database"].([]interface{}); ok && len(databases) > 0 {
 			if primaryDatabase, ok := databases[0].(map[string]interface{}); ok {
