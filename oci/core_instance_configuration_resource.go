@@ -600,6 +600,38 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										ForceNew: true,
 										Elem:     schema.TypeString,
 									},
+									"platform_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"AMD_MILAN_BM",
+													}, true),
+												},
+
+												// Optional
+												"numa_nodes_per_socket": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"preferred_maintenance_action": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -1856,6 +1888,17 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
+	if platformConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "platform_config")); ok {
+		if tmpList := platformConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "platform_config"), 0)
+			tmp, err := s.mapToInstanceConfigurationLaunchInstancePlatformConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert platform_config, encountered error: %v", err)
+			}
+			result.PlatformConfig = tmp
+		}
+	}
+
 	if preferredMaintenanceAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preferred_maintenance_action")); ok {
 		result.PreferredMaintenanceAction = oci_core.InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum(preferredMaintenanceAction.(string))
 	}
@@ -1953,6 +1996,14 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 
 	result["metadata"] = obj.Metadata
 
+	if obj.PlatformConfig != nil {
+		platformConfigArray := []interface{}{}
+		if platformConfigMap := InstanceConfigurationLaunchInstancePlatformConfigToMap(&obj.PlatformConfig); platformConfigMap != nil {
+			platformConfigArray = append(platformConfigArray, platformConfigMap)
+		}
+		result["platform_config"] = platformConfigArray
+	}
+
 	result["preferred_maintenance_action"] = string(obj.PreferredMaintenanceAction)
 
 	if obj.Shape != nil {
@@ -1969,6 +2020,44 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 		}
 		result["source_details"] = sourceDetailsArray
+	}
+
+	return result
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunchInstancePlatformConfig(fieldKeyFormat string) (oci_core.InstanceConfigurationLaunchInstancePlatformConfig, error) {
+	var baseObject oci_core.InstanceConfigurationLaunchInstancePlatformConfig
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("AMD_MILAN_BM"):
+		details := oci_core.InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig{}
+		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
+			details.NumaNodesPerSocket = oci_core.InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.InstanceConfigurationLaunchInstancePlatformConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_core.InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig:
+		result["type"] = "AMD_MILAN_BM"
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
