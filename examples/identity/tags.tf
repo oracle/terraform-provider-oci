@@ -41,7 +41,7 @@ output "tags" {
 }
 
 output "resource_defined_tags_key" {
-  value = oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name
+  value = join(".",[oci_identity_tag_namespace.tag-namespace1.name, oci_identity_tag.tag1.name])
 }
 
 data "oci_identity_cost_tracking_tags" "cost_tracking_tags" {
