@@ -1,4 +1,4 @@
-## 4.8.0 (Unreleased)
+## 4.8.0 (January 06, 2021)
 
 ### Fixed
 - Fixed typo in load balancer shape. Issue [#1252](https://github.com/terraform-providers/terraform-provider-oci/issues/1252)
