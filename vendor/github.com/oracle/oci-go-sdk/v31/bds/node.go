@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2020, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -80,8 +80,6 @@ const (
 	NodeLifecycleStateDeleting NodeLifecycleStateEnum = "DELETING"
 	NodeLifecycleStateDeleted  NodeLifecycleStateEnum = "DELETED"
 	NodeLifecycleStateFailed   NodeLifecycleStateEnum = "FAILED"
-	NodeLifecycleStateStopping NodeLifecycleStateEnum = "STOPPING"
-	NodeLifecycleStateStarting NodeLifecycleStateEnum = "STARTING"
 )
 
 var mappingNodeLifecycleState = map[string]NodeLifecycleStateEnum{
@@ -92,8 +90,6 @@ var mappingNodeLifecycleState = map[string]NodeLifecycleStateEnum{
 	"DELETING": NodeLifecycleStateDeleting,
 	"DELETED":  NodeLifecycleStateDeleted,
 	"FAILED":   NodeLifecycleStateFailed,
-	"STOPPING": NodeLifecycleStateStopping,
-	"STARTING": NodeLifecycleStateStarting,
 }
 
 // GetNodeLifecycleStateEnumValues Enumerates the set of values for NodeLifecycleStateEnum
