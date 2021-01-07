@@ -100,10 +100,28 @@ var (
 		display_name        = "ExadataBackupSubnet"
 		compartment_id      = "${var.compartment_id}"
 		vcn_id              = "${oci_core_virtual_network.t.id}"
-		route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+		route_table_id      = "${oci_core_route_table.ExampleRT.id}"
 		dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 		security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
 		dns_label           = "subnetexadata2"
+	}
+
+	resource "oci_core_internet_gateway" "ExampleIG" {
+		compartment_id = "${var.compartment_id}"
+		display_name   = "TFExampleIG"
+		vcn_id         = "${oci_core_virtual_network.t.id}"
+	}
+
+	resource "oci_core_route_table" "ExampleRT" {
+		compartment_id = "${var.compartment_id}"
+		vcn_id         = "${oci_core_virtual_network.t.id}"
+		display_name   = "TFExampleRouteTable"
+
+		route_rules {
+			destination       = "0.0.0.0/0"
+			destination_type  = "CIDR_BLOCK"
+			network_entity_id = "${oci_core_internet_gateway.ExampleIG.id}"
+		}
 	}
 
 	resource "oci_core_security_list" "exadata_shapes_security_list" {
@@ -164,10 +182,10 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 		subnet_id = "${oci_core_subnet.exadata_subnet.id}"
 		backup_subnet_id = "${oci_core_subnet.exadata_backup_subnet.id}"
 		database_edition = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
-		disk_redundancy = "NORMAL"
+		disk_redundancy = "HIGH"
 		shape = "Exadata.Quarter2.92"
 		cpu_core_count = "22"
-		ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+		ssh_public_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNpUvNPYAJUoH/C7sS90htOdIqSPG/YHJzQdUniBJTOe5TtI+wNQ7xFLc6rPp430kbt/KtQ3YyaTkWIiOHcuInBirGUGF1JPdjovmppBA8FJIz69YghLit1uLV6HxVBuEqbSEsh8zA7ZjyR1qDtA5pvjzvSBjxFKBrRhq+HD+CHMTUufbyZzk1oWItdJF5GqJtMZoDw5EwRrvll8PqHkNUCONrSTgZC85oxsgaDdseXNPRT5fzf8i5BWmkvLcq9gx0Hvk/pt7USnI0qW4jo877qljxA8TqLFipvBa9s+xRJKGzgdaSdfKaEPwDRkjKP5WVH+RYZPrEjn9vW+IsCRWcsmBsrkfrCCZ1QEWxzI3MxRrICdQ1v/++o3oD2Ksp4pMZHEI/RSGo0rZW8znerD8+WoEtHvyQAmJnmFBKoAiqLHWCgeHjXB1+UMSebLhy1LG1PFcw4bTf1vD66dkSvUOIj1lLz67N4rlmFz7bkTOj2WvYAGlqMrpBTVCj4qvKqGj9eSi8Mk2MydTEMgxIrVUAYp2+e2fgBm7Nopu23lPYwa/2gKpkNfaOjxAro0R5E6nweFCVqxA71UvNWCWI4NEBz7PQFqpY65COGVt/okNLZy0U154foYJNGYhXBpIeXvpeJU8sdmiSe4BbK0VR+LwZHHlAhOk/64n160fzTH8Cbw== dummy.user@abc.com"]
 		domain = "${oci_core_subnet.exadata_subnet.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
 		hostname = "myOracleDB"
 		data_storage_size_in_gb = "256"
@@ -191,10 +209,10 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 					subnet_id = "${oci_core_subnet.exadata_subnet.id}"
 					backup_subnet_id = "${oci_core_subnet.exadata_backup_subnet.id}"
 					database_edition = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
-					disk_redundancy = "NORMAL"
+					disk_redundancy = "HIGH"
 					shape = "Exadata.Quarter2.92"
 					cpu_core_count = "22"
-					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+					ssh_public_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNpUvNPYAJUoH/C7sS90htOdIqSPG/YHJzQdUniBJTOe5TtI+wNQ7xFLc6rPp430kbt/KtQ3YyaTkWIiOHcuInBirGUGF1JPdjovmppBA8FJIz69YghLit1uLV6HxVBuEqbSEsh8zA7ZjyR1qDtA5pvjzvSBjxFKBrRhq+HD+CHMTUufbyZzk1oWItdJF5GqJtMZoDw5EwRrvll8PqHkNUCONrSTgZC85oxsgaDdseXNPRT5fzf8i5BWmkvLcq9gx0Hvk/pt7USnI0qW4jo877qljxA8TqLFipvBa9s+xRJKGzgdaSdfKaEPwDRkjKP5WVH+RYZPrEjn9vW+IsCRWcsmBsrkfrCCZ1QEWxzI3MxRrICdQ1v/++o3oD2Ksp4pMZHEI/RSGo0rZW8znerD8+WoEtHvyQAmJnmFBKoAiqLHWCgeHjXB1+UMSebLhy1LG1PFcw4bTf1vD66dkSvUOIj1lLz67N4rlmFz7bkTOj2WvYAGlqMrpBTVCj4qvKqGj9eSi8Mk2MydTEMgxIrVUAYp2+e2fgBm7Nopu23lPYwa/2gKpkNfaOjxAro0R5E6nweFCVqxA71UvNWCWI4NEBz7PQFqpY65COGVt/okNLZy0U154foYJNGYhXBpIeXvpeJU8sdmiSe4BbK0VR+LwZHHlAhOk/64n160fzTH8Cbw== dummy.user@abc.com"]
 					domain = "${oci_core_subnet.exadata_subnet.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
 					hostname = "myOracleDB"
 					data_storage_size_in_gb = "256"
