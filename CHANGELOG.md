@@ -1,8 +1,5 @@
 ## 4.9.0 (Unreleased)
 
-### Added
-- Support Auto-Scaling for Big Data Service 
-
 ## 4.8.0 (January 06, 2021)
 
 ### Fixed
