@@ -46,6 +46,8 @@ var (
 )
 
 func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
+	t.Skip("Skip this test as this might lock users out of the tenancy and they will not be able to login through console")
+
 	httpreplay.SetScenario("TestIdentityAuthenticationPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
