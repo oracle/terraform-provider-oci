@@ -65,6 +65,13 @@ The following attributes are exported:
 * `is_file_server_enabled` - The file server is enabled or not.
 * `is_visual_builder_enabled` - Visual Builder is enabled or not.
 * `message_packs` - The number of configured message packs (if any)
+* `network_endpoint_details` - Base representation of a network endpoint. 
+	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. 
+	* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint. 
+		* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. 
+		* `id` - The Virtual Cloud Network OCID. 
+	* `is_integration_vcn_allowlisted` - The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
+	* `network_endpoint_type` - The type of network endpoint. 
 * `state` - The current state of the integration instance.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `time_created` - The time the the Integration Instance was created. An RFC3339 formatted datetime string.

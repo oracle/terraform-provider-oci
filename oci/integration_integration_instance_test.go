@@ -20,6 +20,12 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
+type IdcsAccessToken struct {
+	AccessToken string `json:"access_token"`
+	TokenType   string `json:"token_type"`
+	ExpiresIn   int32  `json:"expires_in"`
+}
+
 var (
 	IntegrationInstanceRequiredOnlyResource = IntegrationInstanceResourceDependencies +
 		generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Required, Create, integrationInstanceRepresentation)
@@ -52,22 +58,41 @@ var (
 		// "alternate_custom_endpoints": RepresentationGroup{Optional, integrationInstanceAlternateCustomEndpointsRepresentation},
 		"consumption_model":         Representation{repType: Optional, create: `UCM`},
 		"custom_endpoint":           RepresentationGroup{Optional, integrationInstanceCustomEndpointRepresentation},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              Representation{repType: Optional, create: `${map("${var.oci_identity_tag_namespace}.${var.oci_identity_tag}", "value")}`, update: `${map("${var.oci_identity_tag_namespace}.${var.oci_identity_tag}", "updatedValue")}`},
 		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		"idcs_at":                   Representation{repType: Required, create: `${var.idcs_access_token}`},
 		"is_file_server_enabled":    Representation{repType: Optional, create: `false`, update: `true`},
 		"is_visual_builder_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"network_endpoint_details":  RepresentationGroup{Optional, integrationInstanceNetworkEndpointDetailsRepresentation},
 	}
 	integrationInstanceAlternateCustomEndpointsRepresentation = map[string]interface{}{
 		"hostname":              Representation{repType: Required, create: `althostname.com`, update: `althostname2.com`},
 		"certificate_secret_id": Representation{repType: Optional, create: `${var.oci_vault_secret_id}`},
 	}
 	integrationInstanceCustomEndpointRepresentation = map[string]interface{}{
-		"hostname": Representation{repType: Required, create: `hostname.com`, update: `hostname2.com`},
-		//"certificate_secret_id": Representation{repType: Optional, create: `${var.oci_vault_secret_id}`},
+		"hostname":              Representation{repType: Required, create: `hostname2.com`, update: `hostname2-updated.com`},
+		"certificate_secret_id": Representation{repType: Optional, create: `${var.oci_vault_secret_id}`},
+	}
+	integrationInstanceNetworkEndpointDetailsRepresentation = map[string]interface{}{
+		"network_endpoint_type":          Representation{repType: Required, create: `PUBLIC`},
+		"allowlisted_http_ips":           Representation{repType: Optional, create: []string{`172.16.0.239/32`}},
+		"allowlisted_http_vcns":          RepresentationGroup{Optional, integrationInstanceNetworkEndpointDetailsAllowlistedHttpVcnsRepresentation},
+		"is_integration_vcn_allowlisted": Representation{repType: Optional, create: `false`},
 	}
 
-	IntegrationInstanceResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr
+	integrationInstanceVcnRepresentation = `resource "oci_core_vcn" "vcn" {
+cidr_blocks    = ["10.0.0.0/16"]
+dns_label      = "vcn"
+compartment_id = var.compartment_id
+display_name   = "vcn"
+}`
+
+	integrationInstanceNetworkEndpointDetailsAllowlistedHttpVcnsRepresentation = map[string]interface{}{
+		"id":              Representation{repType: Required, create: `oci_core_vcn.vcn.id`},
+		"allowlisted_ips": Representation{repType: Optional, create: []string{`172.16.0.239/32`}},
+	}
+
+	IntegrationInstanceResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + integrationInstanceVcnRepresentation
 )
 
 func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
@@ -87,9 +112,6 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	idcsAccessToken := getEnvSettingWithBlankDefault("idcs_access_token")
-	idcsAccessTokenVariableStr := fmt.Sprintf("variable \"idcs_access_token\" { default = \"%s\" }\n", idcsAccessToken)
-
 	vaultSecretId := getEnvSettingWithBlankDefault("oci_vault_secret_id")
 	vaultSecretIdStr := fmt.Sprintf("variable \"oci_vault_secret_id\" { default = \"%s\" }\n", vaultSecretId)
 
@@ -108,7 +130,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + IntegrationInstanceResourceDependencies +
+				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr() + IntegrationInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Required, Create, integrationInstanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -126,27 +148,36 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr,
+				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr(),
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Create, integrationInstanceRepresentation),
+				Config: config + compartmentIdVariableStr +
+					tagVariablesStr() +
+					idcsAccessTokenVariableStr() +
+					vaultSecretIdStr +
+					IntegrationInstanceResourceDependencies +
+					generateResourceFromRepresentationMap(
+						"oci_integration_integration_instance",
+						"test_integration_instance",
+						Optional,
+						Create,
+						integrationInstanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					/*resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
-						"hostname": "hostname",
-					},
-						[]string{
-							"certificate_secret_id",
-						}),*/
+					// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
+					// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
+					// 	"hostname": "hostname",
+					// },
+					// 	[]string{
+					// 		"certificate_secret_id",
+					// 	}),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
-					//resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname.com"),
+					resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -158,6 +189,14 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					},
+						[]string{}),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 					func(s *terraform.State) (err error) {
@@ -174,24 +213,33 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Create,
+				Config: config + compartmentIdVariableStr +
+					tagVariablesStr() +
+					idcsAccessTokenVariableStr() +
+					compartmentIdUVariableStr +
+					vaultSecretIdStr +
+					IntegrationInstanceResourceDependencies +
+					generateResourceFromRepresentationMap(
+						"oci_integration_integration_instance",
+						"test_integration_instance",
+						Optional,
+						Create,
 						representationCopyWithNewProperties(integrationInstanceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					/*resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
-						"hostname": "hostname",
-					},
-						[]string{
-							"certificate_secret_id",
-						}),*/
+					// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
+					// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
+					// 	"hostname": "hostname",
+					// },
+					// 	[]string{
+					// 		"certificate_secret_id",
+					// 	}),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
-					//resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname.com"),
+					resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -203,6 +251,14 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					},
+						[]string{}),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -216,21 +272,21 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
+				Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					/*resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
-						"hostname": "hostname2",
-					},
-						[]string{
-							"certificate_secret_id",
-						}),*/
+					// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
+					// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
+					// 	"hostname": "hostname2",
+					// },
+					// 	[]string{
+					// 		"certificate_secret_id",
+					// 	}),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
-					//resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
+					resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -242,6 +298,14 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "message_packs", "2"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					},
+						[]string{}),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 					func(s *terraform.State) (err error) {
@@ -257,7 +321,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", Optional, Update, integrationInstanceDataSourceRepresentation) +
-					compartmentIdVariableStr + idcsAccessTokenVariableStr + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
+					compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -265,20 +329,20 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.#", "1"),
-					/*resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.alternate_custom_endpoints.#", "1"),
-					CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.alternate_custom_endpoints", map[string]string{
-						"hostname": "hostname2",
-					},
-						[]string{
-							"certificate_secret_id",
-							"certificate_secret_version",
-						}),*/
+					// resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.alternate_custom_endpoints.#", "1"),
+					// CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.alternate_custom_endpoints", map[string]string{
+					// 	"hostname": "hostname2",
+					// },
+					// 	[]string{
+					// 		"certificate_secret_id",
+					// 		"certificate_secret_version",
+					// 	}),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.#", "1"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_id"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_version"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.0.hostname", "hostname2.com"),
+					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_version"),
+					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.0.hostname", "hostname2-updated.com"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.instance_url"),
@@ -287,6 +351,14 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_file_server_enabled", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_visual_builder_enabled", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.message_packs", "2"),
+					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					},
+						[]string{}),
+					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_updated"),
@@ -295,23 +367,22 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", Optional, Update, integrationInstanceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + idcsAccessTokenVariableStr + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
+					generateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					/*resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.#", "1"),
-					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "alternate_custom_endpoints", map[string]string{
-						"hostname": "hostname2",
-					},
-						[]string{
-							"certificate_secret_version",
-						}),*/
+					// resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.#", "1"),
+					// CheckResourceSetContainsElementWithProperties(singularDatasourceName, "alternate_custom_endpoints", map[string]string{
+					// 	"hostname": "hostname2",
+					// },
+					// 	[]string{
+					// 		"certificate_secret_version",
+					// 	}),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "consumption_model", "UCM"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.#", "1"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.certificate_secret_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.0.hostname", "hostname2.com"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.certificate_secret_version"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -322,6 +393,16 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_file_server_enabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_visual_builder_enabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "message_packs", "2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					},
+						[]string{}),
+					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.0.id",
+						getEnvSettingWithBlankDefault("allow_listed_http_vcn")),
+					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -329,7 +410,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + vaultSecretIdStr + IntegrationInstanceResourceConfig,
+				Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceConfig,
 			},
 			// verify resource import
 			{
@@ -464,4 +545,22 @@ func integrationInstanceSweepResponseFetchOperation(client *OracleClients, resou
 		},
 	})
 	return err
+}
+
+func idcsAccessTokenVariableStr() string {
+	return fmt.Sprintf("variable \"idcs_access_token\" { default = \"%s\" }\n", readIdcsAccessToken())
+}
+
+func tagVariablesStr() string {
+	vars := []string{
+		fmt.Sprintf("variable \"oci_identity_tag_namespace\" { default = \"%s\" }\n", getEnvSettingWithBlankDefault("oci_identity_tag_namespace")),
+		fmt.Sprintf("variable \"oci_identity_tag\" { default = \"%s\" }\n", getEnvSettingWithBlankDefault("oci_identity_tag")),
+		fmt.Sprintf("variable \"allow_listed_http_vcn\" { default = \"%s\" }\n", getEnvSettingWithBlankDefault("allow_listed_http_vcn")),
+	}
+
+	return strings.Join(vars[:], "\n")
+}
+
+func readIdcsAccessToken() string {
+	return getEnvSettingWithBlankDefault("idcs_access_token")
 }
