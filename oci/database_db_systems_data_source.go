@@ -235,6 +235,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["reco_storage_size_in_gb"] = *r.RecoStorageSizeInGB
 		}
 
+		if r.ScanDnsName != nil {
+			dbSystem["scan_dns_name"] = *r.ScanDnsName
+		}
+
 		if r.ScanDnsRecordId != nil {
 			dbSystem["scan_dns_record_id"] = *r.ScanDnsRecordId
 		}
@@ -274,6 +278,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 		}
 
 		dbSystem["vip_ids"] = r.VipIds
+
+		if r.ZoneId != nil {
+			dbSystem["zone_id"] = *r.ZoneId
+		}
 
 		resources = append(resources, dbSystem)
 	}

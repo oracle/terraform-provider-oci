@@ -776,6 +776,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"scan_dns_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"scan_dns_record_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -805,6 +809,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"zone_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 		},
 	}
@@ -1215,6 +1223,10 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("reco_storage_size_in_gb", *s.Res.RecoStorageSizeInGB)
 	}
 
+	if s.Res.ScanDnsName != nil {
+		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)
+	}
+
 	if s.Res.ScanDnsRecordId != nil {
 		s.D.Set("scan_dns_record_id", *s.Res.ScanDnsRecordId)
 	}
@@ -1258,6 +1270,10 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	}
 
 	s.D.Set("vip_ids", s.Res.VipIds)
+
+	if s.Res.ZoneId != nil {
+		s.D.Set("zone_id", *s.Res.ZoneId)
+	}
 
 	return nil
 }
