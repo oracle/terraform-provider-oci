@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -12,8 +12,8 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v31/common"
-	oci_core "github.com/oracle/oci-go-sdk/v31/core"
+	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_core "github.com/oracle/oci-go-sdk/v32/core"
 )
 
 const (
@@ -176,4 +176,11 @@ func ipv6CompressionDiffSuppressFunction(key string, old string, new string, d *
 	newParsedIp := net.ParseIP(newIp[0])
 	newSubnetMask := oldIp[1]
 	return strings.EqualFold(oldParsedIp.String(), newParsedIp.String()) && strings.EqualFold(oldSubnetMask, newSubnetMask)
+}
+
+func Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }

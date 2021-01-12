@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v31/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v31/filestorage"
+	"github.com/oracle/oci-go-sdk/v32/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v32/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

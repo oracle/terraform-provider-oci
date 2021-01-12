@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -14,8 +14,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v31/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v31/identity"
+	"github.com/oracle/oci-go-sdk/v32/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v32/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -34,6 +34,8 @@ var (
 	identityProviderDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"protocol":       Representation{repType: Required, create: `SAML2`},
+		"name":           Representation{repType: Optional, create: `test-idp-saml2-adfs`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, identityProviderDataSourceFilterRepresentation}}
 	identityProviderDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -188,7 +190,9 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
 					resource.TestCheckResourceAttr(datasourceName, "protocol", "SAML2"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.compartment_id", tenancyId),

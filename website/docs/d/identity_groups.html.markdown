@@ -21,6 +21,10 @@ See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.
 data "oci_identity_groups" "test_groups" {
 	#Required
 	compartment_id = var.tenancy_ocid
+
+	#Optional
+	name = var.group_name
+	state = var.group_state
 }
 ```
 
@@ -29,6 +33,8 @@ data "oci_identity_groups" "test_groups" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
+* `name` - (Optional) A filter to only return resources that match the given name exactly. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 
 
 ## Attributes Reference

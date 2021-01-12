@@ -1,4 +1,4 @@
-// Copyright (c) 2017 2019 Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.2019 Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
   compartment_id = var.compartment_id
