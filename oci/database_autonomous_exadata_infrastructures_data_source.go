@@ -168,6 +168,10 @@ func (s *DatabaseAutonomousExadataInfrastructuresDataSourceCrud) SetData() error
 
 		autonomousExadataInfrastructure["nsg_ids"] = r.NsgIds
 
+		if r.ScanDnsName != nil {
+			autonomousExadataInfrastructure["scan_dns_name"] = *r.ScanDnsName
+		}
+
 		if r.Shape != nil {
 			autonomousExadataInfrastructure["shape"] = *r.Shape
 		}
@@ -180,6 +184,10 @@ func (s *DatabaseAutonomousExadataInfrastructuresDataSourceCrud) SetData() error
 
 		if r.TimeCreated != nil {
 			autonomousExadataInfrastructure["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.ZoneId != nil {
+			autonomousExadataInfrastructure["zone_id"] = *r.ZoneId
 		}
 
 		resources = append(resources, autonomousExadataInfrastructure)

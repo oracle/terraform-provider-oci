@@ -56,6 +56,7 @@ The following attributes are exported:
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
+* `scan_dns_name` - The FQDN of the DNS record for the SCAN IP addresses that are associated with the Autonomous Exadata Infrastructure. 
 * `shape` - The shape of the Autonomous Exadata Infrastructure. The shape determines resources to allocate to the Autonomous Exadata Infrastructure (CPU cores, memory and storage).
 * `state` - The current lifecycle state of the Autonomous Exadata Infrastructure.
 * `subnet_id` - The OCID of the subnet the Autonomous Exadata Infrastructure is associated with.
@@ -65,4 +66,5 @@ The following attributes are exported:
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
 * `time_created` - The date and time the Autonomous Exadata Infrastructure was created.
+* `zone_id` - The OCID of the zone the Autonomous Exadata Infrastructure is associated with. 
 

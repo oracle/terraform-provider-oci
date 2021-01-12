@@ -203,6 +203,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 
 		cloudVmCluster["nsg_ids"] = r.NsgIds
 
+		if r.ScanDnsName != nil {
+			cloudVmCluster["scan_dns_name"] = *r.ScanDnsName
+		}
+
 		if r.ScanDnsRecordId != nil {
 			cloudVmCluster["scan_dns_record_id"] = *r.ScanDnsRecordId
 		}
@@ -238,6 +242,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 		}
 
 		cloudVmCluster["vip_ids"] = r.VipIds
+
+		if r.ZoneId != nil {
+			cloudVmCluster["zone_id"] = *r.ZoneId
+		}
 
 		resources = append(resources, cloudVmCluster)
 	}
