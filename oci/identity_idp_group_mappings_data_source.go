@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v31/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v32/identity"
 )
 
 func init() {
