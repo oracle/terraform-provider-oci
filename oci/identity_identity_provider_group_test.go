@@ -16,7 +16,7 @@ import (
 var (
 	identityProviderGroupDataSourceRepresentation = map[string]interface{}{
 		"identity_provider_id": Representation{repType: Required, create: `${oci_identity_identity_provider.test_identity_provider.id}`},
-		"name":                 Representation{repType: Optional, create: `name`},
+		"name":                 Representation{repType: Optional, create: `test-idp-saml2-adfs`},
 		"state":                Representation{repType: Optional, create: `ACTIVE`},
 	}
 
@@ -53,11 +53,11 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Required, Create, identityProviderGroupDataSourceRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Optional, Create, identityProviderGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + IdentityProviderGroupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "name"),
+					resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_groups.#"),

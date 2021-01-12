@@ -190,7 +190,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "name"),
+					resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
 					resource.TestCheckResourceAttr(datasourceName, "protocol", "SAML2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
