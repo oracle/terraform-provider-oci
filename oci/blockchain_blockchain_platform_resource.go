@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_blockchain "github.com/oracle/oci-go-sdk/v31/blockchain"
-	oci_common "github.com/oracle/oci-go-sdk/v31/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v32/blockchain"
+	oci_common "github.com/oracle/oci-go-sdk/v32/common"
 )
 
 func init() {
@@ -531,11 +531,6 @@ func blockchainPlatformWaitForWorkRequest(wId *string, entityType string, action
 
 	response := oci_blockchain.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_blockchain.WorkRequestStatusInProgress),
-			string(oci_blockchain.WorkRequestStatusAccepted),
-			string(oci_blockchain.WorkRequestStatusCanceling),
-		},
 		Target: []string{
 			string(oci_blockchain.WorkRequestStatusSucceeded),
 			string(oci_blockchain.WorkRequestStatusFailed),

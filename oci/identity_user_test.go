@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v31/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v31/identity"
+	"github.com/oracle/oci-go-sdk/v32/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v32/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -30,6 +30,8 @@ var (
 
 	userDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"name":           Representation{repType: Optional, create: `JohnSmith@example.com`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, userDataSourceFilterRepresentation}}
 	userDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -153,12 +155,15 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(datasourceName, "name", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "users.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.email", "email2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "users.0.email_verified"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "users.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.name", "JohnSmith@example.com"),
@@ -179,6 +184,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "email", "email2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "email_verified"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "JohnSmith@example.com"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2019, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 
 // These variables would commonly be defined as environment variables or sourced in a .env file
 
@@ -58,7 +58,7 @@ resource "oci_metering_computation_usage" "test_usage" {
                 "dimensions": [
 				    {
                         "key": "compartmentName",
-                        "value": var.dimensions_value
+                        "value": "${var.dimensions_value}"
 					}
                 ],
                 "filters": [],

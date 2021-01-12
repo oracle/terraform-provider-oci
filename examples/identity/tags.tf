@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {
@@ -41,7 +41,7 @@ output "tags" {
 }
 
 output "resource_defined_tags_key" {
-  value = oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name
+  value = join(".",[oci_identity_tag_namespace.tag-namespace1.name, oci_identity_tag.tag1.name])
 }
 
 data "oci_identity_cost_tracking_tags" "cost_tracking_tags" {

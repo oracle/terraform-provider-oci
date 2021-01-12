@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -11,7 +11,7 @@ import (
 	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v31/core"
+	oci_core "github.com/oracle/oci-go-sdk/v32/core"
 )
 
 // Not supplying filters should not restrict results

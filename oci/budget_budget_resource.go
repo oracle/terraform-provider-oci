@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v31/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v32/budget"
 )
 
 func init() {
@@ -225,7 +225,7 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 	}
 
 	if resetPeriod, ok := s.D.GetOkExists("reset_period"); ok {
-		request.ResetPeriod = oci_budget.CreateBudgetDetailsResetPeriodEnum(resetPeriod.(string))
+		request.ResetPeriod = oci_budget.ResetPeriodEnum(resetPeriod.(string))
 	}
 
 	if targetCompartmentId, ok := s.D.GetOkExists("target_compartment_id"); ok {
@@ -234,7 +234,7 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 	}
 
 	if targetType, ok := s.D.GetOkExists("target_type"); ok {
-		request.TargetType = oci_budget.CreateBudgetDetailsTargetTypeEnum(targetType.(string))
+		request.TargetType = oci_budget.TargetTypeEnum(targetType.(string))
 	}
 
 	if targets, ok := s.D.GetOkExists("targets"); ok {
@@ -312,7 +312,7 @@ func (s *BudgetBudgetResourceCrud) Update() error {
 	}
 
 	if resetPeriod, ok := s.D.GetOkExists("reset_period"); ok {
-		request.ResetPeriod = oci_budget.UpdateBudgetDetailsResetPeriodEnum(resetPeriod.(string))
+		request.ResetPeriod = oci_budget.ResetPeriodEnum(resetPeriod.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")

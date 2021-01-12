@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	oci_common "github.com/oracle/oci-go-sdk/v31/common"
+	oci_common "github.com/oracle/oci-go-sdk/v32/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v31/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v32/loganalytics"
 )
 
 func init() {
@@ -217,11 +217,6 @@ func logAnalyticsWaitForWorkRequest(wId *string, ns *string, entityType string, 
 
 	response := oci_log_analytics.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_log_analytics.OperationStatusInProgress),
-			string(oci_log_analytics.OperationStatusAccepted),
-			string(oci_log_analytics.OperationStatusCanceling),
-		},
 		Target: []string{
 			string(oci_log_analytics.OperationStatusSucceeded),
 			string(oci_log_analytics.OperationStatusFailed),

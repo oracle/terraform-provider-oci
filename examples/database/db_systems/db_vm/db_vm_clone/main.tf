@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 variable "tenancy_ocid" {
 }
 
