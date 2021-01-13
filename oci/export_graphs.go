@@ -314,6 +314,9 @@ var databaseResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseCloudExadataInfrastructureHints},
 		{TerraformResourceHints: exportDatabaseCloudVmClusterHints},
 		{TerraformResourceHints: exportDatabaseKeyStoreHints},
+		{TerraformResourceHints: exportDatabaseExternalContainerDatabaseHints},
+		{TerraformResourceHints: exportDatabaseExternalPluggableDatabaseHints},
+		{TerraformResourceHints: exportDatabaseExternalNonContainerDatabaseHints},
 	},
 	"oci_database_db_home": {
 		{

@@ -836,6 +836,49 @@ var exportDatabaseKeyStoreHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatabaseExternalContainerDatabaseHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_external_container_database",
+	datasourceClass:      "oci_database_external_container_databases",
+	datasourceItemsAttr:  "external_container_databases",
+	resourceAbbreviation: "external_container_database",
+	discoverableLifecycleStates: []string{
+		string(oci_database.ExternalContainerDatabaseLifecycleStateNotConnected),
+		string(oci_database.ExternalContainerDatabaseLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExternalPluggableDatabaseHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_external_pluggable_database",
+	datasourceClass:      "oci_database_external_pluggable_databases",
+	datasourceItemsAttr:  "external_pluggable_databases",
+	resourceAbbreviation: "external_pluggable_database",
+	discoverableLifecycleStates: []string{
+		string(oci_database.ExternalPluggableDatabaseLifecycleStateNotConnected),
+		string(oci_database.ExternalPluggableDatabaseLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExternalNonContainerDatabaseHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_external_non_container_database",
+	datasourceClass:      "oci_database_external_non_container_databases",
+	datasourceItemsAttr:  "external_non_container_databases",
+	resourceAbbreviation: "external_non_container_database",
+	discoverableLifecycleStates: []string{
+		string(oci_database.ExternalNonContainerDatabaseLifecycleStateNotConnected),
+		string(oci_database.ExternalNonContainerDatabaseLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExternalDatabaseConnectorHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_external_database_connector",
+	datasourceClass:      "oci_database_external_database_connectors",
+	datasourceItemsAttr:  "external_database_connectors",
+	resourceAbbreviation: "external_database_connector",
+	discoverableLifecycleStates: []string{
+		string(oci_database.ExternalDatabaseConnectorLifecycleStateAvailable),
+	},
+}
+
 var exportDataflowApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataflow_application",
 	datasourceClass:        "oci_dataflow_applications",
