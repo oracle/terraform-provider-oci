@@ -1,0 +1,88 @@
+// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package oci
+
+import (
+	"fmt"
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+)
+
+var (
+	externalNonContainerDatabaseManagementRepresentation = map[string]interface{}{
+		"external_database_connector_id":     Representation{repType: Required, create: `${oci_database_external_database_connector.test_external_database_connector.id}`},
+		"external_non_container_database_id": Representation{repType: Required, create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
+		"license_model":                      Representation{repType: Required, create: `BRING_YOUR_OWN_LICENSE`},
+		"enable_management":                  Representation{repType: Required, create: `true`, update: `false`},
+	}
+
+	ExternalNonContainerDatabaseManagementResourceDependencies = generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation)
+)
+
+func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseExternalNonContainerDatabaseManagementResource_basic")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_external_non_container_database_management.test_external_non_container_database_management"
+	resourceNonCDB := "oci_database_external_non_container_database.test_external_non_container_database"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			// verify create (Enable Database Management)
+			{
+				Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Required, Create, externalNonContainerDatabaseManagementRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+				),
+			},
+			// Verify Enablement
+			{
+				Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Required, Create, externalNonContainerDatabaseManagementRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceNonCDB, "database_management_config.0.database_management_status", "ENABLED"),
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies,
+			},
+			// verify update (Disable Database Management)
+			{
+				Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Optional, Update, externalNonContainerDatabaseManagementRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+				),
+			},
+			// Verify Disablement
+			{
+				Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Optional, Update, externalNonContainerDatabaseManagementRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceNonCDB, "database_management_config.0.database_management_status", "NOT_ENABLED"),
+				),
+			},
+		},
+	})
+}

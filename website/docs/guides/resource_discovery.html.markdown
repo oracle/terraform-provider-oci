@@ -367,6 +367,10 @@ database
 * oci\_database\_cloud\_exadata\_infrastructure
 * oci\_database\_cloud\_vm\_cluster
 * oci\_database\_key\_store
+* oci\_database\_external\_container\_database
+* oci\_database\_external\_pluggable\_database
+* oci\_database\_external\_non\_container\_database
+* oci\_database\_external\_database\_connector
 
 datacatalog
     

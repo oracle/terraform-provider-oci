@@ -2,6 +2,7 @@
 - Support for Infrequent Access object storage tier added
 - Support for NG-VPN Multiple Encryption Domain and Public Logging
 - Support for ExaCC Customer Contacts Phase 2 added
+- Support for OnPrem database
 
 ## 4.11.0 (January 27, 2021)
 
