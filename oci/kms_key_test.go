@@ -79,6 +79,18 @@ var (
 		#Required
 		compartment_id = "${var.tenancy_ocid}"
 		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
+		algorithm = "AES"
+
+		filter {
+    		name = "state"
+    		values = ["ENABLED", "UPDATING"]
+        }
+	}
+	data "oci_kms_keys" "test_keys_dependency_RSA" {
+		#Required
+		compartment_id = "${var.tenancy_ocid}"
+		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
+		algorithm = "RSA"
 
 		filter {
     		name = "state"
