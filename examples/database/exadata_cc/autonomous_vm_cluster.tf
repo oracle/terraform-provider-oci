@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
   #Required

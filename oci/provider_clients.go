@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"strings"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v31/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v31/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v31/functions"
-	oci_kms "github.com/oracle/oci-go-sdk/v31/keymanagement"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v31/ocvp"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v31/workrequests"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v32/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v32/functions"
+	oci_kms "github.com/oracle/oci-go-sdk/v32/keymanagement"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v32/ocvp"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v32/workrequests"
 )
 
 var oracleClientRegistrations *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region

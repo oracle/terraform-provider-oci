@@ -25,6 +25,8 @@ data "oci_identity_users" "test_users" {
 	#Optional
 	external_identifier = var.user_external_identifier
 	identity_provider_id = oci_identity_identity_provider.test_identity_provider.id
+	name = var.user_name
+	state = var.user_state
 }
 ```
 
@@ -35,6 +37,8 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
 * `external_identifier` - (Optional) The id of a user in the identity provider. 
 * `identity_provider_id` - (Optional) The id of the identity provider. 
+* `name` - (Optional) A filter to only return resources that match the given name exactly. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 
 
 ## Attributes Reference

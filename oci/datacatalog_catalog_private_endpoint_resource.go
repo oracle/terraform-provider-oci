@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -11,8 +11,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v31/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v31/datacatalog"
+	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v32/datacatalog"
 )
 
 func init() {
@@ -263,11 +263,6 @@ func catalogPrivateEndpointWaitForWorkRequest(wId *string, entityType string, ac
 
 	response := oci_datacatalog.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_datacatalog.WorkRequestStatusInProgress),
-			string(oci_datacatalog.WorkRequestStatusAccepted),
-			string(oci_datacatalog.WorkRequestStatusCanceling),
-		},
 		Target: []string{
 			string(oci_datacatalog.WorkRequestStatusSucceeded),
 			string(oci_datacatalog.WorkRequestStatusFailed),

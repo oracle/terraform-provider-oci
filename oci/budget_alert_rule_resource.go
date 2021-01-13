@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v31/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v32/budget"
 )
 
 func init() {
@@ -214,11 +214,11 @@ func (s *BudgetAlertRuleResourceCrud) Create() error {
 	}
 
 	if thresholdType, ok := s.D.GetOkExists("threshold_type"); ok {
-		request.ThresholdType = oci_budget.CreateAlertRuleDetailsThresholdTypeEnum(thresholdType.(string))
+		request.ThresholdType = oci_budget.ThresholdTypeEnum(thresholdType.(string))
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {
-		request.Type = oci_budget.CreateAlertRuleDetailsTypeEnum(type_.(string))
+		request.Type = oci_budget.AlertTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
@@ -311,11 +311,11 @@ func (s *BudgetAlertRuleResourceCrud) Update() error {
 	}
 
 	if thresholdType, ok := s.D.GetOkExists("threshold_type"); ok {
-		request.ThresholdType = oci_budget.UpdateAlertRuleDetailsThresholdTypeEnum(thresholdType.(string))
+		request.ThresholdType = oci_budget.ThresholdTypeEnum(thresholdType.(string))
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {
-		request.Type = oci_budget.UpdateAlertRuleDetailsTypeEnum(type_.(string))
+		request.Type = oci_budget.AlertTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")

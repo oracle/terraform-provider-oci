@@ -23,6 +23,10 @@ statements inside all your policies. There isn't a way to automatically obtain t
 data "oci_identity_policies" "test_policies" {
 	#Required
 	compartment_id = var.tenancy_ocid
+
+	#Optional
+	name = var.policy_name
+	state = var.policy_state
 }
 ```
 
@@ -31,6 +35,8 @@ data "oci_identity_policies" "test_policies" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
+* `name` - (Optional) A filter to only return resources that match the given name exactly. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 
 
 ## Attributes Reference

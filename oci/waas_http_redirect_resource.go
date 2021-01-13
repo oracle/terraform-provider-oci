@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v31/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v31/waas"
+	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v32/waas"
 )
 
 func init() {
@@ -303,11 +303,6 @@ func httpRedirectWaitForWorkRequest(wId *string, entityType string, action oci_w
 
 	response := oci_waas.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_waas.WorkRequestStatusValuesInProgress),
-			string(oci_waas.WorkRequestStatusValuesAccepted),
-			string(oci_waas.WorkRequestStatusValuesCanceling),
-		},
 		Target: []string{
 			string(oci_waas.WorkRequestStatusValuesSucceeded),
 			string(oci_waas.WorkRequestStatusValuesFailed),

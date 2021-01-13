@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v31/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v31/identity"
+	"github.com/oracle/oci-go-sdk/v32/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v32/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -33,6 +33,8 @@ var (
 		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
 		"access_level":              Representation{repType: Optional, create: `ANY`},
 		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
+		"name":                      Representation{repType: Optional, create: `Network`, update: `name2`},
+		"state":                     Representation{repType: Optional, create: `ACTIVE`},
 		"filter":                    RepresentationGroup{Required, compartmentDataSourceFilterRepresentation}}
 	compartmentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -177,6 +179,8 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "access_level", "ANY"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "compartments.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "compartments.0.compartment_id", compartmentId),
@@ -233,7 +237,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation) +
-					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment2", Required, Create,
+					generateResourceFromRepresentationMap("oci_identity_compartment", "name2", Required, Create,
 						representationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
 							"enable_delete": Representation{repType: Required, create: `true`}})),
 				ExpectError: regexp.MustCompile("If you intended to manage an existing compartment, use terraform import instead."),
