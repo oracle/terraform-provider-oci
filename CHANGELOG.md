@@ -1,4 +1,4 @@
-## 4.9.0 (Unreleased)
+## 4.9.0 (January 13, 2021)
 
 ### Added
 - Support update of cidr_blocks for core vcn resource`cidr_blocks` - The list of IPv4 CIDR blocks the VCN will use. 
