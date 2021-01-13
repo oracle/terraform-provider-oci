@@ -66,10 +66,6 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 		maximum_bandwidth_in_mbps = var.load_balancer_shape_details_maximum_bandwidth_in_mbps
 		minimum_bandwidth_in_mbps = var.load_balancer_shape_details_minimum_bandwidth_in_mbps
 	}
-	ssl_cipher_suites {
-		#Required
-		name = var.load_balancer_ssl_cipher_suites_name
-	}
 }
 ```
 

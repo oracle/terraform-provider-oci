@@ -144,6 +144,7 @@ The following attributes are exported:
 	* `availability_domain` - The name of the availability domain the node is running in
 	* `display_name` - The name of the node
 	* `fault_domain` - The name of the fault domain the node is running in
+	* `hostname` - The fully-qualified hostname (FQDN) of the node
 	* `image_id` - The OCID of the image from which the node was created
 	* `instance_id` - The OCID of the underlying compute instance
 	* `ip_address` - IP address of the node

@@ -1,12 +1,12 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
 
 import (
-	oci_vault "github.com/oracle/oci-go-sdk/v31/vault"
+	oci_vault "github.com/oracle/oci-go-sdk/v32/vault"
 
-	oci_common "github.com/oracle/oci-go-sdk/v31/common"
+	oci_common "github.com/oracle/oci-go-sdk/v32/common"
 )
 
 func init() {

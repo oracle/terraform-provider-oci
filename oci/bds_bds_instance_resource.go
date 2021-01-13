@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_bds "github.com/oracle/oci-go-sdk/v31/bds"
-	oci_common "github.com/oracle/oci-go-sdk/v31/common"
+	oci_bds "github.com/oracle/oci-go-sdk/v32/bds"
+	oci_common "github.com/oracle/oci-go-sdk/v32/common"
 )
 
 func init() {
@@ -397,6 +397,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"hostname": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"image_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -770,11 +774,6 @@ func bdsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_bd
 
 	response := oci_bds.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_bds.OperationStatusInProgress),
-			string(oci_bds.OperationStatusAccepted),
-			string(oci_bds.OperationStatusCanceling),
-		},
 		Target: []string{
 			string(oci_bds.OperationStatusSucceeded),
 			string(oci_bds.OperationStatusFailed),
@@ -1284,6 +1283,10 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 
 	if obj.FaultDomain != nil {
 		result["fault_domain"] = string(*obj.FaultDomain)
+	}
+
+	if obj.Hostname != nil {
+		result["hostname"] = string(*obj.Hostname)
 	}
 
 	if obj.ImageId != nil {

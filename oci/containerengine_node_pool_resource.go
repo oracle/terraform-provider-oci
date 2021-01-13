@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -19,8 +19,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v31/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v31/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v32/containerengine"
 )
 
 func init() {
@@ -608,11 +608,6 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 
 	response := oci_containerengine.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_containerengine.WorkRequestStatusInProgress),
-			string(oci_containerengine.WorkRequestStatusAccepted),
-			string(oci_containerengine.WorkRequestStatusCanceling),
-		},
 		Target: []string{
 			string(oci_containerengine.WorkRequestStatusSucceeded),
 			string(oci_containerengine.WorkRequestStatusFailed),

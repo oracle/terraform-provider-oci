@@ -1,14 +1,15 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v31/core"
+	oci_core "github.com/oracle/oci-go-sdk/v32/core"
 )
 
 func init() {
@@ -43,7 +44,6 @@ func CoreVcnResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -286,6 +286,16 @@ func (s *CoreVcnResourceCrud) Update() error {
 	}
 	request := oci_core.UpdateVcnRequest{}
 
+	if _, ok := s.D.GetOkExists("cidr_blocks"); ok && s.D.HasChange("cidr_blocks") {
+		oldRaw, newRaw := s.D.GetChange("cidr_blocks")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCidrBlocks(oldRaw, newRaw)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -404,4 +414,97 @@ func (s *CoreVcnResourceCrud) updateCompartment(compartment interface{}) error {
 		return err
 	}
 	return nil
+}
+
+func (s *CoreVcnResourceCrud) updateCidrBlocks(oldRaw interface{}, newRaw interface{}) error {
+	interfaces := oldRaw.([]interface{})
+	oldBlocks := make([]string, len(interfaces))
+	for i := range interfaces {
+		if interfaces[i] != nil {
+			oldBlocks[i] = interfaces[i].(string)
+		}
+	}
+	interfaces = newRaw.([]interface{})
+	newBlocks := make([]string, len(interfaces))
+	for i := range interfaces {
+		if interfaces[i] != nil {
+			newBlocks[i] = interfaces[i].(string)
+		}
+	}
+	canEdit, operation, oldCidr, newCidr := oneEditAway(oldBlocks, newBlocks)
+	if !canEdit {
+		return fmt.Errorf("only one add/remove or modification is allowed at once, new cidr_block must be added at the end of list")
+	}
+	if operation == "add" {
+		addVcnCidrRequest := oci_core.AddVcnCidrRequest{}
+		idTmp := s.D.Id()
+		addVcnCidrRequest.VcnId = &idTmp
+		addVcnCidrRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		addVcnCidrRequest.CidrBlock = &newCidr
+		_, err := s.Client.AddVcnCidr(context.Background(), addVcnCidrRequest)
+		if err != nil {
+			return err
+		}
+	}
+	if operation == "remove" {
+		removeVcnCidrRequest := oci_core.RemoveVcnCidrRequest{}
+		idTmp := s.D.Id()
+		removeVcnCidrRequest.VcnId = &idTmp
+		removeVcnCidrRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		removeVcnCidrRequest.CidrBlock = &oldCidr
+		_, err := s.Client.RemoveVcnCidr(context.Background(), removeVcnCidrRequest)
+		if err != nil {
+			return err
+		}
+	}
+	if operation == "modify" {
+		modifyVcnCidrRequest := oci_core.ModifyVcnCidrRequest{}
+		idTmp := s.D.Id()
+		modifyVcnCidrRequest.VcnId = &idTmp
+		modifyVcnCidrRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		modifyVcnCidrRequest.OriginalCidrBlock = &oldCidr
+		modifyVcnCidrRequest.NewCidrBlock = &newCidr
+		_, err := s.Client.ModifyVcnCidr(context.Background(), modifyVcnCidrRequest)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func oneEditAway(oldBlocks []string, newBlocks []string) (bool, string, string, string) {
+	if Abs(len(newBlocks)-len(oldBlocks)) > 1 {
+		return false, "", "", ""
+	}
+	if len(newBlocks) == len(oldBlocks) {
+		for i := 0; i < len(oldBlocks); i++ {
+			if oldBlocks[i] != newBlocks[i] {
+				for j := i + 1; j < len(oldBlocks); j++ {
+					if oldBlocks[j] != newBlocks[j] {
+						return false, "", "", ""
+					}
+				}
+				return true, "modify", oldBlocks[i], newBlocks[i]
+			}
+		}
+	}
+	if len(newBlocks) > len(oldBlocks) {
+		for i := 0; i < len(oldBlocks); i++ {
+			if oldBlocks[i] != newBlocks[i] {
+				return false, "", "", ""
+			}
+		}
+		return true, "add", "", newBlocks[len(newBlocks)-1]
+	}
+	for i := 0; i < len(newBlocks); i++ {
+		if oldBlocks[i] != newBlocks[i] {
+			for j := i + 1; j < len(newBlocks); j++ {
+				if oldBlocks[j] != newBlocks[j-1] {
+					return false, "", "", ""
+				}
+			}
+			return true, "remove", oldBlocks[i], ""
+		}
+	}
+	return true, "remove", oldBlocks[len(oldBlocks)-1], ""
 }

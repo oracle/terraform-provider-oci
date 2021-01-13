@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v31/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v32/identity"
 )
 
 func init() {
@@ -29,6 +29,14 @@ func IdentityUsersDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"identity_provider_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -75,6 +83,15 @@ func (s *IdentityUsersDataSourceCrud) Get() error {
 	if identityProviderId, ok := s.D.GetOkExists("identity_provider_id"); ok {
 		tmp := identityProviderId.(string)
 		request.IdentityProviderId = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_identity.UserLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
@@ -129,6 +146,10 @@ func (s *IdentityUsersDataSourceCrud) SetData() error {
 
 		if r.Email != nil {
 			user["email"] = *r.Email
+		}
+
+		if r.EmailVerified != nil {
+			user["email_verified"] = *r.EmailVerified
 		}
 
 		if r.ExternalIdentifier != nil {

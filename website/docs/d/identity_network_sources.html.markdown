@@ -21,6 +21,10 @@ See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.
 data "oci_identity_network_sources" "test_network_sources" {
 	#Required
 	compartment_id = var.tenancy_ocid
+
+	#Optional
+	name = var.network_source_name
+	state = var.network_source_state
 }
 ```
 
@@ -29,6 +33,8 @@ data "oci_identity_network_sources" "test_network_sources" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
+* `name` - (Optional) A filter to only return resources that match the given name exactly. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 
 
 ## Attributes Reference

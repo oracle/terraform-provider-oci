@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oci
@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v31/core"
+	"github.com/oracle/oci-go-sdk/v32/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -58,6 +58,72 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 				),
 			},
 			// test create with cidr_blocks
+			{
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_blocks = ["10.0.0.0/16", "11.0.0.0/16"]
+						compartment_id = "${var.compartment_id}"
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_blocks.#", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						return err
+					},
+				),
+			},
+			// test add cidr with cidr_blocks
+			{
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_blocks = ["10.0.0.0/16", "11.0.0.0/16", "12.0.0.0/16"]
+						compartment_id = "${var.compartment_id}"
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_blocks.#", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						return err
+					},
+				),
+			},
+			// test remove cidr with cidr_blocks
+			{
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_blocks = ["10.0.0.0/16", "12.0.0.0/16"]
+						compartment_id = "${var.compartment_id}"
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_blocks.#", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						return err
+					},
+				),
+			},
+			// test modify cidr with cidr_blocks
 			{
 				Config: s.Config + `
 					resource "oci_core_virtual_network" "t" {

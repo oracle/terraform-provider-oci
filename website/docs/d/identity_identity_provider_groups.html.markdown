@@ -18,6 +18,10 @@ Lists the identity provider groups.
 data "oci_identity_identity_provider_groups" "test_identity_provider_groups" {
 	#Required
 	identity_provider_id = oci_identity_identity_provider.test_identity_provider.id
+
+	#Optional
+	name = var.identity_provider_group_name
+	state = var.identity_provider_group_state
 }
 ```
 
@@ -26,6 +30,8 @@ data "oci_identity_identity_provider_groups" "test_identity_provider_groups" {
 The following arguments are supported:
 
 * `identity_provider_id` - (Required) The OCID of the identity provider.
+* `name` - (Optional) A filter to only return resources that match the given name exactly. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 
 
 ## Attributes Reference
