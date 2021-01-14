@@ -10,7 +10,7 @@ description: |-
 # oci_management_dashboard_management_dashboards_import
 This resource provides the Management Dashboards Import resource in Oracle Cloud Infrastructure Management Dashboard service.
 
-Import an array of dashboards and their saved searches.
+Imports an array of dashboards and their saved searches.
 
 
 ## Example Usage
