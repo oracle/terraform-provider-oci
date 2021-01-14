@@ -19,7 +19,7 @@ type DeleteUploadRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// Unique internal identifier to refer to upload container
+	// Unique internal identifier to refer upload container.
 	UploadReference *string `mandatory:"true" contributesTo:"path" name:"uploadReference"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

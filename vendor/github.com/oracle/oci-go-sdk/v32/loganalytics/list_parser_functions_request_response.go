@@ -29,7 +29,7 @@ type ListParserFunctionsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// sort by field
-	SortBy *string `mandatory:"false" contributesTo:"query" name:"sortBy"`
+	SortBy ListParserFunctionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListParserFunctionsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
@@ -86,6 +86,27 @@ func (response ListParserFunctionsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListParserFunctionsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListParserFunctionsSortByEnum Enum with underlying type: string
+type ListParserFunctionsSortByEnum string
+
+// Set of constants representing the allowable values for ListParserFunctionsSortByEnum
+const (
+	ListParserFunctionsSortByName ListParserFunctionsSortByEnum = "name"
+)
+
+var mappingListParserFunctionsSortBy = map[string]ListParserFunctionsSortByEnum{
+	"name": ListParserFunctionsSortByName,
+}
+
+// GetListParserFunctionsSortByEnumValues Enumerates the set of values for ListParserFunctionsSortByEnum
+func GetListParserFunctionsSortByEnumValues() []ListParserFunctionsSortByEnum {
+	values := make([]ListParserFunctionsSortByEnum, 0)
+	for _, v := range mappingListParserFunctionsSortBy {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListParserFunctionsSortOrderEnum Enum with underlying type: string

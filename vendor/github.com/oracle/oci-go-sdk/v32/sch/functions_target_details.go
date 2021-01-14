@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// FunctionsTargetDetails The function target.
+// FunctionsTargetDetails The function used for the Functions target.
 type FunctionsTargetDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function.

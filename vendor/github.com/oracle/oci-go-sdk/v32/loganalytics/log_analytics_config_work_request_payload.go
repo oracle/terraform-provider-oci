@@ -24,6 +24,9 @@ type LogAnalyticsConfigWorkRequestPayload struct {
 
 	// lookupReference
 	LookupReference *int64 `mandatory:"false" json:"lookupReference"`
+
+	// lookupReference
+	LookupReferenceString *string `mandatory:"false" json:"lookupReferenceString"`
 }
 
 func (m LogAnalyticsConfigWorkRequestPayload) String() string {

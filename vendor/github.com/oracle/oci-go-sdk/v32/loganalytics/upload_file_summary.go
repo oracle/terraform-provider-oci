@@ -16,7 +16,7 @@ import (
 // UploadFileSummary Details of Upload File.
 type UploadFileSummary struct {
 
-	// Unique internal identifier to refer to upload file
+	// Unique internal identifier to refer upload file.
 	Reference *string `mandatory:"true" json:"reference"`
 
 	// Name of the file
@@ -28,37 +28,37 @@ type UploadFileSummary struct {
 	// Number of estimated chunks for this file. A chunk is a portion of the log file used for the processing.
 	TotalChunks *float32 `mandatory:"false" json:"totalChunks"`
 
-	// Number of chunks processed
+	// Number of chunks processed.
 	ChunksConsumed *float32 `mandatory:"false" json:"chunksConsumed"`
 
-	// Number of chunks processed successfully
+	// Number of chunks processed successfully.
 	ChunksSuccess *float32 `mandatory:"false" json:"chunksSuccess"`
 
-	// Number of chunks failed processing
+	// Number of chunks failed processing.
 	ChunksFail *float32 `mandatory:"false" json:"chunksFail"`
 
-	// The time when this file processing started
+	// The time when this file processing started.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// Name of the log source used for processing this file
+	// Name of the log source used for processing this file.
 	SourceName *string `mandatory:"false" json:"sourceName"`
 
-	// Name of the entity type
+	// Name of the entity type.
 	EntityType *string `mandatory:"false" json:"entityType"`
 
 	// Name of the entity associated with the file.
 	EntityName *string `mandatory:"false" json:"entityName"`
 
-	// Log namespace associated with the file.
+	// (Deprecated) Name of the log namespace associated with the file.
 	LogNamespace *string `mandatory:"false" json:"logNamespace"`
 
 	// Log group OCID associated with the file.
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 
-	// Log group name associated with the file.
+	// Name of the log group associated with the file.
 	LogGroupName *string `mandatory:"false" json:"logGroupName"`
 
-	// The details about upload processing failure
+	// The details about upload processing failure.
 	FailureDetails *string `mandatory:"false" json:"failureDetails"`
 }
 

@@ -25,10 +25,10 @@ type LogAnalyticsEntityType struct {
 	// Log analytics entity type category. Category will be used for grouping and filtering.
 	Category *string `mandatory:"true" json:"category"`
 
-	// Nature of log analytics entity type.
+	// Log analytics entity type group. That can be CLOUD (OCI) or NON_CLOUD otherwise.
 	CloudType EntityCloudTypeEnum `mandatory:"true" json:"cloudType"`
 
-	// The current state of the log analytics entity.
+	// The current lifecycle state of the log analytics entity.
 	LifecycleState EntityLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Time the log analytics entity type was created. An RFC3339 formatted datetime string.

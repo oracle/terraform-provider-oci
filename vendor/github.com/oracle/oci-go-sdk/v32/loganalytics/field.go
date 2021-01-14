@@ -42,6 +42,9 @@ type Field struct {
 	// Query used to derive this field if specified.
 	FilterQueryString *string `mandatory:"false" json:"filterQueryString"`
 
+	// Field denoting field unit type.
+	UnitType *string `mandatory:"false" json:"unitType"`
+
 	// Field denoting field data type.
 	ValueType ValueTypeEnum `mandatory:"false" json:"valueType,omitempty"`
 }
@@ -89,6 +92,11 @@ func (m Field) GetAlias() *string {
 //GetFilterQueryString returns FilterQueryString
 func (m Field) GetFilterQueryString() *string {
 	return m.FilterQueryString
+}
+
+//GetUnitType returns UnitType
+func (m Field) GetUnitType() *string {
+	return m.UnitType
 }
 
 func (m Field) String() string {

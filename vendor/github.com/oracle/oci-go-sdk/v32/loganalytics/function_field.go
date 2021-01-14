@@ -42,6 +42,9 @@ type FunctionField struct {
 	// Query used to derive this field if specified.
 	FilterQueryString *string `mandatory:"false" json:"filterQueryString"`
 
+	// Field denoting field unit type.
+	UnitType *string `mandatory:"false" json:"unitType"`
+
 	// Name of the aggregate function.
 	Function *string `mandatory:"false" json:"function"`
 
@@ -97,6 +100,11 @@ func (m FunctionField) GetFilterQueryString() *string {
 	return m.FilterQueryString
 }
 
+//GetUnitType returns UnitType
+func (m FunctionField) GetUnitType() *string {
+	return m.UnitType
+}
+
 func (m FunctionField) String() string {
 	return common.PointerString(m)
 }
@@ -127,6 +135,7 @@ func (m *FunctionField) UnmarshalJSON(data []byte) (e error) {
 		IsDuration           *bool         `json:"isDuration"`
 		Alias                *string       `json:"alias"`
 		FilterQueryString    *string       `json:"filterQueryString"`
+		UnitType             *string       `json:"unitType"`
 		Function             *string       `json:"function"`
 		Arguments            []argument    `json:"arguments"`
 	}{}
@@ -156,6 +165,8 @@ func (m *FunctionField) UnmarshalJSON(data []byte) (e error) {
 	m.Alias = model.Alias
 
 	m.FilterQueryString = model.FilterQueryString
+
+	m.UnitType = model.UnitType
 
 	m.Function = model.Function
 

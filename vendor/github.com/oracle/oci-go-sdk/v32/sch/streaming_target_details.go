@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// StreamingTargetDetails The streaming target.
+// StreamingTargetDetails The stream used for the Streaming target.
 type StreamingTargetDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream.

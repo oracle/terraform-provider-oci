@@ -19,7 +19,7 @@ type ChangeLogAnalyticsObjectCollectionRuleCompartmentRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The Logging Analytics Object Collection Rule OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// The Logging Analytics Object Collection Rule OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	LogAnalyticsObjectCollectionRuleId *string `mandatory:"true" contributesTo:"path" name:"logAnalyticsObjectCollectionRuleId"`
 
 	// The new compartment this Object Collection Rule will be moved to.

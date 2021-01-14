@@ -16,7 +16,7 @@ import (
 // UpdateLogAnalyticsEntityDetails Details of log analytics entity to be updated.
 type UpdateLogAnalyticsEntityDetails struct {
 
-	// Log analytics entity name. The name must be unique, within the tenancy, and cannot be changed.
+	// Log analytics entity name.
 	Name *string `mandatory:"false" json:"name"`
 
 	// The OCID of the Management Agent.

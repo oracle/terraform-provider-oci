@@ -22,7 +22,7 @@ type AddEntityAssociationRequest struct {
 	// The log analytics entity OCID.
 	LogAnalyticsEntityId *string `mandatory:"true" contributesTo:"path" name:"logAnalyticsEntityId"`
 
-	// This parameter specifies the entity OCIDs with which associations are to be created. Specify destination OCIDs as comma separated string.
+	// This parameter specifies the destination entity OCIDs with which associations are to be created.
 	AddEntityAssociationDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// UpdateLogAnalyticsObjectCollectionRuleDetails To update the attributes of an Object Storage based collection rule.
+// UpdateLogAnalyticsObjectCollectionRuleDetails Configuration of the collection rule to be updated.
 type UpdateLogAnalyticsObjectCollectionRuleDetails struct {
 
 	// A string that describes the details of the rule.
@@ -30,10 +30,13 @@ type UpdateLogAnalyticsObjectCollectionRuleDetails struct {
 	EntityId *string `mandatory:"false" json:"entityId"`
 
 	// An optional character encoding to aid in detecting the character encoding of the contents of the objects while processing.
-	// It is recommended to set this value as ISO_8589_1 when configuring content of the objects having more numeric characters,
+	// It is recommended to set this value as ISO_8859_1 when configuring content of the objects having more numeric characters,
 	// and very few alphabets.
 	// For e.g. this applies when configuring VCN Flow Logs.
 	CharEncoding *string `mandatory:"false" json:"charEncoding"`
+
+	// Whether or not this rule is currently enabled.
+	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// Use this to override some property values which are defined at bucket level to the scope of object.
 	// Supported propeties for override are, logSourceName, charEncoding.

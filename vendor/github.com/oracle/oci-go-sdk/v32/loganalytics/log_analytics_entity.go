@@ -20,7 +20,7 @@ type LogAnalyticsEntity struct {
 	// a resource that is provisioned and managed by the customer on their premises or on the cloud.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Log analytics entity name. The name must be unique, within the tenancy, and cannot be changed.
+	// Log analytics entity name.
 	Name *string `mandatory:"true" json:"name"`
 
 	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

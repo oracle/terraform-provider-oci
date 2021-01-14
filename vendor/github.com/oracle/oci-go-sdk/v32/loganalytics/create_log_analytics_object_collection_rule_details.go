@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// CreateLogAnalyticsObjectCollectionRuleDetails The configuration details of an Object Storage based collection rule to enable automatic log collection.
+// CreateLogAnalyticsObjectCollectionRuleDetails The configuration details of collection rule to enable automatic log collection from an object storage bucket.
 type CreateLogAnalyticsObjectCollectionRuleDetails struct {
 
 	// A unique name given to the rule. The name must be unique within the tenancy, and cannot be modified.
@@ -39,27 +39,29 @@ type CreateLogAnalyticsObjectCollectionRuleDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// The type of collection.
-	// Supported collection types: LIVE, HISTORIC, HISTORIC_LIVE
 	CollectionType ObjectCollectionRuleCollectionTypesEnum `mandatory:"false" json:"collectionType,omitempty"`
 
 	// The oldest time of the file in the bucket to consider for collection.
 	// Accepted values are: BEGINNING or CURRENT_TIME or RFC3339 formatted datetime string.
-	// When collectionType is LIVE, specifying pollSince value other than CURRENT_TIME will result in error.
+	// Use this for HISTORIC or HISTORIC_LIVE collection types. When collectionType is LIVE, specifying pollSince value other than CURRENT_TIME will result in error.
 	PollSince *string `mandatory:"false" json:"pollSince"`
 
-	// The oldest time of the file in the bucket to consider for collection.
+	// The newest time of the file in the bucket to consider for collection.
 	// Accepted values are: CURRENT_TIME or RFC3339 formatted datetime string.
-	// When collectionType is LIVE, specifying pollTill will result in error.
+	// Use this for HISTORIC collection type. When collectionType is LIVE or HISTORIC_LIVE, specifying pollTill will result in error.
 	PollTill *string `mandatory:"false" json:"pollTill"`
 
 	// Logging Analytics entity OCID. Associates the processed logs with the given entity (optional).
 	EntityId *string `mandatory:"false" json:"entityId"`
 
 	// An optional character encoding to aid in detecting the character encoding of the contents of the objects while processing.
-	// It is recommended to set this value as ISO_8589_1 when configuring content of the objects having more numeric characters,
+	// It is recommended to set this value as ISO_8859_1 when configuring content of the objects having more numeric characters,
 	// and very few alphabets.
 	// For e.g. this applies when configuring VCN Flow Logs.
 	CharEncoding *string `mandatory:"false" json:"charEncoding"`
+
+	// Whether or not this rule is currently enabled.
+	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The override is used to modify some important configuration properties for objects matching a specific pattern inside the bucket.
 	// Supported propeties for override are - logSourceName, charEncoding.

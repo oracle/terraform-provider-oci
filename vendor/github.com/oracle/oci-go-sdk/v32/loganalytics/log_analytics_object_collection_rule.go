@@ -31,13 +31,12 @@ type LogAnalyticsObjectCollectionRule struct {
 	// Name of the Object Storage bucket.
 	OsBucketName *string `mandatory:"true" json:"osBucketName"`
 
-	// The type of collection.
-	// Supported collection types: LIVE, HISTORIC, HISTORIC_LIVE
+	// The type of log collection.
 	CollectionType ObjectCollectionRuleCollectionTypesEnum `mandatory:"true" json:"collectionType"`
 
 	// The oldest time of the file in the bucket to consider for collection.
 	// Accepted values are: BEGINNING or CURRENT_TIME or RFC3339 formatted datetime string.
-	// When collectionType is LIVE, specifying pollSince value other than CURRENT_TIME will result in error.
+	// Use this for HISTORIC or HISTORIC_LIVE collection types. When collectionType is LIVE, specifying pollSince value other than CURRENT_TIME will result in error.
 	PollSince *string `mandatory:"true" json:"pollSince"`
 
 	// Logging Analytics Log group OCID to associate the processed logs with.
@@ -47,7 +46,7 @@ type LogAnalyticsObjectCollectionRule struct {
 	LogSourceName *string `mandatory:"true" json:"logSourceName"`
 
 	// The current state of the rule.
-	LifecycleState LogAnalyticsObjectCollectionRuleLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState ObjectCollectionRuleLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The time when this rule was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
@@ -55,20 +54,23 @@ type LogAnalyticsObjectCollectionRule struct {
 	// The time when this rule was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// Whether or not this rule is currently enabled.
+	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
+
 	// A string that describes the details of the rule. It does not have to be unique, and can be changed.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The oldest time of the file in the bucket to consider for collection.
+	// The newest time of the file in the bucket to consider for collection.
 	// Accepted values are: CURRENT_TIME or RFC3339 formatted datetime string.
-	// When collectionType is LIVE, specifying pollTill will result in error.
+	// Use this for HISTORIC collection type. When collectionType is LIVE or HISTORIC_LIVE, specifying pollTill will result in error.
 	PollTill *string `mandatory:"false" json:"pollTill"`
 
 	// Logging Analytics entity OCID to associate the processed logs with.
 	EntityId *string `mandatory:"false" json:"entityId"`
 
 	// An optional character encoding to aid in detecting the character encoding of the contents of the objects while processing.
-	// It is recommended to set this value as ISO_8589_1 when configuring content of the objects having more numeric characters,
+	// It is recommended to set this value as ISO_8859_1 when configuring content of the objects having more numeric characters,
 	// and very few alphabets.
 	// For e.g. this applies when configuring VCN Flow Logs.
 	CharEncoding *string `mandatory:"false" json:"charEncoding"`
@@ -92,27 +94,4 @@ type LogAnalyticsObjectCollectionRule struct {
 
 func (m LogAnalyticsObjectCollectionRule) String() string {
 	return common.PointerString(m)
-}
-
-// LogAnalyticsObjectCollectionRuleLifecycleStateEnum Enum with underlying type: string
-type LogAnalyticsObjectCollectionRuleLifecycleStateEnum string
-
-// Set of constants representing the allowable values for LogAnalyticsObjectCollectionRuleLifecycleStateEnum
-const (
-	LogAnalyticsObjectCollectionRuleLifecycleStateActive  LogAnalyticsObjectCollectionRuleLifecycleStateEnum = "ACTIVE"
-	LogAnalyticsObjectCollectionRuleLifecycleStateDeleted LogAnalyticsObjectCollectionRuleLifecycleStateEnum = "DELETED"
-)
-
-var mappingLogAnalyticsObjectCollectionRuleLifecycleState = map[string]LogAnalyticsObjectCollectionRuleLifecycleStateEnum{
-	"ACTIVE":  LogAnalyticsObjectCollectionRuleLifecycleStateActive,
-	"DELETED": LogAnalyticsObjectCollectionRuleLifecycleStateDeleted,
-}
-
-// GetLogAnalyticsObjectCollectionRuleLifecycleStateEnumValues Enumerates the set of values for LogAnalyticsObjectCollectionRuleLifecycleStateEnum
-func GetLogAnalyticsObjectCollectionRuleLifecycleStateEnumValues() []LogAnalyticsObjectCollectionRuleLifecycleStateEnum {
-	values := make([]LogAnalyticsObjectCollectionRuleLifecycleStateEnum, 0)
-	for _, v := range mappingLogAnalyticsObjectCollectionRuleLifecycleState {
-		values = append(values, v)
-	}
-	return values
 }

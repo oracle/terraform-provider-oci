@@ -19,6 +19,8 @@ type StreamAction struct {
 
 	// The ManagementSavedSearch id [OCID] utilized in the action.
 	SavedSearchId *string `mandatory:"false" json:"savedSearchId"`
+
+	MetricExtraction *MetricExtraction `mandatory:"false" json:"metricExtraction"`
 }
 
 func (m StreamAction) String() string {

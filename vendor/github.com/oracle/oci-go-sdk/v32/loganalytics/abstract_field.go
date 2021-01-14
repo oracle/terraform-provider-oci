@@ -44,6 +44,9 @@ type AbstractField interface {
 
 	// Query used to derive this field if specified.
 	GetFilterQueryString() *string
+
+	// Field denoting field unit type.
+	GetUnitType() *string
 }
 
 type abstractfield struct {
@@ -57,6 +60,7 @@ type abstractfield struct {
 	IsDuration           *bool         `mandatory:"false" json:"isDuration"`
 	Alias                *string       `mandatory:"false" json:"alias"`
 	FilterQueryString    *string       `mandatory:"false" json:"filterQueryString"`
+	UnitType             *string       `mandatory:"false" json:"unitType"`
 	Name                 string        `json:"name"`
 }
 
@@ -80,6 +84,7 @@ func (m *abstractfield) UnmarshalJSON(data []byte) error {
 	m.IsDuration = s.Model.IsDuration
 	m.Alias = s.Model.Alias
 	m.FilterQueryString = s.Model.FilterQueryString
+	m.UnitType = s.Model.UnitType
 	m.Name = s.Model.Name
 
 	return err
@@ -158,6 +163,11 @@ func (m abstractfield) GetAlias() *string {
 //GetFilterQueryString returns FilterQueryString
 func (m abstractfield) GetFilterQueryString() *string {
 	return m.FilterQueryString
+}
+
+//GetUnitType returns UnitType
+func (m abstractfield) GetUnitType() *string {
+	return m.UnitType
 }
 
 func (m abstractfield) String() string {

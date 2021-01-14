@@ -18,7 +18,7 @@ import (
 // define matchType as 'contains', matchValue as 'abc/', propertyName as 'logSourceName' and propertyValue as 'xyz'.
 type PropertyOverride struct {
 
-	// Match Type. Accepted values are: contains
+	// Match Type. Accepted values are: contains.
 	MatchType *string `mandatory:"false" json:"matchType"`
 
 	// Match Value.
@@ -27,7 +27,7 @@ type PropertyOverride struct {
 	// Property to override. Accepted values are: logSourceName, charEncoding.
 	PropertyName *string `mandatory:"false" json:"propertyName"`
 
-	// Value.
+	// Value of the property.
 	PropertyValue *string `mandatory:"false" json:"propertyValue"`
 }
 

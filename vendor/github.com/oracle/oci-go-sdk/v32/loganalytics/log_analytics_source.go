@@ -120,6 +120,9 @@ type LogAnalyticsSource struct {
 
 	// timeUpdated
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// An array of event types.
+	EventTypes []EventType `mandatory:"false" json:"eventTypes"`
 }
 
 func (m LogAnalyticsSource) String() string {

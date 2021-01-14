@@ -53,6 +53,12 @@ type ScheduledTaskSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The most recent task execution status.
+	LastExecutionStatus ScheduledTaskSummaryLastExecutionStatusEnum `mandatory:"false" json:"lastExecutionStatus,omitempty"`
+
+	// The date and time the scheduled task last executed, in the format defined by RFC3339.
+	TimeLastExecuted *common.SDKTime `mandatory:"false" json:"timeLastExecuted"`
 }
 
 func (m ScheduledTaskSummary) String() string {
@@ -81,6 +87,29 @@ var mappingScheduledTaskSummaryTaskStatus = map[string]ScheduledTaskSummaryTaskS
 func GetScheduledTaskSummaryTaskStatusEnumValues() []ScheduledTaskSummaryTaskStatusEnum {
 	values := make([]ScheduledTaskSummaryTaskStatusEnum, 0)
 	for _, v := range mappingScheduledTaskSummaryTaskStatus {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ScheduledTaskSummaryLastExecutionStatusEnum Enum with underlying type: string
+type ScheduledTaskSummaryLastExecutionStatusEnum string
+
+// Set of constants representing the allowable values for ScheduledTaskSummaryLastExecutionStatusEnum
+const (
+	ScheduledTaskSummaryLastExecutionStatusFailed    ScheduledTaskSummaryLastExecutionStatusEnum = "FAILED"
+	ScheduledTaskSummaryLastExecutionStatusSucceeded ScheduledTaskSummaryLastExecutionStatusEnum = "SUCCEEDED"
+)
+
+var mappingScheduledTaskSummaryLastExecutionStatus = map[string]ScheduledTaskSummaryLastExecutionStatusEnum{
+	"FAILED":    ScheduledTaskSummaryLastExecutionStatusFailed,
+	"SUCCEEDED": ScheduledTaskSummaryLastExecutionStatusSucceeded,
+}
+
+// GetScheduledTaskSummaryLastExecutionStatusEnumValues Enumerates the set of values for ScheduledTaskSummaryLastExecutionStatusEnum
+func GetScheduledTaskSummaryLastExecutionStatusEnumValues() []ScheduledTaskSummaryLastExecutionStatusEnum {
+	values := make([]ScheduledTaskSummaryLastExecutionStatusEnum, 0)
+	for _, v := range mappingScheduledTaskSummaryLastExecutionStatus {
 		values = append(values, v)
 	}
 	return values
