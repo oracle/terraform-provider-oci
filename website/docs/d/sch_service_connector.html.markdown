@@ -53,6 +53,7 @@ The following attributes are exported:
 	* `batch_rollover_time_in_ms` - The batch rollover time in milliseconds. 
 	* `bucket` - The name of the bucket. Avoid entering confidential information. 
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric. 
+	* `enable_formatted_messaging` - Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the service connector source and the subscription protocol.  Example: `true` 
 	* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function. 
 	* `kind` - The type descriminator. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group. 
