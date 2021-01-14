@@ -133,6 +133,8 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("maintenance_slo_status", s.Res.MaintenanceSLOStatus)
+
 	if s.Res.MaintenanceWindow != nil {
 		s.D.Set("maintenance_window", []interface{}{ExadataInfrastructureMaintenanceWindowToMap(s.Res.MaintenanceWindow)})
 	} else {

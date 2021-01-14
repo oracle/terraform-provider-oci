@@ -177,6 +177,8 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		exadataInfrastructure["maintenance_slo_status"] = r.MaintenanceSLOStatus
+
 		if r.MaintenanceWindow != nil {
 			exadataInfrastructure["maintenance_window"] = []interface{}{ExadataInfrastructureMaintenanceWindowToMap(r.MaintenanceWindow)}
 		} else {
