@@ -4,12 +4,12 @@
 package oci
 
 import (
+	"bytes"
 	"context"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
 
-	"bytes"
 	"io/ioutil"
 	"log"
 	"net/http"
