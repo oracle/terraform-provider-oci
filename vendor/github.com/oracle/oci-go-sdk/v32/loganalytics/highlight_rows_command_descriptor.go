@@ -32,6 +32,9 @@ type HighlightRowsCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
+	// User specified color to highlight matches with if found.
+	Color *string `mandatory:"false" json:"color"`
+
 	// List of terms or phrases to find to mark the result row as highlighted.
 	Keywords []string `mandatory:"false" json:"keywords"`
 }
@@ -85,6 +88,7 @@ func (m *HighlightRowsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		Color               *string         `json:"color"`
 		Keywords            []string        `json:"keywords"`
 		DisplayQueryString  *string         `json:"displayQueryString"`
 		InternalQueryString *string         `json:"internalQueryString"`
@@ -122,6 +126,8 @@ func (m *HighlightRowsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.Color = model.Color
 
 	m.Keywords = make([]string, len(model.Keywords))
 	for i, n := range model.Keywords {

@@ -19,10 +19,10 @@ type DeleteUploadWarningRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// Unique internal identifier to refer to upload container
+	// Unique internal identifier to refer upload container.
 	UploadReference *string `mandatory:"true" contributesTo:"path" name:"uploadReference"`
 
-	// Unique internal identifier to refer to upload warning
+	// Unique internal identifier to refer upload warning.
 	WarningReference *string `mandatory:"true" contributesTo:"path" name:"warningReference"`
 
 	// The client request ID for tracing.

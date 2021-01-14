@@ -26,7 +26,7 @@ type ListSourceLabelOperatorsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// sort by field
-	SortBy *string `mandatory:"false" contributesTo:"query" name:"sortBy"`
+	SortBy ListSourceLabelOperatorsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListSourceLabelOperatorsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
@@ -83,6 +83,27 @@ func (response ListSourceLabelOperatorsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListSourceLabelOperatorsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListSourceLabelOperatorsSortByEnum Enum with underlying type: string
+type ListSourceLabelOperatorsSortByEnum string
+
+// Set of constants representing the allowable values for ListSourceLabelOperatorsSortByEnum
+const (
+	ListSourceLabelOperatorsSortByName ListSourceLabelOperatorsSortByEnum = "name"
+)
+
+var mappingListSourceLabelOperatorsSortBy = map[string]ListSourceLabelOperatorsSortByEnum{
+	"name": ListSourceLabelOperatorsSortByName,
+}
+
+// GetListSourceLabelOperatorsSortByEnumValues Enumerates the set of values for ListSourceLabelOperatorsSortByEnum
+func GetListSourceLabelOperatorsSortByEnumValues() []ListSourceLabelOperatorsSortByEnum {
+	values := make([]ListSourceLabelOperatorsSortByEnum, 0)
+	for _, v := range mappingListSourceLabelOperatorsSortBy {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListSourceLabelOperatorsSortOrderEnum Enum with underlying type: string

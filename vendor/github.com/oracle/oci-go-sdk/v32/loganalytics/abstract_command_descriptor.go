@@ -117,8 +117,16 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := FieldSummaryCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MAP":
+		mm := MapCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "EVENT_STATS":
 		mm := EventStatsCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HIGHLIGHT_GROUPS":
+		mm := HighlightGroupsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "WHERE":
@@ -177,6 +185,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := ExtractCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "NLP":
+		mm := NlpCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "BOTTOM":
 		mm := BottomCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
@@ -207,6 +219,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		return mm, err
 	case "HEAD":
 		mm := HeadCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CREATE_VIEW":
+		mm := CreateViewCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ADD_FIELDS":
@@ -260,83 +276,91 @@ type AbstractCommandDescriptorNameEnum string
 
 // Set of constants representing the allowable values for AbstractCommandDescriptorNameEnum
 const (
-	AbstractCommandDescriptorNameCommand        AbstractCommandDescriptorNameEnum = "COMMAND"
-	AbstractCommandDescriptorNameSearch         AbstractCommandDescriptorNameEnum = "SEARCH"
-	AbstractCommandDescriptorNameStats          AbstractCommandDescriptorNameEnum = "STATS"
-	AbstractCommandDescriptorNameTimeStats      AbstractCommandDescriptorNameEnum = "TIME_STATS"
-	AbstractCommandDescriptorNameSort           AbstractCommandDescriptorNameEnum = "SORT"
-	AbstractCommandDescriptorNameFields         AbstractCommandDescriptorNameEnum = "FIELDS"
-	AbstractCommandDescriptorNameAddFields      AbstractCommandDescriptorNameEnum = "ADD_FIELDS"
-	AbstractCommandDescriptorNameLink           AbstractCommandDescriptorNameEnum = "LINK"
-	AbstractCommandDescriptorNameLinkDetails    AbstractCommandDescriptorNameEnum = "LINK_DETAILS"
-	AbstractCommandDescriptorNameCluster        AbstractCommandDescriptorNameEnum = "CLUSTER"
-	AbstractCommandDescriptorNameClusterDetails AbstractCommandDescriptorNameEnum = "CLUSTER_DETAILS"
-	AbstractCommandDescriptorNameClusterSplit   AbstractCommandDescriptorNameEnum = "CLUSTER_SPLIT"
-	AbstractCommandDescriptorNameEval           AbstractCommandDescriptorNameEnum = "EVAL"
-	AbstractCommandDescriptorNameExtract        AbstractCommandDescriptorNameEnum = "EXTRACT"
-	AbstractCommandDescriptorNameEventStats     AbstractCommandDescriptorNameEnum = "EVENT_STATS"
-	AbstractCommandDescriptorNameBucket         AbstractCommandDescriptorNameEnum = "BUCKET"
-	AbstractCommandDescriptorNameClassify       AbstractCommandDescriptorNameEnum = "CLASSIFY"
-	AbstractCommandDescriptorNameTop            AbstractCommandDescriptorNameEnum = "TOP"
-	AbstractCommandDescriptorNameBottom         AbstractCommandDescriptorNameEnum = "BOTTOM"
-	AbstractCommandDescriptorNameHead           AbstractCommandDescriptorNameEnum = "HEAD"
-	AbstractCommandDescriptorNameTail           AbstractCommandDescriptorNameEnum = "TAIL"
-	AbstractCommandDescriptorNameFieldSummary   AbstractCommandDescriptorNameEnum = "FIELD_SUMMARY"
-	AbstractCommandDescriptorNameRegex          AbstractCommandDescriptorNameEnum = "REGEX"
-	AbstractCommandDescriptorNameRename         AbstractCommandDescriptorNameEnum = "RENAME"
-	AbstractCommandDescriptorNameTimeCompare    AbstractCommandDescriptorNameEnum = "TIME_COMPARE"
-	AbstractCommandDescriptorNameWhere          AbstractCommandDescriptorNameEnum = "WHERE"
-	AbstractCommandDescriptorNameClusterCompare AbstractCommandDescriptorNameEnum = "CLUSTER_COMPARE"
-	AbstractCommandDescriptorNameDelete         AbstractCommandDescriptorNameEnum = "DELETE"
-	AbstractCommandDescriptorNameDelta          AbstractCommandDescriptorNameEnum = "DELTA"
-	AbstractCommandDescriptorNameDistinct       AbstractCommandDescriptorNameEnum = "DISTINCT"
-	AbstractCommandDescriptorNameSearchLookup   AbstractCommandDescriptorNameEnum = "SEARCH_LOOKUP"
-	AbstractCommandDescriptorNameLookup         AbstractCommandDescriptorNameEnum = "LOOKUP"
-	AbstractCommandDescriptorNameDemoMode       AbstractCommandDescriptorNameEnum = "DEMO_MODE"
-	AbstractCommandDescriptorNameMacro          AbstractCommandDescriptorNameEnum = "MACRO"
-	AbstractCommandDescriptorNameMultiSearch    AbstractCommandDescriptorNameEnum = "MULTI_SEARCH"
-	AbstractCommandDescriptorNameHighlight      AbstractCommandDescriptorNameEnum = "HIGHLIGHT"
-	AbstractCommandDescriptorNameHighlightRows  AbstractCommandDescriptorNameEnum = "HIGHLIGHT_ROWS"
+	AbstractCommandDescriptorNameCommand         AbstractCommandDescriptorNameEnum = "COMMAND"
+	AbstractCommandDescriptorNameSearch          AbstractCommandDescriptorNameEnum = "SEARCH"
+	AbstractCommandDescriptorNameStats           AbstractCommandDescriptorNameEnum = "STATS"
+	AbstractCommandDescriptorNameTimeStats       AbstractCommandDescriptorNameEnum = "TIME_STATS"
+	AbstractCommandDescriptorNameSort            AbstractCommandDescriptorNameEnum = "SORT"
+	AbstractCommandDescriptorNameFields          AbstractCommandDescriptorNameEnum = "FIELDS"
+	AbstractCommandDescriptorNameAddFields       AbstractCommandDescriptorNameEnum = "ADD_FIELDS"
+	AbstractCommandDescriptorNameLink            AbstractCommandDescriptorNameEnum = "LINK"
+	AbstractCommandDescriptorNameLinkDetails     AbstractCommandDescriptorNameEnum = "LINK_DETAILS"
+	AbstractCommandDescriptorNameCluster         AbstractCommandDescriptorNameEnum = "CLUSTER"
+	AbstractCommandDescriptorNameClusterDetails  AbstractCommandDescriptorNameEnum = "CLUSTER_DETAILS"
+	AbstractCommandDescriptorNameClusterSplit    AbstractCommandDescriptorNameEnum = "CLUSTER_SPLIT"
+	AbstractCommandDescriptorNameEval            AbstractCommandDescriptorNameEnum = "EVAL"
+	AbstractCommandDescriptorNameExtract         AbstractCommandDescriptorNameEnum = "EXTRACT"
+	AbstractCommandDescriptorNameEventStats      AbstractCommandDescriptorNameEnum = "EVENT_STATS"
+	AbstractCommandDescriptorNameBucket          AbstractCommandDescriptorNameEnum = "BUCKET"
+	AbstractCommandDescriptorNameClassify        AbstractCommandDescriptorNameEnum = "CLASSIFY"
+	AbstractCommandDescriptorNameTop             AbstractCommandDescriptorNameEnum = "TOP"
+	AbstractCommandDescriptorNameBottom          AbstractCommandDescriptorNameEnum = "BOTTOM"
+	AbstractCommandDescriptorNameHead            AbstractCommandDescriptorNameEnum = "HEAD"
+	AbstractCommandDescriptorNameTail            AbstractCommandDescriptorNameEnum = "TAIL"
+	AbstractCommandDescriptorNameFieldSummary    AbstractCommandDescriptorNameEnum = "FIELD_SUMMARY"
+	AbstractCommandDescriptorNameRegex           AbstractCommandDescriptorNameEnum = "REGEX"
+	AbstractCommandDescriptorNameRename          AbstractCommandDescriptorNameEnum = "RENAME"
+	AbstractCommandDescriptorNameTimeCompare     AbstractCommandDescriptorNameEnum = "TIME_COMPARE"
+	AbstractCommandDescriptorNameWhere           AbstractCommandDescriptorNameEnum = "WHERE"
+	AbstractCommandDescriptorNameClusterCompare  AbstractCommandDescriptorNameEnum = "CLUSTER_COMPARE"
+	AbstractCommandDescriptorNameDelete          AbstractCommandDescriptorNameEnum = "DELETE"
+	AbstractCommandDescriptorNameDelta           AbstractCommandDescriptorNameEnum = "DELTA"
+	AbstractCommandDescriptorNameDistinct        AbstractCommandDescriptorNameEnum = "DISTINCT"
+	AbstractCommandDescriptorNameSearchLookup    AbstractCommandDescriptorNameEnum = "SEARCH_LOOKUP"
+	AbstractCommandDescriptorNameLookup          AbstractCommandDescriptorNameEnum = "LOOKUP"
+	AbstractCommandDescriptorNameDemoMode        AbstractCommandDescriptorNameEnum = "DEMO_MODE"
+	AbstractCommandDescriptorNameMacro           AbstractCommandDescriptorNameEnum = "MACRO"
+	AbstractCommandDescriptorNameMultiSearch     AbstractCommandDescriptorNameEnum = "MULTI_SEARCH"
+	AbstractCommandDescriptorNameHighlight       AbstractCommandDescriptorNameEnum = "HIGHLIGHT"
+	AbstractCommandDescriptorNameHighlightRows   AbstractCommandDescriptorNameEnum = "HIGHLIGHT_ROWS"
+	AbstractCommandDescriptorNameHighlightGroups AbstractCommandDescriptorNameEnum = "HIGHLIGHT_GROUPS"
+	AbstractCommandDescriptorNameCreateView      AbstractCommandDescriptorNameEnum = "CREATE_VIEW"
+	AbstractCommandDescriptorNameMap             AbstractCommandDescriptorNameEnum = "MAP"
+	AbstractCommandDescriptorNameNlp             AbstractCommandDescriptorNameEnum = "NLP"
 )
 
 var mappingAbstractCommandDescriptorName = map[string]AbstractCommandDescriptorNameEnum{
-	"COMMAND":         AbstractCommandDescriptorNameCommand,
-	"SEARCH":          AbstractCommandDescriptorNameSearch,
-	"STATS":           AbstractCommandDescriptorNameStats,
-	"TIME_STATS":      AbstractCommandDescriptorNameTimeStats,
-	"SORT":            AbstractCommandDescriptorNameSort,
-	"FIELDS":          AbstractCommandDescriptorNameFields,
-	"ADD_FIELDS":      AbstractCommandDescriptorNameAddFields,
-	"LINK":            AbstractCommandDescriptorNameLink,
-	"LINK_DETAILS":    AbstractCommandDescriptorNameLinkDetails,
-	"CLUSTER":         AbstractCommandDescriptorNameCluster,
-	"CLUSTER_DETAILS": AbstractCommandDescriptorNameClusterDetails,
-	"CLUSTER_SPLIT":   AbstractCommandDescriptorNameClusterSplit,
-	"EVAL":            AbstractCommandDescriptorNameEval,
-	"EXTRACT":         AbstractCommandDescriptorNameExtract,
-	"EVENT_STATS":     AbstractCommandDescriptorNameEventStats,
-	"BUCKET":          AbstractCommandDescriptorNameBucket,
-	"CLASSIFY":        AbstractCommandDescriptorNameClassify,
-	"TOP":             AbstractCommandDescriptorNameTop,
-	"BOTTOM":          AbstractCommandDescriptorNameBottom,
-	"HEAD":            AbstractCommandDescriptorNameHead,
-	"TAIL":            AbstractCommandDescriptorNameTail,
-	"FIELD_SUMMARY":   AbstractCommandDescriptorNameFieldSummary,
-	"REGEX":           AbstractCommandDescriptorNameRegex,
-	"RENAME":          AbstractCommandDescriptorNameRename,
-	"TIME_COMPARE":    AbstractCommandDescriptorNameTimeCompare,
-	"WHERE":           AbstractCommandDescriptorNameWhere,
-	"CLUSTER_COMPARE": AbstractCommandDescriptorNameClusterCompare,
-	"DELETE":          AbstractCommandDescriptorNameDelete,
-	"DELTA":           AbstractCommandDescriptorNameDelta,
-	"DISTINCT":        AbstractCommandDescriptorNameDistinct,
-	"SEARCH_LOOKUP":   AbstractCommandDescriptorNameSearchLookup,
-	"LOOKUP":          AbstractCommandDescriptorNameLookup,
-	"DEMO_MODE":       AbstractCommandDescriptorNameDemoMode,
-	"MACRO":           AbstractCommandDescriptorNameMacro,
-	"MULTI_SEARCH":    AbstractCommandDescriptorNameMultiSearch,
-	"HIGHLIGHT":       AbstractCommandDescriptorNameHighlight,
-	"HIGHLIGHT_ROWS":  AbstractCommandDescriptorNameHighlightRows,
+	"COMMAND":          AbstractCommandDescriptorNameCommand,
+	"SEARCH":           AbstractCommandDescriptorNameSearch,
+	"STATS":            AbstractCommandDescriptorNameStats,
+	"TIME_STATS":       AbstractCommandDescriptorNameTimeStats,
+	"SORT":             AbstractCommandDescriptorNameSort,
+	"FIELDS":           AbstractCommandDescriptorNameFields,
+	"ADD_FIELDS":       AbstractCommandDescriptorNameAddFields,
+	"LINK":             AbstractCommandDescriptorNameLink,
+	"LINK_DETAILS":     AbstractCommandDescriptorNameLinkDetails,
+	"CLUSTER":          AbstractCommandDescriptorNameCluster,
+	"CLUSTER_DETAILS":  AbstractCommandDescriptorNameClusterDetails,
+	"CLUSTER_SPLIT":    AbstractCommandDescriptorNameClusterSplit,
+	"EVAL":             AbstractCommandDescriptorNameEval,
+	"EXTRACT":          AbstractCommandDescriptorNameExtract,
+	"EVENT_STATS":      AbstractCommandDescriptorNameEventStats,
+	"BUCKET":           AbstractCommandDescriptorNameBucket,
+	"CLASSIFY":         AbstractCommandDescriptorNameClassify,
+	"TOP":              AbstractCommandDescriptorNameTop,
+	"BOTTOM":           AbstractCommandDescriptorNameBottom,
+	"HEAD":             AbstractCommandDescriptorNameHead,
+	"TAIL":             AbstractCommandDescriptorNameTail,
+	"FIELD_SUMMARY":    AbstractCommandDescriptorNameFieldSummary,
+	"REGEX":            AbstractCommandDescriptorNameRegex,
+	"RENAME":           AbstractCommandDescriptorNameRename,
+	"TIME_COMPARE":     AbstractCommandDescriptorNameTimeCompare,
+	"WHERE":            AbstractCommandDescriptorNameWhere,
+	"CLUSTER_COMPARE":  AbstractCommandDescriptorNameClusterCompare,
+	"DELETE":           AbstractCommandDescriptorNameDelete,
+	"DELTA":            AbstractCommandDescriptorNameDelta,
+	"DISTINCT":         AbstractCommandDescriptorNameDistinct,
+	"SEARCH_LOOKUP":    AbstractCommandDescriptorNameSearchLookup,
+	"LOOKUP":           AbstractCommandDescriptorNameLookup,
+	"DEMO_MODE":        AbstractCommandDescriptorNameDemoMode,
+	"MACRO":            AbstractCommandDescriptorNameMacro,
+	"MULTI_SEARCH":     AbstractCommandDescriptorNameMultiSearch,
+	"HIGHLIGHT":        AbstractCommandDescriptorNameHighlight,
+	"HIGHLIGHT_ROWS":   AbstractCommandDescriptorNameHighlightRows,
+	"HIGHLIGHT_GROUPS": AbstractCommandDescriptorNameHighlightGroups,
+	"CREATE_VIEW":      AbstractCommandDescriptorNameCreateView,
+	"MAP":              AbstractCommandDescriptorNameMap,
+	"NLP":              AbstractCommandDescriptorNameNlp,
 }
 
 // GetAbstractCommandDescriptorNameEnumValues Enumerates the set of values for AbstractCommandDescriptorNameEnum

@@ -13,25 +13,25 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// ParsedContent Parsed Content
+// ParsedContent Parsed representation of the log file.
 type ParsedContent struct {
 
-	// Field names
+	// List of field names.
 	FieldNames []string `mandatory:"false" json:"fieldNames"`
 
-	// Display names for fields
+	// List of field display names.
 	FieldDisplayNames []string `mandatory:"false" json:"fieldDisplayNames"`
 
-	// Parsed field values
+	// Parsed field values.
 	ParsedFieldValues []ParsedField `mandatory:"false" json:"parsedFieldValues"`
 
-	// Sample log entries picked up from the given file for validation
+	// Sample log entries picked up from the given file for validation.
 	LogContent *string `mandatory:"false" json:"logContent"`
 
-	// Sample Size taken for validation
+	// Sample Size taken for validation.
 	SampleSize *int `mandatory:"false" json:"sampleSize"`
 
-	// Match Status
+	// Match Status.
 	MatchStatus *string `mandatory:"false" json:"matchStatus"`
 }
 

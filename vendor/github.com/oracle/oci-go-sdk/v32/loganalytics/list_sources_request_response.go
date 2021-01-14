@@ -25,7 +25,7 @@ type ListSourcesRequest struct {
 	// entityType
 	EntityType *string `mandatory:"false" contributesTo:"query" name:"entityType"`
 
-	// search by source display name or description
+	// Search by source display name or description.
 	SourceDisplayText *string `mandatory:"false" contributesTo:"query" name:"sourceDisplayText"`
 
 	// Is system param of value (all, custom, sourceUsing)

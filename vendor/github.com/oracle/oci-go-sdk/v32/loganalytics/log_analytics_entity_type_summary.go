@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// LogAnalyticsEntityTypeSummary Summary of an log analytics entity type.
+// LogAnalyticsEntityTypeSummary Summary of a log analytics entity type.
 type LogAnalyticsEntityTypeSummary struct {
 
 	// Log analytics entity type name.
@@ -25,10 +25,10 @@ type LogAnalyticsEntityTypeSummary struct {
 	// Log analytics entity type category. Category will be used for grouping and filtering.
 	Category *string `mandatory:"true" json:"category"`
 
-	// Nature of log analytics entity type.
+	// Log analytics entity type group. This can be CLOUD (OCI) or NON_CLOUD otherwise.
 	CloudType EntityCloudTypeEnum `mandatory:"true" json:"cloudType"`
 
-	// The current state of the log analytics entity
+	// The current lifecycle state of the log analytics entity type.
 	LifecycleState EntityLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Time the log analytics entity type was created. An RFC3339 formatted datetime string.

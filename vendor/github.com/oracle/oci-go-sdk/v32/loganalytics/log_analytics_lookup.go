@@ -31,8 +31,14 @@ type LogAnalyticsLookup struct {
 	// fields
 	Fields []LookupField `mandatory:"false" json:"fields"`
 
-	// lookupReference
+	// The lookup reference as an integer.
 	LookupReference *int64 `mandatory:"false" json:"lookupReference"`
+
+	// The lookup reference as a string.
+	LookupReferenceString *string `mandatory:"false" json:"lookupReferenceString"`
+
+	// The lookup type.  Valid values are LOOKUP or DICTIONARY.
+	Type LogAnalyticsLookupTypeEnum `mandatory:"false" json:"type,omitempty"`
 
 	// iname
 	Name *string `mandatory:"false" json:"name"`
@@ -56,4 +62,27 @@ type LogAnalyticsLookup struct {
 
 func (m LogAnalyticsLookup) String() string {
 	return common.PointerString(m)
+}
+
+// LogAnalyticsLookupTypeEnum Enum with underlying type: string
+type LogAnalyticsLookupTypeEnum string
+
+// Set of constants representing the allowable values for LogAnalyticsLookupTypeEnum
+const (
+	LogAnalyticsLookupTypeLookup     LogAnalyticsLookupTypeEnum = "Lookup"
+	LogAnalyticsLookupTypeDictionary LogAnalyticsLookupTypeEnum = "Dictionary"
+)
+
+var mappingLogAnalyticsLookupType = map[string]LogAnalyticsLookupTypeEnum{
+	"Lookup":     LogAnalyticsLookupTypeLookup,
+	"Dictionary": LogAnalyticsLookupTypeDictionary,
+}
+
+// GetLogAnalyticsLookupTypeEnumValues Enumerates the set of values for LogAnalyticsLookupTypeEnum
+func GetLogAnalyticsLookupTypeEnumValues() []LogAnalyticsLookupTypeEnum {
+	values := make([]LogAnalyticsLookupTypeEnum, 0)
+	for _, v := range mappingLogAnalyticsLookupType {
+		values = append(values, v)
+	}
+	return values
 }

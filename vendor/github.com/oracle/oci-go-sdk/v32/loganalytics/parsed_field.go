@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// ParsedField Parsed field response
+// ParsedField Parsed field response.
 type ParsedField struct {
 
-	// Sample log entries picked up from the given file for validation
+	// Sample log entries picked up from the given file for validation.
 	LogContent *string `mandatory:"false" json:"logContent"`
 
-	// Field Values
+	// List of field Values.
 	FieldValues []string `mandatory:"false" json:"fieldValues"`
 }
 

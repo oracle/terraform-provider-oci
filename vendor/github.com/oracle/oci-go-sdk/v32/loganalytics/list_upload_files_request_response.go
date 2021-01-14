@@ -19,7 +19,7 @@ type ListUploadFilesRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// Unique internal identifier to refer to upload container
+	// Unique internal identifier to refer upload container.
 	UploadReference *string `mandatory:"true" contributesTo:"path" name:"uploadReference"`
 
 	// The maximum number of items to return.
@@ -31,13 +31,14 @@ type ListUploadFilesRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListUploadFilesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending.
+	// The field to sort by. Only one sort order may be provided. Default order for timeStarted is descending.
+	// timeCreated, fileName and logGroup are deprecated. Instead use timestarted, name, logGroup accordingly.
 	SortBy ListUploadFilesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// Search string used to filtering uploads based on file name, log group name and log source name.
+	// This can be used to filter upload files based on the file, log group and log source names.
 	SearchStr *string `mandatory:"false" contributesTo:"query" name:"searchStr"`
 
-	// Upload Status.
+	// Upload File processing state.
 	Status []ListUploadFilesStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
 
 	// The client request ID for tracing.
@@ -117,19 +118,25 @@ type ListUploadFilesSortByEnum string
 
 // Set of constants representing the allowable values for ListUploadFilesSortByEnum
 const (
-	ListUploadFilesSortByTimecreated ListUploadFilesSortByEnum = "timeCreated"
-	ListUploadFilesSortByFilename    ListUploadFilesSortByEnum = "fileName"
-	ListUploadFilesSortByLoggroup    ListUploadFilesSortByEnum = "logGroup"
-	ListUploadFilesSortBySourcename  ListUploadFilesSortByEnum = "sourceName"
-	ListUploadFilesSortByStatus      ListUploadFilesSortByEnum = "status"
+	ListUploadFilesSortByTimestarted  ListUploadFilesSortByEnum = "timeStarted"
+	ListUploadFilesSortByName         ListUploadFilesSortByEnum = "name"
+	ListUploadFilesSortByLoggroupname ListUploadFilesSortByEnum = "logGroupName"
+	ListUploadFilesSortBySourcename   ListUploadFilesSortByEnum = "sourceName"
+	ListUploadFilesSortByStatus       ListUploadFilesSortByEnum = "status"
+	ListUploadFilesSortByTimecreated  ListUploadFilesSortByEnum = "timeCreated"
+	ListUploadFilesSortByFilename     ListUploadFilesSortByEnum = "fileName"
+	ListUploadFilesSortByLoggroup     ListUploadFilesSortByEnum = "logGroup"
 )
 
 var mappingListUploadFilesSortBy = map[string]ListUploadFilesSortByEnum{
-	"timeCreated": ListUploadFilesSortByTimecreated,
-	"fileName":    ListUploadFilesSortByFilename,
-	"logGroup":    ListUploadFilesSortByLoggroup,
-	"sourceName":  ListUploadFilesSortBySourcename,
-	"status":      ListUploadFilesSortByStatus,
+	"timeStarted":  ListUploadFilesSortByTimestarted,
+	"name":         ListUploadFilesSortByName,
+	"logGroupName": ListUploadFilesSortByLoggroupname,
+	"sourceName":   ListUploadFilesSortBySourcename,
+	"status":       ListUploadFilesSortByStatus,
+	"timeCreated":  ListUploadFilesSortByTimecreated,
+	"fileName":     ListUploadFilesSortByFilename,
+	"logGroup":     ListUploadFilesSortByLoggroup,
 }
 
 // GetListUploadFilesSortByEnumValues Enumerates the set of values for ListUploadFilesSortByEnum

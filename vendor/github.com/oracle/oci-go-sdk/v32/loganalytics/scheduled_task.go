@@ -15,131 +15,194 @@ import (
 )
 
 // ScheduledTask Log analytics scheduled task resource.
-type ScheduledTask struct {
+type ScheduledTask interface {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data plane resource.
-	Id *string `mandatory:"true" json:"id"`
+	GetId() *string
 
 	// A user-friendly name that is changeable and that does not have to be unique.
 	// Format: a leading alphanumeric, followed by zero or more
 	// alphanumerics, underscores, spaces, backslashes, or hyphens in any order).
 	// No trailing spaces allowed.
-	DisplayName *string `mandatory:"true" json:"displayName"`
+	GetDisplayName() *string
 
 	// Task type.
-	TaskType TaskTypeEnum `mandatory:"true" json:"taskType"`
+	GetTaskType() TaskTypeEnum
 
 	// Schedules.
-	Schedules []Schedule `mandatory:"true" json:"schedules"`
+	GetSchedules() []Schedule
 
-	Action Action `mandatory:"true" json:"action"`
+	GetAction() Action
 
 	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	GetCompartmentId() *string
 
 	// The date and time the scheduled task was created, in the format defined by RFC3339.
-	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+	GetTimeCreated() *common.SDKTime
 
 	// The date and time the scheduled task was last updated, in the format defined by RFC3339.
-	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+	GetTimeUpdated() *common.SDKTime
 
 	// The current state of the scheduled task.
-	LifecycleState ScheduledTaskLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	GetLifecycleState() ScheduledTaskLifecycleStateEnum
 
 	// Status of the scheduled task.
-	TaskStatus ScheduledTaskTaskStatusEnum `mandatory:"false" json:"taskStatus,omitempty"`
+	GetTaskStatus() ScheduledTaskTaskStatusEnum
 
 	// most recent Work Request Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
-	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
+	GetWorkRequestId() *string
 
 	// Number of execution occurrences.
-	NumOccurrences *int64 `mandatory:"false" json:"numOccurrences"`
+	GetNumOccurrences() *int64
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+	GetFreeformTags() map[string]string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	GetDefinedTags() map[string]map[string]interface{}
 }
 
-func (m ScheduledTask) String() string {
-	return common.PointerString(m)
+type scheduledtask struct {
+	JsonData       []byte
+	Id             *string                           `mandatory:"true" json:"id"`
+	DisplayName    *string                           `mandatory:"true" json:"displayName"`
+	TaskType       TaskTypeEnum                      `mandatory:"true" json:"taskType"`
+	Schedules      []Schedule                        `mandatory:"true" json:"schedules"`
+	Action         Action                            `mandatory:"true" json:"action"`
+	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
+	TimeCreated    *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	TimeUpdated    *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
+	LifecycleState ScheduledTaskLifecycleStateEnum   `mandatory:"true" json:"lifecycleState"`
+	TaskStatus     ScheduledTaskTaskStatusEnum       `mandatory:"false" json:"taskStatus,omitempty"`
+	WorkRequestId  *string                           `mandatory:"false" json:"workRequestId"`
+	NumOccurrences *int64                            `mandatory:"false" json:"numOccurrences"`
+	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Kind           string                            `json:"kind"`
 }
 
-// UnmarshalJSON unmarshals from json
-func (m *ScheduledTask) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		TaskStatus     ScheduledTaskTaskStatusEnum       `json:"taskStatus"`
-		WorkRequestId  *string                           `json:"workRequestId"`
-		NumOccurrences *int64                            `json:"numOccurrences"`
-		FreeformTags   map[string]string                 `json:"freeformTags"`
-		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
-		Id             *string                           `json:"id"`
-		DisplayName    *string                           `json:"displayName"`
-		TaskType       TaskTypeEnum                      `json:"taskType"`
-		Schedules      []schedule                        `json:"schedules"`
-		Action         action                            `json:"action"`
-		CompartmentId  *string                           `json:"compartmentId"`
-		TimeCreated    *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated    *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleState ScheduledTaskLifecycleStateEnum   `json:"lifecycleState"`
+// UnmarshalJSON unmarshals json
+func (m *scheduledtask) UnmarshalJSON(data []byte) error {
+	m.JsonData = data
+	type Unmarshalerscheduledtask scheduledtask
+	s := struct {
+		Model Unmarshalerscheduledtask
 	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
+	err := json.Unmarshal(data, &s.Model)
+	if err != nil {
+		return err
 	}
-	var nn interface{}
-	m.TaskStatus = model.TaskStatus
+	m.Id = s.Model.Id
+	m.DisplayName = s.Model.DisplayName
+	m.TaskType = s.Model.TaskType
+	m.Schedules = s.Model.Schedules
+	m.Action = s.Model.Action
+	m.CompartmentId = s.Model.CompartmentId
+	m.TimeCreated = s.Model.TimeCreated
+	m.TimeUpdated = s.Model.TimeUpdated
+	m.LifecycleState = s.Model.LifecycleState
+	m.TaskStatus = s.Model.TaskStatus
+	m.WorkRequestId = s.Model.WorkRequestId
+	m.NumOccurrences = s.Model.NumOccurrences
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
+	m.Kind = s.Model.Kind
 
-	m.WorkRequestId = model.WorkRequestId
+	return err
+}
 
-	m.NumOccurrences = model.NumOccurrences
+// UnmarshalPolymorphicJSON unmarshals polymorphic json
+func (m *scheduledtask) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.Id = model.Id
-
-	m.DisplayName = model.DisplayName
-
-	m.TaskType = model.TaskType
-
-	m.Schedules = make([]Schedule, len(model.Schedules))
-	for i, n := range model.Schedules {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.Schedules[i] = nn.(Schedule)
-		} else {
-			m.Schedules[i] = nil
-		}
+	if data == nil || string(data) == "null" {
+		return nil, nil
 	}
 
-	nn, e = model.Action.UnmarshalPolymorphicJSON(model.Action.JsonData)
-	if e != nil {
-		return
+	var err error
+	switch m.Kind {
+	case "STANDARD":
+		mm := StandardTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	default:
+		return *m, nil
 	}
-	if nn != nil {
-		m.Action = nn.(Action)
-	} else {
-		m.Action = nil
-	}
+}
 
-	m.CompartmentId = model.CompartmentId
+//GetId returns Id
+func (m scheduledtask) GetId() *string {
+	return m.Id
+}
 
-	m.TimeCreated = model.TimeCreated
+//GetDisplayName returns DisplayName
+func (m scheduledtask) GetDisplayName() *string {
+	return m.DisplayName
+}
 
-	m.TimeUpdated = model.TimeUpdated
+//GetTaskType returns TaskType
+func (m scheduledtask) GetTaskType() TaskTypeEnum {
+	return m.TaskType
+}
 
-	m.LifecycleState = model.LifecycleState
+//GetSchedules returns Schedules
+func (m scheduledtask) GetSchedules() []Schedule {
+	return m.Schedules
+}
 
-	return
+//GetAction returns Action
+func (m scheduledtask) GetAction() Action {
+	return m.Action
+}
+
+//GetCompartmentId returns CompartmentId
+func (m scheduledtask) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetTimeCreated returns TimeCreated
+func (m scheduledtask) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+//GetTimeUpdated returns TimeUpdated
+func (m scheduledtask) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+//GetLifecycleState returns LifecycleState
+func (m scheduledtask) GetLifecycleState() ScheduledTaskLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+//GetTaskStatus returns TaskStatus
+func (m scheduledtask) GetTaskStatus() ScheduledTaskTaskStatusEnum {
+	return m.TaskStatus
+}
+
+//GetWorkRequestId returns WorkRequestId
+func (m scheduledtask) GetWorkRequestId() *string {
+	return m.WorkRequestId
+}
+
+//GetNumOccurrences returns NumOccurrences
+func (m scheduledtask) GetNumOccurrences() *int64 {
+	return m.NumOccurrences
+}
+
+//GetFreeformTags returns FreeformTags
+func (m scheduledtask) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m scheduledtask) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+func (m scheduledtask) String() string {
+	return common.PointerString(m)
 }
 
 // ScheduledTaskTaskStatusEnum Enum with underlying type: string
@@ -187,6 +250,29 @@ var mappingScheduledTaskLifecycleState = map[string]ScheduledTaskLifecycleStateE
 func GetScheduledTaskLifecycleStateEnumValues() []ScheduledTaskLifecycleStateEnum {
 	values := make([]ScheduledTaskLifecycleStateEnum, 0)
 	for _, v := range mappingScheduledTaskLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ScheduledTaskKindEnum Enum with underlying type: string
+type ScheduledTaskKindEnum string
+
+// Set of constants representing the allowable values for ScheduledTaskKindEnum
+const (
+	ScheduledTaskKindAcceleration ScheduledTaskKindEnum = "ACCELERATION"
+	ScheduledTaskKindStandard     ScheduledTaskKindEnum = "STANDARD"
+)
+
+var mappingScheduledTaskKind = map[string]ScheduledTaskKindEnum{
+	"ACCELERATION": ScheduledTaskKindAcceleration,
+	"STANDARD":     ScheduledTaskKindStandard,
+}
+
+// GetScheduledTaskKindEnumValues Enumerates the set of values for ScheduledTaskKindEnum
+func GetScheduledTaskKindEnumValues() []ScheduledTaskKindEnum {
+	values := make([]ScheduledTaskKindEnum, 0)
+	for _, v := range mappingScheduledTaskKind {
 		values = append(values, v)
 	}
 	return values

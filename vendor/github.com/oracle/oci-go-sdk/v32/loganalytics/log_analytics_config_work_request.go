@@ -55,11 +55,17 @@ type LogAnalyticsConfigWorkRequestOperationTypeEnum string
 const (
 	LogAnalyticsConfigWorkRequestOperationTypeCreateAssociations LogAnalyticsConfigWorkRequestOperationTypeEnum = "CREATE_ASSOCIATIONS"
 	LogAnalyticsConfigWorkRequestOperationTypeDeleteAssociations LogAnalyticsConfigWorkRequestOperationTypeEnum = "DELETE_ASSOCIATIONS"
+	LogAnalyticsConfigWorkRequestOperationTypeAppendLookupData   LogAnalyticsConfigWorkRequestOperationTypeEnum = "APPEND_LOOKUP_DATA"
+	LogAnalyticsConfigWorkRequestOperationTypeUpdateLookupData   LogAnalyticsConfigWorkRequestOperationTypeEnum = "UPDATE_LOOKUP_DATA"
+	LogAnalyticsConfigWorkRequestOperationTypeDeleteLookup       LogAnalyticsConfigWorkRequestOperationTypeEnum = "DELETE_LOOKUP"
 )
 
 var mappingLogAnalyticsConfigWorkRequestOperationType = map[string]LogAnalyticsConfigWorkRequestOperationTypeEnum{
 	"CREATE_ASSOCIATIONS": LogAnalyticsConfigWorkRequestOperationTypeCreateAssociations,
 	"DELETE_ASSOCIATIONS": LogAnalyticsConfigWorkRequestOperationTypeDeleteAssociations,
+	"APPEND_LOOKUP_DATA":  LogAnalyticsConfigWorkRequestOperationTypeAppendLookupData,
+	"UPDATE_LOOKUP_DATA":  LogAnalyticsConfigWorkRequestOperationTypeUpdateLookupData,
+	"DELETE_LOOKUP":       LogAnalyticsConfigWorkRequestOperationTypeDeleteLookup,
 }
 
 // GetLogAnalyticsConfigWorkRequestOperationTypeEnumValues Enumerates the set of values for LogAnalyticsConfigWorkRequestOperationTypeEnum

@@ -31,18 +31,20 @@ type LogAnalyticsObjectCollectionRuleSummary struct {
 	// Name of the Object Storage bucket.
 	OsBucketName *string `mandatory:"true" json:"osBucketName"`
 
-	// The type of collection.
-	// Supported collection types: LIVE, HISTORIC, HISTORIC_LIVE
+	// The type of log collection.
 	CollectionType ObjectCollectionRuleCollectionTypesEnum `mandatory:"true" json:"collectionType"`
 
 	// The current state of the rule.
-	LifecycleState LogAnalyticsObjectCollectionRuleLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState ObjectCollectionRuleLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The time when this rule was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The time when this rule was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// Whether or not this rule is currently enabled.
+	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
 	// A unique name given to the rule. The name must be unique within the tenancy, and cannot be modified.
 	// Avoid entering confidential information.

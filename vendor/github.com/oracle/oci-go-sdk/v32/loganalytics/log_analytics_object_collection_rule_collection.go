@@ -16,7 +16,7 @@ import (
 // LogAnalyticsObjectCollectionRuleCollection Collection of LogAnalyticsObjectCollectionRuleSummary objects.
 type LogAnalyticsObjectCollectionRuleCollection struct {
 
-	// list of LogAnalyticsObjectCollectionRuleSummary objects.
+	// List of LogAnalyticsObjectCollectionRuleSummary objects.
 	Items []LogAnalyticsObjectCollectionRuleSummary `mandatory:"true" json:"items"`
 }
 

@@ -16,16 +16,16 @@ import (
 // UploadWarningSummary Summary of Upload warnings.
 type UploadWarningSummary struct {
 
-	// Unique internal identifier to refer to upload warning
+	// Unique internal identifier to refer upload warning.
 	Reference *string `mandatory:"true" json:"reference"`
 
-	// Status of the upload. Ex - Failed
+	// Status of the upload. Ex - Failed.
 	Status *string `mandatory:"false" json:"status"`
 
-	// The time when the upload processing started
+	// The time when the upload processing started.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The details about upload processing failure
+	// The details about upload processing failure.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 }
 

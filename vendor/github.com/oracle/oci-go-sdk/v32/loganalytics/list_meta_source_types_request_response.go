@@ -26,7 +26,7 @@ type ListMetaSourceTypesRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// sort by field
-	SortBy *string `mandatory:"false" contributesTo:"query" name:"sortBy"`
+	SortBy ListMetaSourceTypesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListMetaSourceTypesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
@@ -83,6 +83,27 @@ func (response ListMetaSourceTypesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListMetaSourceTypesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListMetaSourceTypesSortByEnum Enum with underlying type: string
+type ListMetaSourceTypesSortByEnum string
+
+// Set of constants representing the allowable values for ListMetaSourceTypesSortByEnum
+const (
+	ListMetaSourceTypesSortByName ListMetaSourceTypesSortByEnum = "name"
+)
+
+var mappingListMetaSourceTypesSortBy = map[string]ListMetaSourceTypesSortByEnum{
+	"name": ListMetaSourceTypesSortByName,
+}
+
+// GetListMetaSourceTypesSortByEnumValues Enumerates the set of values for ListMetaSourceTypesSortByEnum
+func GetListMetaSourceTypesSortByEnumValues() []ListMetaSourceTypesSortByEnum {
+	values := make([]ListMetaSourceTypesSortByEnum, 0)
+	for _, v := range mappingListMetaSourceTypesSortBy {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListMetaSourceTypesSortOrderEnum Enum with underlying type: string

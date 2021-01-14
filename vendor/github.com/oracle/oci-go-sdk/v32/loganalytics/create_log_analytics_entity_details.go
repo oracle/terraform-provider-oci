@@ -16,7 +16,7 @@ import (
 // CreateLogAnalyticsEntityDetails Details for new log analytics entity to be added.
 type CreateLogAnalyticsEntityDetails struct {
 
-	// Log analytics entity name. The name must be unique, within the tenancy, and cannot be changed.
+	// Log analytics entity name.
 	Name *string `mandatory:"true" json:"name"`
 
 	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

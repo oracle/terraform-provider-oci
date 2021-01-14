@@ -23,6 +23,7 @@ type CreateStandardTaskDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Schedules, typically a single schedule.
+	// Note there may only be a single schedule for SAVED_SEARCH and PURGE scheduled tasks.
 	Schedules []Schedule `mandatory:"true" json:"schedules"`
 
 	Action Action `mandatory:"true" json:"action"`

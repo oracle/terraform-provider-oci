@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// CharEncodingCollection List of supported character encodings
+// CharEncodingCollection List of supported character encodings.
 type CharEncodingCollection struct {
 
-	// List of supported character encodings
+	// List of supported character encodings.
 	Items []string `mandatory:"true" json:"items"`
 }
 

@@ -26,7 +26,7 @@ type ListParserMetaPluginsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// sort by field
-	SortBy *string `mandatory:"false" contributesTo:"query" name:"sortBy"`
+	SortBy ListParserMetaPluginsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListParserMetaPluginsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
@@ -83,6 +83,27 @@ func (response ListParserMetaPluginsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListParserMetaPluginsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListParserMetaPluginsSortByEnum Enum with underlying type: string
+type ListParserMetaPluginsSortByEnum string
+
+// Set of constants representing the allowable values for ListParserMetaPluginsSortByEnum
+const (
+	ListParserMetaPluginsSortByName ListParserMetaPluginsSortByEnum = "name"
+)
+
+var mappingListParserMetaPluginsSortBy = map[string]ListParserMetaPluginsSortByEnum{
+	"name": ListParserMetaPluginsSortByName,
+}
+
+// GetListParserMetaPluginsSortByEnumValues Enumerates the set of values for ListParserMetaPluginsSortByEnum
+func GetListParserMetaPluginsSortByEnumValues() []ListParserMetaPluginsSortByEnum {
+	values := make([]ListParserMetaPluginsSortByEnum, 0)
+	for _, v := range mappingListParserMetaPluginsSortBy {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListParserMetaPluginsSortOrderEnum Enum with underlying type: string

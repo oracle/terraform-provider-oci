@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// NotificationsTargetDetails The notifications target.
+// NotificationsTargetDetails The topic used for the Notifications target.
 type NotificationsTargetDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.

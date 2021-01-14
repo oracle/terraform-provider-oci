@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// UploadWarningCollection Collection of UploadFileSummary objects.
+// UploadWarningCollection Collection of UploadWarningSummary objects.
 type UploadWarningCollection struct {
 
 	// list of UploadWarningSummary objects.

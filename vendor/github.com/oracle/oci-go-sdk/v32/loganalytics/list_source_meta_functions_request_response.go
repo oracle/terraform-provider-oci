@@ -26,7 +26,7 @@ type ListSourceMetaFunctionsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// sort by field
-	SortBy *string `mandatory:"false" contributesTo:"query" name:"sortBy"`
+	SortBy ListSourceMetaFunctionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListSourceMetaFunctionsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
@@ -83,6 +83,27 @@ func (response ListSourceMetaFunctionsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListSourceMetaFunctionsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListSourceMetaFunctionsSortByEnum Enum with underlying type: string
+type ListSourceMetaFunctionsSortByEnum string
+
+// Set of constants representing the allowable values for ListSourceMetaFunctionsSortByEnum
+const (
+	ListSourceMetaFunctionsSortByName ListSourceMetaFunctionsSortByEnum = "name"
+)
+
+var mappingListSourceMetaFunctionsSortBy = map[string]ListSourceMetaFunctionsSortByEnum{
+	"name": ListSourceMetaFunctionsSortByName,
+}
+
+// GetListSourceMetaFunctionsSortByEnumValues Enumerates the set of values for ListSourceMetaFunctionsSortByEnum
+func GetListSourceMetaFunctionsSortByEnumValues() []ListSourceMetaFunctionsSortByEnum {
+	values := make([]ListSourceMetaFunctionsSortByEnum, 0)
+	for _, v := range mappingListSourceMetaFunctionsSortBy {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListSourceMetaFunctionsSortOrderEnum Enum with underlying type: string

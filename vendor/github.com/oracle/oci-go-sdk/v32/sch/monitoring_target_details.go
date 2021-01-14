@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// MonitoringTargetDetails The monitoring target.
+// MonitoringTargetDetails The metric and metric namespace used for the Monitoring target.
 type MonitoringTargetDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric.

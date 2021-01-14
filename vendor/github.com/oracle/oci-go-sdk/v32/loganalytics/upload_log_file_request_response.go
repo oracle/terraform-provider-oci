@@ -41,7 +41,8 @@ type UploadLogFileRequest struct {
 	// Timezone to be used when processing log entries whose timestamps do not include an explicit timezone. When this property is not specified, the timezone of the entity specified is used. If the entity is also not specified or do not have a valid timezone then UTC is used
 	Timezone *string `mandatory:"false" contributesTo:"query" name:"timezone"`
 
-	// Character Encoding
+	// Character encoding to be used to detect the encoding type of file(s) being uploaded.
+	// When this property is not specified, system detected character encoding will be used.
 	CharEncoding *string `mandatory:"false" contributesTo:"query" name:"charEncoding"`
 
 	// This property is used to specify the format of the date. This is to be used for ambiguous dates like 12/11/10. This property can take any of the following values -  MONTH_DAY_YEAR, DAY_MONTH_YEAR, YEAR_MONTH_DAY, MONTH_DAY, DAY_MONTH.

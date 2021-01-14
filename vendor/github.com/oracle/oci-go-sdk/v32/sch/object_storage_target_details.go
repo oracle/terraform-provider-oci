@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// ObjectStorageTargetDetails The object storage target.
+// ObjectStorageTargetDetails The bucket used for the Object Storage target.
 type ObjectStorageTargetDetails struct {
 
 	// The name of the bucket. Avoid entering confidential information.
@@ -27,6 +27,12 @@ type ObjectStorageTargetDetails struct {
 
 	// The prefix of the objects. Avoid entering confidential information.
 	ObjectNamePrefix *string `mandatory:"false" json:"objectNamePrefix"`
+
+	// The batch rollover size in megabytes.
+	BatchRolloverSizeInMBs *int `mandatory:"false" json:"batchRolloverSizeInMBs"`
+
+	// The batch rollover time in milliseconds.
+	BatchRolloverTimeInMs *int `mandatory:"false" json:"batchRolloverTimeInMs"`
 }
 
 func (m ObjectStorageTargetDetails) String() string {

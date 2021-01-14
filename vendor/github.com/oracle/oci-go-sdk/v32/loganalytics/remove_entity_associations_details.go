@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v32/common"
 )
 
-// RemoveEntityAssociationsDetails Information about the associations to be deleted between entity and other existing entities.
+// RemoveEntityAssociationsDetails Information about the associations to be deleted between source entity and other existing destination entities.
 type RemoveEntityAssociationsDetails struct {
 
 	// Destination entities OCIDs with which associations are to be deleted
