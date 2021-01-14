@@ -5,6 +5,7 @@
 - Support for Database Performance and Management DB Admin
 - Support for instance agent plugin configuration
 - Support for DBaaS One-off Patching
+- Support for `options` in `oci_database_database_upgrade`
 
 ## 4.12.0 (February 03, 2021)
 
