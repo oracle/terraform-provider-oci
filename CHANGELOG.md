@@ -2,6 +2,7 @@
 
 ### Added
 - Support for SMS notifications for ONS
+- Support for publisher maps for service connector
 
 ## 4.16.0 (March 03, 2021)
 
