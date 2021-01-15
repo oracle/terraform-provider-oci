@@ -419,6 +419,10 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 			Debugf("[DEBUG] discover: Running step %d", i)
 
 			defer func() {
+				if r := recover(); r != nil {
+					Logf("[ERROR] panic in discover goroutine")
+					debug.PrintStack()
+				}
 				Debugf("[DEBUG] discoverWg done: step %d", i)
 				discoverWg.Done()
 			}()
@@ -492,11 +496,15 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 			Debugf("[DEBUG] writeConfiguration: Running step %d", i)
 
 			defer func() {
+				if r := recover(); r != nil {
+					Logf("[ERROR] panic in writeConfiguration goroutine")
+					debug.PrintStack()
+				}
 				Debugf("[DEBUG] configWg done: step %d", i)
 				configWg.Done()
 			}()
 			if err := step.writeConfiguration(); err != nil {
-				errorChannel <- err
+				errorChannel <- fmt.Errorf("[ERROR] error writing final configuration for resources found: %s", err.Error())
 			}
 
 			Debugf("[DEBUG] writeConfiguration: Completed step %d", i)
@@ -556,6 +564,10 @@ generateStateParallel is used if value of parallelism arg > 1
 - finally it merges all the state files generated into one state file using json merge
 */
 func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscoveryStep) error {
+
+	// Cleanup the temporary state files created for each input service
+	defer cleanupTempStateFiles(ctx)
+
 	errorChannel := make(chan error)
 	var stateWg sync.WaitGroup
 	wgDone := make(chan bool)
@@ -574,6 +586,10 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 			Debugf("[DEBUG] writing temp config and state: Running step %d", i)
 
 			defer func() {
+				if r := recover(); r != nil {
+					Logf("[ERROR] panic in writing temp config and state goroutine")
+					debug.PrintStack()
+				}
 				Debugf("[DEBUG] stateWg done: step %d", i)
 				stateWg.Done()
 			}()
@@ -582,12 +598,12 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 			   Final configuration will be generated after import so that we can exclude the resources for which import failed
 			   and also remove the references to failed resources from the referenceMap */
 			if err := step.writeTmpConfigurationForImport(); err != nil {
-				errorChannel <- err
+				errorChannel <- fmt.Errorf("[ERROR] error writing temp config for resources found: %s", err.Error())
 			}
 
 			// Write temp state file for each service, this step will import resources into a separate state file for each service in parallel
 			if err := step.writeTmpState(); err != nil {
-				errorChannel <- err
+				errorChannel <- fmt.Errorf("[ERROR] error writing temp state for resources found: %s", err.Error())
 			}
 
 			Debugf("writing temp config and state: Completed step %d", i)
@@ -609,12 +625,8 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 		break
 	case err := <-errorChannel:
 		close(errorChannel)
-		Logf("[ERROR] error writing temp config and state for resources found: %s", err.Error())
 		return err
 	}
-
-	// Cleanup the temporary state files created for each input service
-	defer cleanupTempStateFiles(ctx)
 
 	// Generate final state by merging state json generated for all services
 	for _, step := range steps {
@@ -789,7 +801,6 @@ func getDiscoverResourceSteps(ctx *resourceDiscoveryContext) ([]resourceDiscover
 			name:                "resources",
 			discoveredResources: []*OCIResource{},
 			omittedResources:    []*OCIResource{},
-			terraform:           &(*ctx.terraform),
 		},
 	}
 	return result, nil
@@ -814,22 +825,11 @@ func getDiscoverResourceWithGraphSteps(ctx *resourceDiscoveryContext) ([]resourc
 		}
 
 		for _, mode := range ctx.Services {
-			terraform := &(*ctx.terraform)
-			logPath := "/Users/papakaur/go/src/github.com/terraform-providers/terraform-provider-oci/bin/" + mode + ".log"
-			if err := terraform.SetLogPath(logPath); err != nil {
-				return result, fmt.Errorf("[ERROR] unable to set log path for Terraform exec: %s", err.Error())
-			}
-			Logf("Log path set to %s", logPath)
-
 			if resourceGraph, exists := tenancyResourceGraphs[mode]; exists {
 				result = append(result, &resourceDiscoveryWithGraph{
-					resourceDiscoveryBaseStep{
-						name:      mode,
-						ctx:       ctx,
-						terraform: terraform,
-					},
-					tenancyResource,
-					resourceGraph,
+					root:                      tenancyResource,
+					resourceGraph:             resourceGraph,
+					resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{name: mode, ctx: ctx},
 				})
 
 				vars["tenancy_ocid"] = fmt.Sprintf("\"%s\"", ctx.tenancyOcid)
