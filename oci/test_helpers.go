@@ -467,8 +467,15 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	exportCommandArgs.TFVersion = &tfVersion
 	exportCommandArgs.Parallelism = 10
 
-	if errExport, _ := RunExportCommand(exportCommandArgs); errExport != nil {
-		return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport)
+	if errExport, status := RunExportCommand(exportCommandArgs); errExport != nil || status == StatusPartialSuccess {
+		if errExport != nil {
+			return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport.Error())
+		}
+		// For generated tests, RD will only return this error if one of the `ids` was not found
+		// (which in case of tests is the id for the resource RD is looking for)
+		if status == StatusPartialSuccess {
+			return fmt.Errorf("[ERROR] expected resource was not found")
+		}
 	}
 
 	// run init command

@@ -272,7 +272,6 @@ type resourceDiscoveryBaseStep struct {
 	discoveredResources []*OCIResource
 	omittedResources    []*OCIResource
 	tempState           interface{}
-	terraform           *tfexec.Terraform
 }
 
 func (r *resourceDiscoveryBaseStep) writeTmpState() error {
