@@ -274,6 +274,11 @@ func catalogWaitForWorkRequest(wId *string, entityType string, action oci_dataca
 
 	response := oci_datacatalog.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_datacatalog.WorkRequestStatusInProgress),
+			string(oci_datacatalog.WorkRequestStatusAccepted),
+			string(oci_datacatalog.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_datacatalog.WorkRequestStatusSucceeded),
 			string(oci_datacatalog.WorkRequestStatusFailed),

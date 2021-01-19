@@ -500,6 +500,11 @@ func analyticsInstanceWaitForWorkRequest(wId *string, entityType string, action 
 
 	response := oci_analytics.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_analytics.WorkRequestStatusInProgress),
+			string(oci_analytics.WorkRequestStatusAccepted),
+			string(oci_analytics.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_analytics.WorkRequestStatusSucceeded),
 			string(oci_analytics.WorkRequestStatusFailed),

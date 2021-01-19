@@ -244,6 +244,10 @@ func onPremConnectorWaitForWorkRequest(wId *string, entityType string, action oc
 
 	response := oci_data_safe.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_data_safe.WorkRequestStatusInProgress),
+			string(oci_data_safe.WorkRequestStatusAccepted),
+		},
 		Target: []string{
 			string(oci_data_safe.WorkRequestStatusSucceeded),
 			string(oci_data_safe.WorkRequestStatusFailed),

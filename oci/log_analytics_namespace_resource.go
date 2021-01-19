@@ -217,6 +217,11 @@ func logAnalyticsWaitForWorkRequest(wId *string, ns *string, entityType string, 
 
 	response := oci_log_analytics.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_log_analytics.OperationStatusInProgress),
+			string(oci_log_analytics.OperationStatusAccepted),
+			string(oci_log_analytics.OperationStatusCanceling),
+		},
 		Target: []string{
 			string(oci_log_analytics.OperationStatusSucceeded),
 			string(oci_log_analytics.OperationStatusFailed),

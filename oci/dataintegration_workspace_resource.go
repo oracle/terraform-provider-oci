@@ -308,6 +308,11 @@ func workspaceWaitForWorkRequest(wId *string, entityType string, action oci_data
 
 	response := oci_dataintegration.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_dataintegration.WorkRequestStatusInProgress),
+			string(oci_dataintegration.WorkRequestStatusAccepted),
+			string(oci_dataintegration.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_dataintegration.WorkRequestStatusSucceeded),
 			string(oci_dataintegration.WorkRequestStatusFailed),
