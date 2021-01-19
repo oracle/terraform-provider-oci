@@ -608,6 +608,11 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 
 	response := oci_containerengine.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_containerengine.WorkRequestStatusInProgress),
+			string(oci_containerengine.WorkRequestStatusAccepted),
+			string(oci_containerengine.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_containerengine.WorkRequestStatusSucceeded),
 			string(oci_containerengine.WorkRequestStatusFailed),

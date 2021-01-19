@@ -429,6 +429,11 @@ func copyObjectWaitForWorkRequest(wId *string, entityType string, timeout time.D
 	retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(timeout)
 
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_object_storage.WorkRequestStatusAccepted),
+			string(oci_object_storage.WorkRequestStatusInProgress),
+			string(oci_object_storage.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_object_storage.WorkRequestSummaryStatusCompleted),
 			string(oci_object_storage.WorkRequestSummaryStatusCanceled),

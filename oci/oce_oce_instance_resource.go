@@ -360,6 +360,11 @@ func oceInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oc
 
 	response := oci_oce.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_oce.WorkRequestStatusInProgress),
+			string(oci_oce.WorkRequestStatusAccepted),
+			string(oci_oce.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_oce.WorkRequestStatusSucceeded),
 			string(oci_oce.WorkRequestStatusFailed),
