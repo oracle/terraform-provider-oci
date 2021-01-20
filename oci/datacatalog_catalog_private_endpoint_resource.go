@@ -11,8 +11,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v32/datacatalog"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v33/datacatalog"
 )
 
 func init() {
@@ -263,6 +263,11 @@ func catalogPrivateEndpointWaitForWorkRequest(wId *string, entityType string, ac
 
 	response := oci_datacatalog.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_datacatalog.WorkRequestStatusInProgress),
+			string(oci_datacatalog.WorkRequestStatusAccepted),
+			string(oci_datacatalog.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_datacatalog.WorkRequestStatusSucceeded),
 			string(oci_datacatalog.WorkRequestStatusFailed),

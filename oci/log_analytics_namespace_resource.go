@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v32/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v33/loganalytics"
 )
 
 func init() {
@@ -217,6 +217,11 @@ func logAnalyticsWaitForWorkRequest(wId *string, ns *string, entityType string, 
 
 	response := oci_log_analytics.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_log_analytics.OperationStatusInProgress),
+			string(oci_log_analytics.OperationStatusAccepted),
+			string(oci_log_analytics.OperationStatusCanceling),
+		},
 		Target: []string{
 			string(oci_log_analytics.OperationStatusSucceeded),
 			string(oci_log_analytics.OperationStatusFailed),

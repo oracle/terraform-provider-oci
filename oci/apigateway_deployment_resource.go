@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v32/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v33/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
 )
 
 func init() {
@@ -1383,6 +1383,11 @@ func deploymentWaitForWorkRequest(wId *string, entityType string, action oci_api
 
 	response := oci_apigateway.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_apigateway.WorkRequestStatusInProgress),
+			string(oci_apigateway.WorkRequestStatusAccepted),
+			string(oci_apigateway.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_apigateway.WorkRequestStatusSucceeded),
 			string(oci_apigateway.WorkRequestStatusFailed),

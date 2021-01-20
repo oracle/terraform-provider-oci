@@ -11,9 +11,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v32/common"
+	"github.com/oracle/oci-go-sdk/v33/common"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v32/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v33/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -79,6 +79,18 @@ var (
 		#Required
 		compartment_id = "${var.tenancy_ocid}"
 		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
+		algorithm = "AES"
+
+		filter {
+    		name = "state"
+    		values = ["ENABLED", "UPDATING"]
+        }
+	}
+	data "oci_kms_keys" "test_keys_dependency_RSA" {
+		#Required
+		compartment_id = "${var.tenancy_ocid}"
+		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
+		algorithm = "RSA"
 
 		filter {
     		name = "state"

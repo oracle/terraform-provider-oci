@@ -106,6 +106,14 @@ The following attributes are exported:
 * `gi_version` - A valid Oracle Grid Infrastructure (GI) software version.
 * `hostname` - The hostname for the cloud VM cluster.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud VM cluster.
+* `iorm_config_cache` - The IORM settings of the Exadata DB system. 
+	* `db_plans` - An array of IORM settings for all the database in the Exadata DB system. 
+		* `db_name` - The database name. For the default `DbPlan`, the `dbName` is `default`. 
+		* `flash_cache_limit` - The flash cache limit for this database. This value is internally configured based on the share value assigned to the database. 
+		* `share` - The relative priority of this database. 
+	* `lifecycle_details` - Additional information about the current `lifecycleState`. 
+	* `objective` - The current value for the IORM objective. The default is `AUTO`. 
+	* `state` - The current state of IORM configuration for the Exadata DB system. 
 * `is_local_backup_enabled` - If true, database backup on local Exadata storage is configured for the cloud VM cluster. If false, database backup on local Exadata storage is not available in the cloud VM cluster. 
 * `is_sparse_diskgroup_enabled` - If true, sparse disk group is configured for the cloud VM cluster. If false, sparse disk group is not created. 
 * `last_update_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance update history entry. This value is updated when a maintenance update starts.

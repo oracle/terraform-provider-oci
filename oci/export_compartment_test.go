@@ -20,8 +20,8 @@ import (
 	"testing"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v32/resourcemanager"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v33/resourcemanager"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -709,6 +709,7 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 			OutputDir:     &outputDir,
 			GenerateState: false,
 			TFVersion:     &tfHclVersion,
+			Parallelism:   1,
 		}
 
 		if err, _ = RunExportCommand(args); err != nil {
@@ -728,6 +729,103 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 
 		if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
 			t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tfHclVersion.toString())
+		}
+	}
+
+	os.RemoveAll(outputDir)
+}
+
+func TestUnitRunExportCommand_Parallel(t *testing.T) {
+	initResourceDiscoveryTests()
+	// add more services to compartment graphs
+	compartmentResourceGraphs["compartment_testing_1"] = compartmentTestingResourceGraph
+	compartmentResourceGraphs["compartment_testing_2"] = compartmentTestingResourceGraph
+	compartmentResourceGraphs["compartment_testing_3"] = compartmentTestingResourceGraph
+	compartmentResourceGraphs["compartment_testing_4"] = compartmentTestingResourceGraph
+	compartmentResourceGraphs["compartment_testing_5"] = compartmentTestingResourceGraph
+	compartmentResourceGraphs["compartment_testing_6"] = compartmentTestingResourceGraph
+
+	defer cleanupResourceDiscoveryTests()
+	compartmentId := resourceDiscoveryTestCompartmentOcid
+	if err := os.Setenv("export_tenancy_id", resourceDiscoveryTestTenancyOcid); err != nil {
+		t.Logf("unable to set export_tenancy_id. err: %v", err)
+		t.Fail()
+	}
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+
+	tfHclVersions := []TfHclVersion{&TfHclVersion11{}, &TfHclVersion12{}}
+	for _, tfVersion := range tfHclVersions {
+		tfHclVersion = tfVersion
+		args := &ExportCommandArgs{
+			CompartmentId: &compartmentId,
+			Services:      []string{"compartment_testing", "compartment_testing_1", "compartment_testing_2", "compartment_testing_3", "compartment_testing_4", "compartment_testing_5", "compartment_testing_6", "tenancy_testing"},
+			OutputDir:     &outputDir,
+			GenerateState: false,
+			TFVersion:     &tfHclVersion,
+			Parallelism:   4,
+		}
+
+		if err, _ = RunExportCommand(args); err != nil {
+			t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
+			t.Fail()
+		}
+
+		if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
+			t.Logf("(TF version %s) tenancy_testing.tf file generated even though it wasn't expected", tfHclVersion.toString())
+			t.Fail()
+		}
+
+		if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
+			t.Logf("(TF version %s) no compartment_testing.tf file generated", tfHclVersion.toString())
+			t.Fail()
+		}
+
+		if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
+			t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tfHclVersion.toString())
+		}
+	}
+
+	os.RemoveAll(outputDir)
+}
+
+func TestUnitRunExportCommand_ParallelNegative(t *testing.T) {
+	initResourceDiscoveryTests()
+
+	defer cleanupResourceDiscoveryTests()
+	compartmentId := resourceDiscoveryTestCompartmentOcid
+	if err := os.Setenv("export_tenancy_id", resourceDiscoveryTestTenancyOcid); err != nil {
+		t.Logf("unable to set export_tenancy_id. err: %v", err)
+		t.Fail()
+	}
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+
+	tfHclVersions := []TfHclVersion{&TfHclVersion11{}, &TfHclVersion12{}}
+	for _, tfVersion := range tfHclVersions {
+		tfHclVersion = tfVersion
+		args := &ExportCommandArgs{
+			CompartmentId: &compartmentId,
+			Services:      []string{"compartment_testing", "compartment_testing_1", "compartment_testing_2", "compartment_testing_3", "compartment_testing_4", "compartment_testing_5", "compartment_testing_6", "tenancy_testing"},
+			OutputDir:     &outputDir,
+			GenerateState: false,
+			TFVersion:     &tfHclVersion,
+			Parallelism:   -1,
+		}
+
+		if err, _ = RunExportCommand(args); err == nil {
+			t.Logf("expected error but found none")
+			t.Fail()
+		} else {
+			assert.Equal(t, "[ERROR] invalid value for arument parallelism, specify a value >= 1", err.Error())
 		}
 	}
 
@@ -806,6 +904,7 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 		OutputDir:     &outputDir,
 		GenerateState: false,
 		TFVersion:     &tfHclVersion,
+		Parallelism:   1,
 	}
 
 	if err, status := RunExportCommand(args); err != nil {
@@ -937,7 +1036,7 @@ func TestUnitFindResources_errorList(t *testing.T) {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
 	}
-	if len(ctx.errorList) == 0 {
+	if len(ctx.errorList.errors) == 0 {
 		t.Logf("expected errors for failed resources in resourceDiscoveryContext errorList but found none")
 		t.Fail()
 	}
@@ -1314,9 +1413,7 @@ func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
-	}
+	ctx := &resourceDiscoveryContext{}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
@@ -1728,7 +1825,7 @@ func Test_createTerraformStruct(t *testing.T) {
 	}
 	tfHclVersion = &TfHclVersion12{}
 	// verify executable from system path
-	if _, err := createTerraformStruct(args); err != nil {
+	if _, _, err := createTerraformStruct(args); err != nil {
 		t.Errorf("createTerraformStruct() error = %v", err)
 		t.Fail()
 	}
@@ -1737,7 +1834,7 @@ func Test_createTerraformStruct(t *testing.T) {
 	// if invalid path is specified
 	_ = os.Setenv(terraformBinPathName, "invalidPath")
 
-	if _, err := createTerraformStruct(args); err == nil {
+	if _, _, err := createTerraformStruct(args); err == nil {
 		t.Errorf("createTerraformStruct() expected error but succeeded")
 		t.Fail()
 	}
@@ -1745,7 +1842,7 @@ func Test_createTerraformStruct(t *testing.T) {
 	// if path specified is a directory
 	_ = os.Setenv(terraformBinPathName, "./")
 
-	if _, err := createTerraformStruct(args); err == nil {
+	if _, _, err := createTerraformStruct(args); err == nil {
 		t.Errorf("createTerraformStruct() expected error but succeeded")
 		t.Fail()
 	}

@@ -33,6 +33,10 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `validations` - API validation results.
+	* `details` - Details of validation.
+		* `msg` - Description of the warning/error.
+		* `severity` - Severity of the issue.
+		* `src` - Position of the issue in the specification file (line, column).
 	* `name` - Name of the validation.
 	* `result` - Result of the validation.
 
