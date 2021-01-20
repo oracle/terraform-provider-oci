@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v32/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v33/containerengine"
 )
 
 func init() {
@@ -458,6 +458,11 @@ func clusterWaitForWorkRequest(wId *string, entityType string, action oci_contai
 
 	response := oci_containerengine.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_containerengine.WorkRequestStatusInProgress),
+			string(oci_containerengine.WorkRequestStatusAccepted),
+			string(oci_containerengine.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_containerengine.WorkRequestStatusSucceeded),
 			string(oci_containerengine.WorkRequestStatusFailed),

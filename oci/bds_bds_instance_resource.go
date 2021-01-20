@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_bds "github.com/oracle/oci-go-sdk/v32/bds"
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_bds "github.com/oracle/oci-go-sdk/v33/bds"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
 )
 
 func init() {
@@ -774,6 +774,11 @@ func bdsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_bd
 
 	response := oci_bds.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_bds.OperationStatusInProgress),
+			string(oci_bds.OperationStatusAccepted),
+			string(oci_bds.OperationStatusCanceling),
+		},
 		Target: []string{
 			string(oci_bds.OperationStatusSucceeded),
 			string(oci_bds.OperationStatusFailed),

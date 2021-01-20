@@ -16,6 +16,7 @@ import (
 	"runtime/debug"
 	"sort"
 	"strings"
+	"sync"
 
 	"golang.org/x/mod/semver"
 
@@ -23,8 +24,8 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v32/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v33/identity"
 )
 
 const (
@@ -47,16 +48,20 @@ These missing attributes are also added to the lifecycle ignore_changes.
 	terraformBinPathName                = "terraform_bin_path"
 )
 
-var referenceMap map[string]string             //	stores references to replace the ocids in config
+var referenceMap map[string]string //	stores references to replace the ocids in config
+var refMapLock sync.Mutex
 var referenceResourceNameSet map[string]bool   // this set contains terraform resource names for the references in referenceMap
 var failedResourceReferenceSet map[string]bool // stores the terraform reference name for failed resources, used to remove InterpolationString type values if a resource failed to import
 var vars map[string]string
 var resourceNameCount map[string]int
+var resourceNameCountLock sync.Mutex
 var resourcesMap map[string]*schema.Resource
 var datasourcesMap map[string]*schema.Resource
 var compartmentScopeServices []string
 var tenancyScopeServices []string
 var isMissingRequiredAttributes bool
+var missingAttributesPerResourceLock sync.Mutex
+var sem chan struct{}
 var exportConfigProvider oci_common.ConfigurationProvider
 var tfHclVersion TfHclVersion
 
@@ -187,6 +192,7 @@ type ExportCommandArgs struct {
 	RetryTimeout                 *string
 	ExcludeServices              []string
 	IsExportWithRelatedResources bool
+	Parallelism                  int
 }
 
 func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
@@ -254,6 +260,11 @@ func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
 		}
 
 	}
+	if args.Parallelism < 1 {
+		return fmt.Errorf("[ERROR] invalid value for arument parallelism, specify a value >= 1"), StatusFail
+	}
+
+	sem = make(chan struct{}, args.Parallelism)
 
 	ctx, err := createResourceDiscoveryContext(clients.(*OracleClients), args, tenancyOcid)
 	if err != nil {
@@ -279,7 +290,7 @@ func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
 		Logln(err.Error())
 		return err, StatusFail
 	}
-	if len(ctx.errorList) > 0 {
+	if len(ctx.errorList.errors) > 0 {
 		// If the errors were from discovery of resources return partial success status
 		ctx.printErrors()
 		return nil, StatusPartialSuccess
@@ -388,109 +399,82 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 
 func runExportCommand(ctx *resourceDiscoveryContext) error {
 	Logf("[INFO] Running export command\n")
+	Logf("[INFO] parallelism: %d", ctx.Parallelism)
+
+	defer ctx.printSummary()
 
 	steps, err := getDiscoverResourceSteps(ctx)
 	if err != nil {
 		return err
 	}
 
-	// Discover and build a model of all targeted resources
-	for _, step := range steps {
-		err := step.discover()
-		if err != nil {
-			return err
-		}
-	}
+	var discoverWg sync.WaitGroup
+	discoverWg.Add(len(steps))
 
-	// Cull any references from the ref map that contain omitted resources
-	// This is to avoid omitted resources from being referenced in generated configs
-	for _, step := range steps {
-		for _, omittedResource := range step.getOmittedResources() {
-			for key, reference := range referenceMap {
-				if strings.Contains(reference, omittedResource.getTerraformReference()) {
-					delete(referenceMap, key)
+	for i, step := range steps {
+
+		sem <- struct{}{}
+
+		go func(i int, step resourceDiscoveryStep) {
+			Debugf("[DEBUG] discover: Running step %d", i)
+
+			defer func() {
+				if r := recover(); r != nil {
+					Logf("[ERROR] panic in discover goroutine")
+					debug.PrintStack()
+				}
+				Debugf("[DEBUG] discoverWg done: step %d", i)
+				discoverWg.Done()
+			}()
+
+			err := step.discover()
+			if err != nil {
+				// All errors in discover are added to the ctx.errorList
+				Debugf("[ERROR] error occurred while discovering resources for step %d", i)
+				Logf("[ERROR] error occurred while discovering resources: %s", err.Error())
+				return
+			}
+			// Cull any references from the ref map that contain omitted resources
+			// This is to avoid omitted resources from being referenced in generated configs
+			for _, omittedResource := range step.getOmittedResources() {
+				for key, reference := range referenceMap {
+					if strings.Contains(reference, omittedResource.getTerraformReference()) {
+						// refactor referenceMap to data structure with lock and methods to modify
+						refMapLock.Lock()
+						delete(referenceMap, key)
+						refMapLock.Unlock()
+					}
 				}
 			}
-		}
+
+			Debugf("[DEBUG] discover: Completed step %d", i)
+			<-sem
+		}(i, step)
+
 	}
 
-	defer ctx.printSummary()
+	// Wait for all steps to complete discovery
+	discoverWg.Wait()
+	Debug("[DEBUG] ~~~~~~ discover steps completed ~~~~~~")
 
 	if ctx.GenerateState {
-		// Generate temporary HCL configs from all discovered resources to run import
-		// Final configuration will be genrated after import so that we can exclude the resources for which import failed
-		// and also remove the references to failed resources
-		for _, step := range steps {
-			if err := step.writeTmpConfigurationForImport(); err != nil {
+
+		// Run import commands
+		if ctx.Parallelism > 1 {
+			Debug("[DEBUG] Generating state in parallel")
+			if err := generateStateParallel(ctx, steps); err != nil {
 				return err
 			}
-		}
-
-		// Run init and import commands
-		backgroundCtx := context.Background()
-
-		var initArgs []tfexec.InitOption
-		if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
-			Logf("[INFO] plugin dir: '%s'", pluginDir)
-			initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
-		}
-		if err := ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
-			return err
-		}
-
-		stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultStateFilename)
-		tmpStateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultTmpStateFile)
-		if err := os.RemoveAll(tmpStateOutputFile); err != nil {
-			Logf("[WARN] unable to delete existing tmp state file %s", tmpStateOutputFile)
-			return err
-		}
-
-		for _, resource := range ctx.discoveredResources {
-			Logf("[INFO] ===> Importing resource '%s'", resource.getTerraformReference())
-
-			resourceDefinition, exists := resourcesMap[resource.terraformClass]
-			if !exists {
-				Logf("[INFO] skip importing '%s' since it is not a Terraform OCI resource", resource.getTerraformReference())
-				continue
-			}
-
-			if resourceDefinition.Importer == nil {
-				Logf("[WARN] unable to import '%s' because import is not supported for '%s'", resource.getTerraformReference(), resource.terraformClass)
-				continue
-			}
-
-			importId := resource.importId
-			if len(importId) == 0 {
-				importId = resource.id
-			}
-
-			importArgs := []tfexec.ImportOption{
-				tfexec.Config(*ctx.OutputDir),
-				tfexec.State(tmpStateOutputFile),
-			}
-			if importErr := ctx.terraform.Import(backgroundCtx, resource.getTerraformReference(), importId, importArgs...); importErr != nil {
-				Logf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s", resource.getTerraformReference(), importId, importErr.Error())
-
-				// mark resource as errored so that it can be skipped while writing configurations
-				resource.isErrorResource = true
-				ctx.isImportError = true
-				err := fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s Any references to this resource have been replaced with hard coded values in generated configurations", resource.getTerraformReference(), importId, importErr.Error())
-				if ctx.targetSpecificResources {
-					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, "", err, nil})
-				} else {
-					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{resource.terraformClass, resource.parent.terraformName, err, nil})
-				}
-			}
-		}
-
-		if _, err := os.Stat(tmpStateOutputFile); !os.IsNotExist(err) {
-			if err := os.Rename(tmpStateOutputFile, stateOutputFile); err != nil {
+		} else {
+			Debug("[DEBUG] Generating state sequentially")
+			if err := generateState(ctx, steps); err != nil {
 				return err
 			}
 		}
 
 		// remove invalid references from referenceMap for the resources with import error
 		if ctx.isImportError {
+			// lock not required for referenceMap as only 1 thread is running at this point
 			deleteInvalidReferences(referenceMap, ctx.discoveredResources)
 		}
 	}
@@ -498,11 +482,52 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 	// Reset discovered resources if already set by writeTmpConfigurationForImport
 	ctx.discoveredResources = make([]*OCIResource, 0)
 
+	errorChannel := make(chan error)
+	var configWg sync.WaitGroup
+	configWg.Add(len(steps))
+
+	wgDone := make(chan bool)
+
 	// Write configuration for imported resources
-	for _, step := range steps {
-		if err := step.writeConfiguration(); err != nil {
-			return err
-		}
+	for i, step := range steps {
+
+		sem <- struct{}{}
+		go func(i int, step resourceDiscoveryStep) {
+			Debugf("[DEBUG] writeConfiguration: Running step %d", i)
+
+			defer func() {
+				if r := recover(); r != nil {
+					Logf("[ERROR] panic in writeConfiguration goroutine")
+					debug.PrintStack()
+				}
+				Debugf("[DEBUG] configWg done: step %d", i)
+				configWg.Done()
+			}()
+			if err := step.writeConfiguration(); err != nil {
+				errorChannel <- fmt.Errorf("[ERROR] error writing final configuration for resources found: %s", err.Error())
+			}
+
+			Debugf("[DEBUG] writeConfiguration: Completed step %d", i)
+			<-sem
+		}(i, step)
+	}
+
+	// goroutine to wait until configWg is done
+	go func() {
+		Debugf("[DEBUG] waiting for all configWg goroutines to finish...")
+		configWg.Wait()
+		close(wgDone)
+	}()
+
+	// Wait until either configWg is done or an error is received through the errorChannel
+	select {
+	case <-wgDone:
+		Debugf("[DEBUG] ~~~~~~ writeConfiguration steps completed ~~~~~~")
+		break
+	case err := <-errorChannel:
+		close(errorChannel)
+		Logf("[ERROR] error writing final configuration for resources found: %s", err.Error())
+		return err
 	}
 
 	region, err := exportConfigProvider.Region()
@@ -529,8 +554,239 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 	}
 
 	ctx.postValidate()
+	return nil
+}
+
+/*
+generateStateParallel is used if value of parallelism arg > 1
+- writes temp config for the discovered resources e.g. `resource_type resource_name {}` in order to run import
+- writes temp state file for each service in parallel by running import for each of the found resources
+- finally it merges all the state files generated into one state file using json merge
+*/
+func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscoveryStep) error {
+
+	// Cleanup the temporary state files created for each input service
+	defer cleanupTempStateFiles(ctx)
+
+	errorChannel := make(chan error)
+	var stateWg sync.WaitGroup
+	wgDone := make(chan bool)
+
+	stateWg.Add(len(steps))
+
+	for i, step := range steps {
+		if len(step.getDiscoveredResources()) == 0 {
+			stateWg.Done()
+			continue
+		}
+
+		sem <- struct{}{}
+
+		go func(i int, step resourceDiscoveryStep) {
+			Debugf("[DEBUG] writing temp config and state: Running step %d", i)
+
+			defer func() {
+				if r := recover(); r != nil {
+					Logf("[ERROR] panic in writing temp config and state goroutine")
+					debug.PrintStack()
+				}
+				Debugf("[DEBUG] stateWg done: step %d", i)
+				stateWg.Done()
+			}()
+
+			/* Generate temporary HCL configs from all discovered resources to run import
+			   Final configuration will be generated after import so that we can exclude the resources for which import failed
+			   and also remove the references to failed resources from the referenceMap */
+			if err := step.writeTmpConfigurationForImport(); err != nil {
+				errorChannel <- fmt.Errorf("[ERROR] error writing temp config for resources found: %s", err.Error())
+			}
+
+			// Write temp state file for each service, this step will import resources into a separate state file for each service in parallel
+			if err := step.writeTmpState(); err != nil {
+				errorChannel <- fmt.Errorf("[ERROR] error writing temp state for resources found: %s", err.Error())
+			}
+
+			Debugf("writing temp config and state: Completed step %d", i)
+			<-sem
+		}(i, step)
+	}
+
+	// goroutine to wait until stateWg is done
+	go func() {
+		Debugf("[DEBUG] waiting for all stateWg threads to finish...")
+		stateWg.Wait()
+		close(wgDone)
+	}()
+
+	// Wait until either stateWg is done or an error is received through the errorChannel
+	select {
+	case <-wgDone:
+		Debugf("[DEBUG] ~~~~~~ writing temp config and state steps completed ~~~~~~")
+		break
+	case err := <-errorChannel:
+		close(errorChannel)
+		return err
+	}
+
+	// Generate final state by merging state json generated for all services
+	for _, step := range steps {
+		if err := step.mergeGeneratedStateFile(); err != nil {
+			return fmt.Errorf("[ERROR] Resource discovery failed. Error merging generated states: %s", err.Error())
+		}
+	}
+
+	if ctx.state == nil {
+		Logf("[INFO] ~~~~~~ no resources were imported to the state file ~~~~~~")
+		return nil
+	}
+
+	// create final state file to write state
+	stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultStateFilename)
+
+	f, err := os.OpenFile(stateOutputFile, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, os.ModePerm)
+	if err != nil {
+		return fmt.Errorf("[ERROR] failed to create state file %s: %s", stateOutputFile, err.Error())
+	}
+
+	// write generate state to file
+	stateBytes, _ := json.MarshalIndent(ctx.state, "", "\t")
+	if err := ioutil.WriteFile(stateOutputFile, stateBytes, 0644); err != nil {
+		return fmt.Errorf("[ERROR] error writing state file at %s: %s", stateOutputFile, err.Error())
+	} else {
+		Logf("[INFO] state written to file at: %s", stateOutputFile)
+	}
+
+	if err := f.Close(); err != nil {
+		return fmt.Errorf("[WARN] unable to close state file: %s", err.Error())
+	}
+
+	// Run init in output_path to validate generated state
+	backgroundCtx := context.Background()
+
+	var initArgs []tfexec.InitOption
+
+	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
+		Logf("[INFO] plugin dir: '%s'", pluginDir)
+		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
+	} else {
+		Logf("[INFO] plugin dir: '%s'", ctx.terraformProviderBinaryPath)
+		initArgs = append(initArgs, tfexec.PluginDir(ctx.terraformProviderBinaryPath))
+	}
+	if err := ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
+		return err
+	}
+	return nil
+}
+
+/*
+generateState is used if value of parallelism arg == 1
+- writes temp config for the discovered resources e.g. `resource_type resource_name {}` in order to run import
+- writes state file by running import for each of the found resources
+*/
+func generateState(ctx *resourceDiscoveryContext, steps []resourceDiscoveryStep) error {
+
+	Debugln("[DEBUG] writing temp config files for import")
+	for _, step := range steps {
+
+		/* Generate temporary HCL configs from all discovered resources to run import
+		   Final configuration will be generated after import so that we can exclude the resources for which import failed
+		   and also remove the references to failed resources from the referenceMap */
+		if err := step.writeTmpConfigurationForImport(); err != nil {
+			return err
+		}
+	}
+
+	// Run init command
+	backgroundCtx := context.Background()
+
+	var initArgs []tfexec.InitOption
+	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
+		Logf("[INFO] plugin dir: '%s'", pluginDir)
+		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
+	} else {
+		Logf("[INFO] plugin dir: '%s'", ctx.terraformProviderBinaryPath)
+		initArgs = append(initArgs, tfexec.PluginDir(ctx.terraformProviderBinaryPath))
+	}
+	if err := ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
+		return err
+	}
+
+	stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultStateFilename)
+	tmpStateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultTmpStateFile)
+	if err := os.RemoveAll(tmpStateOutputFile); err != nil {
+		Logf("[WARN] unable to delete existing tmp state file %s", tmpStateOutputFile)
+		return err
+	}
+
+	// Run import for all resources
+	for _, resource := range ctx.discoveredResources {
+		importResource(ctx, resource, tmpStateOutputFile)
+	}
+
+	if _, err := os.Stat(tmpStateOutputFile); !os.IsNotExist(err) {
+		if err := os.Rename(tmpStateOutputFile, stateOutputFile); err != nil {
+			return err
+		}
+	}
 
 	return nil
+}
+
+/*
+importResource runs terraform import for a given resource using Terraform exec and writes to the given state file
+*/
+func importResource(ctx *resourceDiscoveryContext, resource *OCIResource, tmpStateOutputFile string) {
+	Logf("[INFO] ===> Importing resource '%s'", resource.getTerraformReference())
+
+	resourceDefinition, exists := resourcesMap[resource.terraformClass]
+	if !exists {
+		Logf("[INFO] skip importing '%s' since it is not a Terraform OCI resource", resource.getTerraformReference())
+		return
+	}
+
+	if resourceDefinition.Importer == nil {
+		Logf("[WARN] unable to import '%s' because import is not supported for '%s'", resource.getTerraformReference(), resource.terraformClass)
+		return
+	}
+
+	importId := resource.importId
+	if len(importId) == 0 {
+		importId = resource.id
+	}
+
+	importArgs := []tfexec.ImportOption{
+		tfexec.Config(*ctx.OutputDir),
+		tfexec.State(tmpStateOutputFile),
+	}
+	if importErr := ctx.terraform.Import(context.Background(), resource.getTerraformReference(), importId, importArgs...); importErr != nil {
+		Logf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s", resource.getTerraformReference(), importId, importErr.Error())
+
+		// mark resource as errored so that it can be skipped while writing configurations
+		resource.isErrorResource = true
+
+		ctx.ctxLock.Lock()
+		ctx.isImportError = true
+		ctx.ctxLock.Unlock()
+
+		err := fmt.Errorf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s Any references to this resource have been replaced with hard coded values in generated configurations", resource.getTerraformReference(), importId, importErr.Error())
+
+		var rdError *ResourceDiscoveryError
+		if ctx.targetSpecificResources {
+			rdError = &ResourceDiscoveryError{
+				resource.terraformClass,
+				"",
+				err,
+				nil}
+		} else {
+			rdError = &ResourceDiscoveryError{
+				resource.terraformClass,
+				resource.parent.terraformName,
+				err,
+				nil}
+		}
+		ctx.addErrorToList(rdError)
+
+	}
 }
 
 func getDiscoverResourceSteps(ctx *resourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
@@ -555,7 +811,7 @@ func getDiscoverResourceWithGraphSteps(ctx *resourceDiscoveryContext) ([]resourc
 	if ctx.CompartmentId == nil || *ctx.CompartmentId == "" {
 		*ctx.CompartmentId = ctx.tenancyOcid
 	}
-	result := []resourceDiscoveryStep{}
+	var result []resourceDiscoveryStep
 
 	// Discover tenancy scope resources only if compartmentId is tenancy ocid
 	if *ctx.CompartmentId == ctx.tenancyOcid {
@@ -631,7 +887,12 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 			results, err := findResourceFn(ctx, &childType, root, &resourceGraph)
 			if err != nil {
 				// add error to the errorList and continue discovering rest of the resources
-				ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{childType.resourceClass, root.terraformName, err, &resourceGraph})
+				rdError := &ResourceDiscoveryError{
+					childType.resourceClass,
+					root.terraformName,
+					err,
+					&resourceGraph}
+				ctx.addErrorToList(rdError)
 				return
 			}
 
@@ -639,7 +900,12 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 				results, err = childType.processDiscoveredResourcesFn(ctx.clients, results)
 				if err != nil {
 					// add error to the errorList and continue discovering rest of the resources
-					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{childType.resourceClass, root.terraformName, err, &resourceGraph})
+					rdError := &ResourceDiscoveryError{
+						childType.resourceClass,
+						root.terraformName,
+						err,
+						&resourceGraph}
+					ctx.addErrorToList(rdError)
 					return
 				}
 			}
@@ -650,7 +916,9 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 				if ctx.expectedResourceIds != nil && len(ctx.expectedResourceIds) > 0 {
 					if _, shouldExport := ctx.expectedResourceIds[resource.id]; shouldExport {
 						resource.omitFromExport = false
+						ctx.ctxLock.Lock()
 						ctx.expectedResourceIds[resource.id] = true
+						ctx.ctxLock.Unlock()
 					} else {
 						resource.omitFromExport = !childType.alwaysExportable
 					}
@@ -1148,13 +1416,23 @@ func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResour
 				if tfMeta.getIdFn != nil {
 					tmpResource, err := generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", datasourceItemsAttribute, idx), tfMeta, parent)
 					if err != nil {
-						ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating temporary resource from resource data returned in list datasource read: %v ", err), resourceGraph})
+						rdError := &ResourceDiscoveryError{
+							tfMeta.resourceClass,
+							parent.terraformName,
+							fmt.Errorf("[ERROR] error generating temporary resource from resource data returned in list datasource read: %v ", err),
+							resourceGraph}
+						ctx.addErrorToList(rdError)
 						continue
 					}
 
 					itemId, err := tfMeta.getIdFn(tmpResource)
 					if err != nil {
-						ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] failed to get a composite ID for the resource: %v ", err), resourceGraph})
+						rdError := &ResourceDiscoveryError{
+							tfMeta.resourceClass,
+							parent.terraformName,
+							fmt.Errorf("[ERROR] failed to get a composite ID for the resource: %v ", err),
+							resourceGraph}
+						ctx.addErrorToList(rdError)
 						continue
 					}
 					r.SetId(itemId)
@@ -1162,28 +1440,54 @@ func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResour
 					itemId := item.(map[string]interface{})["id"]
 					r.SetId(itemId.(string))
 				} else {
-					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] elements in datasource '%s' are missing an 'id' field and is unable to generate an id", tfMeta.datasourceClass), resourceGraph})
+					rdError := &ResourceDiscoveryError{
+						tfMeta.resourceClass,
+						parent.terraformName,
+						fmt.Errorf("[ERROR] elements in datasource '%s' are missing an 'id' field and is unable to generate an id",
+							tfMeta.datasourceClass),
+						resourceGraph}
+					ctx.addErrorToList(rdError)
 					continue
 				}
 
 				if err = resourceSchema.Read(r, clients); err != nil {
-					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error refreshing resource using resource read: %v ", err), resourceGraph})
+					rdError := &ResourceDiscoveryError{
+						tfMeta.resourceClass,
+						parent.terraformName,
+						fmt.Errorf("[ERROR] error refreshing resource using resource read: %v ", err),
+						resourceGraph}
+					ctx.addErrorToList(rdError)
 					continue
 				}
 				// If state was voided because of error in Read (r.Id() is empty)
 				if r.Id() == "" {
-					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error refreshing resource using resource read, state voided"), resourceGraph})
+					rdError := &ResourceDiscoveryError{
+						tfMeta.resourceClass,
+						parent.terraformName,
+						fmt.Errorf("[ERROR] error refreshing resource using resource read, state voided"),
+						resourceGraph}
+					ctx.addErrorToList(rdError)
 					continue
 				}
 				resource, err = generateOciResourceFromResourceData(r, r, resourceSchema.Schema, "", tfMeta, parent)
 				if err != nil {
-					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating resource from resource data returned in resource read: %v ", err), resourceGraph})
+					rdError := &ResourceDiscoveryError{
+						tfMeta.resourceClass,
+						parent.terraformName,
+						fmt.Errorf("[ERROR] error generating resource from resource data returned in resource read: %v ", err),
+						resourceGraph}
+					ctx.addErrorToList(rdError)
 					continue
 				}
 			} else {
 				resource, err = generateOciResourceFromResourceData(d, item, elemResource.Schema, fmt.Sprintf("%s.%v", datasourceItemsAttribute, idx), tfMeta, parent)
 				if err != nil {
-					ctx.errorList = append(ctx.errorList, &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, fmt.Errorf("[ERROR] error generating resource from resource data returned in list datasource read: %v ", err), resourceGraph})
+					rdError := &ResourceDiscoveryError{
+						tfMeta.resourceClass,
+						parent.terraformName,
+						fmt.Errorf("[ERROR] error generating resource from resource data returned in list datasource read: %v ", err),
+						resourceGraph}
+					ctx.addErrorToList(rdError)
 					continue
 				}
 			}
@@ -1267,6 +1571,7 @@ func generateTerraformNameFromResource(resourceAttributes map[string]interface{}
 		if nameSchema, hasNameAttr := resourceSchema[nameAttribute]; hasNameAttr && nameSchema.Type == schema.TypeString {
 			if value, exists := resourceAttributes[nameAttribute]; exists {
 				terraformName := getNormalizedTerraformName(value.(string))
+				resourceNameCountLock.Lock()
 				if count, resourceNameExists := resourceNameCount[terraformName]; resourceNameExists {
 					// update count for existing name
 					resourceNameCount[terraformName] = count + 1
@@ -1274,6 +1579,7 @@ func generateTerraformNameFromResource(resourceAttributes map[string]interface{}
 				}
 				// add the newly generated name to map
 				resourceNameCount[terraformName] = 1
+				resourceNameCountLock.Unlock()
 				return terraformName, nil
 			}
 		}
@@ -1504,7 +1810,11 @@ func deleteInvalidReferences(referenceMap map[string]string, discoveredResources
 	}
 }
 
-func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, error) {
+/*
+	Initialize Terraform struct from executable provided
+	Terraform struct will later be copied to each resource discovery step for parallel runs
+*/
+func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, string, error) {
 
 	Logln("[INFO] validating Terraform CLI")
 	var err error
@@ -1512,17 +1822,17 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, error) {
 	if terraformBinPath == "" {
 		terraformBinPath, err = tfinstall.Find(tfinstall.LookPath())
 		if err != nil {
-			return nil, fmt.Errorf("[ERROR] error finding terraform CLI, either specify the path to terraform CLI "+
+			return nil, "", fmt.Errorf("[ERROR] error finding terraform CLI, either specify the path to terraform CLI "+
 				"including name using env var 'terraform_bin_path' or add terraform CLI to your system path: %s", err.Error())
 		}
 	} else {
 		// Validate the path provided
 		file, err := os.Stat(terraformBinPath)
 		if err != nil {
-			return nil, fmt.Errorf("[ERROR]: error verifying the terraform binary path provided %s: %s", terraformBinPath, err)
+			return nil, "", fmt.Errorf("[ERROR]: error verifying the terraform binary path provided %s: %s", terraformBinPath, err)
 		}
 		if file.IsDir() {
-			return nil, fmt.Errorf("[ERROR]: terraform CLI path provided is a directory: %s", terraformBinPath)
+			return nil, "", fmt.Errorf("[ERROR]: terraform CLI path provided is a directory: %s", terraformBinPath)
 		}
 
 	}
@@ -1531,7 +1841,7 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, error) {
 	// Setting the global var 'tf' here, will be later using while running terraform init and import
 	tf, err := tfexec.NewTerraform(*args.OutputDir, terraformBinPath)
 	if err != nil {
-		return nil, err
+		return nil, terraformBinPath, err
 	}
 
 	// Set log path for TF Exec
@@ -1539,7 +1849,7 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, error) {
 	if logPath != "" {
 		Logf("[INFO] setting log path for Terraform exec to '%s'", logPath)
 		if err := tf.SetLogPath(logPath); err != nil {
-			return nil, err
+			return nil, terraformBinPath, err
 		}
 	}
 
@@ -1550,7 +1860,7 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, error) {
 
 	// validate Terraform CLI
 	if tfVersion, _, err := tf.Version(backgroundCtx, true); err != nil {
-		return nil, fmt.Errorf("[ERROR] error verifying the terraform binary provided: %s", err)
+		return nil, terraformBinPath, fmt.Errorf("[ERROR] error verifying the terraform binary provided: %s", err)
 	} else {
 		Debugf("[DEBUG] version %v", tfVersion)
 
@@ -1560,7 +1870,7 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, error) {
 		inputTfVersion := "v" + tfVersion.String()
 
 		if semver.MajorMinor(inputTfVersion) == semver.MajorMinor("v"+string(TfVersion11)) {
-			return nil, fmt.Errorf("[ERROR] resource discovery does not support v0.11.* CLI, "+
+			return nil, terraformBinPath, fmt.Errorf("[ERROR] resource discovery does not support v0.11.* CLI, "+
 				"please specify terraform CLI with version v0.12.*, terraform version provided: %s", tfVersion.String())
 		}
 
@@ -1568,14 +1878,14 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, error) {
 		configVersion := semver.MajorMinor("v" + tfHclVersion.toString())
 
 		if executableVersion < configVersion {
-			return nil, fmt.Errorf("[ERROR] major and minor version of terraform CLI provided is not same as the generated configuration version, "+
+			return nil, terraformBinPath, fmt.Errorf("[ERROR] major and minor version of terraform CLI provided is not same as the generated configuration version, "+
 				"configuration version: %s, terraform CLI version: %s, please provide CLI version >= %s ", tfHclVersion.toString(), tfVersion.String(), tfHclVersion.toString())
 		}
 	}
 	// enable stdout again to show init and import output in logs
 	tf.SetStdout(os.Stdout)
 
-	return tf, nil
+	return tf, terraformBinPath, nil
 }
 
 func handlePanicFindResources(tfMeta *TerraformResourceAssociation, err *error) {
@@ -1584,5 +1894,13 @@ func handlePanicFindResources(tfMeta *TerraformResourceAssociation, err *error) 
 		returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s", tfMeta.resourceClass)
 		*err = returnErr
 		debug.PrintStack()
+	}
+}
+
+func cleanupTempStateFiles(ctx *resourceDiscoveryContext) {
+
+	/* Clean up temp state files for individual services */
+	if err := os.RemoveAll(fmt.Sprintf("%s%stmp%s", *ctx.OutputDir, string(os.PathSeparator), string(os.PathSeparator))); err != nil {
+		Logf("[ERROR] Error removing tmp state files: %s", err.Error())
 	}
 }

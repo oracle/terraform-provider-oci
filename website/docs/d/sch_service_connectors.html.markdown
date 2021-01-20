@@ -61,10 +61,13 @@ The following attributes are exported:
 * `state` - The current state of the service connector. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `target` - An object that represents the target of the flow defined by the service connector. An example target is a stream. For more information about flows defined by service connectors, see [Service Connector Hub Overview](https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm). 
+	* `batch_rollover_size_in_mbs` - The batch rollover size in megabytes. 
+	* `batch_rollover_time_in_ms` - The batch rollover time in milliseconds. 
 	* `bucket` - The name of the bucket. Avoid entering confidential information. 
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric. 
 	* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function. 
 	* `kind` - The type descriminator. 
+	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group. 
 	* `metric` - The name of the metric.  Example: `CpuUtilization` 
 	* `metric_namespace` - The namespace of the metric.  Example: `oci_computeagent` 
 	* `namespace` - The namespace. 

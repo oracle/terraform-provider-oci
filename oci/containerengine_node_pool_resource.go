@@ -19,8 +19,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v32/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v33/containerengine"
 )
 
 func init() {
@@ -608,6 +608,11 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 
 	response := oci_containerengine.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_containerengine.WorkRequestStatusInProgress),
+			string(oci_containerengine.WorkRequestStatusAccepted),
+			string(oci_containerengine.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_containerengine.WorkRequestStatusSucceeded),
 			string(oci_containerengine.WorkRequestStatusFailed),

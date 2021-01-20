@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v32/database"
+	oci_database "github.com/oracle/oci-go-sdk/v33/database"
 )
 
 func init() {
@@ -120,6 +120,12 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
+	}
+
+	if s.Res.IormConfigCache != nil {
+		s.D.Set("iorm_config_cache", []interface{}{ExadataIormConfigToMap(s.Res.IormConfigCache)})
+	} else {
+		s.D.Set("iorm_config_cache", nil)
 	}
 
 	if s.Res.IsLocalBackupEnabled != nil {
