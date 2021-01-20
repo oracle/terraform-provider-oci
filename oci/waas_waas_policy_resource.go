@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v32/waas"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v33/waas"
 )
 
 func init() {
@@ -1500,6 +1500,11 @@ func waasPolicyWaitForWorkRequest(wId *string, entityType string, action oci_waa
 
 	response := oci_waas.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_waas.WorkRequestStatusInProgress),
+			string(oci_waas.WorkRequestStatusAccepted),
+			string(oci_waas.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_waas.WorkRequestStatusSucceeded),
 			string(oci_waas.WorkRequestStatusFailed),

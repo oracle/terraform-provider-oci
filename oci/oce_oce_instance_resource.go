@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_oce "github.com/oracle/oci-go-sdk/v32/oce"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_oce "github.com/oracle/oci-go-sdk/v33/oce"
 )
 
 func init() {
@@ -360,6 +360,11 @@ func oceInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oc
 
 	response := oci_oce.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_oce.WorkRequestStatusInProgress),
+			string(oci_oce.WorkRequestStatusAccepted),
+			string(oci_oce.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_oce.WorkRequestStatusSucceeded),
 			string(oci_oce.WorkRequestStatusFailed),

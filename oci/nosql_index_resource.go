@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_nosql "github.com/oracle/oci-go-sdk/v32/nosql"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_nosql "github.com/oracle/oci-go-sdk/v33/nosql"
 )
 
 func init() {
@@ -280,6 +280,11 @@ func indexWaitForWorkRequest(wId *string, entityType string, action oci_nosql.Wo
 
 	response := oci_nosql.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_nosql.WorkRequestStatusInProgress),
+			string(oci_nosql.WorkRequestStatusAccepted),
+			string(oci_nosql.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_nosql.WorkRequestStatusSucceeded),
 			string(oci_nosql.WorkRequestStatusFailed),

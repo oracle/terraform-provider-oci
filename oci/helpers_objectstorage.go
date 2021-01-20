@@ -16,9 +16,9 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/oracle/oci-go-sdk/v32/common"
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v32/objectstorage"
+	"github.com/oracle/oci-go-sdk/v33/common"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v33/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -429,6 +429,11 @@ func copyObjectWaitForWorkRequest(wId *string, entityType string, timeout time.D
 	retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(timeout)
 
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_object_storage.WorkRequestStatusAccepted),
+			string(oci_object_storage.WorkRequestStatusInProgress),
+			string(oci_object_storage.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_object_storage.WorkRequestSummaryStatusCompleted),
 			string(oci_object_storage.WorkRequestSummaryStatusCanceled),

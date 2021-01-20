@@ -24,7 +24,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
 )
 
 var tmpl template.Template = *template.New("tmpl")
@@ -465,9 +465,17 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	exportCommandArgs.OutputDir = &outputDir
 	var tfVersion TfHclVersion = &TfHclVersion12{Value: TfVersion12}
 	exportCommandArgs.TFVersion = &tfVersion
+	exportCommandArgs.Parallelism = 10
 
-	if errExport, _ := RunExportCommand(exportCommandArgs); errExport != nil {
-		return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport)
+	if errExport, status := RunExportCommand(exportCommandArgs); errExport != nil || status == StatusPartialSuccess {
+		if errExport != nil {
+			return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport.Error())
+		}
+		// For generated tests, RD will only return this error if one of the `ids` was not found
+		// (which in case of tests is the id for the resource RD is looking for)
+		if status == StatusPartialSuccess {
+			return fmt.Errorf("[ERROR] expected resource was not found")
+		}
 	}
 
 	// run init command

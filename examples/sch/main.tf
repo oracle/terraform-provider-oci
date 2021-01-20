@@ -7,6 +7,12 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 
+// If using the objectStorage target
+//variable "object_storage_bucket_name" {}
+
+// If using the log analytics target
+//variable "log_analytics_log_group_id" {}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -123,6 +129,23 @@ resource "oci_sch_service_connector" "test_service_connector" {
     kind      = "streaming"
     stream_id = oci_streaming_stream.test_stream.id
   }
+
+  // If using the objectStorage target
+  /*target {
+    kind                        = "objectStorage"
+    bucket                      = var.object_storage_bucket_name
+
+    //optional
+    batch_rollover_size_in_mbs" = "10"
+    //optional
+    batch_rollover_time_in_ms"  = "80000"
+  }*/
+
+  // If using the log analytics target
+  /*target {
+    kind            = "loggingAnalytics"
+    log_group_id    = var.log_analytics_log_group_id
+  }*/
 
   tasks {
     condition = "logContent='20'"

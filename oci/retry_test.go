@@ -12,7 +12,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/oracle/oci-go-sdk/v32/common"
+	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
 type TestOCIResponse struct {
