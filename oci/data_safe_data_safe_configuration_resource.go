@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v32/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v33/datasafe"
 )
 
 func init() {
@@ -192,6 +192,10 @@ func dataSafeConfigurationWaitForWorkRequest(wId *string, entityType string, act
 
 	response := oci_data_safe.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_data_safe.WorkRequestStatusInProgress),
+			string(oci_data_safe.WorkRequestStatusAccepted),
+		},
 		Target: []string{
 			string(oci_data_safe.WorkRequestStatusSucceeded),
 			string(oci_data_safe.WorkRequestStatusFailed),

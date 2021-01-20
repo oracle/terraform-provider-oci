@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_blockchain "github.com/oracle/oci-go-sdk/v32/blockchain"
-	oci_common "github.com/oracle/oci-go-sdk/v32/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v33/blockchain"
+	oci_common "github.com/oracle/oci-go-sdk/v33/common"
 )
 
 func init() {
@@ -254,6 +254,11 @@ func peerWaitForWorkRequest(wId *string, entityType string, action oci_blockchai
 
 	response := oci_blockchain.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_blockchain.WorkRequestStatusInProgress),
+			string(oci_blockchain.WorkRequestStatusAccepted),
+			string(oci_blockchain.WorkRequestStatusCanceling),
+		},
 		Target: []string{
 			string(oci_blockchain.WorkRequestStatusSucceeded),
 			string(oci_blockchain.WorkRequestStatusFailed),

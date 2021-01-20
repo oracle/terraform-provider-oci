@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v32/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v33/apigateway"
 )
 
 func init() {
@@ -33,6 +33,41 @@ func ApigatewayApiValidationDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"msg": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"severity": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"src": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+
+												"items": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem:     schema.TypeFloat,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -101,8 +136,36 @@ func (s *ApigatewayApiValidationDataSourceCrud) SetData() error {
 	return nil
 }
 
+func ApiValidationDetailToMap(obj oci_apigateway.ApiValidationDetail) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Msg != nil {
+		result["msg"] = string(*obj.Msg)
+	}
+
+	result["severity"] = string(obj.Severity)
+
+	src := [][]interface{}{}
+	for _, items := range obj.Src {
+		temp := []interface{}{}
+		for _, item := range items {
+			temp = append(temp, item)
+		}
+		src = append(src, temp)
+	}
+	result["src"] = src
+
+	return result
+}
+
 func ApiValidationDetailsToMap(obj oci_apigateway.ApiValidationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	details := []interface{}{}
+	for _, item := range obj.Details {
+		details = append(details, ApiValidationDetailToMap(item))
+	}
+	result["details"] = details
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
