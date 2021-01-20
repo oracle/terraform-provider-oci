@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oracle/oci-go-sdk/v32/core"
+	"github.com/oracle/oci-go-sdk/v33/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
