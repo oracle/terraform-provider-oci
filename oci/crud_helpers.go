@@ -576,7 +576,7 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 		if e != nil && strings.Contains(e.Error(), "unexpected state") {
 			resourceId := sync.ID()
 			if resourceId != "" {
-				e = fmt.Errorf("%s, The service for this resource encountered an unknown error. Provide the following resource ID if you contact support for help with that service: %s", e, resourceId)
+				e = fmt.Errorf("Resource reached unexpected lifecycle state %s during %s, whereas expected lifecycle state is %s. \n Affected resource OCID: %s", sync.State(), operationName, target[0], resourceId)
 			}
 		}
 
