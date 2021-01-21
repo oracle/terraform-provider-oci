@@ -329,7 +329,36 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies,
 			},
-			// verify create with optionals
+			// verify create 100Mbps
+			{
+				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
+						representationCopyWithNewProperties(representationCopyWithRemovedProperties(loadBalancerFlexRepresentation, []string{"shape_details"}), map[string]interface{}{
+							"shape": Representation{repType: Required, create: `100Mbps`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
+					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+					resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
+					resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// verify update to flexshape
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerFlexRepresentation),
