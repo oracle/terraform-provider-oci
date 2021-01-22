@@ -10,6 +10,11 @@ resource "oci_core_instance" "test_instance_with_pv_encryption_in_transit" {
   display_name        = "TestInstance${count.index}"
   shape               = var.instance_shape
 
+  shape_config {
+    ocpus = "${var.instance_ocpus}"
+    memory_in_gbs = "${var.instance_shape_config_memory_in_gbs}"
+  }
+
   create_vnic_details {
     subnet_id        = oci_core_subnet.test_subnet.id
     display_name     = "Primaryvnic"
