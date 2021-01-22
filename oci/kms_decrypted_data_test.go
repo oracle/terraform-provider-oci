@@ -22,7 +22,6 @@ var (
 	}
 
 	DecryptedDataResourceConfig = generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Required, Create, encryptedDataRepresentation) +
-		generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation) +
 		KeyResourceDependencyConfig
 )
 

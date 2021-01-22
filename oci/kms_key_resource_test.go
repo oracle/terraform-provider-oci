@@ -26,7 +26,7 @@ func TestKmsKeyResource_ResourceDiscovery(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
-	kmsKeyId := getEnvSettingWithBlankDefault("kms_aes_key_ocid")
+	kmsKeyId := getEnvSettingWithBlankDefault("kms_key_ocid")
 
 	resourceName := "oci_kms_key.test_key"
 
