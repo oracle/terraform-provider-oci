@@ -58,7 +58,7 @@ variable "instance_ocpus" {
 }
 
 variable "instance_shape_config_memory_in_gbs" {
-  default = 1.1
+  default = 1
 }
 
 variable "instance_image_ocid" {
