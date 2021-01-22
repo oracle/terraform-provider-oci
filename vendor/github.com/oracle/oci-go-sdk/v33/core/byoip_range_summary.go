@@ -17,13 +17,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// ByoipRangeSummary Summary information about a ByoipRange
+// ByoipRangeSummary Information about a `ByoipRange` resource.
 type ByoipRangeSummary struct {
 
-	// The address range the user is on-boarding.
+	// The public IPv4 address range you are importing to the Oracle cloud.
 	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
 
-	// The OCID of the compartment containing the Byoip Range.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the `ByoipRange` resource.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -40,16 +40,16 @@ type ByoipRangeSummary struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The Oracle ID (OCID) of the Byoip Range.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The Byoip Range's current state.
+	// The `ByoipRange` resource's current state.
 	LifecycleState ByoipRangeLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The Byoip Range's current lifeCycle substate.
 	LifecycleDetails ByoipRangeLifecycleDetailsEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
 
-	// The date and time the Byoip Range was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the `ByoipRange` resource was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }

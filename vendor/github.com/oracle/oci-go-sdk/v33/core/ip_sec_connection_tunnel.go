@@ -49,7 +49,6 @@ type IpSecConnectionTunnel struct {
 	// entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Information for establishing the tunnel's BGP session.
 	BgpSessionInfo *BgpSessionInfo `mandatory:"false" json:"bgpSessionInfo"`
 
 	// The type of routing used for this tunnel (either BGP dynamic routing or static routing).

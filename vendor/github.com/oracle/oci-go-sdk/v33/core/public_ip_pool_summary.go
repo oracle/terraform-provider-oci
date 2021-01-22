@@ -17,10 +17,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// PublicIpPoolSummary Summary information about a Public IP pool
+// PublicIpPoolSummary Summary information about a public IP pool.
 type PublicIpPoolSummary struct {
 
-	// The OCID of the compartment containing the Public IP Pool
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the public IP pool.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -37,13 +37,13 @@ type PublicIpPoolSummary struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The Oracle ID (OCID) of the Public Ip Pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the public IP pool.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The Public IP Pool's current state.
+	// The public IP pool's current state.
 	LifecycleState PublicIpPoolLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The date and time the public IP Pool was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the public IP pool was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }

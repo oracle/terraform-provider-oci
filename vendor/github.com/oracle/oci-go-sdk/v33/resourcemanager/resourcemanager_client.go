@@ -1318,6 +1318,8 @@ func (client ResourceManagerClient) listResourceDiscoveryServices(ctx context.Co
 // ListStackResourceDriftDetails Lists drift status details for each resource defined in the specified stack.
 // The drift status details for a given resource indicate differences, if any, between the actual state
 // and the expected (defined) state for that resource.
+// The drift status details correspond to the specified work request (`workRequestId`).
+// If no work request is specified, then the drift status details correspond to the latest completed work request for the stack.
 //
 // See also
 //

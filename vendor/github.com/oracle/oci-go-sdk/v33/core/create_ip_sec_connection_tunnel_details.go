@@ -36,11 +36,6 @@ type CreateIpSecConnectionTunnelDetails struct {
 	// you like with UpdateIPSecConnectionTunnelSharedSecret.
 	SharedSecret *string `mandatory:"false" json:"sharedSecret"`
 
-	// Information for establishing a BGP session for the IPSec tunnel. Required if the tunnel uses
-	// BGP dynamic routing.
-	// If the tunnel instead uses static routing, you may optionally provide
-	// this object and set an IP address for one or both ends of the IPSec tunnel for the purposes
-	// of troubleshooting or monitoring the tunnel.
 	BgpSessionConfig *CreateIpSecTunnelBgpSessionDetails `mandatory:"false" json:"bgpSessionConfig"`
 }
 

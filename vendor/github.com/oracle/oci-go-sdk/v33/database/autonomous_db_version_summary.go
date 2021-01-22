@@ -23,7 +23,7 @@ type AutonomousDbVersionSummary struct {
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
-	// - APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type.
+	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
 	DbWorkload AutonomousDbVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// True if the database uses dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).

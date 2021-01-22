@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeletePublicIpPool.go.html to see an example of how to use DeletePublicIpPoolRequest.
 type DeletePublicIpPoolRequest struct {
 
-	// The OCID of the Public Ip Pool object.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the public IP pool.
 	PublicIpPoolId *string `mandatory:"true" contributesTo:"path" name:"publicIpPoolId"`
 
 	// Unique identifier for the request.

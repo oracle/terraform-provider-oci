@@ -17,13 +17,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// AddPublicIpPoolCapacityDetails The data to add capacity to a public ip pool
+// AddPublicIpPoolCapacityDetails The information used to add capacity to an IP pool.
 type AddPublicIpPoolCapacityDetails struct {
 
-	// The OCID of the Byoip Range Id object to whch the cidr block belongs.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource to which the CIDR block belongs.
 	ByoipRangeId *string `mandatory:"true" json:"byoipRangeId"`
 
-	// The CIDR IP address range to be added to the Public Ip Pool
+	// The CIDR block to add to the public IP pool. It could be all of the CIDR block identified in `byoipRangeId`, or a subrange.
 	// Example: `10.0.1.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 }

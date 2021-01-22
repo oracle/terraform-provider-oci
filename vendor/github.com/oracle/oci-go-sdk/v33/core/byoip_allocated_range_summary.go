@@ -17,13 +17,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// ByoipAllocatedRangeSummary Subrange of ByoipRange which is allocated to a PublicIpPool
+// ByoipAllocatedRangeSummary A summary of CIDR block subranges that are currently allocated to an IP pool.
 type ByoipAllocatedRangeSummary struct {
 
-	// The address range part of the ByoipRange which is used for a publicIpPool.
+	// The BYOIP CIDR block range or subrange allocated to an IP pool. This could be all or part of a BYOIP CIDR block.
 	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
 
-	// The OCID of the PublicIpPool containing the part of the Byoip range.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IP pool containing the CIDR block.
 	PublicIpPoolId *string `mandatory:"false" json:"publicIpPoolId"`
 }
 

@@ -259,6 +259,126 @@ func (client AnalyticsClient) createAnalyticsInstance(ctx context.Context, reque
 	return response, err
 }
 
+// CreatePrivateAccessChannel Create an Private access Channel for the Analytics instance. The operation is long-running
+// and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/CreatePrivateAccessChannel.go.html to see an example of how to use CreatePrivateAccessChannel API.
+func (client AnalyticsClient) CreatePrivateAccessChannel(ctx context.Context, request CreatePrivateAccessChannelRequest) (response CreatePrivateAccessChannelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createPrivateAccessChannel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreatePrivateAccessChannelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreatePrivateAccessChannelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreatePrivateAccessChannelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreatePrivateAccessChannelResponse")
+	}
+	return
+}
+
+// createPrivateAccessChannel implements the OCIOperation interface (enables retrying operations)
+func (client AnalyticsClient) createPrivateAccessChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreatePrivateAccessChannelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateVanityUrl Allows specifying a custom host name to be used to access the analytics instance.  This requires prior setup of DNS entry and certificate
+// for this host.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/CreateVanityUrl.go.html to see an example of how to use CreateVanityUrl API.
+func (client AnalyticsClient) CreateVanityUrl(ctx context.Context, request CreateVanityUrlRequest) (response CreateVanityUrlResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createVanityUrl, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVanityUrlResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVanityUrlResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateVanityUrlResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateVanityUrlResponse")
+	}
+	return
+}
+
+// createVanityUrl implements the OCIOperation interface (enables retrying operations)
+func (client AnalyticsClient) createVanityUrl(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/vanityUrls")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateVanityUrlResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteAnalyticsInstance Terminates the specified Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
 //
@@ -307,6 +427,124 @@ func (client AnalyticsClient) deleteAnalyticsInstance(ctx context.Context, reque
 	}
 
 	var response DeleteAnalyticsInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeletePrivateAccessChannel Delete an Analytics instance's Private access channel with the given unique identifier key.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeletePrivateAccessChannel.go.html to see an example of how to use DeletePrivateAccessChannel API.
+func (client AnalyticsClient) DeletePrivateAccessChannel(ctx context.Context, request DeletePrivateAccessChannelRequest) (response DeletePrivateAccessChannelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deletePrivateAccessChannel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeletePrivateAccessChannelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeletePrivateAccessChannelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeletePrivateAccessChannelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeletePrivateAccessChannelResponse")
+	}
+	return
+}
+
+// deletePrivateAccessChannel implements the OCIOperation interface (enables retrying operations)
+func (client AnalyticsClient) deletePrivateAccessChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels/{privateAccessChannelKey}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeletePrivateAccessChannelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteVanityUrl Allows deleting a previously created vanity url.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeleteVanityUrl.go.html to see an example of how to use DeleteVanityUrl API.
+func (client AnalyticsClient) DeleteVanityUrl(ctx context.Context, request DeleteVanityUrlRequest) (response DeleteVanityUrlResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteVanityUrl, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVanityUrlResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVanityUrlResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteVanityUrlResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteVanityUrlResponse")
+	}
+	return
+}
+
+// deleteVanityUrl implements the OCIOperation interface (enables retrying operations)
+func (client AnalyticsClient) deleteVanityUrl(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/analyticsInstances/{analyticsInstanceId}/vanityUrls/{vanityUrlKey}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteVanityUrlResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -415,6 +653,60 @@ func (client AnalyticsClient) getAnalyticsInstance(ctx context.Context, request 
 	}
 
 	var response GetAnalyticsInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetPrivateAccessChannel Retrieve private access channel in the specified Analytics Instance.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/GetPrivateAccessChannel.go.html to see an example of how to use GetPrivateAccessChannel API.
+func (client AnalyticsClient) GetPrivateAccessChannel(ctx context.Context, request GetPrivateAccessChannelRequest) (response GetPrivateAccessChannelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPrivateAccessChannel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPrivateAccessChannelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPrivateAccessChannelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPrivateAccessChannelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPrivateAccessChannelResponse")
+	}
+	return
+}
+
+// getPrivateAccessChannel implements the OCIOperation interface (enables retrying operations)
+func (client AnalyticsClient) getPrivateAccessChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels/{privateAccessChannelKey}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPrivateAccessChannelResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -920,6 +1212,124 @@ func (client AnalyticsClient) updateAnalyticsInstance(ctx context.Context, reque
 	}
 
 	var response UpdateAnalyticsInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdatePrivateAccessChannel Update the Private Access Channel with the given unique identifier key in the specified Analytics Instance.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdatePrivateAccessChannel.go.html to see an example of how to use UpdatePrivateAccessChannel API.
+func (client AnalyticsClient) UpdatePrivateAccessChannel(ctx context.Context, request UpdatePrivateAccessChannelRequest) (response UpdatePrivateAccessChannelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updatePrivateAccessChannel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdatePrivateAccessChannelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdatePrivateAccessChannelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdatePrivateAccessChannelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdatePrivateAccessChannelResponse")
+	}
+	return
+}
+
+// updatePrivateAccessChannel implements the OCIOperation interface (enables retrying operations)
+func (client AnalyticsClient) updatePrivateAccessChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels/{privateAccessChannelKey}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdatePrivateAccessChannelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateVanityUrl Allows uploading a new certificate for a vanity url, which will have to be done when the current certificate is expiring.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdateVanityUrl.go.html to see an example of how to use UpdateVanityUrl API.
+func (client AnalyticsClient) UpdateVanityUrl(ctx context.Context, request UpdateVanityUrlRequest) (response UpdateVanityUrlResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateVanityUrl, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVanityUrlResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVanityUrlResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateVanityUrlResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateVanityUrlResponse")
+	}
+	return
+}
+
+// updateVanityUrl implements the OCIOperation interface (enables retrying operations)
+func (client AnalyticsClient) updateVanityUrl(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/analyticsInstances/{analyticsInstanceId}/vanityUrls/{vanityUrlKey}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateVanityUrlResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

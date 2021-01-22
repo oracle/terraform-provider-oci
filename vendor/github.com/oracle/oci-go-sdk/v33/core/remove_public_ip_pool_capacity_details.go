@@ -17,10 +17,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// RemovePublicIpPoolCapacityDetails The data to remove capacity from a public ip pool
+// RemovePublicIpPoolCapacityDetails The information needed to remove capacity from a public IP pool.
 type RemovePublicIpPoolCapacityDetails struct {
 
-	// The CIDR IP address range to be removed from the Public Ip Pool
+	// The CIDR block to remove from the  public IP pool.
 	// Example: `10.0.1.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 }

@@ -19,7 +19,7 @@ type UpgradeDatabaseRequest struct {
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
-	// Request to perform database upgrade.
+	// Request to perform a database upgrade.
 	UpgradeDatabaseDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

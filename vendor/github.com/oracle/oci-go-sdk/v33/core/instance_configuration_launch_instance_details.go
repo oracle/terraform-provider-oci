@@ -30,8 +30,6 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Details for the primary VNIC, which is automatically created and attached when
-	// the instance is launched.
 	CreateVnicDetails *InstanceConfigurationCreateVnicDetails `mandatory:"false" json:"createVnicDetails"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -122,8 +120,6 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 
 	ShapeConfig *InstanceConfigurationLaunchInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
-	// Details for creating an instance.
-	// Use this parameter to specify whether a boot volume or an image should be used to launch a new instance.
 	SourceDetails InstanceConfigurationInstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
@@ -151,7 +147,6 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
-	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions *InstanceConfigurationLaunchOptions `mandatory:"false" json:"launchOptions"`
 
 	AgentConfig *InstanceConfigurationLaunchInstanceAgentConfigDetails `mandatory:"false" json:"agentConfig"`
@@ -166,7 +161,6 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 
 	InstanceOptions *InstanceConfigurationInstanceOptions `mandatory:"false" json:"instanceOptions"`
 
-	// Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware.
 	AvailabilityConfig *InstanceConfigurationAvailabilityConfig `mandatory:"false" json:"availabilityConfig"`
 }
 

@@ -17,14 +17,14 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// CreateByoipRangeDetails The data to create a Byoip Range
+// CreateByoipRangeDetails The information used to create a `ByoipRange` resource.
 type CreateByoipRangeDetails struct {
 
-	// The CIDR IP address range of the prefix.
+	// The BYOIP CIDR block. You can assign some or all of it to a public IP pool after it is validated.
 	// Example: `10.0.1.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 
-	// The OCID of the compartment to contain the Byoip Range.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the BYOIP CIDR block.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

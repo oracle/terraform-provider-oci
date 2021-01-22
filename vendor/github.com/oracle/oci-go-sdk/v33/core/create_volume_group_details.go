@@ -27,9 +27,11 @@ type CreateVolumeGroupDetails struct {
 	// The OCID of the compartment that contains the volume group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Specifies the volume group source details for a new volume group. The volume source is either another a list of
-	// volume ids in the same availability domain, another volume group or a volume group backup.
 	SourceDetails VolumeGroupSourceDetails `mandatory:"true" json:"sourceDetails"`
+
+	// If provided, specifies the ID of the volume backup policy to assign to the newly
+	// created volume group. If omitted, no policy will be assigned.
+	BackupPolicyId *string `mandatory:"false" json:"backupPolicyId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -52,6 +54,7 @@ func (m CreateVolumeGroupDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		BackupPolicyId     *string                           `json:"backupPolicyId"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName        *string                           `json:"displayName"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
@@ -65,6 +68,8 @@ func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.BackupPolicyId = model.BackupPolicyId
+
 	m.DefinedTags = model.DefinedTags
 
 	m.DisplayName = model.DisplayName

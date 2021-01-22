@@ -20,8 +20,7 @@ import (
 // ChangePublicIpPoolCompartmentDetails The configuration details for the move operation.
 type ChangePublicIpPoolCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the
-	// Public IP Pool to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the destination compartment for the public IP pool move.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

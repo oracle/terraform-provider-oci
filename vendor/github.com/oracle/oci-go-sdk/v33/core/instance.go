@@ -121,12 +121,10 @@ type Instance struct {
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode InstanceLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
-	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
 
 	InstanceOptions *InstanceOptions `mandatory:"false" json:"instanceOptions"`
 
-	// Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 	AvailabilityConfig *InstanceAvailabilityConfig `mandatory:"false" json:"availabilityConfig"`
 
 	// Custom metadata that you provide.
@@ -134,7 +132,6 @@ type Instance struct {
 
 	ShapeConfig *InstanceShapeConfig `mandatory:"false" json:"shapeConfig"`
 
-	// Details for creating an instance
 	SourceDetails InstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.

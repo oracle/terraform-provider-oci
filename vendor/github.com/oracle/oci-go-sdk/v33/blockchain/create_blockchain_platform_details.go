@@ -28,14 +28,14 @@ type CreateBlockchainPlatformDetails struct {
 	// Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE
 	ComputeShape BlockchainPlatformComputeShapeEnum `mandatory:"true" json:"computeShape"`
 
+	// IDCS access token with Identity Domain Administrator role
+	IdcsAccessToken *string `mandatory:"true" json:"idcsAccessToken"`
+
 	// Platform Instance Description
 	Description *string `mandatory:"false" json:"description"`
 
 	// Bring your own license
 	IsByol *bool `mandatory:"false" json:"isByol"`
-
-	// IDCS access token with Identity Domain Administrator role
-	IdcsAccessToken *string `mandatory:"false" json:"idcsAccessToken"`
 
 	// Identifier for a federated user
 	FederatedUserId *string `mandatory:"false" json:"federatedUserId"`

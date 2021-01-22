@@ -25,7 +25,6 @@ type CpeDeviceShapeSummary struct {
 	// This value uniquely identifies the type of CPE device.
 	Id *string `mandatory:"false" json:"id"`
 
-	// Basic information about this particular CPE device type.
 	CpeDeviceInfo *CpeDeviceInfo `mandatory:"false" json:"cpeDeviceInfo"`
 }
 

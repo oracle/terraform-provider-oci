@@ -112,6 +112,7 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationLifecycleStateTerminating          AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = "TERMINATING"
 	AutonomousContainerDatabaseDataguardAssociationLifecycleStateTerminated           AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = "TERMINATED"
 	AutonomousContainerDatabaseDataguardAssociationLifecycleStateFailed               AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = "FAILED"
+	AutonomousContainerDatabaseDataguardAssociationLifecycleStateUnavailable          AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = "UNAVAILABLE"
 )
 
 var mappingAutonomousContainerDatabaseDataguardAssociationLifecycleState = map[string]AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum{
@@ -121,6 +122,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationLifecycleState = map[s
 	"TERMINATING":             AutonomousContainerDatabaseDataguardAssociationLifecycleStateTerminating,
 	"TERMINATED":              AutonomousContainerDatabaseDataguardAssociationLifecycleStateTerminated,
 	"FAILED":                  AutonomousContainerDatabaseDataguardAssociationLifecycleStateFailed,
+	"UNAVAILABLE":             AutonomousContainerDatabaseDataguardAssociationLifecycleStateUnavailable,
 }
 
 // GetAutonomousContainerDatabaseDataguardAssociationLifecycleStateEnumValues Enumerates the set of values for AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum
@@ -168,6 +170,7 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminating          AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "TERMINATING"
 	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated           AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "TERMINATED"
 	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed               AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "FAILED"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable          AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "UNAVAILABLE"
 )
 
 var mappingAutonomousContainerDatabaseDataguardAssociationPeerLifecycleState = map[string]AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum{
@@ -177,6 +180,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationPeerLifecycleState = m
 	"TERMINATING":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminating,
 	"TERMINATED":              AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated,
 	"FAILED":                  AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed,
+	"UNAVAILABLE":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable,
 }
 
 // GetAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnumValues Enumerates the set of values for AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum

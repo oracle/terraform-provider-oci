@@ -46,12 +46,13 @@ type UpdateSubnetDetails struct {
 	// applied to the individual VNICs in the subnet.
 	SecurityListIds []string `mandatory:"false" json:"securityListIds"`
 
-	// The CIDR IP address block of the Subnet. The CIDR must maintain the following rules -
-	// a. The CIDR block is valid and correctly formatted.
-	// b. The new range is within one of the parent VCN ranges.
-	// c. The old and new CIDR ranges both use the same base address. Example: 10.0.0.0/25 and 10.0.0.0/24.
-	// d. The new CIDR range contains all previously allocated private IP addresses in the old CIDR range.
-	// e. No previously allocated IP address overlaps the broadcast address (the last IP of a subnet CIDR range) of the new CIDR range.
+	// The CIDR block of the subnet. The new CIDR block must meet the following criteria:
+	// - Must be valid.
+	// - The CIDR block's IP range must be completely within one of the VCN's CIDR block ranges.
+	// - The old and new CIDR block ranges must use the same network address. Example: `10.0.0.0/25` and `10.0.0.0/24`.
+	// - Must contain all IP addresses in use in the old CIDR range.
+	// - The new CIDR range's broadcast address (last IP address of CIDR range) must not be an IP address in use in the old CIDR range.
+	// **Note:** If you are changing the CIDR block, you cannot create VNICs or private IPs for this resource while the update is in progress.
 	// Example: `172.16.0.0/16`
 	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
 }

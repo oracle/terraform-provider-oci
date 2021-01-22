@@ -51,7 +51,7 @@ type CreatePublicIpDetails struct {
 	// UpdatePublicIp.
 	PrivateIpId *string `mandatory:"false" json:"privateIpId"`
 
-	// OCID of the pool object created by the current tenancy
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the public IP pool.
 	PublicIpPoolId *string `mandatory:"false" json:"publicIpPoolId"`
 }
 

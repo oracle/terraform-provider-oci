@@ -54,6 +54,9 @@ type KeySummary struct {
 	// on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,
 	// a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported.
 	ProtectionMode KeySummaryProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
+
+	// The algorithm used by a key's key versions to encrypt or decrypt.
+	Algorithm KeySummaryAlgorithmEnum `mandatory:"false" json:"algorithm,omitempty"`
 }
 
 func (m KeySummary) String() string {
@@ -123,6 +126,31 @@ var mappingKeySummaryProtectionMode = map[string]KeySummaryProtectionModeEnum{
 func GetKeySummaryProtectionModeEnumValues() []KeySummaryProtectionModeEnum {
 	values := make([]KeySummaryProtectionModeEnum, 0)
 	for _, v := range mappingKeySummaryProtectionMode {
+		values = append(values, v)
+	}
+	return values
+}
+
+// KeySummaryAlgorithmEnum Enum with underlying type: string
+type KeySummaryAlgorithmEnum string
+
+// Set of constants representing the allowable values for KeySummaryAlgorithmEnum
+const (
+	KeySummaryAlgorithmAes   KeySummaryAlgorithmEnum = "AES"
+	KeySummaryAlgorithmRsa   KeySummaryAlgorithmEnum = "RSA"
+	KeySummaryAlgorithmEcdsa KeySummaryAlgorithmEnum = "ECDSA"
+)
+
+var mappingKeySummaryAlgorithm = map[string]KeySummaryAlgorithmEnum{
+	"AES":   KeySummaryAlgorithmAes,
+	"RSA":   KeySummaryAlgorithmRsa,
+	"ECDSA": KeySummaryAlgorithmEcdsa,
+}
+
+// GetKeySummaryAlgorithmEnumValues Enumerates the set of values for KeySummaryAlgorithmEnum
+func GetKeySummaryAlgorithmEnumValues() []KeySummaryAlgorithmEnum {
+	values := make([]KeySummaryAlgorithmEnum, 0)
+	for _, v := range mappingKeySummaryAlgorithm {
 		values = append(values, v)
 	}
 	return values

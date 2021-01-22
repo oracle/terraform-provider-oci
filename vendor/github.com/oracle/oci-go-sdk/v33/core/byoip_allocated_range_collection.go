@@ -17,10 +17,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// ByoipAllocatedRangeCollection Results of a ListByoipAllocatedRanges operation.
+// ByoipAllocatedRangeCollection Results of a `ListByoipAllocatedRanges` operation.
 type ByoipAllocatedRangeCollection struct {
 
-	// list of Byoip allocated ranges as part of public IP pool
+	// A list of subranges of a BYOIP CIDR block allocated to an IP pool.
 	Items []ByoipAllocatedRangeSummary `mandatory:"true" json:"items"`
 }
 

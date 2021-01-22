@@ -37,7 +37,7 @@ type ListPublicIpPoolsRequest struct {
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources that match the given Byoip Range
+	// A filter to return only resources that match the given BYOIP CIDR block.
 	ByoipRangeId *string `mandatory:"false" contributesTo:"query" name:"byoipRangeId"`
 
 	// The field to sort by. You can provide one sort order (`sortOrder`). Default order for

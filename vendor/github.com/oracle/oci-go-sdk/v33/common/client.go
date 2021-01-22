@@ -138,6 +138,10 @@ func (client *BaseClient) Endpoint() string {
 
 func defaultUserAgent() string {
 	userAgent := fmt.Sprintf(defaultUserAgentTemplate, defaultSDKMarker, Version(), runtime.GOOS, runtime.GOARCH, runtime.Version())
+	appendUA := os.Getenv("OCI_SDK_APPEND_USER_AGENT")
+	if appendUA != "" {
+		userAgent = fmt.Sprintf("%s %s", userAgent, appendUA)
+	}
 	return userAgent
 }
 

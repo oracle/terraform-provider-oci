@@ -20,8 +20,14 @@ type KeyShape struct {
 	// The algorithm used by a key's key versions to encrypt or decrypt.
 	Algorithm KeyShapeAlgorithmEnum `mandatory:"true" json:"algorithm"`
 
-	// The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported.
+	// The length of the key in bytes, expressed as an integer. Values supported:
+	//   - AES: 16, 24 or 32
+	//   - RSA: 256, 384 or 512
+	//   - ECDSA: 32, 48, 66
 	Length *int `mandatory:"true" json:"length"`
+
+	// Supported curve Ids for ECDSA keys
+	CurveId KeyShapeCurveIdEnum `mandatory:"false" json:"curveId,omitempty"`
 }
 
 func (m KeyShape) String() string {
@@ -33,19 +39,46 @@ type KeyShapeAlgorithmEnum string
 
 // Set of constants representing the allowable values for KeyShapeAlgorithmEnum
 const (
-	KeyShapeAlgorithmAes KeyShapeAlgorithmEnum = "AES"
-	KeyShapeAlgorithmRsa KeyShapeAlgorithmEnum = "RSA"
+	KeyShapeAlgorithmAes   KeyShapeAlgorithmEnum = "AES"
+	KeyShapeAlgorithmRsa   KeyShapeAlgorithmEnum = "RSA"
+	KeyShapeAlgorithmEcdsa KeyShapeAlgorithmEnum = "ECDSA"
 )
 
 var mappingKeyShapeAlgorithm = map[string]KeyShapeAlgorithmEnum{
-	"AES": KeyShapeAlgorithmAes,
-	"RSA": KeyShapeAlgorithmRsa,
+	"AES":   KeyShapeAlgorithmAes,
+	"RSA":   KeyShapeAlgorithmRsa,
+	"ECDSA": KeyShapeAlgorithmEcdsa,
 }
 
 // GetKeyShapeAlgorithmEnumValues Enumerates the set of values for KeyShapeAlgorithmEnum
 func GetKeyShapeAlgorithmEnumValues() []KeyShapeAlgorithmEnum {
 	values := make([]KeyShapeAlgorithmEnum, 0)
 	for _, v := range mappingKeyShapeAlgorithm {
+		values = append(values, v)
+	}
+	return values
+}
+
+// KeyShapeCurveIdEnum Enum with underlying type: string
+type KeyShapeCurveIdEnum string
+
+// Set of constants representing the allowable values for KeyShapeCurveIdEnum
+const (
+	KeyShapeCurveIdP256 KeyShapeCurveIdEnum = "NIST_P256"
+	KeyShapeCurveIdP384 KeyShapeCurveIdEnum = "NIST_P384"
+	KeyShapeCurveIdP521 KeyShapeCurveIdEnum = "NIST_P521"
+)
+
+var mappingKeyShapeCurveId = map[string]KeyShapeCurveIdEnum{
+	"NIST_P256": KeyShapeCurveIdP256,
+	"NIST_P384": KeyShapeCurveIdP384,
+	"NIST_P521": KeyShapeCurveIdP521,
+}
+
+// GetKeyShapeCurveIdEnumValues Enumerates the set of values for KeyShapeCurveIdEnum
+func GetKeyShapeCurveIdEnumValues() []KeyShapeCurveIdEnum {
+	values := make([]KeyShapeCurveIdEnum, 0)
+	for _, v := range mappingKeyShapeCurveId {
 		values = append(values, v)
 	}
 	return values

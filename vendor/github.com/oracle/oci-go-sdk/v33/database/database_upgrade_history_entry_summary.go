@@ -23,7 +23,7 @@ type DatabaseUpgradeHistoryEntrySummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database upgrade history.
 	Id *string `mandatory:"true" json:"id"`
 
-	// action for upgrading database.
+	// The database upgrade action.
 	Action DatabaseUpgradeHistoryEntrySummaryActionEnum `mandatory:"true" json:"action"`
 
 	// Status of database upgrade history SUCCEEDED|IN_PROGRESS|FAILED.
@@ -32,10 +32,10 @@ type DatabaseUpgradeHistoryEntrySummary struct {
 	// The date and time when the database upgrade started.
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
 
-	// The source of the database upgrade
-	// Use 'DB_HOME' for using existing db home to upgrade the database
-	// Use 'DB_VERSION' for using database version to upgrade the database
-	// Use 'DB_SOFTWARE_IMAGE' for using database software image to upgrade the database
+	// The source of the Oracle Database software to be used for the upgrade.
+	//  - Use `DB_HOME` to specify an existing Database Home to upgrade the database. The database is moved to the target Database Home and makes use of the Oracle Database software version of the target Database Home.
+	//  - Use `DB_VERSION` to specify a generally-available Oracle Database software version to upgrade the database.
+	//  - Use `DB_SOFTWARE_IMAGE` to specify a database software image (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databasesoftwareimage.htm) to upgrade the database.
 	Source DatabaseUpgradeHistoryEntrySummarySourceEnum `mandatory:"false" json:"source,omitempty"`
 
 	// Additional information about the current lifecycle state.

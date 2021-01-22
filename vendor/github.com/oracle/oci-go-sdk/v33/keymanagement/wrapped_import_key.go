@@ -21,6 +21,10 @@ type WrappedImportKey struct {
 	KeyMaterial *string `mandatory:"true" json:"keyMaterial"`
 
 	// The wrapping mechanism to use during key import.
+	// RSA_OAEP_AES_SHA256 invokes the RSA AES key wrap mechanism, which generates a temporary AES key. The temporary AES key is wrapped
+	// by the Vault RSA public wrapping key, creating a wrapped temporary AES key. The temporary AES key is also used to wrap the private key material.
+	// The wrapped temporary AES key and the wrapped exportable key material are concatenated, producing concatenated blob output that jointly represents them.
+	// RSA_OAEP_SHA256 means that the exportable key material is wrapped by the Vault RSA public wrapping key.
 	WrappingAlgorithm WrappedImportKeyWrappingAlgorithmEnum `mandatory:"true" json:"wrappingAlgorithm"`
 }
 
@@ -33,11 +37,13 @@ type WrappedImportKeyWrappingAlgorithmEnum string
 
 // Set of constants representing the allowable values for WrappedImportKeyWrappingAlgorithmEnum
 const (
-	WrappedImportKeyWrappingAlgorithmRsaOaepSha256 WrappedImportKeyWrappingAlgorithmEnum = "RSA_OAEP_SHA256"
+	WrappedImportKeyWrappingAlgorithmSha256    WrappedImportKeyWrappingAlgorithmEnum = "RSA_OAEP_SHA256"
+	WrappedImportKeyWrappingAlgorithmAesSha256 WrappedImportKeyWrappingAlgorithmEnum = "RSA_OAEP_AES_SHA256"
 )
 
 var mappingWrappedImportKeyWrappingAlgorithm = map[string]WrappedImportKeyWrappingAlgorithmEnum{
-	"RSA_OAEP_SHA256": WrappedImportKeyWrappingAlgorithmRsaOaepSha256,
+	"RSA_OAEP_SHA256":     WrappedImportKeyWrappingAlgorithmSha256,
+	"RSA_OAEP_AES_SHA256": WrappedImportKeyWrappingAlgorithmAesSha256,
 }
 
 // GetWrappedImportKeyWrappingAlgorithmEnumValues Enumerates the set of values for WrappedImportKeyWrappingAlgorithmEnum

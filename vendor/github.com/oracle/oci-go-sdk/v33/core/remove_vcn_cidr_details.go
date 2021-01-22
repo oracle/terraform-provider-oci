@@ -17,10 +17,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// RemoveVcnCidrDetails Contains the CIDR which will be removed from the VCN.
+// RemoveVcnCidrDetails Details for removing a CIDR block from a VCN.
 type RemoveVcnCidrDetails struct {
 
-	// The CIDR IP address that needs to be removed.
+	// The CIDR block to remove.
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 }
 

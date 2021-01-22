@@ -51,6 +51,9 @@ type CreateAutonomousContainerDatabaseDetails struct {
 
 	PeerAutonomousContainerDatabaseBackupConfig *PeerAutonomousContainerDatabaseBackupConfig `mandatory:"false" json:"peerAutonomousContainerDatabaseBackupConfig"`
 
+	// The `DB_UNIQUE_NAME` of the peer Autonomous Container Database in a Data Guard association.
+	PeerDbUniqueName *string `mandatory:"false" json:"peerDbUniqueName"`
+
 	// The OCID of the Autonomous VM Cluster.
 	AutonomousVmClusterId *string `mandatory:"false" json:"autonomousVmClusterId"`
 

@@ -17,10 +17,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// PublicIpPoolCollection Results of a ListPublicIpPool operation.
+// PublicIpPoolCollection Results of a `ListPublicIpPool` operation.
 type PublicIpPoolCollection struct {
 
-	// list of Public Ip pool object summaries
+	// A list of public IP pool summaries.
 	Items []PublicIpPoolSummary `mandatory:"true" json:"items"`
 }
 

@@ -214,7 +214,7 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v33 v33.0.0
+# github.com/oracle/oci-go-sdk/v33 v33.0.0 => ../../oracle/oci-go-sdk
 github.com/oracle/oci-go-sdk/v33/analytics
 github.com/oracle/oci-go-sdk/v33/apigateway
 github.com/oracle/oci-go-sdk/v33/audit

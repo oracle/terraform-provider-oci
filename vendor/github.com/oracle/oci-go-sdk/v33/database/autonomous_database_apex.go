@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// AutonomousDatabaseApex Oracle Application Express (APEX) is a low-code development platform that enables you to build scalable, secure enterprise apps, with world-class features. Autonomous Database with the APEX workload type is optimized to support APEX development.
+// AutonomousDatabaseApex Oracle APEX Application Development is a low-code development platform that enables you to build scalable, secure enterprise apps, with world-class features. Autonomous Database with the APEX workload type is optimized to support APEX development.
 type AutonomousDatabaseApex struct {
 
-	// The Oracle Application Express service version.
+	// The Oracle APEX Application Development version.
 	ApexVersion *string `mandatory:"false" json:"apexVersion"`
 
 	// The Oracle REST Data Services (ORDS) version.

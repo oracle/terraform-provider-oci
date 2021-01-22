@@ -83,8 +83,6 @@ type BootVolume struct {
 	// The size of the boot volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
-	// The boot volume source, either an existing boot volume in the same availability domain or a boot volume backup.
-	// If null, this means that the boot volume was created from an image.
 	SourceDetails BootVolumeSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// The OCID of the source volume group.

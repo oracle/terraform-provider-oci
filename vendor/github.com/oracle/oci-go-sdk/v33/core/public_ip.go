@@ -106,7 +106,7 @@ type PublicIp struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// OCID of the pool object created by the current tenancy
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pool object created in the current tenancy.
 	PublicIpPoolId *string `mandatory:"false" json:"publicIpPoolId"`
 }
 

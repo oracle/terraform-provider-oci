@@ -30,7 +30,6 @@ type UpdateIpSecConnectionTunnelDetails struct {
 	// Internet Key Exchange protocol version.
 	IkeVersion UpdateIpSecConnectionTunnelDetailsIkeVersionEnum `mandatory:"false" json:"ikeVersion,omitempty"`
 
-	// Information for establishing a BGP session for the IPSec tunnel.
 	BgpSessionConfig *UpdateIpSecTunnelBgpSessionDetails `mandatory:"false" json:"bgpSessionConfig"`
 }
 
