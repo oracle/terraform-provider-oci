@@ -27,6 +27,9 @@ type UpdateBlockchainPlatformDetails struct {
 	// Number of total OCPUs to allocate
 	TotalOcpuCapacity *int `mandatory:"false" json:"totalOcpuCapacity"`
 
+	// Type of Load Balancer shape - LB_100_MBPS or LB_400_MBPS. Default is LB_100_MBPS.
+	LoadBalancerShape BlockchainPlatformLoadBalancerShapeEnum `mandatory:"false" json:"loadBalancerShape,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

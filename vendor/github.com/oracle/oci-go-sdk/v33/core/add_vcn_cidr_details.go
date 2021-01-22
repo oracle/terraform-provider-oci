@@ -17,10 +17,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// AddVcnCidrDetails Contains a new CIDR which will be added to the VCN.
+// AddVcnCidrDetails Details for adding a CIDR block to a VCN.
 type AddVcnCidrDetails struct {
 
-	// The CIDR IP address that needs to be added.
+	// The CIDR block to add.
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 }
 

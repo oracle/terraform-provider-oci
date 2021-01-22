@@ -19,8 +19,44 @@ type EncryptedData struct {
 
 	// The encrypted data.
 	Ciphertext *string `mandatory:"true" json:"ciphertext"`
+
+	// The OCID of the key used to sign the message
+	KeyId *string `mandatory:"false" json:"keyId"`
+
+	// The OCID of the keyVersion used to encrypt the ciphertext.
+	KeyVersionId *string `mandatory:"false" json:"keyVersionId"`
+
+	// Encryption algorithm to be used while encrypting/decrypting data using a customer key
+	// AES_256_GCM is the supported value AES keys and uses GCM mode of operation
+	// RSA_OAEP_SHA_1 and RSA_OAEP_SHA_256 are supported for RSA keys and use OAEP padding.
+	EncryptionAlgorithm EncryptedDataEncryptionAlgorithmEnum `mandatory:"false" json:"encryptionAlgorithm,omitempty"`
 }
 
 func (m EncryptedData) String() string {
 	return common.PointerString(m)
+}
+
+// EncryptedDataEncryptionAlgorithmEnum Enum with underlying type: string
+type EncryptedDataEncryptionAlgorithmEnum string
+
+// Set of constants representing the allowable values for EncryptedDataEncryptionAlgorithmEnum
+const (
+	EncryptedDataEncryptionAlgorithmAes256Gcm     EncryptedDataEncryptionAlgorithmEnum = "AES_256_GCM"
+	EncryptedDataEncryptionAlgorithmRsaOaepSha1   EncryptedDataEncryptionAlgorithmEnum = "RSA_OAEP_SHA_1"
+	EncryptedDataEncryptionAlgorithmRsaOaepSha256 EncryptedDataEncryptionAlgorithmEnum = "RSA_OAEP_SHA_256"
+)
+
+var mappingEncryptedDataEncryptionAlgorithm = map[string]EncryptedDataEncryptionAlgorithmEnum{
+	"AES_256_GCM":      EncryptedDataEncryptionAlgorithmAes256Gcm,
+	"RSA_OAEP_SHA_1":   EncryptedDataEncryptionAlgorithmRsaOaepSha1,
+	"RSA_OAEP_SHA_256": EncryptedDataEncryptionAlgorithmRsaOaepSha256,
+}
+
+// GetEncryptedDataEncryptionAlgorithmEnumValues Enumerates the set of values for EncryptedDataEncryptionAlgorithmEnum
+func GetEncryptedDataEncryptionAlgorithmEnumValues() []EncryptedDataEncryptionAlgorithmEnum {
+	values := make([]EncryptedDataEncryptionAlgorithmEnum, 0)
+	for _, v := range mappingEncryptedDataEncryptionAlgorithm {
+		values = append(values, v)
+	}
+	return values
 }

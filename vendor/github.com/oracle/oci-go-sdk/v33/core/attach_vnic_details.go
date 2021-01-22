@@ -19,8 +19,6 @@ import (
 
 // AttachVnicDetails The representation of AttachVnicDetails
 type AttachVnicDetails struct {
-
-	// Details for creating a new VNIC.
 	CreateVnicDetails *CreateVnicDetails `mandatory:"true" json:"createVnicDetails"`
 
 	// The OCID of the instance.

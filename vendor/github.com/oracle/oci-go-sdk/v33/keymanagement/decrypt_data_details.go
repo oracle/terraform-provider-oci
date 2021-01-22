@@ -30,8 +30,41 @@ type DecryptDataDetails struct {
 	// Information that provides context for audit logging. You can provide this additional
 	// data as key-value pairs to include in audit logs when audit logging is enabled.
 	LoggingContext map[string]string `mandatory:"false" json:"loggingContext"`
+
+	// The OCID of the keyVersion used to encrypt the ciphertext.
+	KeyVersionId *string `mandatory:"false" json:"keyVersionId"`
+
+	// Encryption algorithm to be used while encrypting/decrypting data using a customer key
+	// AES_256_GCM is the supported value AES keys and uses GCM mode of operation
+	// RSA_OAEP_SHA_1 and RSA_OAEP_SHA_256 are supported for RSA keys and use OAEP padding.
+	EncryptionAlgorithm DecryptDataDetailsEncryptionAlgorithmEnum `mandatory:"false" json:"encryptionAlgorithm,omitempty"`
 }
 
 func (m DecryptDataDetails) String() string {
 	return common.PointerString(m)
+}
+
+// DecryptDataDetailsEncryptionAlgorithmEnum Enum with underlying type: string
+type DecryptDataDetailsEncryptionAlgorithmEnum string
+
+// Set of constants representing the allowable values for DecryptDataDetailsEncryptionAlgorithmEnum
+const (
+	DecryptDataDetailsEncryptionAlgorithmAes256Gcm     DecryptDataDetailsEncryptionAlgorithmEnum = "AES_256_GCM"
+	DecryptDataDetailsEncryptionAlgorithmRsaOaepSha1   DecryptDataDetailsEncryptionAlgorithmEnum = "RSA_OAEP_SHA_1"
+	DecryptDataDetailsEncryptionAlgorithmRsaOaepSha256 DecryptDataDetailsEncryptionAlgorithmEnum = "RSA_OAEP_SHA_256"
+)
+
+var mappingDecryptDataDetailsEncryptionAlgorithm = map[string]DecryptDataDetailsEncryptionAlgorithmEnum{
+	"AES_256_GCM":      DecryptDataDetailsEncryptionAlgorithmAes256Gcm,
+	"RSA_OAEP_SHA_1":   DecryptDataDetailsEncryptionAlgorithmRsaOaepSha1,
+	"RSA_OAEP_SHA_256": DecryptDataDetailsEncryptionAlgorithmRsaOaepSha256,
+}
+
+// GetDecryptDataDetailsEncryptionAlgorithmEnumValues Enumerates the set of values for DecryptDataDetailsEncryptionAlgorithmEnum
+func GetDecryptDataDetailsEncryptionAlgorithmEnumValues() []DecryptDataDetailsEncryptionAlgorithmEnum {
+	values := make([]DecryptDataDetailsEncryptionAlgorithmEnum, 0)
+	for _, v := range mappingDecryptDataDetailsEncryptionAlgorithm {
+		values = append(values, v)
+	}
+	return values
 }

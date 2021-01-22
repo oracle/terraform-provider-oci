@@ -14,8 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// DatabaseUpgradeWithDbHomeDetails Details of Database Home for upgrading a database.
-// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
+// DatabaseUpgradeWithDbHomeDetails Details of Database Home to be used to upgrade a database.
 type DatabaseUpgradeWithDbHomeDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Home.

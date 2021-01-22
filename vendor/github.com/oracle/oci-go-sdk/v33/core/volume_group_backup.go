@@ -53,6 +53,13 @@ type VolumeGroupBackup struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The date and time the volume group backup will expire and be automatically deleted.
+	// Format defined by RFC3339 (https://tools.ietf.org/html/rfc3339). This parameter will always be present for volume group
+	// backups that were created automatically by a scheduled-backup policy. For manually
+	// created volume group backups, it will be absent, signifying that there is no expiration
+	// time and the backup will last forever until manually deleted.
+	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -63,6 +70,9 @@ type VolumeGroupBackup struct {
 
 	// The aggregate size of the volume group backup, in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
+
+	// Specifies whether the volume group backup was created manually, or via scheduled backup policy.
+	SourceType VolumeGroupBackupSourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
 
 	// The date and time the request to create the volume group backup was received. Format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeRequestReceived *common.SDKTime `mandatory:"false" json:"timeRequestReceived"`
@@ -79,6 +89,9 @@ type VolumeGroupBackup struct {
 
 	// The OCID of the source volume group.
 	VolumeGroupId *string `mandatory:"false" json:"volumeGroupId"`
+
+	// The OCID of the source volume group backup.
+	SourceVolumeGroupBackupId *string `mandatory:"false" json:"sourceVolumeGroupBackupId"`
 }
 
 func (m VolumeGroupBackup) String() string {
@@ -113,6 +126,29 @@ var mappingVolumeGroupBackupLifecycleState = map[string]VolumeGroupBackupLifecyc
 func GetVolumeGroupBackupLifecycleStateEnumValues() []VolumeGroupBackupLifecycleStateEnum {
 	values := make([]VolumeGroupBackupLifecycleStateEnum, 0)
 	for _, v := range mappingVolumeGroupBackupLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// VolumeGroupBackupSourceTypeEnum Enum with underlying type: string
+type VolumeGroupBackupSourceTypeEnum string
+
+// Set of constants representing the allowable values for VolumeGroupBackupSourceTypeEnum
+const (
+	VolumeGroupBackupSourceTypeManual    VolumeGroupBackupSourceTypeEnum = "MANUAL"
+	VolumeGroupBackupSourceTypeScheduled VolumeGroupBackupSourceTypeEnum = "SCHEDULED"
+)
+
+var mappingVolumeGroupBackupSourceType = map[string]VolumeGroupBackupSourceTypeEnum{
+	"MANUAL":    VolumeGroupBackupSourceTypeManual,
+	"SCHEDULED": VolumeGroupBackupSourceTypeScheduled,
+}
+
+// GetVolumeGroupBackupSourceTypeEnumValues Enumerates the set of values for VolumeGroupBackupSourceTypeEnum
+func GetVolumeGroupBackupSourceTypeEnumValues() []VolumeGroupBackupSourceTypeEnum {
+	values := make([]VolumeGroupBackupSourceTypeEnum, 0)
+	for _, v := range mappingVolumeGroupBackupSourceType {
 		values = append(values, v)
 	}
 	return values

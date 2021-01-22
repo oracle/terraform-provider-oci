@@ -46,11 +46,14 @@ type ListKeysRequest struct {
 	// `SOFTWARE` are performed on the server.
 	ProtectionMode ListKeysProtectionModeEnum `mandatory:"false" contributesTo:"query" name:"protectionMode" omitEmpty:"true"`
 
-	// The algorithm used by a key's key versions to encrypt or decrypt. Currently, only AES is supported.
+	// The algorithm used by a key's key versions to encrypt or decrypt. Currently, only AES, RSA and ECDSA are supported.
 	Algorithm ListKeysAlgorithmEnum `mandatory:"false" contributesTo:"query" name:"algorithm" omitEmpty:"true"`
 
-	// The length of the key in bytes, expressed as an integer. Values of 16, 24, or 32 are supported.
+	// The length of the key in bytes, expressed as an integer. Values of 16, 24, 32 are supported.
 	Length *int `mandatory:"false" contributesTo:"query" name:"length"`
+
+	// The curve Id of the keys in case of ECDSA keys
+	CurveId ListKeysCurveIdEnum `mandatory:"false" contributesTo:"query" name:"curveId" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -174,17 +177,46 @@ type ListKeysAlgorithmEnum string
 
 // Set of constants representing the allowable values for ListKeysAlgorithmEnum
 const (
-	ListKeysAlgorithmAes ListKeysAlgorithmEnum = "AES"
+	ListKeysAlgorithmAes   ListKeysAlgorithmEnum = "AES"
+	ListKeysAlgorithmRsa   ListKeysAlgorithmEnum = "RSA"
+	ListKeysAlgorithmEcdsa ListKeysAlgorithmEnum = "ECDSA"
 )
 
 var mappingListKeysAlgorithm = map[string]ListKeysAlgorithmEnum{
-	"AES": ListKeysAlgorithmAes,
+	"AES":   ListKeysAlgorithmAes,
+	"RSA":   ListKeysAlgorithmRsa,
+	"ECDSA": ListKeysAlgorithmEcdsa,
 }
 
 // GetListKeysAlgorithmEnumValues Enumerates the set of values for ListKeysAlgorithmEnum
 func GetListKeysAlgorithmEnumValues() []ListKeysAlgorithmEnum {
 	values := make([]ListKeysAlgorithmEnum, 0)
 	for _, v := range mappingListKeysAlgorithm {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListKeysCurveIdEnum Enum with underlying type: string
+type ListKeysCurveIdEnum string
+
+// Set of constants representing the allowable values for ListKeysCurveIdEnum
+const (
+	ListKeysCurveIdP256 ListKeysCurveIdEnum = "NIST_P256"
+	ListKeysCurveIdP384 ListKeysCurveIdEnum = "NIST_P384"
+	ListKeysCurveIdP521 ListKeysCurveIdEnum = "NIST_P521"
+)
+
+var mappingListKeysCurveId = map[string]ListKeysCurveIdEnum{
+	"NIST_P256": ListKeysCurveIdP256,
+	"NIST_P384": ListKeysCurveIdP384,
+	"NIST_P521": ListKeysCurveIdP521,
+}
+
+// GetListKeysCurveIdEnumValues Enumerates the set of values for ListKeysCurveIdEnum
+func GetListKeysCurveIdEnumValues() []ListKeysCurveIdEnum {
+	values := make([]ListKeysCurveIdEnum, 0)
+	for _, v := range mappingListKeysCurveId {
 		values = append(values, v)
 	}
 	return values

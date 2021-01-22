@@ -61,8 +61,6 @@ type VolumeGroup struct {
 	// The aggregate size of the volume group in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
-	// The volume group source. The source is either another a list of
-	// volume IDs in the same availability domain, another volume group, or a volume group backup.
 	SourceDetails VolumeGroupSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// Specifies whether the newly created cloned volume group's data has finished copying from the source volume group or backup.

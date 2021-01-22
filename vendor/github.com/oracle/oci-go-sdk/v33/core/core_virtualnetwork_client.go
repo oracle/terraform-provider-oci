@@ -137,10 +137,8 @@ func (client VirtualNetworkClient) addNetworkSecurityGroupSecurityRules(ctx cont
 	return response, err
 }
 
-// AddPublicIpPoolCapacity Adds a Cidr from the named Byoip Range prefix to the referenced Public IP Pool.
-// The cidr must be a subset of the Byoip Range in question.
-// The cidr must not overlap with any other cidr already added to this
-// or any other Public Ip Pool.
+// AddPublicIpPoolCapacity Adds some or all of a CIDR block to a public IP pool.
+// The CIDR block (or subrange) must not overlap with any other CIDR block already added to this or any other public IP pool.
 //
 // See also
 //
@@ -199,11 +197,11 @@ func (client VirtualNetworkClient) addPublicIpPoolCapacity(ctx context.Context, 
 	return response, err
 }
 
-// AddVcnCidr Add a CIDR to a VCN. The new CIDR must maintain the following rules -
-// a. The CIDR provided is valid
-// b. The new CIDR range should not overlap with any existing CIDRs
-// c. The new CIDR should not exceed the max limit of CIDRs per VCNs
-// d. The new CIDR range does not overlap with any peered VCNs
+// AddVcnCidr Adds a CIDR block to a VCN. The CIDR block you add:
+// - Must be valid.
+// - Must not overlap with another CIDR block in the VCN, a CIDR block of a peered VCN, or the on-premises network CIDR block.
+// - Must not exceed the limit of CIDR blocks allowed per VCN.
+// **Note:** Adding a CIDR block places your VCN in an updating state until the changes are complete. You cannot create or update the VCN's subnets, VLANs, LPGs, or route tables during this operation. The time to completion can take a few minutes. You can use the `GetWorkRequest` operation to check the status of the update.
 //
 // See also
 //
@@ -262,8 +260,8 @@ func (client VirtualNetworkClient) addVcnCidr(ctx context.Context, request commo
 	return response, err
 }
 
-// AdvertiseByoipRange initiate route advertisements for the Byoip Range prefix.
-// the prefix must be in PROVISIONED state
+// AdvertiseByoipRange Begins BGP route advertisements for the BYOIP CIDR block you imported to the Oracle Cloud.
+// The `ByoipRange` resource must be in the PROVISIONED state before the BYOIP CIDR block routes can be advertised with BGP.
 //
 // See also
 //
@@ -483,7 +481,7 @@ func (client VirtualNetworkClient) bulkDeleteVirtualCircuitPublicPrefixes(ctx co
 	return response, err
 }
 
-// ChangeByoipRangeCompartment Moves a byoip range into a different compartment within the same tenancy. For information
+// ChangeByoipRangeCompartment Moves a BYOIP CIDR block to a different compartment. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
@@ -1216,7 +1214,7 @@ func (client VirtualNetworkClient) changePublicIpCompartment(ctx context.Context
 	return response, err
 }
 
-// ChangePublicIpPoolCompartment Moves a public IP pool into a different compartment within the same tenancy. For information
+// ChangePublicIpPoolCompartment Moves a public IP pool to a different compartment. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
@@ -1885,7 +1883,7 @@ func (client VirtualNetworkClient) connectRemotePeeringConnections(ctx context.C
 	return response, err
 }
 
-// CreateByoipRange Creates a Byoip Range prefix.
+// CreateByoipRange Creates a subrange of the BYOIP CIDR block.
 //
 // See also
 //
@@ -2891,7 +2889,7 @@ func (client VirtualNetworkClient) createPublicIp(ctx context.Context, request c
 	return response, err
 }
 
-// CreatePublicIpPool Creates a Public Ip Pool
+// CreatePublicIpPool Creates a public IP pool.
 //
 // See also
 //
@@ -3300,15 +3298,12 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 
 // CreateVcn Creates a new virtual cloud network (VCN). For more information, see
 // VCNs and Subnets (https://docs.cloud.oracle.com/Content/Network/Tasks/managingVCNs.htm).
-// To create the VCN, you may specify a list of IPv4 CIDR blocks. The CIDRs must maintain
-// the following rules -
-// a. The list of CIDRs provided are valid
-// b. There is no overlap between different CIDRs
-// c. The list of CIDRs does not exceed the max limit of CIDRs per VCN
-// Oracle recommends using one of the private IP address ranges specified in RFC 1918
-//  (https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
-// 172.16.0.0/16. The CIDR blocks can range from /16 to /30, and they must not overlap with
-// your on-premises network.
+// For the VCN, you specify a list of one or more IPv4 CIDR blocks that meet the following criteria:
+// - The CIDR blocks must be valid.
+// - They must not overlap with each other or with the on-premises network CIDR block.
+// - The number of CIDR blocks does not exceed the limit of CIDR blocks allowed per VCN.
+// For a CIDR block, Oracle recommends that you use one of the private IP address ranges specified in RFC 1918 (https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
+// 172.16.0.0/16. The CIDR blocks can range from /16 to /30.
 // For the purposes of access control, you must provide the OCID of the compartment where you want the VCN to
 // reside. Consult an Oracle Cloud Infrastructure administrator in your organization if you're not sure which
 // compartment to use. Notice that the VCN doesn't have to be in the same compartment as the subnets or other
@@ -3519,11 +3514,11 @@ func (client VirtualNetworkClient) createVlan(ctx context.Context, request commo
 	return response, err
 }
 
-// DeleteByoipRange Deletes the specified Byoip Range prefix.
-// The prefix must be in CREATING, PROVISIONED or FAILED state.
-// It must not have any subranges allocated to a Public Ip Pool object.
-// You must specify the object's OCID.
-// In case the range is currently PROVISIONED, the operation will be asynchronous as it needs to be de-ptovisioned first.
+// DeleteByoipRange Deletes the specified `ByoipRange` resource.
+// The resource must be in one of the following states: CREATING, PROVISIONED, ACTIVE, or FAILED.
+// It must not have any subranges currently allocated to a PublicIpPool object or the deletion will fail.
+// You must specify the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// If the `ByoipRange` resource is currently in the PROVISIONED or ACTIVE state, it will be de-provisioned and then deleted.
 //
 // See also
 //
@@ -4385,9 +4380,9 @@ func (client VirtualNetworkClient) deletePublicIp(ctx context.Context, request c
 	return response, err
 }
 
-// DeletePublicIpPool Deletes the specified Public Ip Pool
-// It must not have any active address allocations
-// You must specify the object's OCID.
+// DeletePublicIpPool Deletes the specified public IP pool.
+// To delete a public IP pool it must not have any active IP address allocations.
+// You must specify the object's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) when deleting an IP pool.
 //
 // See also
 //
@@ -4953,7 +4948,7 @@ func (client VirtualNetworkClient) detachServiceId(ctx context.Context, request 
 	return response, err
 }
 
-// GetByoipRange Gets the specified Byoip Range object. You must specify the object's OCID.
+// GetByoipRange Gets the `ByoipRange` resource. You must specify the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 //
 // See also
 //
@@ -6593,7 +6588,7 @@ func (client VirtualNetworkClient) getPublicIpByPrivateIpId(ctx context.Context,
 	return response, err
 }
 
-// GetPublicIpPool Gets the specified Public Ip Pool object. You must specify the object's OCID.
+// GetPublicIpPool Gets the specified `PublicIpPool` object. You must specify the object's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 //
 // See also
 //
@@ -7424,8 +7419,8 @@ func (client VirtualNetworkClient) listAllowedPeerRegionsForRemotePeering(ctx co
 	return response, err
 }
 
-// ListByoipAllocatedRanges Lists the ByoipAllocatedRange objects for the ByoipRange.
-// Each ByoipAllocatedRange object has a CIDR block part of the ByoipRange and the PublicIpPool it is assigned to.
+// ListByoipAllocatedRanges Lists the subranges of a BYOIP CIDR block currently allocated to an IP pool.
+// Each `ByoipAllocatedRange` object also lists the IP pool where it is allocated.
 //
 // See also
 //
@@ -7479,8 +7474,8 @@ func (client VirtualNetworkClient) listByoipAllocatedRanges(ctx context.Context,
 	return response, err
 }
 
-// ListByoipRanges Lists the ByoipRange objects in the specified compartment.
-// You can filter the list by using query parameters.
+// ListByoipRanges Lists the `ByoipRange` resources in the specified compartment.
+// You can filter the list using query parameters.
 //
 // See also
 //
@@ -8713,8 +8708,8 @@ func (client VirtualNetworkClient) listPrivateIps(ctx context.Context, request c
 	return response, err
 }
 
-// ListPublicIpPools Lists the PublicIpPool objects in the specified compartment.
-// You can filter the list by using query parameters.
+// ListPublicIpPools Lists the public IP pools in the specified compartment.
+// You can filter the list using query parameters.
 //
 // See also
 //
@@ -9440,13 +9435,13 @@ func (client VirtualNetworkClient) listVlans(ctx context.Context, request common
 	return response, err
 }
 
-// ModifyVcnCidr Update a CIDR from a VCN. The new CIDR must maintain the following rules -
-// a. The CIDR provided is valid
-// b. The new CIDR range should not overlap with any existing CIDRs
-// c. The new CIDR should not exceed the max limit of CIDRs per VCNs
-// d. The new CIDR range does not overlap with any peered VCNs
-// e. The new CIDR should overlap with any existing route rule within a VCN
-// f. All existing subnet CIDRs are subsets of the updated CIDR ranges
+// ModifyVcnCidr Updates the specified CIDR block of a VCN. The new CIDR IP range must meet the following criteria:
+// - Must be valid.
+// - Must not overlap with another CIDR block in the VCN, a CIDR block of a peered VCN, or the on-premises network CIDR block.
+// - Must not exceed the limit of CIDR blocks allowed per VCN.
+// - Must include IP addresses from the original CIDR block that are used in the VCN's existing route rules.
+// - No IP address in an existing subnet should be outside of the new CIDR block range.
+// **Note:** Modifying a CIDR block places your VCN in an updating state until the changes are complete. You cannot create or update the VCN's subnets, VLANs, LPGs, or route tables during this operation. The time to completion can vary depending on the size of your network. Updating a small network could take about a minute, and updating a large network could take up to an hour. You can use the `GetWorkRequest` operation to check the status of the update.
 //
 // See also
 //
@@ -9559,7 +9554,7 @@ func (client VirtualNetworkClient) removeNetworkSecurityGroupSecurityRules(ctx c
 	return response, err
 }
 
-// RemovePublicIpPoolCapacity Removes a Cidr from the referenced Public IP Pool.
+// RemovePublicIpPoolCapacity Removes a CIDR block from the referenced public IP pool.
 //
 // See also
 //
@@ -9618,8 +9613,10 @@ func (client VirtualNetworkClient) removePublicIpPoolCapacity(ctx context.Contex
 	return response, err
 }
 
-// RemoveVcnCidr Remove a CIDR from a VCN. The CIDR being removed should not have
-// any resources allocated from it.
+// RemoveVcnCidr Removes a specified CIDR block from a VCN.
+// **Notes:**
+// - You cannot remove a CIDR block if an IP address in its range is in use.
+// - Removing a CIDR block places your VCN in an updating state until the changes are complete. You cannot create or update the VCN's subnets, VLANs, LPGs, or route tables during this operation. The time to completion can take a few minutes. You can use the `GetWorkRequest` operation to check the status of the update.
 //
 // See also
 //
@@ -9678,7 +9675,7 @@ func (client VirtualNetworkClient) removeVcnCidr(ctx context.Context, request co
 	return response, err
 }
 
-// UpdateByoipRange Updates the specified Byoip Range.
+// UpdateByoipRange Updates the tags or display name associated to the specified BYOIP CIDR block.
 //
 // See also
 //
@@ -10722,7 +10719,7 @@ func (client VirtualNetworkClient) updatePublicIp(ctx context.Context, request c
 	return response, err
 }
 
-// UpdatePublicIpPool Updates the specified Public Ip Pool.
+// UpdatePublicIpPool Updates the specified public IP pool.
 //
 // See also
 //
@@ -11242,9 +11239,8 @@ func (client VirtualNetworkClient) updateVirtualCircuit(ctx context.Context, req
 	return response, err
 }
 
-// UpdateVlan Updates the specified VLAN. This could result in changes to all
-// the VNICs in the VLAN, which can take time. During that transition
-// period, the VLAN will be in the UPDATING state.
+// UpdateVlan Updates the specified VLAN. Note that this operation might require changes to all
+// the VNICs in the VLAN, which can take a while. The VLAN will be in the UPDATING state until the changes are complete.
 //
 // See also
 //
@@ -11352,8 +11348,8 @@ func (client VirtualNetworkClient) updateVnic(ctx context.Context, request commo
 	return response, err
 }
 
-// ValidateByoipRange submit the Byoip Range for validation. This presumes the user has
-// updated their IP registry record in accordance to validation requirements
+// ValidateByoipRange Submits the BYOIP CIDR block you are importing for validation. Do not submit to Oracle for validation if you have not already
+// modified the information for the BYOIP CIDR block with your Regional Internet Registry. See To import a CIDR block (https://docs.cloud.oracle.com/Content/Network/Concepts/BYOIP.htm#import_cidr) for details.
 //
 // See also
 //
@@ -11407,7 +11403,7 @@ func (client VirtualNetworkClient) validateByoipRange(ctx context.Context, reque
 	return response, err
 }
 
-// WithdrawByoipRange stop route advertisements for the Byoip Range prefix.
+// WithdrawByoipRange Withdraws BGP route advertisement for the BYOIP CIDR block.
 //
 // See also
 //

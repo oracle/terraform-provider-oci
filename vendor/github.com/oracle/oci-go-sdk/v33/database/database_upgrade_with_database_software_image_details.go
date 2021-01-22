@@ -14,11 +14,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// DatabaseUpgradeWithDatabaseSoftwareImageDetails Details of Database Software Image for upgrading a database.
-// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
+// DatabaseUpgradeWithDatabaseSoftwareImageDetails Details of the database software image to be used to upgrade a database.
 type DatabaseUpgradeWithDatabaseSoftwareImageDetails struct {
 
-	// the database software id used for upgrading the database.
+	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the image to be used to upgrade a database.
 	DatabaseSoftwareImageId *string `mandatory:"true" json:"databaseSoftwareImageId"`
 }
 

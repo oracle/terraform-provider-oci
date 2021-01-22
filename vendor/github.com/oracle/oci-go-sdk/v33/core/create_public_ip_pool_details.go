@@ -17,10 +17,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// CreatePublicIpPoolDetails The data to create a public ip pool
+// CreatePublicIpPoolDetails The information used to create a public IP pool.
 type CreatePublicIpPoolDetails struct {
 
-	// The OCID of the compartment to contain the Public Ip Pool
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the public IP pool.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

@@ -17,10 +17,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// ByoipRangeCollection Results of a ListByoipRange operation.
+// ByoipRangeCollection The results returned by a `ListByoipRange` operation.
 type ByoipRangeCollection struct {
 
-	// list of Byoip Range object summaries
+	// A list of `ByoipRange` resource summaries.
 	Items []ByoipRangeSummary `mandatory:"true" json:"items"`
 }
 

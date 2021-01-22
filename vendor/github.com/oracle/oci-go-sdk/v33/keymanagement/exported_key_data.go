@@ -33,11 +33,11 @@ type ExportedKeyData struct {
 	EncryptedKey *string `mandatory:"true" json:"encryptedKey"`
 
 	// The encryption algorithm to use to encrypt exportable key material from a key that persists on the server (as opposed to a key that
-	// persists on a hardware security module and, therefore, cannot be exported). Specifying `RSA_OAEP_AES_SHA256` invokes the RSA AES key
+	// persists on a hardware security module and, therefore, cannot be exported). Specifying RSA_OAEP_AES_SHA256 invokes the RSA AES key
 	// wrap mechanism, which generates a temporary AES key. The temporary AES key is wrapped by the RSA public wrapping key provided along
 	// with the request, creating a wrapped temporary AES key. The temporary AES key is also used to wrap the exportable key material. The
 	// wrapped temporary AES key and the wrapped exportable key material are concatenated, producing concatenated blob output that jointly
-	// represents them. Specifying `RSA_OAEP_SHA256` means that the exportable key material is wrapped by the RSA public wrapping key provided
+	// represents them. Specifying RSA_OAEP_SHA256 means that the exportable key material is wrapped by the RSA public wrapping key provided
 	// along with the request.
 	Algorithm ExportedKeyDataAlgorithmEnum `mandatory:"true" json:"algorithm"`
 }

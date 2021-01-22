@@ -58,15 +58,6 @@ type SecurityRule struct {
 	//     NetworkSecurityGroup.
 	DestinationType SecurityRuleDestinationTypeEnum `mandatory:"false" json:"destinationType,omitempty"`
 
-	// Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code
-	// as defined in:
-	// - ICMP Parameters (http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml)
-	// - ICMPv6 Parameters (https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml)
-	// If you specify ICMP or ICMPv6 as the protocol but omit this object, then all ICMP types and
-	// codes are allowed. If you do provide this object, the type is required and the code is optional.
-	// To enable MTU negotiation for ingress internet traffic via IPv4, make sure to allow type 3 ("Destination
-	// Unreachable") code 4 ("Fragmentation Needed and Don't Fragment was Set"). If you need to specify
-	// multiple codes for a single type, create a separate security rule for each.
 	IcmpOptions *IcmpOptions `mandatory:"false" json:"icmpOptions"`
 
 	// An Oracle-assigned identifier for the security rule. You specify this ID when you want to
@@ -109,15 +100,11 @@ type SecurityRule struct {
 	//     NetworkSecurityGroup.
 	SourceType SecurityRuleSourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
 
-	// Optional and valid only for TCP. Use to specify particular destination ports for TCP rules.
-	// If you specify TCP as the protocol but omit this object, then all destination ports are allowed.
 	TcpOptions *TcpOptions `mandatory:"false" json:"tcpOptions"`
 
 	// The date and time the security rule was created. Format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// Optional and valid only for UDP. Use to specify particular destination ports for UDP rules.
-	// If you specify UDP as the protocol but omit this object, then all destination ports are allowed.
 	UdpOptions *UdpOptions `mandatory:"false" json:"udpOptions"`
 }
 

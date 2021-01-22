@@ -49,6 +49,9 @@ type BlockchainPlatform struct {
 	// Type of Platform shape - DEFAULT or CUSTOM
 	PlatformShapeType BlockchainPlatformPlatformShapeTypeEnum `mandatory:"false" json:"platformShapeType,omitempty"`
 
+	// Type of Load Balancer shape - LB_100_MBPS or LB_400_MBPS. Default is LB_100_MBPS.
+	LoadBalancerShape BlockchainPlatformLoadBalancerShapeEnum `mandatory:"false" json:"loadBalancerShape,omitempty"`
+
 	// Service endpoint URL, valid post-provisioning
 	ServiceEndpoint *string `mandatory:"false" json:"serviceEndpoint"`
 
@@ -162,6 +165,29 @@ var mappingBlockchainPlatformPlatformShapeType = map[string]BlockchainPlatformPl
 func GetBlockchainPlatformPlatformShapeTypeEnumValues() []BlockchainPlatformPlatformShapeTypeEnum {
 	values := make([]BlockchainPlatformPlatformShapeTypeEnum, 0)
 	for _, v := range mappingBlockchainPlatformPlatformShapeType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// BlockchainPlatformLoadBalancerShapeEnum Enum with underlying type: string
+type BlockchainPlatformLoadBalancerShapeEnum string
+
+// Set of constants representing the allowable values for BlockchainPlatformLoadBalancerShapeEnum
+const (
+	BlockchainPlatformLoadBalancerShape100Mbps BlockchainPlatformLoadBalancerShapeEnum = "LB_100_MBPS"
+	BlockchainPlatformLoadBalancerShape400Mbps BlockchainPlatformLoadBalancerShapeEnum = "LB_400_MBPS"
+)
+
+var mappingBlockchainPlatformLoadBalancerShape = map[string]BlockchainPlatformLoadBalancerShapeEnum{
+	"LB_100_MBPS": BlockchainPlatformLoadBalancerShape100Mbps,
+	"LB_400_MBPS": BlockchainPlatformLoadBalancerShape400Mbps,
+}
+
+// GetBlockchainPlatformLoadBalancerShapeEnumValues Enumerates the set of values for BlockchainPlatformLoadBalancerShapeEnum
+func GetBlockchainPlatformLoadBalancerShapeEnumValues() []BlockchainPlatformLoadBalancerShapeEnum {
+	values := make([]BlockchainPlatformLoadBalancerShapeEnum, 0)
+	for _, v := range mappingBlockchainPlatformLoadBalancerShape {
 		values = append(values, v)
 	}
 	return values

@@ -56,7 +56,6 @@ type ClusterNetwork struct {
 	// Each cluster network can have one instance pool.
 	InstancePools []InstancePool `mandatory:"false" json:"instancePools"`
 
-	// The placement configuration for the instance pools in the cluster network.
 	PlacementConfiguration *ClusterNetworkPlacementConfigurationDetails `mandatory:"false" json:"placementConfiguration"`
 }
 

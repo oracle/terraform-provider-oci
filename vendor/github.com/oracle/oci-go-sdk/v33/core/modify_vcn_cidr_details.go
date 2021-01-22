@@ -17,14 +17,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v33/common"
 )
 
-// ModifyVcnCidrDetails Contains the original CIDR that needs to be updated and the
-// new CIDR which will replace the original CIDR.
+// ModifyVcnCidrDetails Details for updating a CIDR block.
 type ModifyVcnCidrDetails struct {
 
-	// The CIDR IP address that needs to be updated.
+	// The CIDR IP address to update.
 	OriginalCidrBlock *string `mandatory:"true" json:"originalCidrBlock"`
 
-	// The new CIDR IP address which will replace the orginal one.
+	// The new CIDR IP address.
 	NewCidrBlock *string `mandatory:"true" json:"newCidrBlock"`
 }
 
