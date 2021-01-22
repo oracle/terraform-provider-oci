@@ -19,14 +19,14 @@ var (
 
 	encryptedDataSingularDataSourceRepresentation = map[string]interface{}{
 		"crypto_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
-		"key_id":          Representation{repType: Required, create: getEnvSettingWithBlankDefault("kms_aes_key_ocid")},
+		"key_id":          Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"plaintext":       Representation{repType: Required, create: `aGVsbG8sIHdvcmxk`},
 		"associated_data": Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
 	}
 
 	encryptedDataRepresentation = map[string]interface{}{
 		"crypto_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
-		"key_id":          Representation{repType: Required, create: getEnvSettingWithBlankDefault("kms_aes_key_ocid")},
+		"key_id":          Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"plaintext":       Representation{repType: Required, create: `aGVsbG8sIHdvcmxk`},
 		"associated_data": Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
 		"logging_context": Representation{repType: Optional, create: map[string]string{"loggingContext": "loggingContext"}, update: map[string]string{"loggingContext2": "loggingContext2"}},

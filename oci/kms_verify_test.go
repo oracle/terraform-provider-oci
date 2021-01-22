@@ -21,7 +21,7 @@ var (
 	verifyRepresentation = map[string]interface{}{
 		"crypto_endpoint":   Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
 		"key_id":            Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
-		"key_version_id":    Representation{repType: Required, create: `${oci_kms_key_version.test_key_version.key_version_id}`},
+		"key_version_id":    Representation{repType: Required, create: `${oci_kms_sign.test_sign.key_version_id}`},
 		"message":           Representation{repType: Required, create: `message`},
 		"signature":         Representation{repType: Required, create: `${oci_kms_sign.test_sign.signature}`},
 		"signing_algorithm": Representation{repType: Required, create: `SHA_224_RSA_PKCS1_V1_5`},
@@ -35,8 +35,7 @@ var (
 	}
 
 	VerifyResourceDependencies = generateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Required, Create, signRepresentation) +
-		generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, verifyKeyVersionRepresentation) +
-		KeyResourceDependencies
+		KeyResourceDependencyConfig
 )
 
 func TestKmsVerifyResource_basic(t *testing.T) {
