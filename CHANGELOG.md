@@ -4,6 +4,7 @@
 - add list to existing API (Erratum) to OS Management Service
 - Support for Database Performance and Management DB Admin
 - Support for instance agent plugin configuration
+- Support for DBaaS One-off Patching
 
 ## 4.12.0 (February 03, 2021)
 
