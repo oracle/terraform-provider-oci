@@ -55,7 +55,7 @@ The following attributes are exported:
 	* `day_of_week` - The day of the week to schedule the volume backup.
 	* `hour_of_day` - The hour of the day to schedule the volume backup.
 	* `month` - The month of the year to schedule the volume backup.
-	* `offset_seconds` - The number of seconds that the volume backup start time should be shifted from the default interval boundaries specified by the period. The volume backup start time is the frequency start time plus the offset.
+	* `offset_seconds` - The number of seconds that the volume backup start time should be shifted from the default interval boundaries specified by the period. The volume backup start time is the frequency start time plus the offset. 
 	* `offset_type` - Indicates how the offset is defined. If value is `STRUCTURED`, then `hourOfDay`, `dayOfWeek`, `dayOfMonth`, and `month` fields are used and `offsetSeconds` will be ignored in requests and users should ignore its value from the responses.
 
 		`hourOfDay` is applicable for periods `ONE_DAY`, `ONE_WEEK`, `ONE_MONTH` and `ONE_YEAR`.
@@ -70,7 +70,7 @@ The following attributes are exported:
 
 		If value is `NUMERIC_SECONDS`, then `offsetSeconds` will be used for both requests and responses and the structured fields will be ignored in the requests and users should ignore their values from the responses.
 
-		For clients using older versions of Apis and not sending `offsetType` in their requests, the behaviour is just like `NUMERIC_SECONDS`.
+		For clients using older versions of Apis and not sending `offsetType` in their requests, the behaviour is just like `NUMERIC_SECONDS`. 
 	* `period` - The volume backup frequency.
 	* `retention_seconds` - How long, in seconds, to keep the volume backups created by this schedule.
 	* `time_zone` - Specifies what time zone is the schedule in

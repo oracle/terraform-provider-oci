@@ -35,7 +35,7 @@ The following arguments are supported:
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
-* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive. 
 * `volume_group_id` - (Optional) The OCID of the volume group.
 
 
@@ -57,8 +57,8 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume.
 * `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this volume. 
-* `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup.
-* `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume.
+* `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
+* `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use `size_in_gbs` instead.
 * `source_details` - 

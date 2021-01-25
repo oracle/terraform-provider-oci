@@ -68,9 +68,7 @@ The following arguments are supported:
 	* `display_name` - (Optional) A user-friendly name. Does not have to be unique. Avoid entering confidential information. 
 	* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 	* `instance_configuration_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
-	* `size` - (Required) The number of instances that should be in the instance pool.
-
-		For cluster networks with 10 or more instances, the cluster network is created if the required number of instances is available and at least 95% of the instances in the pool launch successfully. For cluster networks with less than 10 instances, all instances in the pool must launch successfully. If the cluster network fails to launch, wait a few minutes, and then try creating it again. 
+	* `size` - (Required) The number of instances that should be in the instance pool. 
 * `placement_configuration` - (Required) The location for where the instance pools in a cluster network will place instances.
 	* `availability_domain` - (Required) The availability domain to place instances.  Example: `Uocm:PHX-AD-1` 
 	* `primary_subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 
@@ -96,7 +94,7 @@ The following attributes are exported:
 	Each cluster network can have one instance pool. 
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance pool. 
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-	* `display_name` - The user-friendly name.  Does not have to be unique.
+	* `display_name` - The user-friendly name. Does not have to be unique.
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.
 	* `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
@@ -107,7 +105,7 @@ The following attributes are exported:
 		* `load_balancer_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer attached to the instance pool. 
 		* `port` - The port value used for the backends.
 		* `state` - The status of the interaction between the instance pool and the load balancer.
-		* `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
+		* `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool. 
 	* `placement_configurations` - The placement configurations for the instance pool.
 		* `availability_domain` - The availability domain to place instances.  Example: `Uocm:PHX-AD-1` 
 		* `fault_domains` - The fault domains to place instances.

@@ -36,14 +36,14 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 
 The following arguments are supported:
 
-* `attachment_type` - (Required) The type of volume. The only supported values are "iscsi" and "paravirtualized".
+* `attachment_type` - (Required) The type of volume. The only supported values are "iscsi" and "paravirtualized". 
 * `device` - (Optional) The device name.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
 * `instance_id` - (Required) The OCID of the instance.
 * `is_pv_encryption_in_transit_enabled` - (Applicable when attachment_type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 * `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
 * `is_shareable` - (Optional) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
-* `use_chap` - (Applicable when attachment_type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false.
+* `use_chap` - (Applicable when attachment_type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 * `volume_id` - (Required) The OCID of the volume.
 
 
@@ -56,9 +56,7 @@ The following attributes are exported:
 
 * `attachment_type` - The type of volume attachment.
 * `availability_domain` - The availability domain of an instance.  Example: `Uocm:PHX-AD-1` 
-* `chap_secret` - The Challenge-Handshake-Authentication-Protocol (CHAP) secret valid for the associated CHAP user name. (Also called the "CHAP password".)
-
-	
+* `chap_secret` - The Challenge-Handshake-Authentication-Protocol (CHAP) secret valid for the associated CHAP user name. (Also called the "CHAP password".) 
 * `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name. See [RFC 1994](https://tools.ietf.org/html/rfc1994) for more on CHAP.  Example: `ocid1.volume.oc1.phx.<unique_ID>` 
 * `compartment_id` - The OCID of the compartment.
 * `device` - The device name.

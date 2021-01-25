@@ -35,7 +35,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `source_volume_backup_id` - (Optional) A filter to return only resources that originated from the given source volume backup. 
-* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive. 
 * `volume_id` - (Optional) The OCID of the volume.
 
 

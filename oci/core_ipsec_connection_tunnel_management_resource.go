@@ -39,6 +39,7 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{
 					string(oci_core.UpdateIpSecConnectionTunnelDetailsRoutingBgp),
 					string(oci_core.UpdateIpSecConnectionTunnelDetailsRoutingStatic),
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsRoutingPolicy),
 				}, true),
 			},
 			// Optional
@@ -75,6 +76,36 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 						"oracle_bgp_asn": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+					},
+				},
+			},
+			"encryption_domain_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"cpe_traffic_selector": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"oracle_traffic_selector": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 					},
 				},
@@ -315,6 +346,41 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) Update() error {
 			request.BgpSessionConfig = BgpSessionDeatails
 		}
 	}
+
+	if request.Routing == oci_core.UpdateIpSecConnectionTunnelDetailsRoutingPolicy {
+		if _, ok := s.D.GetOkExists("encryption_domain_config"); ok {
+			EncryptionDomainDetails := &oci_core.UpdateIpSecTunnelEncryptionDomainDetails{}
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encryption_domain_config", 0)
+			if oracleTrafficSelector, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_traffic_selector")); ok {
+				interfaces := oracleTrafficSelector.([]interface{})
+				tmp := make([]string, len(interfaces))
+				for i := range interfaces {
+					if interfaces[i] != nil {
+						tmp[i] = interfaces[i].(string)
+					}
+				}
+				if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "oracle_traffic_selector")) {
+					EncryptionDomainDetails.OracleTrafficSelector = tmp
+				}
+			}
+
+			if cpeTrafficSelector, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cpe_traffic_selector")); ok {
+				interfaces := cpeTrafficSelector.([]interface{})
+				tmp := make([]string, len(interfaces))
+				for i := range interfaces {
+					if interfaces[i] != nil {
+						tmp[i] = interfaces[i].(string)
+					}
+				}
+				if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cpe_traffic_selector")) {
+					EncryptionDomainDetails.CpeTrafficSelector = tmp
+				}
+			}
+
+			request.EncryptionDomainConfig = EncryptionDomainDetails
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 	response, err := s.Client.UpdateIPSecConnectionTunnel(context.Background(), request)
 	if err != nil {
@@ -340,6 +406,14 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) SetData() error {
 	} else {
 		if _, ok := s.D.GetOkExists("bgp_session_info"); !ok {
 			s.D.Set("bgp_session_info", nil)
+		}
+	}
+
+	if s.Res.EncryptionDomainConfig != nil {
+		s.D.Set("encryption_domain_config", []interface{}{EncryptionDomainConfigToMap(s.Res.EncryptionDomainConfig)})
+	} else {
+		if _, ok := s.D.GetOkExists("encryption_domain_config"); !ok {
+			s.D.Set("encryption_domain_config", nil)
 		}
 	}
 

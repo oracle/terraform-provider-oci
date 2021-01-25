@@ -56,7 +56,7 @@ The following attributes are exported:
 	* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
 	* `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/) (the rule is for traffic destined for a particular `Service` through a service gateway).
 	* `NETWORK_SECURITY_GROUP`: If the rule's `destination` is the OCID of a [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
-* `direction` - Direction of the security rule. Set to `EGRESS` for rules to allow outbound IP packets, or `INGRESS` for rules to allow inbound IP packets.
+* `direction` - Direction of the security rule. Set to `EGRESS` for rules to allow outbound IP packets, or `INGRESS` for rules to allow inbound IP packets. 
 * `icmp_options` - Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code as defined in:
 	* [ICMP Parameters](http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml)
 	* [ICMPv6 Parameters](https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml)
@@ -81,16 +81,16 @@ The following attributes are exported:
 * `tcp_options` - Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
 	* `destination_port_range` - 
 		* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-		* `min` - The minimum port number. Must not be greater than the maximum port number.
+		* `min` - The minimum port number. Must not be greater than the maximum port number. 
 	* `source_port_range` - 
 		* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-		* `min` - The minimum port number. Must not be greater than the maximum port number.
+		* `min` - The minimum port number. Must not be greater than the maximum port number. 
 * `time_created` - The date and time the security rule was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `udp_options` - Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
 	* `destination_port_range` - 
 		* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-		* `min` - The minimum port number. Must not be greater than the maximum port number.
+		* `min` - The minimum port number. Must not be greater than the maximum port number. 
 	* `source_port_range` - 
 		* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-		* `min` - The minimum port number. Must not be greater than the maximum port number.
+		* `min` - The minimum port number. Must not be greater than the maximum port number. 
 
