@@ -24,6 +24,7 @@ import (
 	oci_events "github.com/oracle/oci-go-sdk/v36/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v36/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/v36/functions"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v36/goldengate"
 	oci_identity "github.com/oracle/oci-go-sdk/v36/identity"
 	oci_integration "github.com/oracle/oci-go-sdk/v36/integration"
 	oci_kms "github.com/oracle/oci-go-sdk/v36/keymanagement"
@@ -1161,6 +1162,39 @@ var exportFunctionsFunctionHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_functions.FunctionLifecycleStateActive),
+	},
+}
+
+var exportGoldenGateDatabaseRegistrationHints = &TerraformResourceHints{
+	resourceClass:          "oci_golden_gate_database_registration",
+	datasourceClass:        "oci_golden_gate_database_registrations",
+	datasourceItemsAttr:    "database_registration_collection",
+	resourceAbbreviation:   "database_registration",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_golden_gate.LifecycleStateActive),
+	},
+}
+
+var exportGoldenGateDeploymentHints = &TerraformResourceHints{
+	resourceClass:          "oci_golden_gate_deployment",
+	datasourceClass:        "oci_golden_gate_deployments",
+	datasourceItemsAttr:    "deployment_collection",
+	resourceAbbreviation:   "deployment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_golden_gate.LifecycleStateActive),
+	},
+}
+
+var exportGoldenGateDeploymentBackupHints = &TerraformResourceHints{
+	resourceClass:          "oci_golden_gate_deployment_backup",
+	datasourceClass:        "oci_golden_gate_deployment_backups",
+	datasourceItemsAttr:    "deployment_backup_collection",
+	resourceAbbreviation:   "deployment_backup",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_golden_gate.LifecycleStateActive),
 	},
 }
 
