@@ -74,7 +74,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) SetData()
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceHashID("AnalyticsAnalyticsInstancePrivateAccessChannelDataSource-", AnalyticsAnalyticsInstancePrivateAccessChannelDataSource(), s.D))
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
