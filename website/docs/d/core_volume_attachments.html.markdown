@@ -53,9 +53,7 @@ The following attributes are exported:
 
 * `attachment_type` - The type of volume attachment.
 * `availability_domain` - The availability domain of an instance.  Example: `Uocm:PHX-AD-1` 
-* `chap_secret` - The Challenge-Handshake-Authentication-Protocol (CHAP) secret valid for the associated CHAP user name. (Also called the "CHAP password".)
-
-	
+* `chap_secret` - The Challenge-Handshake-Authentication-Protocol (CHAP) secret valid for the associated CHAP user name. (Also called the "CHAP password".) 
 * `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name. See [RFC 1994](https://tools.ietf.org/html/rfc1994) for more on CHAP.  Example: `ocid1.volume.oc1.phx.<unique_ID>` 
 * `compartment_id` - The OCID of the compartment.
 * `device` - The device name.

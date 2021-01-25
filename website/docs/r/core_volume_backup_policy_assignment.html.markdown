@@ -42,7 +42,7 @@ The following attributes are exported:
 
 * `asset_id` - The OCID of the volume the policy has been assigned to.
 * `id` - The OCID of the volume backup policy assignment.
-* `policy_id` - The OCID of the volume backup policy that has been assigned to the volume.
+* `policy_id` - The OCID of the volume backup policy that has been assigned to the volume. 
 * `time_created` - The date and time the volume backup policy was assigned to the volume. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 
 ## Import

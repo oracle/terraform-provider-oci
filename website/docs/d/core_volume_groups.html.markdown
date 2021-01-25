@@ -35,7 +35,7 @@ The following arguments are supported:
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
-* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive. 
 
 
 ## Attributes Reference
@@ -51,10 +51,10 @@ The following attributes are exported:
 * `availability_domain` - The availability domain of the volume group.
 * `compartment_id` - The OCID of the compartment that contains the volume group.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID for the volume group.
-* `is_hydrated` - Specifies whether the newly created cloned volume group's data has finished copying from the source volume group or backup.
+* `is_hydrated` - Specifies whether the newly created cloned volume group's data has finished copying from the source volume group or backup. 
 * `size_in_gbs` - The aggregate size of the volume group in GBs.
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
 * `source_details` - Specifies the source for a volume group.

@@ -49,7 +49,7 @@ The following arguments are supported:
 * `backup_policy_id` - (Optional) If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the volume group.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `display_name` - (Optional) (Updatable) A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `source_details` - (Required) Specifies the source for a volume group.
 	* `type` - (Required) The type can be one of these values: `volumeGroupBackupId`, `volumeGroupId`, `volumeIds`
@@ -68,10 +68,10 @@ The following attributes are exported:
 * `availability_domain` - The availability domain of the volume group.
 * `compartment_id` - The OCID of the compartment that contains the volume group.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID for the volume group.
-* `is_hydrated` - Specifies whether the newly created cloned volume group's data has finished copying from the source volume group or backup.
+* `is_hydrated` - Specifies whether the newly created cloned volume group's data has finished copying from the source volume group or backup. 
 * `size_in_gbs` - The aggregate size of the volume group in GBs.
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
 * `source_details` - Specifies the source for a volume group.

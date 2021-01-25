@@ -59,9 +59,9 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the route table.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `route_rules` - (Optional) (Updatable) The collection of rules used for routing destination IPs to network devices.
+* `route_rules` - (Optional) (Updatable) The collection of rules used for routing destination IPs to network devices. 
 	* `cidr_block` - (Optional) (Updatable) Deprecated. Instead use `destination` and `destinationType`. Requests that include both `cidrBlock` and `destination` will be rejected.
 
 		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
@@ -94,7 +94,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The route table's Oracle ID (OCID).
-* `route_rules` - The collection of rules for routing destination IPs to network devices.
+* `route_rules` - The collection of rules for routing destination IPs to network devices. 
 	* `cidr_block` - Deprecated. Instead use `destination` and `destinationType`. Requests that include both `cidrBlock` and `destination` will be rejected.
 
 		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).

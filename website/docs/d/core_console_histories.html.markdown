@@ -34,7 +34,7 @@ The following arguments are supported:
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `instance_id` - (Optional) The OCID of the instance.
-* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive. 
 
 
 ## Attributes Reference

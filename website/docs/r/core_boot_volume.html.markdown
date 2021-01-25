@@ -80,7 +80,7 @@ The following attributes are exported:
 * `id` - The boot volume's Oracle ID (OCID).
 * `image_id` - The image OCID used to create the boot volume.
 * `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. 
-* `is_hydrated` - Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup.
+* `is_hydrated` - Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup. 
 * `kms_key_id` - The OCID of the Key Management master encryption key assigned to the boot volume.
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
