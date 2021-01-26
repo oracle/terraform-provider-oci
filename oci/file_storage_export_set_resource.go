@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_file_storage "github.com/oracle/oci-go-sdk/v33/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v34/filestorage"
 )
 
 func init() {
