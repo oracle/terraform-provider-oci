@@ -1,6 +1,9 @@
 ## 4.12.0 (February 03, 2021)
 
 ### Added
+- add list to existing API (Erratum) to OS Management Service
+
+### Added
 - Support for Infrequent Access object storage tier added
 - Support for NG-VPN Multiple Encryption Domain and Public Logging
 - Support for ExaCC Customer Contacts Phase 2 added
