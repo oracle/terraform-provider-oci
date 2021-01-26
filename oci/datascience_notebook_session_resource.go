@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v33/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v34/datascience"
 )
 
 func init() {

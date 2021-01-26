@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v33/database"
+	oci_database "github.com/oracle/oci-go-sdk/v34/database"
 )
 
 func init() {
