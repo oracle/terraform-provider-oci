@@ -41,6 +41,10 @@ func OsmanagementManagedInstancesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"bug_updates_available": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"child_software_sources": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -72,6 +76,10 @@ func OsmanagementManagedInstancesDataSource() *schema.Resource {
 						},
 						"display_name": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"enhancement_updates_available": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"id": {
@@ -127,6 +135,10 @@ func OsmanagementManagedInstancesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"other_updates_available": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"parent_software_source": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -150,11 +162,23 @@ func OsmanagementManagedInstancesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"scheduled_job_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"security_updates_available": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"updates_available": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"work_request_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
