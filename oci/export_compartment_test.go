@@ -1163,7 +1163,7 @@ func TestUnitFindResources_processResourceFn(t *testing.T) {
 	rootResource := getRootCompartmentResource()
 
 	// Create a processing function that adds a new attribute to every discovered child resource
-	exportChildDefinition.processDiscoveredResourcesFn = func(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+	exportChildDefinition.processDiscoveredResourcesFn = func(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 		for _, resource := range resources {
 			resource.sourceAttributes["added_by_process_function"] = true
 		}
@@ -1174,6 +1174,7 @@ func TestUnitFindResources_processResourceFn(t *testing.T) {
 	ctx := &resourceDiscoveryContext{
 		errorList: ErrorList{},
 	}
+
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
