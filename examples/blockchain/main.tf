@@ -37,8 +37,6 @@ resource "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
   compute_shape  = "ENTERPRISE_MEDIUM"
   display_name   = "displayname3"
   platform_role  = "FOUNDER"
-
-  #Optional
   idcs_access_token = var.idcs_access_token
 }
 

@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_analytics "github.com/oracle/oci-go-sdk/v33/analytics"
-	"github.com/oracle/oci-go-sdk/v33/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v34/analytics"
+	"github.com/oracle/oci-go-sdk/v34/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -87,7 +87,6 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 
 	provider := testAccProvider
 	config := testProviderConfig()
-
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 

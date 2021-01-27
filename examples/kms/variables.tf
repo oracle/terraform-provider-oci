@@ -38,6 +38,15 @@ variable "key_key_shape_length" {
   default = 32
 }
 
+variable "crypto_endpoint" {
+}
+
+variable "test_rsa_key_id" {
+}
+
+variable "test_rsa_key_version" {
+}
+
 # Refer https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm on how to setup SSH key pairs for compute instances
 variable "ssh_public_key" {
 }
