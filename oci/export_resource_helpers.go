@@ -573,7 +573,7 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 		}
 
 		if resourceHint.processDiscoveredResourcesFn != nil {
-			processResults, err := resourceHint.processDiscoveredResourcesFn(r.ctx.clients, []*OCIResource{ociResource})
+			processResults, err := resourceHint.processDiscoveredResourcesFn(r.ctx, []*OCIResource{ociResource})
 			if err != nil {
 				return err
 			}
@@ -628,7 +628,7 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 
 type TerraformResourceGraph map[string][]TerraformResourceAssociation
 
-type ProcessOCIResourcesFunc func(*OracleClients, []*OCIResource) ([]*OCIResource, error)
+type ProcessOCIResourcesFunc func(*resourceDiscoveryContext, []*OCIResource) ([]*OCIResource, error)
 
 func init() {
 	// TODO: The following changes to resource hints are deviations from what can currently be handled by the core resource discovery/generation logic
@@ -729,7 +729,7 @@ func init() {
 
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
 
-func processDnsRrset(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processDnsRrset(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 
 	for _, record := range resources {
 		// Populate config file from compositeId
@@ -794,7 +794,7 @@ func getModelProvenanceId(resource *OCIResource) (string, error) {
 	return getModelProvenanceCompositeId(modelId), nil
 }
 
-func processContainerengineNodePool(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processContainerengineNodePool(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, nodePool := range resources {
 		// subnet_ids and quantity_per_subnet are deprecated and conflict with node_config_details
 		if _, exists := nodePool.sourceAttributes["node_config_details"]; exists {
@@ -809,7 +809,7 @@ func processContainerengineNodePool(clients *OracleClients, resources []*OCIReso
 	return resources, nil
 }
 
-func processStreamingStream(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processStreamingStream(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, streamingStream := range resources {
 		// compartment_id conflict with stream_pool_id
 		if _, exists := streamingStream.sourceAttributes["compartment_id"]; exists {
@@ -821,14 +821,14 @@ func processStreamingStream(clients *OracleClients, resources []*OCIResource) ([
 	return resources, nil
 }
 
-func processNosqlIndex(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processNosqlIndex(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, index := range resources {
 		index.sourceAttributes["table_name_or_id"] = index.parent.id
 	}
 	return resources, nil
 }
 
-func processKmsKey(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processKmsKey(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		resource.sourceAttributes["management_endpoint"] = resource.parent.sourceAttributes["management_endpoint"].(string)
 		var resourceSchema *schema.ResourceData = resource.rawResource.(*schema.ResourceData)
@@ -837,7 +837,7 @@ func processKmsKey(clients *OracleClients, resources []*OCIResource) ([]*OCIReso
 	return resources, nil
 }
 
-func processKmsKeyVersion(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processKmsKeyVersion(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		resource.sourceAttributes["management_endpoint"] = resource.parent.sourceAttributes["management_endpoint"].(string)
 		resource.importId = resource.id
@@ -847,7 +847,7 @@ func processKmsKeyVersion(clients *OracleClients, resources []*OCIResource) ([]*
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
 
-func processPrivateIps(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processPrivateIps(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	privateIps := []*OCIResource{}
 
 	for _, privateIp := range resources {
@@ -867,7 +867,7 @@ func processPrivateIps(clients *OracleClients, resources []*OCIResource) ([]*OCI
 	return privateIps, nil
 }
 
-func processInstances(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processInstances(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
 	for _, instance := range resources {
@@ -927,7 +927,7 @@ func processInstances(clients *OracleClients, resources []*OCIResource) ([]*OCIR
 	return results, nil
 }
 
-func filterSecondaryVnicAttachments(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func filterSecondaryVnicAttachments(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
 	for _, attachment := range resources {
@@ -936,7 +936,7 @@ func filterSecondaryVnicAttachments(clients *OracleClients, resources []*OCIReso
 		if vnicReadFn := datasourceSchema.Read; vnicReadFn != nil {
 			d := datasourceSchema.TestResourceData()
 			d.Set("vnic_id", attachment.sourceAttributes["vnic_id"].(string))
-			if err := vnicReadFn(d, clients); err != nil {
+			if err := vnicReadFn(d, ctx.clients); err != nil {
 				return results, err
 			}
 
@@ -950,7 +950,7 @@ func filterSecondaryVnicAttachments(clients *OracleClients, resources []*OCIReso
 	return results, nil
 }
 
-func filterMysqlBackups(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func filterMysqlBackups(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
 	// Filter out Mysql Backups that are automatically created. We cannot operate on "Automatic" backups.
@@ -968,7 +968,7 @@ func filterMysqlBackups(clients *OracleClients, resources []*OCIResource) ([]*OC
 }
 
 // TODO: remove this when service fixes source
-func processMysqlDbSystem(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processMysqlDbSystem(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, dbSystem := range resources {
 		if source, exists := dbSystem.sourceAttributes["source"]; exists {
 			if sourceList := source.([]interface{}); len(sourceList) > 0 {
@@ -984,7 +984,7 @@ func processMysqlDbSystem(clients *OracleClients, resources []*OCIResource) ([]*
 	return resources, nil
 }
 
-func filterSourcedBootVolumes(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func filterSourcedBootVolumes(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
 	// Filter out boot volumes that don't have source details. We cannot create boot volumes unless they have source details.
@@ -1004,7 +1004,7 @@ func filterSourcedBootVolumes(clients *OracleClients, resources []*OCIResource) 
 	return results, nil
 }
 
-func processAvailabilityDomains(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processAvailabilityDomains(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for idx, ad := range resources {
 		ad.sourceAttributes["index"] = idx + 1
 
@@ -1020,7 +1020,7 @@ func processAvailabilityDomains(clients *OracleClients, resources []*OCIResource
 	return resources, nil
 }
 
-func processObjectStorageNamespace(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processObjectStorageNamespace(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, ns := range resources {
 		namespaceName, ok := ns.sourceAttributes["namespace"].(string)
 		if !ok || namespaceName == "" {
@@ -1057,7 +1057,7 @@ func getObjectStorageNamespaceHCLDatasource(builder *strings.Builder, ociRes *OC
 	return nil
 }
 
-func filterCustomImages(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func filterCustomImages(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
 	// Filter out official images that are predefined by Oracle. We cannot manage such images in Terraform.
@@ -1078,7 +1078,7 @@ func filterCustomImages(clients *OracleClients, resources []*OCIResource) ([]*OC
 	return results, nil
 }
 
-func processVolumeGroups(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processVolumeGroups(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// Replace the volume group's source details volume list with the actual volume list
 	// The source details only captures the list of volumes that were known when the group was created.
 	// Additional volumes may have been added since and should be part of the source_details that we generate.
@@ -1103,7 +1103,7 @@ func processVolumeGroups(clients *OracleClients, resources []*OCIResource) ([]*O
 	return resources, nil
 }
 
-func processLoadBalancerBackendSets(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, backendSet := range resources {
 		if backendSet.parent == nil {
 			continue
@@ -1117,7 +1117,7 @@ func processLoadBalancerBackendSets(clients *OracleClients, resources []*OCIReso
 	return resources, nil
 }
 
-func processLoadBalancerBackends(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processLoadBalancerBackends(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, backend := range resources {
 		if backend.parent == nil {
 			continue
@@ -1141,7 +1141,7 @@ func processLoadBalancerBackends(clients *OracleClients, resources []*OCIResourc
 	return resources, nil
 }
 
-func processLoadBalancerHostnames(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processLoadBalancerHostnames(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, hostname := range resources {
 		if hostname.parent == nil {
 			continue
@@ -1154,7 +1154,7 @@ func processLoadBalancerHostnames(clients *OracleClients, resources []*OCIResour
 	return resources, nil
 }
 
-func processLoadBalancerPathRouteSets(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processLoadBalancerPathRouteSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, pathRouteSet := range resources {
 		if pathRouteSet.parent == nil {
 			continue
@@ -1167,7 +1167,7 @@ func processLoadBalancerPathRouteSets(clients *OracleClients, resources []*OCIRe
 	return resources, nil
 }
 
-func processLoadBalancerRuleSets(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processLoadBalancerRuleSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, ruleSet := range resources {
 		if ruleSet.parent == nil {
 			continue
@@ -1180,7 +1180,7 @@ func processLoadBalancerRuleSets(clients *OracleClients, resources []*OCIResourc
 	return resources, nil
 }
 
-func processLoadBalancerCertificates(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processLoadBalancerCertificates(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, certificate := range resources {
 		if certificate.parent == nil {
 			continue
@@ -1206,7 +1206,7 @@ func processLoadBalancerCertificates(clients *OracleClients, resources []*OCIRes
 	return resources, nil
 }
 
-func processObjectStoragePreauthenticatedRequest(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processObjectStoragePreauthenticatedRequest(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		resource.sourceAttributes["bucket"] = resource.parent.sourceAttributes["name"].(string)
 		resource.sourceAttributes["namespace"] = resource.parent.sourceAttributes["namespace"].(string)
@@ -1227,7 +1227,7 @@ func processObjectStoragePreauthenticatedRequest(clients *OracleClients, resourc
 	return resources, nil
 }
 
-func processAutonomousDatabaseSource(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processAutonomousDatabaseSource(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.sourceAttributes["is_refreshable_clone"] == true {
 			resource.sourceAttributes["source"] = "CLONE_TO_REFRESHABLE"
@@ -1236,7 +1236,7 @@ func processAutonomousDatabaseSource(clients *OracleClients, resources []*OCIRes
 	return resources, nil
 }
 
-func processObjectStorageReplicationPolicy(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processObjectStorageReplicationPolicy(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		resource.sourceAttributes["bucket"] = resource.parent.sourceAttributes["name"].(string)
 		resource.sourceAttributes["namespace"] = resource.parent.sourceAttributes["namespace"].(string)
@@ -1370,12 +1370,19 @@ func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformR
 	return results, nil
 }
 
-func processLoadBalancerListeners(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 
 	for _, resource := range resources {
 		if sslConfiguration, ok := resource.sourceAttributes["ssl_configuration"].([]interface{}); ok && len(sslConfiguration) > 0 {
 			if sslConfig, ok := sslConfiguration[0].(map[string]interface{}); ok {
-				if _, ok := sslConfig["certificate_name"]; ok {
+				if certificateName, ok := sslConfig["certificate_name"]; ok {
+					// check if we have expected ResourceIds set, is load balancer certificate id expected
+					if ctx.expectedResourceIds != nil && len(ctx.expectedResourceIds) > 0 {
+						certificateId := getCertificateCompositeId(certificateName.(string), resource.sourceAttributes["load_balancer_id"].(string))
+						if _, ok = ctx.expectedResourceIds[certificateId]; !ok {
+							continue
+						}
+					}
 					sslConfig["certificate_name"] = InterpolationString{
 						resource.parent.getTerraformReference(),
 						loadBalancerCertificateNameMap[resource.parent.parent.id][sslConfig["certificate_name"].(string)],
@@ -1388,7 +1395,7 @@ func processLoadBalancerListeners(clients *OracleClients, resources []*OCIResour
 	return resources, nil
 }
 
-func processTagDefinitions(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processTagDefinitions(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.parent == nil {
 			resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.sourceAttributes["tag_namespace_id"], resource.sourceAttributes["name"].(string))
@@ -1402,7 +1409,7 @@ func processTagDefinitions(clients *OracleClients, resources []*OCIResource) ([]
 	return resources, nil
 }
 
-func processNetworkSecurityGroupRules(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processNetworkSecurityGroupRules(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.parent == nil {
 			continue
@@ -1413,7 +1420,7 @@ func processNetworkSecurityGroupRules(clients *OracleClients, resources []*OCIRe
 	return resources, nil
 }
 
-func filterPrimaryDbHomes(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func filterPrimaryDbHomes(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// No need to filter if db homes are in vm cluster
 	if len(resources) > 0 && resources[0].parent.terraformClass == "oci_database_vm_cluster" {
 		return resources, nil
@@ -1439,7 +1446,7 @@ func filterPrimaryDbHomes(clients *OracleClients, resources []*OCIResource) ([]*
 	return results, nil
 }
 
-func filterPrimaryDatabases(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func filterPrimaryDatabases(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 	for _, resource := range resources {
 		// Only return database resources that don't match the database ID of the dbHome resource.
@@ -1454,7 +1461,7 @@ func filterPrimaryDatabases(clients *OracleClients, resources []*OCIResource) ([
 	return results, nil
 }
 
-func processIdentityAuthenticationPolicies(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processIdentityAuthenticationPolicies(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// Add composite id as the resource's import ID
 	for _, resource := range resources {
 		resource.importId = getAuthenticationPolicyCompositeId(resource.compartmentId)
@@ -1463,7 +1470,7 @@ func processIdentityAuthenticationPolicies(clients *OracleClients, resources []*
 	return resources, nil
 }
 
-func processDefaultSecurityLists(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processDefaultSecurityLists(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// Default security lists need to be handled as default resources
 	for _, resource := range resources {
 		if resource.parent == nil {
@@ -1483,7 +1490,7 @@ func processDefaultSecurityLists(clients *OracleClients, resources []*OCIResourc
 	return resources, nil
 }
 
-func processDefaultRouteTables(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processDefaultRouteTables(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// Default route tables need to be handled as default resources
 	for _, resource := range resources {
 		if resource.parent == nil {
@@ -1503,7 +1510,7 @@ func processDefaultRouteTables(clients *OracleClients, resources []*OCIResource)
 	return resources, nil
 }
 
-func processDefaultDhcpOptions(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processDefaultDhcpOptions(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// Default dhcp options need to be handled as default resources
 	for _, resource := range resources {
 		if resource.parent == nil {
@@ -1523,7 +1530,7 @@ func processDefaultDhcpOptions(clients *OracleClients, resources []*OCIResource)
 	return resources, nil
 }
 
-func processDbSystems(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processDbSystems(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// Fix db version to remove the PSU date from versions with 18+ major version
 	for _, resource := range resources {
 		if dbHomes, ok := resource.sourceAttributes["db_home"].([]interface{}); ok {
@@ -1537,7 +1544,7 @@ func processDbSystems(clients *OracleClients, resources []*OCIResource) ([]*OCIR
 	return resources, nil
 }
 
-func processDatabases(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processDatabases(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// Fix database db version to remove the PSU date from versions with 18+ major version
 	for _, resource := range resources {
 		if databases, ok := resource.sourceAttributes["database"].([]interface{}); ok {
@@ -1551,7 +1558,7 @@ func processDatabases(clients *OracleClients, resources []*OCIResource) ([]*OCIR
 	return resources, nil
 }
 
-func processDatabaseExadataInfrastructures(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processDatabaseExadataInfrastructures(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// Remove weeks_of_month if there is no item in response
 	for _, resource := range resources {
 		if maintenanceWindow, ok := resource.sourceAttributes["maintenance_window"].([]interface{}); ok {
@@ -1591,7 +1598,7 @@ func getLogId(resource *OCIResource) (string, error) {
 	return getLogCompositeId(logGroupId, logId), nil
 }
 
-func processCoreVcns(clients *OracleClients, resources []*OCIResource) ([]*OCIResource, error) {
+func processCoreVcns(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// remove deprecated cidr_block field from discovered vcns,
 	// either cidr_block or cidr_blocks should be specified in config
 	// service returns the cidr_block value in cidr_blocks field

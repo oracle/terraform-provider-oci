@@ -527,7 +527,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	}
 
 	if err := tf.Plan(backgroundCtx, planArgs...); err != nil {
-		return fmt.Errorf("[ERROR] terraform plan command failed")
+		return fmt.Errorf("[ERROR] terraform plan command failed %s", err.Error())
 	}
 	return nil
 }
