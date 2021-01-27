@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_blockchain "github.com/oracle/oci-go-sdk/v33/blockchain"
-	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v34/blockchain"
+	oci_common "github.com/oracle/oci-go-sdk/v34/common"
 )
 
 func init() {
@@ -51,6 +51,11 @@ func BlockchainBlockchainPlatformResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+			},
+			"idcs_access_token": {
+				Type:      schema.TypeString,
+				Required:  true,
+				Sensitive: true,
 			},
 			"platform_role": {
 				Type:     schema.TypeString,
@@ -89,16 +94,16 @@ func BlockchainBlockchainPlatformResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"idcs_access_token": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
-			},
 			"is_byol": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"load_balancer_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"replicas": {
 				Type:     schema.TypeList,
@@ -466,8 +471,9 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Create() error {
 	_, replicasExists := s.D.GetOkExists("replicas")
 	_, storageSizeInTbsExists := s.D.GetOkExists("storage_size_in_tbs")
 	_, totalOpcuCapacityExists := s.D.GetOkExists("total_ocpu_capacity")
+	_, loadBalancerShapeExists := s.D.GetOkExists("load_balancer_shape")
 
-	if replicasExists || storageSizeInTbsExists || totalOpcuCapacityExists {
+	if replicasExists || storageSizeInTbsExists || totalOpcuCapacityExists || loadBalancerShapeExists {
 		return s.Update()
 	}
 
@@ -670,6 +676,13 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Update() error {
 		request.TotalOcpuCapacity = nil
 	}
 
+	if loadBalancerShape, ok := s.D.GetOkExists("load_balancer_shape"); ok && s.D.HasChange("load_balancer_shape") {
+		request.LoadBalancerShape = oci_blockchain.BlockchainPlatformLoadBalancerShapeEnum(loadBalancerShape.(string))
+		if err := sendUpdateBlockchainPlatformRequest(s, request); err != nil {
+			return err
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -762,6 +775,8 @@ func (s *BlockchainBlockchainPlatformResourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	s.D.Set("load_balancer_shape", s.Res.LoadBalancerShape)
 
 	s.D.Set("platform_role", s.Res.PlatformRole)
 

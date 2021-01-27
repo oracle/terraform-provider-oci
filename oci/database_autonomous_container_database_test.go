@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v33/common"
-	oci_database "github.com/oracle/oci-go-sdk/v33/database"
+	"github.com/oracle/oci-go-sdk/v34/common"
+	oci_database "github.com/oracle/oci-go-sdk/v34/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -410,6 +410,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					"peer_autonomous_vm_cluster_id",
 					"peer_autonomous_container_database_display_name",
 					"peer_autonomous_exadata_infrastructure_id",
+					"peer_db_unique_name",
 					"protection_mode",
 				},
 				ResourceName: resourceName,

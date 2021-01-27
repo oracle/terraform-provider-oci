@@ -20,7 +20,7 @@ variable "compartment_id" {
 }
 
 variable "integration_instance_idcs_access_token" {
-  default = "idcsAt"
+
 }
 
 variable "integration_instance_consumption_model" {

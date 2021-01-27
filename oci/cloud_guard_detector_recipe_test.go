@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v33/cloudguard"
-	"github.com/oracle/oci-go-sdk/v33/common"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v34/cloudguard"
+	"github.com/oracle/oci-go-sdk/v34/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

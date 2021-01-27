@@ -11,7 +11,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_kms "github.com/oracle/oci-go-sdk/v33/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v34/keymanagement"
 )
 
 func init() {
@@ -48,6 +48,18 @@ func KmsEncryptedDataResource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 				Elem:     schema.TypeString,
+			},
+			"encryption_algorithm": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"key_version_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"logging_context": {
 				Type:     schema.TypeMap,
@@ -119,9 +131,18 @@ func (s *KmsEncryptedDataResourceCrud) Create() error {
 		request.AssociatedData = objectMapToStringMap(associatedData.(map[string]interface{}))
 	}
 
+	if encryptionAlgorithm, ok := s.D.GetOkExists("encryption_algorithm"); ok {
+		request.EncryptionAlgorithm = oci_kms.EncryptDataDetailsEncryptionAlgorithmEnum(encryptionAlgorithm.(string))
+	}
+
 	if keyId, ok := s.D.GetOkExists("key_id"); ok {
 		tmp := keyId.(string)
 		request.KeyId = &tmp
+	}
+
+	if keyVersionId, ok := s.D.GetOkExists("key_version_id"); ok {
+		tmp := keyVersionId.(string)
+		request.KeyVersionId = &tmp
 	}
 
 	if loggingContext, ok := s.D.GetOkExists("logging_context"); ok {
@@ -160,6 +181,16 @@ func (s *KmsEncryptedDataResourceCrud) Get() error {
 func (s *KmsEncryptedDataResourceCrud) SetData() error {
 	if s.Res.Ciphertext != nil {
 		s.D.Set("ciphertext", *s.Res.Ciphertext)
+	}
+
+	s.D.Set("encryption_algorithm", s.Res.EncryptionAlgorithm)
+
+	if s.Res.KeyId != nil {
+		s.D.Set("key_id", *s.Res.KeyId)
+	}
+
+	if s.Res.KeyVersionId != nil {
+		s.D.Set("key_version_id", *s.Res.KeyVersionId)
 	}
 
 	return nil

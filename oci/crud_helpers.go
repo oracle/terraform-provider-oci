@@ -21,10 +21,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v33/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v33/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v33/loadbalancer"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v33/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v34/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v34/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v34/loadbalancer"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v34/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/metrics"
@@ -576,7 +576,7 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 		if e != nil && strings.Contains(e.Error(), "unexpected state") {
 			resourceId := sync.ID()
 			if resourceId != "" {
-				e = fmt.Errorf("%s, The service for this resource encountered an unknown error. Provide the following resource ID if you contact support for help with that service: %s", e, resourceId)
+				e = fmt.Errorf("Resource reached unexpected lifecycle state %s during %s, whereas expected lifecycle state is %s. \n Affected resource OCID: %s", sync.State(), operationName, target[0], resourceId)
 			}
 		}
 

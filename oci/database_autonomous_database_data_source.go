@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v33/database"
+	oci_database "github.com/oracle/oci-go-sdk/v34/database"
 )
 
 func init() {
@@ -66,6 +66,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	if s.Res.ArePrimaryWhitelistedIpsUsed != nil {
+		s.D.Set("are_primary_whitelisted_ips_used", *s.Res.ArePrimaryWhitelistedIpsUsed)
+	}
 
 	if s.Res.ApexDetails != nil {
 		s.D.Set("apex_details", []interface{}{AutonomousDatabaseApexToMap(s.Res.ApexDetails)})
@@ -222,6 +226,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("standby_db", nil)
 	}
+
+	s.D.Set("standby_whitelisted_ips", s.Res.StandbyWhitelistedIps)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

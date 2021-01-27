@@ -11,9 +11,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v33/common"
+	"github.com/oracle/oci-go-sdk/v34/common"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v33/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v34/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -50,7 +50,6 @@ var (
 		"key_shape":           RepresentationGroup{Required, keyKeyShapeRepresentation},
 		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 		"desired_state":       Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"protection_mode":     Representation{repType: Optional, create: `SOFTWARE`},
 		"time_of_deletion":    Representation{repType: Required, create: deletionTime.Format(time.RFC3339Nano)},
@@ -155,7 +154,6 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -185,7 +183,6 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -214,7 +211,6 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -244,12 +240,12 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "algorithm", "AES"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(datasourceName, "management_endpoint"),
 					resource.TestCheckResourceAttr(datasourceName, "protection_mode", "SOFTWARE"),
 					resource.TestCheckResourceAttr(datasourceName, "length", "16"),
 
 					resource.TestCheckResourceAttr(datasourceName, "keys.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "keys.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.id"),
@@ -269,7 +265,6 @@ func TestKmsKeyResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "current_key_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v33/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v34/loadbalancer"
 )
 
 func init() {
@@ -109,7 +109,6 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -118,12 +117,10 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 						"maximum_bandwidth_in_mbps": {
 							Type:     schema.TypeInt,
 							Required: true,
-							ForceNew: true,
 						},
 						"minimum_bandwidth_in_mbps": {
 							Type:     schema.TypeInt,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -447,6 +444,15 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
 				return err
 			}
 		}
+	} else if _, ok := s.D.GetOkExists("shape_details"); ok && s.D.HasChange("shape_details") {
+		if shape, ok := s.D.GetOkExists("shape"); ok {
+			if shape == "flexible" {
+				err := s.updateShape(shape)
+				if err != nil {
+					return err
+				}
+			}
+		}
 	}
 
 	if s.D.HasChange("network_security_group_ids") {
@@ -748,6 +754,17 @@ func (s *LoadBalancerLoadBalancerResourceCrud) updateShape(shape interface{}) er
 	changeShapeRequest.LoadBalancerId = &idTmp
 
 	changeShapeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	if shapeDetails, ok := s.D.GetOkExists("shape_details"); ok {
+		if tmpList := shapeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_details", 0)
+			tmp, err := s.mapToShapeDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			changeShapeRequest.ShapeDetails = &tmp
+		}
+	}
 
 	response, err := s.Client.UpdateLoadBalancerShape(context.Background(), changeShapeRequest)
 	if err != nil {

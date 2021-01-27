@@ -69,8 +69,24 @@ The following attributes are exported:
 	* `whitelisted_vcns` - Virtual Cloud Networks allowed to access this network endpoint. 
 		* `id` - The Virtual Cloud Network OCID. 
 		* `whitelisted_ips` - Source IP addresses or IP address ranges igress rules. 
+* `private_access_channels` - Map of PrivateAccessChannel unique identifier key as KEY and PrivateAccessChannel Object as VALUE. 
+	* `display_name` - Display Name of the Private Access Channel. 
+	* `egress_source_ip_addresses` - The list of IP addresses from the customer subnet connected to private access channel, used as a source Ip by Private Access Channel for network traffic from the AnalyticsInstance to Private Sources. 
+	* `ip_address` - IP Address of the Private Access channel. 
+	* `key` - Private Access Channel unique identifier key. 
+	* `private_source_dns_zones` - List of Private Source DNS zones registered with Private Access Channel, where datasource hostnames from these dns zones / domains will be resolved in the peered VCN for access from Analytics Instance. Min of 1 is required and Max of 30 Private Source DNS zones can be registered. 
+		* `description` - Description of private source dns zone. 
+		* `dns_zone` - Private Source DNS Zone. Ex: example-vcn.oraclevcn.com, corp.example.com. 
+	* `subnet_id` - OCID of the customer subnet connected to private access channel. 
+	* `vcn_id` - OCID of the customer VCN peered with private access channel. 
 * `service_url` - URL of the Analytics service. 
 * `state` - The current state of an instance. 
 * `time_created` - The date and time the instance was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the instance was last updated (in the format defined by RFC3339). This timestamp represents updates made through this API. External events do not influence it. 
+* `vanity_url_details` - Map of VanityUrl unique identifier key as KEY and VanityUrl Object as VALUE. 
+	* `description` - Description of the vanity url. 
+	* `hosts` - List of fully qualified hostnames supported by this vanity URL definition (max of 3). 
+	* `key` - The vanity url unique identifier key. 
+	* `public_certificate` - PEM certificate for HTTPS connections. 
+	* `urls` - List of urls supported by this vanity URL definition (max of 3). 
 

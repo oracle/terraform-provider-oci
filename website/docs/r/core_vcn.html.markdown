@@ -16,17 +16,14 @@ For managing these resources, see [Managing Default VCN Resources](/docs/provide
 Creates a new Virtual Cloud Network (VCN). For more information, see
 [VCNs and Subnets](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
 
-To create the VCN, you may specify a list of IPv4 CIDR blocks. The CIDRs must maintain
-the following rules -
+For the VCN, you specify a list of one or more IPv4 CIDR blocks that meet the following criteria:
 
-a. The list of CIDRs provided are valid
-b. There is no overlap between different CIDRs
-c. The list of CIDRs does not exceed the max limit of CIDRs per VCN
+- The CIDR blocks must be valid.
+- They must not overlap with each other or with the on-premises network CIDR block. 
+- The number of CIDR blocks does not exceed the limit of CIDR blocks allowed per VCN.
 
-Oracle recommends using one of the private IP address ranges specified in [RFC 1918]
-(https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
-172.16.0.0/16. The CIDR blocks can range from /16 to /30, and they must not overlap with
-your on-premises network.
+For a CIDR block, Oracle recommends that you use one of the private IP address ranges specified in [RFC 1918](https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
+172.16.0.0/16. The CIDR blocks can range from /16 to /30.
 
 For the purposes of access control, you must provide the OCID of the compartment where you want the VCN to
 reside. Consult an Oracle Cloud Infrastructure administrator in your organization if you're not sure which
@@ -77,10 +74,15 @@ resource "oci_core_vcn" "test_vcn" {
 
 The following arguments are supported:
 
-* `cidr_block` - (Optional) Deprecated. Instead use 'cidrBlocks'. It is an error to set both cidrBlock and cidrBlocks. Example: `10.0.0.0/16`
-* `cidr_blocks` - (Optional) Either 'cidr_block or 'cidr_blocks' must be provided. List of IPv4 CIDR blocks associated with the VCN. The CIDRs must maintain the following rules -
-
-	a. The list of CIDRs provided are valid b. There is no overlap between different CIDRs c. The number of CIDRs should not exceed the max limit of CIDRs per VCN d. It is an error to set both cidrBlock and cidrBlocks. Note: cidr_blocks update must be restricted to one operation at a time (either add/remove or modify one single cidr_block) or the operation will be declined. new cidr_block to be added must be placed at the end of the list
+* `cidr_block` - (Optional) **Deprecated.** Do *not* set this value. Use `cidrBlocks` instead. Example: `10.0.0.0/16` 
+* `cidr_blocks` - (Optional) The list of one or more IPv4 CIDR blocks for the VCN that meet the following criteria:
+	* The CIDR blocks must be valid.
+	* They must not overlap with each other or with the on-premises network CIDR block. 
+	* The number of CIDR blocks must not exceed the limit of CIDR blocks allowed per VCN.
+        a. The list of CIDRs provided are valid 
+        b. There is no overlap between different CIDRs 
+        c. The number of CIDRs should not exceed the max limit of CIDRs per VCN d. It is an error to set both cidrBlock and cidrBlocks. Note: cidr_blocks update must be restricted to one operation at a time (either add/remove or modify one single cidr_block) or the operation will be declined. new cidr_block to be added must be placed at the end of the list
+	**Important:** Do *not* specify a value for `cidrBlock`. Use this parameter instead. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the VCN.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

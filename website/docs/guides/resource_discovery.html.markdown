@@ -456,6 +456,8 @@ kms
 * oci\_kms\_key
 * oci\_kms\_key\_version
 * oci\_kms\_vault
+* oci\_kms\_sign
+* oci\_kms\_verify
 
 limits
     

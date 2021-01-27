@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v33/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v34/keymanagement"
 )
 
 func init() {
@@ -92,6 +92,14 @@ func (s *KmsKeyVersionDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.PublicKey != nil {
+		s.D.Set("public_key", *s.Res.PublicKey)
+	}
+
+	if s.Res.RestoredFromKeyVersionId != nil {
+		s.D.Set("restored_from_key_version_id", *s.Res.RestoredFromKeyVersionId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
