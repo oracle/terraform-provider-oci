@@ -10,8 +10,8 @@ description: |-
 # Data Source: oci_core_byoip_allocated_ranges
 This data source provides the list of Byoip Allocated Ranges in Oracle Cloud Infrastructure Core service.
 
-Lists the ByoipAllocatedRange objects for the ByoipRange.
-Each ByoipAllocatedRange object has a CIDR block part of the ByoipRange and the PublicIpPool it is assigned to.
+Lists the subranges of a BYOIP CIDR block currently allocated to an IP pool.
+Each `ByoipAllocatedRange` object also lists the IP pool where it is allocated.
 
 
 ## Example Usage
@@ -27,7 +27,7 @@ data "oci_core_byoip_allocated_ranges" "test_byoip_allocated_ranges" {
 
 The following arguments are supported:
 
-* `byoip_range_id` - (Required) The OCID of the Byoip Range object.
+* `byoip_range_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource containing the BYOIP CIDR block.
 
 
 ## Attributes Reference
@@ -40,7 +40,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - list of Byoip allocated ranges as part of public IP pool
-	* `cidr_block` - The address range part of the ByoipRange which is used for a publicIpPool.
-	* `public_ip_pool_id` - The OCID of the PublicIpPool containing the part of the Byoip range. 
+* `items` - A list of subranges of a BYOIP CIDR block allocated to an IP pool.
+	* `cidr_block` - The BYOIP CIDR block range or subrange allocated to an IP pool. This could be all or part of a BYOIP CIDR block.
+	* `public_ip_pool_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IP pool containing the CIDR block. 
 

@@ -15,13 +15,15 @@ import (
 	"path"
 	"reflect"
 	"regexp"
+	"runtime/debug"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v33/common"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v33/resourcemanager"
+	oci_common "github.com/oracle/oci-go-sdk/v34/common"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v34/resourcemanager"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -427,9 +429,15 @@ func readTestParent(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
+// TestUnitRunExportCommand_Parallel is reusing the same test resource CRUD definitions for different entries
+// in export graph for the test services, hence listTestParents get called by multiple threads
+// need a lock to modify the `resource` map concurrently
+var modifyParentLock sync.Mutex
+
 func listTestParents(d *schema.ResourceData, m interface{}) error {
 	initTestResources()
 	results := make([]interface{}, len(parentResources))
+	modifyParentLock.Lock()
 	for i := 0; i < len(parentResources); i++ {
 		id := getTestResourceId("parent", i)
 		resource := parentResources[id]
@@ -437,6 +445,7 @@ func listTestParents(d *schema.ResourceData, m interface{}) error {
 		results[i] = resource
 	}
 	d.Set("items", results)
+	modifyParentLock.Unlock()
 	return nil
 }
 
@@ -472,11 +481,17 @@ func readTestChildWithError(d *schema.ResourceData, m interface{}) error {
 	return fmt.Errorf("could not find child with id %s", d.Id())
 }
 
+// TestUnitRunExportCommand_Parallel is reusing the same test resource CRUD definitions for different entries
+// in export graph for the test services, hence listTestChildren get called by multiple threads
+// need a lock to modify the `resource` map concurrently
+var modifyChildLock sync.Mutex
+
 func listTestChildren(d *schema.ResourceData, m interface{}) error {
 	initTestResources()
 
 	parentId, parentIdExists := d.GetOkExists("parent_id")
 	results := []interface{}{}
+	modifyChildLock.Lock()
 	for i := 0; i < len(childrenResources); i++ {
 		id := getTestResourceId("child", i)
 		resource := childrenResources[id]
@@ -496,6 +511,7 @@ func listTestChildren(d *schema.ResourceData, m interface{}) error {
 	if err := d.Set("item_summaries", results); err != nil {
 		return err
 	}
+	modifyChildLock.Unlock()
 	return nil
 }
 
@@ -744,8 +760,14 @@ func TestUnitRunExportCommand_Parallel(t *testing.T) {
 	compartmentResourceGraphs["compartment_testing_4"] = compartmentTestingResourceGraph
 	compartmentResourceGraphs["compartment_testing_5"] = compartmentTestingResourceGraph
 	compartmentResourceGraphs["compartment_testing_6"] = compartmentTestingResourceGraph
-
-	defer cleanupResourceDiscoveryTests()
+	defer func() {
+		if r := recover(); r != nil {
+			debug.PrintStack()
+			t.Logf("[ERROR] panic in RunExportCommand: unknown error occurred in test export")
+			t.Fail()
+		}
+		cleanupResourceDiscoveryTests()
+	}()
 	compartmentId := resourceDiscoveryTestCompartmentOcid
 	if err := os.Setenv("export_tenancy_id", resourceDiscoveryTestTenancyOcid); err != nil {
 		t.Logf("unable to set export_tenancy_id. err: %v", err)

@@ -12,9 +12,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v33/common"
-	oci_database "github.com/oracle/oci-go-sdk/v33/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v33/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v34/common"
+	oci_database "github.com/oracle/oci-go-sdk/v34/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v34/workrequests"
 )
 
 func init() {
@@ -57,6 +57,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional:  true,
 				Computed:  true,
 				Sensitive: true,
+			},
+			"are_primary_whitelisted_ips_used": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"autonomous_container_database_id": {
 				Type:     schema.TypeString,
@@ -212,6 +217,14 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"standby_whitelisted_ips": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"subnet_id": {
 				Type:     schema.TypeString,
@@ -821,6 +834,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.AdminPassword = &tmp
 	}
 
+	if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
+		tmp := arePrimaryWhitelistedIpsUsed.(bool)
+		request.ArePrimaryWhitelistedIpsUsed = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
@@ -920,6 +938,19 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.RefreshableMode = oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeEnum(refreshableMode.(string))
 	}
 
+	if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+		interfaces := standbyWhitelistedIps.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
+			request.StandbyWhitelistedIps = tmp
+		}
+	}
+
 	if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok && s.D.HasChange("whitelisted_ips") {
 		set := whitelistedIps.(*schema.Set)
 		interfaces := set.List()
@@ -968,6 +999,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Delete() error {
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
+	if s.Res.ArePrimaryWhitelistedIpsUsed != nil {
+		s.D.Set("are_primary_whitelisted_ips_used", *s.Res.ArePrimaryWhitelistedIpsUsed)
+	}
+
 	if s.Res.ApexDetails != nil {
 		s.D.Set("apex_details", []interface{}{AutonomousDatabaseApexToMap(s.Res.ApexDetails)})
 	} else {
@@ -1129,6 +1164,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	} else {
 		s.D.Set("standby_db", nil)
 	}
+
+	s.D.Set("standby_whitelisted_ips", s.Res.StandbyWhitelistedIps)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -1300,6 +1337,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := adminPassword.(string)
 			details.AdminPassword = &tmp
 		}
+		if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
+			tmp := arePrimaryWhitelistedIpsUsed.(bool)
+			details.ArePrimaryWhitelistedIpsUsed = &tmp
+		}
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
@@ -1381,6 +1422,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
+
+		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+			interfaces := standbyWhitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
+				details.StandbyWhitelistedIps = tmp
+			}
+		}
+
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -1419,6 +1474,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := adminPassword.(string)
 			details.AdminPassword = &tmp
 		}
+		if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
+			tmp := arePrimaryWhitelistedIpsUsed.(bool)
+			details.ArePrimaryWhitelistedIpsUsed = &tmp
+		}
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
@@ -1500,6 +1559,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
+
+		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+			interfaces := standbyWhitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
+				details.StandbyWhitelistedIps = tmp
+			}
+		}
+
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -1531,6 +1604,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := adminPassword.(string)
 			details.AdminPassword = &tmp
 		}
+		if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
+			tmp := arePrimaryWhitelistedIpsUsed.(bool)
+			details.ArePrimaryWhitelistedIpsUsed = &tmp
+		}
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
@@ -1614,6 +1691,18 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok {
 			details.RefreshableMode = oci_database.CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum(refreshableMode.(string))
+		}
+		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+			interfaces := standbyWhitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
+				details.StandbyWhitelistedIps = tmp
+			}
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -1646,6 +1735,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := adminPassword.(string)
 			details.AdminPassword = &tmp
 		}
+		if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
+			tmp := arePrimaryWhitelistedIpsUsed.(bool)
+			details.ArePrimaryWhitelistedIpsUsed = &tmp
+		}
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
@@ -1731,6 +1824,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
+
+		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+			interfaces := standbyWhitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
+				details.StandbyWhitelistedIps = tmp
+			}
+		}
+
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -1753,6 +1860,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := adminPassword.(string)
 			details.AdminPassword = &tmp
 		}
+		if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
+			tmp := arePrimaryWhitelistedIpsUsed.(bool)
+			details.ArePrimaryWhitelistedIpsUsed = &tmp
+		}
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
@@ -1838,6 +1949,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
+
+		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+			interfaces := standbyWhitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
+				details.StandbyWhitelistedIps = tmp
+			}
+		}
+
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp

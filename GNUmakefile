@@ -137,3 +137,10 @@ zip:
 	tar -czvf solaris_amd64.tar.gz solaris_amd64
 
 .PHONY: build test testacc vet fmt fmtcheck errcheck test-compile website website-test test-docscheck
+
+replace_sdk_version:
+ifdef version
+	sed -i -e 's/\("github.com\/oracle\/oci-go-sdk\/v\)[0-9]*/\1$(version)/g' oci/*.go && rm -f oci/*.go-e
+else
+	@echo Error! replace_sdk_version requires a version argument
+endif

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v33/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v34/blockchain"
 )
 
 func init() {
@@ -110,6 +110,8 @@ func (s *BlockchainBlockchainPlatformDataSourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	s.D.Set("load_balancer_shape", s.Res.LoadBalancerShape)
 
 	s.D.Set("platform_role", s.Res.PlatformRole)
 

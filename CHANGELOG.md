@@ -1,3 +1,12 @@
+## 4.11.0 (Unreleased)
+
+### Added
+- Support Asymmetric Keys in KMS
+- Support for Blockchain API improvements
+- EXaCC ADBD Data Guard + ACL Support
+- Support for Cross-Region Copy for Volume Group Backups
+- Support Private Endpoints Reverse Connection and Vanity URL for analytics instances
+
 ## 4.10.0 (January 20, 2021)
 
 ### Added

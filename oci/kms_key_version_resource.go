@@ -16,8 +16,8 @@ import (
 	"net/url"
 	"regexp"
 
-	oci_common "github.com/oracle/oci-go-sdk/v33/common"
-	oci_kms "github.com/oracle/oci-go-sdk/v33/keymanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v34/common"
+	oci_kms "github.com/oracle/oci-go-sdk/v34/keymanagement"
 )
 
 func init() {
@@ -55,6 +55,14 @@ func KmsKeyVersionResource() *schema.Resource {
 
 			// Computed
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"public_key": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"restored_from_key_version_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -281,6 +289,14 @@ func (s *KmsKeyVersionResourceCrud) SetData() error {
 
 	if s.Res.KeyId != nil {
 		s.D.Set("key_id", *s.Res.KeyId)
+	}
+
+	if s.Res.PublicKey != nil {
+		s.D.Set("public_key", *s.Res.PublicKey)
+	}
+
+	if s.Res.RestoredFromKeyVersionId != nil {
+		s.D.Set("restored_from_key_version_id", *s.Res.RestoredFromKeyVersionId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

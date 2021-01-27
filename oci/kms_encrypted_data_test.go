@@ -5,7 +5,6 @@ package oci
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -15,11 +14,8 @@ import (
 )
 
 var (
-	EncryptedDataRequiredOnlyResource = EncryptedDataResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Required, Create, encryptedDataRepresentation)
-
 	EncryptedDataResourceConfig = EncryptedDataResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Required, Create, encryptedDataRepresentation)
+		generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation)
 
 	encryptedDataSingularDataSourceRepresentation = map[string]interface{}{
 		"crypto_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
@@ -53,8 +49,6 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_kms_encrypted_data.test_encrypted_data"
 
-	var resId string
-
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -87,16 +81,6 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 					resource.TestCheckResourceAttr(resourceName, "logging_context.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "plaintext", "aGVsbG8sIHdvcmxk"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
 				),
 			},
 
