@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_analytics "github.com/oracle/oci-go-sdk/v33/analytics"
+	oci_analytics "github.com/oracle/oci-go-sdk/v34/analytics"
 )
 
 func init() {
@@ -109,6 +109,8 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("network_endpoint_details", nil)
 	}
 
+	s.D.Set("private_access_channels", s.Res.PrivateAccessChannels)
+
 	if s.Res.ServiceUrl != nil {
 		s.D.Set("service_url", *s.Res.ServiceUrl)
 	}
@@ -122,6 +124,8 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
+	s.D.Set("vanity_url_details", s.Res.VanityUrlDetails)
 
 	return nil
 }

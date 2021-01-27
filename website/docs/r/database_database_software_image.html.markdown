@@ -46,7 +46,7 @@ The following arguments are supported:
 * `image_shape_family` - (Optional) To what shape the image is meant for.
 * `image_type` - (Optional) List of the Fault Domains in which this DB system is provisioned.
 * `ls_inventory` - (Optional) output from lsinventory which will get passed as a string
-* `patch_set` - (Required) The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
+* `patch_set` - (Required) The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
 
 
 ** IMPORTANT **
@@ -70,7 +70,7 @@ The following attributes are exported:
 * `is_upgrade_supported` - True if this Database software image is supported for Upgrade.
 * `lifecycle_details` - Detailed message for the lifecycle state.
 * `ls_inventory` - output from lsinventory which will get passed as a string
-* `patch_set` - The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
+* `patch_set` - The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
 * `state` - The current state of the database software image.
 * `time_created` - The date and time the database software image was created.
 

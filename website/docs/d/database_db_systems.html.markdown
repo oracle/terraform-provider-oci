@@ -12,6 +12,10 @@ This data source provides the list of Db Systems in Oracle Cloud Infrastructure 
 
 Lists the DB systems in the specified compartment. You can specify a `backupId` to list only the DB systems that support creating a database using this backup in this compartment.
 
+**Note:** Deprecated for Exadata Cloud Service systems. Use the [new resource model APIs](/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+
+For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See [Switching an Exadata DB System to the New Resource Model and APIs](/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+
 
 ## Example Usage
 

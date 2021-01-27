@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v33/database"
+	oci_database "github.com/oracle/oci-go-sdk/v34/database"
 )
 
 func init() {
@@ -322,6 +322,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"peer_db_unique_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"protection_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -554,6 +560,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) CreatedTarget() []stri
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.AutonomousContainerDatabaseLifecycleStateTerminating),
+		string(oci_database.AutonomousContainerDatabaseLifecycleStateUnavailable),
 	}
 }
 
@@ -569,6 +576,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) UpdatedPending() []str
 		string(oci_database.AutonomousContainerDatabaseLifecycleStateUpdating),
 		string(oci_database.AutonomousContainerDatabaseLifecycleStateRestarting),
 		string(oci_database.AutonomousContainerDatabaseLifecycleStateMaintenanceInProgress),
+		string(oci_database.AutonomousContainerDatabaseLifecycleStateUnavailable),
 	}
 }
 
@@ -683,6 +691,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if peerAutonomousVmClusterId, ok := s.D.GetOkExists("peer_autonomous_vm_cluster_id"); ok {
 		tmp := peerAutonomousVmClusterId.(string)
 		request.PeerAutonomousVmClusterId = &tmp
+	}
+
+	if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
+		tmp := peerDbUniqueName.(string)
+		request.PeerDbUniqueName = &tmp
 	}
 
 	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {

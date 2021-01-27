@@ -64,7 +64,7 @@ The following arguments are supported:
 	Required for an ephemeral public IP because it must always be assigned to a private IP (specifically a *primary* private IP).
 
 	Optional for a reserved public IP. If you don't provide it, the public IP is created but not assigned to a private IP. You can later assign the public IP with [UpdatePublicIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/UpdatePublicIp). 
-* `public_ip_pool_id` - (Optional) OCID of the pool object created by the current tenancy
+* `public_ip_pool_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the public IP pool.
 
 
 ** IMPORTANT **
@@ -93,7 +93,7 @@ The following attributes are exported:
 	The OCID of the private IP that the public IP is currently assigned to, or in the process of being assigned to.
 
 	**Note:** This is `null` if the public IP is not assigned to a private IP, or is in the process of being assigned to one. 
-* `public_ip_pool_id` - OCID of the pool object created by the current tenancy
+* `public_ip_pool_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pool object created in the current tenancy.
 * `scope` - Whether the public IP is regional or specific to a particular availability domain.
 	* `REGION`: The public IP exists within a region and is assigned to a regional entity (such as a [NatGateway](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NatGateway/)), or can be assigned to a private IP in any availability domain in the region. Reserved public IPs and ephemeral public IPs assigned to a regional entity have `scope` = `REGION`.
 	* `AVAILABILITY_DOMAIN`: The public IP exists within the availability domain of the entity it's assigned to, which is specified by the `availabilityDomain` property of the public IP object. Ephemeral public IPs that are assigned to private IPs have `scope` = `AVAILABILITY_DOMAIN`. 

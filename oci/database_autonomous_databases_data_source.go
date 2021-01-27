@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v33/database"
+	oci_database "github.com/oracle/oci-go-sdk/v34/database"
 )
 
 func init() {
@@ -178,6 +178,9 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["apex_details"] = nil
 		}
 
+		if r.ArePrimaryWhitelistedIpsUsed != nil {
+			autonomousDatabase["are_primary_whitelisted_ips_used"] = *r.ArePrimaryWhitelistedIpsUsed
+		}
 		if r.AutonomousContainerDatabaseId != nil {
 			autonomousDatabase["autonomous_container_database_id"] = *r.AutonomousContainerDatabaseId
 		}
@@ -327,6 +330,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		} else {
 			autonomousDatabase["standby_db"] = nil
 		}
+
+		autonomousDatabase["standby_whitelisted_ips"] = r.StandbyWhitelistedIps
 
 		autonomousDatabase["state"] = r.LifecycleState
 

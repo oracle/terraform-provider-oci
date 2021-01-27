@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_analytics "github.com/oracle/oci-go-sdk/v33/analytics"
-	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v34/analytics"
+	oci_common "github.com/oracle/oci-go-sdk/v34/common"
 )
 
 func init() {
@@ -201,6 +201,11 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			},
 
 			// Computed
+			"private_access_channels": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"service_url": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -212,6 +217,11 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"vanity_url_details": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 		},
 	}
@@ -730,6 +740,8 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 		s.D.Set("network_endpoint_details", nil)
 	}
 
+	s.D.Set("private_access_channels", s.Res.PrivateAccessChannels)
+
 	if s.Res.ServiceUrl != nil {
 		s.D.Set("service_url", *s.Res.ServiceUrl)
 	}
@@ -743,7 +755,9 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
-	s.D.Set("tim", "")
+
+	s.D.Set("vanity_url_details", s.Res.VanityUrlDetails)
+
 	return nil
 }
 
@@ -859,6 +873,20 @@ func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails) map[
 	default:
 		log.Printf("[WARN] Received 'network_endpoint_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func PrivateSourceDnsZoneToMap(obj oci_analytics.PrivateSourceDnsZone) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DnsZone != nil {
+		result["dns_zone"] = string(*obj.DnsZone)
 	}
 
 	return result

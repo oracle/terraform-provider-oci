@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v33/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v34/keymanagement"
 )
 
 func init() {
@@ -28,6 +28,10 @@ func KmsKeysDataSource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"curve_id": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"length": {
 				Type:     schema.TypeInt,
@@ -86,6 +90,10 @@ func (s *KmsKeysDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if curveId, ok := s.D.GetOkExists("curve_id"); ok {
+		request.CurveId = oci_kms.ListKeysCurveIdEnum(curveId.(string))
 	}
 
 	if length, ok := s.D.GetOkExists("length"); ok {

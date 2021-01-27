@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v33/common"
-	oci_core "github.com/oracle/oci-go-sdk/v33/core"
+	"github.com/oracle/oci-go-sdk/v34/common"
+	oci_core "github.com/oracle/oci-go-sdk/v34/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -192,6 +192,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.size_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.size_in_mbs"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.source_type"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.time_request_received"),

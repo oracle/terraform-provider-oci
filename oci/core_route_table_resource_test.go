@@ -12,7 +12,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/oracle/oci-go-sdk/v33/core"
+	"github.com/oracle/oci-go-sdk/v34/core"
 )
 
 var (
