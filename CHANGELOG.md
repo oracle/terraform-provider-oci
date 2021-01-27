@@ -1,4 +1,4 @@
-## 4.11.0 (Unreleased)
+## 4.11.0 (January 27, 2021)
 
 ### Added
 - Support Asymmetric Keys in KMS
