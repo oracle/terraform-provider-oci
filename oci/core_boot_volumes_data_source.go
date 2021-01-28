@@ -118,6 +118,12 @@ func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 			bootVolume["auto_tuned_vpus_per_gb"] = strconv.FormatInt(*r.AutoTunedVpusPerGB, 10)
 		}
 
+		bootVolumeReplicas := []interface{}{}
+		for _, item := range r.BootVolumeReplicas {
+			bootVolumeReplicas = append(bootVolumeReplicas, BootVolumeReplicaInfoToMap(item))
+		}
+		bootVolume["boot_volume_replicas"] = bootVolumeReplicas
+
 		if r.DefinedTags != nil {
 			bootVolume["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

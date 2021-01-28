@@ -92,6 +92,7 @@ The following attributes are exported:
 
 	Example: `10.0.3.3` 
 * `is_primary` - Whether this private IP is the primary one on the VNIC. Primary private IPs are unassigned and deleted automatically when the VNIC is terminated.  Example: `true` 
+* `is_reserved` - true if the IP is reserved and can exist detached from vnic 
 * `subnet_id` - The OCID of the subnet the VNIC is in.
 
 	However, if the `PrivateIp` object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the `subnetId` is null. 

@@ -76,6 +76,12 @@ func (s *CoreBootVolumeDataSourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	bootVolumeReplicas := []interface{}{}
+	for _, item := range s.Res.BootVolumeReplicas {
+		bootVolumeReplicas = append(bootVolumeReplicas, BootVolumeReplicaInfoToMap(item))
+	}
+	s.D.Set("boot_volume_replicas", bootVolumeReplicas)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

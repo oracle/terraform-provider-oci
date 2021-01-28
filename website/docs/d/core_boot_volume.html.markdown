@@ -34,6 +34,10 @@ The following attributes are exported:
 
 * `auto_tuned_vpus_per_gb` - The number of Volume Performance Units per GB that this boot volume is effectively tuned to when it's idle. 
 * `availability_domain` - The availability domain of the boot volume.  Example: `Uocm:PHX-AD-1` 
+* `boot_volume_replicas` - The list of boot volume replicas of this boot volume
+	* `availability_domain` - The availability domain of the boot volume replica.  Example: `Uocm:PHX-AD-1` 
+	* `boot_volume_replica_id` - The boot volume replica's Oracle ID (OCID).
+	* `display_name` - The display name of the boot volume replica 
 * `compartment_id` - The OCID of the compartment that contains the boot volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -46,8 +50,8 @@ The following attributes are exported:
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - 
-	* `id` - The OCID of the boot volume or boot volume backup.
-	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`
+	* `id` - The OCID of the boot volume replica.
+	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeReplica`
 * `state` - The current state of a boot volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the boot volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 

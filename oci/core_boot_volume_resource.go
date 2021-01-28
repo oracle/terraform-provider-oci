@@ -64,6 +64,7 @@ func CoreBootVolumeResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"bootVolume",
 								"bootVolumeBackup",
+								"bootVolumeReplica",
 							}, true),
 						},
 
@@ -81,6 +82,38 @@ func CoreBootVolumeResource() *schema.Resource {
 				Computed:   true,
 				ForceNew:   true,
 				Deprecated: FieldDeprecatedButSupportedThroughAnotherResource("backup_policy_id", "oci_core_volume_backup_policy_assignment"),
+			},
+			"boot_volume_replicas": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"availability_domain": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+						},
+
+						// Optional
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"boot_volume_replica_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"boot_volume_replicas_deletion": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -257,6 +290,23 @@ func (s *CoreBootVolumeResourceCrud) Create() error {
 		request.BackupPolicyId = &tmp
 	}
 
+	if bootVolumeReplicas, ok := s.D.GetOkExists("boot_volume_replicas"); ok {
+		interfaces := bootVolumeReplicas.([]interface{})
+		tmp := make([]oci_core.BootVolumeReplicaDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "boot_volume_replicas", stateDataIndex)
+			converted, err := s.mapToBootVolumeReplicaDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("boot_volume_replicas") {
+			request.BootVolumeReplicas = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -361,6 +411,30 @@ func (s *CoreBootVolumeResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.BootVolumeId = &tmp
 
+	if bootVolumeReplicas, ok := s.D.GetOkExists("boot_volume_replicas"); ok {
+		interfaces := bootVolumeReplicas.([]interface{})
+		tmp := make([]oci_core.BootVolumeReplicaDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "boot_volume_replicas", stateDataIndex)
+			converted, err := s.mapToBootVolumeReplicaDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("boot_volume_replicas") {
+			request.BootVolumeReplicas = tmp
+		}
+	}
+
+	if bootVolumeReplicasDeletion, ok := s.D.GetOkExists("boot_volume_replicas_deletion"); ok {
+		tmp := bootVolumeReplicasDeletion.(bool)
+		if tmp == true {
+			request.BootVolumeReplicas = []oci_core.BootVolumeReplicaDetails{}
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -450,6 +524,12 @@ func (s *CoreBootVolumeResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	bootVolumeReplicas := []interface{}{}
+	for _, item := range s.Res.BootVolumeReplicas {
+		bootVolumeReplicas = append(bootVolumeReplicas, BootVolumeReplicaInfoToMap(item))
+	}
+	s.D.Set("boot_volume_replicas", bootVolumeReplicas)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -526,6 +606,40 @@ func (s *CoreBootVolumeResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *CoreBootVolumeResourceCrud) mapToBootVolumeReplicaDetails(fieldKeyFormat string) (oci_core.BootVolumeReplicaDetails, error) {
+	result := oci_core.BootVolumeReplicaDetails{}
+
+	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+		tmp := availabilityDomain.(string)
+		result.AvailabilityDomain = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	return result, nil
+}
+
+func BootVolumeReplicaInfoToMap(obj oci_core.BootVolumeReplicaInfo) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.BootVolumeReplicaId != nil {
+		result["boot_volume_replica_id"] = string(*obj.BootVolumeReplicaId)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	return result
+}
+
 func (s *CoreBootVolumeResourceCrud) mapToBootVolumeSourceDetails(fieldKeyFormat string) (oci_core.BootVolumeSourceDetails, error) {
 	var baseObject oci_core.BootVolumeSourceDetails
 	//discriminator
@@ -551,6 +665,13 @@ func (s *CoreBootVolumeResourceCrud) mapToBootVolumeSourceDetails(fieldKeyFormat
 			details.Id = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("bootVolumeReplica"):
+		details := oci_core.BootVolumeSourceFromBootVolumeReplicaDetails{}
+		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+			tmp := id.(string)
+			details.Id = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -568,6 +689,12 @@ func BootVolumeSourceDetailsToMap(obj *oci_core.BootVolumeSourceDetails) map[str
 		}
 	case oci_core.BootVolumeSourceFromBootVolumeBackupDetails:
 		result["type"] = "bootVolumeBackup"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+	case oci_core.BootVolumeSourceFromBootVolumeReplicaDetails:
+		result["type"] = "bootVolumeReplica"
 
 		if v.Id != nil {
 			result["id"] = string(*v.Id)

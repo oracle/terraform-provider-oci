@@ -53,13 +53,17 @@ var (
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":          Representation{repType: Optional, create: `${var.kms_key_id_for_create}`, update: `${var.kms_key_id_for_update}`},
+		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"size_in_gbs":         Representation{repType: Optional, create: `50`, update: `51`},
 		"vpus_per_gb":         Representation{repType: Optional, create: `10`, update: `20`},
 	}
 	bootVolumeSourceDetailsRepresentation = map[string]interface{}{
 		"id":   Representation{repType: Required, create: `${oci_core_instance.test_instance.boot_volume_id}`},
 		"type": Representation{repType: Required, create: `bootVolume`},
+	}
+	bootVolumeBootVolumeReplicasRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, update: `availabilityDomain2`},
+		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 	}
 
 	BootVolumeResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +

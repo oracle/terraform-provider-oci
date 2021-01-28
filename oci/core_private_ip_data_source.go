@@ -97,6 +97,10 @@ func (s *CorePrivateIpDataSourceCrud) SetData() error {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
 	}
 
+	/*if s.Res.IsReserved != nil {
+		s.D.Set("is_reserved", *s.Res.IsReserved)
+	}*/
+
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}

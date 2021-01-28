@@ -34,6 +34,10 @@ The following attributes are exported:
 
 * `auto_tuned_vpus_per_gb` - The number of Volume Performance Units per GB that this volume is effectively tuned to when it's idle. 
 * `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
+* `block_volume_replicas` - The list of block volume replicas of this volume.
+	* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
+	* `block_volume_replica_id` - The block volume replica's Oracle ID (OCID).
+	* `display_name` - The display name of the block volume replica 
 * `compartment_id` - The OCID of the compartment that contains the volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -43,10 +47,10 @@ The following attributes are exported:
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
 * `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
-* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead. 
-* `source_details` - Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup.  
-	* `id` - The OCID of the volume or volume backup.
-	* `type` - The type can be one of these values: `volume`, `volumeBackup`
+* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead.
+* `source_details` - 
+	* `id` - The OCID of the block volume replica.
+	* `type` - The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`
 * `state` - The current state of a volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
