@@ -1,14 +1,14 @@
 ---
-subcategory: "Ocvp"
+subcategory: "Oracle Cloud VMware Solution"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ocvp_esxi_host"
 sidebar_current: "docs-oci-datasource-ocvp-esxi_host"
 description: |-
-  Provides details about a specific Esxi Host in Oracle Cloud Infrastructure Ocvp service
+  Provides details about a specific Esxi Host in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
 ---
 
 # Data Source: oci_ocvp_esxi_host
-This data source provides details about a specific Esxi Host resource in Oracle Cloud Infrastructure Ocvp service.
+This data source provides details about a specific Esxi Host resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
 
 Gets the specified ESXi host's information.
 

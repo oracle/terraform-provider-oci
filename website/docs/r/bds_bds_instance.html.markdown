@@ -1,14 +1,14 @@
 ---
-subcategory: "Bds"
+subcategory: "Big Data Service"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_bds_bds_instance"
 sidebar_current: "docs-oci-resource-bds-bds_instance"
 description: |-
-  Provides the Bds Instance resource in Oracle Cloud Infrastructure Bds service
+  Provides the Bds Instance resource in Oracle Cloud Infrastructure Big Data Service service
 ---
 
 # oci_bds_bds_instance
-This resource provides the Bds Instance resource in Oracle Cloud Infrastructure Bds service.
+This resource provides the Bds Instance resource in Oracle Cloud Infrastructure Big Data Service service.
 
 Creates a new BDS instance.
 

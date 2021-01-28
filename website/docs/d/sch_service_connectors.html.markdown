@@ -1,14 +1,14 @@
 ---
-subcategory: "Sch"
+subcategory: "Service Connector Hub"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_sch_service_connectors"
 sidebar_current: "docs-oci-datasource-sch-service_connectors"
 description: |-
-  Provides the list of Service Connectors in Oracle Cloud Infrastructure Sch service
+  Provides the list of Service Connectors in Oracle Cloud Infrastructure Service Connector Hub service
 ---
 
 # Data Source: oci_sch_service_connectors
-This data source provides the list of Service Connectors in Oracle Cloud Infrastructure Sch service.
+This data source provides the list of Service Connectors in Oracle Cloud Infrastructure Service Connector Hub service.
 
 Lists service connectors in the specified compartment.
 
