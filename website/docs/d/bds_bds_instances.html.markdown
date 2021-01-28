@@ -1,14 +1,14 @@
 ---
-subcategory: "Bds"
+subcategory: "Big Data Service"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_bds_bds_instances"
 sidebar_current: "docs-oci-datasource-bds-bds_instances"
 description: |-
-  Provides the list of Bds Instances in Oracle Cloud Infrastructure Bds service
+  Provides the list of Bds Instances in Oracle Cloud Infrastructure Big Data Service service
 ---
 
 # Data Source: oci_bds_bds_instances
-This data source provides the list of Bds Instances in Oracle Cloud Infrastructure Bds service.
+This data source provides the list of Bds Instances in Oracle Cloud Infrastructure Big Data Service service.
 
 Returns a list of BDS instances.
 
