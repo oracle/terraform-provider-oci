@@ -36,6 +36,13 @@ resource "oci_core_volume" "test_volume" {
 
 	#Optional
 	backup_policy_id = data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id
+	block_volume_replicas {
+		#Required
+		availability_domain = var.volume_block_volume_replicas_availability_domain
+
+		#Optional
+		display_name = var.volume_block_volume_replicas_display_name
+	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.volume_display_name
 	freeform_tags = {"Department"= "Finance"}
@@ -49,6 +56,7 @@ resource "oci_core_volume" "test_volume" {
 		type = var.volume_source_details_type
 	}
 	vpus_per_gb = var.volume_vpus_per_gb
+    block_volume_replicas_deletion = true
 }
 ```
 
@@ -58,6 +66,9 @@ The following arguments are supported:
 
 * `availability_domain` - (Required) The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
 * `backup_policy_id` - (Optional) If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
+* `block_volume_replicas` - (Optional) (Updatable) The list of block volume replicas to be enabled for this volume in the specified destination availability domains. 
+	* `availability_domain` - (Required) (Updatable) The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
+	* `display_name` - (Optional) (Updatable) The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the volume.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -65,10 +76,10 @@ The following arguments are supported:
 * `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this volume. 
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management key to assign as the master encryption key for the volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
-* `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use sizeInGBs instead. 
-* `source_details` - (Optional) Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
-	* `id` - (Required) The OCID of the volume backup.
-	* `type` - (Required) The type can be one of these values: `volume`, `volumeBackup`
+* `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use `size_in_gbs` instead. 
+* `source_details` - (Optional) 
+	* `id` - (Required) The OCID of the block volume replica.
+	* `type` - (Required) The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`
 * `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume. This field is deprecated. Use the `source_details` field instead to specify the backup for the volume. 
 * `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
 
@@ -76,6 +87,8 @@ The following arguments are supported:
 	* `0`: Represents Lower Cost option.
 	* `10`: Represents Balanced option.
 	* `20`: Represents Higher Performance option. 
+* `block_volume_replicas_deletion` - (Optional) (updatable) The boolean value, if you have replicas and want to disable replicas set this argument to true and remove `block_volume_replicas` in representation at the same time. If you want to enable a new replicas, remove this argument and use `block_volume_replicas` again.
+
 
 
 ** IMPORTANT **
@@ -87,6 +100,10 @@ The following attributes are exported:
 
 * `auto_tuned_vpus_per_gb` - The number of Volume Performance Units per GB that this volume is effectively tuned to when it's idle. 
 * `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
+* `block_volume_replicas` - The list of block volume replicas of this volume.
+	* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
+	* `block_volume_replica_id` - The block volume replica's Oracle ID (OCID).
+	* `display_name` - The display name of the block volume replica 
 * `compartment_id` - The OCID of the compartment that contains the volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -96,10 +113,10 @@ The following attributes are exported:
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
 * `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
-* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead. 
-* `source_details` - Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
-	* `id` - The OCID of the volume backup.
-	* `type` - The type can be one of these values: `volume`, `volumeBackup`
+* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use `size_in_gbs` instead.
+* `source_details` - 
+	* `id` - The OCID of the block volume replica.
+	* `type` - The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`
 * `state` - The current state of a volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
@@ -110,6 +127,8 @@ The following attributes are exported:
 	* `0`: Represents Lower Cost option.
 	* `10`: Represents Balanced option.
 	* `20`: Represents Higher Performance option. 
+* `block_volume_replicas_deletion` - The boolean value, if you have replicas and want to disable replicas set this argument to true and remove `block_volume_replicas` in representation at the same time. If you want to enable a new replicas, remove this argument and use `block_volume_replicas` again.
+
 
 ## Import
 
