@@ -1,4 +1,6 @@
 ## 4.12.0 (Unreleased)
+
+### Added
 - Support for Infrequent Access object storage tier added
 - Support for NG-VPN Multiple Encryption Domain and Public Logging
 - Support for ExaCC Customer Contacts Phase 2 added
