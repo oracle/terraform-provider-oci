@@ -22,10 +22,13 @@ type ListBucketsRequest struct {
 	// The ID of the compartment in which to list buckets.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The maximum number of items to return.
+	// For list pagination. The maximum number of results per page, or items to return in a paginated
+	// "List" call. For important details about how pagination works, see
+	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The page at which to start retrieving results.
+	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call. For important
+	// details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Bucket summary in list of buckets includes the 'namespace', 'name', 'compartmentId', 'createdBy', 'timeCreated',
@@ -71,12 +74,13 @@ type ListBucketsResponse struct {
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// Paginating a list of buckets.
+	// For paginating a list of buckets.
 	// In the GET request, set the limit to the number of buckets items that you want returned in the response.
-	// If the opc-next-page header appears in the response, then this is a partial list and there are additional
+	// If the `opc-next-page` header appears in the response, then this is a partial list and there are additional
 	// buckets to get. Include the header's value as the `page` parameter in the subsequent GET request to get the
 	// next batch of buckets. Repeat this process to retrieve the entire list of buckets.
 	// By default, the page limit is set to 25 buckets per page, but you can specify a value from 1 to 1000.
+	// For more details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

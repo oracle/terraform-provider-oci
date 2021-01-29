@@ -19,10 +19,13 @@ type ListWorkRequestLogsRequest struct {
 	// The ID of the asynchronous request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
-	// The page at which to start retrieving results.
+	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call. For important
+	// details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The maximum number of items to return.
+	// For list pagination. The maximum number of results per page, or items to return in a paginated
+	// "List" call. For important details about how pagination works, see
+	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The client request ID for tracing.
@@ -63,12 +66,13 @@ type ListWorkRequestLogsResponse struct {
 	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
 	OpcClientRequestId *string `presentIn:"header" name:"opc-client-request-id"`
 
-	// Paginating a list of work request logs.
+	// For paginating a list of work request logs.
 	// In the GET request, set the limit to the number of compartment work requests that you want returned in the
-	// response. If the opc-next-page header appears in the response, then this is a partial list and there are
+	// response. If the `opc-next-page` header appears in the response, then this is a partial list and there are
 	// additional work requests to get. Include the header's value as the `page` parameter in the subsequent
 	// GET request to get the next batch of work requests. Repeat this process to retrieve the entire list of work
 	// requests.
+	// For more details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

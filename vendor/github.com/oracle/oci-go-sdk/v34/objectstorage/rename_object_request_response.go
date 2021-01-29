@@ -23,7 +23,7 @@ type RenameObjectRequest struct {
 	// Example: `my-new-bucket1`
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
-	// The sourceName and newName of rename operation.
+	// The sourceName and newName of rename operation. Avoid entering confidential information.
 	RenameObjectDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

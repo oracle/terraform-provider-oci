@@ -53,7 +53,8 @@ type CreateSubnetDetails struct {
 	// provide a value, the subnet uses the VCN's default set of DHCP options.
 	DhcpOptionsId *string `mandatory:"false" json:"dhcpOptionsId"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// A DNS label for the subnet, used in conjunction with the VNIC's hostname and

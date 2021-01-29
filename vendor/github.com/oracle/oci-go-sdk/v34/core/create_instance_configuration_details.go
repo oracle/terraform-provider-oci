@@ -32,7 +32,7 @@ type CreateInstanceConfigurationDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name for the instance configuration.  Does not have to be unique,
+	// A user-friendly name for the instance configuration. Does not have to be unique,
 	// and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

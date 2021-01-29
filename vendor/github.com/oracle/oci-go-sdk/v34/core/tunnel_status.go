@@ -48,12 +48,14 @@ const (
 	TunnelStatusLifecycleStateUp                 TunnelStatusLifecycleStateEnum = "UP"
 	TunnelStatusLifecycleStateDown               TunnelStatusLifecycleStateEnum = "DOWN"
 	TunnelStatusLifecycleStateDownForMaintenance TunnelStatusLifecycleStateEnum = "DOWN_FOR_MAINTENANCE"
+	TunnelStatusLifecycleStatePartialUp          TunnelStatusLifecycleStateEnum = "PARTIAL_UP"
 )
 
 var mappingTunnelStatusLifecycleState = map[string]TunnelStatusLifecycleStateEnum{
 	"UP":                   TunnelStatusLifecycleStateUp,
 	"DOWN":                 TunnelStatusLifecycleStateDown,
 	"DOWN_FOR_MAINTENANCE": TunnelStatusLifecycleStateDownForMaintenance,
+	"PARTIAL_UP":           TunnelStatusLifecycleStatePartialUp,
 }
 
 // GetTunnelStatusLifecycleStateEnumValues Enumerates the set of values for TunnelStatusLifecycleStateEnum

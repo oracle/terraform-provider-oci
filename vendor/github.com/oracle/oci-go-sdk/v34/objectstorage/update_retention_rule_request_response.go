@@ -29,8 +29,9 @@ type UpdateRetentionRuleRequest struct {
 	// Request object for updating the retention rule.
 	UpdateRetentionRuleDetails `contributesTo:"body"`
 
-	// The entity tag (ETag) to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
-	// For uploading a part, this is the entity tag of the target part.
+	// The entity tag (ETag) to match with the ETag of an existing resource. If the specified ETag matches the ETag of
+	// the existing resource, GET and HEAD requests will return the resource and PUT and POST requests will upload
+	// the resource.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// The client request ID for tracing.

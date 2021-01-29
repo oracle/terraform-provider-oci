@@ -18,7 +18,7 @@ import (
 // CreateReplicationPolicyDetails The details to create a replication policy.
 type CreateReplicationPolicyDetails struct {
 
-	// The name of the policy.
+	// The name of the policy. Avoid entering confidential information.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The destination region to replicate to, for example "us-ashburn-1".

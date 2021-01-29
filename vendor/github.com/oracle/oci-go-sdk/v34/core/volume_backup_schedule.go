@@ -30,17 +30,27 @@ type VolumeBackupSchedule struct {
 	// How long, in seconds, to keep the volume backups created by this schedule.
 	RetentionSeconds *int `mandatory:"true" json:"retentionSeconds"`
 
-	// The number of seconds that the volume backup start time should be shifted from the default interval boundaries specified by the period. The volume backup start time is the frequency start time plus the offset.
+	// The number of seconds that the volume backup start
+	// time should be shifted from the default interval boundaries specified by
+	// the period. The volume backup start time is the frequency start time plus the offset.
 	OffsetSeconds *int `mandatory:"false" json:"offsetSeconds"`
 
-	// Indicates how the offset is defined. If value is `STRUCTURED`, then `hourOfDay`, `dayOfWeek`, `dayOfMonth`, and `month` fields are used and `offsetSeconds` will be ignored in requests and users should ignore its value from the responses.
-	// `hourOfDay` is applicable for periods `ONE_DAY`, `ONE_WEEK`, `ONE_MONTH` and `ONE_YEAR`.
-	// `dayOfWeek` is applicable for period `ONE_WEEK`.
+	// Indicates how the offset is defined. If value is `STRUCTURED`,
+	// then `hourOfDay`, `dayOfWeek`, `dayOfMonth`, and `month` fields are used
+	// and `offsetSeconds` will be ignored in requests and users should ignore its
+	// value from the responses.
+	// `hourOfDay` is applicable for periods `ONE_DAY`,
+	// `ONE_WEEK`, `ONE_MONTH` and `ONE_YEAR`.
+	// `dayOfWeek` is applicable for period
+	// `ONE_WEEK`.
 	// `dayOfMonth` is applicable for periods `ONE_MONTH` and `ONE_YEAR`.
 	// 'month' is applicable for period 'ONE_YEAR'.
 	// They will be ignored in the requests for inapplicable periods.
-	// If value is `NUMERIC_SECONDS`, then `offsetSeconds` will be used for both requests and responses and the structured fields will be ignored in the requests and users should ignore their values from the responses.
-	// For clients using older versions of Apis and not sending `offsetType` in their requests, the behaviour is just like `NUMERIC_SECONDS`.
+	// If value is `NUMERIC_SECONDS`, then `offsetSeconds`
+	// will be used for both requests and responses and the structured fields will be
+	// ignored in the requests and users should ignore their values from the responses.
+	// For clients using older versions of Apis and not sending `offsetType` in their
+	// requests, the behaviour is just like `NUMERIC_SECONDS`.
 	OffsetType VolumeBackupScheduleOffsetTypeEnum `mandatory:"false" json:"offsetType,omitempty"`
 
 	// The hour of the day to schedule the volume backup.

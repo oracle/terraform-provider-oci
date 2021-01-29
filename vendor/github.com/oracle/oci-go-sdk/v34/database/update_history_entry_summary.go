@@ -53,12 +53,14 @@ const (
 	UpdateHistoryEntrySummaryUpdateActionRollingApply    UpdateHistoryEntrySummaryUpdateActionEnum = "ROLLING_APPLY"
 	UpdateHistoryEntrySummaryUpdateActionNonRollingApply UpdateHistoryEntrySummaryUpdateActionEnum = "NON_ROLLING_APPLY"
 	UpdateHistoryEntrySummaryUpdateActionPrecheck        UpdateHistoryEntrySummaryUpdateActionEnum = "PRECHECK"
+	UpdateHistoryEntrySummaryUpdateActionRollback        UpdateHistoryEntrySummaryUpdateActionEnum = "ROLLBACK"
 )
 
 var mappingUpdateHistoryEntrySummaryUpdateAction = map[string]UpdateHistoryEntrySummaryUpdateActionEnum{
 	"ROLLING_APPLY":     UpdateHistoryEntrySummaryUpdateActionRollingApply,
 	"NON_ROLLING_APPLY": UpdateHistoryEntrySummaryUpdateActionNonRollingApply,
 	"PRECHECK":          UpdateHistoryEntrySummaryUpdateActionPrecheck,
+	"ROLLBACK":          UpdateHistoryEntrySummaryUpdateActionRollback,
 }
 
 // GetUpdateHistoryEntrySummaryUpdateActionEnumValues Enumerates the set of values for UpdateHistoryEntrySummaryUpdateActionEnum
@@ -75,13 +77,15 @@ type UpdateHistoryEntrySummaryUpdateTypeEnum string
 
 // Set of constants representing the allowable values for UpdateHistoryEntrySummaryUpdateTypeEnum
 const (
-	UpdateHistoryEntrySummaryUpdateTypeUpgrade UpdateHistoryEntrySummaryUpdateTypeEnum = "GI_UPGRADE"
-	UpdateHistoryEntrySummaryUpdateTypePatch   UpdateHistoryEntrySummaryUpdateTypeEnum = "GI_PATCH"
+	UpdateHistoryEntrySummaryUpdateTypeGiUpgrade UpdateHistoryEntrySummaryUpdateTypeEnum = "GI_UPGRADE"
+	UpdateHistoryEntrySummaryUpdateTypeGiPatch   UpdateHistoryEntrySummaryUpdateTypeEnum = "GI_PATCH"
+	UpdateHistoryEntrySummaryUpdateTypeOsUpdate  UpdateHistoryEntrySummaryUpdateTypeEnum = "OS_UPDATE"
 )
 
 var mappingUpdateHistoryEntrySummaryUpdateType = map[string]UpdateHistoryEntrySummaryUpdateTypeEnum{
-	"GI_UPGRADE": UpdateHistoryEntrySummaryUpdateTypeUpgrade,
-	"GI_PATCH":   UpdateHistoryEntrySummaryUpdateTypePatch,
+	"GI_UPGRADE": UpdateHistoryEntrySummaryUpdateTypeGiUpgrade,
+	"GI_PATCH":   UpdateHistoryEntrySummaryUpdateTypeGiPatch,
+	"OS_UPDATE":  UpdateHistoryEntrySummaryUpdateTypeOsUpdate,
 }
 
 // GetUpdateHistoryEntrySummaryUpdateTypeEnumValues Enumerates the set of values for UpdateHistoryEntrySummaryUpdateTypeEnum

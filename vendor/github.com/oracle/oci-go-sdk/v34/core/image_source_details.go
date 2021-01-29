@@ -24,7 +24,7 @@ type ImageSourceDetails interface {
 
 	GetOperatingSystemVersion() *string
 
-	// The format of the image to be imported.  Only monolithic
+	// The format of the image to be imported. Only monolithic
 	// images are supported. This attribute is not used for exported Oracle images with the OCI image format.
 	GetSourceImageType() ImageSourceDetailsSourceImageTypeEnum
 }

@@ -29,7 +29,8 @@ type VolumeGroupBackup struct {
 	// The OCID of the compartment that contains the volume group backup.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name for the volume group backup. Does not have to be unique and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the volume group backup. Does not have
+	// to be unique and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID of the volume group backup.
@@ -71,20 +72,21 @@ type VolumeGroupBackup struct {
 	// The aggregate size of the volume group backup, in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
-	// Specifies whether the volume group backup was created manually, or via scheduled backup policy.
+	// Specifies whether the volume group backup was created manually, or via scheduled
+	// backup policy.
 	SourceType VolumeGroupBackupSourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
 
 	// The date and time the request to create the volume group backup was received. Format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeRequestReceived *common.SDKTime `mandatory:"false" json:"timeRequestReceived"`
 
 	// The aggregate size used by the volume group backup, in MBs.
-	// It is typically smaller than sizeInMBs, depending on the space
-	// consumed on the volume group and whether the volume backup is full or incremental.
+	// It is typically smaller than sizeInMBs, depending on the spaceconsumed
+	// on the volume group and whether the volume backup is full or incremental.
 	UniqueSizeInMbs *int64 `mandatory:"false" json:"uniqueSizeInMbs"`
 
 	// The aggregate size used by the volume group backup, in GBs.
-	// It is typically smaller than sizeInGBs, depending on the space
-	// consumed on the volume group and whether the volume backup is full or incremental.
+	// It is typically smaller than sizeInGBs, depending on the spaceconsumed
+	// on the volume group and whether the volume backup is full or incremental.
 	UniqueSizeInGbs *int64 `mandatory:"false" json:"uniqueSizeInGbs"`
 
 	// The OCID of the source volume group.

@@ -36,6 +36,12 @@ type ObjectSummary struct {
 	// The current entity tag (ETag) for the object.
 	Etag *string `mandatory:"false" json:"etag"`
 
+	// The storage tier that the object is stored in.
+	StorageTier StorageTierEnum `mandatory:"false" json:"storageTier,omitempty"`
+
+	// Archival state of an object. This field is set only for objects in Archive tier.
+	ArchivalState ArchivalStateEnum `mandatory:"false" json:"archivalState,omitempty"`
+
 	// The date and time the object was modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 }

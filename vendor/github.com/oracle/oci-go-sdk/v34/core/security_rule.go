@@ -22,7 +22,8 @@ import (
 // either inbound (`direction`= INGRESS) or outbound (`direction`= EGRESS) IP packets.
 type SecurityRule struct {
 
-	// Direction of the security rule. Set to `EGRESS` for rules to allow outbound IP packets, or `INGRESS` for rules to allow inbound IP packets.
+	// Direction of the security rule. Set to `EGRESS` for rules to allow outbound IP packets,
+	// or `INGRESS` for rules to allow inbound IP packets.
 	Direction SecurityRuleDirectionEnum `mandatory:"true" json:"direction"`
 
 	// The transport protocol. Specify either `all` or an IPv4 protocol number as
