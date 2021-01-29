@@ -34,13 +34,13 @@ type PutObjectRequest struct {
 	// The object to upload to the object store.
 	PutObjectBody io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
 
-	// The entity tag (ETag) to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
-	// For uploading a part, this is the entity tag of the target part.
+	// The entity tag (ETag) to match with the ETag of an existing resource. If the specified ETag matches the ETag of
+	// the existing resource, GET and HEAD requests will return the resource and PUT and POST requests will upload
+	// the resource.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The entity tag (ETag) to avoid matching. The only valid value is '*', which indicates that the request should fail if the object
-	// already exists. For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a
-	// part, this is the entity tag of the target part.
+	// The entity tag (ETag) to avoid matching. The only valid value is '*', which indicates that the request should
+	// fail if the resource already exists.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
 	// The client request ID for tracing.
@@ -101,6 +101,10 @@ type PutObjectRequest struct {
 	// Using Your Own Keys for Server-Side Encryption (https://docs.cloud.oracle.com/Content/Object/Tasks/usingyourencryptionkeys.htm).
 	OpcSseCustomerKeySha256 *string `mandatory:"false" contributesTo:"header" name:"opc-sse-customer-key-sha256"`
 
+	// The storage tier that the object should be stored in. If not specified, the object will be stored in
+	// the same storage tier as the bucket.
+	StorageTier PutObjectStorageTierEnum `mandatory:"false" contributesTo:"header" name:"storage-tier"`
+
 	// Optional user-defined metadata key and value.
 	OpcMeta map[string]string `mandatory:"false" contributesTo:"header-collection" prefix:"opc-meta-"`
 
@@ -156,4 +160,29 @@ func (response PutObjectResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response PutObjectResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// PutObjectStorageTierEnum Enum with underlying type: string
+type PutObjectStorageTierEnum string
+
+// Set of constants representing the allowable values for PutObjectStorageTierEnum
+const (
+	PutObjectStorageTierStandard         PutObjectStorageTierEnum = "Standard"
+	PutObjectStorageTierInfrequentaccess PutObjectStorageTierEnum = "InfrequentAccess"
+	PutObjectStorageTierArchive          PutObjectStorageTierEnum = "Archive"
+)
+
+var mappingPutObjectStorageTier = map[string]PutObjectStorageTierEnum{
+	"Standard":         PutObjectStorageTierStandard,
+	"InfrequentAccess": PutObjectStorageTierInfrequentaccess,
+	"Archive":          PutObjectStorageTierArchive,
+}
+
+// GetPutObjectStorageTierEnumValues Enumerates the set of values for PutObjectStorageTierEnum
+func GetPutObjectStorageTierEnumValues() []PutObjectStorageTierEnum {
+	values := make([]PutObjectStorageTierEnum, 0)
+	for _, v := range mappingPutObjectStorageTier {
+		values = append(values, v)
+	}
+	return values
 }

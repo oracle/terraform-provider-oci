@@ -53,7 +53,8 @@ type ListVlansRequest struct {
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
+	// A filter to only return resources that match the given lifecycle
+	// state. The state value is case-insensitive.
 	LifecycleState VlanLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -27,7 +27,7 @@ type FastConnectProviderServiceKey struct {
 	// GetFastConnectProviderServiceKey.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The provisioned data rate of the connection.  To get a list of the
+	// The provisioned data rate of the connection. To get a list of the
 	// available bandwidth levels (that is, shapes), see
 	// ListFastConnectProviderVirtualCircuitBandwidthShapes.
 	// Example: `10 Gbps`

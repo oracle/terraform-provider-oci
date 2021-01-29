@@ -17,13 +17,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v34/common"
 )
 
-// InstanceAgentFeatures Instance agent features supported on the image
+// InstanceAgentFeatures Oracle Cloud Agent features supported on the image.
 type InstanceAgentFeatures struct {
 
-	// Whether the agent running on the instance can gather performance metrics and monitor the instance.
+	// Whether Oracle Cloud Agent can gather performance metrics and monitor the instance.
 	IsMonitoringSupported *bool `mandatory:"false" json:"isMonitoringSupported"`
 
-	// Whether the agent running on the instance can run all the available management plugins
+	// Whether Oracle Cloud Agent can run all the available management plugins.
 	IsManagementSupported *bool `mandatory:"false" json:"isManagementSupported"`
 }
 

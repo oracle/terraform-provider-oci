@@ -70,6 +70,10 @@ func (m *createconfigsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := CreateCompartmentConfigSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "TEMPLATE_CONFIG_SOURCE":
+		mm := CreateStackTemplateConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

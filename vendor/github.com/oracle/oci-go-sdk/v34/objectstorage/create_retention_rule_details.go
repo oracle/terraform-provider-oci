@@ -19,6 +19,7 @@ import (
 type CreateRetentionRuleDetails struct {
 
 	// A user-specified name for the retention rule. Names can be helpful in identifying retention rules.
+	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	Duration *Duration `mandatory:"false" json:"duration"`

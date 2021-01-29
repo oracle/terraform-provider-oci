@@ -23,7 +23,7 @@ type RenameObjectDetails struct {
 	// The name of the source object to be renamed.
 	SourceName *string `mandatory:"true" json:"sourceName"`
 
-	// The new name of the source object.
+	// The new name of the source object. Avoid entering confidential information.
 	NewName *string `mandatory:"true" json:"newName"`
 
 	// The if-match entity tag (ETag) of the source object.

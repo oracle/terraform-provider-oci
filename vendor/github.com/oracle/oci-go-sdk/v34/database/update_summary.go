@@ -59,12 +59,14 @@ const (
 	UpdateSummaryLastActionRollingApply    UpdateSummaryLastActionEnum = "ROLLING_APPLY"
 	UpdateSummaryLastActionNonRollingApply UpdateSummaryLastActionEnum = "NON_ROLLING_APPLY"
 	UpdateSummaryLastActionPrecheck        UpdateSummaryLastActionEnum = "PRECHECK"
+	UpdateSummaryLastActionRollback        UpdateSummaryLastActionEnum = "ROLLBACK"
 )
 
 var mappingUpdateSummaryLastAction = map[string]UpdateSummaryLastActionEnum{
 	"ROLLING_APPLY":     UpdateSummaryLastActionRollingApply,
 	"NON_ROLLING_APPLY": UpdateSummaryLastActionNonRollingApply,
 	"PRECHECK":          UpdateSummaryLastActionPrecheck,
+	"ROLLBACK":          UpdateSummaryLastActionRollback,
 }
 
 // GetUpdateSummaryLastActionEnumValues Enumerates the set of values for UpdateSummaryLastActionEnum
@@ -84,12 +86,14 @@ const (
 	UpdateSummaryAvailableActionsRollingApply    UpdateSummaryAvailableActionsEnum = "ROLLING_APPLY"
 	UpdateSummaryAvailableActionsNonRollingApply UpdateSummaryAvailableActionsEnum = "NON_ROLLING_APPLY"
 	UpdateSummaryAvailableActionsPrecheck        UpdateSummaryAvailableActionsEnum = "PRECHECK"
+	UpdateSummaryAvailableActionsRollback        UpdateSummaryAvailableActionsEnum = "ROLLBACK"
 )
 
 var mappingUpdateSummaryAvailableActions = map[string]UpdateSummaryAvailableActionsEnum{
 	"ROLLING_APPLY":     UpdateSummaryAvailableActionsRollingApply,
 	"NON_ROLLING_APPLY": UpdateSummaryAvailableActionsNonRollingApply,
 	"PRECHECK":          UpdateSummaryAvailableActionsPrecheck,
+	"ROLLBACK":          UpdateSummaryAvailableActionsRollback,
 }
 
 // GetUpdateSummaryAvailableActionsEnumValues Enumerates the set of values for UpdateSummaryAvailableActionsEnum
@@ -106,13 +110,15 @@ type UpdateSummaryUpdateTypeEnum string
 
 // Set of constants representing the allowable values for UpdateSummaryUpdateTypeEnum
 const (
-	UpdateSummaryUpdateTypeUpgrade UpdateSummaryUpdateTypeEnum = "GI_UPGRADE"
-	UpdateSummaryUpdateTypePatch   UpdateSummaryUpdateTypeEnum = "GI_PATCH"
+	UpdateSummaryUpdateTypeGiUpgrade UpdateSummaryUpdateTypeEnum = "GI_UPGRADE"
+	UpdateSummaryUpdateTypeGiPatch   UpdateSummaryUpdateTypeEnum = "GI_PATCH"
+	UpdateSummaryUpdateTypeOsUpdate  UpdateSummaryUpdateTypeEnum = "OS_UPDATE"
 )
 
 var mappingUpdateSummaryUpdateType = map[string]UpdateSummaryUpdateTypeEnum{
-	"GI_UPGRADE": UpdateSummaryUpdateTypeUpgrade,
-	"GI_PATCH":   UpdateSummaryUpdateTypePatch,
+	"GI_UPGRADE": UpdateSummaryUpdateTypeGiUpgrade,
+	"GI_PATCH":   UpdateSummaryUpdateTypeGiPatch,
+	"OS_UPDATE":  UpdateSummaryUpdateTypeOsUpdate,
 }
 
 // GetUpdateSummaryUpdateTypeEnumValues Enumerates the set of values for UpdateSummaryUpdateTypeEnum

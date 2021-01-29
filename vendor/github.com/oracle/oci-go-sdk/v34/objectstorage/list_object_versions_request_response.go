@@ -32,7 +32,9 @@ type ListObjectVersionsRequest struct {
 	// Object names returned by a list query must be strictly less than this parameter.
 	End *string `mandatory:"false" contributesTo:"query" name:"end"`
 
-	// The maximum number of items to return.
+	// For list pagination. The maximum number of results per page, or items to return in a paginated
+	// "List" call. For important details about how pagination works, see
+	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// When this parameter is set, only objects whose names do not contain the delimiter character
@@ -42,11 +44,11 @@ type ListObjectVersionsRequest struct {
 	// Note that only '/' is a supported delimiter character at this time.
 	Delimiter *string `mandatory:"false" contributesTo:"query" name:"delimiter"`
 
-	// Object summary in list of objects includes the 'name' field. This parameter can also include 'size'
-	// (object size in bytes), 'etag', 'md5', 'timeCreated' (object creation date and time) and 'timeModified'
-	// (object modification date and time).
-	// Value of this parameter should be a comma-separated, case-insensitive list of those field names.
-	// For example 'name,etag,timeCreated,md5,timeModified'
+	// Object summary by default includes only the 'name' field. Use this parameter to also
+	// include 'size' (object size in bytes), 'etag', 'md5', 'timeCreated' (object creation date and time),
+	// 'timeModified' (object modification date and time), 'storageTier' and 'archivalState' fields.
+	// Specify the value of this parameter as a comma-separated, case-insensitive list of those field names.
+	// For example 'name,etag,timeCreated,md5,timeModified,storageTier,archivalState'.
 	Fields ListObjectVersionsFieldsEnum `mandatory:"false" contributesTo:"query" name:"fields" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -55,7 +57,8 @@ type ListObjectVersionsRequest struct {
 	// Object names returned by a list query must be greater than this parameter.
 	StartAfter *string `mandatory:"false" contributesTo:"query" name:"startAfter"`
 
-	// The page at which to start retrieving results.
+	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call. For important
+	// details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -93,12 +96,13 @@ type ListObjectVersionsResponse struct {
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// Paginating a list of object versions.
+	// For paginating a list of object versions.
 	// In the GET request, set the limit to the number of object versions that you want returned in the response.
-	// If the opc-next-page header appears in the response, then this is a partial list and there are
+	// If the `opc-next-page` header appears in the response, then this is a partial list and there are
 	// additional object versions to get. Include the header's value as the `page` parameter in the subsequent
-	// GET request to get the next batch of object versions and prefixes . Repeat this process to retrieve the entire list of
+	// GET request to get the next batch of object versions and prefixes. Repeat this process to retrieve the entire list of
 	// object versions and prefixes.
+	// For more details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -116,21 +120,25 @@ type ListObjectVersionsFieldsEnum string
 
 // Set of constants representing the allowable values for ListObjectVersionsFieldsEnum
 const (
-	ListObjectVersionsFieldsName         ListObjectVersionsFieldsEnum = "name"
-	ListObjectVersionsFieldsSize         ListObjectVersionsFieldsEnum = "size"
-	ListObjectVersionsFieldsEtag         ListObjectVersionsFieldsEnum = "etag"
-	ListObjectVersionsFieldsTimecreated  ListObjectVersionsFieldsEnum = "timeCreated"
-	ListObjectVersionsFieldsMd5          ListObjectVersionsFieldsEnum = "md5"
-	ListObjectVersionsFieldsTimemodified ListObjectVersionsFieldsEnum = "timeModified"
+	ListObjectVersionsFieldsName          ListObjectVersionsFieldsEnum = "name"
+	ListObjectVersionsFieldsSize          ListObjectVersionsFieldsEnum = "size"
+	ListObjectVersionsFieldsEtag          ListObjectVersionsFieldsEnum = "etag"
+	ListObjectVersionsFieldsTimecreated   ListObjectVersionsFieldsEnum = "timeCreated"
+	ListObjectVersionsFieldsMd5           ListObjectVersionsFieldsEnum = "md5"
+	ListObjectVersionsFieldsTimemodified  ListObjectVersionsFieldsEnum = "timeModified"
+	ListObjectVersionsFieldsStoragetier   ListObjectVersionsFieldsEnum = "storageTier"
+	ListObjectVersionsFieldsArchivalstate ListObjectVersionsFieldsEnum = "archivalState"
 )
 
 var mappingListObjectVersionsFields = map[string]ListObjectVersionsFieldsEnum{
-	"name":         ListObjectVersionsFieldsName,
-	"size":         ListObjectVersionsFieldsSize,
-	"etag":         ListObjectVersionsFieldsEtag,
-	"timeCreated":  ListObjectVersionsFieldsTimecreated,
-	"md5":          ListObjectVersionsFieldsMd5,
-	"timeModified": ListObjectVersionsFieldsTimemodified,
+	"name":          ListObjectVersionsFieldsName,
+	"size":          ListObjectVersionsFieldsSize,
+	"etag":          ListObjectVersionsFieldsEtag,
+	"timeCreated":   ListObjectVersionsFieldsTimecreated,
+	"md5":           ListObjectVersionsFieldsMd5,
+	"timeModified":  ListObjectVersionsFieldsTimemodified,
+	"storageTier":   ListObjectVersionsFieldsStoragetier,
+	"archivalState": ListObjectVersionsFieldsArchivalstate,
 }
 
 // GetListObjectVersionsFieldsEnumValues Enumerates the set of values for ListObjectVersionsFieldsEnum

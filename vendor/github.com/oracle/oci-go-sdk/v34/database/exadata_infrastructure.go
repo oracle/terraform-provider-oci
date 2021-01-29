@@ -97,6 +97,9 @@ type ExadataInfrastructure struct {
 	// The list of contacts for the Exadata infrastructure.
 	Contacts []ExadataInfrastructureContact `mandatory:"false" json:"contacts"`
 
+	// A field to capture ‘Maintenance SLO Status’ for the Exadata infrastructure with values ‘OK’, ‘DEGRADED’. Default is ‘OK’ when the infrastructure is provisioned.
+	MaintenanceSLOStatus ExadataInfrastructureMaintenanceSLOStatusEnum `mandatory:"false" json:"maintenanceSLOStatus,omitempty"`
+
 	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -149,6 +152,29 @@ var mappingExadataInfrastructureLifecycleState = map[string]ExadataInfrastructur
 func GetExadataInfrastructureLifecycleStateEnumValues() []ExadataInfrastructureLifecycleStateEnum {
 	values := make([]ExadataInfrastructureLifecycleStateEnum, 0)
 	for _, v := range mappingExadataInfrastructureLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ExadataInfrastructureMaintenanceSLOStatusEnum Enum with underlying type: string
+type ExadataInfrastructureMaintenanceSLOStatusEnum string
+
+// Set of constants representing the allowable values for ExadataInfrastructureMaintenanceSLOStatusEnum
+const (
+	ExadataInfrastructureMaintenanceSLOStatusOk       ExadataInfrastructureMaintenanceSLOStatusEnum = "OK"
+	ExadataInfrastructureMaintenanceSLOStatusDegraded ExadataInfrastructureMaintenanceSLOStatusEnum = "DEGRADED"
+)
+
+var mappingExadataInfrastructureMaintenanceSLOStatus = map[string]ExadataInfrastructureMaintenanceSLOStatusEnum{
+	"OK":       ExadataInfrastructureMaintenanceSLOStatusOk,
+	"DEGRADED": ExadataInfrastructureMaintenanceSLOStatusDegraded,
+}
+
+// GetExadataInfrastructureMaintenanceSLOStatusEnumValues Enumerates the set of values for ExadataInfrastructureMaintenanceSLOStatusEnum
+func GetExadataInfrastructureMaintenanceSLOStatusEnumValues() []ExadataInfrastructureMaintenanceSLOStatusEnum {
+	values := make([]ExadataInfrastructureMaintenanceSLOStatusEnum, 0)
+	for _, v := range mappingExadataInfrastructureMaintenanceSLOStatus {
 		values = append(values, v)
 	}
 	return values
