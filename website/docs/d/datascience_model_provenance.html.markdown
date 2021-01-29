@@ -25,7 +25,7 @@ data "oci_datascience_model_provenance" "test_model_provenance" {
 
 The following arguments are supported:
 
-* `model_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the model.
+* `model_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 
 
 ## Attributes Reference

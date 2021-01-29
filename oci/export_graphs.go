@@ -426,6 +426,7 @@ var datascienceResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatascienceProjectHints},
 		{TerraformResourceHints: exportDatascienceNotebookSessionHints},
 		{TerraformResourceHints: exportDatascienceModelHints},
+		{TerraformResourceHints: exportDatascienceModelDeploymentHints},
 	},
 	"oci_datascience_model": {
 		{

@@ -399,6 +399,7 @@ datascience
 * oci\_datascience\_notebook\_session
 * oci\_datascience\_model
 * oci\_datascience\_model\_provenance
+* oci\_datascience\_model\_deployment
 
 dns
     
