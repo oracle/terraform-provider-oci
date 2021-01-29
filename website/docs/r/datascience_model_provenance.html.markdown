@@ -34,7 +34,7 @@ The following arguments are supported:
 
 * `git_branch` - (Optional) (Updatable) For model reproducibility purposes. Branch of the git repository associated with model training.
 * `git_commit` - (Optional) (Updatable) For model reproducibility purposes. Commit ID of the git repository associated with model training.
-* `model_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the model.
+* `model_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 * `repository_url` - (Optional) (Updatable) For model reproducibility purposes. URL of the git repository associated with model training.
 * `script_dir` - (Optional) (Updatable) For model reproducibility purposes. Path to model artifacts.
 * `training_script` - (Optional) (Updatable) For model reproducibility purposes. Path to the python script or notebook in which the model was trained." 

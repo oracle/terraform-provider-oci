@@ -981,6 +981,17 @@ var exportDatascienceModelProvenanceHints = &TerraformResourceHints{
 	resourceAbbreviation: "model_provenance",
 }
 
+var exportDatascienceModelDeploymentHints = &TerraformResourceHints{
+	resourceClass:        "oci_datascience_model_deployment",
+	datasourceClass:      "oci_datascience_model_deployments",
+	datasourceItemsAttr:  "model_deployments",
+	resourceAbbreviation: "model_deployment",
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.ModelDeploymentLifecycleStateActive),
+		string(oci_datascience.ModelDeploymentLifecycleStateNeedsAttention),
+	},
+}
+
 var exportDnsZoneHints = &TerraformResourceHints{
 	resourceClass:          "oci_dns_zone",
 	datasourceClass:        "oci_dns_zones",
