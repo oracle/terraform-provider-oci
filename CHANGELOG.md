@@ -6,6 +6,9 @@
 - Support for ExaCC Customer Contacts Phase 2 added
 - Support for OnPrem database
 
+### Notes
+- Update Resource discovery Partial Success Exit status from 2 to 64
+
 ## 4.11.0 (January 27, 2021)
 
 ### Added
