@@ -43,8 +43,8 @@ data "oci_optimizer_recommendations" "test_recommendations" {
   compartment_id = "${var.tenancy_ocid}"
   compartment_id_in_subtree = "true"
   filter {
-    name   = "importance"
-    values = ["HIGH"]
+    name   = "name"
+    values = ["cost-management-compute-host-underutilized-name"]
   }
 }
 
@@ -63,8 +63,8 @@ data "oci_optimizer_resource_actions" "test_resource_actions" {
   compartment_id_in_subtree = "true"
   recommendation_id = "${oci_optimizer_recommendation.test_recommendation.recommendation_id}"
   filter {
-    name   = "name"
-    values = ["inst-host-underutilized"]
+    name   = "status"
+    values = ["PENDING", "DISMISSED", "POSTPONED"]
   }
 }
 
@@ -103,8 +103,8 @@ resource "oci_optimizer_profile" "test_profile" {
   description = "description"
   levels_configuration {
     items {
-      level = "cost-compute_aggressive_average"
-      recommendation_id = "${oci_optimizer_recommendation.test_recommendation.recommendation_id}"
+      level = "cost-compute_standard_average"
+      recommendation_id = "${data.oci_optimizer_recommendation.test_recommendation.recommendation_id}"
     }
   }
   name = "name"
@@ -133,5 +133,15 @@ resource "oci_optimizer_enrollment_status" "test_enrollment_status" {
 // histories
 data "oci_optimizer_histories" "test_histories" {
   compartment_id = "${var.tenancy_ocid}"
+  compartment_id_in_subtree = "true"
+  filter {
+    name = "limit"
+    values = [100]
+  }
+}
+
+data "oci_optimizer_recommendation_strategies" "test_recommendation_strategies" {
+  #Required
+  compartment_id            = "${var.tenancy_ocid}"
   compartment_id_in_subtree = "true"
 }

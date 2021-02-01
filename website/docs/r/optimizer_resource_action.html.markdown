@@ -39,7 +39,7 @@ The following arguments are supported:
 * `status` - (Required) (Updatable) The status of the resource action.
 * `time_status_end` - (Optional) (Updatable) The date and time the current status will change. The format is defined by RFC3339.
 
-	For example, "The current `postponed` status of the resource action will end and change to `pending` on this  date and time." 
+	For example, "The current `postponed` status of the resource action will end and change to `pending` on this date and time." 
 
 
 ** IMPORTANT **
@@ -49,9 +49,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `action` - Details about the recommended action.
-
-	**Caution:** Avoid using any confidential information when you use the API to supply string values. 
+* `action` - Details about the recommended action. 
 	* `description` - Text describing the recommended action.
 	* `type` - The status of the resource action.
 	* `url` - The URL path to documentation that explains how to perform the action.
@@ -59,15 +57,15 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment.
 * `compartment_name` - The name associated with the compartment.
 * `estimated_cost_saving` - The estimated cost savings, in dollars, for the resource action.
-* `extended_metadata` - Additional metadata key/value pairs that you provide.  They serve the same purpose and functionality as fields in the `metadata` object.
+* `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the `metadata` object.
 
 	They are distinguished from `metadata` fields in that these can be nested JSON objects (whereas `metadata` fields are string/string maps only).
 
-	For example: 
+	For example:
 
 	`{"CurrentShape": {"name":"VM.Standard2.16"}, "RecommendedShape": {"name":"VM.Standard2.8"}}` 
 * `id` - The unique OCID associated with the resource action.
-* `metadata` - Custom metadata key/value pairs for the resource action. 
+* `metadata` - Custom metadata key/value pairs for the resource action.
 
 	**Metadata Example**
 
@@ -84,7 +82,7 @@ The following attributes are exported:
 	For example, "The status of the resource action changed from `pending` to `current(ignored)` on this date and time." 
 * `time_status_end` - The date and time the current status will change. The format is defined by RFC3339.
 
-	For example, "The current `postponed` status of the resource action will end and change to `pending` on this  date and time." 
+	For example, "The current `postponed` status of the resource action will end and change to `pending` on this date and time." 
 * `time_updated` - The date and time the resource action details were last updated, in the format defined by RFC3339.
 
 ## Import

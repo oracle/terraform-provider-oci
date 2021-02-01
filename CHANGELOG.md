@@ -1,3 +1,9 @@
+## 4.15.0 (Unreleased)
+
+### Added
+- Support for New compute shape E4-Dense
+- Support for Cloud Advisor Fix It actions for V1 recommendations
+
 ## 4.14.0 (February 17, 2021)
 
 ### Added
