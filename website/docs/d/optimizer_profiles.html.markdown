@@ -56,6 +56,14 @@ The following attributes are exported:
 		* `recommendation_id` - The unique OCID of the recommendation.
 * `name` - The name assigned to the profile. Avoid entering confidential information.
 * `state` - The profile's current state.
+* `target_compartments` - Optional. The target compartments supported by a profile override for a recommendation. 
+	* `items` - The list of target compartment OCIDs attached to the current profile override.
+* `target_tags` - Optional. The target tags supported by a profile override for a recommendation. 
+	* `items` - The list of target tags attached to the current profile override.
+		* `tag_definition_name` - The name of the tag definition.
+		* `tag_namespace_name` - The name of the tag namespace.
+		* `tag_value_type` - The tag value type.
+		* `tag_values` - The list of tag values.
 * `time_created` - The date and time the profile was created, in the format defined by RFC3339.
 * `time_updated` - The date and time the profile was last updated, in the format defined by RFC3339.
 

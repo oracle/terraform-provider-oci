@@ -99,6 +99,7 @@ resource "oci_identity_tag" "tag1" {
 }
 
 resource "oci_optimizer_profile" "test_profile" {
+  #Required
   compartment_id = "${var.tenancy_ocid}"
   description = "description"
   levels_configuration {
@@ -108,6 +109,24 @@ resource "oci_optimizer_profile" "test_profile" {
     }
   }
   name = "name"
+
+  #Optional
+  target_compartments {
+    #Required
+    items = ["${var.compartment_ocid}"]
+  }
+  target_tags {
+    #Required
+    items {
+      #Required
+      tag_definition_name = "tagDefinitionName"
+      tag_namespace_name  = "tagNamespaceName"
+      tag_value_type      = "VALUE"
+
+      #Optional
+      tag_values = ["tagValue"]
+    }
+  }
 }
 
 data "oci_optimizer_profile" "test_profile" {

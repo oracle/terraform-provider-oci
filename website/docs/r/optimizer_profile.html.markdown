@@ -35,6 +35,22 @@ resource "oci_optimizer_profile" "test_profile" {
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	target_compartments {
+		#Required
+		items = var.profile_target_compartments_items
+	}
+	target_tags {
+		#Required
+		items {
+			#Required
+			tag_definition_name = var.profile_target_tags_items_tag_definition_name
+			tag_namespace_name = oci_identity_tag_namespace.test_tag_namespace.name
+			tag_value_type = var.profile_target_tags_items_tag_value_type
+
+			#Optional
+			tag_values = var.profile_target_tags_items_tag_values
+		}
+	}
 }
 ```
 
@@ -50,7 +66,15 @@ The following arguments are supported:
 	* `items` - (Optional) (Updatable) The array of configuration levels.
 		* `level` - (Optional) (Updatable) The pre-defined profile level.
 		* `recommendation_id` - (Optional) (Updatable) The unique OCID of the recommendation.
-* `name` - (Required) The name assigned to the profile. Avoid entering confidential information.
+* `name` - (Required) (Updatable) The name assigned to the profile. Avoid entering confidential information.
+* `target_compartments` - (Optional) (Updatable) Optional. The target compartments supported by a profile override for a recommendation. 
+	* `items` - (Required) (Updatable) The list of target compartment OCIDs attached to the current profile override.
+* `target_tags` - (Optional) (Updatable) Optional. The target tags supported by a profile override for a recommendation. 
+	* `items` - (Required) (Updatable) The list of target tags attached to the current profile override.
+		* `tag_definition_name` - (Required) (Updatable) The name of the tag definition.
+		* `tag_namespace_name` - (Required) (Updatable) The name of the tag namespace.
+		* `tag_value_type` - (Required) (Updatable) The tag value type.
+		* `tag_values` - (Optional) (Updatable) The list of tag values.
 
 
 ** IMPORTANT **
@@ -71,6 +95,14 @@ The following attributes are exported:
 		* `recommendation_id` - The unique OCID of the recommendation.
 * `name` - The name assigned to the profile. Avoid entering confidential information.
 * `state` - The profile's current state.
+* `target_compartments` - Optional. The target compartments supported by a profile override for a recommendation. 
+	* `items` - The list of target compartment OCIDs attached to the current profile override.
+* `target_tags` - Optional. The target tags supported by a profile override for a recommendation. 
+	* `items` - The list of target tags attached to the current profile override.
+		* `tag_definition_name` - The name of the tag definition.
+		* `tag_namespace_name` - The name of the tag namespace.
+		* `tag_value_type` - The tag value type.
+		* `tag_values` - The list of tag values.
 * `time_created` - The date and time the profile was created, in the format defined by RFC3339.
 * `time_updated` - The date and time the profile was last updated, in the format defined by RFC3339.
 
