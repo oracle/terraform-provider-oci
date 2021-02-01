@@ -37,8 +37,8 @@ var (
 	// to filter the list of recommendation and get one recommendation containing the supportlevels
 	// we will use the supportlevels to create the optimizer profile
 	recommendationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `importance`},
-		"values": Representation{repType: Required, create: []string{`HIGH`}},
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`cost-management-compute-host-underutilized-name`}},
 	}
 
 	recommendationRepresentation = map[string]interface{}{
@@ -194,11 +194,14 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					// Resource counts is dynamically computed during each GET call and is returned as a list so the order might not always be the same
+					"resource_counts",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

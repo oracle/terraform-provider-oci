@@ -46,7 +46,13 @@ var (
 		"name":                      Representation{repType: Optional, create: `name`},
 		"resource_type":             Representation{repType: Optional, create: `resourceType`},
 		"state":                     Representation{repType: Optional, create: `ACTIVE`},
-		"status":                    Representation{repType: Optional, create: `PENDING`, update: `DISMISSED`}}
+		"status":                    Representation{repType: Optional, create: `PENDING`, update: `DISMISSED`},
+		"filter":                    RepresentationGroup{Required, resourceActionDataSourceFilterRepresentation}}
+
+	resourceActionDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `status`},
+		"values": Representation{repType: Required, create: []string{`PENDING`, `DISMISSED`, `POSTPONED`}},
+	}
 
 	resourceActionRepresentation = map[string]interface{}{
 		"resource_action_id": Representation{repType: Required, create: `${data.oci_optimizer_resource_actions.test_resource_actions.resource_action_collection.0.items.0.id}`},
