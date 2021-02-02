@@ -1179,7 +1179,7 @@ func (client ComputeManagementClient) listInstancePools(ctx context.Context, req
 	return response, err
 }
 
-// ResetInstancePool Performs the reset (power off and power on) action on the specified instance pool,
+// ResetInstancePool Performs the reset (immediate power off and power on) action on the specified instance pool,
 // which performs the action on all the instances in the pool.
 //
 // See also
@@ -1241,6 +1241,8 @@ func (client ComputeManagementClient) resetInstancePool(ctx context.Context, req
 
 // SoftresetInstancePool Performs the softreset (ACPI shutdown and power on) action on the specified instance pool,
 // which performs the action on all the instances in the pool.
+// Softreset gracefully reboots the instances by sending a shutdown command to the operating systems.
+// After waiting 15 minutes for the OS to shut down, the instances are powered off and then powered back on.
 //
 // See also
 //
@@ -1359,7 +1361,7 @@ func (client ComputeManagementClient) startInstancePool(ctx context.Context, req
 	return response, err
 }
 
-// StopInstancePool Performs the stop (power off) action on the specified instance pool,
+// StopInstancePool Performs the stop (immediate power off) action on the specified instance pool,
 // which performs the action on all the instances in the pool.
 //
 // See also

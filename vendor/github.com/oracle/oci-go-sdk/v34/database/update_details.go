@@ -35,12 +35,14 @@ const (
 	UpdateDetailsUpdateActionRollingApply    UpdateDetailsUpdateActionEnum = "ROLLING_APPLY"
 	UpdateDetailsUpdateActionNonRollingApply UpdateDetailsUpdateActionEnum = "NON_ROLLING_APPLY"
 	UpdateDetailsUpdateActionPrecheck        UpdateDetailsUpdateActionEnum = "PRECHECK"
+	UpdateDetailsUpdateActionRollback        UpdateDetailsUpdateActionEnum = "ROLLBACK"
 )
 
 var mappingUpdateDetailsUpdateAction = map[string]UpdateDetailsUpdateActionEnum{
 	"ROLLING_APPLY":     UpdateDetailsUpdateActionRollingApply,
 	"NON_ROLLING_APPLY": UpdateDetailsUpdateActionNonRollingApply,
 	"PRECHECK":          UpdateDetailsUpdateActionPrecheck,
+	"ROLLBACK":          UpdateDetailsUpdateActionRollback,
 }
 
 // GetUpdateDetailsUpdateActionEnumValues Enumerates the set of values for UpdateDetailsUpdateActionEnum

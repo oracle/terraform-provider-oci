@@ -44,7 +44,7 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) The user-friendly name for the database software image. The name does not have to be unique.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `image_shape_family` - (Optional) To what shape the image is meant for.
-* `image_type` - (Optional) List of the Fault Domains in which this DB system is provisioned.
+* `image_type` - (Optional) The type of software image. Can be grid or database.
 * `ls_inventory` - (Optional) output from lsinventory which will get passed as a string
 * `patch_set` - (Required) The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
 

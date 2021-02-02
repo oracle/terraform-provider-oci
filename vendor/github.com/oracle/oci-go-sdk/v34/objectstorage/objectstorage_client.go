@@ -1495,6 +1495,8 @@ func (client ObjectStorageClient) headObject(ctx context.Context, request common
 
 // ListBuckets Gets a list of all BucketSummary items in a compartment. A BucketSummary contains only summary fields for the bucket
 // and does not contain fields like the user-defined metadata.
+// ListBuckets returns a BucketSummary containing at most 1000 buckets. To paginate through more buckets, use the returned
+// `opc-next-page` value with the `page` request parameter.
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
@@ -1660,6 +1662,8 @@ func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, requ
 }
 
 // ListObjectVersions Lists the object versions in a bucket.
+// ListObjectVersions returns an ObjectVersionCollection containing at most 1000 object versions. To paginate through
+// more object versions, use the returned `opc-next-page` value with the `page` request parameter.
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
@@ -1716,7 +1720,11 @@ func (client ObjectStorageClient) listObjectVersions(ctx context.Context, reques
 	return response, err
 }
 
-// ListObjects Lists the objects in a bucket.
+// ListObjects Lists the objects in a bucket. By default, ListObjects returns object names only. See the `fields`
+// parameter for other fields that you can optionally include in ListObjects response.
+// ListObjects returns at most 1000 objects. To paginate through more objects, use the returned 'nextStartWith'
+// value with the 'start' parameter. To filter which objects ListObjects returns, use the 'start' and 'end'
+// parameters.
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
@@ -2673,6 +2681,60 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 	}
 
 	var response UpdateNamespaceMetadataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateObjectStorageTier Changes the storage tier of the object specified by the objectName parameter.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UpdateObjectStorageTier.go.html to see an example of how to use UpdateObjectStorageTier API.
+func (client ObjectStorageClient) UpdateObjectStorageTier(ctx context.Context, request UpdateObjectStorageTierRequest) (response UpdateObjectStorageTierResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateObjectStorageTier, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateObjectStorageTierResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateObjectStorageTierResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateObjectStorageTierResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateObjectStorageTierResponse")
+	}
+	return
+}
+
+// updateObjectStorageTier implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/updateObjectStorageTier")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateObjectStorageTierResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

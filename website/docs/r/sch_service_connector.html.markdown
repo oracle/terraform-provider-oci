@@ -1,14 +1,14 @@
 ---
-subcategory: "Sch"
+subcategory: "Service Connector Hub"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_sch_service_connector"
 sidebar_current: "docs-oci-resource-sch-service_connector"
 description: |-
-  Provides the Service Connector resource in Oracle Cloud Infrastructure Sch service
+  Provides the Service Connector resource in Oracle Cloud Infrastructure Service Connector Hub service
 ---
 
 # oci_sch_service_connector
-This resource provides the Service Connector resource in Oracle Cloud Infrastructure Sch service.
+This resource provides the Service Connector resource in Oracle Cloud Infrastructure Service Connector Hub service.
 
 Creates a new service connector in the specified compartment.
 A service connector is a logically defined flow for moving data from

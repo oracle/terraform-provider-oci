@@ -5,7 +5,7 @@ This example contains Terraform configuration to provision a virtual machine in 
 ## What this example covers
 
 -   Deploying networking resources that creates a VCN, Subnet, Route Table, Internet Gateway and a Security List to allow RDP & WinRM traffic for the VM
-    -   [networking.tf](networking.tf)
+    -   [windows.tf](windows.tf)
 -   Deploying a Windows VM instance with one of [published images on OCI](https://docs.cloud.oracle.com/iaas/images/)
     -   [windows.tf](windows.tf)
 -   Using the Windows version for [Cloud-Init](https://cloud-init.io/) -  [Cloudbase-Init](https://cloudbase.it/cloudbase-init/) available on the VM to setup and configure Windows

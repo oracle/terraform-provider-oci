@@ -1,14 +1,14 @@
 ---
-subcategory: "Ocvp"
+subcategory: "Oracle Cloud VMware Solution"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ocvp_sddc"
 sidebar_current: "docs-oci-resource-ocvp-sddc"
 description: |-
-  Provides the Sddc resource in Oracle Cloud Infrastructure Ocvp service
+  Provides the Sddc resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
 ---
 
 # oci_ocvp_sddc
-This resource provides the Sddc resource in Oracle Cloud Infrastructure Ocvp service.
+This resource provides the Sddc resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
 
 Creates a software-defined data center (SDDC).
 

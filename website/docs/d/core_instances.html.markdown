@@ -36,7 +36,7 @@ The following arguments are supported:
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
-* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive. 
 
 
 ## Attributes Reference
@@ -49,9 +49,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `agent_config` - Instance agent configuration on the instance
-	* `is_management_disabled` - Whether the agent running on the instance can run all the available management plugins. 
-	* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
+* `agent_config` - Configuration options for the Oracle Cloud Agent software running on the instance.
+	* `is_management_disabled` - Whether Oracle Cloud Agent can run all the available management plugins. 
+	* `is_monitoring_disabled` - Whether Oracle Cloud Agent can gather performance metrics and monitor the instance using the monitoring plugins. 
 * `availability_config` - Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware. 
 	* `recovery_action` - The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 		* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
@@ -98,22 +98,22 @@ The following attributes are exported:
 		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
-		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle-provided images.
+		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle-provided images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
-	* `firmware` - Firmware used to boot VM.  Select the option that matches your operating system.
-		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
-		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle-provided images. 
+	* `firmware` - Firmware used to boot VM. Select the option that matches your operating system.
+		* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
+		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for Oracle-provided images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
 	* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails). 
 	* `network_type` - Emulation type for the physical network interface card (NIC).
-		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
+		* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
 		* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers. 
 	* `remote_data_volume_type` - Emulation type for volume.
 		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
-		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle-provided images.
+		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle-provided images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 * `metadata` - Custom metadata that you provide.
 * `region` - The region that contains the availability domain the instance is running in.

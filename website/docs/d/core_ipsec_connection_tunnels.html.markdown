@@ -68,6 +68,9 @@ The following attributes are exported:
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the tunnel. 
 * `cpe_ip` - The IP address of the CPE's VPN headend.  Example: `203.0.113.22` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `encryption_domain_config` - Configuration information used by the encryption domain policy.
+	* `cpe_traffic_selector` - Lists IPv4 or IPv6-enabled subnets in your on-premises network.
+	* `oracle_traffic_selector` - Lists IPv4 or IPv6-enabled subnets in your Oracle tenancy.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tunnel.
 * `ike_version` - Internet Key Exchange protocol version. 
 * `routing` - The type of routing used for this tunnel (either BGP dynamic routing or static routing). 

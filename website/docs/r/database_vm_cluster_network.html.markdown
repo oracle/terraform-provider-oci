@@ -11,7 +11,7 @@ description: |-
 This resource provides the Vm Cluster Network resource in Oracle Cloud Infrastructure Database service.
 
 Creates the VM cluster network. Applies to Exadata Cloud@Customer instances only.
-To create a cloud VM cluster in an Exadata Cloud Service instance, use the [CreateCloudVmCluster ](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/CreateCloudVmCluster) operation.
+To create a cloud VM cluster in an Exadata Cloud Service instance, use the [CreateCloudVmCluster ](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudVmCluster/CreateCloudVmCluster) operation.
 
 
 ## Example Usage

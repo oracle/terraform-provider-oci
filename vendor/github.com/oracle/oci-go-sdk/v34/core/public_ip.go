@@ -24,8 +24,6 @@ import (
 // 2. Reserved
 // For more information and comparison of the two types,
 // see Public IP Addresses (https://docs.cloud.oracle.com/Content/Network/Tasks/managingpublicIPs.htm).
-// **Warning:** Oracle recommends that you avoid using any confidential information when you
-// supply string values using the API.
 type PublicIp struct {
 
 	// The OCID of the entity the public IP is assigned to, or in the process of

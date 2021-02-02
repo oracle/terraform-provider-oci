@@ -10,7 +10,12 @@ description: |-
 # Data Source: oci_objectstorage_objects
 This data source provides the list of Objects in Oracle Cloud Infrastructure Object Storage service.
 
-Lists the objects in a bucket.
+Lists the objects in a bucket. By default, ListObjects returns object names only. See the `fields`
+parameter for other fields that you can optionally include in ListObjects response.
+
+ListObjects returns at most 1000 objects. To paginate through more objects, use the returned 'nextStartWith'
+value with the 'start' parameter. To filter which objects ListObjects returns, use the 'start' and 'end'
+parameters.
 
 To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 talk to an administrator. If you are an administrator who needs to write policies to give users access, see
@@ -41,6 +46,7 @@ The following arguments are supported:
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
 * `delimiter` - (Optional) When this parameter is set, only objects whose names do not contain the delimiter character (after an optionally specified prefix) are returned in the objects key of the response body. Scanned objects whose names contain the delimiter have the part of their name up to the first occurrence of the delimiter (including the optional prefix) returned as a set of prefixes. Note that only '/' is a supported delimiter character at this time. 
 * `end` - (Optional) Object names returned by a list query must be strictly less than this parameter.
+* `fields` - (Optional) Object summary by default includes only the 'name' field. Use this parameter to also include 'size' (object size in bytes), 'etag', 'md5', 'timeCreated' (object creation date and time), 'timeModified' (object modification date and time), 'storageTier' and 'archivalState' fields. Specify the value of this parameter as a comma-separated, case-insensitive list of those field names.  For example 'name,etag,timeCreated,md5,timeModified,storageTier,archivalState'. 
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `prefix` - (Optional) The string to use for matching against the start of object names in a list query.
 * `start` - (Optional) Object names returned by a list query must be greater or equal to this parameter.
@@ -51,22 +57,17 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `list_objects` - The list of list_objects.
+* `objects` - The list of list_objects.
 
 ### Object Reference
 
 The following attributes are exported:
 
-* `bucket` - The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
-* `content` - The object to upload to the object store.
-* `content_encoding` - The content encoding of the object.
-* `content_language` - The content language of the object.
-* `content_length` - The content length of the body.
-* `content_md5` - The base-64 encoded MD5 hash of the body.
-* `content_type` - The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
+* `name` - The name of the object. 
+* `size` - Size of the object in bytes.
+* `md5` - Base64-encoded MD5 hash of the object data.
+* `time_created` - The date and time the object was created, as described in [RFC 2616](https://tools.ietf.org/html/rfc2616#section-14.29).
+* `time_modified` - The date and time the object was modified, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616#section-14.29).
 * `etag` - The current entity tag (ETag) for the object.
-* `metadata` - Optional user-defined metadata key and value.
-Note: Metadata keys are case-insensitive and all returned keys will be lower case.
-* `namespace` - The top-level namespace used for the request.
-* `object` - The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
-
+* `storage_tier` - The storage tier that the object is stored in.
+* `archival-state` - Archival state of an object. This field is set only for objects in Archive tier.

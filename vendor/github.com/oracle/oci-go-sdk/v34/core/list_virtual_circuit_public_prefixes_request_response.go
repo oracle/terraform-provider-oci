@@ -19,7 +19,8 @@ type ListVirtualCircuitPublicPrefixesRequest struct {
 	// The OCID of the virtual circuit.
 	VirtualCircuitId *string `mandatory:"true" contributesTo:"path" name:"virtualCircuitId"`
 
-	// A filter to only return resources that match the given verification state.
+	// A filter to only return resources that match the given verification
+	// state.
 	// The state value is case-insensitive.
 	VerificationState VirtualCircuitPublicPrefixVerificationStateEnum `mandatory:"false" contributesTo:"query" name:"verificationState" omitEmpty:"true"`
 

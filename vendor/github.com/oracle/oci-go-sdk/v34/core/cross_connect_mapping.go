@@ -82,7 +82,7 @@ type CrossConnectMapping struct {
 	// Example: `2001:db8::1/64`
 	CustomerBgpPeeringIpv6 *string `mandatory:"false" json:"customerBgpPeeringIpv6"`
 
-	// The IPv6 address for Oracle's end of the BGP session.  Only subnet masks from /64 up to /127 are allowed.
+	// The IPv6 address for Oracle's end of the BGP session. Only subnet masks from /64 up to /127 are allowed.
 	// If the session goes from Oracle to a customer's edge router,
 	// the customer specifies this information. If the session goes from Oracle to
 	// a provider's edge router, the provider specifies this.

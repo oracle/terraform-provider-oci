@@ -44,6 +44,12 @@ type ObjectVersionSummary struct {
 
 	// The current entity tag (ETag) for the object.
 	Etag *string `mandatory:"false" json:"etag"`
+
+	// The storage tier that the object is stored in.
+	StorageTier StorageTierEnum `mandatory:"false" json:"storageTier,omitempty"`
+
+	// Archival state of an object. This field is set only for objects in Archive tier.
+	ArchivalState ArchivalStateEnum `mandatory:"false" json:"archivalState,omitempty"`
 }
 
 func (m ObjectVersionSummary) String() string {

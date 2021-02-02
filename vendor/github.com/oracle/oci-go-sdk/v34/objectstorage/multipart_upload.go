@@ -39,6 +39,9 @@ type MultipartUpload struct {
 
 	// The date and time the upload was created, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.29).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The storage tier that the object is stored in.
+	StorageTier StorageTierEnum `mandatory:"false" json:"storageTier,omitempty"`
 }
 
 func (m MultipartUpload) String() string {
