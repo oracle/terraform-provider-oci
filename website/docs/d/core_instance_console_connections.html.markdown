@@ -12,7 +12,7 @@ This data source provides the list of Instance Console Connections in Oracle Clo
 
 Lists the console connections for the specified compartment or instance.
 
-For more information about console access, see [Accessing the Console](https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
+For more information about instance console connections, see [Troubleshooting Instances Using Instance Console Connections](https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
 
 
 ## Example Usage

@@ -59,8 +59,8 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `apex_details` - Information about Autonomous Application Express.
-	* `apex_version` - The Oracle Application Express service version.
+* `apex_details` - Information about Oracle APEX Application Development.
+	* `apex_version` - The Oracle APEX Application Development version.
 	* `ords_version` - The Oracle REST Data Services (ORDS) version.
 *`are_primary_whitelisted_ips_used` - This field will be null if the Autonomous Database is not Data Guard enabled or Access Control is disabled. It's value would be `TRUE` if Autonomous Database is Data Guard enabled and Access Control is enabled and if the Autonomous Database uses primary IP access control list (ACL) for standby. It's value would be `FALSE` if Autonomous Database is Data Guard enabled and Access Control is enabled and if the Autonomous Database uses different IP access control list (ACL) for standby compared to primary.
 * `autonomous_container_database_id` - The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -89,7 +89,7 @@ The following attributes are exported:
 	* OLTP - indicates an Autonomous Transaction Processing database
 	* DW - indicates an Autonomous Data Warehouse database
 	* AJD - indicates an Autonomous JSON Database
-	* APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type. 
+	* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.

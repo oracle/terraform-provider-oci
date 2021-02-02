@@ -181,7 +181,7 @@ While discovering resources if there is any error related to the APIs or service
 
 * Exit code 0 - Success
 * Exit code 1 - Failure due to errors such as incorrect environment variables, arguments or configuration
-* Exit code 2 - Partial Success when resource discovery was not able to find all the resources because of the service failures
+* Exit code 64 - Partial Success when resource discovery was not able to find all the resources because of the service failures
 
 ### Generated Terraform Configuration Contents
 
@@ -367,6 +367,10 @@ database
 * oci\_database\_cloud\_exadata\_infrastructure
 * oci\_database\_cloud\_vm\_cluster
 * oci\_database\_key\_store
+* oci\_database\_external\_container\_database
+* oci\_database\_external\_pluggable\_database
+* oci\_database\_external\_non\_container\_database
+* oci\_database\_external\_database\_connector
 
 datacatalog
     

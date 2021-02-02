@@ -80,6 +80,35 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"encryption_domain_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"cpe_traffic_selector": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"oracle_traffic_selector": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+								},
+							},
+						},
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -197,6 +226,12 @@ func (s *CoreIpSecConnectionTunnelsDataSourceCrud) SetData() error {
 			ipSecConnectionTunnel["display_name"] = *r.DisplayName
 		}
 
+		if r.EncryptionDomainConfig != nil {
+			ipSecConnectionTunnel["encryption_domain_config"] = []interface{}{EncryptionDomainConfigToMap(r.EncryptionDomainConfig)}
+		} else {
+			ipSecConnectionTunnel["encryption_domain_config"] = nil
+		}
+
 		if r.Id != nil {
 			ipSecConnectionTunnel["id"] = *r.Id
 		}
@@ -233,4 +268,14 @@ func (s *CoreIpSecConnectionTunnelsDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func EncryptionDomainConfigToMap(obj *oci_core.EncryptionDomainConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["cpe_traffic_selector"] = obj.CpeTrafficSelector
+
+	result["oracle_traffic_selector"] = obj.OracleTrafficSelector
+
+	return result
 }

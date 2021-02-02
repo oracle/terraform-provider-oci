@@ -26,6 +26,7 @@ type CpeDeviceConfigQuestion struct {
 	Key *string `mandatory:"false" json:"key"`
 
 	// A descriptive label for the question (for example, to display in a form in a graphical interface).
+	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// A description or explanation of the question, to help the customer answer accurately.

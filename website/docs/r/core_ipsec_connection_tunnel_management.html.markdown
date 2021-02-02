@@ -29,7 +29,7 @@ Destroying `the oci_core_ipsec_connection_tunnel_management` leaves the resource
 ## Example Usage
 
 ```hcl
-"oci_core_ipsec_connection_tunnel_management" "test_ip_sec_connection_tunnel" {
+resource "oci_core_ipsec_connection_tunnel_management" "test_ip_sec_connection_tunnel" {
 	#Required
 	ipsec_id = oci_core_ipsec.test_ipsec.id
 	tunnel_id = oci_core_tunnel.test_tunnel.id
@@ -42,6 +42,12 @@ Destroying `the oci_core_ipsec_connection_tunnel_management` leaves the resource
 		oracle_interface_ip = var.ip_sec_connection_tunnel_management_bgp_session_info_oracle_interface_ip
 	}
 	display_name = var.ip_sec_connection_tunnel_management_display_name
+
+    encryption_domain_config {
+		#Optional
+		cpe_traffic_selector = var.ip_sec_connection_tunnel_management_encryption_domain_config_cpe_traffic_selector
+		oracle_traffic_selector = var.ip_sec_connection_tunnel_management_encryption_domain_config_oracle_traffic_selector
+	}
 	shared_secret = var.ip_sec_connection_tunnel_management_shared_secret
     ike_version = "V1"
 }
@@ -53,7 +59,7 @@ The following arguments are supported:
 
 * `ipsec_id` - (Required) The OCID of the IPSec connection.
 * `tunnel_id` - (Required) The OCID of the IPSec connection's tunnel.
-* `routing` - (Required) The type of routing to use for this tunnel (either BGP dynamic routing or static routing). 
+* `routing` - (Required) The type of routing to use for this tunnel (either BGP dynamic routing, STATIC routing or POLICY routing). 
 * `bgp_session_info` - (Optional) Information for establishing a BGP session for the IPSec tunnel. Required if the tunnel uses BGP dynamic routing.
 
 	If the tunnel instead uses static routing, you may optionally provide this object and set an IP address for one or both ends of the IPSec tunnel for the purposes of troubleshooting or monitoring the tunnel. 
@@ -81,6 +87,9 @@ The following arguments are supported:
 
 		Example: `10.0.0.4/31` 
   * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+  * `encryption_domain_config` - (Optional) Configuration information used by the encryption domain policy. Required if the tunnel uses POLICY routing.
+  	* `cpe_traffic_selector` - (Optional) Lists IPv4 or IPv6-enabled subnets in your on-premises network.
+  	* `oracle_traffic_selector` - (Optional) Lists IPv4 or IPv6-enabled subnets in your Oracle tenancy.
   * `ike_version` - (Optional) Internet Key Exchange protocol version. 
   * `shared_secret` - (Optional) The shared secret (pre-shared key) to use for the IPSec tunnel. If you don't provide a value, Oracle generates a value for you. You can specify your own shared secret later if you like with [UpdateIPSecConnectionTunnelSharedSecret](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnelSharedSecret/UpdateIPSecConnectionTunnelSharedSecret).  Example: `EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o`
 
@@ -97,6 +106,9 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment containing the tunnel.
 * `cpe_ip` - The IP address of Cpe headend.  Example: `129.146.17.50` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `encryption_domain_config` - Configuration information used by the encryption domain policy.
+	* `cpe_traffic_selector` - Lists IPv4 or IPv6-enabled subnets in your on-premises network.
+	* `oracle_traffic_selector` - Lists IPv4 or IPv6-enabled subnets in your Oracle tenancy.
 * `id` - The tunnel's Oracle ID (OCID).
 * `routing` - the routing strategy used for this tunnel, either static route or BGP dynamic routing
 * `ike_version` - Internet Key Exchange protocol version.

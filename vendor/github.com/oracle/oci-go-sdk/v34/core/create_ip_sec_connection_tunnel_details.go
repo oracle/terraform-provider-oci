@@ -37,6 +37,8 @@ type CreateIpSecConnectionTunnelDetails struct {
 	SharedSecret *string `mandatory:"false" json:"sharedSecret"`
 
 	BgpSessionConfig *CreateIpSecTunnelBgpSessionDetails `mandatory:"false" json:"bgpSessionConfig"`
+
+	EncryptionDomainConfig *CreateIpSecTunnelEncryptionDomainDetails `mandatory:"false" json:"encryptionDomainConfig"`
 }
 
 func (m CreateIpSecConnectionTunnelDetails) String() string {
@@ -50,11 +52,13 @@ type CreateIpSecConnectionTunnelDetailsRoutingEnum string
 const (
 	CreateIpSecConnectionTunnelDetailsRoutingBgp    CreateIpSecConnectionTunnelDetailsRoutingEnum = "BGP"
 	CreateIpSecConnectionTunnelDetailsRoutingStatic CreateIpSecConnectionTunnelDetailsRoutingEnum = "STATIC"
+	CreateIpSecConnectionTunnelDetailsRoutingPolicy CreateIpSecConnectionTunnelDetailsRoutingEnum = "POLICY"
 )
 
 var mappingCreateIpSecConnectionTunnelDetailsRouting = map[string]CreateIpSecConnectionTunnelDetailsRoutingEnum{
 	"BGP":    CreateIpSecConnectionTunnelDetailsRoutingBgp,
 	"STATIC": CreateIpSecConnectionTunnelDetailsRoutingStatic,
+	"POLICY": CreateIpSecConnectionTunnelDetailsRoutingPolicy,
 }
 
 // GetCreateIpSecConnectionTunnelDetailsRoutingEnumValues Enumerates the set of values for CreateIpSecConnectionTunnelDetailsRoutingEnum

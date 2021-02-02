@@ -49,7 +49,8 @@ type ListNetworkSecurityGroupsRequest struct {
 	// is case sensitive.
 	SortOrder ListNetworkSecurityGroupsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
+	// A filter to return only resources that match the specified lifecycle
+	// state. The value is case insensitive.
 	LifecycleState NetworkSecurityGroupLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request.

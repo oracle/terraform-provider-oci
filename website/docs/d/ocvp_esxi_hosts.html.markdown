@@ -1,14 +1,14 @@
 ---
-subcategory: "Ocvp"
+subcategory: "Oracle Cloud VMware Solution"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ocvp_esxi_hosts"
 sidebar_current: "docs-oci-datasource-ocvp-esxi_hosts"
 description: |-
-  Provides the list of Esxi Hosts in Oracle Cloud Infrastructure Ocvp service
+  Provides the list of Esxi Hosts in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
 ---
 
 # Data Source: oci_ocvp_esxi_hosts
-This data source provides the list of Esxi Hosts in Oracle Cloud Infrastructure Ocvp service.
+This data source provides the list of Esxi Hosts in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
 
 Lists the ESXi hosts in the specified SDDC. The list can be filtered
 by Compute instance OCID or ESXi display name.

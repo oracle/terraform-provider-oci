@@ -1,14 +1,14 @@
 ---
-subcategory: "Ocvp"
+subcategory: "Oracle Cloud VMware Solution"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ocvp_supported_vmware_software_versions"
 sidebar_current: "docs-oci-datasource-ocvp-supported_vmware_software_versions"
 description: |-
-  Provides the list of Supported Vmware Software Versions in Oracle Cloud Infrastructure Ocvp service
+  Provides the list of Supported Vmware Software Versions in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
 ---
 
 # Data Source: oci_ocvp_supported_vmware_software_versions
-This data source provides the list of Supported Vmware Software Versions in Oracle Cloud Infrastructure Ocvp service.
+This data source provides the list of Supported Vmware Software Versions in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
 
 Lists the versions of bundled VMware software supported by the Oracle Cloud
 VMware Solution.

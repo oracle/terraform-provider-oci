@@ -41,7 +41,7 @@ resource "oci_core_drg_attachment" "test_drg_attachment" {
 
 The following arguments are supported:
 
-* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique. Avoid entering confidential information.
+* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique. Avoid entering confidential information. 
 * `drg_id` - (Required) The OCID of the DRG.
 * `route_table_id` - (Optional) (Updatable) The OCID of the route table the DRG attachment will use.
 

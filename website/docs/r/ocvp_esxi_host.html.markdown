@@ -1,14 +1,14 @@
 ---
-subcategory: "Ocvp"
+subcategory: "Oracle Cloud VMware Solution"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ocvp_esxi_host"
 sidebar_current: "docs-oci-resource-ocvp-esxi_host"
 description: |-
-  Provides the Esxi Host resource in Oracle Cloud Infrastructure Ocvp service
+  Provides the Esxi Host resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
 ---
 
 # oci_ocvp_esxi_host
-This resource provides the Esxi Host resource in Oracle Cloud Infrastructure Ocvp service.
+This resource provides the Esxi Host resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
 
 Adds another ESXi host to an existing SDDC. The attributes of the specified
 `Sddc` determine the VMware software and other configuration settings used

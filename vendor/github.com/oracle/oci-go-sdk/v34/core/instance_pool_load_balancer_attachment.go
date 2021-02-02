@@ -35,7 +35,9 @@ type InstancePoolLoadBalancerAttachment struct {
 	// The port value used for the backends.
 	Port *int `mandatory:"true" json:"port"`
 
-	// Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
+	// Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer.
+	// Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration
+	// that is associated with the instance pool.
 	VnicSelection *string `mandatory:"true" json:"vnicSelection"`
 
 	// The status of the interaction between the instance pool and the load balancer.

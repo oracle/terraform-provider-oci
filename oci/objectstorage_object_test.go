@@ -74,6 +74,7 @@ var (
 		"content_language":           Representation{repType: Optional, create: `en-US`, update: `en-CA`},
 		"content_md5":                Representation{repType: Optional, create: `${md5("content")}`, update: Md5Base64Encoded2},
 		"content_type":               Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
+		"storage_tier":               Representation{repType: Optional, create: `Standard`, update: `InfrequentAccess`},
 		"delete_all_object_versions": Representation{repType: Optional, create: `false`, update: `true`},
 		"metadata":                   Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
 	}
@@ -202,6 +203,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -226,6 +228,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
 					resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
+					resource.TestCheckResourceAttr(resourceName, "storage_tier", "InfrequentAccess"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "content"),
@@ -331,6 +334,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-3"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "version_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "InfrequentAccess"),
 				),
 			},
 			// verify base64 encoding in singular datasource
@@ -370,6 +374,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "objects.0.etag"),
+					resource.TestCheckResourceAttr(datasourceName, "objects.0.storage_tier", "InfrequentAccess"),
 				),
 			},
 			// verify datasource for delimiter and prefix
@@ -405,6 +410,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					"state",
 					"work_request_id",
 					"delete_all_object_versions",
+					"metadata",
+					"storage_tier",
 				},
 				ResourceName: resourceName,
 			},
@@ -651,6 +658,7 @@ var (
 		"content_encoding":    Representation{repType: Optional, create: `identity`},
 		"content_language":    Representation{repType: Optional, create: `en-US`, update: `en-CA`},
 		"content_type":        Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
+		"storage_tier":        Representation{repType: Optional, create: `InfrequentAccess`},
 		"metadata":            Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
 	}
 )
@@ -766,6 +774,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+					resource.TestCheckResourceAttr(resourceName, "storage_tier", "InfrequentAccess"),
 
 					func(s *terraform.State) (err error) {
 
@@ -797,6 +806,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+					resource.TestCheckResourceAttr(resourceName, "storage_tier", "InfrequentAccess"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -898,6 +908,7 @@ var (
 		"source_uri_details": RepresentationGroup{Optional, objectSourceUriDetailsRepresentation},
 		"object":             Representation{repType: Optional, create: `my-test-object-1-copy`},
 		"metadata":           Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy"}},
+		"storage_tier":       Representation{repType: Optional, create: "InfrequentAccess"},
 	}))
 
 	ObjectResourceConfigWithSourceURIFromCopyOfContentObject = generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
@@ -1017,6 +1028,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					//the values were set for the object_copy
 					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.content-type", "text/plain-copy"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "storage_tier", "InfrequentAccess"),
 				),
 			},
 			// delete before next create
@@ -1162,6 +1174,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					"state",
 					"work_request_id",
 					"delete_all_object_versions",
+					"storage_tier",
 				},
 				ResourceName: resourceNameCopy,
 			},

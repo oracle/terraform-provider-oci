@@ -46,7 +46,7 @@ The following attributes are exported:
 	* `vendor` - The vendor that makes the CPE device.
 * `cpe_device_shape_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE device shape. This value uniquely identifies the type of CPE device. 
 * `parameters` - For certain CPE devices types, the customer can provide answers to questions that are specific to the device type. This attribute contains a list of those questions. The Networking service merges the answers with other information and renders a set of CPE configuration content. To provide the answers, use [UpdateTunnelCpeDeviceConfig](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/TunnelCpeDeviceConfig/UpdateTunnelCpeDeviceConfig). 
-	* `display_name` - A descriptive label for the question (for example, to display in a form in a graphical interface). 
+	* `display_name` - A descriptive label for the question (for example, to display in a form in a graphical interface). Avoid entering confidential information. 
 	* `explanation` - A description or explanation of the question, to help the customer answer accurately. 
 	* `key` - A string that identifies the question. 
 * `template` - A template of CPE device configuration information that will be merged with the customer's answers to the questions to render the final CPE device configuration content. Also see:

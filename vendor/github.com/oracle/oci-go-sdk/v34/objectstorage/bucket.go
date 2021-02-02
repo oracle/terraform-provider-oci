@@ -23,7 +23,7 @@ import (
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type Bucket struct {
 
-	// The Object Storage namespace in which the bucket lives.
+	// The Object Storage namespace in which the bucket resides.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
 	// The name of the bucket. Avoid entering confidential information.
@@ -52,10 +52,10 @@ type Bucket struct {
 	// bucket, public access is allowed for the `GetObject` and `HeadObject` operations.
 	PublicAccessType BucketPublicAccessTypeEnum `mandatory:"false" json:"publicAccessType,omitempty"`
 
-	// The storage tier type assigned to the bucket. A bucket is set to 'Standard' tier by default, which means
-	// objects uploaded or copied to the bucket will be in the standard storage tier. When the 'Archive' tier type
+	// The storage tier type assigned to the bucket. A bucket is set to `Standard` tier by default, which means
+	// objects uploaded or copied to the bucket will be in the standard storage tier. When the `Archive` tier type
 	// is set explicitly for a bucket, objects uploaded or copied to the bucket will be stored in archive storage.
-	// The 'storageTier' property is immutable after bucket is created.
+	// The `storageTier` property is immutable after bucket is created.
 	StorageTier BucketStorageTierEnum `mandatory:"false" json:"storageTier,omitempty"`
 
 	// Whether or not events are emitted for object state changes in this bucket. By default, `objectEventsEnabled` is

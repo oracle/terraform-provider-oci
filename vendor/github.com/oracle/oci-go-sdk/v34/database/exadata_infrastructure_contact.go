@@ -22,11 +22,14 @@ type ExadataInfrastructureContact struct {
 	// The email for the Exadata Infrastructure contact.
 	Email *string `mandatory:"true" json:"email"`
 
-	// True, if this Exadata Infrastructure contact is a primary contact. False, if this Exadata Infrastructure is a secondary contact.
+	// If `true`, this Exadata Infrastructure contact is a primary contact. If `false`, this Exadata Infrastructure is a secondary contact.
 	IsPrimary *bool `mandatory:"true" json:"isPrimary"`
 
 	// The phone number for the Exadata Infrastructure contact.
 	PhoneNumber *string `mandatory:"false" json:"phoneNumber"`
+
+	// If `true`, this Exadata Infrastructure contact is a valid My Oracle Support (MOS) contact. If `false`, this Exadata Infrastructure contact is not a valid MOS contact.
+	IsContactMosValidated *bool `mandatory:"false" json:"isContactMosValidated"`
 }
 
 func (m ExadataInfrastructureContact) String() string {

@@ -33,7 +33,7 @@ type CopyObjectDetails struct {
 	// The destination bucket the object will be copied to.
 	DestinationBucket *string `mandatory:"true" json:"destinationBucket"`
 
-	// The name of the destination object resulting from the copy operation.
+	// The name of the destination object resulting from the copy operation. Avoid entering confidential information.
 	DestinationObjectName *string `mandatory:"true" json:"destinationObjectName"`
 
 	// The entity tag (ETag) to match against that of the source object. Used to confirm that the source object
@@ -57,6 +57,10 @@ type CopyObjectDetails struct {
 	// in this field are assigned to the destination object. If you enter no metadata values, the destination
 	// object will inherit any existing metadata values associated with the source object.
 	DestinationObjectMetadata map[string]string `mandatory:"false" json:"destinationObjectMetadata"`
+
+	// The storage tier that the object should be stored in. If not specified, the object will be stored in
+	// the same storage tier as the bucket.
+	DestinationObjectStorageTier StorageTierEnum `mandatory:"false" json:"destinationObjectStorageTier,omitempty"`
 }
 
 func (m CopyObjectDetails) String() string {

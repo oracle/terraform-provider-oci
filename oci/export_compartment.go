@@ -897,7 +897,7 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 			}
 
 			if childType.processDiscoveredResourcesFn != nil {
-				results, err = childType.processDiscoveredResourcesFn(ctx.clients, results)
+				results, err = childType.processDiscoveredResourcesFn(ctx, results)
 				if err != nil {
 					// add error to the errorList and continue discovering rest of the resources
 					rdError := &ResourceDiscoveryError{
