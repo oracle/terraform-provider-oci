@@ -4,6 +4,7 @@
 - Support for New compute shape E4-Dense
 - Support for Cloud Advisor Fix It actions for V1 recommendations
 - Support for Cloud Advisor customization at resource/compartment level
+- Support for `artifacts` service
 
 ## 4.14.0 (February 17, 2021)
 
