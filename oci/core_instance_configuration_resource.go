@@ -375,6 +375,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										ForceNew:         true,
 										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 									},
+									"capacity_reservation_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"compartment_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -1797,6 +1803,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.AvailabilityDomain = &tmp
 	}
 
+	if capacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_id")); ok {
+		tmp := capacityReservationId.(string)
+		result.CapacityReservationId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
 		tmp := compartmentId.(string)
 		result.CompartmentId = &tmp
@@ -1946,6 +1957,10 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.CapacityReservationId != nil {
+		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
 	}
 
 	if obj.CompartmentId != nil {
