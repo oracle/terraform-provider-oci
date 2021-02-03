@@ -665,13 +665,11 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 
 	var initArgs []tfexec.InitOption
 
-	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
-		Logf("[INFO] plugin dir: '%s'", pluginDir)
-		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
-	} else {
-		Logf("[INFO] plugin dir: '%s'", ctx.terraformProviderBinaryPath)
+	if ctx.terraformProviderBinaryPath != "" {
+		Logf("[INFO] plugin dir set to: '%s'", ctx.terraformProviderBinaryPath)
 		initArgs = append(initArgs, tfexec.PluginDir(ctx.terraformProviderBinaryPath))
 	}
+
 	if err := ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
 		return err
 	}
@@ -700,11 +698,9 @@ func generateState(ctx *resourceDiscoveryContext, steps []resourceDiscoveryStep)
 	backgroundCtx := context.Background()
 
 	var initArgs []tfexec.InitOption
-	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
-		Logf("[INFO] plugin dir: '%s'", pluginDir)
-		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
-	} else {
-		Logf("[INFO] plugin dir: '%s'", ctx.terraformProviderBinaryPath)
+
+	if ctx.terraformProviderBinaryPath != "" {
+		Logf("[INFO] plugin dir set to: '%s'", ctx.terraformProviderBinaryPath)
 		initArgs = append(initArgs, tfexec.PluginDir(ctx.terraformProviderBinaryPath))
 	}
 	if err := ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
