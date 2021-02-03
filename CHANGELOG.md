@@ -3,6 +3,7 @@
 ### Added
 - Support for Maintenance Windows History in `database`
 - Support save report in cost analysis
+- Support for Capacity Reservations
 
 ## 4.18.0 (March 17, 2021)
 
