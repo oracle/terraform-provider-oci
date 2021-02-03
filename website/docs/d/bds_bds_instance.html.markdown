@@ -1,14 +1,14 @@
 ---
-subcategory: "Bds"
+subcategory: "Big Data Service"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_bds_bds_instance"
 sidebar_current: "docs-oci-datasource-bds-bds_instance"
 description: |-
-  Provides details about a specific Bds Instance in Oracle Cloud Infrastructure Bds service
+  Provides details about a specific Bds Instance in Oracle Cloud Infrastructure Big Data Service service
 ---
 
 # Data Source: oci_bds_bds_instance
-This data source provides details about a specific Bds Instance resource in Oracle Cloud Infrastructure Bds service.
+This data source provides details about a specific Bds Instance resource in Oracle Cloud Infrastructure Big Data Service service.
 
 Gets a BDS instance by identifier
 

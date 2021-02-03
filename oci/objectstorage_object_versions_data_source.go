@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v34/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v35/objectstorage"
 )
 
 func init() {
@@ -64,6 +64,10 @@ func ObjectStorageObjectVersionsDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"archival_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"etag": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -81,6 +85,10 @@ func ObjectStorageObjectVersionsDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"size": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"storage_tier": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -202,6 +210,8 @@ func (s *ObjectStorageObjectVersionsDataSourceCrud) SetData() error {
 func ObjectVersionSummaryToMap(obj oci_object_storage.ObjectVersionSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["archival_state"] = string(obj.ArchivalState)
+
 	if obj.Etag != nil {
 		result["etag"] = string(*obj.Etag)
 	}
@@ -221,6 +231,8 @@ func ObjectVersionSummaryToMap(obj oci_object_storage.ObjectVersionSummary) map[
 	if obj.Size != nil {
 		result["size"] = strconv.FormatInt(*obj.Size, 10)
 	}
+
+	result["storage_tier"] = string(obj.StorageTier)
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.Format(time.RFC3339Nano)

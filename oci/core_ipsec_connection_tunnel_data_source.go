@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v34/core"
+	oci_core "github.com/oracle/oci-go-sdk/v35/core"
 )
 
 func init() {
@@ -71,6 +71,35 @@ func CoreIpSecConnectionTunnelDataSource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"encryption_domain_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"cpe_traffic_selector": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"oracle_traffic_selector": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+					},
+				},
 			},
 			"ike_version": {
 				Type:     schema.TypeString,
@@ -168,6 +197,12 @@ func (s *CoreIpSecConnectionTunnelDataSourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EncryptionDomainConfig != nil {
+		s.D.Set("encryption_domain_config", []interface{}{EncryptionDomainConfigToMap(s.Res.EncryptionDomainConfig)})
+	} else {
+		s.D.Set("encryption_domain_config", nil)
 	}
 
 	s.D.Set("ike_version", s.Res.IkeVersion)

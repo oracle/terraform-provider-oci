@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v34/common"
-	oci_database "github.com/oracle/oci-go-sdk/v34/database"
+	"github.com/oracle/oci-go-sdk/v35/common"
+	oci_database "github.com/oracle/oci-go-sdk/v35/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -60,10 +60,11 @@ var (
 		"maintenance_window":          RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentation},
 	}
 	exadataInfrastructureContactsRepresentation = map[string]interface{}{
-		"email":        Representation{repType: Required, create: `testuser1@testdomain.com`, update: `testuser2@testdomain.com`},
-		"is_primary":   Representation{repType: Required, create: `true`},
-		"name":         Representation{repType: Required, create: `name`, update: `name2`},
-		"phone_number": Representation{repType: Optional, create: `1234567891`, update: `1234567892`},
+		"email":                    Representation{repType: Required, create: `testuser1@testdomain.com`, update: `testuser2@testdomain.com`},
+		"is_primary":               Representation{repType: Required, create: `true`},
+		"name":                     Representation{repType: Required, create: `name`, update: `name2`},
+		"is_contact_mos_validated": Representation{repType: Optional, create: `false`},
+		"phone_number":             Representation{repType: Optional, create: `1234567891`, update: `1234567892`},
 	}
 	exadataInfrastructureMaintenanceWindowRepresentation = map[string]interface{}{
 		"preference":         Representation{repType: Required, create: `NO_PREFERENCE`, update: `CUSTOM_PREFERENCE`},
@@ -165,6 +166,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "contacts.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.email", "testuser1@testdomain.com"),
+					resource.TestCheckResourceAttr(resourceName, "contacts.0.is_contact_mos_validated", "false"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.is_primary", "true"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.phone_number", "1234567891"),
@@ -215,6 +217,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "contacts.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.email", "testuser1@testdomain.com"),
+					resource.TestCheckResourceAttr(resourceName, "contacts.0.is_contact_mos_validated", "false"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.is_primary", "true"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.phone_number", "1234567891"),
@@ -263,6 +266,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "contacts.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.email", "testuser2@testdomain.com"),
+					resource.TestCheckResourceAttr(resourceName, "contacts.0.is_contact_mos_validated", "false"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.is_primary", "true"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.name", "name2"),
 					resource.TestCheckResourceAttr(resourceName, "contacts.0.phone_number", "1234567892"),
@@ -319,6 +323,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.contacts.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.contacts.0.email", "testuser2@testdomain.com"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.contacts.0.is_contact_mos_validated", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.contacts.0.is_primary", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.contacts.0.name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.contacts.0.phone_number", "1234567892"),
@@ -334,7 +339,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.gateway", "10.32.88.6"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.infini_band_network_cidr", "10.31.8.0/22"),
-
+					//resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.maintenance_slo_status"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
@@ -373,6 +378,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "contacts.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "contacts.0.email", "testuser2@testdomain.com"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "contacts.0.is_contact_mos_validated", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "contacts.0.is_primary", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "contacts.0.name", "name2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "contacts.0.phone_number", "1234567892"),
@@ -389,6 +395,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "gateway", "10.32.88.6"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "infini_band_network_cidr", "10.31.8.0/22"),
+					// maintenance_slo_status is not avaliable immediately in the response
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_slo_status"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),

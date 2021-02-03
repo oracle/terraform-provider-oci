@@ -44,7 +44,7 @@ The following attributes are exported:
 	* OLTP - indicates an Autonomous Transaction Processing database
 	* DW - indicates an Autonomous Data Warehouse database
 	* AJD - indicates an Autonomous JSON Database
-	* APEX - indicates an Autonomous Database with the Oracle Application Express (APEX) workload type. 
+	* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type. 
 * `details` - A URL that points to a detailed description of the preview version.
 * `time_preview_begin` - The date and time when the preview version availability begins.
 * `time_preview_end` - The date and time when the preview version availability ends.

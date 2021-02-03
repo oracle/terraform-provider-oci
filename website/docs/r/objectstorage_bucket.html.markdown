@@ -87,7 +87,7 @@ The following attributes are exported:
 * `kms_key_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key Management service to generate a data encryption key or to encrypt or decrypt a data encryption key. 
 * `metadata` - Arbitrary string keys and values for user-defined metadata.
 * `name` - The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1 
-* `namespace` - The Object Storage namespace in which the bucket lives.
+* `namespace` - The Object Storage namespace in which the bucket resides.
 * `object_events_enabled` - Whether or not events are emitted for object state changes in this bucket. By default, `objectEventsEnabled` is set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information about events, see [Overview of Events](https://docs.cloud.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm). 
 * `object_lifecycle_policy_etag` - The entity tag (ETag) for the live object lifecycle policy on the bucket.
 * `retention_rules` - User specified list of retention rules for the bucket. 
@@ -100,7 +100,7 @@ The following attributes are exported:
     * `time_modified` - The date and time that the retention rule was modified as per [RFC3339](https://tools.ietf.org/html/rfc3339).
     * `time_rule_locked` - The date and time as per [RFC 3339](https://tools.ietf.org/html/rfc3339) after which this rule becomes locked. and can only be deleted by deleting the bucket. 
 * `replication_enabled` - Whether or not this bucket is a replication source. By default, `replicationEnabled` is set to `false`. This will be set to 'true' when you create a replication policy for the bucket. 
-* `storage_tier` - The storage tier type assigned to the bucket. A bucket is set to 'Standard' tier by default, which means objects uploaded or copied to the bucket will be in the standard storage tier. When the 'Archive' tier type is set explicitly for a bucket, objects uploaded or copied to the bucket will be stored in archive storage. The 'storageTier' property is immutable after bucket is created. 
+* `storage_tier` - The storage tier type assigned to the bucket. A bucket is set to `Standard` tier by default, which means objects uploaded or copied to the bucket will be in the standard storage tier. When the `Archive` tier type is set explicitly for a bucket, objects uploaded or copied to the bucket will be stored in archive storage. The `storageTier` property is immutable after bucket is created. 
 * `time_created` - The date and time the bucket was created, as described in [RFC 2616](https://tools.ietf.org/html/rfc2616#section-14.29).
 * `versioning` - The versioning status on the bucket. A bucket is created with versioning `Disabled` by default. For versioning `Enabled`, objects are protected from overwrites and deletes, by maintaining their version history. When versioning is `Suspended`, the previous versions will still remain but new versions will no longer be created when overwitten or deleted. 
 

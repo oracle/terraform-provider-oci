@@ -4,44 +4,44 @@
 package oci
 
 import (
-	oci_analytics "github.com/oracle/oci-go-sdk/v34/analytics"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v34/apigateway"
-	oci_bds "github.com/oracle/oci-go-sdk/v34/bds"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v34/blockchain"
-	oci_budget "github.com/oracle/oci-go-sdk/v34/budget"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v34/cloudguard"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v34/containerengine"
-	oci_core "github.com/oracle/oci-go-sdk/v34/core"
-	oci_database "github.com/oracle/oci-go-sdk/v34/database"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v34/datacatalog"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v34/dataflow"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v34/dataintegration"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v34/datasafe"
-	oci_datascience "github.com/oracle/oci-go-sdk/v34/datascience"
-	oci_dns "github.com/oracle/oci-go-sdk/v34/dns"
-	oci_email "github.com/oracle/oci-go-sdk/v34/email"
-	oci_events "github.com/oracle/oci-go-sdk/v34/events"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v34/filestorage"
-	oci_functions "github.com/oracle/oci-go-sdk/v34/functions"
-	oci_identity "github.com/oracle/oci-go-sdk/v34/identity"
-	oci_integration "github.com/oracle/oci-go-sdk/v34/integration"
-	oci_kms "github.com/oracle/oci-go-sdk/v34/keymanagement"
-	oci_limits "github.com/oracle/oci-go-sdk/v34/limits"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v34/loadbalancer"
-	oci_logging "github.com/oracle/oci-go-sdk/v34/logging"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v34/managementagent"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v34/monitoring"
-	oci_mysql "github.com/oracle/oci-go-sdk/v34/mysql"
-	oci_nosql "github.com/oracle/oci-go-sdk/v34/nosql"
-	oci_oce "github.com/oracle/oci-go-sdk/v34/oce"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v34/ocvp"
-	oci_oda "github.com/oracle/oci-go-sdk/v34/oda"
-	oci_ons "github.com/oracle/oci-go-sdk/v34/ons"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v34/optimizer"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v34/osmanagement"
-	oci_sch "github.com/oracle/oci-go-sdk/v34/sch"
-	oci_streaming "github.com/oracle/oci-go-sdk/v34/streaming"
-	oci_waas "github.com/oracle/oci-go-sdk/v34/waas"
+	oci_analytics "github.com/oracle/oci-go-sdk/v35/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v35/apigateway"
+	oci_bds "github.com/oracle/oci-go-sdk/v35/bds"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v35/blockchain"
+	oci_budget "github.com/oracle/oci-go-sdk/v35/budget"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v35/cloudguard"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v35/containerengine"
+	oci_core "github.com/oracle/oci-go-sdk/v35/core"
+	oci_database "github.com/oracle/oci-go-sdk/v35/database"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v35/datacatalog"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v35/dataflow"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v35/dataintegration"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v35/datasafe"
+	oci_datascience "github.com/oracle/oci-go-sdk/v35/datascience"
+	oci_dns "github.com/oracle/oci-go-sdk/v35/dns"
+	oci_email "github.com/oracle/oci-go-sdk/v35/email"
+	oci_events "github.com/oracle/oci-go-sdk/v35/events"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v35/filestorage"
+	oci_functions "github.com/oracle/oci-go-sdk/v35/functions"
+	oci_identity "github.com/oracle/oci-go-sdk/v35/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/v35/integration"
+	oci_kms "github.com/oracle/oci-go-sdk/v35/keymanagement"
+	oci_limits "github.com/oracle/oci-go-sdk/v35/limits"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v35/loadbalancer"
+	oci_logging "github.com/oracle/oci-go-sdk/v35/logging"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v35/managementagent"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v35/monitoring"
+	oci_mysql "github.com/oracle/oci-go-sdk/v35/mysql"
+	oci_nosql "github.com/oracle/oci-go-sdk/v35/nosql"
+	oci_oce "github.com/oracle/oci-go-sdk/v35/oce"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v35/ocvp"
+	oci_oda "github.com/oracle/oci-go-sdk/v35/oda"
+	oci_ons "github.com/oracle/oci-go-sdk/v35/ons"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v35/optimizer"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v35/osmanagement"
+	oci_sch "github.com/oracle/oci-go-sdk/v35/sch"
+	oci_streaming "github.com/oracle/oci-go-sdk/v35/streaming"
+	oci_waas "github.com/oracle/oci-go-sdk/v35/waas"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -833,6 +833,49 @@ var exportDatabaseKeyStoreHints = &TerraformResourceHints{
 	resourceAbbreviation: "key_store",
 	discoverableLifecycleStates: []string{
 		string(oci_database.KeyStoreLifecycleStateActive),
+	},
+}
+
+var exportDatabaseExternalContainerDatabaseHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_external_container_database",
+	datasourceClass:      "oci_database_external_container_databases",
+	datasourceItemsAttr:  "external_container_databases",
+	resourceAbbreviation: "external_container_database",
+	discoverableLifecycleStates: []string{
+		string(oci_database.ExternalContainerDatabaseLifecycleStateNotConnected),
+		string(oci_database.ExternalContainerDatabaseLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExternalPluggableDatabaseHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_external_pluggable_database",
+	datasourceClass:      "oci_database_external_pluggable_databases",
+	datasourceItemsAttr:  "external_pluggable_databases",
+	resourceAbbreviation: "external_pluggable_database",
+	discoverableLifecycleStates: []string{
+		string(oci_database.ExternalPluggableDatabaseLifecycleStateNotConnected),
+		string(oci_database.ExternalPluggableDatabaseLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExternalNonContainerDatabaseHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_external_non_container_database",
+	datasourceClass:      "oci_database_external_non_container_databases",
+	datasourceItemsAttr:  "external_non_container_databases",
+	resourceAbbreviation: "external_non_container_database",
+	discoverableLifecycleStates: []string{
+		string(oci_database.ExternalNonContainerDatabaseLifecycleStateNotConnected),
+		string(oci_database.ExternalNonContainerDatabaseLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExternalDatabaseConnectorHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_external_database_connector",
+	datasourceClass:      "oci_database_external_database_connectors",
+	datasourceItemsAttr:  "external_database_connectors",
+	resourceAbbreviation: "external_database_connector",
+	discoverableLifecycleStates: []string{
+		string(oci_database.ExternalDatabaseConnectorLifecycleStateAvailable),
 	},
 }
 

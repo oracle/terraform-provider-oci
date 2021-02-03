@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v34/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v35/objectstorage"
 )
 
 func init() {
@@ -77,11 +77,30 @@ func ObjectStorageObjectsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_modified": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"etag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"storage_tier": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"archival_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
+				},
+			},
+			"prefixes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
 				},
 			},
 		},
@@ -106,7 +125,7 @@ func (s *ObjectStorageObjectsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-var listObjectsFields = "name,size,md5,timeCreated,etag"
+var listObjectsFields = "name,size,md5,timeCreated,timeModified,etag,storageTier,archivalState"
 
 func (s *ObjectStorageObjectsDataSourceCrud) Get() error {
 	request := oci_object_storage.ListObjectsRequest{

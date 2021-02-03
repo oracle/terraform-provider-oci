@@ -40,4 +40,6 @@ The following attributes are exported:
 * `content_type` - The content-type of the object
 * `content_length` - The content-length of the object
 * `etag` - The etag of the object
+* `storage_tier` - The storage tier that the object is stored in.
+* `archival-state` - Archival state of an object. This field is set only for objects in Archive tier.
 
