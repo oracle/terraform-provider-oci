@@ -1,4 +1,4 @@
-## 4.12.0 (Unreleased)
+## 4.12.0 (February 03, 2021)
 
 ### Added
 - Support for Infrequent Access object storage tier added
