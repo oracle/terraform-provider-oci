@@ -12,7 +12,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v34/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v35/objectstorage"
 )
 
 func init() {
@@ -106,6 +106,10 @@ func ObjectStorageObjectDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"content_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_tier": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -280,6 +284,8 @@ func (s *ObjectStorageObjectDataSourceCrud) SetData() error {
 	if s.Res.VersionId != nil {
 		s.D.Set("version_id", *s.Res.VersionId)
 	}
+
+	s.D.Set("storage_tier", string(s.Res.StorageTier))
 
 	if s.Res.OpcMeta != nil {
 		if err := s.D.Set("metadata", s.Res.OpcMeta); err != nil {

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_objectstorage_object
 This data source provides details about a specific Object resource in Oracle Cloud Infrastructure Object Storage service.
 
-Gets the metadata and body of an object.
+Gets the metadata and body of an object.  
 
 
 ## Example Usage
@@ -38,12 +38,12 @@ data "oci_objectstorage_object" "test_object" {
 The following arguments are supported:
 
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
-* `http_response_cache_control` - (Optional) This value will be used in Cache-Control header of the response.
-* `http_response_content_disposition` - (Optional) This value will be used in Content-Disposition header of the response.
-* `http_response_content_encoding` - (Optional) This value will be used in Content-Encoding header of the response
-* `http_response_content_language` - (Optional) This value will be used in Content-Language header of the response.
-* `http_response_content_type` - (Optional) This value will be used in Content-Type header of the response.
-* `http_response_expires` - (Optional) This value will be used in Expires header of the response
+* `http_response_cache_control` - (Optional) Specify this query parameter to override the Cache-Control response header in the GetObject response.
+* `http_response_content_disposition` - (Optional) Specify this query parameter to override the value of the Content-Disposition response header in the GetObject response.
+* `http_response_content_encoding` - (Optional) Specify this query parameter to override the Content-Encoding response header in the GetObject response.
+* `http_response_content_language` - (Optional) Specify this query parameter to override the Content-Language response header in the GetObject response.
+* `http_response_content_type` - (Optional) Specify this query parameter to override the Content-Type response header in the GetObject response.
+* `http_response_expires` - (Optional) Specify this query parameter to override the Expires response header in the GetObject response.
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Required) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
 * `content_length_limit` - (Optional) The limit of the content length of the object body to download from the object store. The default is 1Mb.
@@ -65,6 +65,7 @@ The following attributes are exported:
 * `content_type` - The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
 * `metadata` - Optional user-defined metadata key and value. Note: Metadata keys are case-insensitive and all returned keys will be lower case.
 * `namespace` - The top-level namespace used for the request.
-* `object` - The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
+* `object` - The name of the object. Avoid entering confidential information. Example: `test/object1.log`
+* `storage_tier` - The storage tier that the object is stored in. 
 
 

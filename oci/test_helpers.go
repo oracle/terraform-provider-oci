@@ -24,7 +24,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v34/common"
+	oci_common "github.com/oracle/oci-go-sdk/v35/common"
 )
 
 var tmpl template.Template = *template.New("tmpl")
@@ -527,7 +527,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	}
 
 	if err := tf.Plan(backgroundCtx, planArgs...); err != nil {
-		return fmt.Errorf("[ERROR] terraform plan command failed")
+		return fmt.Errorf("[ERROR] terraform plan command failed %s", err.Error())
 	}
 	return nil
 }

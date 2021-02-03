@@ -11,7 +11,7 @@ description: |-
 This data source provides the list of Exadata Infrastructures in Oracle Cloud Infrastructure Database service.
 
 Lists the Exadata infrastructure resources in the specified compartment. Applies to Exadata Cloud@Customer instances only.
-To list the Exadata Cloud Service infrastructure resources in a compartment, use the  [ListCloudExadataInfrastructures](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/ListCloudExadataInfrastructures) operation.
+To list the Exadata Cloud Service infrastructure resources in a compartment, use the  [ListCloudExadataInfrastructures](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/ListCloudExadataInfrastructures) operation.
 
 
 ## Example Usage
@@ -52,7 +52,8 @@ The following attributes are exported:
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `contacts` - The list of contacts for the Exadata infrastructure.
 	* `email` - The email for the Exadata Infrastructure contact.
-	* `is_primary` - True, if this Exadata Infrastructure contact is a primary contact. False, if this Exadata Infrastructure is a secondary contact.
+	* `is_contact_mos_validated` - If `true`, this Exadata Infrastructure contact is a valid My Oracle Support (MOS) contact. If `false`, this Exadata Infrastructure contact is not a valid MOS contact.
+	* `is_primary` - If `true`, this Exadata Infrastructure contact is a primary contact. If `false`, this Exadata Infrastructure is a secondary contact.
 	* `name` - The name of the Exadata Infrastructure contact.
 	* `phone_number` - The phone number for the Exadata Infrastructure contact.
 * `corporate_proxy` - The corporate network proxy for access to the control plane network.
@@ -68,6 +69,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `infini_band_network_cidr` - The CIDR block for the Exadata InfiniBand interconnect.
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `maintenance_slo_status` - A field to capture ‘Maintenance SLO Status’ for the Exadata infrastructure with values ‘OK’, ‘DEGRADED’. Default is ‘OK’ when the infrastructure is provisioned.
 * `maintenance_window` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
 	* `days_of_week` - Days during the week when maintenance should be performed.
 		* `name` - Name of the day of the week.

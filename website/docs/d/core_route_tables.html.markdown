@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
-* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive. 
 * `vcn_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 
 
@@ -55,7 +55,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The route table's Oracle ID (OCID).
-* `route_rules` - The collection of rules for routing destination IPs to network devices.
+* `route_rules` - The collection of rules for routing destination IPs to network devices. 
 	* `cidr_block` - Deprecated. Instead use `destination` and `destinationType`. Requests that include both `cidrBlock` and `destination` will be rejected.
 
 		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).

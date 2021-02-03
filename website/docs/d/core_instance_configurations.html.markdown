@@ -54,7 +54,7 @@ The following attributes are exported:
 			* `is_read_only` - Whether the attachment should be created in read-only mode.
 			* `is_shareable` - Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
 			* `type` - The type of volume. The only supported values are "iscsi" and "paravirtualized".
-			* `use_chap` - Whether to use CHAP authentication for the volume attachment. Defaults to false.
+			* `use_chap` - Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 		* `create_details` - Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVolumeDetails/) 
 			* `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
 			* `backup_policy_id` - If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
@@ -78,9 +78,9 @@ The following attributes are exported:
 	* `launch_details` - Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
 
 		See [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/LaunchInstanceDetails) for more information. 
-		* `agent_config` - Instance agent configuration options to choose for launching the instance
-			* `is_management_disabled` - Whether the agent running on the instance can run all the available management plugins. Default value is false. 
-			* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. Default value is false. 
+		* `agent_config` - Configuration options for the Oracle Cloud Agent software running on the instance.
+			* `is_management_disabled` - Whether Oracle Cloud Agent can run all the available management plugins. Default value is false (management plugins are enabled). 
+			* `is_monitoring_disabled` - Whether Oracle Cloud Agent can gather performance metrics and monitor the instance using the monitoring plugins. Default value is false (monitoring plugins are enabled). 
 		* `availability_config` - Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware. 
 			* `recovery_action` - The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 				* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
@@ -139,22 +139,22 @@ The following attributes are exported:
 				* `ISCSI` - ISCSI attached block storage device.
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
-				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle provided images.
+				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle provided images.
 				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
-			* `firmware` - Firmware used to boot VM.  Select the option that matches your operating system.
-				* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
-				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle-provided images. 
+			* `firmware` - Firmware used to boot VM. Select the option that matches your operating system.
+				* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
+				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for Oracle-provided images. 
 			* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
 			* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [InstanceConfigurationLaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/InstanceConfigurationLaunchInstanceDetails). 
 			* `network_type` - Emulation type for the physical network interface card (NIC).
-				* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
+				* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 				* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
 				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers. 
 			* `remote_data_volume_type` - Emulation type for volume.
 				* `ISCSI` - ISCSI attached block storage device.
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
-				* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle provided images.
+				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle provided images.
 				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 		* `metadata` - Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
@@ -198,7 +198,7 @@ The following attributes are exported:
 			* `ocpus` - The total number of OCPUs available to the instance. 
 		* `source_details` - 
 			* `boot_volume_id` - The OCID of the boot volume used to boot the instance.
-			* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. The minimum value is 50 GB and the maximum value is 16384 GB (16TB).
+			* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. The minimum value is 50 GB and the maximum value is 16384 GB (16TB). 
 			* `image_id` - The OCID of the image used to boot the instance.
 			* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 	* `secondary_vnics` - 

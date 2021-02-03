@@ -1,14 +1,14 @@
 ---
-subcategory: "Ocvp"
+subcategory: "Oracle Cloud VMware Solution"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ocvp_sddcs"
 sidebar_current: "docs-oci-datasource-ocvp-sddcs"
 description: |-
-  Provides the list of Sddcs in Oracle Cloud Infrastructure Ocvp service
+  Provides the list of Sddcs in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
 ---
 
 # Data Source: oci_ocvp_sddcs
-This data source provides the list of Sddcs in Oracle Cloud Infrastructure Ocvp service.
+This data source provides the list of Sddcs in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
 
 Lists the SDDCs in the specified compartment. The list can be
 filtered by display name or availability domain.

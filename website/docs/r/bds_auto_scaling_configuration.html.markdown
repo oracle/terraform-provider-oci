@@ -1,14 +1,14 @@
 ---
-subcategory: "Bds"
+subcategory: "Big Data Service"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_bds_auto_scaling_configuration"
 sidebar_current: "docs-oci-resource-bds-auto_scaling_configuration"
 description: |-
-  Provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Bds service
+  Provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Big Data Service service
 ---
 
 # oci_bds_auto_scaling_configuration
-This resource provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Bds service.
+This resource provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Big Data Service service.
 
 Add autoscaling configuration.
 

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v34/database"
+	oci_database "github.com/oracle/oci-go-sdk/v35/database"
 )
 
 func init() {
@@ -132,6 +132,8 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	s.D.Set("maintenance_slo_status", s.Res.MaintenanceSLOStatus)
 
 	if s.Res.MaintenanceWindow != nil {
 		s.D.Set("maintenance_window", []interface{}{ExadataInfrastructureMaintenanceWindowToMap(s.Res.MaintenanceWindow)})

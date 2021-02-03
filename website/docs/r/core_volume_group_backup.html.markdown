@@ -34,7 +34,7 @@ resource "oci_core_volume_group_backup" "test_volume_group_backup" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment that will contain the volume group backup. This parameter is optional, by default backup will be created in the same compartment and source volume group.
+* `compartment_id` - (Optional) (Updatable) The OCID of the compartment that will contain the volume group backup. This parameter is optional, by default backup will be created in the same compartment and source volume group. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name for the volume group backup. Does not have to be unique and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -54,13 +54,13 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains the volume group backup.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - A user-friendly name for the volume group backup. Does not have to be unique and it's changeable. Avoid entering confidential information.
+* `display_name` - A user-friendly name for the volume group backup. Does not have to be unique and it's changeable. Avoid entering confidential information. 
 * `expiration_time` - The date and time the volume group backup will expire and be automatically deleted. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). This parameter will always be present for volume group backups that were created automatically by a scheduled-backup policy. For manually created volume group backups, it will be absent, signifying that there is no expiration time and the backup will last forever until manually deleted. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume group backup.
 * `size_in_gbs` - The aggregate size of the volume group backup, in GBs. 
 * `size_in_mbs` - The aggregate size of the volume group backup, in MBs. 
-* `source_type` - Specifies whether the volume group backup was created manually, or via scheduled backup policy.
+* `source_type` - Specifies whether the volume group backup was created manually, or via scheduled backup policy. 
 * `source_volume_group_backup_id` - The OCID of the source volume group backup.
 * `state` - The current state of a volume group backup.
 * `time_created` - The date and time the volume group backup was created. This is the time the actual point-in-time image of the volume group data was taken. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 

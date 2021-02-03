@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v34/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v35/objectstorage"
 
 	"log"
 )
@@ -41,6 +41,14 @@ func ObjectStorageObjectHeadDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"content_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_tier": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"archival_state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -122,6 +130,10 @@ func (s *ObjectHeadDataSourceCrud) SetData() error {
 	if s.Res.ETag != nil {
 		s.D.Set("etag", *s.Res.ETag)
 	}
+
+	s.D.Set("storage_tier", string(s.Res.StorageTier))
+
+	s.D.Set("archival_state", string(s.Res.ArchivalState))
 
 	return nil
 }

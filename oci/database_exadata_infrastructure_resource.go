@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v34/database"
+	oci_database "github.com/oracle/oci-go-sdk/v35/database"
 )
 
 func init() {
@@ -112,6 +112,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_contact_mos_validated": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"phone_number": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -239,6 +244,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Computed: true,
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"maintenance_slo_status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -763,6 +772,8 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("maintenance_slo_status", s.Res.MaintenanceSLOStatus)
+
 	if s.Res.MaintenanceWindow != nil {
 		s.D.Set("maintenance_window", []interface{}{ExadataInfrastructureMaintenanceWindowToMap(s.Res.MaintenanceWindow)})
 	} else {
@@ -838,6 +849,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToExadataInfrastructureCo
 		result.Email = &tmp
 	}
 
+	if isContactMosValidated, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_contact_mos_validated")); ok {
+		tmp := isContactMosValidated.(bool)
+		result.IsContactMosValidated = &tmp
+	}
+
 	if isPrimary, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_primary")); ok {
 		tmp := isPrimary.(bool)
 		result.IsPrimary = &tmp
@@ -861,6 +877,10 @@ func ExadataInfrastructureContactToMap(obj oci_database.ExadataInfrastructureCon
 
 	if obj.Email != nil {
 		result["email"] = string(*obj.Email)
+	}
+
+	if obj.IsContactMosValidated != nil {
+		result["is_contact_mos_validated"] = bool(*obj.IsContactMosValidated)
 	}
 
 	if obj.IsPrimary != nil {

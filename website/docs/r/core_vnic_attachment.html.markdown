@@ -112,7 +112,7 @@ The following attributes are exported:
 	However, if the VNIC belongs to a VLAN as part of the Oracle Cloud VMware Solution, the `vlanTag` value is instead the value of the `vlanTag` attribute for the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vlan).
 
 	Example: `0` 
-* `vnic_id` - The OCID of the VNIC. Available after the attachment process is complete.
+* `vnic_id` - The OCID of the VNIC. Available after the attachment process is complete. 
 
 ## Import
 

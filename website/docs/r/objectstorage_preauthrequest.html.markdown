@@ -35,7 +35,7 @@ The following arguments are supported:
 
 * `access_type` - (Required) The operation that can be performed on this resource. Allowed Values: `ObjectRead`, `ObjectWrite`, `ObjectReadWrite`, or `AnyObjectWrite`
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
-* `name` - (Required) A user-specified name for the pre-authenticated request. Names can be helpful in managing pre-authenticated requests.
+* `name` - (Required) A user-specified name for the pre-authenticated request. Names can be helpful in managing pre-authenticated requests. Avoid entering confidential information. 
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Optional) The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. 
 * `time_expires` - (Required) The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/html/rfc3339). After this date the pre-authenticated request will no longer be valid. 

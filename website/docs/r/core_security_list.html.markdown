@@ -126,7 +126,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the security list.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `egress_security_rules` - (Optional) (Updatable) Rules for allowing egress IP packets.
 	* `description` - (Optional) (Updatable) An optional description of your choice for the rule. 
 	* `destination` - (Required) (Updatable) Conceptually, this is the range of IP addresses that a packet originating from the instance can go to.
@@ -154,14 +154,14 @@ The following arguments are supported:
 			* `min` - (Optional) (Updatable) The minimum port number. Must not be greater than the maximum port number.
 		* `source_port_range` - (Optional) (Updatable) 
 			* `max` - (Required) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number.
+			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number. 
 	* `udp_options` - (Optional) (Updatable) Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
 		* `destination_port_range` - (Optional) (Updatable) 
 			* `max` - (Optional) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Optional) (Updatable) The minimum port number. Must not be greater than the maximum port number.
 		* `source_port_range` - (Optional) (Updatable) 
 			* `max` - (Required) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number.
+			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ingress_security_rules` - (Optional) (Updatable) Rules for allowing ingress IP packets.
 	* `description` - (Optional) (Updatable) An optional description of your choice for the rule. 
@@ -188,14 +188,14 @@ The following arguments are supported:
 			* `min` - (Optional) (Updatable) The minimum port number. Must not be greater than the maximum port number.
 		* `source_port_range` - (Optional) (Updatable) 
 			* `max` - (Required) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number.
+			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number. 
 	* `udp_options` - (Optional) (Updatable) Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
 		* `destination_port_range` - (Optional) (Updatable) 
 			* `max` - (Optional) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
 			* `min` - (Optional) (Updatable) The minimum port number. Must not be greater than the maximum port number.
 		* `source_port_range` - (Optional) (Updatable) 
 			* `max` - (Required) (Updatable) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number.
+			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number. 
 * `vcn_id` - (Required) The OCID of the VCN the security list belongs to.
 
 
@@ -233,17 +233,17 @@ The following attributes are exported:
 	* `tcp_options` - Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - The minimum port number. Must not be greater than the maximum port number.
+			* `min` - The minimum port number. Must not be greater than the maximum port number. 
 		* `source_port_range` - 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - The minimum port number. Must not be greater than the maximum port number.
+			* `min` - The minimum port number. Must not be greater than the maximum port number. 
 	* `udp_options` - Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - The minimum port number. Must not be greater than the maximum port number.
+			* `min` - The minimum port number. Must not be greater than the maximum port number. 
 		* `source_port_range` - 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - The minimum port number. Must not be greater than the maximum port number.
+			* `min` - The minimum port number. Must not be greater than the maximum port number. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The security list's Oracle Cloud ID (OCID).
 * `ingress_security_rules` - Rules for allowing ingress IP packets.
@@ -268,17 +268,17 @@ The following attributes are exported:
 	* `tcp_options` - Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - The minimum port number. Must not be greater than the maximum port number.
+			* `min` - The minimum port number. Must not be greater than the maximum port number. 
 		* `source_port_range` - 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - The minimum port number. Must not be greater than the maximum port number.
+			* `min` - The minimum port number. Must not be greater than the maximum port number. 
 	* `udp_options` - Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - The minimum port number. Must not be greater than the maximum port number.
+			* `min` - The minimum port number. Must not be greater than the maximum port number. 
 		* `source_port_range` - 
 			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
-			* `min` - The minimum port number. Must not be greater than the maximum port number.
+			* `min` - The minimum port number. Must not be greater than the maximum port number. 
 * `state` - The security list's current state.
 * `time_created` - The date and time the security list was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The OCID of the VCN the security list belongs to.

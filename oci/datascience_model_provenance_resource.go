@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v34/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v35/datascience"
 )
 
 func init() {

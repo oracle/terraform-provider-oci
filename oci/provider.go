@@ -29,8 +29,8 @@ import (
 	"net/http"
 	"runtime"
 
-	oci_common "github.com/oracle/oci-go-sdk/v34/common"
-	oci_common_auth "github.com/oracle/oci-go-sdk/v34/common/auth"
+	oci_common "github.com/oracle/oci-go-sdk/v35/common"
+	oci_common_auth "github.com/oracle/oci-go-sdk/v35/common/auth"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -596,7 +596,11 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 					strings.Contains(r.URL.Path, "/vmClusters") ||
 					strings.Contains(r.URL.Path, "/cloudExadataInfrastructures") ||
 					strings.Contains(r.URL.Path, "/cloudVmClusters") ||
-					strings.Contains(r.URL.Path, "/autonomousVmClusters")) {
+					strings.Contains(r.URL.Path, "/autonomousVmClusters") ||
+					strings.Contains(r.URL.Path, "/externalnoncontainerdatabases") ||
+					strings.Contains(r.URL.Path, "/externalcontainerdatabases") ||
+					strings.Contains(r.URL.Path, "/externalpluggabledatabases") ||
+					strings.Contains(r.URL.Path, "/externaldatabaseconnectors")) {
 					r.Header.Set(requestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
 				}
 			}

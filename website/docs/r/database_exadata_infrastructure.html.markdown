@@ -11,7 +11,7 @@ description: |-
 This resource provides the Exadata Infrastructure resource in Oracle Cloud Infrastructure Database service.
 
 Creates an Exadata infrastructure resource. Applies to Exadata Cloud@Customer instances only.
-To create an Exadata Cloud Service infrastructure resource, use the  [CreateCloudExadataInfrastructure](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/CreateCloudExadataInfrastructure) operation.
+To create an Exadata Cloud Service infrastructure resource, use the  [CreateCloudExadataInfrastructure](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/CreateCloudExadataInfrastructure) operation.
 
 
 ## Example Usage
@@ -41,6 +41,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 		name = var.exadata_infrastructure_contacts_name
 
 		#Optional
+		is_contact_mos_validated = var.exadata_infrastructure_contacts_is_contact_mos_validated
 		phone_number = var.exadata_infrastructure_contacts_phone_number
 	}
 	corporate_proxy = var.exadata_infrastructure_corporate_proxy
@@ -77,7 +78,8 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. 
 * `contacts` - (Optional) (Updatable) The list of contacts for the Exadata infrastructure.
 	* `email` - (Required) (Updatable) The email for the Exadata Infrastructure contact.
-	* `is_primary` - (Required) (Updatable) True, if this Exadata Infrastructure contact is a primary contact. False, if this Exadata Infrastructure is a secondary contact.
+	* `is_contact_mos_validated` - (Optional) (Updatable) If `true`, this Exadata Infrastructure contact is a valid My Oracle Support (MOS) contact. If `false`, this Exadata Infrastructure contact is not a valid MOS contact.
+	* `is_primary` - (Required) (Updatable) If `true`, this Exadata Infrastructure contact is a primary contact. If `false`, this Exadata Infrastructure is a secondary contact.
 	* `name` - (Required) (Updatable) The name of the Exadata Infrastructure contact.
 	* `phone_number` - (Optional) (Updatable) The phone number for the Exadata Infrastructure contact.
 * `corporate_proxy` - (Optional) (Updatable) The corporate network proxy for access to the control plane network. Oracle recommends using an HTTPS proxy when possible for enhanced security. 
@@ -116,7 +118,8 @@ The following attributes are exported:
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `contacts` - The list of contacts for the Exadata infrastructure.
 	* `email` - The email for the Exadata Infrastructure contact.
-	* `is_primary` - True, if this Exadata Infrastructure contact is a primary contact. False, if this Exadata Infrastructure is a secondary contact.
+	* `is_contact_mos_validated` - If `true`, this Exadata Infrastructure contact is a valid My Oracle Support (MOS) contact. If `false`, this Exadata Infrastructure contact is not a valid MOS contact.
+	* `is_primary` - If `true`, this Exadata Infrastructure contact is a primary contact. If `false`, this Exadata Infrastructure is a secondary contact.
 	* `name` - The name of the Exadata Infrastructure contact.
 	* `phone_number` - The phone number for the Exadata Infrastructure contact.
 * `corporate_proxy` - The corporate network proxy for access to the control plane network.
@@ -132,6 +135,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `infini_band_network_cidr` - The CIDR block for the Exadata InfiniBand interconnect.
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `maintenance_slo_status` - A field to capture ‘Maintenance SLO Status’ for the Exadata infrastructure with values ‘OK’, ‘DEGRADED’. Default is ‘OK’ when the infrastructure is provisioned.
 * `maintenance_window` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
 	* `days_of_week` - Days during the week when maintenance should be performed.
 		* `name` - Name of the day of the week.

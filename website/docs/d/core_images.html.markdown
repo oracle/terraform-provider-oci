@@ -60,9 +60,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `agent_features` - Instance agent features supported on the image
-	* `is_management_supported` - Whether the agent running on the instance can run all the available management plugins 
-	* `is_monitoring_supported` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
+* `agent_features` - Oracle Cloud Agent features supported on the image.
+	* `is_management_supported` - Whether Oracle Cloud Agent can run all the available management plugins. 
+	* `is_monitoring_supported` - Whether Oracle Cloud Agent can gather performance metrics and monitor the instance. 
 * `base_image_id` - The OCID of the image originally used to launch the instance.
 * `compartment_id` - The OCID of the compartment containing the instance you want to use as the basis for the image. 
 * `create_image_allowed` - Whether instances launched with this image can be used to create new images. For example, you cannot create an image of an Oracle Database instance.  Example: `true` 
@@ -84,22 +84,22 @@ The following attributes are exported:
 		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
-		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle-provided images.
+		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle-provided images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
-	* `firmware` - Firmware used to boot VM.  Select the option that matches your operating system.
-		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
-		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle-provided images. 
+	* `firmware` - Firmware used to boot VM. Select the option that matches your operating system.
+		* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
+		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for Oracle-provided images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
 	* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails). 
 	* `network_type` - Emulation type for the physical network interface card (NIC).
-		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
+		* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
 		* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers. 
 	* `remote_data_volume_type` - Emulation type for volume.
 		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
-		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for local data volumes on Oracle-provided images.
+		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle-provided images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 * `operating_system` - The image's operating system.  Example: `Oracle Linux` 
 * `operating_system_version` - The image's operating system version.  Example: `7.2` 
