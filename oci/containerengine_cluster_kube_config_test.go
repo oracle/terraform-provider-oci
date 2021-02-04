@@ -16,6 +16,7 @@ import (
 var (
 	clusterKubeConfigSingularDataSourceRepresentation = map[string]interface{}{
 		"cluster_id":    Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"endpoint":      Representation{repType: Optional, create: `LEGACY_KUBERNETES`},
 		"token_version": Representation{repType: Optional, create: `2.0.0`},
 	}
 
@@ -56,6 +57,7 @@ func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
 					compartmentIdVariableStr + ClusterKubeConfigResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "endpoint", "LEGACY_KUBERNETES"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "token_version", "2.0.0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
 				),

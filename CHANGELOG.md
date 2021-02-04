@@ -2,6 +2,7 @@
 
 ### Added
 - Support for updating instance type in `oci_oce_oce_instance`
+- Support for private native vcn clusters to `container_engine`
 
 ## 4.17.0 (March 10, 2021)
 

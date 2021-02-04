@@ -76,7 +76,7 @@ The following arguments are supported:
 * `node_shape` - (Required) (Updatable) The name of the node shape of the nodes in the node pool.
 * `node_shape_config` - (Optional) (Updatable) Specify the configuration of the shape to launch nodes in the node pool. 
 	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to each node, in gigabytes. 
-	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to each node in the node pool.  See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
+	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to each node in the node pool. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `node_source_details` - (Optional) (Updatable) Specify the source to use to launch nodes in the node pool. Currently, image is the only supported source. 
 	* `boot_volume_size_in_gbs` - (Optional) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB. See [here](https://docs.cloud.oracle.com/en-us/iaas/Content/Block/Concepts/bootvolumes.htm) for max custom boot volume sizing and OS-specific requirements.
 	* `image_id` - (Required) (Updatable) The OCID of the image used to boot the node.
@@ -114,7 +114,7 @@ The following attributes are exported:
 * `node_shape` - The name of the node shape of the nodes in the node pool.
 * `node_shape_config` - The shape configuration of the nodes.
 	* `memory_in_gbs` - The total amount of memory available to each node, in gigabytes. 
-	* `ocpus` - The total number of OCPUs available to each node in the node pool.  See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
+	* `ocpus` - The total number of OCPUs available to each node in the node pool. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `node_source` - Deprecated. see `nodeSourceDetails`. Source running on the nodes in the node pool.
 	* `image_id` - The OCID of the image.
 	* `source_name` - The user-friendly name of the entity corresponding to the OCID. 
