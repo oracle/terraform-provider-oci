@@ -20,6 +20,7 @@ data "oci_containerengine_cluster_kube_config" "test_cluster_kube_config" {
 	cluster_id = oci_containerengine_cluster.test_cluster.id
 
 	#Optional
+	endpoint = var.cluster_kube_config_endpoint
 	expiration = var.cluster_kube_config_expiration
 	token_version = var.cluster_kube_config_token_version
 }
@@ -30,6 +31,7 @@ data "oci_containerengine_cluster_kube_config" "test_cluster_kube_config" {
 The following arguments are supported:
 
 * `cluster_id` - (Required) The OCID of the cluster.
+* `endpoint` - (Optional) The endpoint to target. A cluster may have multiple endpoints exposed but the kubeconfig can only target one at a time.
 * `expiration` - (Optional) Deprecated. This field is no longer used. 
 * `token_version` - (Optional) The version of the kubeconfig token. Supported value 2.0.0 
 
