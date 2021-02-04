@@ -148,6 +148,11 @@ func (s *ObjectStorageObjectsDataSourceCrud) Get() error {
 		request.End = &tmp
 	}
 
+	if fields, ok := s.D.GetOkExists("fields"); ok {
+		tmp := fields.(string)
+		request.Fields = &tmp
+	}
+
 	if limit, ok := s.D.GetOkExists("limit"); ok {
 		tmp := limit.(int)
 		request.Limit = &tmp
