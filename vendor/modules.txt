@@ -225,6 +225,7 @@ github.com/oracle/oci-go-sdk/v35/budget
 github.com/oracle/oci-go-sdk/v35/cloudguard
 github.com/oracle/oci-go-sdk/v35/common
 github.com/oracle/oci-go-sdk/v35/common/auth
+github.com/oracle/oci-go-sdk/v35/computeinstanceagent
 github.com/oracle/oci-go-sdk/v35/containerengine
 github.com/oracle/oci-go-sdk/v35/core
 github.com/oracle/oci-go-sdk/v35/database
