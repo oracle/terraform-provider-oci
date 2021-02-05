@@ -16,11 +16,16 @@ import (
 
 // DatabaseUpgradeSourceBase Details for the database upgrade source.
 type DatabaseUpgradeSourceBase interface {
+
+	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).
+	// Example: "-upgradeTimezone false -keepEvents"
+	GetOptions() *string
 }
 
 type databaseupgradesourcebase struct {
 	JsonData []byte
-	Source   string `json:"source"`
+	Options  *string `mandatory:"false" json:"options"`
+	Source   string  `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -34,6 +39,7 @@ func (m *databaseupgradesourcebase) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.Options = s.Model.Options
 	m.Source = s.Model.Source
 
 	return err
@@ -63,6 +69,11 @@ func (m *databaseupgradesourcebase) UnmarshalPolymorphicJSON(data []byte) (inter
 	default:
 		return *m, nil
 	}
+}
+
+//GetOptions returns Options
+func (m databaseupgradesourcebase) GetOptions() *string {
+	return m.Options
 }
 
 func (m databaseupgradesourcebase) String() string {

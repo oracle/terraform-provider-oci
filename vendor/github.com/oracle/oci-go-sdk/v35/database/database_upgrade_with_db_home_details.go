@@ -19,6 +19,15 @@ type DatabaseUpgradeWithDbHomeDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Home.
 	DbHomeId *string `mandatory:"true" json:"dbHomeId"`
+
+	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).
+	// Example: "-upgradeTimezone false -keepEvents"
+	Options *string `mandatory:"false" json:"options"`
+}
+
+//GetOptions returns Options
+func (m DatabaseUpgradeWithDbHomeDetails) GetOptions() *string {
+	return m.Options
 }
 
 func (m DatabaseUpgradeWithDbHomeDetails) String() string {

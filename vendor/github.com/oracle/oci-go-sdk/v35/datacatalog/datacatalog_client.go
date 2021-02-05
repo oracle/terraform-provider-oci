@@ -5954,6 +5954,117 @@ func (client DataCatalogClient) parseConnection(ctx context.Context, request com
 	return response, err
 }
 
+// ProcessRecommendation Act on a recommendation. A recommendation can be accepted or rejected. For example, if a recommendation of type LINK_GLOSSARY_TERM
+// is accepted, the system will link the source object (e.g. an attribute) to a target glossary term.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ProcessRecommendation.go.html to see an example of how to use ProcessRecommendation API.
+func (client DataCatalogClient) ProcessRecommendation(ctx context.Context, request ProcessRecommendationRequest) (response ProcessRecommendationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.processRecommendation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ProcessRecommendationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ProcessRecommendationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ProcessRecommendationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ProcessRecommendationResponse")
+	}
+	return
+}
+
+// processRecommendation implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) processRecommendation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/processRecommendation")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ProcessRecommendationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// Recommendations Returns a list of recommendations for the given object and recommendation type.
+// By default, it will return inferred recommendations for review. The optional query param 'RecommendationStatus' can be set,
+// to return only recommendations having that status.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/Recommendations.go.html to see an example of how to use Recommendations API.
+func (client DataCatalogClient) Recommendations(ctx context.Context, request RecommendationsRequest) (response RecommendationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.recommendations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RecommendationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RecommendationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RecommendationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RecommendationsResponse")
+	}
+	return
+}
+
+// recommendations implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) recommendations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/getRecommendations")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RecommendationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveDataSelectorPatterns Remove data selector pattern from the data asset.
 //
 // See also
