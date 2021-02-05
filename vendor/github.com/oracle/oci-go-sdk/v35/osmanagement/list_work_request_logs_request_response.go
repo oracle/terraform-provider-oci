@@ -62,17 +62,18 @@ type ListWorkRequestLogsResponse struct {
 	// A list of []WorkRequestLogEntry instances
 	Items []WorkRequestLogEntry `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response,
-	// then a partial list might have been returned. Include this value as the `page` parameter for the
-	// subsequent GET request to get the next batch of items.
+	// For pagination of a list of items. When paging through a list, if this
+	// header appears in the response, then a partial list might have been
+	// returned. Include this value as the `page` parameter for the subsequent
+	// GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
-	// some decimal number representing the number of seconds the client should wait before polling this endpoint again
+	// A decimal number representing the number of seconds the client
+	// should wait before polling this endpoint again.
 	RetryAfter *float32 `presentIn:"header" name:"retry-after"`
 }
 

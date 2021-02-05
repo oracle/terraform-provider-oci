@@ -55,12 +55,11 @@ type InstallAllPackageUpdatesOnManagedInstanceResponse struct {
 	RawResponse *http.Response
 
 	// Unique Oracle-assigned identifier for the asynchronous request.
-	// You can use this to query status of the asynchronous operation.
+	// You can use this to query the status of the asynchronous operation.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
