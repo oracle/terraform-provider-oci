@@ -203,7 +203,7 @@
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-bds") %>>
-            <a href="#">Bds</a>
+            <a href="#">Big Data Service</a>
             <ul class="nav">
                 <li<%= sidebar_current("docs-oci-bds-datasources") %>>
                     <a href="#">Data Sources</a>
@@ -363,6 +363,30 @@
                         <li>
                             <a href="/docs/providers/oci/r/cloud_guard_target.html">oci_cloud_guard_target</a>
                         </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-computeinstanceagent") %>>
+            <a href="#">Computeinstanceagent</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-computeinstanceagent-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/computeinstanceagent_instance_available_plugins.html">oci_computeinstanceagent_instance_available_plugins</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/computeinstanceagent_instance_agent_plugins.html">oci_computeinstanceagent_instance_agent_plugins</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/computeinstanceagent_instance_agent_plugin.html">oci_computeinstanceagent_instance_agent_plugin</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-computeinstanceagent-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
                     </ul>
                 </li>
             </ul>
@@ -1370,6 +1394,36 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/database_vm_cluster_network.html">oci_database_vm_cluster_network</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-database_management") %>>
+            <a href="#">Database Management</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-database_management-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/database_management_managed_database.html">oci_database_management_managed_database</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_management_managed_database_group.html">oci_database_management_managed_database_group</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_management_managed_database_groups.html">oci_database_management_managed_database_groups</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_management_managed_databases.html">oci_database_management_managed_databases</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-database_management-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/database_management_managed_database_group.html">oci_database_management_managed_database_group</a>
                         </li>
                     </ul>
                 </li>
@@ -2617,42 +2671,6 @@
                 </li>
             </ul>
         </li>
-        <li<%= sidebar_current("docs-oci-ocvp") %>>
-            <a href="#">Ocvp</a>
-            <ul class="nav">
-                <li<%= sidebar_current("docs-oci-ocvp-datasources") %>>
-                    <a href="#">Data Sources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/d/ocvp_esxi_host.html">oci_ocvp_esxi_host</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/ocvp_esxi_hosts.html">oci_ocvp_esxi_hosts</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/ocvp_sddc.html">oci_ocvp_sddc</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/ocvp_sddcs.html">oci_ocvp_sddcs</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/ocvp_supported_vmware_software_versions.html">oci_ocvp_supported_vmware_software_versions</a>
-                        </li>
-                    </ul>
-                </li>
-                <li<%= sidebar_current("docs-oci-ocvp-resources") %>>
-                    <a href="#">Resources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/r/ocvp_esxi_host.html">oci_ocvp_esxi_host</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/ocvp_sddc.html">oci_ocvp_sddc</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
         <li<%= sidebar_current("docs-oci-optimizer") %>>
             <a href="#">Optimizer</a>
             <ul class="nav">
@@ -2708,6 +2726,42 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/optimizer_resource_action.html">oci_optimizer_resource_action</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-ocvp") %>>
+            <a href="#">Oracle Cloud VMware Solution</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-ocvp-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/ocvp_esxi_host.html">oci_ocvp_esxi_host</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/ocvp_esxi_hosts.html">oci_ocvp_esxi_hosts</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/ocvp_sddc.html">oci_ocvp_sddc</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/ocvp_sddcs.html">oci_ocvp_sddcs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/ocvp_supported_vmware_software_versions.html">oci_ocvp_supported_vmware_software_versions</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-ocvp-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/ocvp_esxi_host.html">oci_ocvp_esxi_host</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/ocvp_sddc.html">oci_ocvp_sddc</a>
                         </li>
                     </ul>
                 </li>
@@ -2780,7 +2834,7 @@
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-sch") %>>
-            <a href="#">Sch</a>
+            <a href="#">Service Connector Hub</a>
             <ul class="nav">
                 <li<%= sidebar_current("docs-oci-sch-datasources") %>>
                     <a href="#">Data Sources</a>
