@@ -7,6 +7,7 @@
 - Support for DBaaS One-off Patching
 - Support for `options` in `oci_database_database_upgrade`
 - Support for Adjustable Time Periods added to `Budgets` service
+- Support new error format
 
 ## 4.12.0 (February 03, 2021)
 

@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"strings"
 
-	oci_common "github.com/oracle/oci-go-sdk/v33/common"
+	oci_common "github.com/oracle/oci-go-sdk/v35/common"
 )
 
 type customError struct {
