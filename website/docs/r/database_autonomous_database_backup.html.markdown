@@ -47,11 +47,13 @@ The following attributes are exported:
 * `is_restorable` - Indicates whether the backup can be used to restore the associated Autonomous Database.
 * `key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store.
 * `key_store_wallet_name` - The wallet name for Oracle Key Vault.
+* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current state of the backup.
 * `time_ended` - The date and time the backup completed.
 * `time_started` - The date and time the backup started.
 * `type` - The type of backup.
+* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 
 ## Import
 

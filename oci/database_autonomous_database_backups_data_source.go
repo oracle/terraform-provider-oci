@@ -154,6 +154,10 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 			autonomousDatabaseBackup["key_store_wallet_name"] = *r.KeyStoreWalletName
 		}
 
+		if r.KmsKeyId != nil {
+			autonomousDatabaseBackup["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.LifecycleDetails != nil {
 			autonomousDatabaseBackup["lifecycle_details"] = *r.LifecycleDetails
 		}
@@ -169,6 +173,10 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabaseBackup["type"] = r.Type
+
+		if r.VaultId != nil {
+			autonomousDatabaseBackup["vault_id"] = *r.VaultId
+		}
 
 		resources = append(resources, autonomousDatabaseBackup)
 	}
