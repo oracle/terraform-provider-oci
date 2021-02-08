@@ -99,6 +99,10 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) SetData() error {
 		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
 	}
 
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -114,6 +118,10 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("type", s.Res.Type)
+
+	if s.Res.VaultId != nil {
+		s.D.Set("vault_id", *s.Res.VaultId)
+	}
 
 	return nil
 }

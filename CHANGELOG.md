@@ -2,6 +2,7 @@
 
 ### Added
 - Support create an endpoint for listing fully hydrated NSGs attached to a given VLAN
+- Support ADBS: Customer Managed Keys (Integration Key Management System)
 
 ## 4.28.0 (May 26, 2021)
 

@@ -60,7 +60,9 @@ var (
 		"is_dedicated":             Representation{repType: Optional, create: `false`},
 		"is_preview_version_with_service_terms_accepted": Representation{repType: Optional, create: `false`},
 		"customer_contacts":          RepresentationGroup{Optional, autonomousDatabaseCustomerContactsRepresentation},
+		"kms_key_id":                 Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"license_model":              Representation{repType: Optional, create: `LICENSE_INCLUDED`},
+		"vault_id":                   Representation{repType: Optional, create: kmsVaultId, update: kmsVaultId},
 		"whitelisted_ips":            Representation{repType: Optional, create: []string{`1.1.1.1/28`}},
 		"operations_insights_status": Representation{repType: Optional, create: `NOT_ENABLED`, update: `ENABLED`},
 		"timeouts":                   RepresentationGroup{Required, autonomousDatabaseTimeoutsRepresentation},
@@ -85,7 +87,7 @@ var (
 			"source_id":  Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 		})
 
-	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies +
+	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies + KeyResourceDependencyConfig +
 		generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Required, Create, autonomousDbVersionDataSourceRepresentation) +
 		generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", Required, Create,
 			representationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
@@ -171,7 +173,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_ONLY"),
@@ -217,7 +221,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
@@ -419,8 +425,10 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "0"),
 
 					func(s *terraform.State) (err error) {
@@ -467,6 +475,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_auto_scaling_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_preview"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.kms_key_id"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.operations_insights_status"),
@@ -478,6 +487,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_begin"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_end"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.vault_id"),
 				),
 			},
 			// verify singular datasource
@@ -521,7 +531,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_status"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "permission_level"),
-					// @Codegen: Can't test private_endpoint with fake resource
+					// @Codegen: Can't test private_endpointTestResourceDatabaseAutonomousDatabaseResource_preview with fake resource
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint"),
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
