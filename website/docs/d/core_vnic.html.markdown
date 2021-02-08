@@ -12,7 +12,7 @@ This data source provides details about a specific Vnic resource in Oracle Cloud
 
 Gets the information for the specified virtual network interface card (VNIC).
 You can get the VNIC OCID from the
-[ListVnicAttachments](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/VnicAttachment/ListVnicAttachments)
+[ListVnicAttachments](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/VnicAttachment/ListVnicAttachments)
 operation.
 
 
@@ -55,9 +55,9 @@ The following attributes are exported:
 	Example: `00:00:00:00:00:01` 
 * `nsg_ids` - A list of the OCIDs of the network security groups that the VNIC belongs to.
 
-	If the VNIC belongs to a VLAN as part of the Oracle Cloud VMware Solution (instead of belonging to a subnet), the value of the `nsgIds` attribute is ignored. Instead, the VNIC belongs to the NSGs that are associated with the VLAN itself. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vlan).
+	If the VNIC belongs to a VLAN as part of the Oracle Cloud VMware Solution (instead of belonging to a subnet), the value of the `nsgIds` attribute is ignored. Instead, the VNIC belongs to the NSGs that are associated with the VLAN itself. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
-	For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
+	For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/). 
 * `private_ip_address` - The private IP address of the primary `privateIp` object on the VNIC. The address is within the CIDR of the VNIC's subnet.  Example: `10.0.3.3` 
 * `public_ip_address` - The public IP address of the VNIC, if one is assigned. 
 * `skip_source_dest_check` - Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
@@ -68,5 +68,5 @@ The following attributes are exported:
 * `state` - The current state of the VNIC.
 * `subnet_id` - The OCID of the subnet the VNIC is in.
 * `time_created` - The date and time the VNIC was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `vlan_id` - If the VNIC belongs to a VLAN as part of the Oracle Cloud VMware Solution (instead of belonging to a subnet), the `vlanId` is the OCID of the VLAN the VNIC is in. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vlan). If the VNIC is instead in a subnet, `subnetId` has a value. 
+* `vlan_id` - If the VNIC belongs to a VLAN as part of the Oracle Cloud VMware Solution (instead of belonging to a subnet), the `vlanId` is the OCID of the VLAN the VNIC is in. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). If the VNIC is instead in a subnet, `subnetId` has a value. 
 

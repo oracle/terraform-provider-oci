@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_core_services
 This data source provides the list of Services in Oracle Cloud Infrastructure Core service.
 
-Lists the available [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/) objects that you can enable for a
+Lists the available [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/) objects that you can enable for a
 service gateway in this region.
 
 
@@ -39,7 +39,7 @@ The following attributes are exported:
 
 * `cidr_block` - A string that represents the regional public IP address ranges for the Oracle service or services covered by this `Service` object. Also known as the `Service` object's *service CIDR label*.
 
-	When you set up a route rule to route traffic to the service gateway, use this value as the rule's destination. See [Route Table](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/). Also, when you set up a security list rule to cover traffic with the service gateway, use the `cidrBlock` value as the rule's destination (for an egress rule) or the source (for an ingress rule). See [Security List](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/SecurityList/).
+	When you set up a route rule to route traffic to the service gateway, use this value as the rule's destination. See [Route Table](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/RouteTable/). Also, when you set up a security list rule to cover traffic with the service gateway, use the `cidrBlock` value as the rule's destination (for an egress rule) or the source (for an ingress rule). See [Security List](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/SecurityList/).
 
 	Example: `oci-phx-objectstorage` 
 * `description` - Description of the Oracle service or services covered by this `Service` object.  Example: `OCI PHX Object Storage` 
