@@ -11,7 +11,7 @@ description: |-
 This resource provides the Cross Connect resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new cross-connect. Oracle recommends you create each cross-connect in a
-[CrossConnectGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectGroup) so you can use link aggregation
+[CrossConnectGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CrossConnectGroup) so you can use link aggregation
 with the connection.
 
 After creating the `CrossConnect` object, you need to go the FastConnect location
@@ -65,7 +65,7 @@ The following arguments are supported:
 * `is_active` - (Optional) (Updatable) Set to true to activate the cross-connect. You activate it after the physical cabling is complete, and you've confirmed the cross-connect's light levels are good and your side of the interface is up. Activation indicates to Oracle that the physical connection is ready.
 * `location_name` - (Required) The name of the FastConnect location where this cross-connect will be installed. To get a list of the available locations, see [ListCrossConnectLocations](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectLocation/ListCrossConnectLocations).  Example: `CyrusOne, Chandler, AZ` 
 * `near_cross_connect_or_cross_connect_group_id` - (Optional) If you already have an existing cross-connect or cross-connect group at this FastConnect location, and you want this new cross-connect to be on the same router, provide the OCID of that existing cross-connect or cross-connect group. 
-* `port_speed_shape_name` - (Required) The port speed for this cross-connect. To get a list of the available port speeds, see [ListCrossConnectPortSpeedShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectPortSpeedShape/ListCrossconnectPortSpeedShapes).  Example: `10 Gbps` 
+* `port_speed_shape_name` - (Required) The port speed for this cross-connect. To get a list of the available port speeds, see [ListCrossConnectPortSpeedShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CrossConnectPortSpeedShape/ListCrossconnectPortSpeedShapes).  Example: `10 Gbps` 
 
 
 ** IMPORTANT **
