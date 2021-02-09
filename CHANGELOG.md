@@ -8,6 +8,7 @@
 
 ### Fixed
 - Doc update for `export_set` resource in `file_storage`
+- Fixed skewed doc rendering for `analytics` resources
 
 ## 4.28.0 (May 26, 2021)
 
