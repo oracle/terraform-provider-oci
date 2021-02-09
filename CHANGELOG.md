@@ -1,13 +1,16 @@
 ## 4.13.0 (Unreleased)
 
 ### Added
-- add list to existing API (Erratum) to OS Management Service
+- Add list to existing API (Erratum) to OS Management Service
 - Support for Database Performance and Management DB Admin
 - Support for instance agent plugin configuration
 - Support for DBaaS One-off Patching
 - Support for `options` in `oci_database_database_upgrade`
 - Support for Adjustable Time Periods added to `Budgets` service
 - Support new error format
+
+### Fixed
+- Fixed Terraform init failure for resource discovery
 
 ## 4.12.0 (February 03, 2021)
 
