@@ -276,11 +276,12 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 
 	// Run terraform init if not already done
 	if !isInitDone {
+		Debugf("[DEBUG] acquiring lock to run terraform init")
 		initLock.Lock()
 		// Check for existence of .terraform folder to make sure init is not run already by another thread
-		if _, err := os.Stat(*r.ctx.OutputDir + "/.terraform"); os.IsNotExist(err) {
+		if _, err := os.Stat(fmt.Sprintf("%s%s.terraform", *r.ctx.OutputDir, string(os.PathSeparator))); os.IsNotExist(err) {
 			// Run init command if not already run
-			Debugf("writeTmpState: running init")
+			Debugf("[DEBUG] writeTmpState: running init")
 			backgroundCtx := context.Background()
 
 			var initArgs []tfexec.InitOption
@@ -296,6 +297,7 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 			isInitDone = true
 		}
 		initLock.Unlock()
+		Debugf("[DEBUG] releasing lock")
 	}
 
 	stateOutputFile := fmt.Sprintf("%s%s%s%s%s%s%s", *r.ctx.OutputDir, string(os.PathSeparator), "tmp", string(os.PathSeparator), r.name, string(os.PathSeparator), defaultStateFilename)
