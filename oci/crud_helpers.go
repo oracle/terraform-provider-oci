@@ -845,6 +845,10 @@ func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, 
 	}
 
 	if expectIdentifier && identifier == nil {
+		if response.Status == oci_work_requests.WorkRequestStatusSucceeded {
+			return nil, fmt.Errorf("work request succeeded but no identifier was found, workId: %s, entity: %s, action: %s",
+				*workRequestId, entityType, action)
+		}
 		return nil, getWorkRequestErrors(workRequestClient, workRequestId, retryPolicy, entityType, action)
 	}
 
