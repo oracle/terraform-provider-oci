@@ -107,7 +107,6 @@ func OceOceInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"upgrade_schedule": {
 				Type:     schema.TypeString,
@@ -455,6 +454,10 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 
 	if instanceLicenseType, ok := s.D.GetOkExists("instance_license_type"); ok {
 		request.InstanceLicenseType = oci_oce.LicenseTypeEnum(instanceLicenseType.(string))
+	}
+
+	if instanceUsageType, ok := s.D.GetOkExists("instance_usage_type"); ok {
+		request.InstanceUsageType = oci_oce.UpdateOceInstanceDetailsInstanceUsageTypeEnum(instanceUsageType.(string))
 	}
 
 	tmp := s.D.Id()

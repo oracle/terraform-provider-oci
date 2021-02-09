@@ -47,7 +47,7 @@ var (
 		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
 		"idcs_access_token":        Representation{repType: Required, create: `${var.idcs_access_token}`},
 		"name":                     Representation{repType: Required, create: instanceName},
-		"object_storage_namespace": Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}`},
+		"object_storage_namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"tenancy_id":               Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.id}`},
 		"tenancy_name":             Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}`},
 		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -55,12 +55,13 @@ var (
 		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		"instance_access_type":     Representation{repType: Optional, create: `PUBLIC`},
 		"instance_license_type":    Representation{repType: Optional, create: `NEW`, update: `BYOL`},
-		"instance_usage_type":      Representation{repType: Optional, create: `NONPRIMARY`},
+		"instance_usage_type":      Representation{repType: Optional, create: `NONPRIMARY`, update: `PRIMARY`},
 		"upgrade_schedule":         Representation{repType: Optional, create: `UPGRADE_IMMEDIATELY`},
 		"waf_primary_domain":       Representation{repType: Optional, create: `oracle.com`, update: `java.com`},
 	}
 
 	OceInstanceResourceDependencies = generateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation) +
+		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Optional, Create, namespaceSingularDataSourceRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -216,7 +217,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
 					resource.TestCheckResourceAttr(resourceName, "instance_access_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(resourceName, "instance_license_type", "BYOL"),
-					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
+					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "PRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
@@ -255,7 +256,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.idcs_tenancy"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_access_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_license_type", "BYOL"),
-					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_usage_type", "NONPRIMARY"),
+					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_usage_type", "PRIMARY"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.name", instanceName),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.state"),
@@ -286,7 +287,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "idcs_tenancy"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_access_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_license_type", "BYOL"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_usage_type", "NONPRIMARY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_usage_type", "PRIMARY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

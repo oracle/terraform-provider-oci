@@ -50,7 +50,7 @@ The following arguments are supported:
 * `idcs_access_token` - (Required) Identity Cloud Service access token identifying a stripe and service administrator user
 * `instance_access_type` - (Optional) Flag indicating whether the instance access is private or public
 * `instance_license_type` - (Optional) (Updatable) Flag indicating whether the instance license is new cloud or bring your own license
-* `instance_usage_type` - (Optional) Instance type based on its usage
+* `instance_usage_type` - (Optional) (Updatable) Instance type based on its usage
 * `name` - (Required) OceInstance Name
 * `object_storage_namespace` - (Required) Object Storage Namespace of Tenancy
 * `tenancy_id` - (Required) Tenancy Identifier
