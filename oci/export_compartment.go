@@ -565,6 +565,9 @@ generateStateParallel is used if value of parallelism arg > 1
 */
 func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscoveryStep) error {
 
+	// isInitDone is to make sure that multiple threads do not call terraform init
+	Debugf("[DEBUG] Reset isInitDone")
+	isInitDone = false
 	// Cleanup the temporary state files created for each input service
 	defer cleanupTempStateFiles(ctx)
 
