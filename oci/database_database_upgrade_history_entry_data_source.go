@@ -35,6 +35,10 @@ func DatabaseDatabaseUpgradeHistoryEntryDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"options": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"source": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -124,6 +128,10 @@ func (s *DatabaseDatabaseUpgradeHistoryEntryDataSourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.Options != nil {
+		s.D.Set("options", *s.Res.Options)
 	}
 
 	s.D.Set("source", s.Res.Source)

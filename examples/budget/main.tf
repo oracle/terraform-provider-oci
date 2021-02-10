@@ -45,6 +45,7 @@ resource "oci_budget_budget" "test_budget" {
   #Optional
   description  = "budget1 description"
   display_name = "budget1"
+  budget_processing_period_start_offset = "11"
 }
 
 data "oci_budget_budget" "budget1" {

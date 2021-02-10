@@ -55,6 +55,10 @@ type DatabaseUpgradeHistoryEntrySummary struct {
 
 	// The date and time when the database upgrade ended.
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
+
+	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).
+	// Example: "-upgradeTimezone false -keepEvents"
+	Options *string `mandatory:"false" json:"options"`
 }
 
 func (m DatabaseUpgradeHistoryEntrySummary) String() string {

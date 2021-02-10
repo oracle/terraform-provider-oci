@@ -72,16 +72,14 @@ type ListManagedInstanceGroupsResponse struct {
 	// A list of []ManagedInstanceGroupSummary instances
 	Items []ManagedInstanceGroupSummary `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of `ManagedInstanceGroup`s. If this
-	// header appears in the response, then this is a partial list of
-	// managed instance groups. Include this value as the `page`
-	// parameter in a subsequent GET request to get the next batch of
-	// managed instance groups.
+	// For pagination of a list of items. When paging through a list, if this
+	// header appears in the response, then a partial list might have been
+	// returned. Include this value as the `page` parameter for the subsequent
+	// GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

@@ -38,6 +38,7 @@ resource "oci_database_database_upgrade" "test_database_upgrade" {
 		database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 		db_home_id = oci_database_db_home.test_db_home.id
 		db_version = var.database_upgrade_database_upgrade_source_details_db_version
+		options = var.database_upgrade_database_upgrade_source_details_options
 		source = var.database_upgrade_database_upgrade_source_details_source
 	}
 }
@@ -53,8 +54,8 @@ The following arguments are supported:
 	* `database_software_image_id` - (Required when source=DB_SOFTWARE_IMAGE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image to be used to upgrade a database.
 	* `db_home_id` - (Required when source=DB_HOME) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 	* `db_version` - (Required when source=DB_VERSION) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
+	* `options` - (Optional) Additional upgrade options supported by DBUA(Database Upgrade Assistant). Example: "-upgradeTimezone false -keepEvents" 
 	* `source` - (Optional) The source of the Oracle Database software to be used for the upgrade.
-		* Use `DB_HOME` to specify an existing Database Home to upgrade the database. The database is moved to the target Database Home and makes use of the Oracle Database software version of the target Database Home.
 		* Use `DB_VERSION` to specify a generally-available Oracle Database software version to upgrade the database.
 		* Use `DB_SOFTWARE_IMAGE` to specify a [database software image](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databasesoftwareimage.htm) to upgrade the database. 
 

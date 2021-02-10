@@ -19,6 +19,15 @@ type DatabaseUpgradeWithDbVersionDetails struct {
 
 	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
+
+	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).
+	// Example: "-upgradeTimezone false -keepEvents"
+	Options *string `mandatory:"false" json:"options"`
+}
+
+//GetOptions returns Options
+func (m DatabaseUpgradeWithDbVersionDetails) GetOptions() *string {
+	return m.Options
 }
 
 func (m DatabaseUpgradeWithDbVersionDetails) String() string {

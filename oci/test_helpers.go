@@ -13,6 +13,7 @@ import (
 	"os"
 	"reflect"
 	"sort"
+	"strconv"
 	"strings"
 	"text/template"
 	"time"
@@ -465,7 +466,12 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	exportCommandArgs.OutputDir = &outputDir
 	var tfVersion TfHclVersion = &TfHclVersion12{Value: TfVersion12}
 	exportCommandArgs.TFVersion = &tfVersion
-	exportCommandArgs.Parallelism = 10
+
+	var parseErr error
+	if exportCommandArgs.Parallelism, parseErr = strconv.Atoi(getEnvSettingWithDefault("export_parallelism", "10")); parseErr != nil {
+		return fmt.Errorf("[ERROR] invalid value for resource discovery parallelism: %s", parseErr.Error())
+	}
+	log.Printf("[INFO] exportCommandArgs.Parallelism: %d", exportCommandArgs.Parallelism)
 
 	if errExport, status := RunExportCommand(exportCommandArgs); errExport != nil || status == StatusPartialSuccess {
 		if errExport != nil {

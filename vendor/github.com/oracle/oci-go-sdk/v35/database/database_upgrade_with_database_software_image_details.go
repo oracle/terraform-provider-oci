@@ -19,6 +19,15 @@ type DatabaseUpgradeWithDatabaseSoftwareImageDetails struct {
 
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the image to be used to upgrade a database.
 	DatabaseSoftwareImageId *string `mandatory:"true" json:"databaseSoftwareImageId"`
+
+	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).
+	// Example: "-upgradeTimezone false -keepEvents"
+	Options *string `mandatory:"false" json:"options"`
+}
+
+//GetOptions returns Options
+func (m DatabaseUpgradeWithDatabaseSoftwareImageDetails) GetOptions() *string {
+	return m.Options
 }
 
 func (m DatabaseUpgradeWithDatabaseSoftwareImageDetails) String() string {

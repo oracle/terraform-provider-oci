@@ -35,6 +35,7 @@ The following attributes are exported:
 * `actual_spend` - The actual spend in currency for the current budget cycle
 * `alert_rule_count` - Total number of alert rules in the budget
 * `amount` - The amount of the budget expressed in the currency of the customer's rate card. 
+* `budget_processing_period_start_offset` - The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight.
 * `compartment_id` - The OCID of the tenancy
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the budget.

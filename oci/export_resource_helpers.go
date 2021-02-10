@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path/filepath"
 	"sort"
 	"strconv"
 	"strings"
@@ -28,6 +27,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v35/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v35/loadbalancer"
 )
+
+var isInitDone bool
+var initLock sync.Mutex
 
 type TerraformResourceHints struct {
 	// Information about this resource
@@ -205,14 +207,6 @@ func getNotFoundChildren(parent string, resourceGraph *TerraformResourceGraph, c
 
 func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandArgs, tenancyOcid string) (*resourceDiscoveryContext, error) {
 
-	// Find terraform-provider-oci executable path and store it in context to later use for importing resources
-	ex, err := os.Executable()
-	if err != nil {
-		return nil, fmt.Errorf("[ERROR] unable to locate terraform-provider-oci executable: %s", err.Error())
-	}
-
-	executablePath := filepath.Dir(ex)
-
 	result := &resourceDiscoveryContext{
 		clients:             clients,
 		ExportCommandArgs:   args,
@@ -222,9 +216,13 @@ func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandA
 		errorList: ErrorList{
 			errors: []*ResourceDiscoveryError{},
 		},
-		targetSpecificResources:     false,
-		resourceHintsLookup:         createResourceHintsLookupMap(),
-		terraformProviderBinaryPath: executablePath,
+		targetSpecificResources: false,
+		resourceHintsLookup:     createResourceHintsLookupMap(),
+	}
+	// Use user provided terraform-provider-oci executable
+	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
+		result.terraformProviderBinaryPath = pluginDir
+		Logf("[INFO] terraform provider binary path (pluginDir) set using `provider_bin_path`: '%s'", result.terraformProviderBinaryPath)
 	}
 
 	if *result.CompartmentId == "" {
@@ -276,21 +274,30 @@ type resourceDiscoveryBaseStep struct {
 
 func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 
-	// Run init command
-	backgroundCtx := context.Background()
+	// Run terraform init if not already done
+	if !isInitDone {
+		Debugf("[DEBUG] acquiring lock to run terraform init")
+		initLock.Lock()
+		// Check for existence of .terraform folder to make sure init is not run already by another thread
+		if _, err := os.Stat(fmt.Sprintf("%s%s.terraform", *r.ctx.OutputDir, string(os.PathSeparator))); os.IsNotExist(err) {
+			// Run init command if not already run
+			Debugf("[DEBUG] writeTmpState: running init")
+			backgroundCtx := context.Background()
 
-	var initArgs []tfexec.InitOption
+			var initArgs []tfexec.InitOption
 
-	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
-		Logf("[INFO] plugin dir: '%s'", pluginDir)
-		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
-	} else {
-		Logf("[INFO] plugin dir: '%s'", r.ctx.terraformProviderBinaryPath)
-		initArgs = append(initArgs, tfexec.PluginDir(r.ctx.terraformProviderBinaryPath))
-	}
+			if r.ctx.terraformProviderBinaryPath != "" {
+				Logf("[INFO] plugin dir set to: '%s'", r.ctx.terraformProviderBinaryPath)
+				initArgs = append(initArgs, tfexec.PluginDir(r.ctx.terraformProviderBinaryPath))
+			}
 
-	if err := r.ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
-		return err
+			if err := r.ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
+				return err
+			}
+			isInitDone = true
+		}
+		initLock.Unlock()
+		Debugf("[DEBUG] releasing lock")
 	}
 
 	stateOutputFile := fmt.Sprintf("%s%s%s%s%s%s%s", *r.ctx.OutputDir, string(os.PathSeparator), "tmp", string(os.PathSeparator), r.name, string(os.PathSeparator), defaultStateFilename)

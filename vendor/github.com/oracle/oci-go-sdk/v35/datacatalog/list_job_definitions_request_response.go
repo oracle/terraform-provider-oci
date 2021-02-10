@@ -128,21 +128,23 @@ type ListJobDefinitionsJobExecutionStateEnum string
 
 // Set of constants representing the allowable values for ListJobDefinitionsJobExecutionStateEnum
 const (
-	ListJobDefinitionsJobExecutionStateCreated    ListJobDefinitionsJobExecutionStateEnum = "CREATED"
-	ListJobDefinitionsJobExecutionStateInProgress ListJobDefinitionsJobExecutionStateEnum = "IN_PROGRESS"
-	ListJobDefinitionsJobExecutionStateInactive   ListJobDefinitionsJobExecutionStateEnum = "INACTIVE"
-	ListJobDefinitionsJobExecutionStateFailed     ListJobDefinitionsJobExecutionStateEnum = "FAILED"
-	ListJobDefinitionsJobExecutionStateSucceeded  ListJobDefinitionsJobExecutionStateEnum = "SUCCEEDED"
-	ListJobDefinitionsJobExecutionStateCanceled   ListJobDefinitionsJobExecutionStateEnum = "CANCELED"
+	ListJobDefinitionsJobExecutionStateCreated               ListJobDefinitionsJobExecutionStateEnum = "CREATED"
+	ListJobDefinitionsJobExecutionStateInProgress            ListJobDefinitionsJobExecutionStateEnum = "IN_PROGRESS"
+	ListJobDefinitionsJobExecutionStateInactive              ListJobDefinitionsJobExecutionStateEnum = "INACTIVE"
+	ListJobDefinitionsJobExecutionStateFailed                ListJobDefinitionsJobExecutionStateEnum = "FAILED"
+	ListJobDefinitionsJobExecutionStateSucceeded             ListJobDefinitionsJobExecutionStateEnum = "SUCCEEDED"
+	ListJobDefinitionsJobExecutionStateCanceled              ListJobDefinitionsJobExecutionStateEnum = "CANCELED"
+	ListJobDefinitionsJobExecutionStateSucceededWithWarnings ListJobDefinitionsJobExecutionStateEnum = "SUCCEEDED_WITH_WARNINGS"
 )
 
 var mappingListJobDefinitionsJobExecutionState = map[string]ListJobDefinitionsJobExecutionStateEnum{
-	"CREATED":     ListJobDefinitionsJobExecutionStateCreated,
-	"IN_PROGRESS": ListJobDefinitionsJobExecutionStateInProgress,
-	"INACTIVE":    ListJobDefinitionsJobExecutionStateInactive,
-	"FAILED":      ListJobDefinitionsJobExecutionStateFailed,
-	"SUCCEEDED":   ListJobDefinitionsJobExecutionStateSucceeded,
-	"CANCELED":    ListJobDefinitionsJobExecutionStateCanceled,
+	"CREATED":                 ListJobDefinitionsJobExecutionStateCreated,
+	"IN_PROGRESS":             ListJobDefinitionsJobExecutionStateInProgress,
+	"INACTIVE":                ListJobDefinitionsJobExecutionStateInactive,
+	"FAILED":                  ListJobDefinitionsJobExecutionStateFailed,
+	"SUCCEEDED":               ListJobDefinitionsJobExecutionStateSucceeded,
+	"CANCELED":                ListJobDefinitionsJobExecutionStateCanceled,
+	"SUCCEEDED_WITH_WARNINGS": ListJobDefinitionsJobExecutionStateSucceededWithWarnings,
 }
 
 // GetListJobDefinitionsJobExecutionStateEnumValues Enumerates the set of values for ListJobDefinitionsJobExecutionStateEnum
@@ -209,6 +211,7 @@ const (
 	ListJobDefinitionsJobTypeImmediateExecution         ListJobDefinitionsJobTypeEnum = "IMMEDIATE_EXECUTION"
 	ListJobDefinitionsJobTypeScheduledExecution         ListJobDefinitionsJobTypeEnum = "SCHEDULED_EXECUTION"
 	ListJobDefinitionsJobTypeScheduledExecutionInstance ListJobDefinitionsJobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
+	ListJobDefinitionsJobTypeAsyncDelete                ListJobDefinitionsJobTypeEnum = "ASYNC_DELETE"
 )
 
 var mappingListJobDefinitionsJobType = map[string]ListJobDefinitionsJobTypeEnum{
@@ -227,6 +230,7 @@ var mappingListJobDefinitionsJobType = map[string]ListJobDefinitionsJobTypeEnum{
 	"IMMEDIATE_EXECUTION":          ListJobDefinitionsJobTypeImmediateExecution,
 	"SCHEDULED_EXECUTION":          ListJobDefinitionsJobTypeScheduledExecution,
 	"SCHEDULED_EXECUTION_INSTANCE": ListJobDefinitionsJobTypeScheduledExecutionInstance,
+	"ASYNC_DELETE":                 ListJobDefinitionsJobTypeAsyncDelete,
 }
 
 // GetListJobDefinitionsJobTypeEnumValues Enumerates the set of values for ListJobDefinitionsJobTypeEnum

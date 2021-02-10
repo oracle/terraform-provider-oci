@@ -23,6 +23,7 @@ resource "oci_budget_budget" "test_budget" {
 	reset_period = var.budget_reset_period
 
 	#Optional
+	budget_processing_period_start_offset = var.budget_budget_processing_period_start_offset
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.budget_description
 	display_name = var.budget_display_name
@@ -38,6 +39,7 @@ resource "oci_budget_budget" "test_budget" {
 The following arguments are supported:
 
 * `amount` - (Required) (Updatable) The amount of the budget expressed as a whole number in the currency of the customer's rate card. 
+* `budget_processing_period_start_offset` - (Optional) (Updatable) The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight.
 * `compartment_id` - (Required) The OCID of the tenancy
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the budget.
@@ -59,6 +61,7 @@ The following attributes are exported:
 * `actual_spend` - The actual spend in currency for the current budget cycle
 * `alert_rule_count` - Total number of alert rules in the budget
 * `amount` - The amount of the budget expressed in the currency of the customer's rate card. 
+* `budget_processing_period_start_offset` - The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight.
 * `compartment_id` - The OCID of the tenancy
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the budget.

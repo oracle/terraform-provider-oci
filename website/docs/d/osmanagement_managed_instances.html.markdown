@@ -45,12 +45,14 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `bug_updates_available` - Number of bug fix type updates available to be installed
 * `child_software_sources` - list of child Software Sources attached to the Managed Instance
 	* `id` - software source identifier
 	* `name` - software source name
 * `compartment_id` - OCID for the Compartment
 * `description` - Information specified by the user about the managed instance
 * `display_name` - Managed Instance identifier
+* `enhancement_updates_available` - Number of enhancement type updates available to be installed
 * `id` - OCID for the managed instance
 * `is_reboot_required` - Indicates whether a reboot is required to complete installation of updates.
 * `last_boot` - Time at which the instance last booted
@@ -62,9 +64,13 @@ The following attributes are exported:
 * `os_kernel_version` - Operating System Kernel Version
 * `os_name` - Operating System Name
 * `os_version` - Operating System Version
+* `other_updates_available` - Number of non-classified updates available to be installed
 * `parent_software_source` - the parent (base) Software Source attached to the Managed Instance
 	* `id` - software source identifier
 	* `name` - software source name
+* `scheduled_job_count` - Number of scheduled jobs associated with this instance
+* `security_updates_available` - Number of security type updates available to be installed
 * `status` - status of the managed instance.
 * `updates_available` - Number of updates available to be installed
+* `work_request_count` - Number of work requests associated with this instance
 

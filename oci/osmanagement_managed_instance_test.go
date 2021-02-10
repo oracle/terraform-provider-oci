@@ -107,8 +107,10 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "bug_updates_available"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "enhancement_updates_available"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reboot_required"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "last_boot"),
@@ -117,8 +119,12 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_kernel_version"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_version"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "other_updates_available"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "scheduled_job_count"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "security_updates_available"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "updates_available"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "work_request_count"),
 				),
 			},
 		},
