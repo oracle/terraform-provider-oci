@@ -520,9 +520,11 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) updateCompartment(compartm
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeDataSafePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDataSafePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getDataSafePrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "datasafeprivateendpoints"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

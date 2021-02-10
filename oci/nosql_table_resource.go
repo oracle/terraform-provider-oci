@@ -835,9 +835,5 @@ func (s *NosqlTableResourceCrud) updateCompartment(fromCompartmentId, toCompartm
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getTableFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
-	if err != nil {
-		return err
-	}
-	return nil
+	return s.getTableFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

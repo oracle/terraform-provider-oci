@@ -457,15 +457,9 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) updateCompartment(compar
 	if err != nil {
 		return err
 	}
-	workId := response.OpcWorkRequestId
 
-	// Wait until it finishes
-	_, err = catalogPrivateEndpointWaitForWorkRequest(workId, "catalogPrivateEndpoint",
-		oci_datacatalog.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
-	if err != nil {
-		return err
-	}
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getCatalogPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "catalogPrivateEndpoint"), oci_datacatalog.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatacatalogCatalogPrivateEndpointResourceCrud) detachCatalog(detachCatalogs []interface{}) error {

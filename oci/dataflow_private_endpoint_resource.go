@@ -631,9 +631,11 @@ func (s *DataflowPrivateEndpointResourceCrud) updateCompartment(compartment inte
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	_, err := s.Client.ChangePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
