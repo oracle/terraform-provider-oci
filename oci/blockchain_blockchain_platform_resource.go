@@ -1013,9 +1013,11 @@ func (s *BlockchainBlockchainPlatformResourceCrud) updateCompartment(compartment
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	_, err := s.Client.ChangeBlockchainPlatformCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeBlockchainPlatformCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getBlockchainPlatformFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

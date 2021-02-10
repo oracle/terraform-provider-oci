@@ -530,11 +530,13 @@ func (s *ApigatewayApiResourceCrud) updateCompartment(compartment interface{}) e
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	_, err := s.Client.ChangeApiCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeApiCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getApiFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func apiResourceShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {

@@ -1044,11 +1044,13 @@ func (s *IntegrationIntegrationInstanceResourceCrud) updateCompartment(compartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
 
-	_, err := s.Client.ChangeIntegrationInstanceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeIntegrationInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getIntegrationInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *IntegrationIntegrationInstanceResourceCrud) StartIntegerationInstance() error {

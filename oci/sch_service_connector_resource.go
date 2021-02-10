@@ -1112,11 +1112,9 @@ func (s *SchServiceConnectorResourceCrud) updateCompartment(compartment interfac
 	if err != nil {
 		return err
 	}
+
 	workId := response.OpcWorkRequestId
-	// Wait until it finishes
-	_, updateWorkRequestErr := serviceConnectorWaitForWorkRequest(workId, "serviceConnector",
-		oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
-	return updateWorkRequestErr
+	return s.getServiceConnectorFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "serviceConnector"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *SchServiceConnectorResourceCrud) StartSchResource() error {
