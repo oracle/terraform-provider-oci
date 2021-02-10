@@ -10,9 +10,15 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
+	oci_common "github.com/oracle/oci-go-sdk/v35/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v35/identity"
 )
 
@@ -431,21 +437,88 @@ func (s *IdentityTagResourceCrud) Delete() error {
 		return err
 	}
 
-	// process work request
-	workReqID := response.OpcWorkRequestId
-	getWorkRequestRequest := oci_identity.GetWorkRequestRequest{}
-	getWorkRequestRequest.WorkRequestId = workReqID
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := IdentityTaggingWaitForWorkRequest(workId, "identity",
+		oci_identity.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	return delWorkRequestErr
+}
+
+func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
+	retryPolicy := getRetryPolicy(disableFoundRetries, "identity")
+	retryPolicy.ShouldRetryOperation = analyticsInstanceWorkRequestShouldRetryFunc(timeout)
+	response := oci_identity.GetTaggingWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_identity.TaggingWorkRequestStatusInProgress),
+			string(oci_identity.TaggingWorkRequestStatusAccepted),
+			string(oci_identity.TaggingWorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_identity.TaggingWorkRequestStatusSucceeded),
+			string(oci_identity.TaggingWorkRequestStatusFailed),
+			string(oci_identity.TaggingWorkRequestStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetTaggingWorkRequest(context.Background(), oci_identity.GetTaggingWorkRequestRequest{
+				WorkRequestId: workRequestId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+			wr := &response.TaggingWorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+
+	// Should not wait when in replay mode
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
+	}
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of resources that finished the operation
+	// for tagging work request is currently used for deletion only and it return single identifier
+	for _, res := range response.TaggingWorkRequest.Resources {
+		if res.Identifier != nil {
+			identifier = res.Identifier
+			break
+		}
+	}
+
+	if response.Status == oci_identity.TaggingWorkRequestStatusFailed || response.Status == oci_identity.TaggingWorkRequestStatusCanceled {
+		return nil, getIdentityTaggingWorkRequestErrors(client, workRequestId, retryPolicy, entityType, action)
+	}
+	return identifier, nil
+}
+
+func getIdentityTaggingWorkRequestErrors(client *oci_identity.IdentityClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListTaggingWorkRequestErrors(context.Background(), oci_identity.ListTaggingWorkRequestErrorsRequest{
+		WorkRequestId: workRequestId,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
 	if err != nil {
 		return err
 	}
 
-	err = IdentityWaitForWorkRequest(s.Client, s.D, &workRequestResponse.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "identity"), s.D.Timeout(schema.TimeoutDelete))
-	if err != nil {
-		return err
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
 	}
-	return nil
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workRequestId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *IdentityTagResourceCrud) SetData() error {

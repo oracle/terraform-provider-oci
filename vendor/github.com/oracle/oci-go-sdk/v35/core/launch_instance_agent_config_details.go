@@ -22,11 +22,40 @@ type LaunchInstanceAgentConfigDetails struct {
 
 	// Whether Oracle Cloud Agent can gather performance metrics and monitor the instance using the
 	// monitoring plugins. Default value is false (monitoring plugins are enabled).
+	// These are the monitoring plugins: Compute Instance Monitoring
+	// and Custom Logs Monitoring.
+	// The monitoring plugins are controlled by this parameter and by the per-plugin
+	// configuration in the `pluginsConfig` object.
+	// - If `isMonitoringDisabled` is true, all of the monitoring plugins are disabled, regardless of
+	// the per-plugin configuration.
+	// - If `isMonitoringDisabled` is false, all of the monitoring plugins are enabled. You
+	// can optionally disable individual monitoring plugins by providing a value in the `pluginsConfig`
+	// object.
 	IsMonitoringDisabled *bool `mandatory:"false" json:"isMonitoringDisabled"`
 
 	// Whether Oracle Cloud Agent can run all the available management plugins.
 	// Default value is false (management plugins are enabled).
+	// These are the management plugins: OS Management Service Agent and Compute Instance
+	// Run Command.
+	// The management plugins are controlled by this parameter and by the per-plugin
+	// configuration in the `pluginsConfig` object.
+	// - If `isManagementDisabled` is true, all of the management plugins are disabled, regardless of
+	// the per-plugin configuration.
+	// - If `isManagementDisabled` is false, all of the management plugins are enabled. You
+	// can optionally disable individual management plugins by providing a value in the `pluginsConfig`
+	// object.
 	IsManagementDisabled *bool `mandatory:"false" json:"isManagementDisabled"`
+
+	// Whether Oracle Cloud Agent can run all the available plugins.
+	// This includes the management and monitoring plugins.
+	// To get a list of available plugins, use the
+	// ListInstanceagentAvailablePlugins
+	// operation in the Oracle Cloud Agent API. For more information about the available plugins, see
+	// Managing Plugins with Oracle Cloud Agent (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/manage-plugins.htm).
+	AreAllPluginsDisabled *bool `mandatory:"false" json:"areAllPluginsDisabled"`
+
+	// The configuration of plugins associated with this instance.
+	PluginsConfig []InstanceAgentPluginConfigDetails `mandatory:"false" json:"pluginsConfig"`
 }
 
 func (m LaunchInstanceAgentConfigDetails) String() string {

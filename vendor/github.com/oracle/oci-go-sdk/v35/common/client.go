@@ -432,7 +432,7 @@ func (client BaseClient) Call(ctx context.Context, request *http.Request) (respo
 // CallWithDetails executes the http request, the given context using details specified in the paremeters, this function
 // provides a way to override some settings present in the client
 func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Request, details ClientCallDetails) (response *http.Response, err error) {
-	Debugln("Atempting to call downstream service")
+	Debugln("Attempting to call downstream service")
 	request = request.WithContext(ctx)
 
 	err = client.prepareRequest(request)

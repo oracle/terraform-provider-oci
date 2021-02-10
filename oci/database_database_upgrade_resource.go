@@ -8,9 +8,11 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v35/workrequests"
 
 	oci_database "github.com/oracle/oci-go-sdk/v35/database"
 )
@@ -58,6 +60,12 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"db_version": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -251,6 +259,7 @@ func createDatabaseDatabaseUpgrade(d *schema.ResourceData, m interface{}) error 
 	sync := &DatabaseDatabaseUpgradeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -259,6 +268,7 @@ func readDatabaseDatabaseUpgrade(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseUpgradeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -269,8 +279,10 @@ func deleteDatabaseDatabaseUpgrade(d *schema.ResourceData, m interface{}) error 
 
 type DatabaseDatabaseUpgradeResourceCrud struct {
 	BaseCrud
-	Client                 *oci_database.DatabaseClient
-	Res                    *oci_database.Database
+	Client            *oci_database.DatabaseClient
+	Res               *oci_database.Database
+	workRequestClient *oci_work_requests.WorkRequestClient
+
 	DisableNotFoundRetries bool
 }
 
@@ -321,7 +333,23 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) Create() error {
 	}
 
 	s.Res = &response.Database
-	return nil
+
+	workId := response.OpcWorkRequestId
+
+	return s.getDatabaseUpgradeFromWorkRequest(workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *DatabaseDatabaseUpgradeResourceCrud) getDatabaseUpgradeFromWorkRequest(workId *string, actionTypeEnum oci_work_requests.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
+	databaseUpgradeId, err := WaitForWorkRequest(s.workRequestClient, workId, "database", actionTypeEnum, timeout, s.DisableNotFoundRetries, true)
+	log.Printf("[DEBUG] WaitForWorkRequest finished. databaseUpgradeId: %v err: %v for workId: %v, actionTypeEnum: %v\n", *databaseUpgradeId, err, *workId, actionTypeEnum)
+	if err != nil {
+		log.Printf("[ERROR] Database upgrade operation failed, attempting to cancel the workrequest: %v for identifier: %v\n", *workId, databaseUpgradeId)
+		return err
+	}
+
+	s.D.SetId(*databaseUpgradeId)
+
+	return s.Get()
 }
 
 func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
@@ -442,12 +470,20 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) mapToDatabaseUpgradeSourceBase(fie
 			tmp := databaseSoftwareImageId.(string)
 			details.DatabaseSoftwareImageId = &tmp
 		}
+		if options, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "options")); ok {
+			tmp := options.(string)
+			details.Options = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("DB_VERSION"):
 		details := oci_database.DatabaseUpgradeWithDbVersionDetails{}
 		if dbVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_version")); ok {
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
+		}
+		if options, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "options")); ok {
+			tmp := options.(string)
+			details.Options = &tmp
 		}
 		baseObject = details
 	default:

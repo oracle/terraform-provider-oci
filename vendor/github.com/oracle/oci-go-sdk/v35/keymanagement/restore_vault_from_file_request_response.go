@@ -21,7 +21,7 @@ type RestoreVaultFromFileRequest struct {
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The content length of the body.
-	ContentLength *int64 `mandatory:"true" contributesTo:"header" name:"content-length"`
+	ContentLength *int64 `mandatory:"false" contributesTo:"header" name:"content-length"`
 
 	// The encrypted backup file to upload to restore the vault.
 	RestoreVaultFromFileDetails io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`

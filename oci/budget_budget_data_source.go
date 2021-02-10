@@ -79,6 +79,10 @@ func (s *BudgetBudgetDataSourceCrud) SetData() error {
 		s.D.Set("amount", *s.Res.Amount)
 	}
 
+	if s.Res.BudgetProcessingPeriodStartOffset != nil {
+		s.D.Set("budget_processing_period_start_offset", *s.Res.BudgetProcessingPeriodStartOffset)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

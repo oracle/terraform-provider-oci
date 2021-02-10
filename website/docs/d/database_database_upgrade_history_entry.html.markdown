@@ -38,8 +38,8 @@ The following attributes are exported:
 * `action` - The database upgrade action.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database upgrade history.
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `options` - Additional upgrade options supported by DBUA(Database Upgrade Assistant). Example: "-upgradeTimezone false -keepEvents" 
 * `source` - The source of the Oracle Database software to be used for the upgrade.
-	* Use `DB_HOME` to specify an existing Database Home to upgrade the database. The database is moved to the target Database Home and makes use of the Oracle Database software version of the target Database Home.
 	* Use `DB_VERSION` to specify a generally-available Oracle Database software version to upgrade the database.
 	* Use `DB_SOFTWARE_IMAGE` to specify a [database software image](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databasesoftwareimage.htm) to upgrade the database. 
 * `source_db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.

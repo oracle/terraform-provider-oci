@@ -187,6 +187,8 @@ const (
 	ListAttributesFieldsExternaldatatype           ListAttributesFieldsEnum = "externalDataType"
 	ListAttributesFieldsExternalkey                ListAttributesFieldsEnum = "externalKey"
 	ListAttributesFieldsLength                     ListAttributesFieldsEnum = "length"
+	ListAttributesFieldsPrecision                  ListAttributesFieldsEnum = "precision"
+	ListAttributesFieldsScale                      ListAttributesFieldsEnum = "scale"
 	ListAttributesFieldsIsnullable                 ListAttributesFieldsEnum = "isNullable"
 	ListAttributesFieldsUri                        ListAttributesFieldsEnum = "uri"
 	ListAttributesFieldsPath                       ListAttributesFieldsEnum = "path"
@@ -208,6 +210,8 @@ var mappingListAttributesFields = map[string]ListAttributesFieldsEnum{
 	"externalDataType":           ListAttributesFieldsExternaldatatype,
 	"externalKey":                ListAttributesFieldsExternalkey,
 	"length":                     ListAttributesFieldsLength,
+	"precision":                  ListAttributesFieldsPrecision,
+	"scale":                      ListAttributesFieldsScale,
 	"isNullable":                 ListAttributesFieldsIsnullable,
 	"uri":                        ListAttributesFieldsUri,
 	"path":                       ListAttributesFieldsPath,

@@ -22,12 +22,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v35/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v35/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v35/loadbalancer"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v35/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/metrics"
 )
 
 var (
@@ -106,28 +104,6 @@ func (s *BaseCrud) State() string {
 		return str
 	}
 	return ""
-}
-
-func handleMissingResourceError(sync ResourceVoider, err *error) {
-
-	if err != nil {
-		// patch till OCE service returns correct error response code for invalid auth token
-		if strings.Contains((*err).Error(), "IDCS token validation has failed") {
-			return
-		}
-
-		if strings.Contains((*err).Error(), "does not exist") ||
-			strings.Contains((*err).Error(), " not present in ") ||
-			strings.Contains((*err).Error(), "not found") ||
-			(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no ")) ||
-			strings.Contains(strings.ToLower((*err).Error()), "status code: 404") { // status code: 404 is not enough because the load balancer error responses don't include it for some reason
-			log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
-			if sync != nil {
-				sync.VoidState()
-			}
-			*err = nil
-		}
-	}
 }
 
 func LoadBalancerResourceID(res interface{}, workReq *oci_load_balancer.WorkRequest) (id *string, workReqSucceeded bool) {
@@ -232,47 +208,9 @@ func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 	return nil
 }
 
-func IdentityWaitForWorkRequest(client *oci_identity.IdentityClient, d *schema.ResourceData, wr *oci_identity.WorkRequest, retryPolicy *oci_common.RetryPolicy, timeout time.Duration) error {
-	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_identity.WorkRequestStatusInProgress),
-			string(oci_identity.WorkRequestStatusAccepted),
-			string(oci_identity.WorkRequestStatusCanceling),
-		},
-		Target: []string{
-			string(oci_identity.WorkRequestStatusSucceeded),
-			string(oci_identity.WorkRequestStatusFailed),
-			string(oci_identity.WorkRequestStatusCanceled),
-		},
-		Refresh: func() (interface{}, string, error) {
-			getWorkRequestRequest := oci_identity.GetWorkRequestRequest{}
-			getWorkRequestRequest.WorkRequestId = wr.Id
-			getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
-			workRequestResponse, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
-			wr = &workRequestResponse.WorkRequest
-			return wr, string(wr.Status), err
-		},
-		Timeout: timeout,
-	}
-
-	// Should not wait when in replay mode
-	if httpreplay.ShouldRetryImmediately() {
-		stateConf.PollInterval = 1
-	}
-
-	if _, e := stateConf.WaitForState(); e != nil {
-		return e
-	}
-
-	if wr.Status == oci_identity.WorkRequestStatusFailed || wr.Status == oci_identity.WorkRequestStatusCanceled {
-		return fmt.Errorf("WorkRequest FAILED: %+v", wr.Errors)
-	}
-	return nil
-}
-
 func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error {
 	if e := sync.Create(); e != nil {
-		return e
+		return handleServiceError(sync, e)
 	}
 
 	// ID is required for state refresh
@@ -310,23 +248,7 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error 
 	return nil
 }
 
-func serviceErrorCodes(errorCode int) bool {
-	errorCodes := map[int]int{401: 401, 500: 500}
-	if _, ok := errorCodes[errorCode]; ok {
-		return true
-	}
-	return false
-}
-
-func handleServiceError(err error) error {
-	if failure, isServiceError := oci_common.IsServiceError(err); isServiceError && serviceErrorCodes(failure.GetHTTPStatusCode()) {
-		return fmt.Errorf("%s, The service for this resource encountered an error. Please contact support for help with that service", err)
-	}
-	return err
-}
-
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
-	start := time.Now()
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
@@ -335,10 +257,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 	}
 
 	if e := sync.Create(); e != nil {
-		if metrics.ShouldWriteMetrics() {
-			metrics.SaveResourceDurationMetric(getResourceName(sync), "Create", FAILED, elaspedInMillisecond(start))
-		}
-		return handleServiceError(e)
+		return handleServiceError(sync, e)
 	}
 
 	// ID is required for state refresh
@@ -352,10 +271,6 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 				sync.VoidState()
 			}
 
-			if metrics.ShouldWriteMetrics() {
-				metrics.SaveResourceDurationMetric(getResourceName(sync), "Create", FAILED, elaspedInMillisecond(start))
-			}
-
 			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
 			if setDataErr := sync.SetData(); setDataErr != nil {
 				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
@@ -367,18 +282,11 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 
 	d.SetId(sync.ID())
 	if e := sync.SetData(); e != nil {
-		if metrics.ShouldWriteMetrics() {
-			metrics.SaveResourceDurationMetric(getResourceName(sync), "Create", FAILED, elaspedInMillisecond(start))
-		}
 		return e
 	}
 
 	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
 		time.Sleep(ew.ExtraWaitPostCreateDelete())
-	}
-
-	if metrics.ShouldWriteMetrics() {
-		metrics.SaveResourceDurationMetric(getResourceName(sync), "Create", SUCCEEDED, elaspedInMillisecond(start))
 	}
 	return nil
 }
@@ -387,7 +295,7 @@ func ReadResource(sync ResourceReader) error {
 	if e := sync.Get(); e != nil {
 		log.Printf("ERROR IN GET: %v\n", e.Error())
 		handleMissingResourceError(sync, &e)
-		return handleServiceError(e)
+		return handleServiceError(sync, e)
 	}
 
 	if e := sync.SetData(); e != nil {
@@ -408,7 +316,6 @@ func ReadResource(sync ResourceReader) error {
 }
 
 func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
-	start := time.Now()
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
@@ -418,34 +325,22 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 
 	d.Partial(true)
 	if e := sync.Update(); e != nil {
-		if metrics.ShouldWriteMetrics() {
-			metrics.SaveResourceDurationMetric(getResourceName(sync), "Update", FAILED, elaspedInMillisecond(start))
-		}
 
-		return handleServiceError(e)
+		return handleServiceError(sync, e)
 	}
 	d.Partial(false)
 
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
 		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
-			if metrics.ShouldWriteMetrics() {
-				metrics.SaveResourceDurationMetric(getResourceName(sync), "Update", FAILED, elaspedInMillisecond(start))
-			}
 
 			return e
 		}
 	}
 
 	if e := sync.SetData(); e != nil {
-		if metrics.ShouldWriteMetrics() {
-			metrics.SaveResourceDurationMetric(getResourceName(sync), "Update", FAILED, elaspedInMillisecond(start))
-		}
 		return e
 	}
 
-	if metrics.ShouldWriteMetrics() {
-		metrics.SaveResourceDurationMetric(getResourceName(sync), "Update", SUCCEEDED, elaspedInMillisecond(start))
-	}
 	return nil
 }
 
@@ -454,7 +349,6 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 // () -> Pending -> Deleted.
 // Finally, sets the ResourceData state to empty.
 func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
-	start := time.Now()
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
@@ -462,29 +356,14 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 		}
 	}
 
-	result := SUCCEEDED
 	if e := sync.Delete(); e != nil {
 		handleMissingResourceError(sync, &e)
-		if e != nil {
-			result = FAILED
-		}
-
-		if metrics.ShouldWriteMetrics() {
-			metrics.SaveResourceDurationMetric(getResourceName(sync), "Delete", result, elaspedInMillisecond(start))
-		}
-		return handleServiceError(e)
+		return handleServiceError(sync, e)
 	}
 
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
 		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget()); e != nil {
 			handleMissingResourceError(sync, &e)
-			if e != nil {
-				result = FAILED
-			}
-
-			if metrics.ShouldWriteMetrics() {
-				metrics.SaveResourceDurationMetric(getResourceName(sync), "Delete", result, elaspedInMillisecond(start))
-			}
 			return e
 		}
 	}
@@ -499,19 +378,7 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 
 	sync.VoidState()
 
-	if metrics.ShouldWriteMetrics() {
-		metrics.SaveResourceDurationMetric(getResourceName(sync), "Delete", SUCCEEDED, elaspedInMillisecond(start))
-	}
-
 	return nil
-}
-
-func getResourceName(sync interface{}) string {
-	syncTypeName := reflect.TypeOf(sync).String()
-	if strings.Contains(syncTypeName, "ResourceCrud") {
-		return syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
-	}
-	return ""
 }
 
 func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {

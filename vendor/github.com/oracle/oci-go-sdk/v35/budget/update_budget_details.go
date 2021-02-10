@@ -25,6 +25,9 @@ type UpdateBudgetDetails struct {
 	// The amount of the budget expressed as a whole number in the currency of the customer's rate card.
 	Amount *float32 `mandatory:"false" json:"amount"`
 
+	// The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight.
+	BudgetProcessingPeriodStartOffset *int `mandatory:"false" json:"budgetProcessingPeriodStartOffset"`
+
 	// The reset period for the budget.
 	ResetPeriod ResetPeriodEnum `mandatory:"false" json:"resetPeriod,omitempty"`
 

@@ -29,7 +29,7 @@ type PutObjectRequest struct {
 	ObjectName *string `mandatory:"true" contributesTo:"path" name:"objectName"`
 
 	// The content length of the body.
-	ContentLength *int64 `mandatory:"true" contributesTo:"header" name:"Content-Length"`
+	ContentLength *int64 `mandatory:"false" contributesTo:"header" name:"Content-Length"`
 
 	// The object to upload to the object store.
 	PutObjectBody io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
