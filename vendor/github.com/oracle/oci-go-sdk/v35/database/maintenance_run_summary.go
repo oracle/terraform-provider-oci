@@ -79,6 +79,7 @@ const (
 	MaintenanceRunSummaryLifecycleStateUpdating   MaintenanceRunSummaryLifecycleStateEnum = "UPDATING"
 	MaintenanceRunSummaryLifecycleStateDeleting   MaintenanceRunSummaryLifecycleStateEnum = "DELETING"
 	MaintenanceRunSummaryLifecycleStateDeleted    MaintenanceRunSummaryLifecycleStateEnum = "DELETED"
+	MaintenanceRunSummaryLifecycleStateCanceled   MaintenanceRunSummaryLifecycleStateEnum = "CANCELED"
 )
 
 var mappingMaintenanceRunSummaryLifecycleState = map[string]MaintenanceRunSummaryLifecycleStateEnum{
@@ -90,6 +91,7 @@ var mappingMaintenanceRunSummaryLifecycleState = map[string]MaintenanceRunSummar
 	"UPDATING":    MaintenanceRunSummaryLifecycleStateUpdating,
 	"DELETING":    MaintenanceRunSummaryLifecycleStateDeleting,
 	"DELETED":     MaintenanceRunSummaryLifecycleStateDeleted,
+	"CANCELED":    MaintenanceRunSummaryLifecycleStateCanceled,
 }
 
 // GetMaintenanceRunSummaryLifecycleStateEnumValues Enumerates the set of values for MaintenanceRunSummaryLifecycleStateEnum
@@ -161,12 +163,14 @@ const (
 	MaintenanceRunSummaryMaintenanceSubtypeQuarterly MaintenanceRunSummaryMaintenanceSubtypeEnum = "QUARTERLY"
 	MaintenanceRunSummaryMaintenanceSubtypeHardware  MaintenanceRunSummaryMaintenanceSubtypeEnum = "HARDWARE"
 	MaintenanceRunSummaryMaintenanceSubtypeCritical  MaintenanceRunSummaryMaintenanceSubtypeEnum = "CRITICAL"
+	MaintenanceRunSummaryMaintenanceSubtypeOneoff    MaintenanceRunSummaryMaintenanceSubtypeEnum = "ONEOFF"
 )
 
 var mappingMaintenanceRunSummaryMaintenanceSubtype = map[string]MaintenanceRunSummaryMaintenanceSubtypeEnum{
 	"QUARTERLY": MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
 	"HARDWARE":  MaintenanceRunSummaryMaintenanceSubtypeHardware,
 	"CRITICAL":  MaintenanceRunSummaryMaintenanceSubtypeCritical,
+	"ONEOFF":    MaintenanceRunSummaryMaintenanceSubtypeOneoff,
 }
 
 // GetMaintenanceRunSummaryMaintenanceSubtypeEnumValues Enumerates the set of values for MaintenanceRunSummaryMaintenanceSubtypeEnum

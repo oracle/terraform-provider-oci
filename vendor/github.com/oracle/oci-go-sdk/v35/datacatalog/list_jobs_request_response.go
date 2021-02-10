@@ -180,6 +180,7 @@ const (
 	ListJobsJobTypeImmediateExecution         ListJobsJobTypeEnum = "IMMEDIATE_EXECUTION"
 	ListJobsJobTypeScheduledExecution         ListJobsJobTypeEnum = "SCHEDULED_EXECUTION"
 	ListJobsJobTypeScheduledExecutionInstance ListJobsJobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
+	ListJobsJobTypeAsyncDelete                ListJobsJobTypeEnum = "ASYNC_DELETE"
 )
 
 var mappingListJobsJobType = map[string]ListJobsJobTypeEnum{
@@ -198,6 +199,7 @@ var mappingListJobsJobType = map[string]ListJobsJobTypeEnum{
 	"IMMEDIATE_EXECUTION":          ListJobsJobTypeImmediateExecution,
 	"SCHEDULED_EXECUTION":          ListJobsJobTypeScheduledExecution,
 	"SCHEDULED_EXECUTION_INSTANCE": ListJobsJobTypeScheduledExecutionInstance,
+	"ASYNC_DELETE":                 ListJobsJobTypeAsyncDelete,
 }
 
 // GetListJobsJobTypeEnumValues Enumerates the set of values for ListJobsJobTypeEnum

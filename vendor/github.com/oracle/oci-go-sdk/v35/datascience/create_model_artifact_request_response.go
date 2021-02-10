@@ -21,7 +21,7 @@ type CreateModelArtifactRequest struct {
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// The content length of the body.
-	ContentLength *int64 `mandatory:"true" contributesTo:"header" name:"content-length"`
+	ContentLength *int64 `mandatory:"false" contributesTo:"header" name:"content-length"`
 
 	// The model artifact to upload.
 	ModelArtifact io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`

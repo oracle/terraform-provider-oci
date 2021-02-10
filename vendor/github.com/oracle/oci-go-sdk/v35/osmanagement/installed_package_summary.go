@@ -35,6 +35,9 @@ type InstalledPackageSummary struct {
 	// Install time of the package
 	InstallTime *string `mandatory:"false" json:"installTime"`
 
+	// date the package was issued by a providing erratum (if available)
+	Issued *string `mandatory:"false" json:"issued"`
+
 	// list of software sources that provide the software package
 	SoftwareSources []SoftwareSourceId `mandatory:"false" json:"softwareSources"`
 }

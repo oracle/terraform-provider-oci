@@ -35,6 +35,12 @@ type AttributeSummary struct {
 	// Max allowed length of the attribute value.
 	Length *int64 `mandatory:"false" json:"length"`
 
+	// Precision of the attribute value usually applies to float data type.
+	Precision *int `mandatory:"false" json:"precision"`
+
+	// Scale of the attribute value usually applies to float data type.
+	Scale *int `mandatory:"false" json:"scale"`
+
 	// Property that identifies if this attribute can be assigned null values.
 	IsNullable *bool `mandatory:"false" json:"isNullable"`
 

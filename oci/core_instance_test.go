@@ -76,8 +76,10 @@ var (
 		"state":                               Representation{repType: Optional, create: `STOPPED`, update: `RUNNING`},
 	}
 	instanceAgentConfigRepresentation = map[string]interface{}{
-		"is_management_disabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"is_monitoring_disabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"are_all_plugins_disabled": Representation{repType: Optional, create: `false`, update: `false`},
+		"is_management_disabled":   Representation{repType: Optional, create: `false`, update: `false`},
+		"is_monitoring_disabled":   Representation{repType: Optional, create: `false`, update: `false`},
+		"plugins_config":           RepresentationGroup{Optional, instanceAgentConfigPluginsConfigRepresentation},
 	}
 	instanceAvailabilityConfigRepresentation = map[string]interface{}{
 		"recovery_action": Representation{repType: Optional, create: `RESTORE_INSTANCE`, update: `STOP_INSTANCE`},
@@ -111,6 +113,10 @@ var (
 		"source_type":             Representation{repType: Required, create: `image`},
 		"kms_key_id":              Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"boot_volume_size_in_gbs": Representation{repType: Optional, create: `60`, update: `70`},
+	}
+	instanceAgentConfigPluginsConfigRepresentation = map[string]interface{}{
+		"desired_state": Representation{repType: Required, create: `ENABLED`},
+		"name":          Representation{repType: Required, create: `Compute Instance Monitoring`},
 	}
 
 	InstanceWithPVEncryptionInTransitEnabled = `
@@ -244,8 +250,12 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -314,8 +324,12 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -378,8 +392,12 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "STOP_INSTANCE"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -450,8 +468,12 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_management_disabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_monitoring_disabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.are_all_plugins_disabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_config.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_config.0.recovery_action", "STOP_INSTANCE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
@@ -504,8 +526,12 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.are_all_plugins_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "availability_config.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "availability_config.0.recovery_action", "STOP_INSTANCE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),

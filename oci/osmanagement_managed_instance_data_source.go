@@ -23,6 +23,10 @@ func OsmanagementManagedInstanceDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"bug_updates_available": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"child_software_sources": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -54,6 +58,10 @@ func OsmanagementManagedInstanceDataSource() *schema.Resource {
 			},
 			"display_name": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"enhancement_updates_available": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"is_reboot_required": {
@@ -105,6 +113,10 @@ func OsmanagementManagedInstanceDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"other_updates_available": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"parent_software_source": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -126,11 +138,23 @@ func OsmanagementManagedInstanceDataSource() *schema.Resource {
 					},
 				},
 			},
+			"scheduled_job_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"security_updates_available": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"updates_available": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"work_request_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -182,6 +206,10 @@ func (s *OsmanagementManagedInstanceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.BugUpdatesAvailable != nil {
+		s.D.Set("bug_updates_available", *s.Res.BugUpdatesAvailable)
+	}
+
 	childSoftwareSources := []interface{}{}
 	for _, item := range s.Res.ChildSoftwareSources {
 		childSoftwareSources = append(childSoftwareSources, SoftwareSourceIdToMap(&item))
@@ -198,6 +226,10 @@ func (s *OsmanagementManagedInstanceDataSourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EnhancementUpdatesAvailable != nil {
+		s.D.Set("enhancement_updates_available", *s.Res.EnhancementUpdatesAvailable)
 	}
 
 	if s.Res.IsRebootRequired != nil {
@@ -232,16 +264,32 @@ func (s *OsmanagementManagedInstanceDataSourceCrud) SetData() error {
 		s.D.Set("os_version", *s.Res.OsVersion)
 	}
 
+	if s.Res.OtherUpdatesAvailable != nil {
+		s.D.Set("other_updates_available", *s.Res.OtherUpdatesAvailable)
+	}
+
 	if s.Res.ParentSoftwareSource != nil {
 		s.D.Set("parent_software_source", []interface{}{SoftwareSourceIdToMap(s.Res.ParentSoftwareSource)})
 	} else {
 		s.D.Set("parent_software_source", nil)
 	}
 
+	if s.Res.ScheduledJobCount != nil {
+		s.D.Set("scheduled_job_count", *s.Res.ScheduledJobCount)
+	}
+
+	if s.Res.SecurityUpdatesAvailable != nil {
+		s.D.Set("security_updates_available", *s.Res.SecurityUpdatesAvailable)
+	}
+
 	s.D.Set("status", s.Res.Status)
 
 	if s.Res.UpdatesAvailable != nil {
 		s.D.Set("updates_available", *s.Res.UpdatesAvailable)
+	}
+
+	if s.Res.WorkRequestCount != nil {
+		s.D.Set("work_request_count", *s.Res.WorkRequestCount)
 	}
 
 	return nil

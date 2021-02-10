@@ -42,14 +42,15 @@ var (
 
 	//Service required target_compartment_id or targets to be set. Both cannot be empty
 	budgetRepresentationWithTargetCompartmentId = map[string]interface{}{
-		"amount":                Representation{repType: Required, create: `100`, update: `200`},
-		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"reset_period":          Representation{repType: Required, create: `MONTHLY`},
-		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":           Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"target_compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"amount":                                Representation{repType: Required, create: `100`, update: `200`},
+		"compartment_id":                        Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"reset_period":                          Representation{repType: Required, create: `MONTHLY`},
+		"budget_processing_period_start_offset": Representation{repType: Optional, create: `10`, update: `11`},
+		"defined_tags":                          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                           Representation{repType: Optional, create: `description`, update: `description2`},
+		"display_name":                          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":                         Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"target_compartment_id":                 Representation{repType: Required, create: `${var.compartment_id}`},
 	}
 
 	//Budget with target_type = COMPARTMENT
@@ -287,6 +288,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
+					resource.TestCheckResourceAttr(resourceName, "budget_processing_period_start_offset", "10"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -320,6 +322,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "200"),
+					resource.TestCheckResourceAttr(resourceName, "budget_processing_period_start_offset", "11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -359,6 +362,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.actual_spend"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.alert_rule_count"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.amount", "200"),
+					resource.TestCheckResourceAttr(datasourceName, "budgets.0.budget_processing_period_start_offset", "11"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.description", "description2"),
@@ -386,6 +390,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "amount", "200"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "budget_processing_period_start_offset", "11"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
