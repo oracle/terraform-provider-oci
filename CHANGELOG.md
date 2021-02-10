@@ -1,4 +1,4 @@
-## 4.13.0 (Unreleased)
+## 4.13.0 (February 10, 2021)
 
 ### Added
 - Add list to existing API (Erratum) to OS Management Service
