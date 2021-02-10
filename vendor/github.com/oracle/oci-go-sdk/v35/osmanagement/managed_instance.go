@@ -65,6 +65,24 @@ type ManagedInstance struct {
 
 	// Indicates whether a reboot is required to complete installation of updates.
 	IsRebootRequired *bool `mandatory:"false" json:"isRebootRequired"`
+
+	// Number of security type updates available to be installed
+	SecurityUpdatesAvailable *int `mandatory:"false" json:"securityUpdatesAvailable"`
+
+	// Number of bug fix type updates available to be installed
+	BugUpdatesAvailable *int `mandatory:"false" json:"bugUpdatesAvailable"`
+
+	// Number of enhancement type updates available to be installed
+	EnhancementUpdatesAvailable *int `mandatory:"false" json:"enhancementUpdatesAvailable"`
+
+	// Number of non-classified updates available to be installed
+	OtherUpdatesAvailable *int `mandatory:"false" json:"otherUpdatesAvailable"`
+
+	// Number of scheduled jobs associated with this instance
+	ScheduledJobCount *int `mandatory:"false" json:"scheduledJobCount"`
+
+	// Number of work requests associated with this instance
+	WorkRequestCount *int `mandatory:"false" json:"workRequestCount"`
 }
 
 func (m ManagedInstance) String() string {

@@ -15,16 +15,17 @@ import (
 )
 
 var (
-	DatabasePrecheckRequiredOnlyResource = generateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databasePrecheckRepresentation)
-	DatabaseUpgradeRequiredOnlyResource  = generateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databaseUpgradeRepresentation)
+	DatabasePrecheckResourceRepresentation = generateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databasePrecheckRepresentation)
+	DatabaseUpgradeResourceRepresentation  = generateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databaseUpgradeRepresentation)
 
 	databasePrecheckRepresentation = map[string]interface{}{
 		"action":                          Representation{repType: Required, create: `PRECHECK`},
 		"database_id":                     Representation{repType: Required, create: `${data.oci_database_databases.t.databases.0.id}`},
 		"database_upgrade_source_details": RepresentationGroup{Optional, databasePrecheckDatabaseUpgradeSourceDbVersionRepresentation},
 	}
+
 	databasePrecheckDatabaseUpgradeSourceDbVersionRepresentation = map[string]interface{}{
-		"db_version": Representation{repType: Optional, create: `19.8.0.0`},
+		"db_version": Representation{repType: Optional, create: `19.0.0.0`},
 		"source":     Representation{repType: Optional, create: `DB_VERSION`},
 	}
 
@@ -34,20 +35,20 @@ var (
 		"database_upgrade_source_details": RepresentationGroup{Optional, databaseUpgradeDatabaseUpgradeSourceDbVersionRepresentation},
 	}
 
-	databaseSoftwareImageId                                     = getEnvSettingWithBlankDefault("database_software_image_id")
 	databaseUpgradeDatabaseUpgradeSourceDbVersionRepresentation = map[string]interface{}{
-		"database_software_image_id": Representation{repType: Optional, create: databaseSoftwareImageId},
-		"source":                     Representation{repType: Optional, create: `DB_SOFTWARE_IMAGE`},
+		"db_version": Representation{repType: Optional, create: `19.0.0.0`},
+		"options":    Representation{repType: Optional, create: `-upgradeTimezone false -keepEvents`},
+		"source":     Representation{repType: Optional, create: `DB_VERSION`},
 	}
 
-	dbSystemForDbUpgradeRepresenation = `
+	dbSystemForDbUpgradeRepresentation = `
 		resource "oci_database_db_system" "t" {
 			availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 			compartment_id = "${var.compartment_id}"
 			subnet_id = "${oci_core_subnet.t.id}"
 			database_edition = "ENTERPRISE_EDITION"
 			disk_redundancy = "NORMAL"
-			shape = "VM.Standard2.1"
+			shape = "VM.Standard1.1"
 			ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
 			display_name = "-tf-dbSystem-001"
 			domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
@@ -79,6 +80,8 @@ var (
 			lifecycle {
 				ignore_changes = [
 					db_home.0.db_version,
+					defined_tags,
+					db_home.0.database.0.defined_tags,
 				]
 			}
 		}
@@ -133,7 +136,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// create dependencies
 			{
-				Config: ResourceDatabaseBaseConfig + dbSystemForDbUpgradeRepresenation,
+				Config: ResourceDatabaseBaseConfig + dbSystemForDbUpgradeRepresentation,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
@@ -162,7 +165,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 			},
 			// verify PRECHECK action on database with source=DB_VERSION
 			{
-				Config: ResourceDatabaseBaseConfig + DatabasePrecheckRequiredOnlyResource + dbSystemForDbUpgradeRepresenation,
+				Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRepresentation + dbSystemForDbUpgradeRepresentation,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// DBHome
 					resource.TestCheckResourceAttrSet("data.oci_database_db_home.t", "db_home_id"),
@@ -178,7 +181,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 			},
 			// verify upgrade history entries singular and plural datasources after PRECHECK action on database
 			{
-				Config: ResourceDatabaseBaseConfig + DatabasePrecheckRequiredOnlyResource + dbSystemForDbUpgradeRepresenation + ResourceDatabaseTokenFn(`
+				Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRepresentation + dbSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
 				data "oci_database_database_upgrade_history_entries" "t" {
 					database_id = "${data.oci_database_databases.t.databases.0.id}"
 				}
@@ -204,18 +207,18 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.0.action", "PRECHECK"),
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.0.state", "SUCCEEDED"),
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.0.source", "DB_VERSION"),
-					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.0.target_db_version", "19.8.0.0"),
+					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.0.target_db_version", "19.0.0.0"),
 
 					//Upgrade history entry - singular datasource
-					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "target_db_version", "19.8.0.0"),
+					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "target_db_version", "19.0.0.0"),
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "action", "PRECHECK"),
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "source", "DB_VERSION"),
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "state", "SUCCEEDED"),
 				),
 			},
-			// verify UPGRADE action on database with source=DB_SOFTWARE_IMAGE
+			// verify UPGRADE action on database with source=DB_VERSION
 			{
-				Config: ResourceDatabaseBaseConfig + DatabaseUpgradeRequiredOnlyResource + dbSystemForDbUpgradeRepresenation,
+				Config: ResourceDatabaseBaseConfig + DatabaseUpgradeResourceRepresentation + dbSystemForDbUpgradeRepresentation,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// Database
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
@@ -231,7 +234,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 			},
 			// verify upgrade history entries singular and plural datasources after UPGRADE action on database
 			{
-				Config: ResourceDatabaseBaseConfig + DatabaseUpgradeRequiredOnlyResource + dbSystemForDbUpgradeRepresenation + ResourceDatabaseTokenFn(`
+				Config: ResourceDatabaseBaseConfig + DatabaseUpgradeResourceRepresentation + dbSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
 				data "oci_database_database_upgrade_history_entries" "t" {
 					database_id = "${data.oci_database_databases.t.databases.0.id}"
 				}
@@ -246,20 +249,21 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "compartment_id"),
 
-					resource.TestCheckResourceAttr("data.oci_database_db_homes.t", "db_homes.0.db_version", "19.8.0.0"),
+					resource.TestCheckResourceAttr("data.oci_database_db_homes.t", "db_homes.0.db_version", "19.0.0.0"),
 
 					//Upgrade history entry - plural datasource
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.#", "2"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.1.id"),
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.1.action", "UPGRADE"),
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.1.state", "SUCCEEDED"),
-					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.1.source", "DB_SOFTWARE_IMAGE"),
-					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.1.target_db_version", "19.8.0.0"),
+					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.1.source", "DB_VERSION"),
+					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.1.target_db_version", "19.0.0.0"),
+					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entries.t", "database_upgrade_history_entries.1.options", "-upgradeTimezone false -keepEvents"),
 
 					//Upgrade history entry - singular datasource
-					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "target_db_version", "19.8.0.0"),
+					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "target_db_version", "19.0.0.0"),
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "action", "UPGRADE"),
-					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "source", "DB_SOFTWARE_IMAGE"),
+					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "source", "DB_VERSION"),
 					resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "state", "SUCCEEDED"),
 
 					func(s *terraform.State) (err error) {

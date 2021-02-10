@@ -58,5 +58,6 @@ resource "oci_database_database_upgrade" "test_upgrade" {
   database_upgrade_source_details {
     db_version = "19.8.0.0"
     source     = "DB_VERSION"
+    options    = "-upgradeTimezone false -keepEvents"
   }
 }

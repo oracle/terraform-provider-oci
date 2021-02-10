@@ -70,6 +70,11 @@ func CoreInstanceResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"are_all_plugins_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"is_management_disabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -79,6 +84,28 @@ func CoreInstanceResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
+						},
+						"plugins_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"desired_state": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
 						},
 
 						// Computed
@@ -1315,6 +1342,33 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 	return result
 }
 
+func (s *CoreInstanceResourceCrud) mapToInstanceAgentPluginConfigDetails(fieldKeyFormat string) (oci_core.InstanceAgentPluginConfigDetails, error) {
+	result := oci_core.InstanceAgentPluginConfigDetails{}
+
+	if desiredState, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "desired_state")); ok {
+		result.DesiredState = oci_core.InstanceAgentPluginConfigDetailsDesiredStateEnum(desiredState.(string))
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	return result, nil
+}
+
+// func InstanceAgentPluginConfigDetailsToMap(obj oci_core.InstanceAgentPluginConfigDetails) map[string]interface{} {
+// 	result := map[string]interface{}{}
+
+// 	result["desired_state"] = string(obj.DesiredState)
+
+// 	if obj.Name != nil {
+// 		result["name"] = string(*obj.Name)
+// 	}
+
+// 	return result
+// }
+
 func (s *CoreInstanceResourceCrud) mapToInstanceOptions(fieldKeyFormat string) (oci_core.InstanceOptions, error) {
 	result := oci_core.InstanceOptions{}
 
@@ -1534,6 +1588,11 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 func (s *CoreInstanceResourceCrud) mapToLaunchInstanceAgentConfigDetails(fieldKeyFormat string) (oci_core.LaunchInstanceAgentConfigDetails, error) {
 	result := oci_core.LaunchInstanceAgentConfigDetails{}
 
+	if areAllPluginsDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_all_plugins_disabled")); ok {
+		tmp := areAllPluginsDisabled.(bool)
+		result.AreAllPluginsDisabled = &tmp
+	}
+
 	if isManagementDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_management_disabled")); ok {
 		tmp := isManagementDisabled.(bool)
 		result.IsManagementDisabled = &tmp
@@ -1542,6 +1601,23 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstanceAgentConfigDetails(fieldKe
 	if isMonitoringDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monitoring_disabled")); ok {
 		tmp := isMonitoringDisabled.(bool)
 		result.IsMonitoringDisabled = &tmp
+	}
+
+	if pluginsConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "plugins_config")); ok {
+		interfaces := pluginsConfig.([]interface{})
+		tmp := make([]oci_core.InstanceAgentPluginConfigDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "plugins_config"), stateDataIndex)
+			converted, err := s.mapToInstanceAgentPluginConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "plugins_config")) {
+			result.PluginsConfig = tmp
+		}
 	}
 
 	return result, nil
@@ -1565,6 +1641,10 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceAgentConfigDetails(fieldKe
 func InstanceAgentConfigToMap(obj *oci_core.InstanceAgentConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AreAllPluginsDisabled != nil {
+		result["are_all_plugins_disabled"] = bool(*obj.AreAllPluginsDisabled)
+	}
+
 	if obj.IsManagementDisabled != nil {
 		result["is_management_disabled"] = bool(*obj.IsManagementDisabled)
 	}
@@ -1572,6 +1652,12 @@ func InstanceAgentConfigToMap(obj *oci_core.InstanceAgentConfig) map[string]inte
 	if obj.IsMonitoringDisabled != nil {
 		result["is_monitoring_disabled"] = bool(*obj.IsMonitoringDisabled)
 	}
+
+	pluginsConfig := []interface{}{}
+	for _, item := range obj.PluginsConfig {
+		pluginsConfig = append(pluginsConfig, InstanceAgentPluginConfigDetailsToMap(item))
+	}
+	result["plugins_config"] = pluginsConfig
 
 	return result
 }

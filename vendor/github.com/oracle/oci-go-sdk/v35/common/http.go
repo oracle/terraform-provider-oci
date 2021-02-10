@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -249,7 +250,7 @@ func removeNilFieldsInJSONWithTaggedStruct(rawJSON []byte, value reflect.Value) 
 	return json.Marshal(fixedMap)
 }
 
-func addToBody(request *http.Request, value reflect.Value, field reflect.StructField) (e error) {
+func addToBody(request *http.Request, value reflect.Value, field reflect.StructField, binaryBodySpecified *bool) (e error) {
 	Debugln("Marshaling to body from field:", field.Name)
 	if request.Body != nil {
 		Logf("The body of the request is already set. Structure: %s will overwrite it\n", field.Name)
@@ -258,6 +259,7 @@ func addToBody(request *http.Request, value reflect.Value, field reflect.StructF
 	encoding := tag.Get("encoding")
 
 	if encoding == "binary" {
+		*binaryBodySpecified = true
 		return addBinaryBody(request, value, field)
 	}
 
@@ -286,6 +288,43 @@ func addToBody(request *http.Request, value reflect.Value, field reflect.StructF
 	}
 
 	return
+}
+
+func checkBinaryBodyLength(request *http.Request) (contentLen int64, err error) {
+	if reflect.TypeOf(request.Body) == reflect.TypeOf(ioutil.NopCloser(nil)) {
+		ioReader := reflect.ValueOf(request.Body).Field(0).Interface().(io.Reader)
+		switch t := ioReader.(type) {
+		case *bytes.Reader:
+			return int64(t.Len()), nil
+		case *bytes.Buffer:
+			return int64(t.Len()), nil
+		case *strings.Reader:
+			return int64(t.Len()), nil
+		default:
+			return getNormalBinaryBodyLength(request)
+		}
+	}
+	if reflect.TypeOf(request.Body) == reflect.TypeOf((*os.File)(nil)) {
+		fi, err := (request.Body.(*os.File)).Stat()
+		if err != nil {
+			return contentLen, err
+		}
+		return fi.Size(), nil
+	}
+	return getNormalBinaryBodyLength(request)
+}
+
+func getNormalBinaryBodyLength(request *http.Request) (contentLen int64, err error) {
+	dumpRequestBody := ioutil.NopCloser(bytes.NewBuffer(nil))
+	if dumpRequestBody, request.Body, err = drainBody(request.Body); err != nil {
+		dumpRequestBody = ioutil.NopCloser(bytes.NewBuffer(nil))
+		return contentLen, err
+	}
+	contentBody, err := ioutil.ReadAll(dumpRequestBody)
+	if err != nil {
+		return contentLen, err
+	}
+	return int64(len(contentBody)), nil
 }
 
 func addToQuery(request *http.Request, value reflect.Value, field reflect.StructField) (e error) {
@@ -404,7 +443,7 @@ func addToPath(request *http.Request, value reflect.Value, field reflect.StructF
 	return
 }
 
-func setWellKnownHeaders(request *http.Request, headerName, headerValue string) (e error) {
+func setWellKnownHeaders(request *http.Request, headerName, headerValue string, contentLenSpecified *bool) (e error) {
 	switch strings.ToLower(headerName) {
 	case "content-length":
 		var len int
@@ -413,11 +452,12 @@ func setWellKnownHeaders(request *http.Request, headerName, headerValue string) 
 			return
 		}
 		request.ContentLength = int64(len)
+		*contentLenSpecified = true
 	}
 	return nil
 }
 
-func addToHeader(request *http.Request, value reflect.Value, field reflect.StructField) (e error) {
+func addToHeader(request *http.Request, value reflect.Value, field reflect.StructField, contentLenSpecified *bool) (e error) {
 	Debugln("Marshaling to header from field: ", field.Name)
 	if request.Header == nil {
 		request.Header = http.Header{}
@@ -448,7 +488,7 @@ func addToHeader(request *http.Request, value reflect.Value, field reflect.Struc
 		return
 	}
 
-	if e = setWellKnownHeaders(request, headerName, headerValue); e != nil {
+	if e = setWellKnownHeaders(request, headerName, headerValue, contentLenSpecified); e != nil {
 		return
 	}
 
@@ -529,6 +569,8 @@ func checkForValidRequestStruct(s interface{}) (*reflect.Value, error) {
 // nested structs are followed recursively depth-first.
 func structToRequestPart(request *http.Request, val reflect.Value) (err error) {
 	typ := val.Type()
+	contentLenSpecified := false
+	binaryBodySpecified := false
 	for i := 0; i < typ.NumField(); i++ {
 		if err != nil {
 			return
@@ -544,7 +586,7 @@ func structToRequestPart(request *http.Request, val reflect.Value) (err error) {
 		tag := sf.Tag.Get("contributesTo")
 		switch tag {
 		case "header":
-			err = addToHeader(request, sv, sf)
+			err = addToHeader(request, sv, sf, &contentLenSpecified)
 		case "header-collection":
 			err = addToHeaderCollection(request, sv, sf)
 		case "path":
@@ -552,7 +594,7 @@ func structToRequestPart(request *http.Request, val reflect.Value) (err error) {
 		case "query":
 			err = addToQuery(request, sv, sf)
 		case "body":
-			err = addToBody(request, sv, sf)
+			err = addToBody(request, sv, sf, &binaryBodySpecified)
 		case "":
 			Debugln(sf.Name, " does not contain contributes tag. Skipping.")
 		default:
@@ -560,6 +602,20 @@ func structToRequestPart(request *http.Request, val reflect.Value) (err error) {
 		}
 	}
 
+	// if content-length is not specified but with binary body, calculate the content length according to request body
+	if !contentLenSpecified && binaryBodySpecified && request.Body != nil && request.Body != http.NoBody {
+		contentLen, err := checkBinaryBodyLength(request)
+		if err == nil {
+			request.Header.Set(requestHeaderContentLength, strconv.FormatInt(contentLen, 10))
+			request.ContentLength = contentLen
+		}
+	}
+
+	//If content length is zero, to avoid sending transfer-coding: chunked header, need to explicitly set the body to nil/Nobody.
+	if request.Header != nil && request.Body != nil && request.Body != http.NoBody &&
+		parseContentLength(request.Header.Get(requestHeaderContentLength)) == 0 {
+		request.Body = http.NoBody
+	}
 	//If headers are and the content type was not set, we default to application/json
 	if request.Header != nil && request.Header.Get(requestHeaderContentType) == "" {
 		request.Header.Set(requestHeaderContentType, "application/json")
