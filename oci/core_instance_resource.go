@@ -1357,18 +1357,6 @@ func (s *CoreInstanceResourceCrud) mapToInstanceAgentPluginConfigDetails(fieldKe
 	return result, nil
 }
 
-// func InstanceAgentPluginConfigDetailsToMap(obj oci_core.InstanceAgentPluginConfigDetails) map[string]interface{} {
-// 	result := map[string]interface{}{}
-
-// 	result["desired_state"] = string(obj.DesiredState)
-
-// 	if obj.Name != nil {
-// 		result["name"] = string(*obj.Name)
-// 	}
-
-// 	return result
-// }
-
 func (s *CoreInstanceResourceCrud) mapToInstanceOptions(fieldKeyFormat string) (oci_core.InstanceOptions, error) {
 	result := oci_core.InstanceOptions{}
 
