@@ -138,6 +138,66 @@ func (client IntegrationInstanceClient) changeIntegrationInstanceCompartment(ctx
 	return response, err
 }
 
+// ChangeIntegrationInstanceNetworkEndpoint Change an Integration instance network endpoint. The operation is long-running
+// and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangeIntegrationInstanceNetworkEndpoint.go.html to see an example of how to use ChangeIntegrationInstanceNetworkEndpoint API.
+func (client IntegrationInstanceClient) ChangeIntegrationInstanceNetworkEndpoint(ctx context.Context, request ChangeIntegrationInstanceNetworkEndpointRequest) (response ChangeIntegrationInstanceNetworkEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeIntegrationInstanceNetworkEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeIntegrationInstanceNetworkEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeIntegrationInstanceNetworkEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeIntegrationInstanceNetworkEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeIntegrationInstanceNetworkEndpointResponse")
+	}
+	return
+}
+
+// changeIntegrationInstanceNetworkEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) changeIntegrationInstanceNetworkEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/changeNetworkEndpoint")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeIntegrationInstanceNetworkEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateIntegrationInstance Creates a new Integration Instance.
 //
 // See also

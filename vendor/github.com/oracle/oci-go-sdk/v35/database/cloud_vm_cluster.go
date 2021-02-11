@@ -141,6 +141,12 @@ type CloudVmCluster struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The FQDN of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster.
+	ScanDnsName *string `mandatory:"false" json:"scanDnsName"`
+
+	// The OCID of the zone the cloud VM cluster is associated with.
+	ZoneId *string `mandatory:"false" json:"zoneId"`
+
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
 }
 
