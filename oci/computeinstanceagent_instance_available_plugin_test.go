@@ -55,12 +55,6 @@ func TestComputeinstanceagentInstanceAvailablePluginResource_basic(t *testing.T)
 					resource.TestCheckResourceAttrSet(datasourceName, "available_plugins.0.is_supported"),
 					resource.TestCheckResourceAttrSet(datasourceName, "available_plugins.0.name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "available_plugins.0.summary"),
-
-					resource.TestCheckResourceAttrSet(datasourceName, "available_plugins.1.is_enabled_by_default"),
-					resource.TestCheckResourceAttrSet(datasourceName, "available_plugins.2.is_enabled_by_default"),
-					resource.TestCheckResourceAttrSet(datasourceName, "available_plugins.3.is_enabled_by_default"),
-					resource.TestCheckResourceAttrSet(datasourceName, "available_plugins.4.is_enabled_by_default"),
-					resource.TestCheckResourceAttrSet(datasourceName, "available_plugins.5.is_enabled_by_default"),
 				),
 			},
 		},
