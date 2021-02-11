@@ -5,6 +5,7 @@
 - Support for Scheduled Compute Instance Suspension
 - Support for KMS Cross Region Replication
 - Support for Casper - Enhancing PARs
+- Support for ExaCC | Software Images
 
 ## 4.20.0 (March 31, 2021)
 
