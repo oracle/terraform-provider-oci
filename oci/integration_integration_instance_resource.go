@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -153,6 +154,79 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
+			},
+			"network_endpoint_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"network_endpoint_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"PUBLIC",
+							}, true),
+						},
+
+						// Optional
+						"allowlisted_http_ips": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Set:      literalTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"allowlisted_http_vcns": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Set:      allowlistedHttpVcnsHashCodeForSets,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"id": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"allowlisted_ips": {
+										Type:     schema.TypeSet,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Set:      literalTypeHashCodeForSets,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"is_integration_vcn_allowlisted": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 
 			// Computed
@@ -398,6 +472,17 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 	if messagePacks, ok := s.D.GetOkExists("message_packs"); ok {
 		tmp := messagePacks.(int)
 		request.MessagePacks = &tmp
+	}
+
+	if networkEndpointDetails, ok := s.D.GetOkExists("network_endpoint_details"); ok {
+		if tmpList := networkEndpointDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_endpoint_details", 0)
+			tmp, err := s.mapToNetworkEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkEndpointDetails = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
@@ -711,6 +796,16 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("message_packs", *s.Res.MessagePacks)
 	}
 
+	if s.Res.NetworkEndpointDetails != nil {
+		networkEndpointDetailsArray := []interface{}{}
+		if networkEndpointDetailsMap := IntegNetworkEndpointDetailsToMap(&s.Res.NetworkEndpointDetails, false); networkEndpointDetailsMap != nil {
+			networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
+		}
+		s.D.Set("network_endpoint_details", networkEndpointDetailsArray)
+	} else {
+		s.D.Set("network_endpoint_details", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.StateMessage != nil {
@@ -776,6 +871,154 @@ func CustomEndpointDetailsToMap(obj *oci_integration.CustomEndpointDetails) map[
 	}
 
 	return result
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) mapToNetworkEndpointDetails(fieldKeyFormat string) (oci_integration.NetworkEndpointDetails, error) {
+	var baseObject oci_integration.NetworkEndpointDetails
+	//discriminator
+	networkEndpointTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_endpoint_type"))
+	var networkEndpointType string
+	if ok {
+		networkEndpointType = networkEndpointTypeRaw.(string)
+	} else {
+		networkEndpointType = "" // default value
+	}
+	switch strings.ToLower(networkEndpointType) {
+	case strings.ToLower("PUBLIC"):
+		details := oci_integration.PublicEndpointDetails{}
+		if allowlistedHttpIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_ips")); ok {
+			set := allowlistedHttpIps.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_ips")) {
+				details.AllowlistedHttpIps = tmp
+			}
+		}
+		if allowlistedHttpVcns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns")); ok {
+			set := allowlistedHttpVcns.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]oci_integration.VirtualCloudNetwork, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := allowlistedHttpVcnsHashCodeForSets(interfaces[i])
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns"), stateDataIndex)
+				converted, err := s.mapToVirtualCloudNetwork(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns")) {
+				details.AllowlistedHttpVcns = tmp
+			}
+		}
+		if isIntegrationVcnAllowlisted, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_integration_vcn_allowlisted")); ok {
+			tmp := isIntegrationVcnAllowlisted.(bool)
+			details.IsIntegrationVcnAllowlisted = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_endpoint_type '%v' was specified", networkEndpointType)
+	}
+	return baseObject, nil
+}
+
+func IntegNetworkEndpointDetailsToMap(obj *oci_integration.NetworkEndpointDetails, datasource bool) map[string]interface{} {
+
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_integration.PublicEndpointDetails:
+		result["network_endpoint_type"] = "PUBLIC"
+
+		allowlistedHttpIps := []interface{}{}
+		for _, item := range v.AllowlistedHttpIps {
+			allowlistedHttpIps = append(allowlistedHttpIps, item)
+		}
+		if datasource {
+			result["allowlisted_http_ips"] = allowlistedHttpIps
+		} else {
+			result["allowlisted_http_ips"] = schema.NewSet(literalTypeHashCodeForSets, allowlistedHttpIps)
+		}
+
+		allowlistedHttpVcns := []interface{}{}
+		for _, item := range v.AllowlistedHttpVcns {
+			allowlistedHttpVcns = append(allowlistedHttpVcns, IntegVirtualCloudNetworkToMap(item, datasource))
+		}
+		if datasource {
+			result["allowlisted_http_vcns"] = allowlistedHttpVcns
+		} else {
+			result["allowlisted_http_vcns"] = schema.NewSet(allowlistedHttpVcnsHashCodeForSets, allowlistedHttpVcns)
+		}
+
+		if v.IsIntegrationVcnAllowlisted != nil {
+			result["is_integration_vcn_allowlisted"] = bool(*v.IsIntegrationVcnAllowlisted)
+		}
+	default:
+		log.Printf("[WARN] Received 'network_endpoint_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) mapToVirtualCloudNetwork(fieldKeyFormat string) (oci_integration.VirtualCloudNetwork, error) {
+	result := oci_integration.VirtualCloudNetwork{}
+
+	if allowlistedIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_ips")); ok {
+		set := allowlistedIps.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_ips")) {
+			result.AllowlistedIps = tmp
+		}
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	return result, nil
+}
+
+func IntegVirtualCloudNetworkToMap(obj oci_integration.VirtualCloudNetwork, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	allowlistedIps := []interface{}{}
+	for _, item := range obj.AllowlistedIps {
+		allowlistedIps = append(allowlistedIps, item)
+	}
+	if datasource {
+		result["allowlisted_ips"] = allowlistedIps
+	} else {
+		result["allowlisted_ips"] = schema.NewSet(literalTypeHashCodeForSets, allowlistedIps)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	return result
+}
+
+func allowlistedHttpVcnsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if allowlistedIps, ok := m["allowlisted_ips"]; ok && allowlistedIps != "" {
+	}
+	if id, ok := m["id"]; ok && id != "" {
+		buf.WriteString(fmt.Sprintf("%v-", id))
+	}
+	return hashcode.String(buf.String())
 }
 
 func alternateCustomEndpointsHashCodeForSets(v interface{}) int {

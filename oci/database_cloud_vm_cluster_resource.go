@@ -229,6 +229,10 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"scan_dns_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"scan_dns_record_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -266,6 +270,10 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"zone_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 		},
 	}
@@ -730,6 +738,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	}
 	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 
+	if s.Res.ScanDnsName != nil {
+		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)
+	}
+
 	if s.Res.ScanDnsRecordId != nil {
 		s.D.Set("scan_dns_record_id", *s.Res.ScanDnsRecordId)
 	}
@@ -765,6 +777,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("vip_ids", s.Res.VipIds)
+
+	if s.Res.ZoneId != nil {
+		s.D.Set("zone_id", *s.Res.ZoneId)
+	}
 
 	return nil
 }

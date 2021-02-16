@@ -59,7 +59,7 @@ func retryLoop(t *testing.T, r *retryTestInput) {
 		}
 
 		waitTime := retryPolicy.NextDuration(operationResponse)
-		fmt.Printf("Attempt #%v: Will wait for %v ms\n", i, waitTime.Nanoseconds()/1000000)
+		fmt.Printf("Attempt #%v: Will wait for %v\n", i, waitTime.Round(time.Second))
 
 		if r.jitterMode {
 			expectedWaitTimeMax := time.Duration(2*i*i) * time.Second
@@ -110,7 +110,7 @@ func TestUnitRetryLoop_configuredRetry(t *testing.T) {
 		serviceName:              "core",
 		httpResponseStatusCode:   429,
 		header:                   map[string][]string{},
-		responseError:            fmt.Errorf("Retriable error"),
+		responseError:            fmt.Errorf("Too many requests. "),
 		expectedRetryTimeSeconds: 30,
 		jitterMode:               true,
 	}
@@ -129,7 +129,7 @@ func TestUnitRetryLoop_outOfCapacity(t *testing.T) {
 		serviceName:              "core",
 		httpResponseStatusCode:   500,
 		header:                   map[string][]string{},
-		responseError:            fmt.Errorf("Out of host capacity"),
+		responseError:            fmt.Errorf("Out of host capacity. "),
 		expectedRetryTimeSeconds: 15,
 		jitterMode:               true,
 	}

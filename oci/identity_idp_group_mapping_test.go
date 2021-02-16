@@ -135,15 +135,26 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 				),
 			},
 			// verify resource import
-			//{
-			//	Config:                  config,
-			//	ImportState:             true,
-			//	ImportStateVerify:       true,
-			//	ImportStateVerifyIgnore: []string{},
-			//	ResourceName:            resourceName,
-			//},
+			{
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateIdFunc:       getIdpGroupMappingImportId(resourceName),
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
+			},
 		},
 	})
+}
+
+func getIdpGroupMappingImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("identityProviders/" + rs.Primary.Attributes["identity_provider_id"] + "/groupMappings/" + rs.Primary.Attributes["id"]), nil
+	}
 }
 
 func testAccCheckIdentityIdpGroupMappingDestroy(s *terraform.State) error {

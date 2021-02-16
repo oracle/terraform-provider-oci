@@ -27,6 +27,10 @@ variable "integration_instance_consumption_model" {
   default = "UCM"
 }
 
+variable allow_listed_http_vcn {
+  default = ""
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -55,6 +59,17 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
   idcs_at                = var.integration_instance_idcs_access_token
   is_file_server_enabled = true
   state                  = "ACTIVE"
+
+  network_endpoint_details {
+    allowlisted_http_ips = ["172.16.0.239/32"]
+    allowlisted_http_vcns {
+      allowlisted_ips = ["172.16.0.239/32"]
+      id = "${var.allow_listed_http_vcn}"
+    }
+    is_integration_vcn_allowlisted = "false"
+    network_endpoint_type = "PUBLIC"
+  }
+
 }
 
 data "oci_integration_integration_instances" "test_integration_instances" {
@@ -70,4 +85,3 @@ data "oci_integration_integration_instance" "test_integration_instance" {
   #Required
   integration_instance_id = oci_integration_integration_instance.test_integration_instance.id
 }
-

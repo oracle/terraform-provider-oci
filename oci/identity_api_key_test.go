@@ -103,7 +103,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 					func(s *terraform.State) (err error) {
 						fingerprint, _ = fromInstanceState(s, resourceName, "fingerprint")
 						userId, _ := fromInstanceState(s, resourceName, "user_id")
-						compositeId = "users/" + userId + "/apiKeys/" + fingerprint
+						compositeId = "oci_identity_api_key:users/" + userId + "/apiKeys/" + fingerprint
 						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
@@ -134,15 +134,26 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 				),
 			},
 			// verify resource import
-			//{
-			//	Config:                  config,
-			//	ImportState:             true,
-			//	ImportStateVerify:       true,
-			//	ImportStateVerifyIgnore: []string{},
-			//	ResourceName:            resourceName,
-			//},
+			{
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateIdFunc:       getApiKeyImportId(resourceName),
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
+			},
 		},
 	})
+}
+
+func getApiKeyImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("oci_identity_api_key:users/" + rs.Primary.Attributes["user_id"] + "/apiKeys/" + rs.Primary.Attributes["fingerprint"]), nil
+	}
 }
 
 func testAccCheckIdentityApiKeyDestroy(s *terraform.State) error {
