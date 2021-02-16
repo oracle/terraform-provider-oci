@@ -1,14 +1,14 @@
 ---
-subcategory: "Nosql"
+subcategory: "NoSQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_nosql_table"
 sidebar_current: "docs-oci-resource-nosql-table"
 description: |-
-  Provides the Table resource in Oracle Cloud Infrastructure Nosql service
+  Provides the Table resource in Oracle Cloud Infrastructure NoSQL Database service
 ---
 
 # oci_nosql_table
-This resource provides the Table resource in Oracle Cloud Infrastructure Nosql service.
+This resource provides the Table resource in Oracle Cloud Infrastructure NoSQL Database service.
 
 Create a new table.
 

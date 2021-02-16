@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_resolver_endpoint"
 sidebar_current: "docs-oci-resource-dns-resolver_endpoint"
 description: |-
-  Provides the Resolver Endpoint resource in Oracle Cloud Infrastructure Dns service
+  Provides the Resolver Endpoint resource in Oracle Cloud Infrastructure DNS service
 ---
 
 # oci_dns_resolver_endpoint
-This resource provides the Resolver Endpoint resource in Oracle Cloud Infrastructure Dns service.
+This resource provides the Resolver Endpoint resource in Oracle Cloud Infrastructure DNS service.
 
 Creates a new resolver endpoint.
 

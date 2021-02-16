@@ -1,14 +1,14 @@
 ---
-subcategory: "Dataflow"
+subcategory: "Data Flow"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dataflow_invoke_run"
 sidebar_current: "docs-oci-resource-dataflow-invoke_run"
 description: |-
-  Provides the Invoke Run resource in Oracle Cloud Infrastructure Dataflow service
+  Provides the Invoke Run resource in Oracle Cloud Infrastructure Data Flow service
 ---
 
 # oci_dataflow_invoke_run
-This resource provides the Invoke Run resource in Oracle Cloud Infrastructure Dataflow service.
+This resource provides the Invoke Run resource in Oracle Cloud Infrastructure Data Flow service.
 
 Creates a run for an application.
 

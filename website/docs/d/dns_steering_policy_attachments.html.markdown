@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_steering_policy_attachments"
 sidebar_current: "docs-oci-datasource-dns-steering_policy_attachments"
 description: |-
-  Provides the list of Steering Policy Attachments in Oracle Cloud Infrastructure Dns service
+  Provides the list of Steering Policy Attachments in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_steering_policy_attachments
-This data source provides the list of Steering Policy Attachments in Oracle Cloud Infrastructure Dns service.
+This data source provides the list of Steering Policy Attachments in Oracle Cloud Infrastructure DNS service.
 
 Lists the steering policy attachments in the specified compartment.
 

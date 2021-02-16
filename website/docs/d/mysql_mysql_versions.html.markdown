@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_mysql_versions"
 sidebar_current: "docs-oci-datasource-mysql-mysql_versions"
 description: |-
-  Provides the list of Mysql Versions in Oracle Cloud Infrastructure Mysql service
+  Provides the list of Mysql Versions in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # Data Source: oci_mysql_mysql_versions
-This data source provides the list of Mysql Versions in Oracle Cloud Infrastructure Mysql service.
+This data source provides the list of Mysql Versions in Oracle Cloud Infrastructure MySQL Database service.
 
 Get a list of supported and available MySQL database major versions.
 

@@ -1,14 +1,14 @@
 ---
-subcategory: "Dataflow"
+subcategory: "Data Flow"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dataflow_invoke_run"
 sidebar_current: "docs-oci-datasource-dataflow-invoke_run"
 description: |-
-  Provides details about a specific Invoke Run in Oracle Cloud Infrastructure Dataflow service
+  Provides details about a specific Invoke Run in Oracle Cloud Infrastructure Data Flow service
 ---
 
 # Data Source: oci_dataflow_invoke_run
-This data source provides details about a specific Invoke Run resource in Oracle Cloud Infrastructure Dataflow service.
+This data source provides details about a specific Invoke Run resource in Oracle Cloud Infrastructure Data Flow service.
 
 Retrieves the run for the specified `runId`.
 

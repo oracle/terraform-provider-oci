@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_zone"
 sidebar_current: "docs-oci-resource-dns-zone"
 description: |-
-  Provides the Zone resource in Oracle Cloud Infrastructure Dns service
+  Provides the Zone resource in Oracle Cloud Infrastructure DNS service
 ---
 
 # oci_dns_zone
-This resource provides the Zone resource in Oracle Cloud Infrastructure Dns service.
+This resource provides the Zone resource in Oracle Cloud Infrastructure DNS service.
 
 Creates a new zone in the specified compartment. Additionally, for Private DNS, 
 the `scope` and `viewId` query parameters are required when creating private zones.

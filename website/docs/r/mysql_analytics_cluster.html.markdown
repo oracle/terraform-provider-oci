@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_analytics_cluster"
 sidebar_current: "docs-oci-resource-mysql-analytics_cluster"
 description: |-
-  Provides the Analytics Cluster resource in Oracle Cloud Infrastructure Mysql service
+  Provides the Analytics Cluster resource in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # oci_mysql_analytics_cluster
-This resource provides the Analytics Cluster resource in Oracle Cloud Infrastructure Mysql service.
+This resource provides the Analytics Cluster resource in Oracle Cloud Infrastructure MySQL Database service.
 
 Updates the Analytics Cluster.
 

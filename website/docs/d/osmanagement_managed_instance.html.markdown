@@ -1,14 +1,14 @@
 ---
-subcategory: "Osmanagement"
+subcategory: "OS Management"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_osmanagement_managed_instance"
 sidebar_current: "docs-oci-datasource-osmanagement-managed_instance"
 description: |-
-  Provides details about a specific Managed Instance in Oracle Cloud Infrastructure Osmanagement service
+  Provides details about a specific Managed Instance in Oracle Cloud Infrastructure OS Management service
 ---
 
 # Data Source: oci_osmanagement_managed_instance
-This data source provides details about a specific Managed Instance resource in Oracle Cloud Infrastructure Osmanagement service.
+This data source provides details about a specific Managed Instance resource in Oracle Cloud Infrastructure OS Management service.
 
 Returns a specific Managed Instance.
 

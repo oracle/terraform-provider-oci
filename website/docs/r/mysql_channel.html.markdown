@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_channel"
 sidebar_current: "docs-oci-resource-mysql-channel"
 description: |-
-  Provides the Channel resource in Oracle Cloud Infrastructure Mysql service
+  Provides the Channel resource in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # oci_mysql_channel
-This resource provides the Channel resource in Oracle Cloud Infrastructure Mysql service.
+This resource provides the Channel resource in Oracle Cloud Infrastructure MySQL Database service.
 
 Creates a Channel to establish replication from a source to a target.
 

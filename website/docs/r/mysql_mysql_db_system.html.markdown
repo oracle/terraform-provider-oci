@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_mysql_db_system"
 sidebar_current: "docs-oci-resource-mysql-mysql_db_system"
 description: |-
-  Provides the Mysql Db System resource in Oracle Cloud Infrastructure Mysql service
+  Provides the Mysql Db System resource in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # oci_mysql_mysql_db_system
-This resource provides the Mysql Db System resource in Oracle Cloud Infrastructure Mysql service.
+This resource provides the Mysql Db System resource in Oracle Cloud Infrastructure MySQL Database service.
 
 Creates and launches a DB System.
 

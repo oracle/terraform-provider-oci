@@ -1,14 +1,14 @@
 ---
-subcategory: "Datascience"
+subcategory: "Data Science"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_datascience_notebook_session_shapes"
 sidebar_current: "docs-oci-datasource-datascience-notebook_session_shapes"
 description: |-
-  Provides the list of Notebook Session Shapes in Oracle Cloud Infrastructure Datascience service
+  Provides the list of Notebook Session Shapes in Oracle Cloud Infrastructure Data Science service
 ---
 
 # Data Source: oci_datascience_notebook_session_shapes
-This data source provides the list of Notebook Session Shapes in Oracle Cloud Infrastructure Datascience service.
+This data source provides the list of Notebook Session Shapes in Oracle Cloud Infrastructure Data Science service.
 
 Lists the valid notebook session shapes.
 
