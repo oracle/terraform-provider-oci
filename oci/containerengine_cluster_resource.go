@@ -554,9 +554,35 @@ func clusterWaitForWorkRequest(wId *string, entityType string, action oci_contai
 		}
 	}
 
-	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
-	errorMessage, _ := getErrorFromWorkRequest(wId, response.CompartmentId, client, disableFoundRetries)
-	return identifier, fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
+		return nil, getErrorFromContainerengineClusterWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+func getErrorFromContainerengineClusterWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_containerengine.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *ContainerengineClusterResourceCrud) Get() error {
@@ -1020,24 +1046,4 @@ func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fi
 	}
 
 	return result, nil
-}
-
-func getErrorFromWorkRequest(workRequestId *string, compartmentId *string, client *oci_containerengine.ContainerEngineClient, disableFoundAutoRetries bool) (string, error) {
-	req := oci_containerengine.ListWorkRequestErrorsRequest{}
-	req.WorkRequestId = workRequestId
-	req.CompartmentId = compartmentId
-	req.RequestMetadata.RetryPolicy = getRetryPolicy(disableFoundAutoRetries, "containerengine")
-	res, err := client.ListWorkRequestErrors(context.Background(), req)
-
-	if err != nil {
-		return "", err
-	}
-
-	allErrs := make([]string, 0)
-	for _, errs := range res.Items {
-		allErrs = append(allErrs, *errs.Message)
-	}
-
-	errorMessage := strings.Join(allErrs, "\n")
-	return errorMessage, nil
 }

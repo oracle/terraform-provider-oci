@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -320,12 +321,35 @@ func apiWaitForWorkRequest(wId *string, entityType string, action oci_apigateway
 		}
 	}
 
-	// The API Gateway workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_apigateway.WorkRequestStatusFailed || response.Status == oci_apigateway.WorkRequestStatusCanceled {
-		return nil, getErrorFromGatewayWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromApigatewayApiWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
+}
+
+func getErrorFromApigatewayApiWorkRequest(client *oci_apigateway.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_apigateway.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *ApigatewayApiResourceCrud) Get() error {

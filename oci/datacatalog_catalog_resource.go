@@ -313,18 +313,18 @@ func catalogWaitForWorkRequest(wId *string, entityType string, action oci_dataca
 		}
 	}
 
-	// The Data Catalog workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
-	if identifier == nil {
-		return nil, getErrorFromCatalogWorkRequest(client, wId, retryPolicy, entityType, action)
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_datacatalog.WorkRequestStatusFailed || response.Status == oci_datacatalog.WorkRequestStatusCanceled {
+		return nil, getErrorFromDatacatalogCatalogWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromCatalogWorkRequest(client *oci_datacatalog.DataCatalogClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromDatacatalogCatalogWorkRequest(client *oci_datacatalog.DataCatalogClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_datacatalog.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -339,7 +339,7 @@ func getErrorFromCatalogWorkRequest(client *oci_datacatalog.DataCatalogClient, w
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }

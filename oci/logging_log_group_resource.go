@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -194,6 +195,18 @@ func (s *LoggingLogGroupResourceCrud) getLogGroupFromWorkRequest(workId *string,
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, logGroupId)
+		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+			oci_logging.DeleteWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	s.D.SetId(*logGroupId)
@@ -270,19 +283,18 @@ func logGroupWaitForWorkRequest(wId *string, entityType string, action oci_loggi
 		}
 	}
 
-	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
-	if identifier == nil {
-		return nil, getErrorFromLogGroupWorkRequest(client, wId, retryPolicy, entityType, action)
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_logging.OperationStatusFailed || response.Status == oci_logging.OperationStatusCanceled {
+		return nil, getErrorFromLoggingLogGroupWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromLogGroupWorkRequest(client *oci_logging.LoggingManagementClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_logging.ActionTypesEnum) error {
-
+func getErrorFromLoggingLogGroupWorkRequest(client *oci_logging.LoggingManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_logging.ActionTypesEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_logging.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -297,7 +309,7 @@ func getErrorFromLogGroupWorkRequest(client *oci_logging.LoggingManagementClient
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }

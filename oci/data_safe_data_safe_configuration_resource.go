@@ -228,17 +228,17 @@ func dataSafeConfigurationWaitForWorkRequest(wId *string, entityType string, act
 			}
 		}
 	}
-	// The workrequest may have failed, check for errors if identifier is not found or work failed
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed {
-		return nil, getErrorFromDataSafeConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeDataSafeConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 	return identifier, nil
 }
 
-func getErrorFromDataSafeConfigurationWorkRequest(client *oci_data_safe.DataSafeClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromDataSafeDataSafeConfigurationWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_data_safe.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -246,12 +246,15 @@ func getErrorFromDataSafeConfigurationWorkRequest(client *oci_data_safe.DataSafe
 	if err != nil {
 		return err
 	}
+
 	allErrs := make([]string, 0)
 	for _, wrkErr := range response.Items {
 		allErrs = append(allErrs, *wrkErr.Message)
 	}
 	errorMessage := strings.Join(allErrs, "\n")
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
 	return workRequestErr
 }
 

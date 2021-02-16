@@ -1539,17 +1539,17 @@ func waasPolicyWaitForWorkRequest(wId *string, entityType string, action oci_waa
 		}
 	}
 
-	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	var workRequestErr error
 	if len(response.Errors) > 0 {
-		errorMessage := getErrorFromWaasPolicyWorkRequest(response)
+		errorMessage := getErrorFromWaasWaasPolicyWorkRequest(response)
 		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 	}
 
 	return identifier, workRequestErr
 }
 
-func getErrorFromWaasPolicyWorkRequest(response oci_waas.GetWorkRequestResponse) string {
+func getErrorFromWaasWaasPolicyWorkRequest(response oci_waas.GetWorkRequestResponse) string {
 	allErrs := make([]string, 0)
 	for _, wrkErr := range response.Errors {
 		allErrs = append(allErrs, *wrkErr.Message)

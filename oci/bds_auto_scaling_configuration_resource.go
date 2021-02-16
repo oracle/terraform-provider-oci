@@ -373,10 +373,33 @@ func autoScalingConfigurationWaitForWorkRequest(wId *string, entityType string, 
 
 	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
 	if compartmentId == nil {
-		return nil, getErrorFromBdsInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsAutoScalingConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return compartmentId, nil
+}
+
+func getErrorFromBdsAutoScalingConfigurationWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_bds.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *BdsAutoScalingConfigurationResourceCrud) List(compartmentId *string) (*string, error) {

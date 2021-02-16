@@ -347,7 +347,7 @@ func workspaceWaitForWorkRequest(wId *string, entityType string, action oci_data
 		}
 	}
 
-	// The Workspace workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_dataintegration.WorkRequestStatusFailed || response.Status == oci_dataintegration.WorkRequestStatusCanceled {
 		return nil, getErrorFromDataintegrationWorkspaceWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
@@ -355,10 +355,10 @@ func workspaceWaitForWorkRequest(wId *string, entityType string, action oci_data
 	return identifier, nil
 }
 
-func getErrorFromDataintegrationWorkspaceWorkRequest(client *oci_dataintegration.DataIntegrationClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataintegration.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromDataintegrationWorkspaceWorkRequest(client *oci_dataintegration.DataIntegrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataintegration.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_dataintegration.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -373,7 +373,7 @@ func getErrorFromDataintegrationWorkspaceWorkRequest(client *oci_dataintegration
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }

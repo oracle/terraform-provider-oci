@@ -546,18 +546,18 @@ func serviceConnectorWaitForWorkRequest(wId *string, entityType string, action o
 		}
 	}
 
-	//return identifier, workRequestErr
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_sch.OperationStatusFailed || response.Status == oci_sch.OperationStatusCanceled {
-		return nil, getErrorFromServiceConnectorWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromSchServiceConnectorWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromServiceConnectorWorkRequest(client *oci_sch.ServiceConnectorClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_sch.ActionTypeEnum) error {
+func getErrorFromSchServiceConnectorWorkRequest(client *oci_sch.ServiceConnectorClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_sch.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_sch.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -572,7 +572,7 @@ func getErrorFromServiceConnectorWorkRequest(client *oci_sch.ServiceConnectorCli
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }

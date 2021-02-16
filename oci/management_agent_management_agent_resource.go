@@ -326,20 +326,18 @@ func managementAgentWaitForWorkRequest(wId *string, entityType string, action oc
 		}
 	}
 
-	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
-	var workRequestErr error
-	if identifier == nil {
-		errorMessage := getErrorFromManagementAgentWorkRequest(client, wId, retryPolicy, entityType, action)
-		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_management_agent.OperationStatusFailed || response.Status == oci_management_agent.OperationStatusCanceled {
+		return nil, getErrorFromManagementAgentManagementAgentWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
-	return identifier, workRequestErr
+	return identifier, nil
 }
 
-func getErrorFromManagementAgentWorkRequest(client *oci_management_agent.ManagementAgentClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_management_agent.ActionTypesEnum) error {
+func getErrorFromManagementAgentManagementAgentWorkRequest(client *oci_management_agent.ManagementAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_management_agent.ActionTypesEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_management_agent.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -354,7 +352,7 @@ func getErrorFromManagementAgentWorkRequest(client *oci_management_agent.Managem
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }

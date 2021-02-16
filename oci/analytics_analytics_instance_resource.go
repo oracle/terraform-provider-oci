@@ -467,7 +467,17 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) getAnalyticsInstanceFromWorkReq
 
 	if err != nil {
 		// Try to cancel the work request
-		log.Printf("[DEBUG] creation failed: %v for identifier: %v\n", workId, analyticsInstanceId)
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, analyticsInstanceId)
+		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+			oci_analytics.DeleteWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 
@@ -549,18 +559,18 @@ func analyticsInstanceWaitForWorkRequest(wId *string, entityType string, action 
 		}
 	}
 
-	// The OAC workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_analytics.WorkRequestStatusFailed || response.Status == oci_analytics.WorkRequestStatusCanceled {
-		return nil, getErrorFromAnalyticsInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAnalyticsAnalyticsInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromAnalyticsInstanceWorkRequest(client *oci_analytics.AnalyticsClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
+func getErrorFromAnalyticsAnalyticsInstanceWorkRequest(client *oci_analytics.AnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_analytics.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -575,7 +585,7 @@ func getErrorFromAnalyticsInstanceWorkRequest(client *oci_analytics.AnalyticsCli
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }

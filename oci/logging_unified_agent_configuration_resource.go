@@ -613,14 +613,35 @@ func unifiedAgentConfigurationWaitForWorkRequest(wId *string, entityType string,
 		}
 	}
 
-	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
-	var workRequestErr error
-	/*if len(response.Errors) > 0 {
-		errorMessage := getErrorFromUnifiedAgentConfigurationWorkRequest(response)
-		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
-	}*/
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_logging.OperationStatusFailed || response.Status == oci_logging.OperationStatusCanceled {
+		return nil, getErrorFromLoggingUnifiedAgentConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
 
-	return identifier, workRequestErr
+	return identifier, nil
+}
+
+func getErrorFromLoggingUnifiedAgentConfigurationWorkRequest(client *oci_logging.LoggingManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_logging.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_logging.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *LoggingUnifiedAgentConfigurationResourceCrud) Get() error {
