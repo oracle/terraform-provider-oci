@@ -265,11 +265,34 @@ func osnWaitForWorkRequest(wId *string, entityType string, action oci_blockchain
 	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
 	var workRequestErr error
 	if response.Status == oci_blockchain.WorkRequestStatusFailed {
-		errorMessage := getErrorFromBlockchainPlatformWorkRequest(response, client)
+		errorMessage := getErrorFromBlockchainOsnWorkRequest(client, wId, retryPolicy, entityType, action)
 		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 	}
 
 	return subTypeKey, workRequestErr
+}
+
+func getErrorFromBlockchainOsnWorkRequest(client *oci_blockchain.BlockchainPlatformClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_blockchain.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *BlockchainOsnResourceCrud) Get() error {
