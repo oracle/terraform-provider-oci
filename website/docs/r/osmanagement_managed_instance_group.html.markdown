@@ -1,14 +1,14 @@
 ---
-subcategory: "Osmanagement"
+subcategory: "OS Management"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_osmanagement_managed_instance_group"
 sidebar_current: "docs-oci-resource-osmanagement-managed_instance_group"
 description: |-
-  Provides the Managed Instance Group resource in Oracle Cloud Infrastructure Osmanagement service
+  Provides the Managed Instance Group resource in Oracle Cloud Infrastructure OS Management service
 ---
 
 # oci_osmanagement_managed_instance_group
-This resource provides the Managed Instance Group resource in Oracle Cloud Infrastructure Osmanagement service.
+This resource provides the Managed Instance Group resource in Oracle Cloud Infrastructure OS Management service.
 
 Creates a new Managed Instance Group on the management system.
 This will not contain any managed instances after it is first created,

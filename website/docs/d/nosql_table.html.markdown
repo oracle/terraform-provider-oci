@@ -1,14 +1,14 @@
 ---
-subcategory: "Nosql"
+subcategory: "NoSQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_nosql_table"
 sidebar_current: "docs-oci-datasource-nosql-table"
 description: |-
-  Provides details about a specific Table in Oracle Cloud Infrastructure Nosql service
+  Provides details about a specific Table in Oracle Cloud Infrastructure NoSQL Database service
 ---
 
 # Data Source: oci_nosql_table
-This data source provides details about a specific Table resource in Oracle Cloud Infrastructure Nosql service.
+This data source provides details about a specific Table resource in Oracle Cloud Infrastructure NoSQL Database service.
 
 Get table info by identifier.
 

@@ -1,14 +1,14 @@
 ---
-subcategory: "Dataflow"
+subcategory: "Data Flow"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dataflow_applications"
 sidebar_current: "docs-oci-datasource-dataflow-applications"
 description: |-
-  Provides the list of Applications in Oracle Cloud Infrastructure Dataflow service
+  Provides the list of Applications in Oracle Cloud Infrastructure Data Flow service
 ---
 
 # Data Source: oci_dataflow_applications
-This data source provides the list of Applications in Oracle Cloud Infrastructure Dataflow service.
+This data source provides the list of Applications in Oracle Cloud Infrastructure Data Flow service.
 
 Lists all applications in the specified compartment.
 

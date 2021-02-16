@@ -1,14 +1,14 @@
 ---
-subcategory: "Dataflow"
+subcategory: "Data Flow"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dataflow_private_endpoint"
 sidebar_current: "docs-oci-resource-dataflow-private_endpoint"
 description: |-
-  Provides the Private Endpoint resource in Oracle Cloud Infrastructure Dataflow service
+  Provides the Private Endpoint resource in Oracle Cloud Infrastructure Data Flow service
 ---
 
 # oci_dataflow_private_endpoint
-This resource provides the Private Endpoint resource in Oracle Cloud Infrastructure Dataflow service.
+This resource provides the Private Endpoint resource in Oracle Cloud Infrastructure Data Flow service.
 
 Creates a private endpoint to be used by an application.
 

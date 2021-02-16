@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_steering_policy"
 sidebar_current: "docs-oci-datasource-dns-steering_policy"
 description: |-
-  Provides details about a specific Steering Policy in Oracle Cloud Infrastructure Dns service
+  Provides details about a specific Steering Policy in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_steering_policy
-This data source provides details about a specific Steering Policy resource in Oracle Cloud Infrastructure Dns service.
+This data source provides details about a specific Steering Policy resource in Oracle Cloud Infrastructure DNS service.
 
 Gets information about the specified steering policy.
 

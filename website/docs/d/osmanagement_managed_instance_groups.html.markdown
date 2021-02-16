@@ -1,14 +1,14 @@
 ---
-subcategory: "Osmanagement"
+subcategory: "OS Management"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_osmanagement_managed_instance_groups"
 sidebar_current: "docs-oci-datasource-osmanagement-managed_instance_groups"
 description: |-
-  Provides the list of Managed Instance Groups in Oracle Cloud Infrastructure Osmanagement service
+  Provides the list of Managed Instance Groups in Oracle Cloud Infrastructure OS Management service
 ---
 
 # Data Source: oci_osmanagement_managed_instance_groups
-This data source provides the list of Managed Instance Groups in Oracle Cloud Infrastructure Osmanagement service.
+This data source provides the list of Managed Instance Groups in Oracle Cloud Infrastructure OS Management service.
 
 Returns a list of all Managed Instance Groups.
 

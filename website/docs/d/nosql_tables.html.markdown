@@ -1,14 +1,14 @@
 ---
-subcategory: "Nosql"
+subcategory: "NoSQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_nosql_tables"
 sidebar_current: "docs-oci-datasource-nosql-tables"
 description: |-
-  Provides the list of Tables in Oracle Cloud Infrastructure Nosql service
+  Provides the list of Tables in Oracle Cloud Infrastructure NoSQL Database service
 ---
 
 # Data Source: oci_nosql_tables
-This data source provides the list of Tables in Oracle Cloud Infrastructure Nosql service.
+This data source provides the list of Tables in Oracle Cloud Infrastructure NoSQL Database service.
 
 Get a list of tables in a compartment.
 

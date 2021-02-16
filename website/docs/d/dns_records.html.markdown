@@ -1,17 +1,17 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_records"
 sidebar_current: "docs-oci-datasource-dns-records"
 description: |-
-  Provides the list of Records in Oracle Cloud Infrastructure Dns service
+  Provides the list of Records in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_records
 
 **Deprecated. Use [oci_dns_rrset](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/data-sources/dns_rrset) instead.**
 
-This data source provides the list of Records in Oracle Cloud Infrastructure Dns service.
+This data source provides the list of Records in Oracle Cloud Infrastructure DNS service.
 
 Gets all records in the specified zone. The results are
 sorted by `domain` in alphabetical order by default. For more

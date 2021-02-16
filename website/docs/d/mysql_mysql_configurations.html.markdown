@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_mysql_configurations"
 sidebar_current: "docs-oci-datasource-mysql-mysql_configurations"
 description: |-
-  Provides the list of Mysql Configurations in Oracle Cloud Infrastructure Mysql service
+  Provides the list of Mysql Configurations in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # Data Source: oci_mysql_mysql_configurations
-This data source provides the list of Mysql Configurations in Oracle Cloud Infrastructure Mysql service.
+This data source provides the list of Mysql Configurations in Oracle Cloud Infrastructure MySQL Database service.
 
 Lists the Configurations available when creating a DB System.
 

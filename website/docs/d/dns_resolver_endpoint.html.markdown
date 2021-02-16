@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_resolver_endpoint"
 sidebar_current: "docs-oci-datasource-dns-resolver_endpoint"
 description: |-
-  Provides details about a specific Resolver Endpoint in Oracle Cloud Infrastructure Dns service
+  Provides details about a specific Resolver Endpoint in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_resolver_endpoint
-This data source provides details about a specific Resolver Endpoint resource in Oracle Cloud Infrastructure Dns service.
+This data source provides details about a specific Resolver Endpoint resource in Oracle Cloud Infrastructure DNS service.
 
 Get information about a specific resolver endpoint. Note that attempting to get a resolver endpoint
 in the DELETED lifecycle state will result in a 404 to be consistent with other operations of the API.

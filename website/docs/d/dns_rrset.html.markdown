@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_rrset"
 sidebar_current: "docs-oci-datasource-dns-rrset"
 description: |-
-  Provides details about a specific Rrset in Oracle Cloud Infrastructure Dns service
+  Provides details about a specific Rrset in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_rrset
-This data source provides details about a specific Rrset resource in Oracle Cloud Infrastructure Dns service.
+This data source provides details about a specific Rrset resource in Oracle Cloud Infrastructure DNS service.
 
 Gets a list of all records in the specified RRSet. The results are
 sorted by `recordHash` by default.

@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_resolver_endpoints"
 sidebar_current: "docs-oci-datasource-dns-resolver_endpoints"
 description: |-
-  Provides the list of Resolver Endpoints in Oracle Cloud Infrastructure Dns service
+  Provides the list of Resolver Endpoints in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_resolver_endpoints
-This data source provides the list of Resolver Endpoints in Oracle Cloud Infrastructure Dns service.
+This data source provides the list of Resolver Endpoints in Oracle Cloud Infrastructure DNS service.
 
 Gets a list of all endpoints within a resolver. The collection can be filtered by name or lifecycle state.
 It can be sorted on creation time or name both in ASC or DESC order. Note that when no lifecycleState

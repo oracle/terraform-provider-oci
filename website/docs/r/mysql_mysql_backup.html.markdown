@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_mysql_backup"
 sidebar_current: "docs-oci-resource-mysql-mysql_backup"
 description: |-
-  Provides the Mysql Backup resource in Oracle Cloud Infrastructure Mysql service
+  Provides the Mysql Backup resource in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # oci_mysql_mysql_backup
-This resource provides the Mysql Backup resource in Oracle Cloud Infrastructure Mysql service.
+This resource provides the Mysql Backup resource in Oracle Cloud Infrastructure MySQL Database service.
 
 Create a backup of a DB System.
 

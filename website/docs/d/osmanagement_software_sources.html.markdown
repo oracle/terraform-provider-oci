@@ -1,14 +1,14 @@
 ---
-subcategory: "Osmanagement"
+subcategory: "OS Management"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_osmanagement_software_sources"
 sidebar_current: "docs-oci-datasource-osmanagement-software_sources"
 description: |-
-  Provides the list of Software Sources in Oracle Cloud Infrastructure Osmanagement service
+  Provides the list of Software Sources in Oracle Cloud Infrastructure OS Management service
 ---
 
 # Data Source: oci_osmanagement_software_sources
-This data source provides the list of Software Sources in Oracle Cloud Infrastructure Osmanagement service.
+This data source provides the list of Software Sources in Oracle Cloud Infrastructure OS Management service.
 
 Returns a list of all Software Sources.
 

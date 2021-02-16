@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_resolver"
 sidebar_current: "docs-oci-datasource-dns-resolver"
 description: |-
-  Provides details about a specific Resolver in Oracle Cloud Infrastructure Dns service
+  Provides details about a specific Resolver in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_resolver
-This data source provides details about a specific Resolver resource in Oracle Cloud Infrastructure Dns service.
+This data source provides details about a specific Resolver resource in Oracle Cloud Infrastructure DNS service.
 
 Get information about a specific resolver. Note that attempting to get a
 resolver in the DELETED lifecycleState will result in a 404 to be

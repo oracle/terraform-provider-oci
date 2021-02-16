@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_mysql_backups"
 sidebar_current: "docs-oci-datasource-mysql-mysql_backups"
 description: |-
-  Provides the list of Mysql Backups in Oracle Cloud Infrastructure Mysql service
+  Provides the list of Mysql Backups in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # Data Source: oci_mysql_mysql_backups
-This data source provides the list of Mysql Backups in Oracle Cloud Infrastructure Mysql service.
+This data source provides the list of Mysql Backups in Oracle Cloud Infrastructure MySQL Database service.
 
 Get a list of DB System backups.
 
