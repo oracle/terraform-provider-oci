@@ -146,6 +146,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `logging` - Discovers logging resources within the specified compartment
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
+    * `metering_computation` - Discovers metering_computation resources within the specified compartment
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `mysql` - Discovers mysql resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
@@ -505,6 +506,10 @@ management_agent
 marketplace
     
 * oci\_marketplace\_accepted\_agreement
+
+metering_computation
+    
+* oci\_metering\_computation\_query
 
 monitoring
     

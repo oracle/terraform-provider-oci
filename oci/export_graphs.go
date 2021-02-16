@@ -706,6 +706,12 @@ var marketplaceResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var meteringComputationResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportMeteringComputationQueryHints},
+	},
+}
+
 var monitoringResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMonitoringAlarmHints},

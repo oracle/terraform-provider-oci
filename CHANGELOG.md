@@ -2,6 +2,7 @@
 
 ### Added
 - Support for Maintenance Windows History in `database`
+- Support save report in cost analysis
 
 ## 4.18.0 (March 17, 2021)
 

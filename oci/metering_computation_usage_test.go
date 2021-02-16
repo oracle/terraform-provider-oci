@@ -41,7 +41,7 @@ filter = <<EOF
         "dimensions": [],
         "tags": [],
         "filters": [
-            {    
+            {
 				"operator": "OR",
                 "dimensions": [
 				    {
@@ -68,14 +68,21 @@ time_usage_started = "${var.time_usage_started}"
 		generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Required, Create, usageRepresentation)
 
 	usageRepresentation = map[string]interface{}{
-		"granularity":        Representation{repType: Required, create: `DAILY`},
-		"tenant_id":          Representation{repType: Required, create: `${var.tenancy_id}`},
-		"time_usage_ended":   Representation{repType: Required, create: `${var.time_usage_ended}`},
-		"time_usage_started": Representation{repType: Required, create: `${var.time_usage_started}`},
-		"compartment_depth":  Representation{repType: Optional, create: `1`},
-		"filter":             Representation{repType: Optional, create: `filter`},
-		"group_by":           Representation{repType: Optional, create: []string{`service`}},
-		"query_type":         Representation{repType: Optional, create: `COST`},
+		"granularity":          Representation{repType: Required, create: `DAILY`},
+		"tenant_id":            Representation{repType: Required, create: `${var.tenancy_id}`},
+		"time_usage_ended":     Representation{repType: Required, create: `${var.time_usage_ended}`},
+		"time_usage_started":   Representation{repType: Required, create: `${var.time_usage_started}`},
+		"compartment_depth":    Representation{repType: Optional, create: `1`},
+		"filter":               Representation{repType: Optional, create: `filter`},
+		"group_by":             Representation{repType: Optional, create: []string{`service`}},
+		"group_by_tag":         RepresentationGroup{Optional, usageGroupByTagRepresentation},
+		"is_aggregate_by_time": Representation{repType: Optional, create: `false`},
+		"query_type":           Representation{repType: Optional, create: `COST`},
+	}
+	usageGroupByTagRepresentation = map[string]interface{}{
+		"key":       Representation{repType: Optional, create: `key`},
+		"namespace": Representation{repType: Optional, create: `namespace`},
+		"value":     Representation{repType: Optional, create: `value`},
 	}
 
 	UsageResourceDependencies = ""
@@ -137,7 +144,6 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "filter"),
 					resource.TestCheckResourceAttr(resourceName, "granularity", "DAILY"),
 					resource.TestCheckResourceAttr(resourceName, "group_by.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "items.#"),
 					resource.TestCheckResourceAttr(resourceName, "query_type", "COST"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_usage_ended"),

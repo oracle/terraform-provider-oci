@@ -29,12 +29,15 @@ provider "oci" {
 }
 
 variable "time_usage_ended" {
+  default = "2020-01-02T00:00:00.000Z"
 }
 
 variable "time_usage_started" {
+  default = "2020-01-01T00:00:00.000Z"
 }
 
 variable "dimensions_value" {
+  default = "dimensions_value"
 }
 
 resource "oci_metering_computation_usage" "test_usage" {
@@ -76,4 +79,3 @@ EOF
 data "oci_metering_computation_configuration" "test_configuration" {
   tenant_id = var.tenancy_ocid
 }
-
