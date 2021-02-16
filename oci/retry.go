@@ -81,6 +81,7 @@ func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIO
 			backoffDuration = finalBackoffDuration
 		}
 	}
+	Logf("Time elapsed for retry: %v;  Expected retry duration: %v \n", timeWaited.Round(time.Second), expectedRetryDuration.Round(time.Second))
 	return backoffDuration
 }
 

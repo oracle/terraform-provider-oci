@@ -10,6 +10,7 @@
 package integration
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/v35/common"
 )
 
@@ -62,10 +63,87 @@ type IntegrationInstanceSummary struct {
 
 	// The entitlement used for billing purposes.
 	ConsumptionModel IntegrationInstanceSummaryConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
+
+	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
 }
 
 func (m IntegrationInstanceSummary) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		TimeCreated              *common.SDKTime                                       `json:"timeCreated"`
+		TimeUpdated              *common.SDKTime                                       `json:"timeUpdated"`
+		LifecycleState           IntegrationInstanceSummaryLifecycleStateEnum          `json:"lifecycleState"`
+		StateMessage             *string                                               `json:"stateMessage"`
+		IsFileServerEnabled      *bool                                                 `json:"isFileServerEnabled"`
+		IsVisualBuilderEnabled   *bool                                                 `json:"isVisualBuilderEnabled"`
+		CustomEndpoint           *CustomEndpointDetails                                `json:"customEndpoint"`
+		AlternateCustomEndpoints []CustomEndpointDetails                               `json:"alternateCustomEndpoints"`
+		ConsumptionModel         IntegrationInstanceSummaryConsumptionModelEnum        `json:"consumptionModel"`
+		NetworkEndpointDetails   networkendpointdetails                                `json:"networkEndpointDetails"`
+		Id                       *string                                               `json:"id"`
+		DisplayName              *string                                               `json:"displayName"`
+		CompartmentId            *string                                               `json:"compartmentId"`
+		IntegrationInstanceType  IntegrationInstanceSummaryIntegrationInstanceTypeEnum `json:"integrationInstanceType"`
+		IsByol                   *bool                                                 `json:"isByol"`
+		InstanceUrl              *string                                               `json:"instanceUrl"`
+		MessagePacks             *int                                                  `json:"messagePacks"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.StateMessage = model.StateMessage
+
+	m.IsFileServerEnabled = model.IsFileServerEnabled
+
+	m.IsVisualBuilderEnabled = model.IsVisualBuilderEnabled
+
+	m.CustomEndpoint = model.CustomEndpoint
+
+	m.AlternateCustomEndpoints = make([]CustomEndpointDetails, len(model.AlternateCustomEndpoints))
+	for i, n := range model.AlternateCustomEndpoints {
+		m.AlternateCustomEndpoints[i] = n
+	}
+
+	m.ConsumptionModel = model.ConsumptionModel
+
+	nn, e = model.NetworkEndpointDetails.UnmarshalPolymorphicJSON(model.NetworkEndpointDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkEndpointDetails = nn.(NetworkEndpointDetails)
+	} else {
+		m.NetworkEndpointDetails = nil
+	}
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.IntegrationInstanceType = model.IntegrationInstanceType
+
+	m.IsByol = model.IsByol
+
+	m.InstanceUrl = model.InstanceUrl
+
+	m.MessagePacks = model.MessagePacks
+
+	return
 }
 
 // IntegrationInstanceSummaryIntegrationInstanceTypeEnum Enum with underlying type: string

@@ -155,6 +155,16 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["message_packs"] = *r.MessagePacks
 		}
 
+		if r.NetworkEndpointDetails != nil {
+			networkEndpointDetailsArray := []interface{}{}
+			if networkEndpointDetailsMap := IntegNetworkEndpointDetailsToMap(&r.NetworkEndpointDetails, true); networkEndpointDetailsMap != nil {
+				networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
+			}
+			integrationInstance["network_endpoint_details"] = networkEndpointDetailsArray
+		} else {
+			integrationInstance["network_endpoint_details"] = nil
+		}
+
 		integrationInstance["state"] = r.LifecycleState
 
 		if r.StateMessage != nil {

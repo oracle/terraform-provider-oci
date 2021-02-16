@@ -1633,7 +1633,7 @@ func generateOciResourceFromResourceData(d *schema.ResourceData, rawResource int
 	return resource, nil
 }
 
-func getOciResource(d *schema.ResourceData, resourceSchema map[string]*schema.Schema, compartmentId string, resourceHint *TerraformResourceHints) (*OCIResource, error) {
+func getOciResource(d *schema.ResourceData, resourceSchema map[string]*schema.Schema, compartmentId string, resourceHint *TerraformResourceHints, resourceId string) (*OCIResource, error) {
 	resourceMap, err := convertDatasourceItemToMap(d, "", resourceSchema)
 	if err != nil {
 		return nil, err
@@ -1650,8 +1650,8 @@ func getOciResource(d *schema.ResourceData, resourceSchema map[string]*schema.Sc
 		getHclStringFn: getHclStringFromGenericMap,
 	}
 
-	if resourceId, resourceIdExists := resourceMap["id"]; resourceIdExists {
-		resource.id = resourceId.(string)
+	if resourceId != "" {
+		resource.id = resourceId
 	}
 
 	if resource.id == "" {

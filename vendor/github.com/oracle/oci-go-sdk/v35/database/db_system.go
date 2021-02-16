@@ -128,6 +128,12 @@ type DbSystem struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the DB system.
 	ScanDnsRecordId *string `mandatory:"false" json:"scanDnsRecordId"`
 
+	// The FQDN of the DNS record for the SCAN IP addresses that are associated with the DB system.
+	ScanDnsName *string `mandatory:"false" json:"scanDnsName"`
+
+	// The OCID of the zone the DB system is associated with.
+	ZoneId *string `mandatory:"false" json:"zoneId"`
+
 	// The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 

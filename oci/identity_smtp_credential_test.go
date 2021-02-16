@@ -117,17 +117,28 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 				),
 			},
 			// verify resource import
-			//{
-			//	Config:            config,
-			//	ImportState:       true,
-			//	ImportStateVerify: true,
-			//	ImportStateVerifyIgnore: []string{
-			//		"password",
-			//	},
-			//	ResourceName: resourceName,
-			//},
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: getSmtpCredentialImportId(resourceName),
+				ImportStateVerifyIgnore: []string{
+					"password",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
+}
+
+func getSmtpCredentialImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("users/" + rs.Primary.Attributes["user_id"] + "/smtpCredentials/" + rs.Primary.Attributes["id"]), nil
+	}
 }
 
 func testAccCheckIdentitySmtpCredentialDestroy(s *terraform.State) error {

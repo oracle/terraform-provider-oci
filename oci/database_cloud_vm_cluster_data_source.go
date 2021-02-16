@@ -156,6 +156,10 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 
+	if s.Res.ScanDnsName != nil {
+		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)
+	}
+
 	if s.Res.ScanDnsRecordId != nil {
 		s.D.Set("scan_dns_record_id", *s.Res.ScanDnsRecordId)
 	}
@@ -191,6 +195,10 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("vip_ids", s.Res.VipIds)
+
+	if s.Res.ZoneId != nil {
+		s.D.Set("zone_id", *s.Res.ZoneId)
+	}
 
 	return nil
 }
