@@ -1586,6 +1586,14 @@ var exportMarketplaceAcceptedAgreementHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+var exportMeteringComputationQueryHints = &TerraformResourceHints{
+	resourceClass:          "oci_metering_computation_query",
+	datasourceClass:        "oci_metering_computation_queries",
+	datasourceItemsAttr:    "query_collection",
+	resourceAbbreviation:   "query",
+	requireResourceRefresh: true,
+}
+
 var exportMonitoringAlarmHints = &TerraformResourceHints{
 	resourceClass:          "oci_monitoring_alarm",
 	datasourceClass:        "oci_monitoring_alarms",
