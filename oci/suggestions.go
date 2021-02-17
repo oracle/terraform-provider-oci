@@ -23,22 +23,28 @@ func getSuggestionFromError(tfError customError) string {
 }
 
 func getSuggestionFor400(tfError customError) string {
-	if tfError.ErrorCodeName == "InvalidParameter" {
-		return fmt.Sprintf("Please change Terraform config with valid parameter: %s", tfError.Message)
+	switch tfError.ErrorCodeName {
+	case "InvalidParameter":
+		return fmt.Sprintf("Please update the parameter(s) in the Terraform config as per error message: %s", tfError.Message)
+	case "LimitExceeded":
+		return fmt.Sprintf("Request a service limit increase for this resource: %s", tfError.Service)
+	case "QuotaExceeded":
+		return fmt.Sprintf("Contact your administrator to increase limit for your account or compartment for this service: %s", tfError.Service)
+	default:
+		return fmt.Sprintf(tfError.Message)
 	}
-	return fmt.Sprintf(tfError.Message)
 }
 
 func getSuggestionFor404(tfError customError) string {
-	return fmt.Sprintf("The resource had been deleted or service %s need policy to access this resource.", tfError.Service)
+	return fmt.Sprintf("Either the resource has been deleted or service %s need policy to access this resource.", tfError.Service)
 }
 
 func getSuggestionFor409(tfError customError) string {
-	return fmt.Sprintf("The resource is in conflict state, please retry again or contact service %s", tfError.Service)
+	return fmt.Sprintf("The resource is in a conflicted state. Please retry again or contact support for help with service %s", tfError.Service)
 }
 
 func getSuggestionFor429(tfError customError) string {
-	return fmt.Sprintf("Please retry again or increase the retry timeout following this document: https://registry.terraform.io/providers/hashicorp/oci/latest/docs#retry_duration_seconds")
+	return fmt.Sprintf("Please re-apply your Terraform config and/or increase the retry timeout using this document: https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformtroubleshooting.htm#common_issues__automaticretries")
 }
 
 func getSuggestionFor500(tfError customError) string {

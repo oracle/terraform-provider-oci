@@ -265,11 +265,19 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"scan_dns_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"zone_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -595,6 +603,11 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 	}
+
+	if s.Res.ScanDnsName != nil {
+		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -607,6 +620,10 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.ZoneId != nil {
+		s.D.Set("zone_id", *s.Res.ZoneId)
 	}
 
 	return nil

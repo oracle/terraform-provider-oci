@@ -120,17 +120,28 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 				),
 			},
 			// verify resource import
-			//{
-			//	Config:            config,
-			//	ImportState:       true,
-			//	ImportStateVerify: true,
-			//	ImportStateVerifyIgnore: []string{
-			//		"key",
-			//	},
-			//	ResourceName: resourceName,
-			//},
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: getCustomerKeyImportId(resourceName),
+				ImportStateVerifyIgnore: []string{
+					"key",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
+}
+
+func getCustomerKeyImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("users/" + rs.Primary.Attributes["user_id"] + "/customerSecretKeys/" + rs.Primary.Attributes["id"]), nil
+	}
 }
 
 func testAccCheckIdentityCustomerSecretKeyDestroy(s *terraform.State) error {

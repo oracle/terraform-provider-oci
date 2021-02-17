@@ -115,6 +115,10 @@ func (s *DatabaseAutonomousExadataInfrastructureDataSourceCrud) SetData() error 
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 
+	if s.Res.ScanDnsName != nil {
+		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -127,6 +131,10 @@ func (s *DatabaseAutonomousExadataInfrastructureDataSourceCrud) SetData() error 
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.ZoneId != nil {
+		s.D.Set("zone_id", *s.Res.ZoneId)
 	}
 
 	return nil

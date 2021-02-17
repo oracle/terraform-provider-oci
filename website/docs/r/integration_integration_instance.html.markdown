@@ -45,6 +45,21 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 	idcs_at = var.integration_instance_idcs_at
 	is_file_server_enabled = var.integration_instance_is_file_server_enabled
 	is_visual_builder_enabled = var.integration_instance_is_visual_builder_enabled
+	network_endpoint_details {
+		#Required
+		network_endpoint_type = var.integration_instance_network_endpoint_details_network_endpoint_type
+
+		#Optional
+		allowlisted_http_ips = var.integration_instance_network_endpoint_details_allowlisted_http_ips
+		allowlisted_http_vcns {
+			#Required
+			id = var.integration_instance_network_endpoint_details_allowlisted_http_vcns_id
+
+			#Optional
+			allowlisted_ips = var.integration_instance_network_endpoint_details_allowlisted_http_vcns_allowlisted_ips
+		}
+		is_integration_vcn_allowlisted = var.integration_instance_network_endpoint_details_is_integration_vcn_allowlisted
+	}
 	state = var.integration_instance_target_state
 }
 ```
@@ -64,12 +79,19 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) (Updatable) Integration Instance Identifier.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `idcs_at` - (Optional) IDCS Authentication token. This is is required for pre-UCPIS cloud accounts, but not UCPIS, hence not a required parameter
+* `idcs_at` - (Optional) (Updatable) IDCS Authentication token. This is required for all realms with IDCS. Its optional as its not required for non IDCS realms.
 * `integration_instance_type` - (Required) (Updatable) Standard or Enterprise type
 * `is_byol` - (Required) (Updatable) Bring your own license.
 * `is_file_server_enabled` - (Optional) (Updatable) The file server is enabled or not.
 * `is_visual_builder_enabled` - (Optional) (Updatable) Visual Builder is enabled or not.
 * `message_packs` - (Required) (Updatable) The number of configured message packs
+* `network_endpoint_details` - (Optional) Base representation of a network endpoint. 
+	* `allowlisted_http_ips` - (Optional) Source IP addresses or IP address ranges ingress rules. 
+	* `allowlisted_http_vcns` - (Optional) Virtual Cloud Networks allowed to access this network endpoint. 
+		* `allowlisted_ips` - (Optional) Source IP addresses or IP address ranges ingress rules. 
+		* `id` - (Required) The Virtual Cloud Network OCID. 
+	* `is_integration_vcn_allowlisted` - (Optional) The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
+	* `network_endpoint_type` - (Required) The type of network endpoint. 
 * `state` - (Optional) (Updatable) The target state for the instance. Could be set to ACTIVE or INACTIVE
 
 
@@ -100,6 +122,13 @@ The following attributes are exported:
 * `is_file_server_enabled` - The file server is enabled or not.
 * `is_visual_builder_enabled` - Visual Builder is enabled or not.
 * `message_packs` - The number of configured message packs (if any)
+* `network_endpoint_details` - Base representation of a network endpoint. 
+	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. 
+	* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint. 
+		* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. 
+		* `id` - The Virtual Cloud Network OCID. 
+	* `is_integration_vcn_allowlisted` - The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
+	* `network_endpoint_type` - The type of network endpoint. 
 * `state` - The current state of the integration instance.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `time_created` - The time the the Integration Instance was created. An RFC3339 formatted datetime string.

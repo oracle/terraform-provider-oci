@@ -116,15 +116,28 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 				),
 			},
 			// verify resource import
-			//{
-			//	Config:                  config,
-			//	ImportState:             true,
-			//	ImportStateVerify:       true,
-			//	ImportStateVerifyIgnore: []string{},
-			//	ResourceName:            resourceName,
-			//},
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: getAuthTokenImportId(resourceName),
+				ImportStateVerifyIgnore: []string{
+					"token",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
+}
+
+func getAuthTokenImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("users/" + rs.Primary.Attributes["user_id"] + "/authTokens/" + rs.Primary.Attributes["id"]), nil
+	}
 }
 
 func testAccCheckIdentityAuthTokenDestroy(s *terraform.State) error {

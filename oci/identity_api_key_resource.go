@@ -188,6 +188,7 @@ func (s *IdentityApiKeyResourceCrud) Get() error {
 	for _, item := range response.Items {
 		if *item.Fingerprint == fingerprint {
 			s.Res = &item
+			s.D.SetId(*s.Res.KeyId)
 			return nil
 		}
 	}
