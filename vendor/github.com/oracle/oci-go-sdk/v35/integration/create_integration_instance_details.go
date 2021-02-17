@@ -10,6 +10,7 @@
 package integration
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/v35/common"
 )
 
@@ -41,7 +42,7 @@ type CreateIntegrationInstanceDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// IDCS Authentication token. This is is required for pre-UCPIS cloud accounts, but not UCPIS, hence not a required parameter
+	// IDCS Authentication token. This is required for all realms with IDCS. Its optional as its not required for non IDCS realms.
 	IdcsAt *string `mandatory:"false" json:"idcsAt"`
 
 	// Visual Builder is enabled or not.
@@ -58,10 +59,78 @@ type CreateIntegrationInstanceDetails struct {
 
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
+
+	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
 }
 
 func (m CreateIntegrationInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		FreeformTags             map[string]string                                           `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{}                           `json:"definedTags"`
+		IdcsAt                   *string                                                     `json:"idcsAt"`
+		IsVisualBuilderEnabled   *bool                                                       `json:"isVisualBuilderEnabled"`
+		CustomEndpoint           *CreateCustomEndpointDetails                                `json:"customEndpoint"`
+		AlternateCustomEndpoints []CreateCustomEndpointDetails                               `json:"alternateCustomEndpoints"`
+		ConsumptionModel         CreateIntegrationInstanceDetailsConsumptionModelEnum        `json:"consumptionModel"`
+		IsFileServerEnabled      *bool                                                       `json:"isFileServerEnabled"`
+		NetworkEndpointDetails   networkendpointdetails                                      `json:"networkEndpointDetails"`
+		DisplayName              *string                                                     `json:"displayName"`
+		CompartmentId            *string                                                     `json:"compartmentId"`
+		IntegrationInstanceType  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum `json:"integrationInstanceType"`
+		IsByol                   *bool                                                       `json:"isByol"`
+		MessagePacks             *int                                                        `json:"messagePacks"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.IdcsAt = model.IdcsAt
+
+	m.IsVisualBuilderEnabled = model.IsVisualBuilderEnabled
+
+	m.CustomEndpoint = model.CustomEndpoint
+
+	m.AlternateCustomEndpoints = make([]CreateCustomEndpointDetails, len(model.AlternateCustomEndpoints))
+	for i, n := range model.AlternateCustomEndpoints {
+		m.AlternateCustomEndpoints[i] = n
+	}
+
+	m.ConsumptionModel = model.ConsumptionModel
+
+	m.IsFileServerEnabled = model.IsFileServerEnabled
+
+	nn, e = model.NetworkEndpointDetails.UnmarshalPolymorphicJSON(model.NetworkEndpointDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkEndpointDetails = nn.(NetworkEndpointDetails)
+	} else {
+		m.NetworkEndpointDetails = nil
+	}
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.IntegrationInstanceType = model.IntegrationInstanceType
+
+	m.IsByol = model.IsByol
+
+	m.MessagePacks = model.MessagePacks
+
+	return
 }
 
 // CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum Enum with underlying type: string

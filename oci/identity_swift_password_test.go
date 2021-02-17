@@ -116,15 +116,28 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 				),
 			},
 			// verify resource import
-			//{
-			//	Config:                  config,
-			//	ImportState:             true,
-			//	ImportStateVerify:       true,
-			//	ImportStateVerifyIgnore: []string{},
-			//	ResourceName:            resourceName,
-			//},
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: getSwiftPasswordImportId(resourceName),
+				ImportStateVerifyIgnore: []string{
+					"password",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
+}
+
+func getSwiftPasswordImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("users/" + rs.Primary.Attributes["user_id"] + "/swiftPasswords/" + rs.Primary.Attributes["id"]), nil
+	}
 }
 
 func testAccCheckIdentitySwiftPasswordDestroy(s *terraform.State) error {

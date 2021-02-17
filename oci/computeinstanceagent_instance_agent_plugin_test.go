@@ -14,14 +14,16 @@ import (
 )
 
 var (
-	InstanceAgentPluginResourceDependencies = InstanceResourceConfig
-
-	InstanceAgentPluginResourceConfig = InstanceAgentPluginResourceDependencies
-
 	instanceAgentPluginDataSourceRepresentation = map[string]interface{}{
 		"instanceagent_id": Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
 		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
 	}
+
+	InstanceAgentPluginResourceConfig = SubnetResourceConfig + OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, representationCopyWithNewProperties(representationCopyWithRemovedProperties(instanceRepresentation, []string{"agent_config"}), map[string]interface{}{
+			"agent_config": RepresentationGroup{Required, instanceAgentConfigRepresentation},
+		}))
 )
 
 func TestComputeinstanceagentInstanceAgentPluginResource_basic(t *testing.T) {
