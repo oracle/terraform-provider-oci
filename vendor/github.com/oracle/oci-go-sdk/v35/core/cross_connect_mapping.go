@@ -78,7 +78,7 @@ type CrossConnectMapping struct {
 	// provider's edge router. Only subnet masks from /64 up to /127 are allowed.
 	// There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
 	// Note that IPv6 addressing is currently supported only in certain regions. See
-	// IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:db8::1/64`
 	CustomerBgpPeeringIpv6 *string `mandatory:"false" json:"customerBgpPeeringIpv6"`
 
@@ -88,7 +88,7 @@ type CrossConnectMapping struct {
 	// a provider's edge router, the provider specifies this.
 	// There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
 	// Note that IPv6 addressing is currently supported only in certain regions. See
-	// IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:db8::2/64`
 	OracleBgpPeeringIpv6 *string `mandatory:"false" json:"oracleBgpPeeringIpv6"`
 

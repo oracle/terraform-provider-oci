@@ -66,7 +66,7 @@ type CreateSubnetDetails struct {
 	// hostnames of instances in the subnet. It can only be set if the VCN itself
 	// was created with a DNS label.
 	// For more information, see
-	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// Example: `subnet123`
 	DnsLabel *string `mandatory:"false" json:"dnsLabel"`
 
@@ -78,7 +78,7 @@ type CreateSubnetDetails struct {
 	// Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6.
 	// You can't change this subnet characteristic later. All subnets are /64 in size. The subnet
 	// portion of the IPv6 address is the fourth hextet from the left (1111 in the following example).
-	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 

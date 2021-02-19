@@ -31,10 +31,10 @@ import (
 // Oracle uses the IPSec connection's static routes when routing a tunnel's traffic *only*
 // if that tunnel's `routing` attribute = `STATIC`. Otherwise the static routes are ignored.
 // For more information about the workflow for setting up an IPSec connection, see
-// IPSec VPN (https://docs.cloud.oracle.com/Content/Network/Tasks/managingIPsec.htm).
+// IPSec VPN (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPsec.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type IpSecConnection struct {
 
 	// The OCID of the compartment containing the IPSec connection.
@@ -59,7 +59,7 @@ type IpSecConnection struct {
 	// you must provide at least one valid static route. If you configure both
 	// tunnels to use BGP dynamic routing, you can provide an empty list for the static routes.
 	// The CIDR can be either IPv4 or IPv6. Note that IPv6 addressing is currently supported only
-	// in certain regions. See IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// in certain regions. See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `10.0.1.0/24`
 	// Example: `2001:db8::/32`
 	StaticRoutes []string `mandatory:"true" json:"staticRoutes"`
@@ -84,7 +84,7 @@ type IpSecConnection struct {
 	// If you don't provide a value when creating the IPSec connection, the `ipAddress` attribute
 	// for the Cpe object specified by `cpeId` is used as the `cpeLocalIdentifier`.
 	// For information about why you'd provide this value, see
-	// If Your CPE Is Behind a NAT Device (https://docs.cloud.oracle.com/Content/Network/Tasks/overviewIPsec.htm#nat).
+	// If Your CPE Is Behind a NAT Device (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm#nat).
 	// Example IP address: `10.0.3.3`
 	// Example hostname: `cpe.example.com`
 	CpeLocalIdentifier *string `mandatory:"false" json:"cpeLocalIdentifier"`

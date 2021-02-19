@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVlanCompartment.go.html to see an example of how to use ChangeVlanCompartmentRequest.
 type ChangeVlanCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.
 	VlanId *string `mandatory:"true" contributesTo:"path" name:"vlanId"`
 
 	// Request to change the compartment of a given VLAN.

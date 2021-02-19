@@ -20,7 +20,7 @@ import (
 // ChangeRouteTableCompartmentDetails The configuration details for the move operation.
 type ChangeRouteTableCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the
 	// route table to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

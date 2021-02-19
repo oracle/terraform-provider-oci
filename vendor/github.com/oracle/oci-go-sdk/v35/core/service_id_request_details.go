@@ -20,7 +20,7 @@ import (
 // ServiceIdRequestDetails The representation of ServiceIdRequestDetails
 type ServiceIdRequestDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Service.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Service.
 	ServiceId *string `mandatory:"true" json:"serviceId"`
 }
 

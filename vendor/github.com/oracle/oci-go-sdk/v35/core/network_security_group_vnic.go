@@ -20,10 +20,10 @@ import (
 // NetworkSecurityGroupVnic Information about a VNIC that belongs to a network security group.
 type NetworkSecurityGroupVnic struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 	VnicId *string `mandatory:"true" json:"vnicId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the parent resource that the VNIC
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent resource that the VNIC
 	// is attached to (for example, a Compute instance).
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 

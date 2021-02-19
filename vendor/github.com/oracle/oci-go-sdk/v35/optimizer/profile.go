@@ -14,7 +14,6 @@ import (
 )
 
 // Profile The metadata associated with the profile.
-// **Caution:** Avoid using any confidential information when you use the API to supply string values.
 type Profile struct {
 
 	// The unique OCID of the profile.
@@ -23,10 +22,10 @@ type Profile struct {
 	// The OCID of the tenancy. The tenancy is the root compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name assigned to the profile.
+	// The name assigned to the profile. Avoid entering confidential information.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Text describing the profile.
+	// Text describing the profile. Avoid entering confidential information.
 	Description *string `mandatory:"true" json:"description"`
 
 	// The profile's current state.
@@ -49,6 +48,10 @@ type Profile struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	LevelsConfiguration *LevelsConfiguration `mandatory:"false" json:"levelsConfiguration"`
+
+	TargetCompartments *TargetCompartments `mandatory:"false" json:"targetCompartments"`
+
+	TargetTags *TargetTags `mandatory:"false" json:"targetTags"`
 }
 
 func (m Profile) String() string {

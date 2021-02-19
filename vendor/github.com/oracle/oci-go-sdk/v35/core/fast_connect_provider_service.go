@@ -18,7 +18,7 @@ import (
 )
 
 // FastConnectProviderService A service offering from a supported provider. For more information,
-// see FastConnect Overview (https://docs.cloud.oracle.com/Content/Network/Concepts/fastconnect.htm).
+// see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 type FastConnectProviderService struct {
 
 	// The OCID of the service offered by the provider.

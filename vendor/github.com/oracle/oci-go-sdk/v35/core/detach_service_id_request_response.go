@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachServiceId.go.html to see an example of how to use DetachServiceIdRequest.
 type DetachServiceIdRequest struct {
 
-	// The service gateway's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The service gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ServiceGatewayId *string `mandatory:"true" contributesTo:"path" name:"serviceGatewayId"`
 
 	// ServiceId of Service to be detached from a service gateway.

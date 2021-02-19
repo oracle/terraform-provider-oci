@@ -26,7 +26,7 @@ type CreatePublicIpDetails struct {
 
 	// Defines when the public IP is deleted and released back to the Oracle Cloud
 	// Infrastructure public IP pool. For more information, see
-	// Public IP Addresses (https://docs.cloud.oracle.com/Content/Network/Tasks/managingpublicIPs.htm).
+	// Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 	Lifetime CreatePublicIpDetailsLifetimeEnum `mandatory:"true" json:"lifetime"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -51,7 +51,7 @@ type CreatePublicIpDetails struct {
 	// UpdatePublicIp.
 	PrivateIpId *string `mandatory:"false" json:"privateIpId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the public IP pool.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the public IP pool.
 	PublicIpPoolId *string `mandatory:"false" json:"publicIpPoolId"`
 }
 

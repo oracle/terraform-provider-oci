@@ -26,11 +26,15 @@ import (
 // use ExportImageViaObjectStorageUriDetails
 // when specifying the Object Storage URL.
 type ExportImageDetails interface {
+
+	// The format of the image to be exported. The default value is "OCI".
+	GetExportFormat() ExportImageDetailsExportFormatEnum
 }
 
 type exportimagedetails struct {
 	JsonData        []byte
-	DestinationType string `json:"destinationType"`
+	ExportFormat    ExportImageDetailsExportFormatEnum `mandatory:"false" json:"exportFormat,omitempty"`
+	DestinationType string                             `json:"destinationType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -44,6 +48,7 @@ func (m *exportimagedetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.ExportFormat = s.Model.ExportFormat
 	m.DestinationType = s.Model.DestinationType
 
 	return err
@@ -71,6 +76,40 @@ func (m *exportimagedetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
+//GetExportFormat returns ExportFormat
+func (m exportimagedetails) GetExportFormat() ExportImageDetailsExportFormatEnum {
+	return m.ExportFormat
+}
+
 func (m exportimagedetails) String() string {
 	return common.PointerString(m)
+}
+
+// ExportImageDetailsExportFormatEnum Enum with underlying type: string
+type ExportImageDetailsExportFormatEnum string
+
+// Set of constants representing the allowable values for ExportImageDetailsExportFormatEnum
+const (
+	ExportImageDetailsExportFormatQcow2 ExportImageDetailsExportFormatEnum = "QCOW2"
+	ExportImageDetailsExportFormatVmdk  ExportImageDetailsExportFormatEnum = "VMDK"
+	ExportImageDetailsExportFormatOci   ExportImageDetailsExportFormatEnum = "OCI"
+	ExportImageDetailsExportFormatVhd   ExportImageDetailsExportFormatEnum = "VHD"
+	ExportImageDetailsExportFormatVdi   ExportImageDetailsExportFormatEnum = "VDI"
+)
+
+var mappingExportImageDetailsExportFormat = map[string]ExportImageDetailsExportFormatEnum{
+	"QCOW2": ExportImageDetailsExportFormatQcow2,
+	"VMDK":  ExportImageDetailsExportFormatVmdk,
+	"OCI":   ExportImageDetailsExportFormatOci,
+	"VHD":   ExportImageDetailsExportFormatVhd,
+	"VDI":   ExportImageDetailsExportFormatVdi,
+}
+
+// GetExportImageDetailsExportFormatEnumValues Enumerates the set of values for ExportImageDetailsExportFormatEnum
+func GetExportImageDetailsExportFormatEnumValues() []ExportImageDetailsExportFormatEnum {
+	values := make([]ExportImageDetailsExportFormatEnum, 0)
+	for _, v := range mappingExportImageDetailsExportFormat {
+		values = append(values, v)
+	}
+	return values
 }

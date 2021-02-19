@@ -14,7 +14,6 @@ import (
 )
 
 // HistorySummary The metadata associated with the recommendation history and its related resources.
-// **Caution:** Avoid using any confidential information when you use the API to supply string values.
 type HistorySummary struct {
 
 	// The unique OCID associated with the recommendation history.
