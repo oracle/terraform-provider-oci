@@ -20,7 +20,7 @@ import (
 // ChangeLocalPeeringGatewayCompartmentDetails The configuration details for the move operation.
 type ChangeLocalPeeringGatewayCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the
 	// local peering gateway to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

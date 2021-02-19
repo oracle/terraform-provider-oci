@@ -35,7 +35,7 @@ type CreateVcnDetails struct {
 	CidrBlocks []string `mandatory:"false" json:"cidrBlocks"`
 
 	// If you enable IPv6 for the VCN (see `isIpv6Enabled`), you may optionally provide an IPv6
-	// /48 CIDR block from the supported ranges (see IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// /48 CIDR block from the supported ranges (see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// The addresses in this block will be considered private and cannot be accessed
 	// from the internet. The documentation refers to this as a *custom CIDR* for the VCN.
 	// If you don't provide a custom CIDR for the VCN, Oracle assigns the VCN's IPv6 /48 CIDR block.
@@ -48,7 +48,7 @@ type CreateVcnDetails struct {
 	// IPv6 IP address for both private and public (internet) communication. You control whether
 	// an IPv6 address can be used for internet communication by using the `isInternetAccessAllowed`
 	// attribute in the Ipv6 object.
-	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:0db8:0123::/48`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
@@ -71,7 +71,7 @@ type CreateVcnDetails struct {
 	// resolve other instances in the VCN. Otherwise the Internet and VCN Resolver
 	// will not work.
 	// For more information, see
-	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// Example: `vcn1`
 	DnsLabel *string `mandatory:"false" json:"dnsLabel"`
 
@@ -81,7 +81,7 @@ type CreateVcnDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Whether IPv6 is enabled for the VCN. Default is `false`. You cannot change this later.
-	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `true`
 	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
 }

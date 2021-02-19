@@ -14,7 +14,6 @@ import (
 )
 
 // Recommendation The metadata associated with the recommendation.
-// **Caution:** Avoid using any confidential information when you supply string values using the API.
 type Recommendation struct {
 
 	// The unique OCID associated with the recommendation.

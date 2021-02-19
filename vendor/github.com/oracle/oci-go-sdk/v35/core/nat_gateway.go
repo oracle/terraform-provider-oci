@@ -20,19 +20,19 @@ import (
 // NatGateway A NAT (Network Address Translation) gateway, which represents a router that lets instances
 // without public IPs contact the public internet without exposing the instance to inbound
 // internet traffic. For more information, see
-// NAT Gateway (https://docs.cloud.oracle.com/Content/Network/Tasks/NATgateway.htm).
+// NAT Gateway (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/NATgateway.htm).
 // To use any of the API operations, you must be authorized in an
 // IAM policy. If you are not authorized, talk to an
 // administrator. If you are an administrator who needs to write
 // policies to give users access, see Getting Started with
-// Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type NatGateway struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains
 	// the NAT gateway.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 	// NAT gateway.
 	Id *string `mandatory:"true" json:"id"`
 
@@ -50,7 +50,7 @@ type NatGateway struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN the NAT gateway
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN the NAT gateway
 	// belongs to.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
@@ -68,7 +68,7 @@ type NatGateway struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the public IP address associated with the NAT gateway.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the public IP address associated with the NAT gateway.
 	PublicIpId *string `mandatory:"false" json:"publicIpId"`
 }
 

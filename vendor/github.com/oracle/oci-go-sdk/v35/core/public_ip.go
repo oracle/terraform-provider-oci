@@ -23,7 +23,7 @@ import (
 // 1. Ephemeral
 // 2. Reserved
 // For more information and comparison of the two types,
-// see Public IP Addresses (https://docs.cloud.oracle.com/Content/Network/Tasks/managingpublicIPs.htm).
+// see Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 type PublicIp struct {
 
 	// The OCID of the entity the public IP is assigned to, or in the process of
@@ -80,7 +80,7 @@ type PublicIp struct {
 	// * `RESERVED`: You control the public IP's lifetime. You can delete a reserved public IP
 	// whenever you like. It does not need to be assigned to a private IP at all times.
 	// For more information and comparison of the two types,
-	// see Public IP Addresses (https://docs.cloud.oracle.com/Content/Network/Tasks/managingpublicIPs.htm).
+	// see Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 	Lifetime PublicIpLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 
 	// Deprecated. Use `assignedEntityId` instead.
@@ -104,7 +104,7 @@ type PublicIp struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pool object created in the current tenancy.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pool object created in the current tenancy.
 	PublicIpPoolId *string `mandatory:"false" json:"publicIpPoolId"`
 }
 

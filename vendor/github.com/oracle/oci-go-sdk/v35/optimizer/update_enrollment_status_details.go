@@ -14,7 +14,6 @@ import (
 )
 
 // UpdateEnrollmentStatusDetails The request object for updating the enrollment status details.
-// **Caution:** Avoid using any confidential information when you use the API to supply string values.
 type UpdateEnrollmentStatusDetails struct {
 
 	// The Cloud Advisor enrollment status.

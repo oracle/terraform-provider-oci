@@ -23,7 +23,7 @@ type ByoipRangeSummary struct {
 	// The public IPv4 address range you are importing to the Oracle cloud.
 	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the `ByoipRange` resource.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the `ByoipRange` resource.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -40,7 +40,7 @@ type ByoipRangeSummary struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource.
 	Id *string `mandatory:"false" json:"id"`
 
 	// The `ByoipRange` resource's current state.

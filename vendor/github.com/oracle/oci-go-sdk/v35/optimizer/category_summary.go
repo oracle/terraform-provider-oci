@@ -14,7 +14,6 @@ import (
 )
 
 // CategorySummary The metadata associated with the category summary.
-// **Caution:** Avoid using any confidential information when you supply string values using the API.
 type CategorySummary struct {
 
 	// The unique OCID of the category.
@@ -23,10 +22,10 @@ type CategorySummary struct {
 	// The OCID of the tenancy. The tenancy is the root compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name assigned to the category.
+	// The name assigned to the category. Avoid entering confidential information.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Text describing the category.
+	// Text describing the category. Avoid entering confidential information.
 	Description *string `mandatory:"true" json:"description"`
 
 	// An array of `RecommendationCount` objects grouped by the level of importance assigned to each recommendation.

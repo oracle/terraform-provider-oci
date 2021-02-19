@@ -161,6 +161,8 @@ type LaunchInstanceDetails struct {
 
 	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+
+	PlatformConfig LaunchInstancePlatformConfig `mandatory:"false" json:"platformConfig"`
 }
 
 func (m LaunchInstanceDetails) String() string {
@@ -189,6 +191,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		SourceDetails                  instancesourcedetails                    `json:"sourceDetails"`
 		SubnetId                       *string                                  `json:"subnetId"`
 		IsPvEncryptionInTransitEnabled *bool                                    `json:"isPvEncryptionInTransitEnabled"`
+		PlatformConfig                 launchinstanceplatformconfig             `json:"platformConfig"`
 		AvailabilityDomain             *string                                  `json:"availabilityDomain"`
 		CompartmentId                  *string                                  `json:"compartmentId"`
 		Shape                          *string                                  `json:"shape"`
@@ -244,6 +247,16 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SubnetId = model.SubnetId
 
 	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
+
+	nn, e = model.PlatformConfig.UnmarshalPolymorphicJSON(model.PlatformConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlatformConfig = nn.(LaunchInstancePlatformConfig)
+	} else {
+		m.PlatformConfig = nil
+	}
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

@@ -48,6 +48,10 @@ type ProfileSummary struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	LevelsConfiguration *LevelsConfiguration `mandatory:"false" json:"levelsConfiguration"`
+
+	TargetCompartments *TargetCompartments `mandatory:"false" json:"targetCompartments"`
+
+	TargetTags *TargetTags `mandatory:"false" json:"targetTags"`
 }
 
 func (m ProfileSummary) String() string {

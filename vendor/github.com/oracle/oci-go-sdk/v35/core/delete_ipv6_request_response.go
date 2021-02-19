@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteIpv6.go.html to see an example of how to use DeleteIpv6Request.
 type DeleteIpv6Request struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IPv6.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPv6.
 	Ipv6Id *string `mandatory:"true" contributesTo:"path" name:"ipv6Id"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

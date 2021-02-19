@@ -14,7 +14,6 @@ import (
 )
 
 // EnrollmentStatusSummary The metadata associated with the enrollment status summary.
-// **Caution:** Avoid using any confidential information when you use the API to supply string values.
 type EnrollmentStatusSummary struct {
 
 	// The OCID of the enrollment status.

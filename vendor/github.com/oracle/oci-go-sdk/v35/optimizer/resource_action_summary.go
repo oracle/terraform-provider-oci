@@ -14,7 +14,6 @@ import (
 )
 
 // ResourceActionSummary The metadata associated with the resource action summary.
-// **Caution:** Avoid using any confidential information when you use the API to supply string values.
 type ResourceActionSummary struct {
 
 	// The unique OCID associated with the resource action.

@@ -20,7 +20,7 @@ import (
 // ChangeSubnetCompartmentDetails The configuration details for the move operation.
 type ChangeSubnetCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the
 	// subnet to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

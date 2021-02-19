@@ -145,6 +145,8 @@ type Instance struct {
 	// Regardless of how the instance was stopped, the flag will be reset to empty as soon as instance reaches Stopped state.
 	// Example: `2018-05-25T21:10:29.600Z`
 	TimeMaintenanceRebootDue *common.SDKTime `mandatory:"false" json:"timeMaintenanceRebootDue"`
+
+	PlatformConfig PlatformConfig `mandatory:"false" json:"platformConfig"`
 }
 
 func (m Instance) String() string {
@@ -172,6 +174,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
 		AgentConfig              *InstanceAgentConfig              `json:"agentConfig"`
 		TimeMaintenanceRebootDue *common.SDKTime                   `json:"timeMaintenanceRebootDue"`
+		PlatformConfig           platformconfig                    `json:"platformConfig"`
 		AvailabilityDomain       *string                           `json:"availabilityDomain"`
 		CompartmentId            *string                           `json:"compartmentId"`
 		Id                       *string                           `json:"id"`
@@ -229,6 +232,16 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.AgentConfig = model.AgentConfig
 
 	m.TimeMaintenanceRebootDue = model.TimeMaintenanceRebootDue
+
+	nn, e = model.PlatformConfig.UnmarshalPolymorphicJSON(model.PlatformConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlatformConfig = nn.(PlatformConfig)
+	} else {
+		m.PlatformConfig = nil
+	}
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

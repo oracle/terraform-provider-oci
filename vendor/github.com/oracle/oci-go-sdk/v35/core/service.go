@@ -19,7 +19,7 @@ import (
 
 // Service An object that represents one or multiple Oracle services that you can enable for a
 // ServiceGateway. In the User Guide topic
-// Access to Oracle Services: Service Gateway (https://docs.cloud.oracle.com/Content/Network/Tasks/servicegateway.htm), the
+// Access to Oracle Services: Service Gateway (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/servicegateway.htm), the
 // term *service CIDR label* is used to refer to the string that represents the regional public
 // IP address ranges of the Oracle service or services covered by a given `Service` object. That
 // unique string is the value of the `Service` object's `cidrBlock` attribute.
@@ -40,7 +40,7 @@ type Service struct {
 	// Example: `OCI PHX Object Storage`
 	Description *string `mandatory:"true" json:"description"`
 
-	// The `Service` object's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The `Service` object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// Name of the `Service` object. This name can change and is not guaranteed to be unique.
