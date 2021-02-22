@@ -253,7 +253,7 @@ The following arguments are supported:
 	For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 	For more information about iPXE, see http://ipxe.org. 
-* `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false. Do not use this field if planning to make update to this field in the future, instead use `is_pv_encryption_in_transit_enabled` under `launch_options`.
+* `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false. Use this field only during create. To update use `is_pv_encryption_in_transit_enabled` under `launch_options` instead.
 * `launch_options` - (Optional) (Updatable) Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
 	* `boot_volume_type` - (Optional) (Updatable) Emulation type for the boot volume.
 		* `ISCSI` - ISCSI attached block storage device.
@@ -265,7 +265,7 @@ The following arguments are supported:
 		* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for Oracle-provided images. 
 	* `is_consistent_volume_naming_enabled` - (Optional) Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails). 
+	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Use this for update operation only. This field is  Deprecated during create. For create use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails). 
 	* `network_type` - (Optional) (Updatable) Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
