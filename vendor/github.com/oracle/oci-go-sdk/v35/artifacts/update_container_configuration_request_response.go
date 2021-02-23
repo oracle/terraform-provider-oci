@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateContainerConfigurationRequest wrapper for the UpdateContainerConfiguration operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateContainerConfiguration.go.html to see an example of how to use UpdateContainerConfigurationRequest.
 type UpdateContainerConfigurationRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

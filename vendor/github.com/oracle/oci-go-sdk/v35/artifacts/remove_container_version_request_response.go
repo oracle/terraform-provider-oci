@@ -10,6 +10,10 @@ import (
 )
 
 // RemoveContainerVersionRequest wrapper for the RemoveContainerVersion operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/RemoveContainerVersion.go.html to see an example of how to use RemoveContainerVersionRequest.
 type RemoveContainerVersionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image.
