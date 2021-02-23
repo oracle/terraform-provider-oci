@@ -674,6 +674,7 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 var loggingResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLoggingLogGroupHints},
+		{TerraformResourceHints: exportLoggingUnifiedAgentConfigurationHints},
 	},
 	"oci_logging_log_group": {
 		{

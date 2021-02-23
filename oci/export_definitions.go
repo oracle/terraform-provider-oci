@@ -1528,6 +1528,15 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rule_set",
 }
 
+var exportLoggingUnifiedAgentConfigurationHints = &TerraformResourceHints{
+	resourceClass:          "oci_logging_unified_agent_configuration",
+	datasourceClass:        "oci_logging_unified_agent_configurations",
+	datasourceItemsAttr:    "unified_agent_configuration_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "unified_agent_configuration",
+	requireResourceRefresh: true,
+}
+
 var exportManagementAgentManagementAgentHints = &TerraformResourceHints{
 	resourceClass:        "oci_management_agent_management_agent",
 	datasourceClass:      "oci_management_agent_management_agents",
