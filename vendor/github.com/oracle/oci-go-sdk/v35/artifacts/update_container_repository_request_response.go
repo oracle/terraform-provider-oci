@@ -10,6 +10,10 @@ import (
 )
 
 // UpdateContainerRepositoryRequest wrapper for the UpdateContainerRepository operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateContainerRepository.go.html to see an example of how to use UpdateContainerRepositoryRequest.
 type UpdateContainerRepositoryRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container repository.

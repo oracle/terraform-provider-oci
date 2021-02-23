@@ -10,6 +10,10 @@ import (
 )
 
 // ChangeContainerRepositoryCompartmentRequest wrapper for the ChangeContainerRepositoryCompartment operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ChangeContainerRepositoryCompartment.go.html to see an example of how to use ChangeContainerRepositoryCompartmentRequest.
 type ChangeContainerRepositoryCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container repository.
