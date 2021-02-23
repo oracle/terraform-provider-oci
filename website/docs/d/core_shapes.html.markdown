@@ -51,6 +51,7 @@ The following attributes are exported:
 
 	If the shape does not have any GPUs, this field is `null`. 
 * `gpus` - The number of GPUs available for this shape. 
+* `is_live_migration_supported` - Whether Live Migration is currently supported for this shape. 
 * `local_disk_description` - A short description of the local disks available for this shape.
 
 	If the shape does not have any local disks, this field is `null`. 

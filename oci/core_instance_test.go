@@ -81,7 +81,8 @@ var (
 		"plugins_config":           RepresentationGroup{Optional, instanceAgentConfigPluginsConfigRepresentation},
 	}
 	instanceAvailabilityConfigRepresentation = map[string]interface{}{
-		"recovery_action": Representation{repType: Optional, create: `RESTORE_INSTANCE`, update: `STOP_INSTANCE`},
+		"is_live_migration_preferred": Representation{repType: Optional, create: `false`, update: `true`},
+		"recovery_action":             Representation{repType: Optional, create: `RESTORE_INSTANCE`, update: `STOP_INSTANCE`},
 	}
 	instanceCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_public_ip":       Representation{repType: Optional, create: `true`},
@@ -373,6 +374,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.0.is_live_migration_preferred", "false"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -450,6 +452,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.0.is_live_migration_preferred", "false"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -521,6 +524,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.0.is_live_migration_preferred", "true"),
 					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "STOP_INSTANCE"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -601,6 +605,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.plugins_config.0.desired_state", "ENABLED"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_config.0.is_live_migration_preferred", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_config.0.recovery_action", "STOP_INSTANCE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
@@ -663,6 +668,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "availability_config.0.is_live_migration_preferred", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "availability_config.0.recovery_action", "STOP_INSTANCE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
