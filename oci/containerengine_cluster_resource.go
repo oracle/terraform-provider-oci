@@ -92,6 +92,46 @@ func ContainerengineClusterResource() *schema.Resource {
 					},
 				},
 			},
+			"image_policy_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_policy_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"key_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"kms_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -388,6 +428,17 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 		}
 	}
 
+	if imagePolicyConfig, ok := s.D.GetOkExists("image_policy_config"); ok {
+		if tmpList := imagePolicyConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "image_policy_config", 0)
+			tmp, err := s.mapToCreateImagePolicyConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ImagePolicyConfig = &tmp
+		}
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -614,6 +665,17 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 	request := oci_containerengine.UpdateClusterRequest{}
 	request.ClusterId = &clusterID
 
+	if imagePolicyConfig, ok := s.D.GetOkExists("image_policy_config"); ok {
+		if tmpList := imagePolicyConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "image_policy_config", 0)
+			tmp, err := s.mapToUpdateImagePolicyConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ImagePolicyConfig = &tmp
+		}
+	}
+
 	if kubernetesVersion, ok := s.D.GetOkExists("kubernetes_version"); ok {
 		tmp := kubernetesVersion.(string)
 		request.KubernetesVersion = &tmp
@@ -703,6 +765,12 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 		s.D.Set("endpoints", []interface{}{ClusterEndpointsToMap(s.Res.Endpoints)})
 	} else {
 		s.D.Set("endpoints", nil)
+	}
+
+	if s.Res.ImagePolicyConfig != nil {
+		s.D.Set("image_policy_config", []interface{}{ImagePolicyConfigToMap(s.Res.ImagePolicyConfig)})
+	} else {
+		s.D.Set("image_policy_config", nil)
 	}
 
 	if s.Res.KmsKeyId != nil {
@@ -996,6 +1064,99 @@ func ClusterEndpointConfigToMap(obj *oci_containerengine.ClusterEndpointConfig, 
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToCreateImagePolicyConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateImagePolicyConfigDetails, error) {
+	result := oci_containerengine.CreateImagePolicyConfigDetails{}
+
+	if isPolicyEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_policy_enabled")); ok {
+		tmp := isPolicyEnabled.(bool)
+		result.IsPolicyEnabled = &tmp
+	}
+
+	if keyDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_details")); ok {
+		interfaces := keyDetails.([]interface{})
+		tmp := make([]oci_containerengine.KeyDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key_details"), stateDataIndex)
+			converted, err := s.mapToKeyDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "key_details")) {
+			result.KeyDetails = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToUpdateImagePolicyConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateImagePolicyConfigDetails, error) {
+	result := oci_containerengine.UpdateImagePolicyConfigDetails{}
+
+	if isPolicyEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_policy_enabled")); ok {
+		tmp := isPolicyEnabled.(bool)
+		result.IsPolicyEnabled = &tmp
+	}
+
+	if keyDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_details")); ok {
+		interfaces := keyDetails.([]interface{})
+		tmp := make([]oci_containerengine.KeyDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key_details"), stateDataIndex)
+			converted, err := s.mapToKeyDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "key_details")) {
+			result.KeyDetails = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ImagePolicyConfigToMap(obj *oci_containerengine.ImagePolicyConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsPolicyEnabled != nil {
+		result["is_policy_enabled"] = bool(*obj.IsPolicyEnabled)
+	}
+
+	keyDetails := []interface{}{}
+	for _, item := range obj.KeyDetails {
+		keyDetails = append(keyDetails, KeyDetailsToMap(item))
+	}
+	result["key_details"] = keyDetails
+
+	return result
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToKeyDetails(fieldKeyFormat string) (oci_containerengine.KeyDetails, error) {
+	result := oci_containerengine.KeyDetails{}
+
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+
+	return result, nil
+}
+
+func KeyDetailsToMap(obj oci_containerengine.KeyDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.KmsKeyId != nil {
+		result["kms_key_id"] = string(*obj.KmsKeyId)
 	}
 
 	return result

@@ -8,6 +8,7 @@
 - Support for ExaCC | Software Images
 - Support for Cross-region asynchronous volume replication
 - Support for Compute DVH E3 shape added
+- Support for Container Engine Image Signing and Deploy Authorization
 
 ## 4.20.0 (March 31, 2021)
 
