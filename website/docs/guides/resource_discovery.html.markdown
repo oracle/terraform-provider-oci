@@ -320,6 +320,7 @@ core
 * oci\_core\_image
 * oci\_core\_instance\_configuration
 * oci\_core\_instance\_console\_connection
+* oci\_core\_instance\_pool\_instance
 * oci\_core\_instance\_pool
 * oci\_core\_instance
 * oci\_core\_internet\_gateway

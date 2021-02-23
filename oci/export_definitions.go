@@ -409,6 +409,16 @@ var exportCoreInstanceConsoleConnectionHints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreInstancePoolInstanceHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_instance_pool_instance",
+	datasourceClass:      "oci_core_instance_pool_instances",
+	datasourceItemsAttr:  "instances",
+	resourceAbbreviation: "instance_pool_instance",
+	discoverableLifecycleStates: []string{
+		string(oci_core.InstancePoolInstanceLifecycleStateActive),
+	},
+}
+
 var exportCoreInstancePoolHints = &TerraformResourceHints{
 	resourceClass:          "oci_core_instance_pool",
 	datasourceClass:        "oci_core_instance_pools",

@@ -228,6 +228,14 @@ var coreResourceGraph = TerraformResourceGraph{
 			},
 		},
 	},
+	"oci_core_instance_pool": {
+		{
+			TerraformResourceHints: exportCoreInstancePoolInstanceHints,
+			datasourceQueryParams: map[string]string{
+				"instance_pool_id": "id",
+			},
+		},
+	},
 	"oci_core_instance": {
 		{
 			TerraformResourceHints: exportCoreVnicAttachmentHints,
