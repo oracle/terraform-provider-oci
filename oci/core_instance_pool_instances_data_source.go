@@ -34,89 +34,7 @@ func CoreInstancePoolInstancesDataSource() *schema.Resource {
 			"instances": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"availability_domain": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"fault_domain": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"instance_configuration_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"load_balancer_backends": {
-							Type:     schema.TypeList,
-							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
-									"backend_health_status": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"backend_name": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"backend_set_name": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"load_balancer_id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									// internal for work request access
-									"state": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
-						},
-						"region": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"shape": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
+				Elem:     GetDataSourceItemSchema(CoreInstancePoolInstanceResource()),
 			},
 		},
 	}
@@ -248,24 +166,4 @@ func (s *CoreInstancePoolInstancesDataSourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func InstancePoolInstanceLoadBalancerBackendToMap(obj oci_core.InstancePoolInstanceLoadBalancerBackend) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["backend_health_status"] = string(obj.BackendHealthStatus)
-
-	if obj.BackendName != nil {
-		result["backend_name"] = string(*obj.BackendName)
-	}
-
-	if obj.BackendSetName != nil {
-		result["backend_set_name"] = string(*obj.BackendSetName)
-	}
-
-	if obj.LoadBalancerId != nil {
-		result["load_balancer_id"] = string(*obj.LoadBalancerId)
-	}
-
-	return result
 }

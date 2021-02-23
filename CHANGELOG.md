@@ -3,6 +3,7 @@
 ### Added
 - Support for SMS notifications for ONS
 - Support for publisher maps for service connector
+- Support to attach and detach instances to `oci_core_instance_pool` 
 
 ## 4.16.0 (March 03, 2021)
 
