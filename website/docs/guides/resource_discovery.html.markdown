@@ -493,6 +493,7 @@ logging
     
 * oci\_logging\_log\_group
 * oci\_logging\_log
+* oci\_logging\_unified\_agent\_configuration
 
 management_agent
     
