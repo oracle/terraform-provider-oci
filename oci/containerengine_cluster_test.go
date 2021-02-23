@@ -35,24 +35,32 @@ var (
 	}
 
 	clusterRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version": Representation{repType: Required, create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`, update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
-		"name":               Representation{repType: Required, create: `name`, update: `name2`},
-		"vcn_id":             Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"endpoint_config":    RepresentationGroup{Optional, clusterEndpointConfigRepresentation},
-		"kms_key_id":         Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"options":            RepresentationGroup{Optional, clusterOptionsRepresentation},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`, update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
+		"name":                Representation{repType: Required, create: `name`, update: `name2`},
+		"vcn_id":              Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"endpoint_config":     RepresentationGroup{Optional, clusterEndpointConfigRepresentation},
+		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"options":             RepresentationGroup{Optional, clusterOptionsRepresentation},
+		"image_policy_config": RepresentationGroup{Optional, clusterImagePolicyConfigRepresentation},
 	}
 	clusterEndpointConfigRepresentation = map[string]interface{}{
 		"is_public_ip_enabled": Representation{repType: Optional, create: `true`, update: `false`},
 		"nsg_ids":              Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
 		"subnet_id":            Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 	}
+	clusterImagePolicyConfigRepresentation = map[string]interface{}{
+		"is_policy_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"key_details":       RepresentationGroup{Optional, clusterImagePolicyConfigKeyDetailsRepresentation},
+	}
 	clusterOptionsRepresentation = map[string]interface{}{
 		"add_ons":                      RepresentationGroup{Optional, clusterOptionsAddOnsRepresentation},
 		"admission_controller_options": RepresentationGroup{Optional, clusterOptionsAdmissionControllerOptionsRepresentation},
 		"kubernetes_network_config":    RepresentationGroup{Optional, clusterOptionsKubernetesNetworkConfigRepresentation},
 		"service_lb_subnet_ids":        Representation{repType: Optional, create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
+	}
+	clusterImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
+		"kms_key_id": Representation{repType: Optional, update: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
 	}
 	clusterOptionsAddOnsRepresentation = map[string]interface{}{
 		"is_kubernetes_dashboard_enabled": Representation{repType: Optional, create: `true`},
@@ -103,7 +111,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckContainerengineClusterDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			//verify create
 			{
 				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation),
@@ -124,7 +132,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ClusterResourceDependencies,
 			},
-			// verify create with optionals
+			//verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation),
@@ -134,6 +142,8 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.nsg_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
@@ -167,6 +177,10 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.key_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "image_policy_config.0.key_details.0.kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
@@ -213,6 +227,10 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.endpoint_config.0.subnet_id"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoints.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.0.is_policy_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.0.key_details.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.image_policy_config.0.key_details.0.kms_key_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.kubernetes_version"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.metadata.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.name", "name2"),

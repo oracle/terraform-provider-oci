@@ -55,6 +55,10 @@ The following attributes are exported:
 	* `private_endpoint` - The private native networking Kubernetes API server endpoint.
 	* `public_endpoint` - The public native networking Kubernetes API server endpoint, if one was requested.
 * `id` - The OCID of the cluster.
+* `image_policy_config` - The image verification policy for signature validation. 
+	* `is_policy_enabled` - Whether the image verification policy is enabled. Defaults to false. If set to true, the images will be verified against the policy at runtime.
+	* `key_details` - A list of KMS key details.
+		* `kms_key_id` - The OCIDs of the KMS key that will be used to verify whether the images are signed by an approved source. 
 * `kms_key_id` - The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption.
 * `kubernetes_version` - The version of Kubernetes running on the cluster masters.
 * `lifecycle_details` - Details about the state of the cluster masters.
