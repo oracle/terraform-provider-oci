@@ -57,6 +57,10 @@ func CoreShapesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"is_live_migration_supported": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"local_disk_description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -299,6 +303,10 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 
 		if r.Gpus != nil {
 			shape["gpus"] = *r.Gpus
+		}
+
+		if r.IsLiveMigrationSupported != nil {
+			shape["is_live_migration_supported"] = *r.IsLiveMigrationSupported
 		}
 
 		if r.LocalDiskDescription != nil {
