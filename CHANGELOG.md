@@ -1,4 +1,4 @@
-## 4.15.0 (Unreleased)
+## 4.15.0 (February 24, 2021)
 
 ### Added
 - Support for New compute shape E4-Dense
