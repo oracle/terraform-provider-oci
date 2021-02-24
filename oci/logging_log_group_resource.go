@@ -430,6 +430,5 @@ func (s *LoggingLogGroupResourceCrud) updateCompartment(compartment interface{})
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
 
-	err = s.getLogGroupFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
-	return err
+	return s.getLogGroupFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
 }

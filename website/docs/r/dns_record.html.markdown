@@ -1,17 +1,17 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_record"
 sidebar_current: "docs-oci-resource-dns-record"
 description: |-
-  Provides the Record resource in Oracle Cloud Infrastructure Dns service
+  Provides the Record resource in Oracle Cloud Infrastructure DNS service
 ---
 
 # oci_dns_record
 
 **Deprecated. Use [oci_dns_rrset](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/dns_rrset) instead.**
 
-This resource provides the Record resource in Oracle Cloud Infrastructure Dns service.
+This resource provides the Record resource in Oracle Cloud Infrastructure DNS service.
 
 Replaces records in the specified zone with the records specified in the
 request body. If a specified record does not exist, it will be created.

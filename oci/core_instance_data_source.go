@@ -144,6 +144,16 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		}
 	}
 
+	if s.Res.PlatformConfig != nil {
+		platformConfigArray := []interface{}{}
+		if platformConfigMap := PlatformConfigToMap(&s.Res.PlatformConfig); platformConfigMap != nil {
+			platformConfigArray = append(platformConfigArray, platformConfigMap)
+		}
+		s.D.Set("platform_config", platformConfigArray)
+	} else {
+		s.D.Set("platform_config", nil)
+	}
+
 	if s.Res.Region != nil {
 		s.D.Set("region", *s.Res.Region)
 	}

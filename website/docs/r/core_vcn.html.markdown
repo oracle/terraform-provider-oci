@@ -74,18 +74,15 @@ resource "oci_core_vcn" "test_vcn" {
 
 The following arguments are supported:
 
-* `cidr_block` - (Optional) **Deprecated.** Do *not* set this value. Use `cidrBlocks` instead. Example: `10.0.0.0/16` 
-* `cidr_blocks` - (Optional) (Updatable) The list of one or more IPv4 CIDR blocks for the VCN that meet the following criteria:
-	* The CIDR blocks must be valid.
-	* They must not overlap with each other or with the on-premises network CIDR block. 
-	* The number of CIDR blocks must not exceed the limit of CIDR blocks allowed per VCN.
-        a. The list of CIDRs provided are valid 
-        b. There is no overlap between different CIDRs 
-        c. The number of CIDRs should not exceed the max limit of CIDRs per VCN d. It is an error to set both cidrBlock and cidrBlocks. Note: cidr_blocks update must be restricted to one operation at a time (either add/remove or modify one single cidr_block) or the operation will be declined. new cidr_block to be added must be placed at the end of the list. Once you migrate to using `cidr_blocks` from `cidr_block`, you will not be able to switch back.
+* `cidr_block` - (Optional) Deprecated. Instead use 'cidrBlocks'. It is an error to set both cidrBlock and cidrBlocks. Example: `10.0.0.0/16`
+* `cidr_blocks` - (Optional) (Updatable) Either 'cidr_block or 'cidr_blocks' must be provided. List of IPv4 CIDR blocks associated with the VCN. The CIDRs must maintain the following rules -
+    a. The list of CIDRs provided are valid 
+    b. There is no overlap between different CIDRs 
+    c. The number of CIDRs should not exceed the max limit of CIDRs per VCN d. It is an error to set both cidrBlock and cidrBlocks. Note: cidr_blocks update must be restricted to one operation at a time (either add/remove or modify one single cidr_block) or the operation will be declined. new cidr_block to be added must be placed at the end of the list. Once you migrate to using `cidr_blocks` from `cidr_block`, you will not be able to switch back.
 	**Important:** Do *not* specify a value for `cidrBlock`. Use this parameter instead. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the VCN.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `dns_label` - (Optional) A DNS label for the VCN, used in conjunction with the VNIC's hostname and subnet's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (for example, `bminstance-1.subnet123.vcn1.oraclevcn.com`). Not required to be unique, but it's a best practice to set unique DNS labels for VCNs in your tenancy. Must be an alphanumeric string that begins with a letter. The value cannot be changed.
 
 	You must set this value if you want instances to be able to use hostnames to resolve other instances in the VCN. Otherwise the Internet and VCN Resolver will not work.
@@ -131,7 +128,7 @@ The following attributes are exported:
 	Example: `vcn1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The VCN's Oracle ID (OCID).
-* `ipv6cidr_block` - For an IPv6-enabled VCN, this is the IPv6 CIDR block for the VCN's private IP address space. The VCN size is always /48. If you don't provide a value when creating the VCN, Oracle provides one and uses that *same* CIDR for the `ipv6PublicCidrBlock`. If you do provide a value, Oracle provides a *different* CIDR for the `ipv6PublicCidrBlock`. Note that IPv6 addressing is currently supported only in certain regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm). Example: `2001:0db8:0123::/48` 
+* `ipv6cidr_block` - For an IPv6-enabled VCN, this is the IPv6 CIDR block for the VCN's private IP address space. The VCN size is always /48. If you don't provide a value when creating the VCN, Oracle provides one and uses that *same* CIDR for the `ipv6PublicCidrBlock`. If you do provide a value, Oracle provides a *different* CIDR for the `ipv6PublicCidrBlock`. Note that IPv6 addressing is currently supported only in certain regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).  Example: `2001:0db8:0123::/48` 
 * `ipv6public_cidr_block` - For an IPv6-enabled VCN, this is the IPv6 CIDR block for the VCN's public IP address space. The VCN size is always /48. This CIDR is always provided by Oracle. If you don't provide a custom CIDR for the `ipv6CidrBlock` when creating the VCN, Oracle assigns that value and also uses it for `ipv6PublicCidrBlock`. Oracle uses addresses from this block for the `publicIpAddress` attribute of an [Ipv6](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Ipv6/) that has internet access allowed.  Example: `2001:0db8:0123::/48` 
 * `state` - The VCN's current state.
 * `time_created` - The date and time the VCN was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

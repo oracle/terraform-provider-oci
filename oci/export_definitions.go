@@ -6,6 +6,7 @@ package oci
 import (
 	oci_analytics "github.com/oracle/oci-go-sdk/v35/analytics"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v35/apigateway"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v35/artifacts"
 	oci_bds "github.com/oracle/oci-go-sdk/v35/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v35/blockchain"
 	oci_budget "github.com/oracle/oci-go-sdk/v35/budget"
@@ -99,6 +100,24 @@ var exportApigatewayCertificateHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_apigateway.CertificateLifecycleStateActive),
+	},
+}
+
+var exportArtifactsContainerConfigurationHints = &TerraformResourceHints{
+	resourceClass:        "oci_artifacts_container_configuration",
+	datasourceClass:      "oci_artifacts_container_configuration",
+	resourceAbbreviation: "container_configuration",
+}
+
+var exportArtifactsContainerRepositoryHints = &TerraformResourceHints{
+	resourceClass:          "oci_artifacts_container_repository",
+	datasourceClass:        "oci_artifacts_container_repositories",
+	datasourceItemsAttr:    "container_repository_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "container_repository",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_artifacts.ContainerRepositoryLifecycleStateAvailable),
 	},
 }
 

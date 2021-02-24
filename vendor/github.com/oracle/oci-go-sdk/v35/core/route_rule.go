@@ -23,7 +23,7 @@ type RouteRule struct {
 
 	// The OCID for the route rule's target. For information about the type of
 	// targets you can specify, see
-	// Route Tables (https://docs.cloud.oracle.com/Content/Network/Tasks/managingroutetables.htm).
+	// Route Tables (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
 	NetworkEntityId *string `mandatory:"true" json:"networkEntityId"`
 
 	// Deprecated. Instead use `destination` and `destinationType`. Requests that include both
@@ -40,7 +40,7 @@ type RouteRule struct {
 	//   * IP address range in CIDR notation. Can be an IPv4 or IPv6 CIDR. For example: `192.168.1.0/24`
 	//   or `2001:0db8:0123:45::/56`. If you set this to an IPv6 CIDR, the route rule's target
 	//   can only be a DRG or internet gateway. Note that IPv6 addressing is currently supported
-	//   only in certain regions. See IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	//   only in certain regions. See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	//   * The `cidrBlock` value for a Service, if you're
 	//     setting up a route rule for traffic destined for a particular `Service` through
 	//     a service gateway. For example: `oci-phx-objectstorage`.

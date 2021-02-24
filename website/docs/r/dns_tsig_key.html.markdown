@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_tsig_key"
 sidebar_current: "docs-oci-resource-dns-tsig_key"
 description: |-
-  Provides the Tsig Key resource in Oracle Cloud Infrastructure Dns service
+  Provides the Tsig Key resource in Oracle Cloud Infrastructure DNS service
 ---
 
 # oci_dns_tsig_key
-This resource provides the Tsig Key resource in Oracle Cloud Infrastructure Dns service.
+This resource provides the Tsig Key resource in Oracle Cloud Infrastructure DNS service.
 
 Creates a new TSIG key in the specified compartment. There is no
 `opc-retry-token` header since TSIG key names must be globally unique.

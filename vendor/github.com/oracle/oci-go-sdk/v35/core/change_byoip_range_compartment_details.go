@@ -20,7 +20,7 @@ import (
 // ChangeByoipRangeCompartmentDetails The configuration details for the move operation.
 type ChangeByoipRangeCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the destination compartment for the BYOIP CIDR block move.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the destination compartment for the BYOIP CIDR block move.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

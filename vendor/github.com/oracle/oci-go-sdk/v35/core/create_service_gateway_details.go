@@ -33,7 +33,7 @@ type CreateServiceGatewayDetails struct {
 	// RouteTable.
 	Services []ServiceIdRequestDetails `mandatory:"true" json:"services"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -55,7 +55,7 @@ type CreateServiceGatewayDetails struct {
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
 	// with the service gateway.
 	// For information about why you would associate a route table with a service gateway, see
-	// Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/Content/Network/Tasks/transitroutingoracleservices.htm).
+	// Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 

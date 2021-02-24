@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetService.go.html to see an example of how to use GetServiceRequest.
 type GetServiceRequest struct {
 
-	// The service's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The service's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ServiceId *string `mandatory:"true" contributesTo:"path" name:"serviceId"`
 
 	// Unique Oracle-assigned identifier for the request.

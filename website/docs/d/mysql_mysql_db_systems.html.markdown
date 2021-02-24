@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_mysql_db_systems"
 sidebar_current: "docs-oci-datasource-mysql-mysql_db_systems"
 description: |-
-  Provides the list of Mysql Db Systems in Oracle Cloud Infrastructure Mysql service
+  Provides the list of Mysql Db Systems in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # Data Source: oci_mysql_mysql_db_systems
-This data source provides the list of Mysql Db Systems in Oracle Cloud Infrastructure Mysql service.
+This data source provides the list of Mysql Db Systems in Oracle Cloud Infrastructure MySQL Database service.
 
 Get a list of DB Systems in the specified compartment.
 The default sort order is by timeUpdated, descending.

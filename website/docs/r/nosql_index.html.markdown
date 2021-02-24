@@ -1,14 +1,14 @@
 ---
-subcategory: "Nosql"
+subcategory: "NoSQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_nosql_index"
 sidebar_current: "docs-oci-resource-nosql-index"
 description: |-
-  Provides the Index resource in Oracle Cloud Infrastructure Nosql service
+  Provides the Index resource in Oracle Cloud Infrastructure NoSQL Database service
 ---
 
 # oci_nosql_index
-This resource provides the Index resource in Oracle Cloud Infrastructure Nosql service.
+This resource provides the Index resource in Oracle Cloud Infrastructure NoSQL Database service.
 
 Create a new index on the table identified by tableNameOrId.
 

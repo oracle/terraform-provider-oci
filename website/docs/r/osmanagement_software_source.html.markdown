@@ -1,14 +1,14 @@
 ---
-subcategory: "Osmanagement"
+subcategory: "OS Management"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_osmanagement_software_source"
 sidebar_current: "docs-oci-resource-osmanagement-software_source"
 description: |-
-  Provides the Software Source resource in Oracle Cloud Infrastructure Osmanagement service
+  Provides the Software Source resource in Oracle Cloud Infrastructure OS Management service
 ---
 
 # oci_osmanagement_software_source
-This resource provides the Software Source resource in Oracle Cloud Infrastructure Osmanagement service.
+This resource provides the Software Source resource in Oracle Cloud Infrastructure OS Management service.
 
 Creates a new custom Software Source on the management system.
 This will not contain any packages after it is first created,

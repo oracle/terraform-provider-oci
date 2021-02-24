@@ -122,6 +122,9 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle-provided images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 * `metadata` - Custom metadata that you provide.
+* `platform_config` - The platform configuration for the instance. The type of platform configuration is determined by the `type`. 
+	* `numa_nodes_per_socket` - The number of NUMA nodes per socket. 
+	* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
 * `private_ip` - The private IP address of instance VNIC. To set the private IP address, use the `private_ip` argument in create_vnic_details.
 * `public_ip` - The public IP address of instance VNIC (if enabled).
 * `region` - The region that contains the availability domain the instance is running in.

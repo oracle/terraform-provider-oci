@@ -18,16 +18,16 @@ import (
 )
 
 // ByoipRange Oracle offers the ability to Bring Your Own IP (BYOIP), importing public IP addresses that you currently own to Oracle Cloud Infrastructure. A `ByoipRange` resource is a record of the imported address block (a BYOIP CIDR block) and also some associated metadata.
-// The process used to Bring Your Own IP (https://docs.cloud.oracle.com/Content/Network/Concepts/BYOIP.htm) is explained in the documentation.
+// The process used to Bring Your Own IP (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOIP.htm) is explained in the documentation.
 type ByoipRange struct {
 
 	// The public IPv4 CIDR block being imported from on-premises to the Oracle cloud.
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the BYOIP CIDR block.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the BYOIP CIDR block.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The `ByoipRange` resource's current state.
@@ -37,7 +37,7 @@ type ByoipRange struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The validation token is an internally-generated ASCII string used in the validation process. See Importing a CIDR block (https://docs.cloud.oracle.com/Content/Network/Concepts/BYOIP.htm#import_cidr) for details.
+	// The validation token is an internally-generated ASCII string used in the validation process. See Importing a CIDR block (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOIP.htm#import_cidr) for details.
 	ValidationToken *string `mandatory:"true" json:"validationToken"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

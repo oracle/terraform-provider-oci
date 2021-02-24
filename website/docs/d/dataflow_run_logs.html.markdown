@@ -1,14 +1,14 @@
 ---
-subcategory: "Dataflow"
+subcategory: "Data Flow"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dataflow_run_logs"
 sidebar_current: "docs-oci-datasource-dataflow-run_logs"
 description: |-
-  Provides the list of Run Logs in Oracle Cloud Infrastructure Dataflow service
+  Provides the list of Run Logs in Oracle Cloud Infrastructure Data Flow service
 ---
 
 # Data Source: oci_dataflow_run_logs
-This data source provides the list of Run Logs in Oracle Cloud Infrastructure Dataflow service.
+This data source provides the list of Run Logs in Oracle Cloud Infrastructure Data Flow service.
 
 Retrieves summaries of the run's logs.
 

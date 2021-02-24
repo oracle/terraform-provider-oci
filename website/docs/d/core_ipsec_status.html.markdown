@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_core_ipsec_status
 This data source provides details about a specific Ip Sec Connection Device Status resource in Oracle Cloud Infrastructure Core service.
 
-Gets the status of the specified IPSec connection (whether it's up or down).
+Deprecated. To get the tunnel status, instead use
+[GetIPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnectionTunnel/GetIPSecConnectionTunnel).
 
 
 ## Example Usage
@@ -36,7 +37,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment containing the IPSec connection.
 * `id` - The IPSec connection's Oracle ID (OCID).
 * `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `tunnels` - Two [TunnelStatus](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/TunnelStatus/) objects.
+* `tunnels` - Two [TunnelStatus](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/TunnelStatus/) objects.
 	* `ip_address` - The IP address of Oracle's VPN headend.  Example: `203.0.113.50` 
 	* `state` - The tunnel's current state.
 	* `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

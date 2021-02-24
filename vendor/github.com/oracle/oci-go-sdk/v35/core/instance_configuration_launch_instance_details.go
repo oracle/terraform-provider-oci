@@ -120,6 +120,8 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 
 	ShapeConfig *InstanceConfigurationLaunchInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
+	PlatformConfig InstanceConfigurationLaunchInstancePlatformConfig `mandatory:"false" json:"platformConfig"`
+
 	SourceDetails InstanceConfigurationInstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
@@ -182,6 +184,7 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 		Metadata                       map[string]string                                                        `json:"metadata"`
 		Shape                          *string                                                                  `json:"shape"`
 		ShapeConfig                    *InstanceConfigurationLaunchInstanceShapeConfigDetails                   `json:"shapeConfig"`
+		PlatformConfig                 instanceconfigurationlaunchinstanceplatformconfig                        `json:"platformConfig"`
 		SourceDetails                  instanceconfigurationinstancesourcedetails                               `json:"sourceDetails"`
 		FaultDomain                    *string                                                                  `json:"faultDomain"`
 		DedicatedVmHostId              *string                                                                  `json:"dedicatedVmHostId"`
@@ -220,6 +223,16 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	m.Shape = model.Shape
 
 	m.ShapeConfig = model.ShapeConfig
+
+	nn, e = model.PlatformConfig.UnmarshalPolymorphicJSON(model.PlatformConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlatformConfig = nn.(InstanceConfigurationLaunchInstancePlatformConfig)
+	} else {
+		m.PlatformConfig = nil
+	}
 
 	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {

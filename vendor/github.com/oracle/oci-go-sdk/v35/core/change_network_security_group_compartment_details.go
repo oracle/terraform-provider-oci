@@ -20,7 +20,7 @@ import (
 // ChangeNetworkSecurityGroupCompartmentDetails The representation of ChangeNetworkSecurityGroupCompartmentDetails
 type ChangeNetworkSecurityGroupCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the network
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the network
 	// security group to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

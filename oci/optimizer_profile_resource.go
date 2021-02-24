@@ -79,7 +79,6 @@ func OptimizerProfileResource() *schema.Resource {
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 
 			// Optional
@@ -95,6 +94,78 @@ func OptimizerProfileResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"target_compartments": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"items": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"target_tags": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"items": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"tag_definition_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"tag_namespace_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"tag_value_type": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"tag_values": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 
 			// Computed
@@ -225,6 +296,28 @@ func (s *OptimizerProfileResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
+	if targetCompartments, ok := s.D.GetOkExists("target_compartments"); ok {
+		if tmpList := targetCompartments.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target_compartments", 0)
+			tmp, err := s.mapToTargetCompartments(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TargetCompartments = &tmp
+		}
+	}
+
+	if targetTags, ok := s.D.GetOkExists("target_tags"); ok {
+		if tmpList := targetTags.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target_tags", 0)
+			tmp, err := s.mapToTargetTags(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TargetTags = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.CreateProfile(context.Background(), request)
@@ -284,8 +377,35 @@ func (s *OptimizerProfileResourceCrud) Update() error {
 		}
 	}
 
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.ProfileId = &tmp
+
+	if targetCompartments, ok := s.D.GetOkExists("target_compartments"); ok {
+		if tmpList := targetCompartments.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target_compartments", 0)
+			tmp, err := s.mapToTargetCompartments(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TargetCompartments = &tmp
+		}
+	}
+
+	if targetTags, ok := s.D.GetOkExists("target_tags"); ok {
+		if tmpList := targetTags.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target_tags", 0)
+			tmp, err := s.mapToTargetTags(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TargetTags = &tmp
+		}
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
@@ -336,6 +456,18 @@ func (s *OptimizerProfileResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TargetCompartments != nil {
+		s.D.Set("target_compartments", []interface{}{TargetCompartmentsToMap(s.Res.TargetCompartments)})
+	} else {
+		s.D.Set("target_compartments", nil)
+	}
+
+	if s.Res.TargetTags != nil {
+		s.D.Set("target_tags", []interface{}{TargetTagsToMap(s.Res.TargetTags)})
+	} else {
+		s.D.Set("target_tags", nil)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -444,6 +576,14 @@ func ProfileSummaryToMap(obj oci_optimizer.ProfileSummary) map[string]interface{
 
 	result["state"] = string(obj.LifecycleState)
 
+	if obj.TargetCompartments != nil {
+		result["target_compartments"] = []interface{}{TargetCompartmentsToMap(obj.TargetCompartments)}
+	}
+
+	if obj.TargetTags != nil {
+		result["target_tags"] = []interface{}{TargetTagsToMap(obj.TargetTags)}
+	}
+
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
 	}
@@ -451,6 +591,119 @@ func ProfileSummaryToMap(obj oci_optimizer.ProfileSummary) map[string]interface{
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
+
+	return result
+}
+
+func (s *OptimizerProfileResourceCrud) mapToTargetCompartments(fieldKeyFormat string) (oci_optimizer.TargetCompartments, error) {
+	result := oci_optimizer.TargetCompartments{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func TargetCompartmentsToMap(obj *oci_optimizer.TargetCompartments) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["items"] = obj.Items
+
+	return result
+}
+
+func (s *OptimizerProfileResourceCrud) mapToTargetTag(fieldKeyFormat string) (oci_optimizer.TargetTag, error) {
+	result := oci_optimizer.TargetTag{}
+
+	if tagDefinitionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tag_definition_name")); ok {
+		tmp := tagDefinitionName.(string)
+		result.TagDefinitionName = &tmp
+	}
+
+	if tagNamespaceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tag_namespace_name")); ok {
+		tmp := tagNamespaceName.(string)
+		result.TagNamespaceName = &tmp
+	}
+
+	if tagValueType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tag_value_type")); ok {
+		result.TagValueType = oci_optimizer.TagValueTypeEnum(tagValueType.(string))
+	}
+
+	if tagValues, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tag_values")); ok {
+		interfaces := tagValues.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tag_values")) {
+			result.TagValues = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func TargetTagToMap(obj oci_optimizer.TargetTag) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TagDefinitionName != nil {
+		result["tag_definition_name"] = string(*obj.TagDefinitionName)
+	}
+
+	if obj.TagNamespaceName != nil {
+		result["tag_namespace_name"] = string(*obj.TagNamespaceName)
+	}
+
+	result["tag_value_type"] = string(obj.TagValueType)
+
+	result["tag_values"] = obj.TagValues
+
+	return result
+}
+
+func (s *OptimizerProfileResourceCrud) mapToTargetTags(fieldKeyFormat string) (oci_optimizer.TargetTags, error) {
+	result := oci_optimizer.TargetTags{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]oci_optimizer.TargetTag, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToTargetTag(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func TargetTagsToMap(obj *oci_optimizer.TargetTags) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, TargetTagToMap(item))
+	}
+	result["items"] = items
 
 	return result
 }

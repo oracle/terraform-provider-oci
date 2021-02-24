@@ -33,7 +33,7 @@ var (
 
 	profileDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Optional, create: `name`},
+		"name":           Representation{repType: Optional, create: `name`, update: `name2`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
 	}
 
@@ -41,16 +41,30 @@ var (
 		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
 		"description":          Representation{repType: Required, create: `description`, update: `description2`},
 		"levels_configuration": RepresentationGroup{Required, profileLevelsConfigurationRepresentation},
-		"name":                 Representation{repType: Required, create: `name`},
+		"name":                 Representation{repType: Required, create: `name`, update: `name2`},
 		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"target_compartments":  RepresentationGroup{Optional, profileTargetCompartmentsRepresentation},
+		"target_tags":          RepresentationGroup{Optional, profileTargetTagsRepresentation},
 	}
 	profileLevelsConfigurationRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, profileLevelsConfigurationItemsRepresentation},
 	}
+	profileTargetCompartmentsRepresentation = map[string]interface{}{
+		"items": Representation{repType: Required, create: []string{`${var.compartment_id}`}, update: []string{`${var.compartment_id_for_update}`}},
+	}
+	profileTargetTagsRepresentation = map[string]interface{}{
+		"items": RepresentationGroup{Required, profileTargetTagsItemsRepresentation},
+	}
 	profileLevelsConfigurationItemsRepresentation = map[string]interface{}{
 		"level":             Representation{repType: Required, create: `cost-compute_aggressive_average`, update: `cost-compute_conservative_average`},
 		"recommendation_id": Representation{repType: Required, create: `${oci_optimizer_recommendation.test_recommendation.recommendation_id}`},
+	}
+	profileTargetTagsItemsRepresentation = map[string]interface{}{
+		"tag_definition_name": Representation{repType: Required, create: `tagDefinitionName`, update: `tagDefinitionName2`},
+		"tag_namespace_name":  Representation{repType: Required, create: `tagNamespaceName`, update: `tagNamespaceName2`},
+		"tag_value_type":      Representation{repType: Required, create: `VALUE`, update: `ANY`},
+		"tag_values":          Representation{repType: Optional, create: []string{`tagValue1`}, update: []string{}},
 	}
 
 	ProfileResourceDependencies = DefinedTagsDependencies + RecommendationResourceDependencies +
@@ -67,6 +81,9 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_optimizer_profile.test_profile"
 	datasourceName := "data.oci_optimizer_profiles.test_profiles"
 	singularDatasourceName := "data.oci_optimizer_profile.test_profile"
@@ -80,6 +97,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckOptimizerProfileDestroy,
 		Steps: []resource.TestStep{
+			// Pre-requisite: There shouldn't be a profile with the same <recommendationId, targetCompartment, targetTags> combination or with same name existing for the compartmentId
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
@@ -120,6 +138,14 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "levels_configuration.0.items.0.recommendation_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "target_compartments.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "target_compartments.0.items.0", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_definition_name", "tagDefinitionName"),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_namespace_name", "tagNamespaceName"),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_value_type", "VALUE"),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_values.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -137,7 +163,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -147,8 +173,15 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "levels_configuration.0.items.0.level", "cost-compute_conservative_average"),
 					resource.TestCheckResourceAttrSet(resourceName, "levels_configuration.0.items.0.recommendation_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "target_compartments.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "target_compartments.0.items.0", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_definition_name", "tagDefinitionName2"),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_namespace_name", "tagNamespaceName2"),
+					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_value_type", "ANY"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -165,11 +198,11 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_optimizer_profiles", "test_profiles", Optional, Update, profileDataSourceRepresentation) +
-					compartmentIdVariableStr + ProfileResourceDependencies +
+					compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "name"),
+					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "profile_collection.#"),
@@ -179,7 +212,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ProfileResourceConfig,
+					compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "profile_id"),
 
@@ -190,15 +223,22 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "levels_configuration.0.items.0.level", "cost-compute_conservative_average"),
 					resource.TestCheckResourceAttrSet(resourceName, "levels_configuration.0.items.0.recommendation_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "target_compartments.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "target_compartments.0.items.0", compartmentIdU),
+					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.0.tag_definition_name", "tagDefinitionName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.0.tag_namespace_name", "tagNamespaceName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.0.tag_value_type", "ANY"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + ProfileResourceConfig,
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceConfig,
 			},
 			// verify resource import
 			{

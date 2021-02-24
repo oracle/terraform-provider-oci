@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeNatGatewayCompartment.go.html to see an example of how to use ChangeNatGatewayCompartmentRequest.
 type ChangeNatGatewayCompartmentRequest struct {
 
-	// The NAT gateway's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The NAT gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	NatGatewayId *string `mandatory:"true" contributesTo:"path" name:"natGatewayId"`
 
 	// Request to change the compartment of a given NAT Gateway.

@@ -20,7 +20,7 @@ import (
 // CrossConnect For use with Oracle Cloud Infrastructure FastConnect. A cross-connect represents a
 // physical connection between an existing network and Oracle. Customers who are colocated
 // with Oracle in a FastConnect location create and use cross-connects. For more
-// information, see FastConnect Overview (https://docs.cloud.oracle.com/Content/Network/Concepts/fastconnect.htm).
+// information, see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 // Oracle recommends you create each cross-connect in a
 // CrossConnectGroup so you can use link aggregation
 // with the connection.
@@ -29,7 +29,7 @@ import (
 // same way as a colocated customer's (with `CrossConnect` and `CrossConnectGroup` objects, and so on).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type CrossConnect struct {
 
 	// The OCID of the compartment containing the cross-connect group.

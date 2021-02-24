@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_resolver"
 sidebar_current: "docs-oci-resource-dns-resolver"
 description: |-
-  Provides the Resolver resource in Oracle Cloud Infrastructure Dns service
+  Provides the Resolver resource in Oracle Cloud Infrastructure DNS service
 ---
 
 # oci_dns_resolver
-This resource provides the Resolver resource in Oracle Cloud Infrastructure Dns service.
+This resource provides the Resolver resource in Oracle Cloud Infrastructure DNS service.
 
 Updates the specified resolver with your new information.
 

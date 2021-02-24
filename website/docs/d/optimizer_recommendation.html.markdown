@@ -54,6 +54,6 @@ The following attributes are exported:
 	For example, "The status of the recommendation changed from `pending` to `current(ignored)` on this date and time." 
 * `time_status_end` - The date and time the current status will change. The format is defined by RFC3339.
 
-	For example, "The current `postponed` status of the recommendation will end and change to `pending` on this  date and time." 
+	For example, "The current `postponed` status of the recommendation will end and change to `pending` on this date and time." 
 * `time_updated` - The date and time the recommendation details were last updated, in the format defined by RFC3339.
 

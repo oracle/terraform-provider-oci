@@ -544,9 +544,11 @@ func (s *DataintegrationWorkspaceResourceCrud) updateCompartment(compartment int
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
-	_, err := s.Client.ChangeCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getWorkspaceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

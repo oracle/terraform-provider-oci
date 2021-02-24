@@ -20,11 +20,11 @@ import (
 // CreateNetworkSecurityGroupDetails The representation of CreateNetworkSecurityGroupDetails
 type CreateNetworkSecurityGroupDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the
 	// network security group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN to create the network
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN to create the network
 	// security group in.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 

@@ -581,9 +581,7 @@ func (s *ApigatewayGatewayResourceCrud) updateCompartment(compartment interface{
 	if err != nil {
 		return err
 	}
+
 	workId := response.OpcWorkRequestId
-	// Wait until it finishes
-	_, updateWorkRequestErr := gatewayWaitForWorkRequest(workId, "gateway",
-		oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.WorkRequestsClient)
-	return updateWorkRequestErr
+	return s.getGatewayFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

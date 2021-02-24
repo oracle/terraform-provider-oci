@@ -1,14 +1,14 @@
 ---
-subcategory: "Dataflow"
+subcategory: "Data Flow"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dataflow_private_endpoints"
 sidebar_current: "docs-oci-datasource-dataflow-private_endpoints"
 description: |-
-  Provides the list of Private Endpoints in Oracle Cloud Infrastructure Dataflow service
+  Provides the list of Private Endpoints in Oracle Cloud Infrastructure Data Flow service
 ---
 
 # Data Source: oci_dataflow_private_endpoints
-This data source provides the list of Private Endpoints in Oracle Cloud Infrastructure Dataflow service.
+This data source provides the list of Private Endpoints in Oracle Cloud Infrastructure Data Flow service.
 
 Lists all private endpoints in the specified compartment.
 

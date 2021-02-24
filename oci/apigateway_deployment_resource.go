@@ -3327,9 +3327,11 @@ func (s *ApigatewayDeploymentResourceCrud) updateCompartment(compartment interfa
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	_, err := s.Client.ChangeDeploymentCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDeploymentCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

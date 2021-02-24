@@ -18,7 +18,7 @@ import (
 )
 
 // DrgAttachment A link between a DRG and VCN. For more information, see
-// Overview of the Networking Service (https://docs.cloud.oracle.com/Content/Network/Concepts/overview.htm).
+// Overview of the Networking Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm).
 type DrgAttachment struct {
 
 	// The OCID of the compartment containing the DRG attachment.
@@ -46,8 +46,8 @@ type DrgAttachment struct {
 
 	// The OCID of the route table the DRG attachment is using.
 	// For information about why you would associate a route table with a DRG attachment, see:
-	//   * Transit Routing: Access to Multiple VCNs in Same Region (https://docs.cloud.oracle.com/Content/Network/Tasks/transitrouting.htm)
-	//   * Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/Content/Network/Tasks/transitroutingoracleservices.htm)
+	//   * Transit Routing: Access to Multiple VCNs in Same Region (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
+	//   * Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 

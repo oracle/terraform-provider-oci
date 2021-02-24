@@ -11,7 +11,7 @@ description: |-
 This resource provides the Dhcp Options resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new set of DHCP options for the specified VCN. For more information, see
-[DhcpOptions](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/DhcpOptions/).
+[DhcpOptions](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DhcpOptions/).
 
 For the purposes of access control, you must provide the OCID of the compartment where you want the set of
 DHCP options to reside. Notice that the set of options doesn't have to be in the same compartment as the VCN,
@@ -88,12 +88,14 @@ The following arguments are supported:
 	* `custom_dns_servers` - (Applicable when type=DomainNameServer) (Updatable) If you set `serverType` to `CustomDnsServer`, specify the IP address of at least one DNS server of your choice (three maximum). 
 	* `search_domain_names` - (Required when type=SearchDomain) (Updatable) A single search domain name according to [RFC 952](https://tools.ietf.org/html/rfc952) and [RFC 1123](https://tools.ietf.org/html/rfc1123). During a DNS query, the OS will append this search domain name to the value being queried.
 
+		If you set [DhcpDnsOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DhcpDnsOption/) to `VcnLocalPlusInternet`, and you assign a DNS label to the VCN during creation, the search domain name in the VCN's default set of DHCP options is automatically set to the VCN domain (for example, `vcn1.oraclevcn.com`).
+
 		If you don't want to use a search domain name, omit this option from the set of DHCP options. Do not include this option with an empty list of search domain names, or with an empty string as the value for any search domain name. 
 	* `server_type` - (Required when type=DomainNameServer) (Updatable) 
 		* **VcnLocal:** Reserved for future use.
 		* **VcnLocalPlusInternet:** Also referred to as "Internet and VCN Resolver". Instances can resolve internet hostnames (no internet gateway is required), and can resolve hostnames of instances in the VCN. This is the default value in the default set of DHCP options in the VCN. For the Internet and VCN Resolver to work across the VCN, there must also be a DNS label set for the VCN, a DNS label set for each subnet, and a hostname for each instance. The Internet and VCN Resolver also enables reverse DNS lookup, which lets you determine the hostname corresponding to the private IP address. For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 		* **CustomDnsServer:** Instances use a DNS server of your choice (three maximum). 
-	* `type` - (Required) (Updatable) The specific DHCP option. Either `DomainNameServer` (for [DhcpDnsOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/DhcpDnsOption/)) or `SearchDomain` (for [DhcpSearchDomainOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/DhcpSearchDomainOption/)). 
+	* `type` - (Required) (Updatable) The specific DHCP option. Either `DomainNameServer` (for [DhcpDnsOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DhcpDnsOption/)) or `SearchDomain` (for [DhcpSearchDomainOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DhcpSearchDomainOption/)). 
 * `vcn_id` - (Required) The OCID of the VCN the set of DHCP options belongs to.
 
 
@@ -113,12 +115,14 @@ The following attributes are exported:
 	* `custom_dns_servers` - If you set `serverType` to `CustomDnsServer`, specify the IP address of at least one DNS server of your choice (three maximum). 
 	* `search_domain_names` - A single search domain name according to [RFC 952](https://tools.ietf.org/html/rfc952) and [RFC 1123](https://tools.ietf.org/html/rfc1123). During a DNS query, the OS will append this search domain name to the value being queried.
 
+		If you set [DhcpDnsOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DhcpDnsOption/) to `VcnLocalPlusInternet`, and you assign a DNS label to the VCN during creation, the search domain name in the VCN's default set of DHCP options is automatically set to the VCN domain (for example, `vcn1.oraclevcn.com`).
+
 		If you don't want to use a search domain name, omit this option from the set of DHCP options. Do not include this option with an empty list of search domain names, or with an empty string as the value for any search domain name. 
 	* `server_type` - 
 		* **VcnLocal:** Reserved for future use.
 		* **VcnLocalPlusInternet:** Also referred to as "Internet and VCN Resolver". Instances can resolve internet hostnames (no internet gateway is required), and can resolve hostnames of instances in the VCN. This is the default value in the default set of DHCP options in the VCN. For the Internet and VCN Resolver to work across the VCN, there must also be a DNS label set for the VCN, a DNS label set for each subnet, and a hostname for each instance. The Internet and VCN Resolver also enables reverse DNS lookup, which lets you determine the hostname corresponding to the private IP address. For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 		* **CustomDnsServer:** Instances use a DNS server of your choice (three maximum). 
-	* `type` - The specific DHCP option. Either `DomainNameServer` (for [DhcpDnsOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/DhcpDnsOption/)) or `SearchDomain` (for [DhcpSearchDomainOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/DhcpSearchDomainOption/)). 
+	* `type` - The specific DHCP option. Either `DomainNameServer` (for [DhcpDnsOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DhcpDnsOption/)) or `SearchDomain` (for [DhcpSearchDomainOption](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DhcpSearchDomainOption/)). 
 * `state` - The current state of the set of DHCP options.
 * `time_created` - Date and time the set of DHCP options was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The OCID of the VCN the set of DHCP options belongs to.

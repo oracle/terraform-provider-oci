@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateNatGateway.go.html to see an example of how to use UpdateNatGatewayRequest.
 type UpdateNatGatewayRequest struct {
 
-	// The NAT gateway's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The NAT gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	NatGatewayId *string `mandatory:"true" contributesTo:"path" name:"natGatewayId"`
 
 	// Details object for updating a NAT gateway.

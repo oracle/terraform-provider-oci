@@ -20,7 +20,7 @@ import (
 // ChangeDhcpOptionsCompartmentDetails The configuration details for the move operation.
 type ChangeDhcpOptionsCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the
 	// set of DHCP options to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

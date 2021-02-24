@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_view"
 sidebar_current: "docs-oci-resource-dns-view"
 description: |-
-  Provides the View resource in Oracle Cloud Infrastructure Dns service
+  Provides the View resource in Oracle Cloud Infrastructure DNS service
 ---
 
 # oci_dns_view
-This resource provides the View resource in Oracle Cloud Infrastructure Dns service.
+This resource provides the View resource in Oracle Cloud Infrastructure DNS service.
 
 Creates a new view in the specified compartment.
 

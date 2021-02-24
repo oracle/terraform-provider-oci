@@ -1,14 +1,14 @@
 ---
-subcategory: "Datascience"
+subcategory: "Data Science"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_datascience_model_provenance"
 sidebar_current: "docs-oci-datasource-datascience-model_provenance"
 description: |-
-  Provides details about a specific Model Provenance in Oracle Cloud Infrastructure Datascience service
+  Provides details about a specific Model Provenance in Oracle Cloud Infrastructure Data Science service
 ---
 
 # Data Source: oci_datascience_model_provenance
-This data source provides details about a specific Model Provenance resource in Oracle Cloud Infrastructure Datascience service.
+This data source provides details about a specific Model Provenance resource in Oracle Cloud Infrastructure Data Science service.
 
 Gets provenance information for specified model.
 

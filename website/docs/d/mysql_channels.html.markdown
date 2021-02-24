@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_channels"
 sidebar_current: "docs-oci-datasource-mysql-channels"
 description: |-
-  Provides the list of Channels in Oracle Cloud Infrastructure Mysql service
+  Provides the list of Channels in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # Data Source: oci_mysql_channels
-This data source provides the list of Channels in Oracle Cloud Infrastructure Mysql service.
+This data source provides the list of Channels in Oracle Cloud Infrastructure MySQL Database service.
 
 Lists all the Channels that match the specified filters.
 

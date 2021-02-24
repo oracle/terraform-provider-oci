@@ -26,6 +26,14 @@ type ExportImageViaObjectStorageUriDetails struct {
 	// and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
 	// for constructing URLs for image import/export.
 	DestinationUri *string `mandatory:"true" json:"destinationUri"`
+
+	// The format of the image to be exported. The default value is "OCI".
+	ExportFormat ExportImageDetailsExportFormatEnum `mandatory:"false" json:"exportFormat,omitempty"`
+}
+
+//GetExportFormat returns ExportFormat
+func (m ExportImageViaObjectStorageUriDetails) GetExportFormat() ExportImageDetailsExportFormatEnum {
+	return m.ExportFormat
 }
 
 func (m ExportImageViaObjectStorageUriDetails) String() string {
