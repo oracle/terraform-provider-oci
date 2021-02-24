@@ -12,7 +12,7 @@ The Oracle Cloud Infrastructure provider is used to interact with the many resou
 
 Use the navigation to the left to read about the available resources.
 
-!>The remainder of this documentation has been deprecated. For details on configuring and using the OCI Terraform provider, please refer to the [official Oracle Cloud Infrastructure documentation](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraform.htm).
+~> **Note:** Please visit our new OCI Provider documentation at [official Oracle Cloud Infrastructure documentation](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraform.htm) for tutorials, examples and best practices. Service reference documentation will continue to be available on this [page](https://registry.terraform.io/providers/hashicorp/oci/latest/docs).
 
 ## Example Usage
 
