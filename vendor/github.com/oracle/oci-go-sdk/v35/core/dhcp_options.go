@@ -24,11 +24,11 @@ import (
 // handled in the subnets in your VCN.
 // - DhcpSearchDomainOption: Lets you specify
 // a search domain name to use for DNS queries.
-// For more information, see  DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm)
-// and DHCP Options (https://docs.cloud.oracle.com/Content/Network/Tasks/managingDHCP.htm).
+// For more information, see  DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm)
+// and DHCP Options (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDHCP.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type DhcpOptions struct {
 
 	// The OCID of the compartment containing the set of DHCP options.

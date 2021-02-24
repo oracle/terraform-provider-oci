@@ -189,6 +189,16 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["metadata"] = r.Metadata
 		}
 
+		if r.PlatformConfig != nil {
+			platformConfigArray := []interface{}{}
+			if platformConfigMap := PlatformConfigToMap(&r.PlatformConfig); platformConfigMap != nil {
+				platformConfigArray = append(platformConfigArray, platformConfigMap)
+			}
+			instance["platform_config"] = platformConfigArray
+		} else {
+			instance["platform_config"] = nil
+		}
+
 		if r.Region != nil {
 			instance["region"] = *r.Region
 		}

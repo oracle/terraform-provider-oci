@@ -14,10 +14,9 @@ import (
 )
 
 // UpdateProfileDetails Details for updating a profile.
-// **Caution:** Avoid using any confidential information when you use the API to supply string values.
 type UpdateProfileDetails struct {
 
-	// Text describing the profile.
+	// Text describing the profile. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -31,6 +30,13 @@ type UpdateProfileDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	LevelsConfiguration *LevelsConfiguration `mandatory:"false" json:"levelsConfiguration"`
+
+	TargetCompartments *TargetCompartments `mandatory:"false" json:"targetCompartments"`
+
+	TargetTags *TargetTags `mandatory:"false" json:"targetTags"`
+
+	// The name assigned to the profile. Avoid entering confidential information.
+	Name *string `mandatory:"false" json:"name"`
 }
 
 func (m UpdateProfileDetails) String() string {

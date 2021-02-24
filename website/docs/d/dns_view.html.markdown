@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_view"
 sidebar_current: "docs-oci-datasource-dns-view"
 description: |-
-  Provides details about a specific View in Oracle Cloud Infrastructure Dns service
+  Provides details about a specific View in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_view
-This data source provides details about a specific View resource in Oracle Cloud Infrastructure Dns service.
+This data source provides details about a specific View resource in Oracle Cloud Infrastructure DNS service.
 
 Get information about a specific view. Note that attempting to get a
 view in the DELETED lifecycleState will result in a 404 to be

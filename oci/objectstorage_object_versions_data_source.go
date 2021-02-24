@@ -137,7 +137,9 @@ func (s *ObjectStorageObjectVersionsDataSourceCrud) VoidState() {
 }
 
 func (s *ObjectStorageObjectVersionsDataSourceCrud) Get() error {
-	request := oci_object_storage.ListObjectVersionsRequest{}
+	request := oci_object_storage.ListObjectVersionsRequest{
+		Fields: oci_object_storage.ListObjectVersionsFieldsEnum(listObjectsFields),
+	}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
 		tmp := bucket.(string)

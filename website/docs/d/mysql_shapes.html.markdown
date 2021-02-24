@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_shapes"
 sidebar_current: "docs-oci-datasource-mysql-shapes"
 description: |-
-  Provides the list of Shapes in Oracle Cloud Infrastructure Mysql service
+  Provides the list of Shapes in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # Data Source: oci_mysql_shapes
-This data source provides the list of Shapes in Oracle Cloud Infrastructure Mysql service.
+This data source provides the list of Shapes in Oracle Cloud Infrastructure MySQL Database service.
 
 Gets a list of the shapes you can use to create a new MySQL DB System.
 The shape determines the resources allocated to the DB System:

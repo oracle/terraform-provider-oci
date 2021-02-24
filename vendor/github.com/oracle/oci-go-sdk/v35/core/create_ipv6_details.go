@@ -49,7 +49,7 @@ type CreateIpv6Details struct {
 	// Example: `true`
 	IsInternetAccessAllowed *bool `mandatory:"false" json:"isInternetAccessAllowed"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6 to. The
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6 to. The
 	// IPv6 will be in the VNIC's subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 }

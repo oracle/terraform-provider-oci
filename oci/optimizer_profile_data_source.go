@@ -93,6 +93,18 @@ func (s *OptimizerProfileDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.TargetCompartments != nil {
+		s.D.Set("target_compartments", []interface{}{TargetCompartmentsToMap(s.Res.TargetCompartments)})
+	} else {
+		s.D.Set("target_compartments", nil)
+	}
+
+	if s.Res.TargetTags != nil {
+		s.D.Set("target_tags", []interface{}{TargetTagsToMap(s.Res.TargetTags)})
+	} else {
+		s.D.Set("target_tags", nil)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

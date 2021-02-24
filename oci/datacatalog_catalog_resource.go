@@ -443,7 +443,6 @@ func (s *DatacatalogCatalogResourceCrud) Update() error {
 	}
 
 	s.Res = &response.Catalog
-
 	return nil
 }
 
@@ -588,9 +587,11 @@ func (s *DatacatalogCatalogResourceCrud) updateCompartment(compartment interface
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	_, err := s.Client.ChangeCatalogCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeCatalogCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getCatalogFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "catalog"), oci_datacatalog.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
 }

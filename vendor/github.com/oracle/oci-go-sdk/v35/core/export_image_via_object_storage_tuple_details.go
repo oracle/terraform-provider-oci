@@ -29,6 +29,14 @@ type ExportImageViaObjectStorageTupleDetails struct {
 
 	// The Object Storage object name for the exported image.
 	ObjectName *string `mandatory:"true" json:"objectName"`
+
+	// The format of the image to be exported. The default value is "OCI".
+	ExportFormat ExportImageDetailsExportFormatEnum `mandatory:"false" json:"exportFormat,omitempty"`
+}
+
+//GetExportFormat returns ExportFormat
+func (m ExportImageViaObjectStorageTupleDetails) GetExportFormat() ExportImageDetailsExportFormatEnum {
+	return m.ExportFormat
 }
 
 func (m ExportImageViaObjectStorageTupleDetails) String() string {

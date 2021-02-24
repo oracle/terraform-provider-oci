@@ -1,14 +1,14 @@
 ---
-subcategory: "Mysql"
+subcategory: "MySQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_mysql_db_system"
 sidebar_current: "docs-oci-datasource-mysql-mysql_db_system"
 description: |-
-  Provides details about a specific Mysql Db System in Oracle Cloud Infrastructure Mysql service
+  Provides details about a specific Mysql Db System in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # Data Source: oci_mysql_mysql_db_system
-This data source provides details about a specific Mysql Db System resource in Oracle Cloud Infrastructure Mysql service.
+This data source provides details about a specific Mysql Db System resource in Oracle Cloud Infrastructure MySQL Database service.
 
 Get information about the specified DB System.
 

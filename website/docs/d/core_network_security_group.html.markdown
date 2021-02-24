@@ -13,10 +13,10 @@ This data source provides details about a specific Network Security Group resour
 Gets the specified network security group's information.
 
 To list the VNICs in an NSG, see
-[ListNetworkSecurityGroupVnics](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroupVnic/ListNetworkSecurityGroupVnics).
+[ListNetworkSecurityGroupVnics](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroupVnic/ListNetworkSecurityGroupVnics).
 
 To list the security rules in an NSG, see
-[ListNetworkSecurityGroupSecurityRules](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/SecurityRule/ListNetworkSecurityGroupSecurityRules).
+[ListNetworkSecurityGroupSecurityRules](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/SecurityRule/ListNetworkSecurityGroupSecurityRules).
 
 
 ## Example Usage

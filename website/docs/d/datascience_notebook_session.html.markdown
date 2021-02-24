@@ -1,14 +1,14 @@
 ---
-subcategory: "Datascience"
+subcategory: "Data Science"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_datascience_notebook_session"
 sidebar_current: "docs-oci-datasource-datascience-notebook_session"
 description: |-
-  Provides details about a specific Notebook Session in Oracle Cloud Infrastructure Datascience service
+  Provides details about a specific Notebook Session in Oracle Cloud Infrastructure Data Science service
 ---
 
 # Data Source: oci_datascience_notebook_session
-This data source provides details about a specific Notebook Session resource in Oracle Cloud Infrastructure Datascience service.
+This data source provides details about a specific Notebook Session resource in Oracle Cloud Infrastructure Data Science service.
 
 Gets the specified notebook session's information.
 

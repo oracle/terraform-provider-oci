@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_steering_policy"
 sidebar_current: "docs-oci-resource-dns-steering_policy"
 description: |-
-  Provides the Steering Policy resource in Oracle Cloud Infrastructure Dns service
+  Provides the Steering Policy resource in Oracle Cloud Infrastructure DNS service
 ---
 
 # oci_dns_steering_policy
-This resource provides the Steering Policy resource in Oracle Cloud Infrastructure Dns service.
+This resource provides the Steering Policy resource in Oracle Cloud Infrastructure DNS service.
 
 Creates a new steering policy in the specified compartment. For more information on
 creating policies with templates, see [Traffic Management API Guide](https://docs.cloud.oracle.com/iaas/Content/TrafficManagement/Concepts/trafficmanagementapi.htm).

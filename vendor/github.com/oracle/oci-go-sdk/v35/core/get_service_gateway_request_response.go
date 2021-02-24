@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetServiceGateway.go.html to see an example of how to use GetServiceGatewayRequest.
 type GetServiceGatewayRequest struct {
 
-	// The service gateway's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The service gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ServiceGatewayId *string `mandatory:"true" contributesTo:"path" name:"serviceGatewayId"`
 
 	// Unique Oracle-assigned identifier for the request.

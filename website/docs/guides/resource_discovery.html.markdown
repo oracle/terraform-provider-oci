@@ -117,8 +117,8 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
+    * `artifacts` - Discovers artifacts resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
-    * `availability_domain` - Discovers availability domains used by your compartment-level resources. It is recommended to always specify this value
     * `bds` - Discovers big data service resources within the specified compartment
     * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
@@ -133,7 +133,6 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `datascience` - Discovers datascience resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
-    * `email_tenancy` - Discovers email_suppression resources across the entire tenancy
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
@@ -158,7 +157,6 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
-    * `tagging` - Discovers tag-related resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
     * 0.11
@@ -268,6 +266,11 @@ apigateway
 * oci\_apigateway\_deployment
 * oci\_apigateway\_certificate
 
+artifacts
+    
+* oci\_artifacts\_container\_configuration
+* oci\_artifacts\_container\_repository
+
 auto_scaling
     
 * oci\_autoscaling\_auto\_scaling\_configuration
@@ -275,6 +278,7 @@ auto_scaling
 bds
     
 * oci\_bds\_bds\_instance
+* oci\_bds\_auto\_scaling\_configuration
 
 blockchain
     
@@ -347,7 +351,6 @@ core
 data_safe
     
 * oci\_data\_safe\_data\_safe\_private\_endpoint
-* oci\_data\_safe\_on\_prem\_connector
 
 database
     
@@ -405,11 +408,8 @@ dns
 
 email
     
-* oci\_email\_sender
-
-email_tenancy
-
 * oci\_email\_suppression
+* oci\_email\_sender
 
 events
     
@@ -449,6 +449,9 @@ identity
 * oci\_identity\_ui\_password
 * oci\_identity\_user\_group\_membership
 * oci\_identity\_user
+* oci\_identity\_tag\_default
+* oci\_identity\_tag\_namespace
+* oci\_identity\_tag
 * oci\_identity\_network\_source
 
 integration
@@ -551,12 +554,6 @@ streaming
 * oci\_streaming\_connect\_harness
 * oci\_streaming\_stream\_pool
 * oci\_streaming\_stream
-
-tagging
-    
-* oci\_identity\_tag\_default
-* oci\_identity\_tag\_namespace
-* oci\_identity\_tag
 
 waas
     

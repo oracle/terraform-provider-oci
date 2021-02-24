@@ -1,14 +1,14 @@
 ---
-subcategory: "Nosql"
+subcategory: "NoSQL Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_nosql_indexes"
 sidebar_current: "docs-oci-datasource-nosql-indexes"
 description: |-
-  Provides the list of Indexes in Oracle Cloud Infrastructure Nosql service
+  Provides the list of Indexes in Oracle Cloud Infrastructure NoSQL Database service
 ---
 
 # Data Source: oci_nosql_indexes
-This data source provides the list of Indexes in Oracle Cloud Infrastructure Nosql service.
+This data source provides the list of Indexes in Oracle Cloud Infrastructure NoSQL Database service.
 
 Get a list of indexes on a table.
 

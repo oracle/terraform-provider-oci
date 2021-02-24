@@ -25,11 +25,11 @@ does not have to be unique, and you can change it. Avoid entering confidential i
 
 For traffic to flow between a subnet and an internet gateway, you must create a route rule accordingly in
 the subnet's route table (for example, 0.0.0.0/0 > internet gateway). See
-[UpdateRouteTable](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/UpdateRouteTable).
+[UpdateRouteTable](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/RouteTable/UpdateRouteTable).
 
 You must specify whether the internet gateway is enabled when you create it. If it's disabled, that means no
 traffic will flow to/from the internet even if there's a route rule that enables that traffic. You can later
-use [UpdateInternetGateway](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/InternetGateway/UpdateInternetGateway) to easily disable/enable
+use [UpdateInternetGateway](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/InternetGateway/UpdateInternetGateway) to easily disable/enable
 the gateway without changing the route rule.
 
 

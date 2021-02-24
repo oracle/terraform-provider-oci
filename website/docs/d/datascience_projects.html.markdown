@@ -1,14 +1,14 @@
 ---
-subcategory: "Datascience"
+subcategory: "Data Science"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_datascience_projects"
 sidebar_current: "docs-oci-datasource-datascience-projects"
 description: |-
-  Provides the list of Projects in Oracle Cloud Infrastructure Datascience service
+  Provides the list of Projects in Oracle Cloud Infrastructure Data Science service
 ---
 
 # Data Source: oci_datascience_projects
-This data source provides the list of Projects in Oracle Cloud Infrastructure Datascience service.
+This data source provides the list of Projects in Oracle Cloud Infrastructure Data Science service.
 
 Lists projects in the specified compartment.
 

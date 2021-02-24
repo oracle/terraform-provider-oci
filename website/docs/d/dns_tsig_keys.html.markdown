@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_tsig_keys"
 sidebar_current: "docs-oci-datasource-dns-tsig_keys"
 description: |-
-  Provides the list of Tsig Keys in Oracle Cloud Infrastructure Dns service
+  Provides the list of Tsig Keys in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_tsig_keys
-This data source provides the list of Tsig Keys in Oracle Cloud Infrastructure Dns service.
+This data source provides the list of Tsig Keys in Oracle Cloud Infrastructure DNS service.
 
 Gets a list of all TSIG keys in the specified compartment.
 

@@ -1,14 +1,14 @@
 ---
-subcategory: "Osmanagement"
+subcategory: "OS Management"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_osmanagement_managed_instance_management"
 sidebar_current: "docs-oci-resource-osmanagement-managed_instance_management"
 description: |-
-  Provides the Managed Instance Management resource in Oracle Cloud Infrastructure Osmanagement service
+  Provides the Managed Instance Management resource in Oracle Cloud Infrastructure OS Management service
 ---
 
 # oci_osmanagement_managed_instance_management
-This resource provides the Managed Instance Management in Oracle Cloud Infrastructure Osmanagement service.
+This resource provides the Managed Instance Management in Oracle Cloud Infrastructure OS Management service.
 The resource can be used to attach/detach parent software source, child software sources and managed instance groups from managed instances.
 
 Adds a parent software source to a managed instance. After the software source has been added, then packages from that software source can be installed on the managed instance. Software sources that have this software source as a parent will be able to be added to this managed instance.

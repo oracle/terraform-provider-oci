@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_steering_policy_attachment"
 sidebar_current: "docs-oci-resource-dns-steering_policy_attachment"
 description: |-
-  Provides the Steering Policy Attachment resource in Oracle Cloud Infrastructure Dns service
+  Provides the Steering Policy Attachment resource in Oracle Cloud Infrastructure DNS service
 ---
 
 # oci_dns_steering_policy_attachment
-This resource provides the Steering Policy Attachment resource in Oracle Cloud Infrastructure Dns service.
+This resource provides the Steering Policy Attachment resource in Oracle Cloud Infrastructure DNS service.
 
 Creates a new attachment between a steering policy and a domain, giving the
 policy permission to answer queries for the specified domain. A steering policy must

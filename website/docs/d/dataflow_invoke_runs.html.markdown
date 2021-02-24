@@ -1,14 +1,14 @@
 ---
-subcategory: "Dataflow"
+subcategory: "Data Flow"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dataflow_invoke_runs"
 sidebar_current: "docs-oci-datasource-dataflow-invoke_runs"
 description: |-
-  Provides the list of Invoke Runs in Oracle Cloud Infrastructure Dataflow service
+  Provides the list of Invoke Runs in Oracle Cloud Infrastructure Data Flow service
 ---
 
 # Data Source: oci_dataflow_invoke_runs
-This data source provides the list of Invoke Runs in Oracle Cloud Infrastructure Dataflow service.
+This data source provides the list of Invoke Runs in Oracle Cloud Infrastructure Data Flow service.
 
 Lists all runs of an application in the specified compartment.
 

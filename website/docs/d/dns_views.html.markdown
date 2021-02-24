@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_views"
 sidebar_current: "docs-oci-datasource-dns-views"
 description: |-
-  Provides the list of Views in Oracle Cloud Infrastructure Dns service
+  Provides the list of Views in Oracle Cloud Infrastructure DNS service
 ---
 
 # Data Source: oci_dns_views
-This data source provides the list of Views in Oracle Cloud Infrastructure Dns service.
+This data source provides the list of Views in Oracle Cloud Infrastructure DNS service.
 
 Gets a list of all views within a compartment. The collection can
 be filtered by display name, id, or lifecycle state. It can be sorted

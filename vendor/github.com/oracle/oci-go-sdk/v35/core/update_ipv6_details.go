@@ -42,7 +42,7 @@ type UpdateIpv6Details struct {
 	// Example: `false`
 	IsInternetAccessAllowed *bool `mandatory:"false" json:"isInternetAccessAllowed"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VNIC to reassign the IPv6 to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to reassign the IPv6 to.
 	// The VNIC must be in the same subnet as the current VNIC.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 }

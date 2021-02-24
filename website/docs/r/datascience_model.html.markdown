@@ -1,14 +1,14 @@
 ---
-subcategory: "Datascience"
+subcategory: "Data Science"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_datascience_model"
 sidebar_current: "docs-oci-resource-datascience-model"
 description: |-
-  Provides the Model resource in Oracle Cloud Infrastructure Datascience service
+  Provides the Model resource in Oracle Cloud Infrastructure Data Science service
 ---
 
 # oci_datascience_model
-This resource provides the Model resource in Oracle Cloud Infrastructure Datascience service.
+This resource provides the Model resource in Oracle Cloud Infrastructure Data Science service.
 
 Creates a new model.
 

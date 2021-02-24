@@ -37,7 +37,6 @@ func init() {
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
-
 func getBlockchainPeerId(resource *OCIResource) (string, error) {
 
 	blockchainPlatformId := resource.parent.id

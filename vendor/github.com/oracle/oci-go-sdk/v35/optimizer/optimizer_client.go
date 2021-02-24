@@ -792,6 +792,60 @@ func (client OptimizerClient) listProfiles(ctx context.Context, request common.O
 	return response, err
 }
 
+// ListRecommendationStrategies Lists the existing strategies.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListRecommendationStrategies.go.html to see an example of how to use ListRecommendationStrategies API.
+func (client OptimizerClient) ListRecommendationStrategies(ctx context.Context, request ListRecommendationStrategiesRequest) (response ListRecommendationStrategiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRecommendationStrategies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRecommendationStrategiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRecommendationStrategiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRecommendationStrategiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRecommendationStrategiesResponse")
+	}
+	return
+}
+
+// listRecommendationStrategies implements the OCIOperation interface (enables retrying operations)
+func (client OptimizerClient) listRecommendationStrategies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/recommendationStrategies")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRecommendationStrategiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListRecommendations Lists the Cloud Advisor recommendations that are currently supported in the specified category.
 //
 // See also

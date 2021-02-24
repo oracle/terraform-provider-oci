@@ -20,7 +20,7 @@ import (
 // ChangeCrossConnectGroupCompartmentDetails The configuration details for the move operation.
 type ChangeCrossConnectGroupCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the
 	// cross-connect group to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }

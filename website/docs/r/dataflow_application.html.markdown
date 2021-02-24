@@ -1,14 +1,14 @@
 ---
-subcategory: "Dataflow"
+subcategory: "Data Flow"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dataflow_application"
 sidebar_current: "docs-oci-resource-dataflow-application"
 description: |-
-  Provides the Application resource in Oracle Cloud Infrastructure Dataflow service
+  Provides the Application resource in Oracle Cloud Infrastructure Data Flow service
 ---
 
 # oci_dataflow_application
-This resource provides the Application resource in Oracle Cloud Infrastructure Dataflow service.
+This resource provides the Application resource in Oracle Cloud Infrastructure Data Flow service.
 
 Creates an application.
 

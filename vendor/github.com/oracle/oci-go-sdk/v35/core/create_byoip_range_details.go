@@ -24,7 +24,7 @@ type CreateByoipRangeDetails struct {
 	// Example: `10.0.1.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the BYOIP CIDR block.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the BYOIP CIDR block.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

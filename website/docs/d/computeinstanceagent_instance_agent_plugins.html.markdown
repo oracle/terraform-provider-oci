@@ -1,14 +1,14 @@
 ---
-subcategory: "Computeinstanceagent"
+subcategory: "Compute Instance Agent"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_computeinstanceagent_instance_agent_plugins"
 sidebar_current: "docs-oci-datasource-computeinstanceagent-instance_agent_plugins"
 description: |-
-  Provides the list of Instance Agent Plugins in Oracle Cloud Infrastructure Computeinstanceagent service
+  Provides the list of Instance Agent Plugins in Oracle Cloud Infrastructure Compute Instance Agent service
 ---
 
 # Data Source: oci_computeinstanceagent_instance_agent_plugins
-This data source provides the list of Instance Agent Plugins in Oracle Cloud Infrastructure Computeinstanceagent service.
+This data source provides the list of Instance Agent Plugins in Oracle Cloud Infrastructure Compute Instance Agent service.
 
 The API to get one or more plugin information.
 

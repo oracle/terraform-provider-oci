@@ -22,10 +22,10 @@ import (
 // You can create and assign an IPv6 to any VNIC that is in an IPv6-enabled subnet in an
 // IPv6-enabled VCN.
 // **Note:** IPv6 addressing is currently supported only in certain regions. For important
-// details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+// details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 type Ipv6 struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the IPv6.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the IPv6.
 	// This is the same as the VNIC's compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -33,7 +33,7 @@ type Ipv6 struct {
 	// entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IPv6.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPv6.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The IPv6 address of the `IPv6` object. The address is within the private IPv6 CIDR block
@@ -45,7 +45,7 @@ type Ipv6 struct {
 	// The IPv6's current state.
 	LifecycleState Ipv6LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the VNIC is in.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the VNIC is in.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The date and time the IPv6 was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -82,7 +82,7 @@ type Ipv6 struct {
 	// Example: `2001:0db8:0123:1111:abcd:ef01:2345:6789`
 	PublicIpAddress *string `mandatory:"false" json:"publicIpAddress"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VNIC the IPv6 is assigned to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC the IPv6 is assigned to.
 	// The VNIC and IPv6 must be in the same subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 }

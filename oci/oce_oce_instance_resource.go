@@ -581,11 +581,13 @@ func (s *OceOceInstanceResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oce")
 
-	_, err := s.Client.ChangeOceInstanceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeOceInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getOceInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func getErrorFromOceInstanceWorkRequest(client *oci_oce.OceInstanceClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oce.WorkRequestResourceActionTypeEnum) error {

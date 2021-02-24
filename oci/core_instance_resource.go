@@ -362,6 +362,38 @@ func CoreInstanceResource() *schema.Resource {
 				Optional: true,
 				Elem:     schema.TypeString,
 			},
+			"platform_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"AMD_MILAN_BM",
+							}, true),
+						},
+
+						// Optional
+						"numa_nodes_per_socket": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"shape_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -798,6 +830,17 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		request.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
+	if platformConfig, ok := s.D.GetOkExists("platform_config"); ok {
+		if tmpList := platformConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "platform_config", 0)
+			tmp, err := s.mapToLaunchInstancePlatformConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PlatformConfig = tmp
+		}
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -1122,6 +1165,16 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		if err != nil {
 			log.Printf("error setting metadata %q", err)
 		}
+	}
+
+	if s.Res.PlatformConfig != nil {
+		platformConfigArray := []interface{}{}
+		if platformConfigMap := PlatformConfigToMap(&s.Res.PlatformConfig); platformConfigMap != nil {
+			platformConfigArray = append(platformConfigArray, platformConfigMap)
+		}
+		s.D.Set("platform_config", platformConfigArray)
+	} else {
+		s.D.Set("platform_config", nil)
 	}
 
 	if s.Res.Region != nil {
@@ -1664,6 +1717,48 @@ func InstanceAvailabilityConfigToMap(obj *oci_core.InstanceAvailabilityConfig) m
 	result := map[string]interface{}{}
 
 	result["recovery_action"] = string(obj.RecoveryAction)
+
+	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFormat string) (oci_core.LaunchInstancePlatformConfig, error) {
+	var baseObject oci_core.LaunchInstancePlatformConfig
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("AMD_MILAN_BM"):
+		details := oci_core.AmdMilanBmLaunchInstancePlatformConfig{}
+		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
+			details.NumaNodesPerSocket = oci_core.AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_core.AmdMilanBmLaunchInstancePlatformConfig:
+		result["type"] = "AMD_MILAN_BM"
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+	case oci_core.AmdMilanBmPlatformConfig:
+		result["type"] = "AMD_MILAN_BM"
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
 
 	return result
 }

@@ -20,7 +20,7 @@ import (
 // ChangeNatGatewayCompartmentDetails The configuration details for the move operation.
 type ChangeNatGatewayCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the NAT gateway to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the NAT gateway to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

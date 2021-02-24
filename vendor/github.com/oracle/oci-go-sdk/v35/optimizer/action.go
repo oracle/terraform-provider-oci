@@ -14,7 +14,6 @@ import (
 )
 
 // Action Details about the recommended action.
-// **Caution:** Avoid using any confidential information when you use the API to supply string values.
 type Action struct {
 
 	// The status of the resource action.

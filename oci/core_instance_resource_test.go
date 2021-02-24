@@ -6,6 +6,7 @@ package oci
 import (
 	"fmt"
 	"regexp"
+	"strings"
 	"testing"
 	"time"
 
@@ -67,6 +68,29 @@ var (
 		"source_type": Representation{repType: Required, create: `image`},
 		"kms_key_id":  Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
+	instancePlatformConfigRepresentation = map[string]interface{}{
+		"type":                  Representation{repType: Required, create: `AMD_MILAN_BM`},
+		"numa_nodes_per_socket": Representation{repType: Optional, create: `NPS1`},
+	}
+	instanceWithPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"shape":           Representation{repType: Required, create: `BM.DenseIO.E4.128`},
+		"image":           Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
+		"platform_config": RepresentationGroup{Required, instancePlatformConfigRepresentation},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
+
+	InstanceResourceDependenciesWithoutDVHWithoutVlan = OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 )
 
 type ResourceCoreInstanceTestSuite struct {
@@ -1499,6 +1523,75 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 						}
 						return err
 					},
+				),
+			},
+		},
+	})
+}
+
+func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_platformConfig") {
+		t.Skip("Skipping suppressed TestAccResourceCoreInstance_platformConfig")
+	}
+
+	provider := testAccProvider
+
+	config := `
+        provider oci {
+            test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+        }
+    ` + commonTestVariables()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// create with platform config
+			{
+				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.DenseIO.E4.128"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_MILAN_BM"),
+
+					func(ts *terraform.State) (err error) {
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
+					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.DenseIO.E4.128"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_MILAN_BM"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
+					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.DenseIO.E4.128"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_MILAN_BM"),
 				),
 			},
 		},

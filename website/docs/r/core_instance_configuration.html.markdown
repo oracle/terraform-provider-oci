@@ -127,6 +127,13 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				remote_data_volume_type = var.instance_configuration_instance_details_launch_details_launch_options_remote_data_volume_type
 			}
 			metadata = var.instance_configuration_instance_details_launch_details_metadata
+			platform_config {
+				#Required
+				type = var.instance_configuration_instance_details_launch_details_platform_config_type
+
+				#Optional
+				numa_nodes_per_socket = var.instance_configuration_instance_details_launch_details_platform_config_numa_nodes_per_socket
+			}
 			preferred_maintenance_action = var.instance_configuration_instance_details_launch_details_preferred_maintenance_action
 			shape = var.instance_configuration_instance_details_launch_details_shape
 			shape_config {
@@ -334,6 +341,13 @@ The following arguments are supported:
 			You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
 
 			The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
+		* `platform_config` - (Optional) The platform configuration requested for the instance.
+
+			If the parameter is provided, the instance is created with the platform configured as specified. If some properties are missing or the entire parameter is not provided, the instance is created with the default configuration values for the `shape` that you specify.
+
+			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
+			* `numa_nodes_per_socket` - (Optional) The number of NUMA nodes per socket. 
+			* `type` - (Required) The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
 		* `preferred_maintenance_action` - (Optional) The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 			* `LIVE_MIGRATE` - Run maintenance using a live migration.
 			* `REBOOT` - Run maintenance using a reboot. 
@@ -550,6 +564,13 @@ The following attributes are exported:
 			You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
 
 			The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
+		* `platform_config` - The platform configuration requested for the instance.
+
+			If the parameter is provided, the instance is created with the platform configured as specified. If some properties are missing or the entire parameter is not provided, the instance is created with the default configuration values for the `shape` that you specify.
+
+			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
+			* `numa_nodes_per_socket` - The number of NUMA nodes per socket. 
+			* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
 		* `preferred_maintenance_action` - The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 			* `LIVE_MIGRATE` - Run maintenance using a live migration.
 			* `REBOOT` - Run maintenance using a reboot. 

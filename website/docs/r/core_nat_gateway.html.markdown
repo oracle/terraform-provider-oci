@@ -11,7 +11,7 @@ description: |-
 This resource provides the Nat Gateway resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new NAT gateway for the specified VCN. You must also set up a route rule with the
-NAT gateway as the rule's target. See [Route Table](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/).
+NAT gateway as the rule's target. See [Route Table](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/RouteTable/).
 
 
 ## Example Usage

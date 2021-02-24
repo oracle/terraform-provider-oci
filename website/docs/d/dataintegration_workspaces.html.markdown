@@ -1,14 +1,14 @@
 ---
-subcategory: "Dataintegration"
+subcategory: "Data Integration"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dataintegration_workspaces"
 sidebar_current: "docs-oci-datasource-dataintegration-workspaces"
 description: |-
-  Provides the list of Workspaces in Oracle Cloud Infrastructure Dataintegration service
+  Provides the list of Workspaces in Oracle Cloud Infrastructure Data Integration service
 ---
 
 # Data Source: oci_dataintegration_workspaces
-This data source provides the list of Workspaces in Oracle Cloud Infrastructure Dataintegration service.
+This data source provides the list of Workspaces in Oracle Cloud Infrastructure Data Integration service.
 
 Returns a list of Data Integration Workspaces.
 

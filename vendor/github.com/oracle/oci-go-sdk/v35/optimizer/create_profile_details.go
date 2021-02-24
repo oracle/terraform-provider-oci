@@ -14,16 +14,15 @@ import (
 )
 
 // CreateProfileDetails Details for creating a profile.
-// **Caution:** Avoid using any confidential information when you use the API to supply string values.
 type CreateProfileDetails struct {
 
 	// The OCID of the tenancy. The tenancy is the root compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name assigned to the profile.
+	// The name assigned to the profile. Avoid entering confidential information.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Text describing the profile.
+	// Text describing the profile. Avoid entering confidential information.
 	Description *string `mandatory:"true" json:"description"`
 
 	LevelsConfiguration *LevelsConfiguration `mandatory:"true" json:"levelsConfiguration"`
@@ -37,6 +36,10 @@ type CreateProfileDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	TargetCompartments *TargetCompartments `mandatory:"false" json:"targetCompartments"`
+
+	TargetTags *TargetTags `mandatory:"false" json:"targetTags"`
 }
 
 func (m CreateProfileDetails) String() string {

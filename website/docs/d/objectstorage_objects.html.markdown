@@ -33,6 +33,7 @@ data "oci_objectstorage_objects" "test_objects" {
 	#Optional
 	delimiter = var.object_delimiter
 	end = var.object_end
+	fields = var.object_fields
 	prefix = var.object_prefix
 	start = var.object_start
 	start_after = var.object_start_after

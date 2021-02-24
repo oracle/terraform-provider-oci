@@ -1,14 +1,14 @@
 ---
-subcategory: "Dns"
+subcategory: "DNS"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_rrset"
 sidebar_current: "docs-oci-resource-dns-rrset"
 description: |-
-  Provides the Rrset resource in Oracle Cloud Infrastructure Dns service
+  Provides the Rrset resource in Oracle Cloud Infrastructure DNS service
 ---
 
 # oci_dns_rrset
-This resource provides the Rrset resource in Oracle Cloud Infrastructure Dns service.
+This resource provides the Rrset resource in Oracle Cloud Infrastructure DNS service.
 
 Replaces records in the specified RRSet. RRSet with a `domain` and `rtype` is unique within a zone.
 
