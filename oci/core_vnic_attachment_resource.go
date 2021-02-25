@@ -40,6 +40,12 @@ func CoreVnicAttachmentResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"assign_private_dns_record": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  true,
+							ForceNew: true,
+						},
 						"assign_public_ip": {
 							// Change type from boolean to string because TF doesn't handle default
 							// values for boolean nested objects correctly.
@@ -430,6 +436,11 @@ func (s *CoreVnicAttachmentResourceCrud) SetData() error {
 func (s *CoreVnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat string) (oci_core.CreateVnicDetails, error) {
 	result := oci_core.CreateVnicDetails{}
 
+	if assignPrivateDnsRecord, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_private_dns_record")); ok {
+		tmp := assignPrivateDnsRecord.(bool)
+		result.AssignPrivateDnsRecord = &tmp
+	}
+
 	if assignPublicIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")); ok {
 		tmp := assignPublicIp.(string)
 		boolVal, err := strconv.ParseBool(tmp)
@@ -547,6 +558,9 @@ func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat s
 func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface{}, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if createVnicDetails != nil {
+		result["assign_private_dns_record"] = createVnicDetails["assign_private_dns_record"]
+	}
 	// "assign_public_ip" isn't part of the VNIC's state & is only useful at creation time (and
 	// subsequent force-new creations). So persist the user-defined value in the config & update it
 	// when the user changes that value.

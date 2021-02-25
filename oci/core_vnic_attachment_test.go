@@ -43,15 +43,16 @@ var (
 		"nic_index":           Representation{repType: Optional, create: `0`},
 	}
 	vnicAttachmentCreateVnicDetailsRepresentation = map[string]interface{}{
-		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"assign_public_ip":       Representation{repType: Optional, create: `false`},
-		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`},
-		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"hostname_label":         Representation{repType: Optional, create: `attachvnictestinstance`},
-		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
-		"private_ip":             Representation{repType: Optional, create: `10.0.0.5`},
-		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
+		"assign_private_dns_record": Representation{repType: Optional, create: `true`},
+		"subnet_id":                 Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"assign_public_ip":          Representation{repType: Optional, create: `false`},
+		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{repType: Optional, create: `displayName`},
+		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"hostname_label":            Representation{repType: Optional, create: `attachvnictestinstance`},
+		"nsg_ids":                   Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
+		"private_ip":                Representation{repType: Optional, create: `10.0.0.5`},
+		"skip_source_dest_check":    Representation{repType: Optional, create: `false`},
 	}
 
 	VnicAttachmentResourceDependencies = OciImageIdsVariable +
@@ -170,11 +171,13 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"create_vnic_details.0.assign_private_dns_record",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

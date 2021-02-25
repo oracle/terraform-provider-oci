@@ -399,6 +399,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"assign_private_dns_record": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Default:  true,
+													ForceNew: true,
+												},
 												"assign_public_ip": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -807,6 +813,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"assign_private_dns_record": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Default:  true,
+													ForceNew: true,
+												},
 												"assign_public_ip": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -1362,6 +1374,11 @@ func InstanceConfigurationBlockVolumeDetailsToMap(obj oci_core.InstanceConfigura
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreateVnicDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationCreateVnicDetails, error) {
 	result := oci_core.InstanceConfigurationCreateVnicDetails{}
 
+	if assignPrivateDnsRecord, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_private_dns_record")); ok {
+		tmp := assignPrivateDnsRecord.(bool)
+		result.AssignPrivateDnsRecord = &tmp
+	}
+
 	if assignPublicIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")); ok {
 		tmp := assignPublicIp.(bool)
 		result.AssignPublicIp = &tmp
@@ -1423,6 +1440,12 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 
 func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigurationCreateVnicDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AssignPrivateDnsRecord != nil {
+		result["assign_private_dns_record"] = bool(*obj.AssignPrivateDnsRecord)
+	} else {
+		result["assign_private_dns_record"] = true
+	}
 
 	if obj.AssignPublicIp != nil {
 		result["assign_public_ip"] = bool(*obj.AssignPublicIp)

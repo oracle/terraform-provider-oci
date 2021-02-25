@@ -1,3 +1,8 @@
+## 4.24.0 (Unreleased)
+
+### Added
+- Support for opting out of DNS when launching `core_instance` added
+
 ## 4.23.0 (April 21, 2021)
 
 ### Added
