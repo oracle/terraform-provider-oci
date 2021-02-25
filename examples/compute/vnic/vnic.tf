@@ -110,11 +110,12 @@ resource "oci_core_vnic_attachment" "secondary_vnic_attachment" {
   display_name = "SecondaryVnicAttachment_${count.index}"
 
   create_vnic_details {
-    subnet_id              = oci_core_subnet.test_subnet.id
-    display_name           = "SecondaryVnic_${count.index}"
-    assign_public_ip       = true
-    skip_source_dest_check = true
-    nsg_ids                = [oci_core_network_security_group.test_network_security_group.id]
+    subnet_id                 = oci_core_subnet.test_subnet.id
+    display_name              = "SecondaryVnic_${count.index}"
+    assign_public_ip          = true
+    skip_source_dest_check    = true
+    assign_private_dns_record = true
+    nsg_ids                   = [oci_core_network_security_group.test_network_security_group.id]
   }
 
   count = var.secondary_vnic_count
