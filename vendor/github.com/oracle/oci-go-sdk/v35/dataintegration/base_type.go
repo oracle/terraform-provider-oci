@@ -151,6 +151,7 @@ const (
 	BaseTypeModelTypeJavaType       BaseTypeModelTypeEnum = "JAVA_TYPE"
 	BaseTypeModelTypeConfiguredType BaseTypeModelTypeEnum = "CONFIGURED_TYPE"
 	BaseTypeModelTypeCompositeType  BaseTypeModelTypeEnum = "COMPOSITE_TYPE"
+	BaseTypeModelTypeDerivedType    BaseTypeModelTypeEnum = "DERIVED_TYPE"
 )
 
 var mappingBaseTypeModelType = map[string]BaseTypeModelTypeEnum{
@@ -160,6 +161,7 @@ var mappingBaseTypeModelType = map[string]BaseTypeModelTypeEnum{
 	"JAVA_TYPE":       BaseTypeModelTypeJavaType,
 	"CONFIGURED_TYPE": BaseTypeModelTypeConfiguredType,
 	"COMPOSITE_TYPE":  BaseTypeModelTypeCompositeType,
+	"DERIVED_TYPE":    BaseTypeModelTypeDerivedType,
 }
 
 // GetBaseTypeModelTypeEnumValues Enumerates the set of values for BaseTypeModelTypeEnum

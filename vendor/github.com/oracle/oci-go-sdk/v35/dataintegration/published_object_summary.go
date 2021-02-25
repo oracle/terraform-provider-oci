@@ -91,6 +91,10 @@ func (m *publishedobjectsummary) UnmarshalPolymorphicJSON(data []byte) (interfac
 
 	var err error
 	switch m.ModelType {
+	case "PIPELINE_TASK":
+		mm := PublishedObjectFromPipelineTaskSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INTEGRATION_TASK":
 		mm := PublishedObjectSummaryFromIntegrationTask{}
 		err = json.Unmarshal(data, &mm)
@@ -160,11 +164,13 @@ type PublishedObjectSummaryModelTypeEnum string
 const (
 	PublishedObjectSummaryModelTypeIntegrationTask PublishedObjectSummaryModelTypeEnum = "INTEGRATION_TASK"
 	PublishedObjectSummaryModelTypeDataLoaderTask  PublishedObjectSummaryModelTypeEnum = "DATA_LOADER_TASK"
+	PublishedObjectSummaryModelTypePipelineTask    PublishedObjectSummaryModelTypeEnum = "PIPELINE_TASK"
 )
 
 var mappingPublishedObjectSummaryModelType = map[string]PublishedObjectSummaryModelTypeEnum{
 	"INTEGRATION_TASK": PublishedObjectSummaryModelTypeIntegrationTask,
 	"DATA_LOADER_TASK": PublishedObjectSummaryModelTypeDataLoaderTask,
+	"PIPELINE_TASK":    PublishedObjectSummaryModelTypePipelineTask,
 }
 
 // GetPublishedObjectSummaryModelTypeEnumValues Enumerates the set of values for PublishedObjectSummaryModelTypeEnum

@@ -10,14 +10,12 @@
 package dataintegration
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/v35/common"
 )
 
 // PrimaryKey The primary key object.
 type PrimaryKey struct {
-
-	// The key type.
-	ModelType PrimaryKeyModelTypeEnum `mandatory:"true" json:"modelType"`
 
 	// The object key.
 	Key *string `mandatory:"false" json:"key"`
@@ -37,31 +35,50 @@ type PrimaryKey struct {
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 }
 
+//GetKey returns Key
+func (m PrimaryKey) GetKey() *string {
+	return m.Key
+}
+
+//GetModelVersion returns ModelVersion
+func (m PrimaryKey) GetModelVersion() *string {
+	return m.ModelVersion
+}
+
+//GetParentRef returns ParentRef
+func (m PrimaryKey) GetParentRef() *ParentReference {
+	return m.ParentRef
+}
+
+//GetName returns Name
+func (m PrimaryKey) GetName() *string {
+	return m.Name
+}
+
+//GetAttributeRefs returns AttributeRefs
+func (m PrimaryKey) GetAttributeRefs() []KeyAttribute {
+	return m.AttributeRefs
+}
+
+//GetObjectStatus returns ObjectStatus
+func (m PrimaryKey) GetObjectStatus() *int {
+	return m.ObjectStatus
+}
+
 func (m PrimaryKey) String() string {
 	return common.PointerString(m)
 }
 
-// PrimaryKeyModelTypeEnum Enum with underlying type: string
-type PrimaryKeyModelTypeEnum string
-
-// Set of constants representing the allowable values for PrimaryKeyModelTypeEnum
-const (
-	PrimaryKeyModelTypeForeignKey PrimaryKeyModelTypeEnum = "FOREIGN_KEY"
-	PrimaryKeyModelTypePrimaryKey PrimaryKeyModelTypeEnum = "PRIMARY_KEY"
-	PrimaryKeyModelTypeUniqueKey  PrimaryKeyModelTypeEnum = "UNIQUE_KEY"
-)
-
-var mappingPrimaryKeyModelType = map[string]PrimaryKeyModelTypeEnum{
-	"FOREIGN_KEY": PrimaryKeyModelTypeForeignKey,
-	"PRIMARY_KEY": PrimaryKeyModelTypePrimaryKey,
-	"UNIQUE_KEY":  PrimaryKeyModelTypeUniqueKey,
-}
-
-// GetPrimaryKeyModelTypeEnumValues Enumerates the set of values for PrimaryKeyModelTypeEnum
-func GetPrimaryKeyModelTypeEnumValues() []PrimaryKeyModelTypeEnum {
-	values := make([]PrimaryKeyModelTypeEnum, 0)
-	for _, v := range mappingPrimaryKeyModelType {
-		values = append(values, v)
+// MarshalJSON marshals to json representation
+func (m PrimaryKey) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypePrimaryKey PrimaryKey
+	s := struct {
+		DiscriminatorParam string `json:"modelType"`
+		MarshalTypePrimaryKey
+	}{
+		"PRIMARY_KEY",
+		(MarshalTypePrimaryKey)(m),
 	}
-	return values
+
+	return json.Marshal(&s)
 }

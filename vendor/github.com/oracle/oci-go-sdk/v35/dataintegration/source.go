@@ -62,6 +62,10 @@ type Source struct {
 	// Specifies if this uses a predefined shape.
 	IsPredefinedShape *bool `mandatory:"false" json:"isPredefinedShape"`
 
+	SchemaDriftConfig *SchemaDriftConfig `mandatory:"false" json:"schemaDriftConfig"`
+
+	FixedDataShape *Shape `mandatory:"false" json:"fixedDataShape"`
+
 	ReadOperationConfig *ReadOperationConfig `mandatory:"false" json:"readOperationConfig"`
 }
 
@@ -162,6 +166,8 @@ func (m *Source) UnmarshalJSON(data []byte) (e error) {
 		IsReadAccess        *bool                `json:"isReadAccess"`
 		IsCopyFields        *bool                `json:"isCopyFields"`
 		IsPredefinedShape   *bool                `json:"isPredefinedShape"`
+		SchemaDriftConfig   *SchemaDriftConfig   `json:"schemaDriftConfig"`
+		FixedDataShape      *Shape               `json:"fixedDataShape"`
 		ReadOperationConfig *ReadOperationConfig `json:"readOperationConfig"`
 	}{}
 
@@ -218,6 +224,10 @@ func (m *Source) UnmarshalJSON(data []byte) (e error) {
 	m.IsCopyFields = model.IsCopyFields
 
 	m.IsPredefinedShape = model.IsPredefinedShape
+
+	m.SchemaDriftConfig = model.SchemaDriftConfig
+
+	m.FixedDataShape = model.FixedDataShape
 
 	m.ReadOperationConfig = model.ReadOperationConfig
 

@@ -16,13 +16,13 @@ import (
 // ExportSummary Summary information for an export.
 type ExportSummary struct {
 
-	// The OCID of this export's export set.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of this export's export set.
 	ExportSetId *string `mandatory:"true" json:"exportSetId"`
 
-	// The OCID of this export's file system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of this export's file system.
 	FileSystemId *string `mandatory:"true" json:"fileSystemId"`
 
-	// The OCID of this export.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of this export.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of this export.

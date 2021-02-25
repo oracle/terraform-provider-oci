@@ -117,6 +117,7 @@ const (
 	StructuredTypeModelTypeJavaType       StructuredTypeModelTypeEnum = "JAVA_TYPE"
 	StructuredTypeModelTypeConfiguredType StructuredTypeModelTypeEnum = "CONFIGURED_TYPE"
 	StructuredTypeModelTypeCompositeType  StructuredTypeModelTypeEnum = "COMPOSITE_TYPE"
+	StructuredTypeModelTypeDerivedType    StructuredTypeModelTypeEnum = "DERIVED_TYPE"
 )
 
 var mappingStructuredTypeModelType = map[string]StructuredTypeModelTypeEnum{
@@ -126,6 +127,7 @@ var mappingStructuredTypeModelType = map[string]StructuredTypeModelTypeEnum{
 	"JAVA_TYPE":       StructuredTypeModelTypeJavaType,
 	"CONFIGURED_TYPE": StructuredTypeModelTypeConfiguredType,
 	"COMPOSITE_TYPE":  StructuredTypeModelTypeCompositeType,
+	"DERIVED_TYPE":    StructuredTypeModelTypeDerivedType,
 }
 
 // GetStructuredTypeModelTypeEnumValues Enumerates the set of values for StructuredTypeModelTypeEnum

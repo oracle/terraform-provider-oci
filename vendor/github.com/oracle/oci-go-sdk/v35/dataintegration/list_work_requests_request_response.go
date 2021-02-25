@@ -24,6 +24,9 @@ type ListWorkRequestsRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// DIS workspace id
+	WorkspaceId *string `mandatory:"false" contributesTo:"query" name:"workspaceId"`
+
 	// The work request status.
 	WorkRequestStatus ListWorkRequestsWorkRequestStatusEnum `mandatory:"false" contributesTo:"query" name:"workRequestStatus" omitEmpty:"true"`
 

@@ -19,7 +19,7 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type MountTarget struct {
 
-	// The OCID of the compartment that contains the mount target.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the mount target.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
@@ -27,7 +27,7 @@ type MountTarget struct {
 	// Example: `My mount target`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the mount target.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Additional information about the current 'lifecycleState'.
@@ -39,7 +39,7 @@ type MountTarget struct {
 	// The OCIDs of the private IP addresses associated with this mount target.
 	PrivateIpIds []string `mandatory:"true" json:"privateIpIds"`
 
-	// The OCID of the subnet the mount target is in.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the mount target is in.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The date and time the mount target was created, expressed
@@ -52,7 +52,7 @@ type MountTarget struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The OCID of the associated export set. Controls what file
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated export set. Controls what file
 	// systems will be exported through Network File System (NFS) protocol on this
 	// mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`

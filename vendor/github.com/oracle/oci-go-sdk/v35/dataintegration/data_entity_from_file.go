@@ -92,6 +92,90 @@ func (m DataEntityFromFile) MarshalJSON() (buff []byte, e error) {
 	return json.Marshal(&s)
 }
 
+// UnmarshalJSON unmarshals from json
+func (m *DataEntityFromFile) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Metadata       *ObjectMetadata                  `json:"metadata"`
+		Key            *string                          `json:"key"`
+		ModelVersion   *string                          `json:"modelVersion"`
+		ParentRef      *ParentReference                 `json:"parentRef"`
+		Name           *string                          `json:"name"`
+		Description    *string                          `json:"description"`
+		ObjectVersion  *int                             `json:"objectVersion"`
+		ExternalKey    *string                          `json:"externalKey"`
+		Shape          *Shape                           `json:"shape"`
+		ShapeId        *string                          `json:"shapeId"`
+		Types          *TypeLibrary                     `json:"types"`
+		EntityType     DataEntityFromFileEntityTypeEnum `json:"entityType"`
+		OtherTypeLabel *string                          `json:"otherTypeLabel"`
+		UniqueKeys     []uniquekey                      `json:"uniqueKeys"`
+		ForeignKeys    []ForeignKey                     `json:"foreignKeys"`
+		ResourceName   *string                          `json:"resourceName"`
+		DataFormat     *DataFormat                      `json:"dataFormat"`
+		ObjectStatus   *int                             `json:"objectStatus"`
+		Identifier     *string                          `json:"identifier"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Metadata = model.Metadata
+
+	m.Key = model.Key
+
+	m.ModelVersion = model.ModelVersion
+
+	m.ParentRef = model.ParentRef
+
+	m.Name = model.Name
+
+	m.Description = model.Description
+
+	m.ObjectVersion = model.ObjectVersion
+
+	m.ExternalKey = model.ExternalKey
+
+	m.Shape = model.Shape
+
+	m.ShapeId = model.ShapeId
+
+	m.Types = model.Types
+
+	m.EntityType = model.EntityType
+
+	m.OtherTypeLabel = model.OtherTypeLabel
+
+	m.UniqueKeys = make([]UniqueKey, len(model.UniqueKeys))
+	for i, n := range model.UniqueKeys {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.UniqueKeys[i] = nn.(UniqueKey)
+		} else {
+			m.UniqueKeys[i] = nil
+		}
+	}
+
+	m.ForeignKeys = make([]ForeignKey, len(model.ForeignKeys))
+	for i, n := range model.ForeignKeys {
+		m.ForeignKeys[i] = n
+	}
+
+	m.ResourceName = model.ResourceName
+
+	m.DataFormat = model.DataFormat
+
+	m.ObjectStatus = model.ObjectStatus
+
+	m.Identifier = model.Identifier
+
+	return
+}
+
 // DataEntityFromFileEntityTypeEnum Enum with underlying type: string
 type DataEntityFromFileEntityTypeEnum string
 

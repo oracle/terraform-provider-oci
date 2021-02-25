@@ -117,6 +117,10 @@ func (m *createtaskdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := CreateTaskFromDataLoaderTask{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PIPELINE_TASK":
+		mm := CreateTaskFromPipelineTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -198,11 +202,13 @@ type CreateTaskDetailsModelTypeEnum string
 const (
 	CreateTaskDetailsModelTypeIntegrationTask CreateTaskDetailsModelTypeEnum = "INTEGRATION_TASK"
 	CreateTaskDetailsModelTypeDataLoaderTask  CreateTaskDetailsModelTypeEnum = "DATA_LOADER_TASK"
+	CreateTaskDetailsModelTypePipelineTask    CreateTaskDetailsModelTypeEnum = "PIPELINE_TASK"
 )
 
 var mappingCreateTaskDetailsModelType = map[string]CreateTaskDetailsModelTypeEnum{
 	"INTEGRATION_TASK": CreateTaskDetailsModelTypeIntegrationTask,
 	"DATA_LOADER_TASK": CreateTaskDetailsModelTypeDataLoaderTask,
+	"PIPELINE_TASK":    CreateTaskDetailsModelTypePipelineTask,
 }
 
 // GetCreateTaskDetailsModelTypeEnumValues Enumerates the set of values for CreateTaskDetailsModelTypeEnum

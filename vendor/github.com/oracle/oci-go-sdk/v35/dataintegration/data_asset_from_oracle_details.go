@@ -71,6 +71,10 @@ type DataAssetFromOracleDetails struct {
 	// The credential file content from a wallet for the data asset.
 	CredentialFileContent *string `mandatory:"false" json:"credentialFileContent"`
 
+	WalletSecret *SensitiveAttribute `mandatory:"false" json:"walletSecret"`
+
+	WalletPasswordSecret *SensitiveAttribute `mandatory:"false" json:"walletPasswordSecret"`
+
 	DefaultConnection *ConnectionFromOracleDetails `mandatory:"false" json:"defaultConnection"`
 }
 

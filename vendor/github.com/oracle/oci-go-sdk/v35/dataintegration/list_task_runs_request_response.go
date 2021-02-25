@@ -27,6 +27,9 @@ type ListTaskRunsRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Used to filter by the project or the folder object.
+	AggregatorKey *string `mandatory:"false" contributesTo:"query" name:"aggregatorKey"`
+
 	// Specifies the fields to get for an object.
 	Fields []string `contributesTo:"query" name:"fields" collectionFormat:"multi"`
 

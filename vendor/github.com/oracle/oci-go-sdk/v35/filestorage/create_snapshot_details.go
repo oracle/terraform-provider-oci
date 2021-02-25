@@ -16,7 +16,7 @@ import (
 // CreateSnapshotDetails Details for creating the snapshot.
 type CreateSnapshotDetails struct {
 
-	// The OCID of the file system to take a snapshot of.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system to take a snapshot of.
 	FileSystemId *string `mandatory:"true" json:"fileSystemId"`
 
 	// Name of the snapshot. This value is immutable. It must also be unique with respect
