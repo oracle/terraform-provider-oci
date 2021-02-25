@@ -49,11 +49,13 @@ type PatchObjectMetadataTypeEnum string
 const (
 	PatchObjectMetadataTypeIntegrationTask PatchObjectMetadataTypeEnum = "INTEGRATION_TASK"
 	PatchObjectMetadataTypeDataLoaderTask  PatchObjectMetadataTypeEnum = "DATA_LOADER_TASK"
+	PatchObjectMetadataTypePipelineTask    PatchObjectMetadataTypeEnum = "PIPELINE_TASK"
 )
 
 var mappingPatchObjectMetadataType = map[string]PatchObjectMetadataTypeEnum{
 	"INTEGRATION_TASK": PatchObjectMetadataTypeIntegrationTask,
 	"DATA_LOADER_TASK": PatchObjectMetadataTypeDataLoaderTask,
+	"PIPELINE_TASK":    PatchObjectMetadataTypePipelineTask,
 }
 
 // GetPatchObjectMetadataTypeEnumValues Enumerates the set of values for PatchObjectMetadataTypeEnum

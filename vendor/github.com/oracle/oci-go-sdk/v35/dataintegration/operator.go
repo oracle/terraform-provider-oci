@@ -106,20 +106,12 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ModelType {
-	case "TARGET_OPERATOR":
-		mm := Target{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "JOINER_OPERATOR":
 		mm := Joiner{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DISTINCT_OPERATOR":
-		mm := Distinct{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "FILTER_OPERATOR":
-		mm := Filter{}
+	case "TASK_OPERATOR":
+		mm := TaskOperator{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AGGREGATOR_OPERATOR":
@@ -134,8 +126,44 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := Projection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "END_OPERATOR":
+		mm := EndOperator{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SOURCE_OPERATOR":
 		mm := Source{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "UNION_OPERATOR":
+		mm := Union{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INTERSECT_OPERATOR":
+		mm := Intersect{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "TARGET_OPERATOR":
+		mm := Target{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DISTINCT_OPERATOR":
+		mm := Distinct{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FILTER_OPERATOR":
+		mm := Filter{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "START_OPERATOR":
+		mm := StartOperator{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MERGE_OPERATOR":
+		mm := MergeOperator{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MINUS_OPERATOR":
+		mm := Minus{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -220,6 +248,15 @@ const (
 	OperatorModelTypeTargetOperator     OperatorModelTypeEnum = "TARGET_OPERATOR"
 	OperatorModelTypeDistinctOperator   OperatorModelTypeEnum = "DISTINCT_OPERATOR"
 	OperatorModelTypeSortOperator       OperatorModelTypeEnum = "SORT_OPERATOR"
+	OperatorModelTypeUnionOperator      OperatorModelTypeEnum = "UNION_OPERATOR"
+	OperatorModelTypeIntersectOperator  OperatorModelTypeEnum = "INTERSECT_OPERATOR"
+	OperatorModelTypeMinusOperator      OperatorModelTypeEnum = "MINUS_OPERATOR"
+	OperatorModelTypeMergeOperator      OperatorModelTypeEnum = "MERGE_OPERATOR"
+	OperatorModelTypeStartOperator      OperatorModelTypeEnum = "START_OPERATOR"
+	OperatorModelTypeEndOperator        OperatorModelTypeEnum = "END_OPERATOR"
+	OperatorModelTypePipelineOperator   OperatorModelTypeEnum = "PIPELINE_OPERATOR"
+	OperatorModelTypeRestOperator       OperatorModelTypeEnum = "REST_OPERATOR"
+	OperatorModelTypeTaskOperator       OperatorModelTypeEnum = "TASK_OPERATOR"
 )
 
 var mappingOperatorModelType = map[string]OperatorModelTypeEnum{
@@ -231,6 +268,15 @@ var mappingOperatorModelType = map[string]OperatorModelTypeEnum{
 	"TARGET_OPERATOR":     OperatorModelTypeTargetOperator,
 	"DISTINCT_OPERATOR":   OperatorModelTypeDistinctOperator,
 	"SORT_OPERATOR":       OperatorModelTypeSortOperator,
+	"UNION_OPERATOR":      OperatorModelTypeUnionOperator,
+	"INTERSECT_OPERATOR":  OperatorModelTypeIntersectOperator,
+	"MINUS_OPERATOR":      OperatorModelTypeMinusOperator,
+	"MERGE_OPERATOR":      OperatorModelTypeMergeOperator,
+	"START_OPERATOR":      OperatorModelTypeStartOperator,
+	"END_OPERATOR":        OperatorModelTypeEndOperator,
+	"PIPELINE_OPERATOR":   OperatorModelTypePipelineOperator,
+	"REST_OPERATOR":       OperatorModelTypeRestOperator,
+	"TASK_OPERATOR":       OperatorModelTypeTaskOperator,
 }
 
 // GetOperatorModelTypeEnumValues Enumerates the set of values for OperatorModelTypeEnum

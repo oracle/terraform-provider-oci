@@ -123,6 +123,10 @@ func (m *tasksummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := TaskSummaryFromIntegrationTask{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PIPELINE_TASK":
+		mm := TaskSummaryFromPipelineTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATA_LOADER_TASK":
 		mm := TaskSummaryFromDataLoaderTask{}
 		err = json.Unmarshal(data, &mm)
@@ -218,11 +222,13 @@ type TaskSummaryModelTypeEnum string
 const (
 	TaskSummaryModelTypeIntegrationTask TaskSummaryModelTypeEnum = "INTEGRATION_TASK"
 	TaskSummaryModelTypeDataLoaderTask  TaskSummaryModelTypeEnum = "DATA_LOADER_TASK"
+	TaskSummaryModelTypePipelineTask    TaskSummaryModelTypeEnum = "PIPELINE_TASK"
 )
 
 var mappingTaskSummaryModelType = map[string]TaskSummaryModelTypeEnum{
 	"INTEGRATION_TASK": TaskSummaryModelTypeIntegrationTask,
 	"DATA_LOADER_TASK": TaskSummaryModelTypeDataLoaderTask,
+	"PIPELINE_TASK":    TaskSummaryModelTypePipelineTask,
 }
 
 // GetTaskSummaryModelTypeEnumValues Enumerates the set of values for TaskSummaryModelTypeEnum

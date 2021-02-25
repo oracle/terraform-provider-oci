@@ -20,10 +20,10 @@ type CreateMountTargetDetails struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID of the compartment in which to create the mount target.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to create the mount target.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the subnet in which to create the mount target.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet in which to create the mount target.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.

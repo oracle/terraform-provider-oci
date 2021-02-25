@@ -110,11 +110,13 @@ type TaskRunDetailsTaskTypeEnum string
 const (
 	TaskRunDetailsTaskTypeIntegrationTask TaskRunDetailsTaskTypeEnum = "INTEGRATION_TASK"
 	TaskRunDetailsTaskTypeDataLoaderTask  TaskRunDetailsTaskTypeEnum = "DATA_LOADER_TASK"
+	TaskRunDetailsTaskTypePipelineTask    TaskRunDetailsTaskTypeEnum = "PIPELINE_TASK"
 )
 
 var mappingTaskRunDetailsTaskType = map[string]TaskRunDetailsTaskTypeEnum{
 	"INTEGRATION_TASK": TaskRunDetailsTaskTypeIntegrationTask,
 	"DATA_LOADER_TASK": TaskRunDetailsTaskTypeDataLoaderTask,
+	"PIPELINE_TASK":    TaskRunDetailsTaskTypePipelineTask,
 }
 
 // GetTaskRunDetailsTaskTypeEnumValues Enumerates the set of values for TaskRunDetailsTaskTypeEnum

@@ -110,11 +110,13 @@ type TaskRunSummaryTaskTypeEnum string
 const (
 	TaskRunSummaryTaskTypeIntegrationTask TaskRunSummaryTaskTypeEnum = "INTEGRATION_TASK"
 	TaskRunSummaryTaskTypeDataLoaderTask  TaskRunSummaryTaskTypeEnum = "DATA_LOADER_TASK"
+	TaskRunSummaryTaskTypePipelineTask    TaskRunSummaryTaskTypeEnum = "PIPELINE_TASK"
 )
 
 var mappingTaskRunSummaryTaskType = map[string]TaskRunSummaryTaskTypeEnum{
 	"INTEGRATION_TASK": TaskRunSummaryTaskTypeIntegrationTask,
 	"DATA_LOADER_TASK": TaskRunSummaryTaskTypeDataLoaderTask,
+	"PIPELINE_TASK":    TaskRunSummaryTaskTypePipelineTask,
 }
 
 // GetTaskRunSummaryTaskTypeEnumValues Enumerates the set of values for TaskRunSummaryTaskTypeEnum

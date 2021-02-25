@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetExport.go.html to see an example of how to use GetExportRequest.
 type GetExportRequest struct {
 
-	// The OCID of the export.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the export.
 	ExportId *string `mandatory:"true" contributesTo:"path" name:"exportId"`
 
 	// Unique identifier for the request.

@@ -37,6 +37,8 @@ type ObjectMetadata struct {
 	// The owning object key for this object.
 	AggregatorKey *string `mandatory:"false" json:"aggregatorKey"`
 
+	Aggregator *AggregatorSummary `mandatory:"false" json:"aggregator"`
+
 	// The full path to identify this object.
 	IdentifierPath *string `mandatory:"false" json:"identifierPath"`
 

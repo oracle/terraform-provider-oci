@@ -55,6 +55,10 @@ type UpdateDataAssetFromAdwc struct {
 	// The credential file content from a Autonomous Data Warehouse wallet.
 	CredentialFileContent *string `mandatory:"false" json:"credentialFileContent"`
 
+	WalletSecret *SensitiveAttribute `mandatory:"false" json:"walletSecret"`
+
+	WalletPasswordSecret *SensitiveAttribute `mandatory:"false" json:"walletPasswordSecret"`
+
 	DefaultConnection *UpdateConnectionFromAdwc `mandatory:"false" json:"defaultConnection"`
 }
 

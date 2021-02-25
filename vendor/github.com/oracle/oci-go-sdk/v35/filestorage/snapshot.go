@@ -17,11 +17,11 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type Snapshot struct {
 
-	// The OCID of the file system from which the snapshot
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system from which the snapshot
 	// was created.
 	FileSystemId *string `mandatory:"true" json:"fileSystemId"`
 
-	// The OCID of the snapshot.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the snapshot.
@@ -36,6 +36,19 @@ type Snapshot struct {
 	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// An OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) identifying the parent from which this snapshot was cloned.
+	// If this snapshot was not cloned, then the `provenanceId` is the same as the snapshot `id` value.
+	// If this snapshot was cloned, then the `provenanceId` value is the parent's `provenanceId`.
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	ProvenanceId *string `mandatory:"false" json:"provenanceId"`
+
+	// Specifies whether the snapshot has been cloned.
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	IsCloneSource *bool `mandatory:"false" json:"isCloneSource"`
+
+	// Additional information about the current 'lifecycleState'.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.

@@ -20,6 +20,8 @@ type DataFormat struct {
 
 	// type
 	Type DataFormatTypeEnum `mandatory:"false" json:"type,omitempty"`
+
+	CompressionConfig *Compression `mandatory:"false" json:"compressionConfig"`
 }
 
 func (m DataFormat) String() string {
@@ -29,8 +31,9 @@ func (m DataFormat) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *DataFormat) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		FormatAttribute abstractformatattribute `json:"formatAttribute"`
-		Type            DataFormatTypeEnum      `json:"type"`
+		FormatAttribute   abstractformatattribute `json:"formatAttribute"`
+		Type              DataFormatTypeEnum      `json:"type"`
+		CompressionConfig *Compression            `json:"compressionConfig"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -49,6 +52,8 @@ func (m *DataFormat) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Type = model.Type
+
+	m.CompressionConfig = model.CompressionConfig
 
 	return
 }

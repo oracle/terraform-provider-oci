@@ -55,6 +55,10 @@ type UpdateDataAssetFromAtp struct {
 	// The credential file content from an Autonomous Transaction Processing wallet.
 	CredentialFileContent *string `mandatory:"false" json:"credentialFileContent"`
 
+	WalletSecret *SensitiveAttribute `mandatory:"false" json:"walletSecret"`
+
+	WalletPasswordSecret *SensitiveAttribute `mandatory:"false" json:"walletPasswordSecret"`
+
 	DefaultConnection *UpdateConnectionFromAtp `mandatory:"false" json:"defaultConnection"`
 }
 
