@@ -61,6 +61,39 @@
             </li>
         </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-analytics") %>>
+            <a href="#">Analytics</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-analytics-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/analytics_analytics_instance.html">oci_analytics_analytics_instance</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/analytics_analytics_instance_private_access_channel.html">oci_analytics_analytics_instance_private_access_channel</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/analytics_analytics_instances.html">oci_analytics_analytics_instances</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-analytics-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/analytics_analytics_instance.html">oci_analytics_analytics_instance</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/analytics_analytics_instance_private_access_channel.html">oci_analytics_analytics_instance_private_access_channel</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/analytics_analytics_instance_vanity_url.html">oci_analytics_analytics_instance_vanity_url</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-apigateway") %>>
             <a href="#">API Gateway</a>
             <ul class="nav">
@@ -116,39 +149,6 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/apigateway_gateway.html">oci_apigateway_gateway</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li<%= sidebar_current("docs-oci-analytics") %>>
-            <a href="#">Analytics</a>
-            <ul class="nav">
-                <li<%= sidebar_current("docs-oci-analytics-datasources") %>>
-                    <a href="#">Data Sources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/d/analytics_analytics_instance.html">oci_analytics_analytics_instance</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/analytics_analytics_instance_private_access_channel.html">oci_analytics_analytics_instance_private_access_channel</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/analytics_analytics_instances.html">oci_analytics_analytics_instances</a>
-                        </li>
-                    </ul>
-                </li>
-                <li<%= sidebar_current("docs-oci-analytics-resources") %>>
-                    <a href="#">Resources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/r/analytics_analytics_instance.html">oci_analytics_analytics_instance</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/analytics_analytics_instance_private_access_channel.html">oci_analytics_analytics_instance_private_access_channel</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/analytics_analytics_instance_vanity_url.html">oci_analytics_analytics_instance_vanity_url</a>
                         </li>
                     </ul>
                 </li>
@@ -398,7 +398,7 @@
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-computeinstanceagent") %>>
-            <a href="#">Computeinstanceagent</a>
+            <a href="#">Compute Instance Agent</a>
             <ul class="nav">
                 <li<%= sidebar_current("docs-oci-computeinstanceagent-datasources") %>>
                     <a href="#">Data Sources</a>
@@ -1030,6 +1030,78 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-dataflow") %>>
+            <a href="#">Data Flow</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-dataflow-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_application.html">oci_dataflow_application</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_applications.html">oci_dataflow_applications</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_invoke_run.html">oci_dataflow_invoke_run</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_invoke_runs.html">oci_dataflow_invoke_runs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_private_endpoint.html">oci_dataflow_private_endpoint</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_private_endpoints.html">oci_dataflow_private_endpoints</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_run_log.html">oci_dataflow_run_log</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_run_logs.html">oci_dataflow_run_logs</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-dataflow-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/dataflow_application.html">oci_dataflow_application</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/dataflow_invoke_run.html">oci_dataflow_invoke_run</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/dataflow_private_endpoint.html">oci_dataflow_private_endpoint</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-dataintegration") %>>
+            <a href="#">Data Integration</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-dataintegration-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/dataintegration_workspace.html">oci_dataintegration_workspace</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataintegration_workspaces.html">oci_dataintegration_workspaces</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-dataintegration-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/dataintegration_workspace.html">oci_dataintegration_workspace</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-data_safe") %>>
             <a href="#">Data Safe</a>
             <ul class="nav">
@@ -1067,6 +1139,57 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/data_safe_on_prem_connectors_configuration.html">oci_data_safe_on_prem_connectors_configuration</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-datascience") %>>
+            <a href="#">Data Science</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-datascience-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_model.html">oci_datascience_model</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_model_provenance.html">oci_datascience_model_provenance</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_models.html">oci_datascience_models</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_notebook_session.html">oci_datascience_notebook_session</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_notebook_session_shapes.html">oci_datascience_notebook_session_shapes</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_notebook_sessions.html">oci_datascience_notebook_sessions</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_project.html">oci_datascience_project</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_projects.html">oci_datascience_projects</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-datascience-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/datascience_model.html">oci_datascience_model</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/datascience_model_provenance.html">oci_datascience_model_provenance</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/datascience_notebook_session.html">oci_datascience_notebook_session</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/datascience_project.html">oci_datascience_project</a>
                         </li>
                     </ul>
                 </li>
@@ -1459,129 +1582,6 @@
                 </li>
             </ul>
         </li>
-        <li<%= sidebar_current("docs-oci-dataflow") %>>
-            <a href="#">Dataflow</a>
-            <ul class="nav">
-                <li<%= sidebar_current("docs-oci-dataflow-datasources") %>>
-                    <a href="#">Data Sources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/d/dataflow_application.html">oci_dataflow_application</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/dataflow_applications.html">oci_dataflow_applications</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/dataflow_invoke_run.html">oci_dataflow_invoke_run</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/dataflow_invoke_runs.html">oci_dataflow_invoke_runs</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/dataflow_private_endpoint.html">oci_dataflow_private_endpoint</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/dataflow_private_endpoints.html">oci_dataflow_private_endpoints</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/dataflow_run_log.html">oci_dataflow_run_log</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/dataflow_run_logs.html">oci_dataflow_run_logs</a>
-                        </li>
-                    </ul>
-                </li>
-                <li<%= sidebar_current("docs-oci-dataflow-resources") %>>
-                    <a href="#">Resources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/r/dataflow_application.html">oci_dataflow_application</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/dataflow_invoke_run.html">oci_dataflow_invoke_run</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/dataflow_private_endpoint.html">oci_dataflow_private_endpoint</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li<%= sidebar_current("docs-oci-dataintegration") %>>
-            <a href="#">Dataintegration</a>
-            <ul class="nav">
-                <li<%= sidebar_current("docs-oci-dataintegration-datasources") %>>
-                    <a href="#">Data Sources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/d/dataintegration_workspace.html">oci_dataintegration_workspace</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/dataintegration_workspaces.html">oci_dataintegration_workspaces</a>
-                        </li>
-                    </ul>
-                </li>
-                <li<%= sidebar_current("docs-oci-dataintegration-resources") %>>
-                    <a href="#">Resources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/r/dataintegration_workspace.html">oci_dataintegration_workspace</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li<%= sidebar_current("docs-oci-datascience") %>>
-            <a href="#">Datascience</a>
-            <ul class="nav">
-                <li<%= sidebar_current("docs-oci-datascience-datasources") %>>
-                    <a href="#">Data Sources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/d/datascience_model.html">oci_datascience_model</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/datascience_model_provenance.html">oci_datascience_model_provenance</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/datascience_models.html">oci_datascience_models</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/datascience_notebook_session.html">oci_datascience_notebook_session</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/datascience_notebook_session_shapes.html">oci_datascience_notebook_session_shapes</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/datascience_notebook_sessions.html">oci_datascience_notebook_sessions</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/datascience_project.html">oci_datascience_project</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/datascience_projects.html">oci_datascience_projects</a>
-                        </li>
-                    </ul>
-                </li>
-                <li<%= sidebar_current("docs-oci-datascience-resources") %>>
-                    <a href="#">Resources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/r/datascience_model.html">oci_datascience_model</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/datascience_model_provenance.html">oci_datascience_model_provenance</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/datascience_notebook_session.html">oci_datascience_notebook_session</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/datascience_project.html">oci_datascience_project</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
         <li<%= sidebar_current("docs-oci-oda") %>>
             <a href="#">Digital Assistant</a>
             <ul class="nav">
@@ -1607,7 +1607,7 @@
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-dns") %>>
-            <a href="#">Dns</a>
+            <a href="#">DNS</a>
             <ul class="nav">
                 <li<%= sidebar_current("docs-oci-dns-datasources") %>>
                     <a href="#">Data Sources</a>
@@ -2507,7 +2507,7 @@
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-mysql") %>>
-            <a href="#">Mysql</a>
+            <a href="#">MySQL Database</a>
             <ul class="nav">
                 <li<%= sidebar_current("docs-oci-mysql-datasources") %>>
                     <a href="#">Data Sources</a>
@@ -2567,7 +2567,7 @@
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-nosql") %>>
-            <a href="#">Nosql</a>
+            <a href="#">NoSQL Database</a>
             <ul class="nav">
                 <li<%= sidebar_current("docs-oci-nosql-datasources") %>>
                     <a href="#">Data Sources</a>
@@ -2804,7 +2804,7 @@
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-osmanagement") %>>
-            <a href="#">Osmanagement</a>
+            <a href="#">OS Management</a>
             <ul class="nav">
                 <li<%= sidebar_current("docs-oci-osmanagement-datasources") %>>
                     <a href="#">Data Sources</a>
