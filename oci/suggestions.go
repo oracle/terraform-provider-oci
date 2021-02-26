@@ -6,6 +6,19 @@ package oci
 import "fmt"
 
 func getSuggestionFromError(tfError customError) string {
+	switch tfError.TypeOfError {
+	case ServiceError:
+		return getSuggestionForServiceError(tfError)
+	case TimeoutError:
+		return getSuggestionForTimeoutError()
+	case UnexpectedStateError:
+		return getSuggestionForUnexpectedState(tfError)
+	default:
+		return getSuggestionForDefault(tfError)
+	}
+}
+
+func getSuggestionForServiceError(tfError customError) string {
 	switch tfError.ErrorCode {
 	case 400:
 		return getSuggestionFor400(tfError)
@@ -25,22 +38,22 @@ func getSuggestionFromError(tfError customError) string {
 func getSuggestionFor400(tfError customError) string {
 	switch tfError.ErrorCodeName {
 	case "InvalidParameter":
-		return fmt.Sprintf("Please update the parameter(s) in the Terraform config as per error message: %s", tfError.Message)
+		return fmt.Sprintf("Please update the parameter(s) in the Terraform config as per error message %s", tfError.Message)
 	case "LimitExceeded":
-		return fmt.Sprintf("Request a service limit increase for this resource: %s", tfError.Service)
+		return fmt.Sprintf("Request a service limit increase for this resource %s", tfError.Service)
 	case "QuotaExceeded":
 		return fmt.Sprintf("Contact your administrator to increase limit for your account or compartment for this service: %s", tfError.Service)
 	default:
-		return fmt.Sprintf(tfError.Message)
+		return getSuggestionForDefault(tfError)
 	}
 }
 
 func getSuggestionFor404(tfError customError) string {
-	return fmt.Sprintf("Either the resource has been deleted or service %s need policy to access this resource.", tfError.Service)
+	return fmt.Sprintf("Either the resource has been deleted or service %s need policy to access this resource. Policy reference: https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/policyreference.htm", tfError.Service)
 }
 
 func getSuggestionFor409(tfError customError) string {
-	return fmt.Sprintf("The resource is in a conflicted state. Please retry again or contact support for help with service %s", tfError.Service)
+	return fmt.Sprintf("The resource is in a conflicted state. Please retry again or contact support for help with service: %s", tfError.Service)
 }
 
 func getSuggestionFor429(tfError customError) string {
@@ -48,10 +61,18 @@ func getSuggestionFor429(tfError customError) string {
 }
 
 func getSuggestionFor500(tfError customError) string {
-	return fmt.Sprintf("The service for this resource encountered an error. Please contact support for help with service %s", tfError.Service)
+	return fmt.Sprintf("The service for this resource encountered an error. Please contact support for help with service: %s", tfError.Service)
 }
 
 func getSuggestionForDefault(tfError customError) string {
 	// return error message for default
-	return tfError.Message
+	return fmt.Sprintf("Please retry or contact support for help with service: %s", tfError.Service)
+}
+
+func getSuggestionForTimeoutError() string {
+	return fmt.Sprintf("Try increasing the timeout by referring to this document: https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformtroubleshooting.htm#common_issues__timeoutwhilewaiting")
+}
+
+func getSuggestionForUnexpectedState(tfError customError) string {
+	return fmt.Sprintf("Please retry or contact support for help with service: %s", tfError.Service)
 }
