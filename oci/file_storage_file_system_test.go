@@ -50,7 +50,7 @@ var (
 		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		KeyResourceDependencyConfig
+		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr
 )
 
 func TestFileStorageFileSystemResource_basic(t *testing.T) {
