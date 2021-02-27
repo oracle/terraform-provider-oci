@@ -15,6 +15,17 @@ import (
 )
 
 var (
+	fileSystemDataSourceRepresentationKMSKey = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
+		"id":                  Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"state":               Representation{repType: Optional, create: `ACTIVE`},
+		"filter":              RepresentationGroup{Required, fileSystemDataSourceFilterRepresentationKMSKey}}
+	fileSystemDataSourceFilterRepresentationKMSKey = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_file_storage_file_system.test_file_system.id}`}},
+	}
 	fileSystemRepresentationKMSKey = map[string]interface{}{
 		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
@@ -77,7 +88,8 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
+				Config: config + compartmentIdVariableStr + AvailabilityDomainConfig + DefinedTagsDependencies +
+					KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentationKMSKey),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -99,7 +111,8 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 			},
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
+				Config: config + compartmentIdVariableStr + AvailabilityDomainConfig + DefinedTagsDependencies +
+					KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentationKMSKey),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -125,8 +138,9 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentation) +
-					compartmentIdVariableStr + FileSystemResourceDependencies +
+					generateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentationKMSKey) +
+					compartmentIdVariableStr + AvailabilityDomainConfig + DefinedTagsDependencies +
+					KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentationKMSKey),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
