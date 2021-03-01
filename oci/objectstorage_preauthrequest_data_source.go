@@ -87,6 +87,8 @@ func (s *ObjectStoragePreauthenticatedRequestDataSourceCrud) SetData() error {
 
 	s.D.Set("access_type", s.Res.AccessType)
 
+	s.D.Set("bucket_listing_action", s.Res.BucketListingAction)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
