@@ -668,6 +668,7 @@ func init() {
 
 	exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
 	exportCoreInstanceHints.processDiscoveredResourcesFn = processInstances
+	exportCorePublicIpHints.processDiscoveredResourcesFn = processCorePublicIp
 	exportCorePrivateIpHints.processDiscoveredResourcesFn = processPrivateIps
 	exportCoreInstanceHints.requireResourceRefresh = true
 	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceClass = "oci_core_network_security_group_security_rules"
@@ -809,6 +810,23 @@ func getModelProvenanceId(resource *OCIResource) (string, error) {
 	modelId := resource.parent.id
 
 	return getModelProvenanceCompositeId(modelId), nil
+}
+
+func processCorePublicIp(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	publicIps := []*OCIResource{}
+
+	for _, publicIp := range resources {
+
+		if lifeTime, exists := publicIp.sourceAttributes["lifetime"].(string); exists {
+			// this is public IP created by NAT gateway
+			if lifeTime == "EPHEMERAL" {
+				continue
+			}
+		}
+		publicIps = append(publicIps, publicIp)
+	}
+
+	return publicIps, nil
 }
 
 func processContainerengineNodePool(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
