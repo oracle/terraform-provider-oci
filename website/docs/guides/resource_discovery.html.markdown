@@ -274,6 +274,7 @@ artifacts
     
 * oci\_artifacts\_container\_configuration
 * oci\_artifacts\_container\_repository
+* oci\_artifacts\_container\_image\_signature
 
 auto_scaling
     

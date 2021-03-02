@@ -1,3 +1,8 @@
+## 4.21.0 (Unreleased)
+
+### Added
+- Support for Container Image Signing
+
 ## 4.20.0 (March 31, 2021)
 
 ### Added

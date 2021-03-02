@@ -125,6 +125,14 @@ var exportArtifactsContainerRepositoryHints = &TerraformResourceHints{
 	},
 }
 
+var exportArtifactsContainerImageSignatureHints = &TerraformResourceHints{
+	resourceClass:          "oci_artifacts_container_image_signature",
+	datasourceClass:        "oci_artifacts_container_image_signatures",
+	datasourceItemsAttr:    "container_image_signature_collection",
+	resourceAbbreviation:   "container_image_signature",
+	requireResourceRefresh: true,
+}
+
 var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
 	resourceClass:          "oci_autoscaling_auto_scaling_configuration",
 	datasourceClass:        "oci_autoscaling_auto_scaling_configurations",

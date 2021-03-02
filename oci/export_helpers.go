@@ -10,6 +10,7 @@ import (
 )
 
 func init() {
+	exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
 	exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 	exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
@@ -49,7 +50,15 @@ func init() {
 
 }
 
-// Custom overrides for generating composite IDs within the resource discovery framework
+func getArtifactsContainerImageSignatureId(resource *OCIResource) (string, error) {
+
+	imageSignatureId, ok := resource.sourceAttributes["image_signature_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find imageSignatureId for Artifacts ContainerImageSignature")
+	}
+	return imageSignatureId, nil
+}
+
 func getBlockchainPeerId(resource *OCIResource) (string, error) {
 
 	blockchainPlatformId := resource.parent.id
