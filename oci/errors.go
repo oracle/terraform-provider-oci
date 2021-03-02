@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"strings"
 
-	oci_common "github.com/oracle/oci-go-sdk/v35/common"
+	oci_common "github.com/oracle/oci-go-sdk/v36/common"
 )
 
 type errorTypeEnum string
