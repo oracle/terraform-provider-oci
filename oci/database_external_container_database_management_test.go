@@ -23,7 +23,7 @@ var (
 	externalContainerDatabaseConnectorRepresentation = map[string]interface{}{
 		"connection_credentials": RepresentationGroup{Required, externalDatabaseConnectorConnectionCredentialsRepresentation},
 		"connection_string":      RepresentationGroup{Required, externalDatabaseConnectorConnectionStringRepresentation},
-		"connector_agent_id":     Representation{repType: Required, create: `test_connector_agent_id`},
+		"connector_agent_id":     Representation{repType: Required, create: `ocid1.managementagent.oc1.phx.amaaaaaajobtc3iaes4ijczgekzqigoji25xocsny7yunuhc6fqvjcyxsuba`},
 		"display_name":           Representation{repType: Required, create: `myTestConn`},
 		"external_database_id":   Representation{repType: Required, create: `${oci_database_external_container_database.test_external_container_database.id}`},
 		"connector_type":         Representation{repType: Optional, create: `MACS`},
