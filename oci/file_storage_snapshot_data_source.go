@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v35/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v36/filestorage"
 )
 
 func init() {
@@ -77,8 +77,20 @@ func (s *FileStorageSnapshotDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsCloneSource != nil {
+		s.D.Set("is_clone_source", *s.Res.IsCloneSource)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
+	}
+
+	if s.Res.ProvenanceId != nil {
+		s.D.Set("provenance_id", *s.Res.ProvenanceId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

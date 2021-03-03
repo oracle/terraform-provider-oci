@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v35/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v35/filestorage"
+	"github.com/oracle/oci-go-sdk/v36/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v36/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -154,7 +154,9 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.file_system_id"),
 					resource.TestCheckResourceAttr(datasourceName, "snapshots.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.is_clone_source"),
 					resource.TestCheckResourceAttr(datasourceName, "snapshots.0.name", "snapshot-1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.provenance_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.time_created"),
 				),
@@ -170,7 +172,9 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_clone_source"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "snapshot-1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "provenance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

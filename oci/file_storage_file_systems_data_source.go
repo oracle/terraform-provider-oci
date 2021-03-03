@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v35/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v36/filestorage"
 )
 
 func init() {
@@ -33,6 +33,14 @@ func FileStorageFileSystemsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"parent_file_system_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"source_snapshot_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -90,6 +98,16 @@ func (s *FileStorageFileSystemsDataSourceCrud) Get() error {
 		request.Id = &tmp
 	}
 
+	if parentFileSystemId, ok := s.D.GetOkExists("parent_file_system_id"); ok {
+		tmp := parentFileSystemId.(string)
+		request.ParentFileSystemId = &tmp
+	}
+
+	if sourceSnapshotId, ok := s.D.GetOkExists("source_snapshot_id"); ok {
+		tmp := sourceSnapshotId.(string)
+		request.SourceSnapshotId = &tmp
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_file_storage.ListFileSystemsLifecycleStateEnum(state.(string))
 	}
@@ -145,12 +163,30 @@ func (s *FileStorageFileSystemsDataSourceCrud) SetData() error {
 			fileSystem["id"] = *r.Id
 		}
 
+		if r.IsCloneParent != nil {
+			fileSystem["is_clone_parent"] = *r.IsCloneParent
+		}
+
+		if r.IsHydrated != nil {
+			fileSystem["is_hydrated"] = *r.IsHydrated
+		}
+
 		if r.KmsKeyId != nil {
 			fileSystem["kms_key_id"] = *r.KmsKeyId
 		}
 
+		if r.LifecycleDetails != nil {
+			fileSystem["lifecycle_details"] = *r.LifecycleDetails
+		}
+
 		if r.MeteredBytes != nil {
 			fileSystem["metered_bytes"] = strconv.FormatInt(*r.MeteredBytes, 10)
+		}
+
+		if r.SourceDetails != nil {
+			fileSystem["source_details"] = []interface{}{FileSystemSourceDetailsToMap(r.SourceDetails)}
+		} else {
+			fileSystem["source_details"] = nil
 		}
 
 		fileSystem["state"] = r.LifecycleState

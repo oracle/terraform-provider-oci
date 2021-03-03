@@ -358,6 +358,14 @@ var databaseResourceGraph = TerraformResourceGraph{
 			},
 		},
 	},
+	"oci_database_cloud_vm_cluster": {
+		{
+			TerraformResourceHints: exportDatabaseDbHomeHints,
+			datasourceQueryParams: map[string]string{
+				"vm_cluster_id": "id",
+			},
+		},
+	},
 }
 
 var datacatalogResourceGraph = TerraformResourceGraph{

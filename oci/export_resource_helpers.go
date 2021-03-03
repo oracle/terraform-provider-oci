@@ -19,15 +19,15 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v35/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v36/dns"
 
 	"github.com/hashicorp/hcl2/hclwrite"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v35/core"
-	oci_identity "github.com/oracle/oci-go-sdk/v35/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v35/loadbalancer"
+	oci_core "github.com/oracle/oci-go-sdk/v36/core"
+	oci_identity "github.com/oracle/oci-go-sdk/v36/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v36/loadbalancer"
 )
 
 var isInitDone bool
