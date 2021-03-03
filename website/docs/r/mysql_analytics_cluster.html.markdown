@@ -10,6 +10,7 @@ description: |-
 # oci_mysql_analytics_cluster
 This resource provides the Analytics Cluster resource in Oracle Cloud Infrastructure MySQL Database service.
 
+DEPRECATED -- please use HeatWave API instead.
 Updates the Analytics Cluster.
 
 

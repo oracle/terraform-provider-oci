@@ -1605,6 +1605,15 @@ var exportMonitoringAlarmHints = &TerraformResourceHints{
 	},
 }
 
+var exportMysqlHeatWaveClusterHints = &TerraformResourceHints{
+	resourceClass:        "oci_mysql_heat_wave_cluster",
+	datasourceClass:      "oci_mysql_heat_wave_cluster",
+	resourceAbbreviation: "heat_wave_cluster",
+	discoverableLifecycleStates: []string{
+		string(oci_mysql.HeatWaveClusterLifecycleStateActive),
+	},
+}
+
 var exportMysqlMysqlBackupHints = &TerraformResourceHints{
 	resourceClass:        "oci_mysql_mysql_backup",
 	datasourceClass:      "oci_mysql_mysql_backups",
