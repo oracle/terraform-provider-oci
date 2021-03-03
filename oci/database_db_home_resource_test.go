@@ -4,6 +4,7 @@ package oci
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -145,6 +146,8 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 		Representation{repType: Required, create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 		dbHomeRepresentationSourceVmClusterNew)
 
+	var resId string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -160,6 +163,16 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_id"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 			// verify resource import

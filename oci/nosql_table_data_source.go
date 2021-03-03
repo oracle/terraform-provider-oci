@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_nosql "github.com/oracle/oci-go-sdk/v35/nosql"
+	oci_nosql "github.com/oracle/oci-go-sdk/v36/nosql"
 )
 
 func init() {

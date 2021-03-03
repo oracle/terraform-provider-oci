@@ -59,8 +59,8 @@ The following arguments are supported:
 	* `source` - (Required) (Updatable) Clients these options should apply to. Must be a either single IPv4 address or single IPv4 CIDR block.
 
 		**Note:** Access will also be limited by any applicable VCN security rules and the ability to route IP packets to the mount target. Mount targets do not have Internet-routable IP addresses. 
-* `export_set_id` - (Required) The OCID of this export's export set.
-* `file_system_id` - (Required) The OCID of this export's file system.
+* `export_set_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export's export set.
+* `file_system_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export's file system.
 * `path` - (Required) Path used to access the associated file system.
 
 	Avoid entering confidential information.
@@ -92,9 +92,9 @@ The following attributes are exported:
 	* `source` - Clients these options should apply to. Must be a either single IPv4 address or single IPv4 CIDR block.
 
 		**Note:** Access will also be limited by any applicable VCN security rules and the ability to route IP packets to the mount target. Mount targets do not have Internet-routable IP addresses. 
-* `export_set_id` - The OCID of this export's export set.
-* `file_system_id` - The OCID of this export's file system.
-* `id` - The OCID of this export.
+* `export_set_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export's export set.
+* `file_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export's file system.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export.
 * `path` - Path used to access the associated file system.
 
 	Avoid entering confidential information.

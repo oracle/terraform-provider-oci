@@ -33,10 +33,10 @@ data "oci_file_storage_exports" "test_exports" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The OCID of the compartment.
-* `export_set_id` - (Optional) The OCID of the export set.
-* `file_system_id` - (Optional) The OCID of the file system.
-* `id` - (Optional) Filter results by OCID. Must be an OCID of the correct type for the resouce type. 
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `export_set_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the export set.
+* `file_system_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system.
+* `id` - (Optional) Filter results by [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resouce type. 
 * `state` - (Optional) Filter results by the specified lifecycle state. Must be a valid state for the resource type. 
 
 
@@ -67,9 +67,9 @@ The following attributes are exported:
 	* `source` - Clients these options should apply to. Must be a either single IPv4 address or single IPv4 CIDR block.
 
 		**Note:** Access will also be limited by any applicable VCN security rules and the ability to route IP packets to the mount target. Mount targets do not have Internet-routable IP addresses. 
-* `export_set_id` - The OCID of this export's export set.
-* `file_system_id` - The OCID of this export's file system.
-* `id` - The OCID of this export.
+* `export_set_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export's export set.
+* `file_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export's file system.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export.
 * `path` - Path used to access the associated file system.
 
 	Avoid entering confidential information.

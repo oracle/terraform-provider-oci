@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v35/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v35/filestorage"
+	"github.com/oracle/oci-go-sdk/v36/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v36/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -23,15 +23,17 @@ var (
 	FileSystemRequiredOnlyResource = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation)
 
 	fileSystemDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
-		"id":                  Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"state":               Representation{repType: Optional, create: `ACTIVE`},
-		"filter":              RepresentationGroup{Required, fileSystemDataSourceFilterRepresentation}}
+		"availability_domain":   Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":          Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
+		"id":                    Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system2.id}`},
+		"parent_file_system_id": Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"source_snapshot_id":    Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"state":                 Representation{repType: Optional, create: `ACTIVE`},
+		"filter":                RepresentationGroup{Required, fileSystemDataSourceFilterRepresentation}}
 	fileSystemDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_file_storage_file_system.test_file_system.id}`}},
+		"values": Representation{repType: Required, create: []string{`${oci_file_storage_file_system.test_file_system2.id}`}},
 	}
 
 	fileSystemRepresentation = map[string]interface{}{
@@ -40,10 +42,13 @@ var (
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"source_snapshot_id":  Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
 		"kms_key_id":          Representation{repType: Optional, create: `${var.kms_key_id_for_create}`, update: `${var.kms_key_id_for_update}`},
 	}
 
-	FileSystemResourceDependencies = AvailabilityDomainConfig +
+	FileSystemResourceDependencies = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation) +
+		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation) +
+		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr
 )
@@ -61,7 +66,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	resourceName := "oci_file_storage_file_system.test_file_system"
+	resourceName := "oci_file_storage_file_system.test_file_system2"
 	datasourceName := "data.oci_file_storage_file_systems.test_file_systems"
 
 	var resId, resId2 string
@@ -76,7 +81,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation),
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Required, Create, fileSystemRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -95,7 +100,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentation),
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create, fileSystemRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -105,6 +110,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -123,7 +129,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create,
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create,
 						representationCopyWithNewProperties(fileSystemRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
@@ -136,6 +142,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -152,7 +159,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentation),
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -162,6 +169,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -179,13 +187,15 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentation) +
 					compartmentIdVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentation),
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					TestCheckResourceAttributesEqual(datasourceName, "state", "oci_file_storage_file_system.test_file_system", "state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "parent_file_system_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "source_snapshot_id"),
+					TestCheckResourceAttributesEqual(datasourceName, "state", "oci_file_storage_file_system.test_file_system2", "state"),
 
 					resource.TestCheckResourceAttr(datasourceName, "file_systems.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.availability_domain"),
@@ -193,11 +203,15 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.freeform_tags.%", "1"),
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.id", "oci_file_storage_file_system.test_file_system", "id"),
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.kms_key_id", "oci_file_storage_file_system.test_file_system", "kms_key_id"),
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.metered_bytes", "oci_file_storage_file_system.test_file_system", "metered_bytes"),
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.state", "oci_file_storage_file_system.test_file_system", "state"),
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.time_created", "oci_file_storage_file_system.test_file_system", "time_created"),
+
+					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.id", "oci_file_storage_file_system.test_file_system2", "id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.is_clone_parent"),
+					resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.is_hydrated"),
+					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.kms_key_id", "oci_file_storage_file_system.test_file_system2", "kms_key_id"),
+					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.metered_bytes", "oci_file_storage_file_system.test_file_system2", "metered_bytes"),
+					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.source_details.#", "1"),
+					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.state", "oci_file_storage_file_system.test_file_system2", "state"),
+					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.time_created", "oci_file_storage_file_system.test_file_system2", "time_created"),
 				),
 			},
 			// verify resource import
@@ -205,7 +219,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				Config:                  config,
 				ImportState:             true,
 				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
+				ImportStateVerifyIgnore: []string{"source_snapshot_id", "parent_file_system_id"},
 				ResourceName:            resourceName,
 			},
 		},

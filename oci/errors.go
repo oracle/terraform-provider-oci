@@ -9,48 +9,96 @@ import (
 	"reflect"
 	"strings"
 
-	oci_common "github.com/oracle/oci-go-sdk/v35/common"
+	oci_common "github.com/oracle/oci-go-sdk/v36/common"
+)
+
+type errorTypeEnum string
+
+const (
+	ServiceError         errorTypeEnum = "ServiceError"
+	TimeoutError         errorTypeEnum = "TimeoutError"
+	UnexpectedStateError errorTypeEnum = "UnexpectedStateError"
+	WorkRequestError     errorTypeEnum = "WorkRequestError"
 )
 
 type customError struct {
-	isServiceError bool
-	ErrorCode      int
-	ErrorCodeName  string
-	Service        string
-	Message        string
-	OpcRequestID   string
-	Suggestion     string
+	TypeOfError   errorTypeEnum
+	ErrorCode     int
+	ErrorCodeName string
+	Service       string
+	Message       string
+	OpcRequestID  string
+	ResourceOCID  string
+	Suggestion    string
 }
 
 // Create new error format for Terraform output
 func newCustomError(sync interface{}, err error) error {
 	var tfError customError
+
 	// Service error
 	if failure, isServiceError := oci_common.IsServiceError(err); isServiceError {
 		tfError = customError{
-			isServiceError: true,
-			ErrorCode:      failure.GetHTTPStatusCode(),
-			ErrorCodeName:  failure.GetCode(),
-			Message:        failure.GetMessage(),
-			OpcRequestID:   failure.GetOpcRequestID(),
-			Service:        getServiceName(sync),
+			TypeOfError:   ServiceError,
+			ErrorCode:     failure.GetHTTPStatusCode(),
+			ErrorCodeName: failure.GetCode(),
+			Message:       failure.GetMessage(),
+			OpcRequestID:  failure.GetOpcRequestID(),
+			Service:       getServiceName(sync),
+		}
+	}
+
+	// Timeout error
+	if strings.Contains(err.Error(), "timeout while waiting for state") {
+		tfError = customError{
+			TypeOfError:   TimeoutError,
+			ErrorCodeName: "Operation Timeout",
+			Message:       err.Error(),
+			Service:       getServiceName(sync),
+		}
+		// Unexpected state error
+	} else if strings.Contains(err.Error(), "unexpected state") {
+		tfError = customError{
+			TypeOfError:   UnexpectedStateError,
+			ErrorCodeName: "Unexpected LifeCycle state",
+			Message:       err.Error(),
+			Service:       getServiceName(sync),
+			ResourceOCID:  getResourceOCID(sync),
 		}
 	} else {
 		// Terraform error return as is
-		tfError.isServiceError = false
 		return err
 	}
+
 	tfError.Suggestion = getSuggestionFromError(tfError)
 	return tfError.Error()
 }
 
 func (tfE customError) Error() error {
-	return fmt.Errorf("%d-%s \n"+
-		"Service: %s \n"+
-		"Error Message: %s \n"+
-		"OPC request ID: %s \n"+
-		"Suggestion: %s\n",
-		tfE.ErrorCode, tfE.ErrorCodeName, tfE.Service, tfE.Message, tfE.OpcRequestID, tfE.Suggestion)
+	switch tfE.TypeOfError {
+	case ServiceError:
+		return fmt.Errorf("%d-%s \n"+
+			"Service: %s \n"+
+			"Error Message: %s \n"+
+			"OPC request ID: %s \n"+
+			"Suggestion: %s\n",
+			tfE.ErrorCode, tfE.ErrorCodeName, tfE.Service, tfE.Message, tfE.OpcRequestID, tfE.Suggestion)
+	case TimeoutError:
+		return fmt.Errorf("%s \n"+
+			"Service: %s \n"+
+			"Error Message: %s \n"+
+			"Suggestion: %s\n",
+			tfE.ErrorCodeName, tfE.Service, tfE.Message, tfE.Suggestion)
+	case UnexpectedStateError:
+		return fmt.Errorf("%s \n"+
+			"Service: %s \n"+
+			"Error Message: %s \n"+
+			"Resource OCID: %s \n"+
+			"Suggestion: %s\n",
+			tfE.ErrorCodeName, tfE.Service, tfE.Message, tfE.ResourceOCID, tfE.Suggestion)
+	default:
+		return fmt.Errorf(tfE.Message)
+	}
 }
 
 func handleMissingResourceError(sync ResourceVoider, err *error) {
@@ -75,15 +123,26 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 	}
 }
 
-func handleServiceError(sync interface{}, err error) error {
-	tfError := newCustomError(sync, err)
-	return tfError
+func handleError(sync interface{}, err error) error {
+	if err != nil {
+		tfError := newCustomError(sync, err)
+		return tfError
+	}
+	return err
 }
 
 func getServiceName(sync interface{}) string {
 	syncTypeName := reflect.TypeOf(sync).String()
 	if strings.Contains(syncTypeName, "ResourceCrud") {
 		return syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
+	}
+	return ""
+}
+
+// Use to get OCID from refresh state only
+func getResourceOCID(sync interface{}) string {
+	if syn, ok := sync.(StatefulResource); ok {
+		return syn.ID()
 	}
 	return ""
 }

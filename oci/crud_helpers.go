@@ -21,9 +21,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v35/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v35/loadbalancer"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v35/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v36/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v36/loadbalancer"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v36/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -210,7 +210,7 @@ func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 
 func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error {
 	if e := sync.Create(); e != nil {
-		return handleServiceError(sync, e)
+		return handleError(sync, e)
 	}
 
 	// ID is required for state refresh
@@ -257,7 +257,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 	}
 
 	if e := sync.Create(); e != nil {
-		return handleServiceError(sync, e)
+		return handleError(sync, e)
 	}
 
 	// ID is required for state refresh
@@ -295,7 +295,7 @@ func ReadResource(sync ResourceReader) error {
 	if e := sync.Get(); e != nil {
 		log.Printf("ERROR IN GET: %v\n", e.Error())
 		handleMissingResourceError(sync, &e)
-		return handleServiceError(sync, e)
+		return handleError(sync, e)
 	}
 
 	if e := sync.SetData(); e != nil {
@@ -326,7 +326,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 	d.Partial(true)
 	if e := sync.Update(); e != nil {
 
-		return handleServiceError(sync, e)
+		return handleError(sync, e)
 	}
 	d.Partial(false)
 
@@ -358,7 +358,7 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 
 	if e := sync.Delete(); e != nil {
 		handleMissingResourceError(sync, &e)
-		return handleServiceError(sync, e)
+		return handleError(sync, e)
 	}
 
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
@@ -440,11 +440,9 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 
 	if _, e := stateConf.WaitForState(); e != nil {
 		handleMissingResourceError(sync, &e)
-		if e != nil && strings.Contains(e.Error(), "unexpected state") {
-			resourceId := sync.ID()
-			if resourceId != "" {
-				e = fmt.Errorf("Resource reached unexpected lifecycle state %s during %s, whereas expected lifecycle state is %s. \n Affected resource OCID: %s", sync.State(), operationName, target[0], resourceId)
-			}
+		if _, ok := e.(*resource.UnexpectedStateError); ok {
+			e = fmt.Errorf("During %s, Terraform expected the resource to reach state: %s, but the service reported unexpected state: %s.", operationName, target[0], sync.State())
+			return handleError(sync, e)
 		}
 
 		if _, ok := e.(*resource.TimeoutError); ok {
