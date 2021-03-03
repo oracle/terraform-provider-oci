@@ -39,6 +39,10 @@ func MysqlMysqlDbSystemsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"is_heat_wave_cluster_attached": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"is_up_to_date": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -100,6 +104,11 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) Get() error {
 	if isAnalyticsClusterAttached, ok := s.D.GetOkExists("is_analytics_cluster_attached"); ok {
 		tmp := isAnalyticsClusterAttached.(bool)
 		request.IsAnalyticsClusterAttached = &tmp
+	}
+
+	if isHeatWaveClusterAttached, ok := s.D.GetOkExists("is_heat_wave_cluster_attached"); ok {
+		tmp := isHeatWaveClusterAttached.(bool)
+		request.IsHeatWaveClusterAttached = &tmp
 	}
 
 	if isUpToDate, ok := s.D.GetOkExists("is_up_to_date"); ok {
@@ -181,12 +190,22 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 
 		mysqlDbSystem["freeform_tags"] = r.FreeformTags
 
+		if r.HeatWaveCluster != nil {
+			mysqlDbSystem["heat_wave_cluster"] = []interface{}{HeatWaveClusterSummaryToMap(r.HeatWaveCluster)}
+		} else {
+			mysqlDbSystem["heat_wave_cluster"] = nil
+		}
+
 		if r.Id != nil {
 			mysqlDbSystem["id"] = *r.Id
 		}
 
 		if r.IsAnalyticsClusterAttached != nil {
 			mysqlDbSystem["is_analytics_cluster_attached"] = *r.IsAnalyticsClusterAttached
+		}
+
+		if r.IsHeatWaveClusterAttached != nil {
+			mysqlDbSystem["is_heat_wave_cluster_attached"] = *r.IsHeatWaveClusterAttached
 		}
 
 		if r.MysqlVersion != nil {

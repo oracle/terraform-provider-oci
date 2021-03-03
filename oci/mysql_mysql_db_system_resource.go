@@ -484,7 +484,46 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"heat_wave_cluster": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"cluster_size": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"shape_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"is_analytics_cluster_attached": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_heat_wave_cluster_attached": {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
@@ -921,6 +960,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HeatWaveCluster != nil {
+		s.D.Set("heat_wave_cluster", []interface{}{HeatWaveClusterSummaryToMap(s.Res.HeatWaveCluster)})
+	} else {
+		s.D.Set("heat_wave_cluster", nil)
+	}
+
 	if s.Res.HostnameLabel != nil {
 		s.D.Set("hostname_label", *s.Res.HostnameLabel)
 	}
@@ -931,6 +976,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	if s.Res.IsAnalyticsClusterAttached != nil {
 		s.D.Set("is_analytics_cluster_attached", *s.Res.IsAnalyticsClusterAttached)
+	}
+
+	if s.Res.IsHeatWaveClusterAttached != nil {
+		s.D.Set("is_heat_wave_cluster_attached", *s.Res.IsHeatWaveClusterAttached)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -1261,6 +1310,30 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateMaintenanceDetails(fieldKeyF
 	}
 
 	return result, nil
+}
+
+func HeatWaveClusterSummaryToMap(obj *oci_mysql.HeatWaveClusterSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ClusterSize != nil {
+		result["cluster_size"] = int(*obj.ClusterSize)
+	}
+
+	if obj.ShapeName != nil {
+		result["shape_name"] = string(*obj.ShapeName)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKeyFormat string) (oci_mysql.UpdateBackupPolicyDetails, error) {

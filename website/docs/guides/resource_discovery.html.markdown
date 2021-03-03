@@ -517,6 +517,7 @@ monitoring
 
 mysql
     
+* oci\_mysql\_heat\_wave\_cluster
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system
 * oci\_mysql\_channel
