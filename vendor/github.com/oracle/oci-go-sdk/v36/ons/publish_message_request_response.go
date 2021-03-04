@@ -26,7 +26,12 @@ type PublishMessageRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// **Deprecated.**
+	// Support for JSON is deprecated.
+	// You can send a JSON payload even when transmitting the payload as a raw string.
+	// Configure your receiving system to read the raw payload as JSON format.
 	// Type of message body in the request.
+	// For `messageType` of JSON, a default key-value pair is required. Example: `{"default": "Alarm breached", "Email": "Alarm breached: <url>"}.`
 	MessageType PublishMessageMessageTypeEnum `mandatory:"false" contributesTo:"header" name:"messageType"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -57,8 +62,8 @@ type PublishMessageResponse struct {
 	// The PublishResult instance
 	PublishResult `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
