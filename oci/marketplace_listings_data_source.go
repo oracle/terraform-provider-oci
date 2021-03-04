@@ -38,7 +38,21 @@ func MarketplaceListingsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"listing_types": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"name": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"operating_systems": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Schema{
@@ -74,15 +88,19 @@ func MarketplaceListingsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_featured": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"listing_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"short_description": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"tagline": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -170,9 +188,22 @@ func MarketplaceListingsDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-						"is_featured": {
-							Type:     schema.TypeBool,
+						"supported_operating_systems": {
+							Type:     schema.TypeList,
 							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"categories": {
 							Type:     schema.TypeList,
@@ -262,6 +293,19 @@ func (s *MarketplaceListingsDataSourceCrud) Get() error {
 		request.ListingId = &tmp
 	}
 
+	if listingTypes, ok := s.D.GetOkExists("listing_types"); ok {
+		interfaces := listingTypes.([]interface{})
+		tmp := make([]oci_marketplace.ListListingsListingTypesEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_marketplace.ListListingsListingTypesEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("listing_types") {
+			request.ListingTypes = tmp
+		}
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		interfaces := name.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -272,6 +316,19 @@ func (s *MarketplaceListingsDataSourceCrud) Get() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("name") {
 			request.Name = tmp
+		}
+	}
+
+	if operatingSystems, ok := s.D.GetOkExists("operating_systems"); ok {
+		interfaces := operatingSystems.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("operating_systems") {
+			request.OperatingSystems = tmp
 		}
 	}
 
@@ -348,6 +405,8 @@ func (s *MarketplaceListingsDataSourceCrud) SetData() error {
 			listing["is_featured"] = *r.IsFeatured
 		}
 
+		listing["listing_type"] = r.ListingType
+
 		if r.Name != nil {
 			listing["name"] = *r.Name
 		}
@@ -365,7 +424,7 @@ func (s *MarketplaceListingsDataSourceCrud) SetData() error {
 		if r.Regions != nil {
 			regions := []interface{}{}
 			for _, item := range r.Regions {
-				regions = append(regions, RegionToMap(item))
+				regions = append(regions, MarketplaceListingsRegionToMap(item))
 			}
 			listing["regions"] = regions
 		}
@@ -374,9 +433,11 @@ func (s *MarketplaceListingsDataSourceCrud) SetData() error {
 			listing["short_description"] = *r.ShortDescription
 		}
 
-		if r.Tagline != nil {
-			listing["tagline"] = *r.Tagline
+		supportedOperatingSystems := []interface{}{}
+		for _, item := range r.SupportedOperatingSystems {
+			supportedOperatingSystems = append(supportedOperatingSystems, MarketplaceListingsOperatingSystemToMap(item))
 		}
+		listing["supported_operating_systems"] = supportedOperatingSystems
 
 		resources = append(resources, listing)
 	}
@@ -390,6 +451,26 @@ func (s *MarketplaceListingsDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func MarketplaceListingsRegionToMap(obj oci_marketplace.Region) interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Code != nil {
+		result["code"] = string(*obj.Code)
+	}
+
+	countries := []interface{}{}
+	for _, item := range obj.Countries {
+		countries = append(countries, MarketplaceListingPackagesItemToMap(item))
+	}
+	result["countries"] = countries
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
 }
 
 func PublisherSummaryToMap(obj *oci_marketplace.PublisherSummary) map[string]interface{} {
@@ -406,5 +487,15 @@ func PublisherSummaryToMap(obj *oci_marketplace.PublisherSummary) map[string]int
 	if obj.Name != nil {
 		result["name"] = *obj.Name
 	}
+	return result
+}
+
+func MarketplaceListingsOperatingSystemToMap(obj oci_marketplace.OperatingSystem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
 	return result
 }

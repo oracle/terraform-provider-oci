@@ -29,7 +29,7 @@ data "oci_core_instance_devices" "test_instance_devices" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required) The OCID of the instance.
+* `instance_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 * `is_available` - (Optional) A filter to return only available devices or only used devices. 
 * `name` - (Optional) A filter to return only devices that match the given name exactly. 
 

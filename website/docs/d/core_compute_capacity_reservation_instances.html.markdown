@@ -51,7 +51,7 @@ The following attributes are exported:
 * `id` - The OCID of the instance.
 * `shape` - The shape of the instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
-	You can enumerate all available shapes by calling [ListComputeCapacityReservationInstanceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/computeCapacityReservationInstanceShapes/ListComputeCapacityReservationInstanceShapes). 
+	You can enumerate all available shapes by calling [ListComputeCapacityReservationInstanceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/computeCapacityReservationInstanceShapes/ListComputeCapacityReservationInstanceShapes). 
 * `shape_config` - The shape configuration requested when launching instances in a compute capacity reservation.
 
 	If the parameter is provided, the reservation is created with the resources that you specify. If some properties are missing or the parameter is not provided, the reservation is created with the default configuration values for the `shape` that you specify.

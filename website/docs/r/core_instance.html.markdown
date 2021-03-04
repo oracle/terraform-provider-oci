@@ -28,16 +28,16 @@ When you create a resource, you can find its OCID in the response. You can
 also retrieve a resource's OCID by using a List API operation
 on that resource type, or by viewing the resource in the Console.
 
-To launch an instance using an image or a boot volume use the `sourceDetails` parameter in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/LaunchInstanceDetails).
+To launch an instance using an image or a boot volume use the `sourceDetails` parameter in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/LaunchInstanceDetails).
 
 When you launch an instance, it is automatically attached to a virtual
 network interface card (VNIC), called the *primary VNIC*. The VNIC
 has a private IP address from the subnet's CIDR. You can either assign a
 private IP address of your choice or let Oracle automatically assign one.
 You can choose whether the instance has a public IP address. To retrieve the
-addresses, use the [ListVnicAttachments](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/VnicAttachment/ListVnicAttachments)
+addresses, use the [ListVnicAttachments](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/VnicAttachment/ListVnicAttachments)
 operation to get the VNIC ID for the instance, and then call
-[GetVnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vnic/GetVnic) with the VNIC ID.
+[GetVnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/GetVnic) with the VNIC ID.
 
 You can later add secondary VNICs to an instance. For more information, see
 [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
@@ -189,7 +189,7 @@ The following arguments are supported:
 
 		Example: `false`
 
-		If you specify a `vlanId`, the `assignPublicIp` is required to be set to false. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
+		If you specify a `vlanId`, then `assignPublicIp` must be set to false. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
 	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 	* `display_name` - (Optional) (Updatable) A user-friendly name for the VNIC. Does not have to be unique. Avoid entering confidential information. 
 	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -201,7 +201,7 @@ The following arguments are supported:
 
 		Example: `bminstance-1`
 
-		If you specify a `vlanId`, the `hostnameLabel` cannot be specified. vnics on a Vlan can not be assigned a hostname  See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
+		If you specify a `vlanId`, the `hostnameLabel` cannot be specified. VNICs on a VLAN can not be assigned a hostname. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
 	* `nsg_ids` - (Optional) (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
 
 		If a `vlanId` is specified, the `nsgIds` cannot be specified. The `vlanId` indicates that the VNIC will belong to a VLAN instead of a subnet. With VLANs, all VNICs in the VLAN belong to the NSGs that are associated with the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
@@ -239,7 +239,7 @@ The following arguments are supported:
 
 	Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `hostname_label` - (Optional) Deprecated. Instead use `hostnameLabel` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/). If you provide both, the values must match. 
+* `hostname_label` - (Optional) Deprecated. Instead use `hostnameLabel` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/). If you provide both, the values must match. 
 * `image` - (Optional) Deprecated. Use `sourceDetails` with [InstanceSourceViaImageDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/InstanceSourceViaImageDetails) source type instead. If you specify values for both, the values must match. 
 * `instance_options` - (Optional) (Updatable) Optional mutable instance options
 	* `are_legacy_imds_endpoints_disabled` - (Optional) (Updatable) Whether to disable the legacy (/v1) instance metadata service endpoints. Customers who have migrated to /v2 should set this to true for added security. Default is false. 
@@ -314,22 +314,20 @@ The following arguments are supported:
 	**Note:** Both the 'user_data' and 'ssh_authorized_keys' fields cannot be changed after an instance has launched. Any request which updates, removes, or adds either of these fields will be rejected. You must provide the same values for 'user_data' and 'ssh_authorized_keys' that already exist on the instance. 
 * `platform_config` - (Optional) The platform configuration requested for the instance.
 
-	If the parameter is provided, the instance is created with the platform configured as specified. If some properties are missing or the entire parameter is not provided, the instance is created with the default configuration values for the `shape` that you specify.
+	If you provide the parameter, the instance is created with the platform configuration that you specify. For any values that you omit, the instance uses the default configuration values for the `shape` that you specify. If you don't provide the parameter, the default values for the `shape` are used.
 
 	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
-	* `numa_nodes_per_socket` - (Optional) The number of NUMA nodes per socket. 
+	* `numa_nodes_per_socket` - (Optional) The number of NUMA nodes per socket (NPS). 
 	* `type` - (Required) The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
 * `preserve_boot_volume` - (Optional) Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
 * `shape` - (Required) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
-	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
+	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `shape_config` - (Optional) (Updatable) The shape configuration requested for the instance.
 
 	If the parameter is provided, the instance is created with the resources that you specify. If some properties are missing or the entire parameter is not provided, the instance is created with the default configuration values for the `shape` that you specify.
 
-	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned.
-
-	For more information about customizing the resources that are allocated to a flexible shapes, see [Flexible Shapes](https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm#flexible). 
+	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
 	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes. 
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
 * `source_details` - (Optional) (Updatable) 
@@ -338,7 +336,7 @@ The following arguments are supported:
 	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - (Optional) (Updatable) The target state for the instance. Could be set to RUNNING or STOPPED.
-* `subnet_id` - (Optional) Deprecated. Instead use `subnetId` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/). At least one of them is required; if you provide both, the values must match. 
+* `subnet_id` - (Optional) Deprecated. Instead use `subnetId` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/). At least one of them is required; if you provide both, the values must match. 
 
 
 ** IMPORTANT **
@@ -424,7 +422,7 @@ The following attributes are exported:
 		* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for Oracle-provided images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment.
+	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. 
 	* `network_type` - Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
@@ -436,9 +434,9 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle-provided images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
 * `metadata` - Custom metadata that you provide.
-* `platform_config` - The platform configuration for the instance. The type of platform configuration is determined by the `type`. 
-	* `numa_nodes_per_socket` - The number of NUMA nodes per socket. 
-	* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
+* `platform_config` - The platform configuration for the instance. 
+	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
+	* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM`. 
 * `preserve_boot_volume` - Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
 * `private_ip` - The private IP address of instance VNIC. To set the private IP address, use the `private_ip` argument in create_vnic_details.
 * `public_ip` - The public IP address of instance VNIC (if enabled).
@@ -447,7 +445,7 @@ The following attributes are exported:
 	For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively. For all other regions, the full region name is returned.
 
 	Examples: `phx`, `eu-frankfurt-1` 
-* `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
+* `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `shape_config` - The shape configuration for an instance. The shape configuration determines the resources allocated to an instance. 
 	* `gpu_description` - A short description of the instance's graphics processing unit (GPU).
 

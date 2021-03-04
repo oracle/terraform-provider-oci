@@ -54,7 +54,7 @@ The following attributes are exported:
 		* `ocpus` - The total number of OCPUs available to the instance. 
 	* `reserved_count` - The amount of capacity reserved in this configuration.
 	* `used_count` - The amount of capacity in use out of the total capacity reserved in this reservation configuration.
-* `is_default_reservation` - Whether this capacity reservation is the default.  For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default). 
+* `is_default_reservation` - Whether this capacity reservation is the default. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default). 
 * `reserved_instance_count` - The number of instances for which capacity will be held with this compute capacity reservation. This number is the sum of the values of the `reservedCount` fields for all of the instance reservation configurations under this reservation. The purpose of this field is to calculate the percentage usage of the reservation. 
 * `state` - The current state of the compute capacity reservation.
 * `time_created` - The date and time the compute capacity reservation was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

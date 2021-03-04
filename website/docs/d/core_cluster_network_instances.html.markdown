@@ -58,7 +58,7 @@ The following attributes are exported:
 * `region` - The region that contains the availability domain the instance is running in.
 * `shape` - The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
-	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
+	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `state` - The current state of the instance pool instance.
 * `time_created` - The date and time the instance pool instance was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 

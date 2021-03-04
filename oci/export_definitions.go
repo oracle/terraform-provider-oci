@@ -32,6 +32,7 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v36/loadbalancer"
 	oci_logging "github.com/oracle/oci-go-sdk/v36/logging"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v36/managementagent"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v36/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v36/monitoring"
 	oci_mysql "github.com/oracle/oci-go-sdk/v36/mysql"
 	oci_nosql "github.com/oracle/oci-go-sdk/v36/nosql"
@@ -1584,6 +1585,17 @@ var exportMarketplaceAcceptedAgreementHints = &TerraformResourceHints{
 	datasourceItemsAttr:    "accepted_agreements",
 	resourceAbbreviation:   "accepted_agreement",
 	requireResourceRefresh: true,
+}
+
+var exportMarketplacePublicationHints = &TerraformResourceHints{
+	resourceClass:          "oci_marketplace_publication",
+	datasourceClass:        "oci_marketplace_publications",
+	datasourceItemsAttr:    "publications",
+	resourceAbbreviation:   "publication",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_marketplace.PublicationLifecycleStateActive),
+	},
 }
 
 var exportMeteringComputationQueryHints = &TerraformResourceHints{

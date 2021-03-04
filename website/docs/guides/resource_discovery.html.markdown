@@ -506,6 +506,7 @@ management_agent
 marketplace
     
 * oci\_marketplace\_accepted\_agreement
+* oci\_marketplace\_publication
 
 metering_computation
     

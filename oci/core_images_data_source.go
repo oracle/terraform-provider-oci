@@ -203,6 +203,8 @@ func (s *CoreImagesDataSourceCrud) SetData() error {
 			image["launch_options"] = nil
 		}
 
+		image["listing_type"] = r.ListingType
+
 		if r.OperatingSystem != nil {
 			image["operating_system"] = *r.OperatingSystem
 		}

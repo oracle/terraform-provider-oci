@@ -65,9 +65,9 @@ The following arguments are supported:
 * `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this volume. 
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management key to assign as the master encryption key for the volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
-* `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use `size_in_gbs` instead. 
-* `source_details` - (Optional) 
-	* `id` - (Required) The OCID of the volume or volume backup.
+* `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use sizeInGBs instead. 
+* `source_details` - (Optional) Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
+	* `id` - (Required) The OCID of the volume backup.
 	* `type` - (Required) The type can be one of these values: `volume`, `volumeBackup`
 * `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume. This field is deprecated. Use the `source_details` field instead to specify the backup for the volume. 
 * `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
@@ -96,9 +96,9 @@ The following attributes are exported:
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
 * `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
-* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use `size_in_gbs` instead.
-* `source_details` - 
-	* `id` - The OCID of the volume or volume backup.
+* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead. 
+* `source_details` - Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
+	* `id` - The OCID of the volume backup.
 	* `type` - The type can be one of these values: `volume`, `volumeBackup`
 * `state` - The current state of a volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 

@@ -12,22 +12,18 @@ import (
 )
 
 func init() {
-	RegisterDatasource("oci_marketplace_listing_package", MarketplaceListingPackageDataSource())
+	RegisterDatasource("oci_marketplace_publication_package", MarketplacePublicationPackageDataSource())
 }
 
-func MarketplaceListingPackageDataSource() *schema.Resource {
+func MarketplacePublicationPackageDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularMarketplaceListingPackage,
+		Read: readSingularMarketplacePublicationPackage,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"listing_id": {
+			"package_version": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"package_version": {
+			"publication_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -41,6 +37,14 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"description": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"image_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"listing_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -61,84 +65,9 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 					},
 				},
 			},
-			"image_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"package_type": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"pricing": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"currency": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"pay_go_strategy": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"rate": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"regions": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"code": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"countries": {
-							Type:     schema.TypeList,
-							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
-									"code": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"name": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
-						},
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
 			},
 			"resource_id": {
 				Type:     schema.TypeString,
@@ -197,61 +126,56 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 	}
 }
 
-func readSingularMarketplaceListingPackage(d *schema.ResourceData, m interface{}) error {
-	sync := &MarketplaceListingPackageDataSourceCrud{}
+func readSingularMarketplacePublicationPackage(d *schema.ResourceData, m interface{}) error {
+	sync := &MarketplacePublicationPackageDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).marketplaceClient()
 
 	return ReadResource(sync)
 }
 
-type MarketplaceListingPackageDataSourceCrud struct {
+type MarketplacePublicationPackageDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_marketplace.MarketplaceClient
-	Res    *oci_marketplace.ListingPackage
+	Res    *oci_marketplace.GetPublicationPackageResponse
 }
 
-func (s *MarketplaceListingPackageDataSourceCrud) VoidState() {
+func (s *MarketplacePublicationPackageDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *MarketplaceListingPackageDataSourceCrud) Get() error {
-	request := oci_marketplace.GetPackageRequest{}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
-
-	if listingId, ok := s.D.GetOkExists("listing_id"); ok {
-		tmp := listingId.(string)
-		request.ListingId = &tmp
-	}
+func (s *MarketplacePublicationPackageDataSourceCrud) Get() error {
+	request := oci_marketplace.GetPublicationPackageRequest{}
 
 	if packageVersion, ok := s.D.GetOkExists("package_version"); ok {
 		tmp := packageVersion.(string)
 		request.PackageVersion = &tmp
 	}
 
+	if publicationId, ok := s.D.GetOkExists("publication_id"); ok {
+		tmp := publicationId.(string)
+		request.PublicationId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
 
-	response, err := s.Client.GetPackage(context.Background(), request)
+	response, err := s.Client.GetPublicationPackage(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.ListingPackage
+	s.Res = &response
 	return nil
 }
 
-func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
+func (s *MarketplacePublicationPackageDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
-	s.D.SetId(GenerateDataSourceHashID("MarketplaceListingPackageDataSource-", MarketplaceListingPackageDataSource(), s.D))
-	switch v := (*s.Res).(type) {
-	case oci_marketplace.ImageListingPackage:
 
+	s.D.SetId(GenerateDataSourceHashID("MarketplacePublicationPackageDataSource-", MarketplacePublicationPackageDataSource(), s.D))
+	switch v := (s.Res.PublicationPackage).(type) {
+	case oci_marketplace.ImagePublicationPackage:
 		if v.AppCatalogListingId != nil {
 			s.D.Set("app_catalog_listing_id", v.AppCatalogListingId)
 		}
@@ -269,22 +193,10 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		}
 
 		if v.ListingId != nil {
-			s.D.Set("Listing_id", v.ListingId)
+			s.D.Set("listing_id", v.ListingId)
 		}
 
 		s.D.Set("package_type", oci_marketplace.PackageTypeEnumImage)
-
-		if v.Pricing != nil {
-			s.D.Set("pricing", []interface{}{MarketplaceListingPackagePricingModelToMap(v.Pricing)})
-		}
-
-		if v.Regions != nil {
-			regions := []interface{}{}
-			for _, item := range v.Regions {
-				regions = append(regions, MarketplaceListingPackageRegionToMap(item))
-			}
-			s.D.Set("regions", regions)
-		}
 
 		if v.ResourceId != nil {
 			s.D.Set("resource_id", v.ResourceId)
@@ -295,7 +207,7 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		}
 
 		if v.OperatingSystem != nil {
-			s.D.Set("operating_system", []interface{}{MarketplaceListingPackageOperatingSystemToMap(v.OperatingSystem)})
+			s.D.Set("operating_system", []interface{}{MarketplacePublicationPackageOperatingSystemToMap(v.OperatingSystem)})
 		} else {
 			s.D.Set("operating_system", nil)
 		}
@@ -303,7 +215,8 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		if v.Version != nil {
 			s.D.Set("version", v.Version)
 		}
-	case oci_marketplace.OrchestrationListingPackage:
+
+	case oci_marketplace.OrchestrationPublicationPackage:
 		if v.Description != nil {
 			s.D.Set("description", v.Description)
 		}
@@ -313,10 +226,6 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("package_type", oci_marketplace.PackageTypeEnumOrchestration)
-
-		if v.Pricing != nil {
-			s.D.Set("pricing", []interface{}{MarketplaceListingPackagePricingModelToMap(v.Pricing)})
-		}
 
 		if v.ResourceId != nil {
 			s.D.Set("resource_id", v.ResourceId)
@@ -331,7 +240,7 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		}
 
 		if v.OperatingSystem != nil {
-			s.D.Set("operating_system", []interface{}{MarketplaceListingPackageOperatingSystemToMap(v.OperatingSystem)})
+			s.D.Set("operating_system", []interface{}{MarketplacePublicationPackageOperatingSystemToMap(v.OperatingSystem)})
 		} else {
 			s.D.Set("operating_system", nil)
 		}
@@ -339,7 +248,7 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		if v.Variables != nil {
 			variables := []interface{}{}
 			for _, item := range v.Variables {
-				variables = append(variables, MarketplaceListingPackageOrchestrationVariableToMap(item))
+				variables = append(variables, MarketplacePublicationPackageOrchestrationVariableToMap(item))
 			}
 			s.D.Set("variables", variables)
 		}
@@ -347,34 +256,16 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		if v.Version != nil {
 			s.D.Set("version", v.Version)
 		}
+
 	default:
 		log.Printf("[WARN] Received 'ListingPackage' of unknown type %v", *s.Res)
 		return nil
 	}
+
 	return nil
 }
 
-func MarketplaceListingPackageRegionToMap(obj oci_marketplace.Region) interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Code != nil {
-		result["code"] = string(*obj.Code)
-	}
-
-	countries := []interface{}{}
-	for _, item := range obj.Countries {
-		countries = append(countries, MarketplaceListingPackagesItemToMap(item))
-	}
-	result["countries"] = countries
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
-}
-
-func MarketplaceListingPackageOperatingSystemToMap(obj *oci_marketplace.OperatingSystem) map[string]interface{} {
+func MarketplacePublicationPackageOperatingSystemToMap(obj *oci_marketplace.OperatingSystem) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Name != nil {
@@ -384,7 +275,7 @@ func MarketplaceListingPackageOperatingSystemToMap(obj *oci_marketplace.Operatin
 	return result
 }
 
-func MarketplaceListingPackageOrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[string]interface{} {
+func MarketplacePublicationPackageOrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["data_type"] = string(obj.DataType)
@@ -408,22 +299,6 @@ func MarketplaceListingPackageOrchestrationVariableToMap(obj oci_marketplace.Orc
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
-
-	return result
-}
-
-func MarketplaceListingPackagePricingModelToMap(obj *oci_marketplace.PricingModel) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["currency"] = string(obj.Currency)
-
-	result["pay_go_strategy"] = string(obj.PayGoStrategy)
-
-	if obj.Rate != nil {
-		result["rate"] = float32(*obj.Rate)
-	}
-
-	result["type"] = string(obj.Type)
 
 	return result
 }

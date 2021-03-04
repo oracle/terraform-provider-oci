@@ -79,6 +79,7 @@ func TestMarketplaceListingPackageResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "app_catalog_listing_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "app_catalog_listing_resource_version"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "operating_system.#", "0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "package_type"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "pricing.#", "1"),
