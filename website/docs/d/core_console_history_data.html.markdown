@@ -11,7 +11,7 @@ description: |-
 This data source provides details about a specific Console History Content resource in Oracle Cloud Infrastructure Core service.
 
 Gets the actual console history data (not the metadata).
-See [CaptureConsoleHistory](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/ConsoleHistory/CaptureConsoleHistory)
+See [CaptureConsoleHistory](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ConsoleHistory/CaptureConsoleHistory)
 for details about using the console history operations.
 
 

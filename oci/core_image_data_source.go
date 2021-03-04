@@ -104,6 +104,8 @@ func (s *CoreImageDataSourceCrud) SetData() error {
 		s.D.Set("launch_options", nil)
 	}
 
+	s.D.Set("listing_type", s.Res.ListingType)
+
 	if s.Res.OperatingSystem != nil {
 		s.D.Set("operating_system", *s.Res.OperatingSystem)
 	}

@@ -5,6 +5,8 @@
 - Support save report in cost analysis
 - Support for Capacity Reservations
 - Support for Renaming Analytics Service to HeatWave
+- Support for Marketplace-Community Catalog
+
 ## 4.18.0 (March 17, 2021)
 
 ### Added

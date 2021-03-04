@@ -67,6 +67,25 @@ func MarketplaceListingPackagesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"operating_system": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"package_version": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -207,7 +226,7 @@ func (s *MarketplaceListingPackagesDataSourceCrud) SetData() error {
 		if r.Regions != nil {
 			regions := []interface{}{}
 			for _, item := range r.Regions {
-				regions = append(regions, RegionToMap(item))
+				regions = append(regions, MarketplaceListingPackagesRegionToMap(item))
 			}
 		}
 		listingPackage["regions"] = regions
@@ -232,4 +251,38 @@ func (s *MarketplaceListingPackagesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func MarketplaceListingPackagesItemToMap(obj oci_marketplace.Item) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Code != nil {
+		result["code"] = string(*obj.Code)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func MarketplaceListingPackagesRegionToMap(obj oci_marketplace.Region) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Code != nil {
+		result["code"] = string(*obj.Code)
+	}
+
+	countries := []interface{}{}
+	for _, item := range obj.Countries {
+		countries = append(countries, MarketplaceListingPackagesItemToMap(item))
+	}
+	result["countries"] = countries
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
 }

@@ -64,7 +64,7 @@ The following arguments are supported:
 		To retrieve a list of fault domains, use the `ListFaultDomains` operation in the [Identity and Access Management Service API](/iaas/api/#/en/identity/20160918/).
 
 		Example: `FAULT-DOMAIN-1` 
-	* `instance_shape` - (Required) (Updatable) The shape requested when launching instances using reserved capacity.  The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance. You can list all available shapes by calling [ListComputeCapacityReservationInstanceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/computeCapacityReservationInstanceShapes/ListComputeCapacityReservationInstanceShapes). 
+	* `instance_shape` - (Required) (Updatable) The shape requested when launching instances using reserved capacity. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance. You can list all available shapes by calling [ListComputeCapacityReservationInstanceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/computeCapacityReservationInstanceShapes/ListComputeCapacityReservationInstanceShapes). 
 	* `instance_shape_config` - (Optional) (Updatable) The shape configuration requested when launching instances in a compute capacity reservation.
 
 		If the parameter is provided, the reservation is created with the resources that you specify. If some properties are missing or the parameter is not provided, the reservation is created with the default configuration values for the `shape` that you specify.
@@ -75,7 +75,7 @@ The following arguments are supported:
 		* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes. 
 		* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
 	* `reserved_count` - (Required) (Updatable) The amount of capacity to reserve in this reservation configuration.
-* `is_default_reservation` - (Optional) (Updatable) Whether this capacity reservation is the default.  For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default). 
+* `is_default_reservation` - (Optional) (Updatable) Whether this capacity reservation is the default. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default). 
 
 
 ** IMPORTANT **
@@ -94,7 +94,7 @@ The following attributes are exported:
 * `instance_reservation_configs` - The reservation configurations for the capacity reservation.
 
 	To use the reservation for the desired shape, specify the shape, count, and optionally the fault domain where you want this configuration. 
-	* `fault_domain` - The fault domain of this reservation configuration.  If a value is not supplied, this reservation configuration is applicable to all fault domains in the specified availability domain. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm). 
+	* `fault_domain` - The fault domain of this reservation configuration. If a value is not supplied, this reservation configuration is applicable to all fault domains in the specified availability domain. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm). 
 	* `instance_shape` - The shape to use when launching instances using compute capacity reservations. The shape determines the number of CPUs, the amount of memory, and other resources allocated to the instance. You can list all available shapes by calling [ListComputeCapacityReservationInstanceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/computeCapacityReservationInstanceShapes/ListComputeCapacityReservationInstanceShapes). 
 	* `instance_shape_config` - The shape configuration requested when launching instances in a compute capacity reservation.
 
@@ -107,7 +107,7 @@ The following attributes are exported:
 		* `ocpus` - The total number of OCPUs available to the instance. 
 	* `reserved_count` - The amount of capacity reserved in this configuration.
 	* `used_count` - The amount of capacity in use out of the total capacity reserved in this reservation configuration.
-* `is_default_reservation` - Whether this capacity reservation is the default.  For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default). 
+* `is_default_reservation` - Whether this capacity reservation is the default. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default). 
 * `reserved_instance_count` - The number of instances for which capacity will be held with this compute capacity reservation. This number is the sum of the values of the `reservedCount` fields for all of the instance reservation configurations under this reservation. The purpose of this field is to calculate the percentage usage of the reservation. 
 * `state` - The current state of the compute capacity reservation.
 * `time_created` - The date and time the compute capacity reservation was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

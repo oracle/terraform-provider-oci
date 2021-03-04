@@ -27,7 +27,7 @@ data "oci_core_instance_credentials" "test_instance_credential" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required) The OCID of the instance.
+* `instance_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 
 
 ## Attributes Reference

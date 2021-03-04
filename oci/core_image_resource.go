@@ -204,6 +204,10 @@ func CoreImageResource() *schema.Resource {
 					},
 				},
 			},
+			"listing_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"operating_system": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -474,6 +478,8 @@ func (s *CoreImageResourceCrud) SetData() error {
 	} else {
 		s.D.Set("launch_options", nil)
 	}
+
+	s.D.Set("listing_type", s.Res.ListingType)
 
 	if s.Res.OperatingSystem != nil {
 		s.D.Set("operating_system", *s.Res.OperatingSystem)

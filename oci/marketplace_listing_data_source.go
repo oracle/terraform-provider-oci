@@ -176,6 +176,10 @@ func MarketplaceListingDataSource() *schema.Resource {
 					},
 				},
 			},
+			"listing_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"long_description": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -418,6 +422,23 @@ func MarketplaceListingDataSource() *schema.Resource {
 					},
 				},
 			},
+			"supported_operating_systems": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"system_requirements": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -513,7 +534,7 @@ func (s *MarketplaceListingDataSourceCrud) SetData() error {
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.Banner != nil {
-		s.D.Set("banner", []interface{}{UploadDataToMap(s.Res.Banner)})
+		s.D.Set("banner", []interface{}{MarketplaceListingUploadDataToMap(s.Res.Banner)})
 	} else {
 		s.D.Set("banner", nil)
 	}
@@ -531,7 +552,7 @@ func (s *MarketplaceListingDataSourceCrud) SetData() error {
 	s.D.Set("documentation_links", documentationLinks)
 
 	if s.Res.Icon != nil {
-		s.D.Set("icon", []interface{}{UploadDataToMap(s.Res.Icon)})
+		s.D.Set("icon", []interface{}{MarketplaceListingUploadDataToMap(s.Res.Icon)})
 	} else {
 		s.D.Set("icon", nil)
 	}
@@ -546,7 +567,7 @@ func (s *MarketplaceListingDataSourceCrud) SetData() error {
 
 	languages := []interface{}{}
 	for _, item := range s.Res.Languages {
-		languages = append(languages, ItemToMap(item))
+		languages = append(languages, MarketplaceListingItemToMap(item))
 	}
 	s.D.Set("languages", languages)
 
@@ -556,9 +577,11 @@ func (s *MarketplaceListingDataSourceCrud) SetData() error {
 
 	links := []interface{}{}
 	for _, item := range s.Res.Links {
-		links = append(links, LinkToMap(item))
+		links = append(links, MarketplaceListingLinkToMap(item))
 	}
 	s.D.Set("links", links)
+
+	s.D.Set("listing_type", s.Res.ListingType)
 
 	if s.Res.LongDescription != nil {
 		s.D.Set("long_description", *s.Res.LongDescription)
@@ -571,14 +594,14 @@ func (s *MarketplaceListingDataSourceCrud) SetData() error {
 	s.D.Set("package_type", s.Res.PackageType)
 
 	if s.Res.Publisher != nil {
-		s.D.Set("publisher", []interface{}{PublisherToMap(s.Res.Publisher)})
+		s.D.Set("publisher", []interface{}{MarketplaceListingPublisherToMap(s.Res.Publisher)})
 	} else {
 		s.D.Set("publisher", nil)
 	}
 
 	regions := []interface{}{}
 	for _, item := range s.Res.Regions {
-		regions = append(regions, RegionToMap(item))
+		regions = append(regions, MarketplaceListingRegionToMap(item))
 	}
 	s.D.Set("regions", regions)
 
@@ -598,15 +621,21 @@ func (s *MarketplaceListingDataSourceCrud) SetData() error {
 
 	supportContacts := []interface{}{}
 	for _, item := range s.Res.SupportContacts {
-		supportContacts = append(supportContacts, SupportContactToMap(item))
+		supportContacts = append(supportContacts, MarketplaceListingSupportContactToMap(item))
 	}
 	s.D.Set("support_contacts", supportContacts)
 
 	supportLinks := []interface{}{}
 	for _, item := range s.Res.SupportLinks {
-		supportLinks = append(supportLinks, NamedLinkToMap(item))
+		supportLinks = append(supportLinks, MarketplaceListingNamedLinkToMap(item))
 	}
 	s.D.Set("support_links", supportLinks)
+
+	supportedOperatingSystems := []interface{}{}
+	for _, item := range s.Res.SupportedOperatingSystems {
+		supportedOperatingSystems = append(supportedOperatingSystems, MarketplaceListingOperatingSystemToMap(item))
+	}
+	s.D.Set("supported_operating_systems", supportedOperatingSystems)
 
 	if s.Res.SystemRequirements != nil {
 		s.D.Set("system_requirements", *s.Res.SystemRequirements)
@@ -630,7 +659,7 @@ func (s *MarketplaceListingDataSourceCrud) SetData() error {
 
 	videos := []interface{}{}
 	for _, item := range s.Res.Videos {
-		videos = append(videos, NamedLinkToMap(item))
+		videos = append(videos, MarketplaceListingNamedLinkToMap(item))
 	}
 	s.D.Set("videos", videos)
 
@@ -655,7 +684,7 @@ func DocumentationLinkToMap(obj oci_marketplace.DocumentationLink) map[string]in
 	return result
 }
 
-func ItemToMap(obj oci_marketplace.Item) map[string]interface{} {
+func MarketplaceListingItemToMap(obj oci_marketplace.Item) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Code != nil {
@@ -669,7 +698,7 @@ func ItemToMap(obj oci_marketplace.Item) map[string]interface{} {
 	return result
 }
 
-func LinkToMap(obj oci_marketplace.Link) map[string]interface{} {
+func MarketplaceListingLinkToMap(obj oci_marketplace.Link) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Href != nil {
@@ -681,7 +710,7 @@ func LinkToMap(obj oci_marketplace.Link) map[string]interface{} {
 	return result
 }
 
-func NamedLinkToMap(obj oci_marketplace.NamedLink) map[string]interface{} {
+func MarketplaceListingNamedLinkToMap(obj oci_marketplace.NamedLink) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Name != nil {
@@ -695,7 +724,17 @@ func NamedLinkToMap(obj oci_marketplace.NamedLink) map[string]interface{} {
 	return result
 }
 
-func PublisherToMap(obj *oci_marketplace.Publisher) map[string]interface{} {
+func MarketplaceListingOperatingSystemToMap(obj oci_marketplace.OperatingSystem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func MarketplaceListingPublisherToMap(obj *oci_marketplace.Publisher) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.ContactEmail != nil {
@@ -720,12 +759,12 @@ func PublisherToMap(obj *oci_marketplace.Publisher) map[string]interface{} {
 
 	links := []interface{}{}
 	for _, item := range obj.Links {
-		links = append(links, LinkToMap(item))
+		links = append(links, MarketplaceListingLinkToMap(item))
 	}
 	result["links"] = links
 
 	if obj.Logo != nil {
-		result["logo"] = []interface{}{UploadDataToMap(obj.Logo)}
+		result["logo"] = []interface{}{MarketplaceListingUploadDataToMap(obj.Logo)}
 	}
 
 	if obj.Name != nil {
@@ -743,7 +782,7 @@ func PublisherToMap(obj *oci_marketplace.Publisher) map[string]interface{} {
 	return result
 }
 
-func RegionToMap(obj oci_marketplace.Region) map[string]interface{} {
+func MarketplaceListingRegionToMap(obj oci_marketplace.Region) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Code != nil {
@@ -752,7 +791,7 @@ func RegionToMap(obj oci_marketplace.Region) map[string]interface{} {
 
 	countries := []interface{}{}
 	for _, item := range obj.Countries {
-		countries = append(countries, ItemToMap(item))
+		countries = append(countries, MarketplaceListingItemToMap(item))
 	}
 	result["countries"] = countries
 
@@ -789,7 +828,7 @@ func ScreenshotToMap(obj oci_marketplace.Screenshot) map[string]interface{} {
 	return result
 }
 
-func SupportContactToMap(obj oci_marketplace.SupportContact) map[string]interface{} {
+func MarketplaceListingSupportContactToMap(obj oci_marketplace.SupportContact) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Email != nil {
@@ -811,7 +850,7 @@ func SupportContactToMap(obj oci_marketplace.SupportContact) map[string]interfac
 	return result
 }
 
-func UploadDataToMap(obj *oci_marketplace.UploadData) map[string]interface{} {
+func MarketplaceListingUploadDataToMap(obj *oci_marketplace.UploadData) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.ContentUrl != nil {
