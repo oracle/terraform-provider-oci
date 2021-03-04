@@ -21,6 +21,10 @@ type NotificationsTargetDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
 	TopicId *string `mandatory:"true" json:"topicId"`
+
+	// Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the service connector source and the subscription protocol.
+	// Example: `true`
+	EnableFormattedMessaging *bool `mandatory:"false" json:"enableFormattedMessaging"`
 }
 
 func (m NotificationsTargetDetails) String() string {

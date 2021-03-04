@@ -2,25 +2,28 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package ons
+package core
 
 import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 	"net/http"
 )
 
-// GetSubscriptionRequest wrapper for the GetSubscription operation
+// GetInstancePoolInstanceRequest wrapper for the GetInstancePoolInstance operation
 //
 // See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetSubscription.go.html to see an example of how to use GetSubscriptionRequest.
-type GetSubscriptionRequest struct {
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstancePoolInstance.go.html to see an example of how to use GetInstancePoolInstanceRequest.
+type GetInstancePoolInstanceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to retrieve.
-	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance pool.
+	InstancePoolId *string `mandatory:"true" contributesTo:"path" name:"instancePoolId"`
 
-	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
-	// particular request, please provide the request ID.
+	// The OCID of the instance.
+	InstanceId *string `mandatory:"true" contributesTo:"path" name:"instanceId"`
+
+	// Unique Oracle-assigned identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -28,42 +31,42 @@ type GetSubscriptionRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetSubscriptionRequest) String() string {
+func (request GetInstancePoolInstanceRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetSubscriptionRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request GetInstancePoolInstanceRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetSubscriptionRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetInstancePoolInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// GetSubscriptionResponse wrapper for the GetSubscription operation
-type GetSubscriptionResponse struct {
+// GetInstancePoolInstanceResponse wrapper for the GetInstancePoolInstance operation
+type GetInstancePoolInstanceResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The Subscription instance
-	Subscription `presentIn:"body"`
+	// The InstancePoolInstance instance
+	InstancePoolInstance `presentIn:"body"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response GetSubscriptionResponse) String() string {
+func (response GetInstancePoolInstanceResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetSubscriptionResponse) HTTPResponse() *http.Response {
+func (response GetInstancePoolInstanceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

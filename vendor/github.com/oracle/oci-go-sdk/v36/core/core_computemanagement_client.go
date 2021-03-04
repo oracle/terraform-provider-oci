@@ -83,6 +83,65 @@ func (client *ComputeManagementClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
+// AttachInstancePoolInstance Attach an instance to the instance pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachInstancePoolInstance.go.html to see an example of how to use AttachInstancePoolInstance API.
+func (client ComputeManagementClient) AttachInstancePoolInstance(ctx context.Context, request AttachInstancePoolInstanceRequest) (response AttachInstancePoolInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachInstancePoolInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachInstancePoolInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachInstancePoolInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachInstancePoolInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachInstancePoolInstanceResponse")
+	}
+	return
+}
+
+// attachInstancePoolInstance implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) attachInstancePoolInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/instances")
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachInstancePoolInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AttachLoadBalancer Attach a load balancer to the instance pool.
 //
 // See also
@@ -570,6 +629,65 @@ func (client ComputeManagementClient) deleteInstanceConfiguration(ctx context.Co
 	return response, err
 }
 
+// DetachInstancePoolInstance Detach instance from the instance pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachInstancePoolInstance.go.html to see an example of how to use DetachInstancePoolInstance API.
+func (client ComputeManagementClient) DetachInstancePoolInstance(ctx context.Context, request DetachInstancePoolInstanceRequest) (response DetachInstancePoolInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachInstancePoolInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachInstancePoolInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachInstancePoolInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachInstancePoolInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachInstancePoolInstanceResponse")
+	}
+	return
+}
+
+// detachInstancePoolInstance implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) detachInstancePoolInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/detachInstance")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachInstancePoolInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DetachLoadBalancer Detach a load balancer from the instance pool.
 //
 // See also
@@ -779,6 +897,60 @@ func (client ComputeManagementClient) getInstancePool(ctx context.Context, reque
 	}
 
 	var response GetInstancePoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetInstancePoolInstance Gets the instance pool instance
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstancePoolInstance.go.html to see an example of how to use GetInstancePoolInstance API.
+func (client ComputeManagementClient) GetInstancePoolInstance(ctx context.Context, request GetInstancePoolInstanceRequest) (response GetInstancePoolInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInstancePoolInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInstancePoolInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInstancePoolInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInstancePoolInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInstancePoolInstanceResponse")
+	}
+	return
+}
+
+// getInstancePoolInstance implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) getInstancePoolInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/instances/{instanceId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInstancePoolInstanceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

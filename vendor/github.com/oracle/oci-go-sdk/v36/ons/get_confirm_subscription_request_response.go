@@ -27,9 +27,10 @@ type GetConfirmSubscriptionRequest struct {
 	//   * `CUSTOM_HTTPS`
 	//   * `EMAIL`
 	//   * `HTTPS` (deprecated; for PagerDuty endpoints, use `PAGERDUTY`)
+	//   * `ORACLE_FUNCTIONS`
 	//   * `PAGERDUTY`
 	//   * `SLACK`
-	//   * `ORACLE_FUNCTIONS`
+	//   * `SMS`
 	// For information about subscription protocols, see
 	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
 	Protocol *string `mandatory:"true" contributesTo:"query" name:"protocol"`
@@ -66,8 +67,8 @@ type GetConfirmSubscriptionResponse struct {
 	// The ConfirmationResult instance
 	ConfirmationResult `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.
