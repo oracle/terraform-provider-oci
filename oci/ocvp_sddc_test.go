@@ -360,6 +360,9 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ocvp_sddc.test_sddc"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+SddcResourceDependencies+
+		generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcRepresentation), "ocvp", "sddc", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

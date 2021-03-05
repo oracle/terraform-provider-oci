@@ -88,6 +88,9 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_local_peering_gateways.test_local_peering_gateways"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+LocalPeeringGatewayResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Create, localPeeringGatewayRepresentation), "core", "localPeeringGateway", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

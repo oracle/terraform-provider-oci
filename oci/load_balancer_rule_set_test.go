@@ -164,6 +164,9 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_load_balancer_rule_set.test_rule_set"
 
 	var resId, resId2 string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+RuleSetResourceDependencies+
+		generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation), "loadbalancer", "ruleSet", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

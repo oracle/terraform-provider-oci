@@ -36,6 +36,8 @@ func TestCoreByoipAllocatedRangeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_byoip_allocated_ranges.test_byoip_allocated_ranges"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

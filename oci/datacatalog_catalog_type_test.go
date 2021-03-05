@@ -42,6 +42,8 @@ func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 	datasourceName := "data.oci_datacatalog_catalog_types.test_catalog_types"
 	singularDatasourceName := "data.oci_datacatalog_catalog_type.test_catalog_type"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

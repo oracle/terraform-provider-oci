@@ -35,6 +35,8 @@ func TestMeteringComputationConfigurationResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_metering_computation_configuration.test_configuration"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

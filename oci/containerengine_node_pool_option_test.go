@@ -35,6 +35,8 @@ func TestContainerengineNodePoolOptionResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_containerengine_node_pool_option.test_node_pool_option"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

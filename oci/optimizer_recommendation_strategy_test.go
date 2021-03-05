@@ -44,6 +44,8 @@ func TestOptimizerRecommendationStrategyResource_basic(t *testing.T) {
 	datasourceName := "data.oci_optimizer_recommendation_strategies.test_recommendation_strategies"
 	singularDatasourceName := "data.oci_optimizer_recommendation_strategy.test_recommendation_strategy"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

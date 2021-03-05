@@ -81,6 +81,9 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_vnic_attachments.test_vnic_attachments"
 
 	var resId string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+VnicAttachmentResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation), "core", "vnicAttachment", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

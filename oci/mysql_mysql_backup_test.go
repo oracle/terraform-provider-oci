@@ -76,6 +76,9 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_mysql_mysql_backup.test_mysql_backup"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+MysqlBackupResourceDependencies+
+		generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create, mysqlBackupRepresentation), "mysql", "mysqlBackup", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

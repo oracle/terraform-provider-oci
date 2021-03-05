@@ -40,6 +40,8 @@ func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_core_console_history_data.test_console_history_content"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

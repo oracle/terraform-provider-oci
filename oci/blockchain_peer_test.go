@@ -72,6 +72,10 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 
 	var resId, resId2, compositeId string
 
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+PeerResourceDependencies+
+		generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Create, peerRepresentation), "blockchain", "peer", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

@@ -41,6 +41,8 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 	datasourceName := "data.oci_optimizer_categories.test_categories"
 	singularDatasourceName := "data.oci_optimizer_category.test_category"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

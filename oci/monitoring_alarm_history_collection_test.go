@@ -37,6 +37,8 @@ func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_monitoring_alarm_history_collection.test_alarm_history_collection"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

@@ -36,6 +36,8 @@ func TestMysqlShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_mysql_shapes.test_shapes"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

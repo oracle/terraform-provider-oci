@@ -118,6 +118,9 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 	datasourceName := "data.oci_load_balancer_load_balancers.test_load_balancers"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+LoadBalancerResourceDependencies+
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation), "loadbalancer", "loadBalancer", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

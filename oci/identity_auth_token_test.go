@@ -51,6 +51,10 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 	var resId, resId2 string
 	var compositeId string
 
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+AuthTokenResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Required, Create, authTokenRepresentation), "identity", "authToken", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

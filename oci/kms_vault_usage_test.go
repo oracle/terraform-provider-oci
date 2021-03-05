@@ -33,6 +33,8 @@ func TestKmsVaultUsageResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_kms_vault_usage.test_vault_usage"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

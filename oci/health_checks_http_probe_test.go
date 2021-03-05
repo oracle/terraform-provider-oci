@@ -46,6 +46,9 @@ func TestHealthChecksHttpProbeResource_basic(t *testing.T) {
 	resourceName := "oci_health_checks_http_probe.test_http_probe"
 
 	var resId string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+HttpProbeResourceDependencies+
+		generateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", Optional, Create, httpProbeRepresentation), "healthchecks", "httpProbe", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

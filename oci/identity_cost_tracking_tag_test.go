@@ -33,6 +33,8 @@ func TestIdentityCostTrackingTagResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_identity_cost_tracking_tags.test_cost_tracking_tags"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

@@ -33,6 +33,8 @@ func TestOcvpSupportedVmwareSoftwareVersionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_ocvp_supported_vmware_software_versions.test_supported_vmware_software_versions"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

@@ -74,6 +74,9 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_marketplace_accepted_agreement.test_accepted_agreement"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+AcceptedAgreementResourceDependencies+
+		generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Create, acceptedAgreementRepresentation), "marketplace", "acceptedAgreement", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

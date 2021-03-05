@@ -33,6 +33,8 @@ func TestLoadBalancerLoadBalancerShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_load_balancer_shapes.test_load_balancer_shapes"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

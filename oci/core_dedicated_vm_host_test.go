@@ -74,6 +74,9 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_dedicated_vm_host.test_dedicated_vm_host"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+DedicatedVmHostResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create, dedicatedVmHostRepresentation), "core", "dedicatedVmHost", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

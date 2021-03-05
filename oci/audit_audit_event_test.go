@@ -35,6 +35,8 @@ func TestAuditAuditEventResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_audit_events.test_audit_events"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

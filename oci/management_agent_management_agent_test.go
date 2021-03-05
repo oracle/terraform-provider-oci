@@ -69,6 +69,9 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_management_agent_management_agent.test_management_agent"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ManagementAgentResourceDependencies+
+		generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Create, managementAgentRepresentation), "managementagent", "managementAgent", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

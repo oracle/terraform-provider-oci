@@ -44,6 +44,9 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_identity_ui_password.test_ui_password"
 
 	var resId string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+UiPasswordResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation), "identity", "uiPassword", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -199,6 +199,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+CloudVmClusterResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create, cloudVmClusterRepresentation), "database", "cloudVmCluster", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

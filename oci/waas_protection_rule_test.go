@@ -55,6 +55,9 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_waas_protection_rule.test_protection_rule"
 
 	var resId string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ProtectionRuleResourceConfig+
+		generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleRepresentation), "waas", "protectionRule", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -54,6 +54,8 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 	datasourceName := "data.oci_log_analytics_namespaces.test_namespaces"
 	singularDatasourceName := "data.oci_log_analytics_namespace.test_namespace"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

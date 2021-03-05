@@ -72,6 +72,9 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 	datasourceName := "data.oci_file_storage_exports.test_exports"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ExportResourceDependencies+
+		generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation), "filestorage", "export", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -65,6 +65,9 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_optimizer_recommendation.test_recommendation"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+RecommendationResourceDependencies+
+		generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Create, recommendationRepresentation), "optimizer", "recommendation", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

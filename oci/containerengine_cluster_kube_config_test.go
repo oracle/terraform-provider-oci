@@ -41,6 +41,8 @@ func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_containerengine_cluster_kube_config.test_cluster_kube_config"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

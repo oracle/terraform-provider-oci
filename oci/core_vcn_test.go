@@ -70,6 +70,9 @@ func TestCoreVcnResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_vcn.test_vcn"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+VcnResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation), "core", "vcn", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -33,6 +33,8 @@ func TestDatascienceNotebookSessionShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_datascience_notebook_session_shapes.test_notebook_session_shapes"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

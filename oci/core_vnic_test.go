@@ -44,6 +44,8 @@ func TestCoreVnicResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_core_vnic.test_vnic"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

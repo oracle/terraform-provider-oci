@@ -36,6 +36,8 @@ func TestLogAnalyticsLogAnalyticsEntitiesSummaryResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_log_analytics_log_analytics_entities_summary.test_log_analytics_entities_summary"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

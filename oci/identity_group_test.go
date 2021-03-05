@@ -63,6 +63,9 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_identity_group.test_group"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+GroupResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Create, groupRepresentation), "identity", "group", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

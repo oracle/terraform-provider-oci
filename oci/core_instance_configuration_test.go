@@ -209,6 +209,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_instance_configuration.test_instance_configuration"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+InstanceConfigurationResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationRepresentation), "core", "instanceConfiguration", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

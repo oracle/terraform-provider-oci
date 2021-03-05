@@ -117,6 +117,10 @@ func TestCoreInstancePoolInstanceResource_basic(t *testing.T) {
 	resourceName := "oci_core_instance_pool_instance.test_instance_pool_instance"
 	datasourceName := "data.oci_core_instance_pool_instances.test_instance_pool_instances"
 
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+InstancePoolInstanceResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_instance_pool_instance", "test_instance_pool_instance", Required, Create, instancePoolInstanceRepresentation), "core", "instancePoolInstance", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

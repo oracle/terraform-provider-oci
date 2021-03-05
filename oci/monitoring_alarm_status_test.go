@@ -37,6 +37,8 @@ func TestMonitoringAlarmStatusResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_monitoring_alarm_statuses.test_alarm_statuses"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

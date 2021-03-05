@@ -46,6 +46,8 @@ func TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic(t *testing
 	datasourceName := "data.oci_database_autonomous_database_dataguard_associations.test_autonomous_database_dataguard_associations"
 	singularDatasourceName := "data.oci_database_autonomous_database_dataguard_association.test_autonomous_database_dataguard_association"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

@@ -121,6 +121,10 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 	md5B64Encode, _ := hexToB64(md5sum)
 	md5B64Encode2, _ := hexToB64(md5sum2)
 
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ObjectResourceDependencies+
+		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectRepresentation), "objectstorage", "object", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

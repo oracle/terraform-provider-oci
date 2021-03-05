@@ -106,6 +106,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_autonomous_database.test_autonomous_database"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentation), "database", "autonomousDatabase", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

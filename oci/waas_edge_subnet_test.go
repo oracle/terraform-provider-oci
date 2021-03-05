@@ -31,6 +31,8 @@ func TestWaasEdgeSubnetResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_waas_edge_subnets.test_edge_subnets"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

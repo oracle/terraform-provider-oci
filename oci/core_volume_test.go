@@ -89,6 +89,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_volume.test_volume"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+VolumeResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, volumeRepresentation), "core", "volume", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

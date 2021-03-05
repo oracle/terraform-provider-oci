@@ -45,6 +45,8 @@ func TestDataflowRunLogResource_basic(t *testing.T) {
 	datasourceName := "data.oci_dataflow_run_logs.test_run_logs"
 	singularDatasourceName := "data.oci_dataflow_run_log.test_run_log"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

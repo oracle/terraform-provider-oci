@@ -34,6 +34,8 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_db_system_shapes.test_db_system_shapes"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

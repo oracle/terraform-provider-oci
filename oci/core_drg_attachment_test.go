@@ -60,6 +60,9 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_drg_attachments.test_drg_attachments"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+DrgAttachmentResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation), "core", "drgAttachment", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

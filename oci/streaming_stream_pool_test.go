@@ -91,6 +91,9 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_streaming_stream_pool.test_stream_pool"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+StreamPoolResourceDependencies+
+		generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Create, streamPoolRepresentation), "streaming", "streamPool", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

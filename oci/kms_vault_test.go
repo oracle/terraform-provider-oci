@@ -71,6 +71,9 @@ func TestKmsVaultResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_kms_vault.test_vault"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+VaultResourceDependencies+
+		generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Create, vaultRepresentation), "keymanagement", "vault", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -57,6 +57,9 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 	datasourceName := "data.oci_file_storage_export_sets.test_export_sets"
 
 	var resId, resId2 string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ExportSetResourceDependencies+
+		generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation), "filestorage", "exportSet", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

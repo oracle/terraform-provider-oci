@@ -80,6 +80,9 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_database_software_image.test_database_software_image"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+DatabaseSoftwareImageResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentation), "database", "databaseSoftwareImage", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
