@@ -35,6 +35,8 @@ func TestCoreDedicatedVmHostShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_dedicated_vm_host_shapes.test_dedicated_vm_host_shapes"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

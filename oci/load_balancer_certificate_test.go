@@ -57,6 +57,9 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 	datasourceName := "data.oci_load_balancer_certificates.test_certificates"
 
 	var resId string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+CertificateResourceDependencies+
+		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation), "loadbalancer", "certificate", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

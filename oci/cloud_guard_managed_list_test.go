@@ -81,6 +81,9 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_cloud_guard_managed_list.test_managed_list"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ManagedListResourceDependencies+
+		generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Create, managedListRepresentation), "cloudguard", "managedList", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

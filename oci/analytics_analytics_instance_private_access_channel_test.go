@@ -54,6 +54,9 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 	resourceName := "oci_analytics_analytics_instance_private_access_channel.test_analytics_instance_private_access_channel"
 
 	var resId, resId2 string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+AnalyticsInstancePrivateAccessChannelResourceDependencies+
+		generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Required, Create, analyticsInstancePrivateAccessChannelRepresentation), "analytics", "analyticsInstancePrivateAccessChannel", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

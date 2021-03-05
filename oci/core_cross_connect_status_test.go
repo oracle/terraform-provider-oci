@@ -34,6 +34,8 @@ func TestCoreCrossConnectStatusResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_core_cross_connect_status.test_cross_connect_status"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

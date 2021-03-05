@@ -39,6 +39,9 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 	resourceName := "oci_waas_purge_cache.test_purge_cache"
 
 	var resId string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+PurgeCacheResourceDependencies+
+		generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Optional, Create, purgeCacheRepresentation), "waas", "purgeCache", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

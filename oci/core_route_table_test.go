@@ -74,6 +74,9 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_route_tables.test_route_tables"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+RouteTableResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation), "core", "routeTable", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

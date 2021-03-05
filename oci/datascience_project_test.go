@@ -70,6 +70,9 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datascience_project.test_project"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ProjectResourceDependencies+
+		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Create, projectRepresentation), "datascience", "project", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -36,6 +36,8 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_app_catalog_listings.test_app_catalog_listings"
 	singularDatasourceName := "data.oci_core_app_catalog_listing.test_app_catalog_listing"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

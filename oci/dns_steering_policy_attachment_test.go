@@ -87,6 +87,9 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 
 	_, tokenFn := tokenizeWithHttpReplay("dns_steering")
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+		generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), "dns", "steeringPolicyAttachment", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

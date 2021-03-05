@@ -39,6 +39,8 @@ func TestCoreImageShapeResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_image_shapes.test_image_shapes"
 	singularDatasourceName := "data.oci_core_image_shape.test_image_shape"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

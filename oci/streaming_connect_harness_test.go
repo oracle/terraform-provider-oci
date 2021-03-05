@@ -69,6 +69,9 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_streaming_connect_harness.test_connect_harness"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ConnectHarnessResourceDependencies+
+		generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Create, connectHarnessRepresentation), "streaming", "connectHarness", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

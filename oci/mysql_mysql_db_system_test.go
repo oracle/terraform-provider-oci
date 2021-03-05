@@ -99,6 +99,9 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_mysql_mysql_db_system.test_mysql_db_system"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+MysqlDbSystemResourceDependencies+
+		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlDbSystemRepresentation), "mysql", "mysqlDbSystem", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

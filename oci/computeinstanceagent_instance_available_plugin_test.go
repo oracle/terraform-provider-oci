@@ -35,6 +35,8 @@ func TestComputeinstanceagentInstanceAvailablePluginResource_basic(t *testing.T)
 
 	datasourceName := "data.oci_computeinstanceagent_instance_available_plugins.test_instance_available_plugins"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

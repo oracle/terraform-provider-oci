@@ -35,6 +35,8 @@ func TestObjectStorageReplicationSourceResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_objectstorage_replication_sources.test_replication_sources"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

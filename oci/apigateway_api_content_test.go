@@ -34,6 +34,8 @@ func TestApigatewayApiContentResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_apigateway_api_content.test_api_content"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

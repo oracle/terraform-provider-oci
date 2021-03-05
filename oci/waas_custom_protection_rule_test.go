@@ -79,6 +79,9 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_waas_custom_protection_rule.test_custom_protection_rule"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+CustomProtectionRuleResourceDependencies+
+		generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Create, customProtectionRuleRepresentation), "waas", "customProtectionRule", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

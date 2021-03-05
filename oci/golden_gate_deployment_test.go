@@ -94,6 +94,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_golden_gate_deployment.test_deployment"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+DeploymentResourceDependencies+
+		generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Optional, Create, deploymentRepresentation), "goldengate", "deployment", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

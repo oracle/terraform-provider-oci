@@ -99,6 +99,9 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 	resourceName := "oci_metering_computation_usage.test_usage"
 
 	var resId string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+UsageResourceDependencies+
+		generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation), "usageapi", "usage", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

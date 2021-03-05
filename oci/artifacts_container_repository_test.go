@@ -75,6 +75,9 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_artifacts_container_repository.test_container_repository"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ContainerRepositoryResourceDependencies+
+		generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation), "artifacts", "containerRepository", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

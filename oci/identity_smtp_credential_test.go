@@ -51,6 +51,10 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 	var resId, resId2 string
 	var compositeId string
 
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+SmtpCredentialResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Required, Create, smtpCredentialRepresentation), "identity", "smtpCredential", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

@@ -72,6 +72,9 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+CatalogPrivateEndpointResourceDependencies+
+		generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Create, catalogPrivateEndpointRepresentation), "datacatalog", "catalogPrivateEndpoint", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

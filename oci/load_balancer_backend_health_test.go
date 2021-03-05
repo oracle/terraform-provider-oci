@@ -39,6 +39,8 @@ func TestLoadBalancerBackendHealthResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_load_balancer_backend_health.test_backend_health"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

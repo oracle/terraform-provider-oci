@@ -46,6 +46,8 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_byoip_ranges.test_byoip_ranges"
 	singularDatasourceName := "data.oci_core_byoip_range.test_byoip_range"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

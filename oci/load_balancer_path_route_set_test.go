@@ -61,6 +61,9 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 	datasourceName := "data.oci_load_balancer_path_route_sets.test_path_route_sets"
 
 	var resId, resId2 string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+PathRouteSetResourceDependencies+
+		generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation), "loadbalancer", "pathRouteSet", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

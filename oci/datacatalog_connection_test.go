@@ -89,6 +89,10 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 	var resId, resId2 string
 	var compositeId string
 
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ConnectionResourceDependencies+
+		generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Create, connectionRepresentation), "datacatalog", "connection", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

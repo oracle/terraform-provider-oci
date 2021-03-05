@@ -54,6 +54,10 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_database_autonomous_database_wallet.test_autonomous_database_wallet"
 
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseWalletResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletRepresentation), "database", "autonomousDatabaseWallet", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

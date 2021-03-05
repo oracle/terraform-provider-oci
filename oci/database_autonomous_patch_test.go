@@ -34,6 +34,8 @@ func TestDatabaseAutonomousPatchResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_database_autonomous_patch.test_autonomous_patch"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

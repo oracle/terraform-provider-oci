@@ -59,6 +59,9 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_policies.test_policies"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+PolicyResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation), "identity", "policy", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

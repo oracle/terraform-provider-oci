@@ -79,6 +79,9 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_identity_providers.test_identity_providers"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+IdentityProviderResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation), "identity", "identityProvider", t)
 
 	metadataContents, err := ioutil.ReadFile(metadataFile)
 	if err != nil {

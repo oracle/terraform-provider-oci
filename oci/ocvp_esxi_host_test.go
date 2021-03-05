@@ -84,6 +84,9 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ocvp_esxi_host.test_esxi_host"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+EsxiHostResourceDependencies+
+		generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, esxiHostRepresentation), "ocvp", "esxiHost", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

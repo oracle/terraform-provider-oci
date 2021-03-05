@@ -40,6 +40,8 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_management_managed_databases.test_managed_databases"
 	singularDatasourceName := "data.oci_database_management_managed_database.test_managed_database"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

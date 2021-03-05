@@ -54,6 +54,9 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_cloud_guard_cloud_guard_configuration.test_cloud_guard_configuration"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+CloudGuardConfigurationResourceDependencies+
+		generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Create, cloudGuardConfigurationRepresentation), "cloudguard", "cloudGuardConfiguration", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

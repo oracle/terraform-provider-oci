@@ -67,6 +67,9 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_volume_attachments.test_volume_attachments"
 
 	var resId string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+VolumeAttachmentResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation), "core", "volumeAttachment", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

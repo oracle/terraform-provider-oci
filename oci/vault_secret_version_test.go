@@ -35,6 +35,8 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_vault_secret_version.test_secret_version"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

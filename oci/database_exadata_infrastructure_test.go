@@ -118,6 +118,9 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_exadata_infrastructure.test_exadata_infrastructure"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ExadataInfrastructureResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create, exadataInfrastructureRepresentation), "database", "exadataInfrastructure", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

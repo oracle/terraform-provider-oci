@@ -89,6 +89,9 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_blockchain_blockchain_platform.test_blockchain_platform"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+BlockchainPlatformResourceDependencies+
+		generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation), "blockchain", "blockchainPlatform", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -93,6 +93,9 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_log_analytics_log_analytics_entity.test_log_analytics_entity"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+LogAnalyticsEntityResourceDependencies+
+		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation), "loganalytics", "logAnalyticsEntity", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
