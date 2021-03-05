@@ -241,6 +241,7 @@ github.com/oracle/oci-go-sdk/v36/email
 github.com/oracle/oci-go-sdk/v36/events
 github.com/oracle/oci-go-sdk/v36/filestorage
 github.com/oracle/oci-go-sdk/v36/functions
+github.com/oracle/oci-go-sdk/v36/goldengate
 github.com/oracle/oci-go-sdk/v36/healthchecks
 github.com/oracle/oci-go-sdk/v36/identity
 github.com/oracle/oci-go-sdk/v36/integration
