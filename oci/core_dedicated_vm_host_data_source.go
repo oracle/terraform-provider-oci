@@ -93,6 +93,10 @@ func (s *CoreDedicatedVmHostDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.RemainingMemoryInGBs != nil {
+		s.D.Set("remaining_memory_in_gbs", *s.Res.RemainingMemoryInGBs)
+	}
+
 	if s.Res.RemainingOcpus != nil {
 		s.D.Set("remaining_ocpus", *s.Res.RemainingOcpus)
 	}
@@ -101,6 +105,10 @@ func (s *CoreDedicatedVmHostDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TotalMemoryInGBs != nil {
+		s.D.Set("total_memory_in_gbs", *s.Res.TotalMemoryInGBs)
 	}
 
 	if s.Res.TotalOcpus != nil {
