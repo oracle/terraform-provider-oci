@@ -1,3 +1,8 @@
+## 4.19.0 (Unreleased)
+
+### Added
+- Support for Maintenance Windows History in `database`
+
 ## 4.18.0 (March 17, 2021)
 
 ### Added
