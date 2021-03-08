@@ -130,6 +130,15 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							Set:      literalTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 
 						// Computed
 					},
@@ -931,6 +940,20 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateNodePoolNodeConfigDetails, error) {
 	result := oci_containerengine.CreateNodePoolNodeConfigDetails{}
 
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
+	}
+
 	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
 		set := placementConfigs.(*schema.Set)
 		interfaces := set.List()
@@ -959,6 +982,16 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 
 func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+	}
 
 	placementConfigs := []interface{}{}
 	for _, item := range obj.PlacementConfigs {
