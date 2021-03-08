@@ -46,8 +46,10 @@ The following attributes are exported:
 	Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated VM host. 
+* `remaining_memory_in_gbs` - The current available memory of the dedicated VM host, in GBs. 
 * `remaining_ocpus` - The current available OCPUs of the dedicated VM host. 
 * `state` - The current state of the dedicated VM host. 
 * `time_created` - The date and time the dedicated VM host was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `total_memory_in_gbs` - The current total memory of the dedicated VM host, in GBs. 
 * `total_ocpus` - The current total OCPUs of the dedicated VM host. 
 

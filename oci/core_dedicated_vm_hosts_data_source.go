@@ -35,6 +35,14 @@ func CoreDedicatedVmHostsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"remaining_memory_in_gbs_greater_than_or_equal_to": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+			},
+			"remaining_ocpus_greater_than_or_equal_to": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -87,6 +95,16 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) Get() error {
 	if instanceShapeName, ok := s.D.GetOkExists("instance_shape_name"); ok {
 		tmp := instanceShapeName.(string)
 		request.InstanceShapeName = &tmp
+	}
+
+	if remainingMemoryInGBsGreaterThanOrEqualTo, ok := s.D.GetOkExists("remaining_memory_in_gbs_greater_than_or_equal_to"); ok {
+		tmp := float32(remainingMemoryInGBsGreaterThanOrEqualTo.(float64))
+		request.RemainingMemoryInGBsGreaterThanOrEqualTo = &tmp
+	}
+
+	if remainingOcpusGreaterThanOrEqualTo, ok := s.D.GetOkExists("remaining_ocpus_greater_than_or_equal_to"); ok {
+		tmp := float32(remainingOcpusGreaterThanOrEqualTo.(float64))
+		request.RemainingOcpusGreaterThanOrEqualTo = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -149,6 +167,10 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) SetData() error {
 			dedicatedVmHost["id"] = *r.Id
 		}
 
+		if r.RemainingMemoryInGBs != nil {
+			dedicatedVmHost["remaining_memory_in_gbs"] = *r.RemainingMemoryInGBs
+		}
+
 		if r.RemainingOcpus != nil {
 			dedicatedVmHost["remaining_ocpus"] = *r.RemainingOcpus
 		}
@@ -157,6 +179,10 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			dedicatedVmHost["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.TotalMemoryInGBs != nil {
+			dedicatedVmHost["total_memory_in_gbs"] = *r.TotalMemoryInGBs
 		}
 
 		if r.TotalOcpus != nil {
