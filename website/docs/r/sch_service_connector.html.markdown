@@ -40,14 +40,21 @@ resource "oci_sch_service_connector" "test_service_connector" {
 	source {
 		#Required
 		kind = var.service_connector_source_kind
-		log_sources {
-			#Required
-			compartment_id = var.compartment_id
+
+		#Optional
+		cursor {
 
 			#Optional
+			kind = var.service_connector_source_cursor_kind
+		}
+		log_sources {
+
+			#Optional
+			compartment_id = var.compartment_id
 			log_group_id = oci_logging_log_group.test_log_group.id
 			log_id = oci_logging_log.test_log.id
 		}
+		stream_id = oci_streaming_stream.test_stream.id
 	}
 	target {
 		#Required
@@ -75,8 +82,13 @@ resource "oci_sch_service_connector" "test_service_connector" {
 	freeform_tags = {"bar-key"= "value"}
 	tasks {
 		#Required
-		condition = var.service_connector_tasks_condition
 		kind = var.service_connector_tasks_kind
+
+		#Optional
+		batch_size_in_kbs = var.service_connector_tasks_batch_size_in_kbs
+		batch_time_in_sec = var.service_connector_tasks_batch_time_in_sec
+		condition = var.service_connector_tasks_condition
+		function_id = oci_functions_function.test_function.id
 	}
 }
 ```
@@ -91,11 +103,14 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `source` - (Required) (Updatable) An object that represents the source of the flow defined by the service connector. An example source is the VCNFlow logs within the NetworkLogs group. For more information about flows defined by service connectors, see [Service Connector Hub Overview](https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm). 
+	* `cursor` - (Applicable when kind=streaming) (Updatable) The type of [cursor](https://docs.cloud.oracle.com/iaas/Content/Streaming/Tasks/using_a_single_consumer.htm#usingcursors), which determines the starting point from which the stream will be consumed. 
+		* `kind` - (Required when kind=streaming) (Updatable) The type descriminator. 
 	* `kind` - (Required) (Updatable) The type descriminator. 
-	* `log_sources` - (Required) (Updatable) The resources affected by this work request. 
-		* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the log source. 
-		* `log_group_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group. 
-		* `log_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log. 
+	* `log_sources` - (Required when kind=logging) (Updatable) The resources affected by this work request. 
+		* `compartment_id` - (Required when kind=logging) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the log source. 
+		* `log_group_id` - (Applicable when kind=logging) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group. 
+		* `log_id` - (Applicable when kind=logging) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log. 
+	* `stream_id` - (Required when kind=streaming) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
 * `target` - (Required) (Updatable) An object that represents the target of the flow defined by the service connector. An example target is a stream. For more information about flows defined by service connectors, see [Service Connector Hub Overview](https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm). 
 	* `batch_rollover_size_in_mbs` - (Applicable when kind=objectStorage) (Updatable) The batch rollover size in megabytes. 
 	* `batch_rollover_time_in_ms` - (Applicable when kind=objectStorage) (Updatable) The batch rollover time in milliseconds. 
@@ -112,7 +127,10 @@ The following arguments are supported:
 	* `stream_id` - (Required when kind=streaming) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
 	* `topic_id` - (Required when kind=notifications) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic. 
 * `tasks` - (Optional) (Updatable) The list of tasks. 
-	* `condition` - (Required) (Updatable) A filter or mask to limit the source used in the flow defined by the service connector. 
+	* `batch_size_in_kbs` - (Applicable when kind=function) (Updatable) Size limit (kilobytes) for batch sent to invoke the function. 
+	* `batch_time_in_sec` - (Applicable when kind=function) (Updatable) Time limit (seconds) for batch sent to invoke the function. 
+	* `condition` - (Required when kind=logRule) (Updatable) A filter or mask to limit the source used in the flow defined by the service connector. 
+	* `function_id` - (Required when kind=function) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function to be used as a task. 
 	* `kind` - (Required) (Updatable) The type descriminator. 
 * `state` - (Optional) (Updatable) The target state for the service connector. Could be set to `ACTIVE` or `INACTIVE`.
 
@@ -132,11 +150,14 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service connector. 
 * `lifecyle_details` - A message describing the current state in more detail. For example, the message might provide actionable information for a resource in a `FAILED` state. 
 * `source` - An object that represents the source of the flow defined by the service connector. An example source is the VCNFlow logs within the NetworkLogs group. For more information about flows defined by service connectors, see [Service Connector Hub Overview](https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm). 
+	* `cursor` - The type of [cursor](https://docs.cloud.oracle.com/iaas/Content/Streaming/Tasks/using_a_single_consumer.htm#usingcursors), which determines the starting point from which the stream will be consumed. 
+		* `kind` - The type descriminator. 
 	* `kind` - The type descriminator. 
 	* `log_sources` - The resources affected by this work request. 
 		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the log source. 
 		* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group. 
 		* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log. 
+	* `stream_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
 * `state` - The current state of the service connector. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `target` - An object that represents the target of the flow defined by the service connector. An example target is a stream. For more information about flows defined by service connectors, see [Service Connector Hub Overview](https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm). 
@@ -155,7 +176,10 @@ The following attributes are exported:
 	* `stream_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
 	* `topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic. 
 * `tasks` - The list of tasks. 
+	* `batch_size_in_kbs` - Size limit (kilobytes) for batch sent to invoke the function. 
+	* `batch_time_in_sec` - Time limit (seconds) for batch sent to invoke the function. 
 	* `condition` - A filter or mask to limit the source used in the flow defined by the service connector. 
+	* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function to be used as a task. 
 	* `kind` - The type descriminator. 
 * `time_created` - The date and time when the service connector was created. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2020-01-25T21:10:29.600Z` 
 * `time_updated` - The date and time when the service connector was updated. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2020-01-25T21:10:29.600Z` 

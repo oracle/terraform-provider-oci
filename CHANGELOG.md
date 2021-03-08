@@ -2,6 +2,7 @@
 
 ### Added
 - Support for IPv6
+- Support for Streaming analytics in OCI Connector Hub
 
 ## 4.21.0 (April 07, 2021)
 
