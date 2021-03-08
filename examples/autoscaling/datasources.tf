@@ -49,6 +49,10 @@ data "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationSch
   auto_scaling_configuration_id = oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfigurationScheduledPolicy.id
 }
 
+data "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationScheduledPolicyResourceActionDatasource" {
+  auto_scaling_configuration_id = oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfigurationScheduledPolicyResourceAction.id
+}
+
 data "oci_autoscaling_auto_scaling_configurations" "TFAutoScalingConfigurationDatasources" {
   compartment_id = var.compartment_ocid
   display_name   = "TFAutoScalingConfiguration"

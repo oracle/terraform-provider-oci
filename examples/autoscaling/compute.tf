@@ -82,6 +82,19 @@ resource "oci_core_instance_pool" "TFInstancePoolForScheduledPolicy" {
   }
 }
 
+resource "oci_core_instance_pool" "TFInstancePoolForScheduledPolicyResourceAction" {
+  compartment_id            = var.compartment_ocid
+  instance_configuration_id = oci_core_instance_configuration.TFInstanceConfiguration.id
+  size                      = 1
+  state                     = "RUNNING"
+  display_name              = "TFInstancePoolResourceAction"
+
+  placement_configurations {
+    availability_domain = data.oci_identity_availability_domain.AD.name
+    primary_subnet_id   = oci_core_subnet.ExampleSubnet.id
+  }
+}
+
 resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguration" {
   compartment_id       = var.compartment_ocid
   cool_down_in_seconds = "300"
@@ -90,7 +103,7 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
 
   policies {
     capacity {
-      initial = "4"
+      initial = "2"
       max     = "4"
       min     = "2"
     }
@@ -111,7 +124,7 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
 
         threshold {
           operator = "GT"
-          value    = "1"
+          value    = "90"
         }
       }
     }
@@ -170,3 +183,29 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
   }
 }
 
+resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationScheduledPolicyResourceAction" {
+  compartment_id       = var.compartment_ocid
+  cool_down_in_seconds = "300"
+  display_name         = "TFAutoScalingConfigurationScheduledPolicyResourceAction"
+  is_enabled           = "true"
+
+  policies {
+    resource_action {
+      action = "STOP"
+      action_type = "power"
+    }
+    display_name = "TFScheduledPolicyResourceAction"
+    policy_type  = "scheduled"
+
+    execution_schedule {
+      expression = "0 15 10 ? * *"
+      timezone   = "UTC"
+      type       = "cron"
+    }
+  }
+
+  auto_scaling_resources {
+    id   = oci_core_instance_pool.TFInstancePoolForScheduledPolicyResourceAction.id
+    type = "instancePool"
+  }
+}
