@@ -1169,6 +1169,7 @@ var exportGoldenGateDatabaseRegistrationHints = &TerraformResourceHints{
 	resourceClass:          "oci_golden_gate_database_registration",
 	datasourceClass:        "oci_golden_gate_database_registrations",
 	datasourceItemsAttr:    "database_registration_collection",
+	isDatasourceCollection: true,
 	resourceAbbreviation:   "database_registration",
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
@@ -1180,6 +1181,7 @@ var exportGoldenGateDeploymentHints = &TerraformResourceHints{
 	resourceClass:          "oci_golden_gate_deployment",
 	datasourceClass:        "oci_golden_gate_deployments",
 	datasourceItemsAttr:    "deployment_collection",
+	isDatasourceCollection: true,
 	resourceAbbreviation:   "deployment",
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
@@ -1191,6 +1193,7 @@ var exportGoldenGateDeploymentBackupHints = &TerraformResourceHints{
 	resourceClass:          "oci_golden_gate_deployment_backup",
 	datasourceClass:        "oci_golden_gate_deployment_backups",
 	datasourceItemsAttr:    "deployment_backup_collection",
+	isDatasourceCollection: true,
 	resourceAbbreviation:   "deployment_backup",
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
