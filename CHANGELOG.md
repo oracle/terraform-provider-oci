@@ -1,4 +1,4 @@
-## 4.17.0 (Unreleased)
+## 4.17.0 (March 10, 2021)
 
 ### Added
 - Support for SMS notifications for ONS
