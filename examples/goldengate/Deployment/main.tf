@@ -197,7 +197,7 @@ data "oci_objectstorage_namespace" "test_namespace" {
 
 data "oci_golden_gate_deployments" "test_deployments" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 
   #Optional
   display_name = var.deployment_display_name
