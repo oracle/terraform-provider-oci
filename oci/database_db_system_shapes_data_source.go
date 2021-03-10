@@ -49,6 +49,14 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"available_data_storage_per_server_in_tbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"available_db_node_per_node_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"available_db_node_storage_in_gbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -57,7 +65,15 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"available_memory_per_node_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"core_count_increment": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"max_storage_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -78,6 +94,10 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"min_memory_per_node_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"min_storage_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -186,6 +206,14 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 			dbSystemShape["available_data_storage_in_tbs"] = *r.AvailableDataStorageInTBs
 		}
 
+		if r.AvailableDataStoragePerServerInTBs != nil {
+			dbSystemShape["available_data_storage_per_server_in_tbs"] = *r.AvailableDataStoragePerServerInTBs
+		}
+
+		if r.AvailableDbNodePerNodeInGBs != nil {
+			dbSystemShape["available_db_node_per_node_in_gbs"] = *r.AvailableDbNodePerNodeInGBs
+		}
+
 		if r.AvailableDbNodeStorageInGBs != nil {
 			dbSystemShape["available_db_node_storage_in_gbs"] = *r.AvailableDbNodeStorageInGBs
 		}
@@ -194,8 +222,16 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 			dbSystemShape["available_memory_in_gbs"] = *r.AvailableMemoryInGBs
 		}
 
+		if r.AvailableMemoryPerNodeInGBs != nil {
+			dbSystemShape["available_memory_per_node_in_gbs"] = *r.AvailableMemoryPerNodeInGBs
+		}
+
 		if r.CoreCountIncrement != nil {
 			dbSystemShape["core_count_increment"] = *r.CoreCountIncrement
+		}
+
+		if r.MaxStorageCount != nil {
+			dbSystemShape["max_storage_count"] = *r.MaxStorageCount
 		}
 
 		if r.MaximumNodeCount != nil {
@@ -216,6 +252,10 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 
 		if r.MinMemoryPerNodeInGBs != nil {
 			dbSystemShape["min_memory_per_node_in_gbs"] = *r.MinMemoryPerNodeInGBs
+		}
+
+		if r.MinStorageCount != nil {
+			dbSystemShape["min_storage_count"] = *r.MinStorageCount
 		}
 
 		if r.MinimumCoreCount != nil {

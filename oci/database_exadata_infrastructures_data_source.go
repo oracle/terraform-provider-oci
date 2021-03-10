@@ -111,6 +111,14 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.ActivatedStorageCount != nil {
+			exadataInfrastructure["activated_storage_count"] = *r.ActivatedStorageCount
+		}
+
+		if r.AdditionalStorageCount != nil {
+			exadataInfrastructure["additional_storage_count"] = *r.AdditionalStorageCount
+		}
+
 		if r.AdminNetworkCIDR != nil {
 			exadataInfrastructure["admin_network_cidr"] = *r.AdminNetworkCIDR
 		}
@@ -121,6 +129,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.CloudControlPlaneServer2 != nil {
 			exadataInfrastructure["cloud_control_plane_server2"] = *r.CloudControlPlaneServer2
+		}
+
+		if r.ComputeCount != nil {
+			exadataInfrastructure["compute_count"] = *r.ComputeCount
 		}
 
 		contacts := []interface{}{}
@@ -224,6 +236,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 		}
 
 		exadataInfrastructure["state"] = r.LifecycleState
+
+		if r.StorageCount != nil {
+			exadataInfrastructure["storage_count"] = *r.StorageCount
+		}
 
 		if r.TimeCreated != nil {
 			exadataInfrastructure["time_created"] = r.TimeCreated.String()

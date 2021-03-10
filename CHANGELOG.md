@@ -1,7 +1,8 @@
-## 4.30.0 (June 09, 2021)
+## 4.31.0 (Unreleased)
 
 ### Added
 - Support for Data Safe target database registration
+- Support for Elastic storage for ExaCC
 
 ## 4.30.0 (June 09, 2021)
 
