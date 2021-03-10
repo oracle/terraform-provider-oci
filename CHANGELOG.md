@@ -1,4 +1,4 @@
-## 4.17.0 (Unreleased)
+## 4.17.0 (March 10, 2021)
 
 ### Added
 - Support for SMS notifications for ONS
@@ -6,6 +6,7 @@
 - Support to attach and detach instances to `oci_core_instance_pool` 
 - Support for GoldenGate service
 - Support for unified agent configuration added to `oci_logging` service
+- Support for Big Data Auto Scaling
 
 ## 4.16.0 (March 03, 2021)
 
