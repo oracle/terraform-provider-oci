@@ -369,7 +369,7 @@ func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, r
 	return response, err
 }
 
-// GetUnsubscription Gets the unsubscription details for the specified subscription.
+// GetUnsubscription Unsubscribes the subscription from the topic.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
 // See also
@@ -487,7 +487,7 @@ func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context,
 // Message size limit per request: 64KB.
 // Message delivery rate limit per endpoint: 60 messages per minute for HTTP-based protocols, 10 messages per minute for the `EMAIL` protocol.
 // HTTP-based protocols use URL endpoints that begin with "http:" or "https:".
-// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60 per topic.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60 per topic. (This TPM limit represents messages per minute.)
 // For more information about publishing messages, see Publishing Messages (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/publishingmessages.htm).
 // For steps to request a limit increase, see Requesting a Service Limit Increase (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm#three).
 //

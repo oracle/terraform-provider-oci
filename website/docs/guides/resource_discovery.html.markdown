@@ -136,6 +136,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
+    * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
     * `integration` - Discovers integration resources within the specified compartment
@@ -320,6 +321,7 @@ core
 * oci\_core\_image
 * oci\_core\_instance\_configuration
 * oci\_core\_instance\_console\_connection
+* oci\_core\_instance\_pool\_instance
 * oci\_core\_instance\_pool
 * oci\_core\_instance
 * oci\_core\_internet\_gateway
@@ -427,6 +429,12 @@ functions
 * oci\_functions\_application
 * oci\_functions\_function
 
+golden_gate
+    
+* oci\_golden\_gate\_database\_registration
+* oci\_golden\_gate\_deployment
+* oci\_golden\_gate\_deployment\_backup
+
 health_checks
     
 * oci\_health\_checks\_http\_monitor
@@ -485,6 +493,7 @@ logging
     
 * oci\_logging\_log\_group
 * oci\_logging\_log
+* oci\_logging\_unified\_agent\_configuration
 
 management_agent
     

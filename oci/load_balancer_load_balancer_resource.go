@@ -87,7 +87,6 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 			"reserved_ips": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Computed: true,
 				ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{

@@ -96,6 +96,10 @@ func (s *OnsNotificationTopicDataSourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	if s.Res.ShortTopicId != nil {
+		s.D.Set("short_topic_id", *s.Res.ShortTopicId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

@@ -158,6 +158,16 @@ func objectMapToStringMap(rm map[string]interface{}) map[string]string {
 	return result
 }
 
+func StringMapToObjectMap(sm map[string]string) map[string]interface{} {
+	var result = make(map[string]interface{})
+	if len(sm) > 0 {
+		for types, v := range sm {
+			result[types] = v
+		}
+	}
+	return result
+}
+
 func validateInt64TypeString(v interface{}, k string) (ws []string, errors []error) {
 	value := v.(string)
 

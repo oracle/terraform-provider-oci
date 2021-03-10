@@ -24,6 +24,7 @@ import (
 	oci_events "github.com/oracle/oci-go-sdk/v36/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v36/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/v36/functions"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v36/goldengate"
 	oci_identity "github.com/oracle/oci-go-sdk/v36/identity"
 	oci_integration "github.com/oracle/oci-go-sdk/v36/integration"
 	oci_kms "github.com/oracle/oci-go-sdk/v36/keymanagement"
@@ -406,6 +407,16 @@ var exportCoreInstanceConsoleConnectionHints = &TerraformResourceHints{
 	resourceAbbreviation: "instance_console_connection",
 	discoverableLifecycleStates: []string{
 		string(oci_core.InstanceConsoleConnectionLifecycleStateActive),
+	},
+}
+
+var exportCoreInstancePoolInstanceHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_instance_pool_instance",
+	datasourceClass:      "oci_core_instance_pool_instances",
+	datasourceItemsAttr:  "instances",
+	resourceAbbreviation: "instance_pool_instance",
+	discoverableLifecycleStates: []string{
+		string(oci_core.InstancePoolInstanceLifecycleStateActive),
 	},
 }
 
@@ -1154,6 +1165,42 @@ var exportFunctionsFunctionHints = &TerraformResourceHints{
 	},
 }
 
+var exportGoldenGateDatabaseRegistrationHints = &TerraformResourceHints{
+	resourceClass:          "oci_golden_gate_database_registration",
+	datasourceClass:        "oci_golden_gate_database_registrations",
+	datasourceItemsAttr:    "database_registration_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "database_registration",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_golden_gate.LifecycleStateActive),
+	},
+}
+
+var exportGoldenGateDeploymentHints = &TerraformResourceHints{
+	resourceClass:          "oci_golden_gate_deployment",
+	datasourceClass:        "oci_golden_gate_deployments",
+	datasourceItemsAttr:    "deployment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deployment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_golden_gate.LifecycleStateActive),
+	},
+}
+
+var exportGoldenGateDeploymentBackupHints = &TerraformResourceHints{
+	resourceClass:          "oci_golden_gate_deployment_backup",
+	datasourceClass:        "oci_golden_gate_deployment_backups",
+	datasourceItemsAttr:    "deployment_backup_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deployment_backup",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_golden_gate.LifecycleStateActive),
+	},
+}
+
 var exportHealthChecksHttpMonitorHints = &TerraformResourceHints{
 	resourceClass:          "oci_health_checks_http_monitor",
 	datasourceClass:        "oci_health_checks_http_monitors",
@@ -1482,6 +1529,15 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	datasourceClass:      "oci_load_balancer_rule_sets",
 	datasourceItemsAttr:  "rule_sets",
 	resourceAbbreviation: "rule_set",
+}
+
+var exportLoggingUnifiedAgentConfigurationHints = &TerraformResourceHints{
+	resourceClass:          "oci_logging_unified_agent_configuration",
+	datasourceClass:        "oci_logging_unified_agent_configurations",
+	datasourceItemsAttr:    "unified_agent_configuration_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "unified_agent_configuration",
+	requireResourceRefresh: true,
 }
 
 var exportManagementAgentManagementAgentHints = &TerraformResourceHints{

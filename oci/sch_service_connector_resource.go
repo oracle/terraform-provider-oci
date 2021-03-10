@@ -135,6 +135,11 @@ func SchServiceConnectorResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"enable_formatted_messaging": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"function_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -944,6 +949,10 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 		baseObject = details
 	case strings.ToLower("notifications"):
 		details := oci_sch.NotificationsTargetDetails{}
+		if enableFormattedMessaging, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "enable_formatted_messaging")); ok {
+			tmp := enableFormattedMessaging.(bool)
+			details.EnableFormattedMessaging = &tmp
+		}
 		if topicId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "topic_id")); ok {
 			tmp := topicId.(string)
 			details.TopicId = &tmp
@@ -1016,6 +1025,10 @@ func TargetDetailsToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
 		}
 	case oci_sch.NotificationsTargetDetails:
 		result["kind"] = "notifications"
+
+		if v.EnableFormattedMessaging != nil {
+			result["enable_formatted_messaging"] = bool(*v.EnableFormattedMessaging)
+		}
 
 		if v.TopicId != nil {
 			result["topic_id"] = string(*v.TopicId)
