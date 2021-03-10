@@ -97,6 +97,12 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"compute_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"contacts": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -230,8 +236,23 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 					},
 				},
 			},
+			"storage_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
+			"activated_storage_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"additional_storage_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"cpus_enabled": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -419,6 +440,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+		tmp := computeCount.(int)
+		request.ComputeCount = &tmp
+	}
+
 	if contacts, ok := s.D.GetOkExists("contacts"); ok {
 		interfaces := contacts.([]interface{})
 		tmp := make([]oci_database.ExadataInfrastructureContact, len(interfaces))
@@ -517,6 +543,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.Shape = &tmp
 	}
 
+	if storageCount, ok := s.D.GetOkExists("storage_count"); ok {
+		tmp := storageCount.(int)
+		request.StorageCount = &tmp
+	}
+
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
 		tmp := timeZone.(string)
 		request.TimeZone = &tmp
@@ -575,11 +606,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		}
 	}
 
-	if s.D.Get("state").(string) == string(oci_database.ExadataInfrastructureLifecycleStateActive) {
-		return fmt.Errorf("update not allowed on activated exadata infrastructure")
-	}
-
 	request := oci_database.UpdateExadataInfrastructureRequest{}
+
+	if additionalStorageCount, ok := s.D.GetOkExists("additional_storage_count"); ok {
+		tmp := additionalStorageCount.(int)
+		request.AdditionalStorageCount = &tmp
+	}
 
 	if adminNetworkCIDR, ok := s.D.GetOkExists("admin_network_cidr"); ok && s.D.HasChange("admin_network_cidr") {
 		tmp := adminNetworkCIDR.(string)
@@ -694,6 +726,20 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
+	if s.D.Get("state").(string) == string(oci_database.ExadataInfrastructureLifecycleStateRequiresActivation) ||
+		s.D.Get("additional_storage_count").(int) > 0 {
+		if activationFile, ok := s.D.GetOkExists("activation_file"); ok &&
+			s.D.Get("activation_file").(string) != "" {
+			response, err := s.activateExadataInfrastructure(activationFile.(string), s.D.Id())
+			if err != nil {
+				s.D.Set("activation_file", "")
+				return err
+			}
+			s.Res = &response.ExadataInfrastructure
+			return nil
+		}
+	}
+
 	response, err := s.Client.UpdateExadataInfrastructure(context.Background(), request)
 	if err != nil {
 		return err
@@ -705,14 +751,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		return waitErr
 	}
 
-	if activationFile, ok := s.D.GetOkExists("activation_file"); ok {
-		response, err := s.activateExadataInfrastructure(activationFile.(string), s.D.Id())
-		if err != nil {
-			s.D.Set("activation_file", "")
-			return err
-		}
-		s.Res = &response.ExadataInfrastructure
-	}
+	//if s.Res.Shape != s.D.Get("state") {
+	//	s.D.Set("shape", s.Res.Shape)
+	//}
 
 	return nil
 }
@@ -730,6 +771,14 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Delete() error {
 }
 
 func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
+	if s.Res.ActivatedStorageCount != nil {
+		s.D.Set("activated_storage_count", *s.Res.ActivatedStorageCount)
+	}
+
+	if s.Res.AdditionalStorageCount != nil {
+		s.D.Set("additional_storage_count", *s.Res.AdditionalStorageCount)
+	}
+
 	if s.Res.AdminNetworkCIDR != nil {
 		s.D.Set("admin_network_cidr", *s.Res.AdminNetworkCIDR)
 	}
@@ -744,6 +793,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ComputeCount != nil {
+		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
 	contacts := []interface{}{}
@@ -843,6 +896,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.StorageCount != nil {
+		s.D.Set("storage_count", *s.Res.StorageCount)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
