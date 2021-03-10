@@ -76,8 +76,9 @@ var (
 	}
 
 	onsTargetRepresentation = map[string]interface{}{
-		"kind":     Representation{repType: Required, create: `notifications`},
-		"topic_id": Representation{repType: Required, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"kind":                       Representation{repType: Required, create: `notifications`},
+		"topic_id":                   Representation{repType: Required, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"enable_formatted_messaging": Representation{repType: Optional, create: `true`},
 	}
 
 	// create serviceConnector definitions
@@ -252,6 +253,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "notifications"),
 					resource.TestCheckResourceAttrSet(resourceName, "target.0.topic_id"),
+					resource.TestCheckResourceAttr(resourceName, "target.0.enable_formatted_messaging", "true"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")

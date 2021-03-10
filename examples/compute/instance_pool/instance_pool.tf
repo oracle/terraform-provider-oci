@@ -149,6 +149,8 @@ resource "oci_core_instance" "test_instance" {
   timeouts {
     create = "60m"
   }
+
+  fault_domain = "FAULT-DOMAIN-1"
 }
 
 resource "oci_core_image" "custom_image" {
@@ -256,24 +258,36 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 }
 
 resource "oci_core_instance_pool" "test_instance_pool" {
-  compartment_id            = var.compartment_ocid
+  compartment_id = var.compartment_ocid
   instance_configuration_id = oci_core_instance_configuration.test_instance_configuration.id
-  size                      = 2
-  state                     = "RUNNING"
-  display_name              = "TestInstancePool"
+  size = 2
+  state = "RUNNING"
+  display_name = "TestInstancePool"
 
   placement_configurations {
     availability_domain = data.oci_identity_availability_domain.ad.name
-    fault_domains       = ["FAULT-DOMAIN-1"]
-    primary_subnet_id   = oci_core_subnet.test_subnet.id
+    fault_domains = [
+      "FAULT-DOMAIN-1"]
+    primary_subnet_id = oci_core_subnet.test_subnet.id
   }
 
   load_balancers {
     backend_set_name = oci_load_balancer_backend_set.test_backend_set.name
     load_balancer_id = oci_load_balancer.test_load_balancer.id
-    port             = 80
-    vnic_selection   = "primaryvnic"
+    port = 80
+    vnic_selection = "primaryvnic"
   }
+
+  lifecycle {
+    ignore_changes = [size]
+  }
+}
+
+resource "oci_core_instance_pool_instance" "test_instance_pool_instance" {
+  instance_pool_id = oci_core_instance_pool.test_instance_pool.id
+  instance_id = oci_core_instance.test_instance.id
+  decrement_size_on_delete = true
+  auto_terminate_instance_on_delete = false
 }
 
 data "oci_identity_availability_domain" "ad" {

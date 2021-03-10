@@ -8,4 +8,4 @@ description: |-
 
 ## Examples
 
-Examples for the supported services can be found [here](https://github.com/terraform-providers/terraform-provider-oci/tree/master/examples).
+This content is now available at [Examples and Solutions](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformexamples.htm).

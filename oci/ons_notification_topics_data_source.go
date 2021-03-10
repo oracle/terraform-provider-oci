@@ -142,6 +142,10 @@ func (s *OnsNotificationTopicsDataSourceCrud) SetData() error {
 			notificationTopic["name"] = *r.Name
 		}
 
+		if r.ShortTopicId != nil {
+			notificationTopic["short_topic_id"] = *r.ShortTopicId
+		}
+
 		notificationTopic["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

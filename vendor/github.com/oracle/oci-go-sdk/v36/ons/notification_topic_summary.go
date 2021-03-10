@@ -35,6 +35,9 @@ type NotificationTopicSummary struct {
 	// The endpoint for managing subscriptions or publishing messages to the topic.
 	ApiEndpoint *string `mandatory:"true" json:"apiEndpoint"`
 
+	// A unique short topic Id. This is used only for SMS subscriptions.
+	ShortTopicId *string `mandatory:"false" json:"shortTopicId"`
+
 	// The description of the topic.
 	Description *string `mandatory:"false" json:"description"`
 

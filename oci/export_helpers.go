@@ -13,6 +13,7 @@ func init() {
 	exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 	exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
+	exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
 	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
@@ -65,6 +66,13 @@ func getBudgetAlertRuleId(resource *OCIResource) (string, error) {
 	}
 	budgetId := resource.parent.id
 	return getAlertRuleCompositeId(alertRuleId, budgetId), nil
+}
+
+func getCoreInstancePoolInstanceId(resource *OCIResource) (string, error) {
+
+	instancePoolId := resource.parent.id
+	instanceId := resource.sourceAttributes["instance_id"].(string)
+	return getInstancePoolInstanceCompositeId(instancePoolId, instanceId), nil
 }
 
 func getCoreNetworkSecurityGroupSecurityRuleId(resource *OCIResource) (string, error) {

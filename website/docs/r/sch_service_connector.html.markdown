@@ -58,6 +58,7 @@ resource "oci_sch_service_connector" "test_service_connector" {
 		batch_rollover_time_in_ms = var.service_connector_target_batch_rollover_time_in_ms
 		bucket = var.service_connector_target_bucket
 		compartment_id = var.compartment_id
+		enable_formatted_messaging = var.service_connector_target_enable_formatted_messaging
 		function_id = oci_functions_function.test_function.id
 		log_group_id = oci_logging_log_group.test_log_group.id
 		metric = var.service_connector_target_metric
@@ -100,6 +101,7 @@ The following arguments are supported:
 	* `batch_rollover_time_in_ms` - (Applicable when kind=objectStorage) (Updatable) The batch rollover time in milliseconds. 
 	* `bucket` - (Required when kind=objectStorage) (Updatable) The name of the bucket. Avoid entering confidential information. 
 	* `compartment_id` - (Required when kind=monitoring) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric. 
+	* `enable_formatted_messaging` - (Applicable when kind=notifications) (Updatable) Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the service connector source and the subscription protocol.  Example: `true` 
 	* `function_id` - (Required when kind=functions) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function. 
 	* `kind` - (Required) (Updatable) The type descriminator. 
 	* `log_group_id` - (Required when kind=loggingAnalytics) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group. 
@@ -142,6 +144,7 @@ The following attributes are exported:
 	* `batch_rollover_time_in_ms` - The batch rollover time in milliseconds. 
 	* `bucket` - The name of the bucket. Avoid entering confidential information. 
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric. 
+	* `enable_formatted_messaging` - Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the service connector source and the subscription protocol.  Example: `true` 
 	* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function. 
 	* `kind` - The type descriminator. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group. 

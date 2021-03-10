@@ -33,6 +33,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"events":              eventsResourceGraph,
 	"file_storage":        fileStorageResourceGraph,
 	"functions":           functionsResourceGraph,
+	"golden_gate":         goldenGateResourceGraph,
 	"health_checks":       healthChecksResourceGraph,
 	"integration":         integrationResourceGraph,
 	"kms":                 kmsResourceGraph,
@@ -225,6 +226,14 @@ var coreResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportCoreVolumeBackupPolicyAssignmentHints,
 			datasourceQueryParams: map[string]string{
 				"asset_id": "id",
+			},
+		},
+	},
+	"oci_core_instance_pool": {
+		{
+			TerraformResourceHints: exportCoreInstancePoolInstanceHints,
+			datasourceQueryParams: map[string]string{
+				"instance_pool_id": "id",
 			},
 		},
 	},
@@ -483,6 +492,14 @@ var functionsResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var goldenGateResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportGoldenGateDatabaseRegistrationHints},
+		{TerraformResourceHints: exportGoldenGateDeploymentHints},
+		{TerraformResourceHints: exportGoldenGateDeploymentBackupHints},
+	},
+}
+
 var healthChecksResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportHealthChecksHttpMonitorHints},
@@ -657,6 +674,7 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 var loggingResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLoggingLogGroupHints},
+		{TerraformResourceHints: exportLoggingUnifiedAgentConfigurationHints},
 	},
 	"oci_logging_log_group": {
 		{

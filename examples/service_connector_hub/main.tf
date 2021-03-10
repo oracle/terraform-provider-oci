@@ -13,6 +13,9 @@ variable "compartment_ocid" {}
 // If using the log analytics target
 //variable "log_analytics_log_group_id" {}
 
+// If using the notification target
+//variable "notification_topic_id" {}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -145,6 +148,13 @@ resource "oci_sch_service_connector" "test_service_connector" {
   /*target {
     kind            = "loggingAnalytics"
     log_group_id    = var.log_analytics_log_group_id
+  }*/
+
+  // If using the notification target
+  /*target {
+    kind            		= "notifications"
+    topic_id  			= var.notification_topic_id
+    enable_formatted_messaging	= "true"
   }*/
 
   tasks {
