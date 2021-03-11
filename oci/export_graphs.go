@@ -657,6 +657,12 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 			},
 		},
 		{
+			TerraformResourceHints: exportLoadBalancerLoadBalancerRoutingPolicyHints,
+			datasourceQueryParams: map[string]string{
+				"load_balancer_id": "id",
+			},
+		},
+		{
 			TerraformResourceHints: exportLoadBalancerPathRouteSetHints,
 			datasourceQueryParams: map[string]string{
 				"load_balancer_id": "id",

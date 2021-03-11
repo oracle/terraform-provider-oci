@@ -31,6 +31,7 @@ var (
 		"connection_configuration": RepresentationGroup{Optional, listenerConnectionConfigurationRepresentation},
 		"hostname_names":           Representation{repType: Optional, create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
 		"path_route_set_name":      Representation{repType: Optional, create: `${oci_load_balancer_path_route_set.test_path_route_set.name}`},
+		"routing_policy_name":      Representation{repType: Optional, create: `${oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name}`},
 		"rule_set_names":           Representation{repType: Optional, create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
 		"ssl_configuration":        RepresentationGroup{Optional, listenerSslConfigurationRepresentation},
 	}
@@ -43,7 +44,8 @@ var (
 		"verify_peer_certificate": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 
-	ListenerResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+	ListenerResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicyRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies +
@@ -123,6 +125,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+					resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
 					resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
@@ -156,6 +159,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "port", "11"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+					resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
 					resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),

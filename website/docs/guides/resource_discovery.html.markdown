@@ -487,6 +487,7 @@ load_balancer
 * oci\_load\_balancer\_listener
 * oci\_load\_balancer\_load\_balancer
 * oci\_load\_balancer\_path\_route\_set
+* oci\_load\_balancer\_load\_balancer\_routing\_policy
 * oci\_load\_balancer\_rule\_set
 
 logging

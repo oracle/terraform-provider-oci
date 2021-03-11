@@ -1524,6 +1524,13 @@ var exportLoadBalancerPathRouteSetHints = &TerraformResourceHints{
 	resourceAbbreviation: "path_route_set",
 }
 
+var exportLoadBalancerLoadBalancerRoutingPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_load_balancer_load_balancer_routing_policy",
+	datasourceClass:      "oci_load_balancer_load_balancer_routing_policies",
+	datasourceItemsAttr:  "routing_policies",
+	resourceAbbreviation: "load_balancer_routing_policy",
+}
+
 var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	resourceClass:        "oci_load_balancer_rule_set",
 	datasourceClass:      "oci_load_balancer_rule_sets",

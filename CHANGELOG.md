@@ -3,6 +3,7 @@
 ### Added
 - Support for updating instance type in `oci_oce_oce_instance`
 - Support for private native vcn clusters to `container_engine`
+- Support for HTTP2 and Advance Rules Sets added to `load_balancer`
 
 ## 4.17.0 (March 10, 2021)
 

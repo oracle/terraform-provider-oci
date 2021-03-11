@@ -89,7 +89,11 @@ The following arguments are supported:
 		example: `192.168.0.0/16 and 2001:db8::/32 are trusted clients. Whitelist them.` 
 	* `header` - (Required when action=ADD_HTTP_REQUEST_HEADER | ADD_HTTP_RESPONSE_HEADER | EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE | REMOVE_HTTP_REQUEST_HEADER | REMOVE_HTTP_RESPONSE_HEADER) (Updatable) A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `http_large_header_size_in_kb` - (Applicable when action=HTTP_HEADER) (Updatable) The maximum size of each buffer used for reading http client request header. This value indicates the maximum size allowed for each buffer. The allowed values for buffer size are 8, 16, 32 and 64. 
-	* `prefix` - (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
+	* `prefix` - (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
+		*  value cannot contain `$`
+		*  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
+
+		Example: `example_prefix_value` 
 	* `redirect_uri` - (Applicable when action=REDIRECT) (Updatable) An object that defines the redirect URI applied to the original request. The object property values compose the redirect URI.
 
 		**NOTE:** The Load Balancing service cannot automatically detect or avoid infinite redirects. Be sure to provide meaningful, complete, and correct field values. If any component field of this object has no value, the system retains the value from the incoming HTTP request URI.
@@ -190,8 +194,16 @@ The following arguments are supported:
 
 		Example: `301` 
 	* `status_code` - (Applicable when action=CONTROL_ACCESS_USING_HTTP_METHODS) (Updatable) The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is `405 (Method Not Allowed)`.  Example: 403 
-	* `suffix` - (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to append to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_suffix_value` 
-	* `value` - (Required when action=ADD_HTTP_REQUEST_HEADER | ADD_HTTP_RESPONSE_HEADER) (Updatable) A header value that conforms to RFC 7230.  Example: `example_value` 
+	* `suffix` - (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to append to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
+		*  value cannot contain `$`
+		*  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
+
+		Example: `example_suffix_value` 
+	* `value` - (Required when action=ADD_HTTP_REQUEST_HEADER | ADD_HTTP_RESPONSE_HEADER) (Updatable) A header value that conforms to RFC 7230. With the following exceptions:
+		*  value cannot contain `$`
+		*  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
+
+		Example: `example_value` 
 * `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the specified load balancer.
 * `name` - (Required) The name for this set of rules. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: `example_rule_set` 
 
@@ -231,7 +243,11 @@ The following attributes are exported:
 		example: `192.168.0.0/16 and 2001:db8::/32 are trusted clients. Whitelist them.` 
 	* `header` - A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `http_large_header_size_in_kb` - The maximum size of each buffer used for reading http client request header. This value indicates the maximum size allowed for each buffer. The allowed values for buffer size are 8, 16, 32 and 64. 
-	* `prefix` - A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
+	* `prefix` - A string to prepend to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
+		*  value cannot contain `$`
+		*  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
+
+		Example: `example_prefix_value` 
 	* `redirect_uri` - An object that defines the redirect URI applied to the original request. The object property values compose the redirect URI.
 
 		**NOTE:** The Load Balancing service cannot automatically detect or avoid infinite redirects. Be sure to provide meaningful, complete, and correct field values. If any component field of this object has no value, the system retains the value from the incoming HTTP request URI.
@@ -332,8 +348,16 @@ The following attributes are exported:
 
 		Example: `301` 
 	* `status_code` - The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is `405 (Method Not Allowed)`.  Example: 403 
-	* `suffix` - A string to append to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_suffix_value` 
-	* `value` - A header value that conforms to RFC 7230.  Example: `example_value` 
+	* `suffix` - A string to append to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
+		*  value cannot contain `$`
+		*  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
+
+		Example: `example_suffix_value` 
+	* `value` - A header value that conforms to RFC 7230. With the following exceptions:
+		*  value cannot contain `$`
+		*  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
+
+		Example: `example_value` 
 * `name` - The name for this set of rules. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: `example_rule_set` 
 
 ## Import
