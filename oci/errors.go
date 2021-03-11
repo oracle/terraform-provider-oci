@@ -46,10 +46,8 @@ func newCustomError(sync interface{}, err error) error {
 			OpcRequestID:  failure.GetOpcRequestID(),
 			Service:       getServiceName(sync),
 		}
-	}
-
-	// Timeout error
-	if strings.Contains(err.Error(), "timeout while waiting for state") {
+	} else if strings.Contains(err.Error(), "timeout while waiting for state") {
+		// Timeout error
 		tfError = customError{
 			TypeOfError:   TimeoutError,
 			ErrorCodeName: "Operation Timeout",
