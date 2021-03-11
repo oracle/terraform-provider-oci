@@ -88,6 +88,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 			},
 
 			// Optional
+			"create_async": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"activation_file": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -335,6 +340,17 @@ func (s *DatabaseExadataInfrastructureResourceCrud) CreatedPending() []string {
 }
 
 func (s *DatabaseExadataInfrastructureResourceCrud) CreatedTarget() []string {
+	if createAsyn, ok := s.D.GetOk("create_async"); ok {
+		tmp := createAsyn.(bool)
+		if tmp {
+			return []string{
+				string(oci_database.ExadataInfrastructureLifecycleStateCreating),
+				string(oci_database.ExadataInfrastructureLifecycleStateActivating),
+				string(oci_database.ExadataInfrastructureLifecycleStateRequiresActivation),
+				string(oci_database.ExadataInfrastructureLifecycleStateActive),
+			}
+		}
+	}
 	return []string{
 		string(oci_database.ExadataInfrastructureLifecycleStateRequiresActivation),
 		string(oci_database.ExadataInfrastructureLifecycleStateActive),

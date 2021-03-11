@@ -79,6 +79,11 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"create_async": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"backup_network_nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -330,6 +335,15 @@ func (s *DatabaseCloudVmClusterResourceCrud) CreatedPending() []string {
 }
 
 func (s *DatabaseCloudVmClusterResourceCrud) CreatedTarget() []string {
+	if createAsyn, ok := s.D.GetOk("create_async"); ok {
+		tmp := createAsyn.(bool)
+		if tmp {
+			return []string{
+				string(oci_database.CloudVmClusterLifecycleStateAvailable),
+				string(oci_database.CloudVmClusterLifecycleStateProvisioning),
+			}
+		}
+	}
 	return []string{
 		string(oci_database.CloudVmClusterLifecycleStateAvailable),
 	}

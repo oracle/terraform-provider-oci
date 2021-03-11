@@ -267,6 +267,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 						},
 
 						// Optional
+						"create_async": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  false,
+						},
 						"database_software_image_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -871,6 +876,15 @@ func (s *DatabaseDbSystemResourceCrud) CreatedPending() []string {
 }
 
 func (s *DatabaseDbSystemResourceCrud) CreatedTarget() []string {
+	if createAsyn, ok := s.D.GetOk("create_async"); ok {
+		tmp := createAsyn.(bool)
+		if tmp {
+			return []string{
+				string(oci_database.DbSystemLifecycleStateAvailable),
+				string(oci_database.DbSystemLifecycleStateProvisioning),
+			}
+		}
+	}
 	return []string{
 		string(oci_database.DbSystemLifecycleStateAvailable),
 	}
