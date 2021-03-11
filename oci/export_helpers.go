@@ -28,6 +28,14 @@ func init() {
 	exportIdentitySwiftPasswordHints.getIdFn = getIdentitySwiftPasswordId
 	exportKmsKeyHints.getIdFn = getKmsKeyId
 	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
+	exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
+	exportLoadBalancerBackendSetHints.getIdFn = getLoadBalancerBackendSetId
+	exportLoadBalancerCertificateHints.getIdFn = getLoadBalancerCertificateId
+	exportLoadBalancerHostnameHints.getIdFn = getLoadBalancerHostnameId
+	exportLoadBalancerListenerHints.getIdFn = getLoadBalancerListenerId
+	exportLoadBalancerPathRouteSetHints.getIdFn = getLoadBalancerPathRouteSetId
+	exportLoadBalancerLoadBalancerRoutingPolicyHints.getIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
+	exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
 	exportNosqlIndexHints.getIdFn = getNosqlIndexId
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
 	exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
@@ -315,6 +323,16 @@ func getLoadBalancerPathRouteSetId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find pathRouteSetName for LoadBalancer PathRouteSet")
 	}
 	return getPathRouteSetCompositeId(loadBalancerId, pathRouteSetName), nil
+}
+
+func getLoadBalancerLoadBalancerRoutingPolicyId(resource *OCIResource) (string, error) {
+
+	loadBalancerId := resource.parent.id
+	routingPolicyName, ok := resource.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find routingPolicyName for LoadBalancer LoadBalancerRoutingPolicy")
+	}
+	return getLoadBalancerRoutingPolicyCompositeId(loadBalancerId, routingPolicyName), nil
 }
 
 func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {

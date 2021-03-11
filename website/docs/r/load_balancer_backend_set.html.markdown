@@ -58,10 +58,9 @@ resource "oci_load_balancer_backend_set" "test_backend_set" {
 		disable_fallback = var.backend_set_session_persistence_configuration_disable_fallback
 	}
 	ssl_configuration {
-		#Required
-		certificate_name = oci_load_balancer_certificate.test_certificate.name
 
 		#Optional
+		certificate_name = oci_load_balancer_certificate.test_certificate.name
 		cipher_suite_name = var.backend_set_ssl_configuration_cipher_suite_name
 		protocols = var.backend_set_ssl_configuration_protocols
 		server_order_preference = var.backend_set_ssl_configuration_server_order_preference
@@ -162,7 +161,7 @@ The following arguments are supported:
 * `ssl_configuration` - (Optional) (Updatable) The load balancer's SSL handling configuration details.
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
-	* `certificate_name` - (Required) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
+	* `certificate_name` - (Optional) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 	* `cipher_suite_name` - (Optional) (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
 
 		If this field is not specified, the default is `oci-default-ssl-cipher-suite-v1`.

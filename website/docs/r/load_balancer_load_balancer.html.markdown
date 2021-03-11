@@ -106,12 +106,12 @@ The following arguments are supported:
 	* `id` - (Optional) Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP. **Note** If public IP resource is present in the config, the terraform plan will throw `After applying this step and refreshing, the plan was not empty` error, and `private_ip_id` needs to be added as an input argument to the public IP resource block or ignore from its lifecycle as shown in [examples](https://github.com/terraform-providers/terraform-provider-oci/blob/507acd0ed6517dbca2fbcfb8100874929c8fd8e1/examples/load_balancer/lb_full/lb_full.tf#L133) to resolve this error.
 * `shape` - (Required) (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `100Mbps` *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also `10Mbps-Micro` shape cannot be updated to any other shape nor can any other shape be updated to `10Mbps-Micro`.
 * `shape_details` - (Optional) (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is `Flexible`. 
-	* `maximum_bandwidth_in_mbps` - (Required) (Updatable) Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
+	* `maximum_bandwidth_in_mbps` - (Required) (Updatable) Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
 
-		The values must be between minimumBandwidthInMbps and the highest limit available in multiples of 10. The highest limit available is defined in [Service Limits](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).
+		The values must be between minimumBandwidthInMbps and 8192 (8Gbps).
 
 		Example: `1500` 
-	* `minimum_bandwidth_in_mbps` - (Required) (Updatable) Bandwidth in Mbps that determines the total pre-provisioned bandwidth (ingress plus egress). The values must be between 0 and the maximumBandwidthInMbps in multiples of 10. The current allowed maximum value is defined in [Service Limits](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).  Example: `150` 
+	* `minimum_bandwidth_in_mbps` - (Required) (Updatable) Bandwidth in Mbps that determines the total pre-provisioned bandwidth (ingress plus egress). The values must be between 10 and the maximumBandwidthInMbps.  Example: `150` 
 * `ssl_cipher_suites` - (Optional) The configuration details of an SSL cipher suite.
 
 	The algorithms that compose a cipher suite help you secure Transport Layer Security (TLS) or Secure Socket Layer (SSL) network connections. A cipher suite defines the list of security algorithms your load balancer uses to negotiate with peers while sending and receiving information. The cipher suites you use affect the security level, performance, and compatibility of your data traffic.
@@ -196,11 +196,22 @@ The following attributes are exported:
 	*  The network security rules of other resources can reference the NSGs associated with the load balancer to ensure access.
 
 	Example: ["ocid1.nsg.oc1.phx.unique_ID"] 
+* `routing_policies` - A named ordered list of routing rules that is applied to a listener.
+
+	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
+	* `condition_language_version` - The version of the language in which `condition` of `rules` are composed. 
+	* `name` - The unique name for this list of routing rules. Avoid entering confidential information.  Example: `example_routing_policy` 
+	* `rules` - The ordered list of routing rules.
+		* `actions` - A list of actions to be applied when conditions of the routing rule are met. 
+			* `backend_set_name` - Name of the backend set the listener will forward the traffic to.  Example: `backendSetForImages` 
+			* `name` - The name can be one of these values: `FORWARD_TO_BACKENDSET`
+		* `condition` - A routing rule to evaluate defined conditions against the incoming HTTP request and perform an action. 
+		* `name` - A unique name for the routing policy rule. Avoid entering confidential information. 
 * `shape` - A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `100Mbps` 
 * `shape_details` - The configuration details to update load balancer to a different shape. 
-	* `maximum_bandwidth_in_mbps` - Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
+	* `maximum_bandwidth_in_mbps` - Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
 
-		The values must be between minimumBandwidthInMbps and the highest limit available in multiples of 10. The highest limit available is defined in [Service Limits](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).
+		The values must be between minimumBandwidthInMbps and 8192 (8Gbps).
 
 		Example: `1500` 
 	* `minimum_bandwidth_in_mbps` - Bandwidth in Mbps that determines the total pre-provisioned bandwidth (ingress plus egress). The values must be between 0 and the maximumBandwidthInMbps in multiples of 10. The current allowed maximum value is defined in [Service Limits](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).  Example: `150` 
