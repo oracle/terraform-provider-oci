@@ -54,6 +54,11 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			},
 
 			// Optional
+			"create_async": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -336,6 +341,17 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) CreatedPending() [
 }
 
 func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) CreatedTarget() []string {
+
+	if createAsyn, ok := s.D.GetOk("create_async"); ok {
+		tmp := createAsyn.(bool)
+		if tmp {
+			return []string{
+				string(oci_database.AutonomousExadataInfrastructureLifecycleStateAvailable),
+				string(oci_database.AutonomousExadataInfrastructureLifecycleStateProvisioning),
+			}
+		}
+	}
+
 	return []string{
 		string(oci_database.AutonomousExadataInfrastructureLifecycleStateAvailable),
 	}
