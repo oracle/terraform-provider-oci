@@ -16,15 +16,15 @@ import (
 // CreateNotebookSessionDetails Parameters needed to create a new notebook session. Notebook sessions are interactive coding environments for data scientists.
 type CreateNotebookSessionDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the project to associate with the notebook session.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the notebook session.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the compartment where you want to create the notebook session.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the notebook session.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	NotebookSessionConfigurationDetails *NotebookSessionConfigurationDetails `mandatory:"true" json:"notebookSessionConfigurationDetails"`
 
-	// A user-friendly display name for the resource. Does not have to be unique, and can be modified. Avoid entering confidential information.
+	// A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.
 	// Example: `My NotebookSession`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetClusterOptions.go.html to see an example of how to use GetClusterOptionsRequest.
 type GetClusterOptionsRequest struct {
 
-	// The id of the option set to retrieve. Only "all" is supported.
+	// The id of the option set to retrieve. Use "all" get all options, or use a cluster ID to get options specific to the provided cluster.
 	ClusterOptionId *string `mandatory:"true" contributesTo:"path" name:"clusterOptionId"`
 
 	// The OCID of the compartment.

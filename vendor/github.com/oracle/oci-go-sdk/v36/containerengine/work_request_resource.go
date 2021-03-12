@@ -40,21 +40,27 @@ type WorkRequestResourceActionTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestResourceActionTypeEnum
 const (
-	WorkRequestResourceActionTypeCreated    WorkRequestResourceActionTypeEnum = "CREATED"
-	WorkRequestResourceActionTypeUpdated    WorkRequestResourceActionTypeEnum = "UPDATED"
-	WorkRequestResourceActionTypeDeleted    WorkRequestResourceActionTypeEnum = "DELETED"
-	WorkRequestResourceActionTypeRelated    WorkRequestResourceActionTypeEnum = "RELATED"
-	WorkRequestResourceActionTypeInProgress WorkRequestResourceActionTypeEnum = "IN_PROGRESS"
-	WorkRequestResourceActionTypeFailed     WorkRequestResourceActionTypeEnum = "FAILED"
+	WorkRequestResourceActionTypeCreated        WorkRequestResourceActionTypeEnum = "CREATED"
+	WorkRequestResourceActionTypeUpdated        WorkRequestResourceActionTypeEnum = "UPDATED"
+	WorkRequestResourceActionTypeDeleted        WorkRequestResourceActionTypeEnum = "DELETED"
+	WorkRequestResourceActionTypeRelated        WorkRequestResourceActionTypeEnum = "RELATED"
+	WorkRequestResourceActionTypeInProgress     WorkRequestResourceActionTypeEnum = "IN_PROGRESS"
+	WorkRequestResourceActionTypeFailed         WorkRequestResourceActionTypeEnum = "FAILED"
+	WorkRequestResourceActionTypeCanceledCreate WorkRequestResourceActionTypeEnum = "CANCELED_CREATE"
+	WorkRequestResourceActionTypeCanceledUpdate WorkRequestResourceActionTypeEnum = "CANCELED_UPDATE"
+	WorkRequestResourceActionTypeCanceledDelete WorkRequestResourceActionTypeEnum = "CANCELED_DELETE"
 )
 
 var mappingWorkRequestResourceActionType = map[string]WorkRequestResourceActionTypeEnum{
-	"CREATED":     WorkRequestResourceActionTypeCreated,
-	"UPDATED":     WorkRequestResourceActionTypeUpdated,
-	"DELETED":     WorkRequestResourceActionTypeDeleted,
-	"RELATED":     WorkRequestResourceActionTypeRelated,
-	"IN_PROGRESS": WorkRequestResourceActionTypeInProgress,
-	"FAILED":      WorkRequestResourceActionTypeFailed,
+	"CREATED":         WorkRequestResourceActionTypeCreated,
+	"UPDATED":         WorkRequestResourceActionTypeUpdated,
+	"DELETED":         WorkRequestResourceActionTypeDeleted,
+	"RELATED":         WorkRequestResourceActionTypeRelated,
+	"IN_PROGRESS":     WorkRequestResourceActionTypeInProgress,
+	"FAILED":          WorkRequestResourceActionTypeFailed,
+	"CANCELED_CREATE": WorkRequestResourceActionTypeCanceledCreate,
+	"CANCELED_UPDATE": WorkRequestResourceActionTypeCanceledUpdate,
+	"CANCELED_DELETE": WorkRequestResourceActionTypeCanceledDelete,
 }
 
 // GetWorkRequestResourceActionTypeEnumValues Enumerates the set of values for WorkRequestResourceActionTypeEnum

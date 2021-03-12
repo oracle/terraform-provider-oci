@@ -34,10 +34,15 @@ type UpdateListenerDetails struct {
 	// An array of hostname resource names.
 	HostnameNames []string `mandatory:"false" json:"hostnameNames"`
 
+	// Deprecated. Please use `routingPolicies` instead.
 	// The name of the set of path-based routing rules, PathRouteSet,
 	// applied to this listener's traffic.
 	// Example: `example_path_route_set`
 	PathRouteSetName *string `mandatory:"false" json:"pathRouteSetName"`
+
+	// The name of the routing policy applied to this listener's traffic.
+	// Example: `example_routing_policy`
+	RoutingPolicyName *string `mandatory:"false" json:"routingPolicyName"`
 
 	SslConfiguration *SslConfigurationDetails `mandatory:"false" json:"sslConfiguration"`
 

@@ -16,10 +16,10 @@ import (
 // NotebookSessionConfigurationDetails Details for the notebook session configuration.
 type NotebookSessionConfigurationDetails struct {
 
-	// The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved from the `ListNotebookSessionShapes` endpoint.
+	// The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint.
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// A notebook session instance is provided with a VNIC for network access.  This specifies the OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet.
+	// A notebook session instance is provided with a VNIC for network access.  This specifies the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs.

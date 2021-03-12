@@ -14,10 +14,10 @@ import (
 )
 
 // UpdateNotebookSessionDetails Details for updating a notebook session. `notebookSessionConfigurationDetails` can only be updated while the notebook session is in the `INACTIVE` state.
-// Changes to the `notebookSessionConfigurationDetails` will take effect the next time the `ActivateNotebookSession` action is invoked on the notebook session resource.
+// Changes to the `notebookSessionConfigurationDetails` take effect the next time the `ActivateNotebookSession` action is invoked on the notebook session resource.
 type UpdateNotebookSessionDetails struct {
 
-	// A user-friendly display name for the resource. Does not have to be unique, and can be modified. Avoid entering confidential information.
+	// A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.
 	// Example: `My NotebookSession`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
