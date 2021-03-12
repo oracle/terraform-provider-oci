@@ -30,6 +30,9 @@ type CreateClusterDetails struct {
 	// The version of Kubernetes to install into the cluster masters.
 	KubernetesVersion *string `mandatory:"true" json:"kubernetesVersion"`
 
+	// The network configuration for access to the Cluster control plane.
+	EndpointConfig *CreateClusterEndpointConfigDetails `mandatory:"false" json:"endpointConfig"`
+
 	// The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption.
 	// When used, `kubernetesVersion` must be at least `v1.13.0`.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`

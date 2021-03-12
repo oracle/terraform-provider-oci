@@ -20,7 +20,6 @@ import (
 // **NOTES:**
 // *  If a matching header already exists in the request, the system removes all of its occurrences, and then adds the
 //    new header.
-// * If a customer adds empty value, it has the same effect as dropping that header.
 // *  The system does not distinquish between underscore and dash characters in headers. That is, it treats
 //   `example_header_name` and `example-header-name` as identical. Oracle recommends that you do not rely on underscore
 //   or dash characters to uniquely distinguish header names.

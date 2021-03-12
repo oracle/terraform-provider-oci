@@ -16,10 +16,10 @@ import (
 // UpdateProjectDetails Details for updating a project.
 type UpdateProjectDetails struct {
 
-	// A user-friendly display name for the resource. Does not have to be unique, and can be modified. Avoid entering confidential information.
+	// A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// A short blurb describing the project.
+	// A short description of the project.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

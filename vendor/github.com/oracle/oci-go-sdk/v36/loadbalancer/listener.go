@@ -40,6 +40,7 @@ type Listener struct {
 	// An array of hostname resource names.
 	HostnameNames []string `mandatory:"false" json:"hostnameNames"`
 
+	// Deprecated. Please use `routingPolicies` instead.
 	// The name of the set of path-based routing rules, PathRouteSet,
 	// applied to this listener's traffic.
 	// Example: `example_path_route_set`
@@ -52,6 +53,10 @@ type Listener struct {
 	// The names of the RuleSet to apply to the listener.
 	// Example: ["example_rule_set"]
 	RuleSetNames []string `mandatory:"false" json:"ruleSetNames"`
+
+	// The name of the routing policy applied to this listener's traffic.
+	// Example: `example_routing_policy_name`
+	RoutingPolicyName *string `mandatory:"false" json:"routingPolicyName"`
 }
 
 func (m Listener) String() string {

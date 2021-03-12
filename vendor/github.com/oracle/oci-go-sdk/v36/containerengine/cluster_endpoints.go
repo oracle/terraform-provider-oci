@@ -18,8 +18,14 @@ import (
 // ClusterEndpoints The properties that define endpoints for a cluster.
 type ClusterEndpoints struct {
 
-	// The Kubernetes API server endpoint.
+	// The non-native networking Kubernetes API server endpoint.
 	Kubernetes *string `mandatory:"false" json:"kubernetes"`
+
+	// The public native networking Kubernetes API server endpoint, if one was requested.
+	PublicEndpoint *string `mandatory:"false" json:"publicEndpoint"`
+
+	// The private native networking Kubernetes API server endpoint.
+	PrivateEndpoint *string `mandatory:"false" json:"privateEndpoint"`
 }
 
 func (m ClusterEndpoints) String() string {

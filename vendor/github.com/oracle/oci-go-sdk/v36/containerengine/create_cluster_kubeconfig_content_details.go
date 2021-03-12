@@ -23,8 +23,36 @@ type CreateClusterKubeconfigContentDetails struct {
 
 	// Deprecated. This field is no longer used.
 	Expiration *int `mandatory:"false" json:"expiration"`
+
+	// The endpoint to target. A cluster may have multiple endpoints exposed but the kubeconfig can only target one at a time.
+	Endpoint CreateClusterKubeconfigContentDetailsEndpointEnum `mandatory:"false" json:"endpoint,omitempty"`
 }
 
 func (m CreateClusterKubeconfigContentDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateClusterKubeconfigContentDetailsEndpointEnum Enum with underlying type: string
+type CreateClusterKubeconfigContentDetailsEndpointEnum string
+
+// Set of constants representing the allowable values for CreateClusterKubeconfigContentDetailsEndpointEnum
+const (
+	CreateClusterKubeconfigContentDetailsEndpointLegacyKubernetes CreateClusterKubeconfigContentDetailsEndpointEnum = "LEGACY_KUBERNETES"
+	CreateClusterKubeconfigContentDetailsEndpointPublicEndpoint   CreateClusterKubeconfigContentDetailsEndpointEnum = "PUBLIC_ENDPOINT"
+	CreateClusterKubeconfigContentDetailsEndpointPrivateEndpoint  CreateClusterKubeconfigContentDetailsEndpointEnum = "PRIVATE_ENDPOINT"
+)
+
+var mappingCreateClusterKubeconfigContentDetailsEndpoint = map[string]CreateClusterKubeconfigContentDetailsEndpointEnum{
+	"LEGACY_KUBERNETES": CreateClusterKubeconfigContentDetailsEndpointLegacyKubernetes,
+	"PUBLIC_ENDPOINT":   CreateClusterKubeconfigContentDetailsEndpointPublicEndpoint,
+	"PRIVATE_ENDPOINT":  CreateClusterKubeconfigContentDetailsEndpointPrivateEndpoint,
+}
+
+// GetCreateClusterKubeconfigContentDetailsEndpointEnumValues Enumerates the set of values for CreateClusterKubeconfigContentDetailsEndpointEnum
+func GetCreateClusterKubeconfigContentDetailsEndpointEnumValues() []CreateClusterKubeconfigContentDetailsEndpointEnum {
+	values := make([]CreateClusterKubeconfigContentDetailsEndpointEnum, 0)
+	for _, v := range mappingCreateClusterKubeconfigContentDetailsEndpoint {
+		values = append(values, v)
+	}
+	return values
 }

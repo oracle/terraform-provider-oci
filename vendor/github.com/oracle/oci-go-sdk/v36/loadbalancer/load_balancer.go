@@ -103,6 +103,8 @@ type LoadBalancer struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	RuleSets map[string]RuleSet `mandatory:"false" json:"ruleSets"`
+
+	RoutingPolicies map[string]RoutingPolicy `mandatory:"false" json:"routingPolicies"`
 }
 
 func (m LoadBalancer) String() string {

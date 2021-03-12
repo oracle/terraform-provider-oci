@@ -27,6 +27,9 @@ type ClusterSummary struct {
 	// The OCID of the compartment in which the cluster exists.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// The network configuration for access to the Cluster control plane.
+	EndpointConfig *ClusterEndpointConfig `mandatory:"false" json:"endpointConfig"`
+
 	// The OCID of the virtual cloud network (VCN) in which the cluster exists
 	VcnId *string `mandatory:"false" json:"vcnId"`
 

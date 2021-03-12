@@ -17,10 +17,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModelArtifactContent.go.html to see an example of how to use GetModelArtifactContentRequest.
 type GetModelArtifactContentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the model.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
+	// Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Optional byte range to fetch, as described in RFC 7233 (https://tools.ietf.org/html/rfc7232#section-2.1), section 2.1.
@@ -58,8 +58,8 @@ type GetModelArtifactContentResponse struct {
 	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Unique Oracle assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// The content size of the body in bytes.

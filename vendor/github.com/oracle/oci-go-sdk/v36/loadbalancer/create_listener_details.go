@@ -42,6 +42,7 @@ type CreateListenerDetails struct {
 	// An array of hostname resource names.
 	HostnameNames []string `mandatory:"false" json:"hostnameNames"`
 
+	// Deprecated. Please use `routingPolicies` instead.
 	// The name of the set of path-based routing rules, PathRouteSet,
 	// applied to this listener's traffic.
 	// Example: `example_path_route_set`
@@ -50,6 +51,10 @@ type CreateListenerDetails struct {
 	SslConfiguration *SslConfigurationDetails `mandatory:"false" json:"sslConfiguration"`
 
 	ConnectionConfiguration *ConnectionConfiguration `mandatory:"false" json:"connectionConfiguration"`
+
+	// The name of the routing policy applied to this listener's traffic.
+	// Example: `example_routing_policy`
+	RoutingPolicyName *string `mandatory:"false" json:"routingPolicyName"`
 
 	// The names of the RuleSet to apply to the listener.
 	// Example: ["example_rule_set"]
