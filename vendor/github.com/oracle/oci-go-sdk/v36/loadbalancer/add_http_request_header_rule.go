@@ -30,7 +30,9 @@ type AddHttpRequestHeaderRule struct {
 	// Example: `example_header_name`
 	Header *string `mandatory:"true" json:"header"`
 
-	// A header value that conforms to RFC 7230.
+	// A header value that conforms to RFC 7230. With the following exceptions:
+	// *  value cannot contain `$`
+	// *  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
 	// Example: `example_value`
 	Value *string `mandatory:"true" json:"value"`
 }

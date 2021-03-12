@@ -31,10 +31,16 @@ type ExtendHttpResponseHeaderValueRule struct {
 	Header *string `mandatory:"true" json:"header"`
 
 	// A string to prepend to the header value. The resulting header value must still conform to RFC 7230.
+	// With the following exceptions:
+	// *  value cannot contain `$`
+	// *  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
 	// Example: `example_prefix_value`
 	Prefix *string `mandatory:"false" json:"prefix"`
 
 	// A string to append to the header value. The resulting header value must still conform to RFC 7230.
+	// With the following exceptions:
+	// *  value cannot contain `$`
+	// *  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
 	// Example: `example_suffix_value`
 	Suffix *string `mandatory:"false" json:"suffix"`
 }
