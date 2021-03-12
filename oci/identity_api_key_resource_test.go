@@ -16,24 +16,8 @@ import (
 )
 
 const (
-	api_key = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBLQAGmKJ7tpfzYJyqLG
-ZDwHL51+d6T8Z00BnP9CFfzxZZZ48PcYSUHuTyCM8mR5JqYLyH6C8tZ/DKqwxUnc
-ONgBytG3MM42bgxfHIhsZRj5rCz1oqWlSLuXvgww1kuqWnt6r+NtnXog439YsGTH
-RotrTLTdEgOxH0EFP5uHUc9w/Uix7rWU7GB2ra060oeTB/hKpts5U70eI2EI6ec9
-1sJdUIj7xNfBJeQQrz4CFUrkyzL06211CFvhmxH2hA9gBKOqC3rGL8XraHZBhGWn
-mXlrQB7nNKsJrrv5fHwaPDrAY4iNP2W0q3LRpyNigJ6cgRuGJhHa82iHPmxgIx8m
-fwIDAQAB
------END PUBLIC KEY-----`
-	api_key_with_whitespace = `  -----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBLQAGmKJ7tpfzYJyqLGZDwHL51+d6T8Z00BnP9CFfzxZZZ48PcYSUHuTyCM8mR5JqYLyH6C8tZ/DKqwxUnc
-
-ONgBytG3MM42bgxfHIhsZRj5rCz1oqWlSLuXvgww1kuqWnt6r+NtnXog439YsGTHRotrTLTdEgOxH0EFP5uHUc9w/Uix7rWU7GB2ra060oeTB/hKpts5U70eI2EI6ec9
-
-1sJdUIj7xNfBJeQQrz4CFUrkyzL06211CFvhmxH2hA9gBKOqC3rGL8XraHZBhGWnmXlrQB7nNKsJrrv5fHwaPDrAY4iNP2W0q3LRpyNigJ6cgRuGJhHa82iHPmxgIx8m
-
-fwIDAQAB
------END PUBLIC KEY-----  `
+	api_key                 = ""
+	api_key_with_whitespace = ""
 )
 
 type ResourceIdentityAPIKeyTestSuite struct {
@@ -114,6 +98,7 @@ EOF
 }
 
 func TestResourceIdentityAPIKeyTestSuite(t *testing.T) {
+	t.Skip("Run manually with a valid api key")
 	httpreplay.SetScenario("TestResourceIdentityAPIKeyTestSuite")
 	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceIdentityAPIKeyTestSuite))
