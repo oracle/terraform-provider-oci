@@ -35,6 +35,7 @@ import (
 	oci_marketplace "github.com/oracle/oci-go-sdk/v36/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v36/monitoring"
 	oci_mysql "github.com/oracle/oci-go-sdk/v36/mysql"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v36/networkloadbalancer"
 	oci_nosql "github.com/oracle/oci-go-sdk/v36/nosql"
 	oci_oce "github.com/oracle/oci-go-sdk/v36/oce"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v36/ocvp"
@@ -1657,6 +1658,45 @@ var exportMysqlChannelHints = &TerraformResourceHints{
 		string(oci_mysql.ChannelLifecycleStateActive),
 		string(oci_mysql.ChannelLifecycleStateNeedsAttention),
 	},
+}
+
+var exportNetworkLoadBalancerNetworkLoadBalancerHints = &TerraformResourceHints{
+	resourceClass:          "oci_network_load_balancer_network_load_balancer",
+	datasourceClass:        "oci_network_load_balancer_network_load_balancers",
+	datasourceItemsAttr:    "network_load_balancer_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "network_load_balancer",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_network_load_balancer.LifecycleStateActive),
+	},
+}
+
+var exportNetworkLoadBalancerBackendSetHints = &TerraformResourceHints{
+	resourceClass:          "oci_network_load_balancer_backend_set",
+	datasourceClass:        "oci_network_load_balancer_backend_sets",
+	datasourceItemsAttr:    "backend_set_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "backend_set",
+	requireResourceRefresh: true,
+}
+
+var exportNetworkLoadBalancerBackendHints = &TerraformResourceHints{
+	resourceClass:          "oci_network_load_balancer_backend",
+	datasourceClass:        "oci_network_load_balancer_backends",
+	datasourceItemsAttr:    "backend_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "backend",
+	requireResourceRefresh: true,
+}
+
+var exportNetworkLoadBalancerListenerHints = &TerraformResourceHints{
+	resourceClass:          "oci_network_load_balancer_listener",
+	datasourceClass:        "oci_network_load_balancer_listeners",
+	datasourceItemsAttr:    "listener_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "listener",
+	requireResourceRefresh: true,
 }
 
 var exportNosqlTableHints = &TerraformResourceHints{
