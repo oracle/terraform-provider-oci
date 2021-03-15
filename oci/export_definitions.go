@@ -45,6 +45,7 @@ import (
 	oci_osmanagement "github.com/oracle/oci-go-sdk/v37/osmanagement"
 	oci_sch "github.com/oracle/oci-go-sdk/v37/sch"
 	oci_streaming "github.com/oracle/oci-go-sdk/v37/streaming"
+	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v37/vulnerabilityscanning"
 	oci_waas "github.com/oracle/oci-go-sdk/v37/waas"
 )
 
@@ -1919,6 +1920,30 @@ var exportStreamingStreamHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_streaming.StreamLifecycleStateActive),
+	},
+}
+
+var exportVulnerabilityScanningHostScanRecipeHints = &TerraformResourceHints{
+	resourceClass:          "oci_vulnerability_scanning_host_scan_recipe",
+	datasourceClass:        "oci_vulnerability_scanning_host_scan_recipes",
+	datasourceItemsAttr:    "host_scan_recipe_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "host_scan_recipe",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_vulnerability_scanning.LifecycleStateActive),
+	},
+}
+
+var exportVulnerabilityScanningHostScanTargetHints = &TerraformResourceHints{
+	resourceClass:          "oci_vulnerability_scanning_host_scan_target",
+	datasourceClass:        "oci_vulnerability_scanning_host_scan_targets",
+	datasourceItemsAttr:    "host_scan_target_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "host_scan_target",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_vulnerability_scanning.LifecycleStateActive),
 	},
 }
 

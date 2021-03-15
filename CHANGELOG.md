@@ -3,6 +3,7 @@
 ### Added
 - Support for VMware vSphere 7.x to Oracle Cloud VMware Solution added
 - Support for Cost Analysis: Forecasting added
+- Support for OCI Vulnerability Scanning Service
 
 ## 4.19.0 (March 24, 2021)
 

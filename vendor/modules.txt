@@ -269,6 +269,7 @@ github.com/oracle/oci-go-sdk/v37/sch
 github.com/oracle/oci-go-sdk/v37/streaming
 github.com/oracle/oci-go-sdk/v37/usageapi
 github.com/oracle/oci-go-sdk/v37/vault
+github.com/oracle/oci-go-sdk/v37/vulnerabilityscanning
 github.com/oracle/oci-go-sdk/v37/waas
 github.com/oracle/oci-go-sdk/v37/workrequests
 # github.com/pmezard/go-difflib v1.0.0
