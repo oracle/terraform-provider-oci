@@ -46,6 +46,7 @@ func init() {
 	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
 	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
+
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
