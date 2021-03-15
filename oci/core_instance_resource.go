@@ -399,6 +399,54 @@ func CoreInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"preemptible_instance_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"preemption_action": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"TERMINATE",
+										}, true),
+									},
+
+									// Optional
+									"preserve_boot_volume": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"shape_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -851,6 +899,17 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		}
 	}
 
+	if preemptibleInstanceConfig, ok := s.D.GetOkExists("preemptible_instance_config"); ok {
+		if tmpList := preemptibleInstanceConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "preemptible_instance_config", 0)
+			tmp, err := s.mapToPreemptibleInstanceConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PreemptibleInstanceConfig = &tmp
+		}
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -1194,6 +1253,12 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		s.D.Set("platform_config", platformConfigArray)
 	} else {
 		s.D.Set("platform_config", nil)
+	}
+
+	if s.Res.PreemptibleInstanceConfig != nil {
+		s.D.Set("preemptible_instance_config", []interface{}{PreemptibleInstanceConfigDetailsToMap(s.Res.PreemptibleInstanceConfig)})
+	} else {
+		s.D.Set("preemptible_instance_config", nil)
 	}
 
 	if s.Res.Region != nil {
@@ -2010,6 +2075,78 @@ func (s *CoreInstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error)
 	}
 
 	return &bootVolumeResponse.BootVolume, nil
+}
+
+func (s *CoreInstanceResourceCrud) mapToPreemptibleInstanceConfigDetails(fieldKeyFormat string) (oci_core.PreemptibleInstanceConfigDetails, error) {
+	result := oci_core.PreemptibleInstanceConfigDetails{}
+
+	if preemptionAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preemption_action")); ok {
+		if tmpList := preemptionAction.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "preemption_action"), 0)
+			tmp, err := s.mapToPreemptionAction(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert preemption_action, encountered error: %v", err)
+			}
+			result.PreemptionAction = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func PreemptibleInstanceConfigDetailsToMap(obj *oci_core.PreemptibleInstanceConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PreemptionAction != nil {
+		preemptionActionArray := []interface{}{}
+		if preemptionActionMap := PreemptionActionToMap(&obj.PreemptionAction); preemptionActionMap != nil {
+			preemptionActionArray = append(preemptionActionArray, preemptionActionMap)
+		}
+		result["preemption_action"] = preemptionActionArray
+	}
+
+	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToPreemptionAction(fieldKeyFormat string) (oci_core.PreemptionAction, error) {
+	var baseObject oci_core.PreemptionAction
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("TERMINATE"):
+		details := oci_core.TerminatePreemptionAction{}
+		if preserveBootVolume, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preserve_boot_volume")); ok {
+			tmp := preserveBootVolume.(bool)
+			details.PreserveBootVolume = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func PreemptionActionToMap(obj *oci_core.PreemptionAction) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_core.TerminatePreemptionAction:
+		result["type"] = "TERMINATE"
+
+		if v.PreserveBootVolume != nil {
+			result["preserve_boot_volume"] = bool(*v.PreserveBootVolume)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }
 
 func (s *CoreInstanceResourceCrud) updateCompartment(compartment interface{}) error {

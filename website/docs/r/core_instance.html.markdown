@@ -127,6 +127,16 @@ resource "oci_core_instance" "test_instance" {
 		#Optional
 		numa_nodes_per_socket = var.instance_platform_config_numa_nodes_per_socket
 	}
+	preemptible_instance_config {
+		#Required
+		preemption_action {
+			#Required
+			type = var.instance_preemptible_instance_config_preemption_action_type
+
+			#Optional
+			preserve_boot_volume = var.instance_preemptible_instance_config_preemption_action_preserve_boot_volume
+		}
+	}
 	shape_config {
 
 		#Optional
@@ -319,7 +329,10 @@ The following arguments are supported:
 	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
 	* `numa_nodes_per_socket` - (Optional) The number of NUMA nodes per socket (NPS). 
 	* `type` - (Required) The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
-* `preserve_boot_volume` - (Optional) Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
+* `preemptible_instance_config` - (Optional) Options for defining the configuration of preemptible instances. 
+	* `preemption_action` - (Required) The action to execute when the preemptible instance is interrupted for eviction. 
+		* `preserve_boot_volume` - (Optional) Whether to maintain the boot volume used to launch the preemptible instance. Defaults to false. 
+		* `type` - (Required) The type of preemptible action to execute upon interruption.
 * `shape` - (Required) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
@@ -422,7 +435,7 @@ The following attributes are exported:
 		* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for Oracle-provided images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. 
+	* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/datatypes/LaunchInstanceDetails). 
 	* `network_type` - Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
@@ -437,7 +450,10 @@ The following attributes are exported:
 * `platform_config` - The platform configuration for the instance. 
 	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
 	* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM`. 
-* `preserve_boot_volume` - Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
+* `preemptible_instance_config` - Options for defining the configuration of preemptible instances. 
+	* `preemption_action` - The action to execute when the preemptible instance is interrupted for eviction. 
+		* `preserve_boot_volume` - Whether to maintain the boot volume used to launch the preemptible instance. Defaults to false. 
+		* `type` - The type of preemptible action to execute upon interruption.
 * `private_ip` - The private IP address of instance VNIC. To set the private IP address, use the `private_ip` argument in create_vnic_details.
 * `public_ip` - The public IP address of instance VNIC (if enabled).
 * `region` - The region that contains the availability domain the instance is running in.
