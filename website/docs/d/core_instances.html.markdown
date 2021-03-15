@@ -142,6 +142,10 @@ The following attributes are exported:
 * `platform_config` - The platform configuration for the instance. 
 	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
 	* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM`. 
+* `preemptible_instance_config` - Options for defining the configuration of preemptible instances. 
+	* `preemption_action` - The action to execute when the preemptible instance is interrupted for eviction. 
+		* `preserve_boot_volume` - Whether to maintain the boot volume used to launch the preemptible instance. Defaults to false. 
+		* `type` - The type of preemptible action to execute upon interruption.
 * `region` - The region that contains the availability domain the instance is running in.
 
 	For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively. For all other regions, the full region name is returned.

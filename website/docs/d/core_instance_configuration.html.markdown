@@ -202,6 +202,10 @@ The following attributes are exported:
 			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
 			* `numa_nodes_per_socket` - The number of NUMA nodes per socket. 
 			* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM`. 
+		* `preemptible_instance_config` - Options for defining the configuration of preemptible instances. 
+			* `preemption_action` - The action to execute when the preemptible instance is interrupted for eviction. 
+				* `preserve_boot_volume` - Whether to maintain the boot volume used to launch the preemptible instance. Defaults to false. 
+				* `type` - The type of preemptible action to execute upon interruption.
 		* `preferred_maintenance_action` - The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 			* `LIVE_MIGRATE` - Run maintenance using a live migration.
 			* `REBOOT` - Run maintenance using a reboot. 

@@ -158,6 +158,12 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("platform_config", nil)
 	}
 
+	if s.Res.PreemptibleInstanceConfig != nil {
+		s.D.Set("preemptible_instance_config", []interface{}{PreemptibleInstanceConfigDetailsToMap(s.Res.PreemptibleInstanceConfig)})
+	} else {
+		s.D.Set("preemptible_instance_config", nil)
+	}
+
 	if s.Res.Region != nil {
 		s.D.Set("region", *s.Res.Region)
 	}

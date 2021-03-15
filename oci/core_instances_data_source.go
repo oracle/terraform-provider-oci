@@ -212,6 +212,12 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["platform_config"] = nil
 		}
 
+		if r.PreemptibleInstanceConfig != nil {
+			instance["preemptible_instance_config"] = []interface{}{PreemptibleInstanceConfigDetailsToMap(r.PreemptibleInstanceConfig)}
+		} else {
+			instance["preemptible_instance_config"] = nil
+		}
+
 		if r.Region != nil {
 			instance["region"] = *r.Region
 		}
