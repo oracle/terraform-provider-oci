@@ -1474,6 +1474,16 @@ var exportKmsVerifyHints = &TerraformResourceHints{
 	resourceAbbreviation: "verify",
 }
 
+var exportKmsCreateReplicaHints = &TerraformResourceHints{
+	resourceClass:        "oci_kms_vault_replication",
+	resourceAbbreviation: "vault_replication",
+}
+
+var exportKmsDeleteReplicaHints = &TerraformResourceHints{
+	resourceClass:        "oci_kms_vault_replication",
+	resourceAbbreviation: "vault_replication",
+}
+
 var exportIdentityNetworkSourceHints = &TerraformResourceHints{
 	resourceClass:          "oci_identity_network_source",
 	datasourceClass:        "oci_identity_network_sources",

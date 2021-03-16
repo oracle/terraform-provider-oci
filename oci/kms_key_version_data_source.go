@@ -94,8 +94,18 @@ func (s *KmsKeyVersionDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.IsPrimary != nil {
+		s.D.Set("is_primary", *s.Res.IsPrimary)
+	}
+
 	if s.Res.PublicKey != nil {
 		s.D.Set("public_key", *s.Res.PublicKey)
+	}
+
+	if s.Res.ReplicaDetails != nil {
+		s.D.Set("replica_details", []interface{}{KeyVersionReplicaDetailsToMap(s.Res.ReplicaDetails)})
+	} else {
+		s.D.Set("replica_details", nil)
 	}
 
 	if s.Res.RestoredFromKeyVersionId != nil {

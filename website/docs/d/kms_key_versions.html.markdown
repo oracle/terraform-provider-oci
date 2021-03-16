@@ -49,8 +49,11 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains this key version.
 * `id` - The OCID of the key version.
+* `is_primary` - A boolean that will be true when key version is primary, and will be false when key version is a replica from a primary key version.
 * `key_id` - The OCID of the master encryption key associated with this key version.
-* `public_key` - The public key in PEM format which will be populated only in case of RSA and ECDSA keys. 
+* `public_key` - The public key in PEM format. (This value pertains only to RSA and ECDSA keys.) 
+* `replica_details` - KeyVersion replica details 
+	* `replication_id` - ReplicationId associated with a key version operation 
 * `restored_from_key_version_id` - The OCID of the key version from which this key version was restored.
 * `state` - The key version's current lifecycle state.  Example: `ENABLED` 
 * `key_version_id` - The OCID of the key version.

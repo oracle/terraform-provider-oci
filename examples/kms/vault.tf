@@ -33,3 +33,12 @@ resource "oci_kms_vault" "private-vault-kms" {
   //restore_trigger = var.vault_restore_trigger
 }
 
+// Use oci_kms_vault_replication to create, update and delete a replica of a vault.
+// Currently only support virtual private vault.
+
+/*resource "oci_kms_vault_replication" "test_replica" {
+  # Required
+  vault_id = data.oci_kms_vault.test_vault.id
+  replica_region = var.destination_region
+}*/
+

@@ -53,11 +53,11 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `key_shape` - (Required) The cryptographic properties of a key.
 	* `algorithm` - (Required) The algorithm used by a key's key versions to encrypt or decrypt.
-	* `curve_id` - (Optional) Supported curve Ids for ECDSA keys
-	* `length` - (Required) The length of the key in bytes, expressed as an integer. Values supported:
-		* AES: 16, 24 or 32
-		* RSA: 256, 384 or 512
-		* ECDSA: 32, 48, 66 
+	* `curve_id` - (Optional) Supported curve IDs for ECDSA keys.
+	* `length` - (Required) The length of the key in bytes, expressed as an integer. Supported values include the following:
+		* AES: 16, 24, or 32
+		* RSA: 256, 384, or 512
+		* ECDSA: 32, 48, or 66 
 * `management_endpoint` - (Required) The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
 * `protection_mode` - (Optional) The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,  a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported. 
 * `restore_from_file` - (Optional) (Updatable) Details where key was backed up.
@@ -86,14 +86,17 @@ The following attributes are exported:
 * `display_name` - A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the key.
+* `is_primary` - A boolean that will be true when key is primary, and will be false when key is a replica from a primary key.
 * `key_shape` - The cryptographic properties of a key.
 	* `algorithm` - The algorithm used by a key's key versions to encrypt or decrypt.
-	* `curve_id` - Supported curve Ids for ECDSA keys
-	* `length` - The length of the key in bytes, expressed as an integer. Values supported:
-		* AES: 16, 24 or 32
-		* RSA: 256, 384 or 512
-		* ECDSA: 32, 48, 66 
+	* `curve_id` - Supported curve IDs for ECDSA keys.
+	* `length` - The length of the key in bytes, expressed as an integer. Supported values include the following:
+		* AES: 16, 24, or 32
+		* RSA: 256, 384, or 512
+		* ECDSA: 32, 48, or 66 
 * `protection_mode` - The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,  a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported. 
+* `replica_details` - Key replica details 
+	* `replication_id` - ReplicationId associated with a key operation 
 * `restored_from_key_id` - The OCID of the key from which this key was restored.
 * `state` - The key's current lifecycle state.  Example: `ENABLED` 
 * `time_created` - The date and time the key was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 

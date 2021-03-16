@@ -85,8 +85,18 @@ func (s *KmsVaultDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsPrimary != nil {
+		s.D.Set("is_primary", *s.Res.IsPrimary)
+	}
+
 	if s.Res.ManagementEndpoint != nil {
 		s.D.Set("management_endpoint", *s.Res.ManagementEndpoint)
+	}
+
+	if s.Res.ReplicaDetails != nil {
+		s.D.Set("replica_details", []interface{}{VaultReplicaDetailsToMap(s.Res.ReplicaDetails)})
+	} else {
+		s.D.Set("replica_details", nil)
 	}
 
 	if s.Res.RestoredFromVaultId != nil {
