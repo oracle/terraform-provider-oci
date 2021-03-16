@@ -200,8 +200,8 @@ github.com/oklog/run v1.0.0/go.mod h1:dlhp/R75TPv97u0XWUtDeV/lRKWPKSdTuV0TZvrmrQ
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/gomega v1.4.3/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
-github.com/oracle/oci-go-sdk/v36 v36.1.0 h1:xihE2lklj+hUoNLe4Tw2g20YkWDUogGE1FXVDJUa6K0=
-github.com/oracle/oci-go-sdk/v36 v36.1.0/go.mod h1:t8Y/M3Lh8X4BOJhtThJKe1skRTg7qom7oWyHiNjo4RM=
+github.com/oracle/oci-go-sdk/v36 v36.2.0 h1:oBaN/FnBDy3ohMyVZ/rKfekYxnyksG2KK0YAhT5HSnk=
+github.com/oracle/oci-go-sdk/v36 v36.2.0/go.mod h1:t8Y/M3Lh8X4BOJhtThJKe1skRTg7qom7oWyHiNjo4RM=
 github.com/pierrec/lz4 v2.0.5+incompatible/go.mod h1:pdkljMzZIN41W+lC3N2tnIh5sFi+IEE17M5jbnwPHcY=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
