@@ -46,11 +46,11 @@ The following arguments are supported:
 * `key_id` - (Required) The OCID of the master encryption key to encrypt the generated data encryption key with.
 * `key_shape` - (Required) The cryptographic properties of a key.
 	* `algorithm` - (Required) The algorithm used by a key's key versions to encrypt or decrypt.
-	* `curve_id` - (Optional) Supported curve Ids for ECDSA keys
-	* `length` - (Required) The length of the key in bytes, expressed as an integer. Values supported:
-		* AES: 16, 24 or 32
-		* RSA: 256, 384 or 512
-		* ECDSA: 32, 48, 66 
+	* `curve_id` - (Optional) Supported curve IDs for ECDSA keys.
+	* `length` - (Required) The length of the key in bytes, expressed as an integer. Supported values include the following:
+		* AES: 16, 24, or 32
+		* RSA: 256, 384, or 512
+		* ECDSA: 32, 48, or 66 
 * `logging_context` - (Optional) Information that provides context for audit logging. You can provide this additional data by formatting it as key-value pairs to include in audit logs when audit logging is enabled. 
 
 

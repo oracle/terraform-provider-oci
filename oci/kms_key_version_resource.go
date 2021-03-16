@@ -58,9 +58,32 @@ func KmsKeyVersionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_primary": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"public_key": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"replica_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"replication_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"restored_from_key_version_id": {
 				Type:     schema.TypeString,
@@ -287,12 +310,22 @@ func (s *KmsKeyVersionResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.IsPrimary != nil {
+		s.D.Set("is_primary", *s.Res.IsPrimary)
+	}
+
 	if s.Res.KeyId != nil {
 		s.D.Set("key_id", *s.Res.KeyId)
 	}
 
 	if s.Res.PublicKey != nil {
 		s.D.Set("public_key", *s.Res.PublicKey)
+	}
+
+	if s.Res.ReplicaDetails != nil {
+		s.D.Set("replica_details", []interface{}{KeyVersionReplicaDetailsToMap(s.Res.ReplicaDetails)})
+	} else {
+		s.D.Set("replica_details", nil)
 	}
 
 	if s.Res.RestoredFromKeyVersionId != nil {
@@ -336,4 +369,14 @@ func parseKeyVersionCompositeId(compositeId string) (keyId string, keyVersionId 
 	keyVersionId, _ = url.PathUnescape(parts[3])
 
 	return
+}
+
+func KeyVersionReplicaDetailsToMap(obj *oci_kms.KeyVersionReplicaDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ReplicationId != nil {
+		result["replication_id"] = string(*obj.ReplicationId)
+	}
+
+	return result
 }

@@ -16,10 +16,16 @@ variable "private_key_path" {
 variable "region" {
 }
 
+variable "destination_region" {
+}
+
 variable "compartment_id" {
 }
 
 variable "vault_id" {
+}
+
+variable "key_id" {
 }
 
 variable "key_display_name" {

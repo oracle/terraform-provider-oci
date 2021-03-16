@@ -3,6 +3,7 @@
 ### Added
 - Support for Container Image Signing
 - Support for Scheduled Compute Instance Suspension
+- Support for KMS Cross Region Replication
 
 ## 4.20.0 (March 31, 2021)
 

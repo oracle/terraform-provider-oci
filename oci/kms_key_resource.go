@@ -201,6 +201,29 @@ func KmsKeyResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_primary": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"replica_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"replication_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"restored_from_key_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -577,6 +600,10 @@ func (s *KmsKeyResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsPrimary != nil {
+		s.D.Set("is_primary", *s.Res.IsPrimary)
+	}
+
 	s.D.Set("desired_state", s.Res.LifecycleState)
 
 	if s.Res.KeyShape != nil {
@@ -586,6 +613,12 @@ func (s *KmsKeyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("protection_mode", s.Res.ProtectionMode)
+
+	if s.Res.ReplicaDetails != nil {
+		s.D.Set("replica_details", []interface{}{KeyReplicaDetailsToMap(s.Res.ReplicaDetails)})
+	} else {
+		s.D.Set("replica_details", nil)
+	}
 
 	if s.Res.RestoredFromKeyId != nil {
 		s.D.Set("restored_from_key_id", *s.Res.RestoredFromKeyId)
@@ -606,6 +639,16 @@ func (s *KmsKeyResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func KeyReplicaDetailsToMap(obj *oci_kms.KeyReplicaDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ReplicationId != nil {
+		result["replication_id"] = string(*obj.ReplicationId)
+	}
+
+	return result
 }
 
 func (s *KmsKeyResourceCrud) mapToKeyShape(fieldKeyFormat string) (oci_kms.KeyShape, error) {
