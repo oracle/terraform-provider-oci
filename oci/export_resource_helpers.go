@@ -660,6 +660,7 @@ func init() {
 	exportLoadBalancerListenerHints.processDiscoveredResourcesFn = processLoadBalancerListeners
 	exportLoadBalancerPathRouteSetHints.processDiscoveredResourcesFn = processLoadBalancerPathRouteSets
 	exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
+	exportLoadBalancerLoadBalancerRoutingPolicyHints.processDiscoveredResourcesFn = processLoadBalancerRoutingPolicies
 
 	exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
 	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
@@ -1206,6 +1207,19 @@ func processLoadBalancerPathRouteSets(ctx *resourceDiscoveryContext, resources [
 
 		pathRouteSet.id = getPathRouteSetCompositeId(pathRouteSet.parent.id, pathRouteSet.sourceAttributes["name"].(string))
 		pathRouteSet.sourceAttributes["load_balancer_id"] = pathRouteSet.parent.id
+	}
+
+	return resources, nil
+}
+
+func processLoadBalancerRoutingPolicies(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, routingPolicy := range resources {
+		if routingPolicy.parent == nil {
+			continue
+		}
+
+		routingPolicy.id = getLoadBalancerRoutingPolicyCompositeId(routingPolicy.parent.id, routingPolicy.sourceAttributes["name"].(string))
+		routingPolicy.sourceAttributes["load_balancer_id"] = routingPolicy.parent.id
 	}
 
 	return resources, nil

@@ -50,6 +50,9 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_volume_backup_policy_assignments.test_volume_backup_policy_assignments"
 
 	var resId string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+VolumeBackupPolicyAssignmentResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Required, Create, volumeBackupPolicyAssignmentRepresentation), "core", "volumeBackupPolicyAssignment", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

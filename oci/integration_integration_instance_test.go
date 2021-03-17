@@ -120,6 +120,9 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_integration_integration_instance.test_integration_instance"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+IntegrationInstanceResourceDependencies+
+		generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Create, integrationInstanceRepresentation), "integration", "integrationInstance", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

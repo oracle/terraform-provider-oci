@@ -149,6 +149,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_instance_pool.test_instance_pool"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+InstancePoolResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create, instancePoolRepresentation), "core", "instancePool", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -25,7 +25,7 @@ data "oci_datascience_notebook_session_shapes" "test_notebook_session_shapes" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) <b>Filter</b> results by the [OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the compartment.
+* `compartment_id` - (Required) <b>Filter</b> results by the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 
 
 ## Attributes Reference

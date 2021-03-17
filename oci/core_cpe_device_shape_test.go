@@ -36,6 +36,8 @@ func TestCoreCpeDeviceShapeResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_cpe_device_shapes.test_cpe_device_shapes"
 	singularDatasourceName := "data.oci_core_cpe_device_shape.test_cpe_device_shape"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

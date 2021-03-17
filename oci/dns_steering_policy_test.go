@@ -170,6 +170,9 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_dns_steering_policy.test_steering_policy"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+SteeringPolicyResourceDependencies+
+		generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyRepresentation), "dns", "steeringPolicy", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

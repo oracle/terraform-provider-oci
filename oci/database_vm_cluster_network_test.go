@@ -121,6 +121,10 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 
 	var resId, resId2, compositeId string
 
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+VmClusterNetworkResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create, vmClusterNetworkRepresentation), "database", "vmClusterNetwork", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

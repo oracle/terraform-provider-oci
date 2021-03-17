@@ -38,6 +38,10 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 	resourceName := "oci_database_external_non_container_database_management.test_external_non_container_database_management"
 	resourceNonCDB := "oci_database_external_non_container_database.test_external_non_container_database"
 
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseManagementResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Required, Create, externalNonContainerDatabaseManagementRepresentation), "database", "externalNonContainerDatabaseManagement", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

@@ -35,6 +35,8 @@ func TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic(t *testing.T) 
 
 	singularDatasourceName := "data.oci_database_vm_cluster_network_download_config_file.test_vm_cluster_network_download_config_file"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

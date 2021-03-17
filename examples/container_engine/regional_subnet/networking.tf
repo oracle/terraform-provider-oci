@@ -7,6 +7,12 @@ resource "oci_core_vcn" "test_vcn" {
   display_name   = "tfVcnForClusters"
 }
 
+resource "oci_core_network_security_group" "test_nsg" {
+  compartment_id = var.compartment_ocid
+  display_name   = "tfNsgForClusters"
+  vcn_id         = oci_core_vcn.test_vcn.id
+}
+
 resource "oci_core_internet_gateway" "test_ig" {
   compartment_id = var.compartment_ocid
   display_name   = "tfClusterInternetGateway"
@@ -48,6 +54,18 @@ resource "oci_core_subnet" "clusterSubnet_2" {
 
   # Provider code tries to maintain compatibility with old versions.
   security_list_ids = [oci_core_vcn.test_vcn.default_security_list_id]
+  route_table_id    = oci_core_route_table.test_route_table.id
+}
+
+resource "oci_core_subnet" "cluster_regional_subnet" {
+  #Required
+  cidr_block     = "10.0.26.0/24"
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.test_vcn.id
+
+  # Provider code tries to maintain compatibility with old versions.
+  security_list_ids = [oci_core_vcn.test_vcn.default_security_list_id]
+  display_name      = "clusterRegionalSubnet"
   route_table_id    = oci_core_route_table.test_route_table.id
 }
 

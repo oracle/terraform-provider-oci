@@ -83,7 +83,12 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_nosql_indexes.test_indexes"
 	singularDatasourceName := "data.oci_nosql_index.test_index"
+
 	var compositeId string
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+IndexResourceDependencies+
+		generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Create, indexRepresentation), "nosql", "index", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

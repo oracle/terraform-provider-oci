@@ -36,6 +36,8 @@ func TestLimitsLimitDefinitionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_limits_limit_definitions.test_limit_definitions"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

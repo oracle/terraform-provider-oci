@@ -59,6 +59,39 @@ func ContainerengineClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"endpoint_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"is_public_ip_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Set:      literalTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -191,6 +224,14 @@ func ContainerengineClusterResource() *schema.Resource {
 
 						// Computed
 						"kubernetes": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"private_endpoint": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"public_endpoint": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -334,6 +375,17 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if endpointConfig, ok := s.D.GetOkExists("endpoint_config"); ok {
+		if tmpList := endpointConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "endpoint_config", 0)
+			tmp, err := s.mapToCreateClusterEndpointConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.EndpointConfig = &tmp
+		}
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
@@ -525,10 +577,16 @@ func (s *ContainerengineClusterResourceCrud) Get() error {
 }
 
 func (s *ContainerengineClusterResourceCrud) Update() error {
-	request := oci_containerengine.UpdateClusterRequest{}
+	clusterID := s.D.Id()
+	if endpointConfig, ok := s.D.GetOkExists("endpoint_config"); ok && s.D.HasChange("endpoint_config") {
+		err := s.updateClusterEndpointConfig(clusterID, endpointConfig)
+		if err != nil {
+			return err
+		}
+	}
 
-	tmp := s.D.Id()
-	request.ClusterId = &tmp
+	request := oci_containerengine.UpdateClusterRequest{}
+	request.ClusterId = &clusterID
 
 	if kubernetesVersion, ok := s.D.GetOkExists("kubernetes_version"); ok {
 		tmp := kubernetesVersion.(string)
@@ -561,6 +619,26 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 	workId := response.OpcWorkRequestId
 	return s.getClusterFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
+func (s *ContainerengineClusterResourceCrud) updateClusterEndpointConfig(clusterID string, endpointConfig interface{}) error {
+	request := oci_containerengine.UpdateClusterEndpointConfigRequest{}
+	request.ClusterId = &clusterID
+	if tmpList := endpointConfig.([]interface{}); len(tmpList) > 0 {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "endpoint_config", 0)
+		tmp, err := s.mapToUpdateClusterEndpointConfigDetails(fieldKeyFormat)
+		if err != nil {
+			return err
+		}
+		request.UpdateClusterEndpointConfigDetails = tmp
+	}
+
+	response, err := s.Client.UpdateClusterEndpointConfig(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workID := response.OpcWorkRequestId
+	return s.getClusterFromWorkRequest(workID, getRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
 
 func (s *ContainerengineClusterResourceCrud) Delete() error {
 	request := oci_containerengine.DeleteClusterRequest{}
@@ -587,6 +665,12 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.EndpointConfig != nil {
+		s.D.Set("endpoint_config", []interface{}{ClusterEndpointConfigToMap(s.Res.EndpointConfig, false)})
+	} else {
+		s.D.Set("endpoint_config", nil)
 	}
 
 	if s.Res.Endpoints != nil {
@@ -762,6 +846,14 @@ func ClusterEndpointsToMap(obj *oci_containerengine.ClusterEndpoints) map[string
 		result["kubernetes"] = string(*obj.Kubernetes)
 	}
 
+	if obj.PrivateEndpoint != nil {
+		result["private_endpoint"] = string(*obj.PrivateEndpoint)
+	}
+
+	if obj.PublicEndpoint != nil {
+		result["public_endpoint"] = string(*obj.PublicEndpoint)
+	}
+
 	return result
 }
 
@@ -802,6 +894,82 @@ func ClusterMetadataToMap(obj *oci_containerengine.ClusterMetadata) map[string]i
 
 	if obj.UpdatedByWorkRequestId != nil {
 		result["updated_by_work_request_id"] = string(*obj.UpdatedByWorkRequestId)
+	}
+
+	return result
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterEndpointConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateClusterEndpointConfigDetails, error) {
+	result := oci_containerengine.UpdateClusterEndpointConfigDetails{}
+	if isPublicIpEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_public_ip_enabled")); ok {
+		tmp := isPublicIpEnabled.(bool)
+		result.IsPublicIpEnabled = &tmp
+	}
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
+	}
+	return result, nil
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToCreateClusterEndpointConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateClusterEndpointConfigDetails, error) {
+	result := oci_containerengine.CreateClusterEndpointConfigDetails{}
+
+	if isPublicIpEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_public_ip_enabled")); ok {
+		tmp := isPublicIpEnabled.(bool)
+		result.IsPublicIpEnabled = &tmp
+	}
+
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	return result, nil
+}
+
+func ClusterEndpointConfigToMap(obj *oci_containerengine.ClusterEndpointConfig, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsPublicIpEnabled != nil {
+		result["is_public_ip_enabled"] = bool(*obj.IsPublicIpEnabled)
+	}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
 	}
 
 	return result

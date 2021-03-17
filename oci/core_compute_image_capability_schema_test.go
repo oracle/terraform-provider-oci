@@ -104,6 +104,9 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_compute_image_capability_schema.test_compute_image_capability_schema"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ComputeImageCapabilitySchemaResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create, computeImageCapabilitySchemaRepresentation), "core", "computeImageCapabilitySchema", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

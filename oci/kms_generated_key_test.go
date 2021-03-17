@@ -47,6 +47,9 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 	resourceName := "oci_kms_generated_key.test_generated_key"
 
 	var resId string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+GeneratedKeyResourceDependencies+
+		generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Optional, Create, generatedKeyRepresentation), "keymanagement", "generatedKey", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

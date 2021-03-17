@@ -44,6 +44,8 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_availability_domains.test_availability_domains"
 	singularDatasourceName := "data.oci_identity_availability_domain.test_availability_domain"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

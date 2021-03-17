@@ -41,6 +41,8 @@ func TestLoadBalancerListenerRuleResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_load_balancer_listener_rules.test_listener_rules"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

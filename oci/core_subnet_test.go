@@ -94,6 +94,9 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_subnet.test_subnet"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+SubnetResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation), "core", "subnet", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

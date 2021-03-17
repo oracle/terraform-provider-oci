@@ -120,6 +120,12 @@ func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 
 		cluster["available_kubernetes_upgrades"] = r.AvailableKubernetesUpgrades
 
+		if r.EndpointConfig != nil {
+			cluster["endpoint_config"] = []interface{}{ClusterEndpointConfigToMap(r.EndpointConfig, true)}
+		} else {
+			cluster["endpoint_config"] = nil
+		}
+
 		if r.Endpoints != nil {
 			cluster["endpoints"] = []interface{}{ClusterEndpointsToMap(r.Endpoints)}
 		} else {

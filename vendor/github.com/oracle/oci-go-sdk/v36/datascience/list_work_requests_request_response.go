@@ -16,10 +16,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
 type ListWorkRequestsRequest struct {
 
-	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the compartment.
+	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// <b>Filter</b> results by OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type.
+	// <b>Filter</b> results by OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// <b>Filter</b> results by the type of the operation associated with the work request.
@@ -31,22 +31,22 @@ type ListWorkRequestsRequest struct {
 	// For list pagination. The maximum number of results per page,
 	// or items to return in a paginated "List" call.
 	// 1 is the minimum, 1000 is the maximum.
-	// See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// See List Pagination (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/usingapi.htm#nine).
 	// Example: `500`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` response
 	// header from the previous "List" call.
-	// See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// See List Pagination (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Specifies sort order to use, either `ASC` (ascending) or `DESC` (descending).
 	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order.
+	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, the results are shown in descending order. All other fields default to ascending order.
 	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
+	// Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -83,8 +83,8 @@ type ListWorkRequestsResponse struct {
 	// Retrieves the previous page of results. When this header appears in the response, previous pages of results exist. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcPrevPage *string `presentIn:"header" name:"opc-prev-page"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Unique Oracle assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
@@ -106,6 +106,11 @@ const (
 	ListWorkRequestsOperationTypeNotebookSessionDelete     ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_DELETE"
 	ListWorkRequestsOperationTypeNotebookSessionActivate   ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
 	ListWorkRequestsOperationTypeNotebookSessionDeactivate ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
+	ListWorkRequestsOperationTypeModelDeploymentCreate     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
+	ListWorkRequestsOperationTypeModelDeploymentDelete     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_DELETE"
+	ListWorkRequestsOperationTypeModelDeploymentActivate   ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_ACTIVATE"
+	ListWorkRequestsOperationTypeModelDeploymentDeactivate ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_DEACTIVATE"
+	ListWorkRequestsOperationTypeModelDeploymentUpdate     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_UPDATE"
 	ListWorkRequestsOperationTypeProjectDelete             ListWorkRequestsOperationTypeEnum = "PROJECT_DELETE"
 	ListWorkRequestsOperationTypeWorkrequestCancel         ListWorkRequestsOperationTypeEnum = "WORKREQUEST_CANCEL"
 )
@@ -115,6 +120,11 @@ var mappingListWorkRequestsOperationType = map[string]ListWorkRequestsOperationT
 	"NOTEBOOK_SESSION_DELETE":     ListWorkRequestsOperationTypeNotebookSessionDelete,
 	"NOTEBOOK_SESSION_ACTIVATE":   ListWorkRequestsOperationTypeNotebookSessionActivate,
 	"NOTEBOOK_SESSION_DEACTIVATE": ListWorkRequestsOperationTypeNotebookSessionDeactivate,
+	"MODEL_DEPLOYMENT_CREATE":     ListWorkRequestsOperationTypeModelDeploymentCreate,
+	"MODEL_DEPLOYMENT_DELETE":     ListWorkRequestsOperationTypeModelDeploymentDelete,
+	"MODEL_DEPLOYMENT_ACTIVATE":   ListWorkRequestsOperationTypeModelDeploymentActivate,
+	"MODEL_DEPLOYMENT_DEACTIVATE": ListWorkRequestsOperationTypeModelDeploymentDeactivate,
+	"MODEL_DEPLOYMENT_UPDATE":     ListWorkRequestsOperationTypeModelDeploymentUpdate,
 	"PROJECT_DELETE":              ListWorkRequestsOperationTypeProjectDelete,
 	"WORKREQUEST_CANCEL":          ListWorkRequestsOperationTypeWorkrequestCancel,
 }

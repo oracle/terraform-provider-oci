@@ -44,6 +44,8 @@ func TestMarketplaceListingPackageResource_basic(t *testing.T) {
 	datasourceName := "data.oci_marketplace_listing_packages.test_listing_packages"
 	singularDatasourceName := "data.oci_marketplace_listing_package.test_listing_package"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

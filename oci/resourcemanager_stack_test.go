@@ -59,6 +59,8 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 	datasourceName := "data.oci_resourcemanager_stacks.test_stacks"
 	singularDatasourceName := "data.oci_resourcemanager_stack.test_stack"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		CheckDestroy: func(s *terraform.State) error {

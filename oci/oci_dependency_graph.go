@@ -93,6 +93,7 @@ func initDependencyGraph() {
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerHostname")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerListener")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerPathRouteSet")
+	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerRoutingPolicy")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerRuleSet")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerSslCipherSuite")
 	DependencyGraph["logGroup"] = append(DependencyGraph["logGroup"], "LoggingLog")

@@ -1939,7 +1939,7 @@ func (s *CoreInstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 			request := oci_core.GetVnicRequest{
 				VnicId: attachment.VnicId,
 				RequestMetadata: common.RequestMetadata{
-					RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+					RetryPolicy: getRetryPolicy(true, "core"),
 				},
 			}
 			response, _ := s.VirtualNetworkClient.GetVnic(context.Background(), request)

@@ -34,6 +34,8 @@ func TestDatabaseFlexComponentResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_flex_components.test_flex_components"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

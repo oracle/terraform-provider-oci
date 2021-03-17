@@ -52,6 +52,9 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_optimizer_enrollment_status.test_enrollment_status"
 
 	var resId, resId2 string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+EnrollmentStatusResourceDependencies+
+		generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusRepresentation), "optimizer", "enrollmentStatus", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

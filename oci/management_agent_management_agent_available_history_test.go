@@ -41,6 +41,8 @@ func TestManagementAgentManagementAgentAvailableHistoryResource_basic(t *testing
 	managementAgentIdVariableStr := fmt.Sprintf("variable \"managed_agent_id\" { default = \"%s\" }\n", managementAgentId)
 	datasourceName := "data.oci_management_agent_management_agent_available_histories.test_management_agent_available_histories"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

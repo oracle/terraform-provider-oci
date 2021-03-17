@@ -74,6 +74,9 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_health_checks_ping_monitor.test_ping_monitor"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+PingMonitorResourceDependencies+
+		generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Create, pingMonitorRepresentation), "healthchecks", "pingMonitor", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

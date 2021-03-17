@@ -54,6 +54,9 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_backups.test_backups"
 
 	var resId string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+BackupResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation), "database", "backup", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

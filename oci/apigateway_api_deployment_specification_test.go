@@ -34,6 +34,8 @@ func TestApigatewayApiDeploymentSpecificationResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_apigateway_api_deployment_specification.test_api_deployment_specification"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

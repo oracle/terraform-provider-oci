@@ -71,6 +71,9 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ons_subscription.test_subscription"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+SubscriptionResourceDependencies+
+		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation), "ons", "subscription", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

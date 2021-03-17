@@ -86,6 +86,9 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_external_database_connector.test_external_database_connector"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ExternalDatabaseConnectorResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Create, externalDatabaseConnectorRepresentation), "database", "externalDatabaseConnector", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

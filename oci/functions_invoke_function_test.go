@@ -120,6 +120,11 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 	resourceName := "oci_functions_invoke_function.test_invoke_function"
 
 	var resId string
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+InvokeFunctionResourceDependencies+
+		generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create, invokeFunctionRepresentation), "functions", "invokeFunction", t)
+
 	sourceFilePath, err := createTmpSourceFile()
 	if err != nil {
 		t.Fatalf("Unable to create files for invocation. Error: %q", err)

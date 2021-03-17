@@ -46,6 +46,8 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_db_versions.test_db_versions"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

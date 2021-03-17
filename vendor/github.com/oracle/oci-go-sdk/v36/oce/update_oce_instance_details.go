@@ -25,6 +25,9 @@ type UpdateOceInstanceDetails struct {
 	// Flag indicating whether the instance license is new cloud or bring your own license
 	InstanceLicenseType LicenseTypeEnum `mandatory:"false" json:"instanceLicenseType,omitempty"`
 
+	// Instance type based on its usage
+	InstanceUsageType UpdateOceInstanceDetailsInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -36,4 +39,27 @@ type UpdateOceInstanceDetails struct {
 
 func (m UpdateOceInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UpdateOceInstanceDetailsInstanceUsageTypeEnum Enum with underlying type: string
+type UpdateOceInstanceDetailsInstanceUsageTypeEnum string
+
+// Set of constants representing the allowable values for UpdateOceInstanceDetailsInstanceUsageTypeEnum
+const (
+	UpdateOceInstanceDetailsInstanceUsageTypePrimary    UpdateOceInstanceDetailsInstanceUsageTypeEnum = "PRIMARY"
+	UpdateOceInstanceDetailsInstanceUsageTypeNonprimary UpdateOceInstanceDetailsInstanceUsageTypeEnum = "NONPRIMARY"
+)
+
+var mappingUpdateOceInstanceDetailsInstanceUsageType = map[string]UpdateOceInstanceDetailsInstanceUsageTypeEnum{
+	"PRIMARY":    UpdateOceInstanceDetailsInstanceUsageTypePrimary,
+	"NONPRIMARY": UpdateOceInstanceDetailsInstanceUsageTypeNonprimary,
+}
+
+// GetUpdateOceInstanceDetailsInstanceUsageTypeEnumValues Enumerates the set of values for UpdateOceInstanceDetailsInstanceUsageTypeEnum
+func GetUpdateOceInstanceDetailsInstanceUsageTypeEnumValues() []UpdateOceInstanceDetailsInstanceUsageTypeEnum {
+	values := make([]UpdateOceInstanceDetailsInstanceUsageTypeEnum, 0)
+	for _, v := range mappingUpdateOceInstanceDetailsInstanceUsageType {
+		values = append(values, v)
+	}
+	return values
 }

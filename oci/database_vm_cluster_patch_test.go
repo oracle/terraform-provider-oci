@@ -43,6 +43,8 @@ func TestDatabaseVmClusterPatchResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_vm_cluster_patches.test_vm_cluster_patches"
 	singularDatasourceName := "data.oci_database_vm_cluster_patch.test_vm_cluster_patch"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

@@ -80,6 +80,9 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ons_notification_topic.test_notification_topic"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+NotificationTopicResourceDependencies+
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create, notificationTopicRepresentation), "ons", "notificationTopic", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

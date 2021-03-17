@@ -15,7 +15,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// SourceIpAddressCondition An access control rule condition that requires a match on the specified source IP address or address range.
+// SourceIpAddressCondition A rule condition that checks client source IP against specified IP address or address range.
 type SourceIpAddressCondition struct {
 
 	// An IPv4 or IPv6 address range that the source IP address of an incoming packet must match.

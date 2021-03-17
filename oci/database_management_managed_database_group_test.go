@@ -95,6 +95,9 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_management_managed_database_group.test_managed_database_group"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ManagedDatabaseGroupResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create, managedDatabaseGroupRepresentation), "databasemanagement", "managedDatabaseGroup", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -33,6 +33,8 @@ func TestMysqlMysqlVersionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_mysql_mysql_versions.test_mysql_versions"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

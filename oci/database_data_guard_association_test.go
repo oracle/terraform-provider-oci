@@ -213,6 +213,9 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_data_guard_association.test_data_guard_association"
 
 	var resId string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+DataGuardAssociationResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem), "database", "dataGuardAssociation", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

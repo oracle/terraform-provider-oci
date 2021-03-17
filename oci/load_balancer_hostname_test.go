@@ -51,6 +51,9 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 	datasourceName := "data.oci_load_balancer_hostnames.test_hostnames"
 
 	var resId, resId2 string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+HostnameResourceDependencies+
+		generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation), "loadbalancer", "hostname", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -41,6 +41,8 @@ func TestOptimizerHistoryResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_optimizer_histories.test_histories"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

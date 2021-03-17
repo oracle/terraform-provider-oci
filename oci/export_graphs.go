@@ -426,6 +426,7 @@ var datascienceResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatascienceProjectHints},
 		{TerraformResourceHints: exportDatascienceNotebookSessionHints},
 		{TerraformResourceHints: exportDatascienceModelHints},
+		{TerraformResourceHints: exportDatascienceModelDeploymentHints},
 	},
 	"oci_datascience_model": {
 		{
@@ -652,6 +653,12 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportLoadBalancerHostnameHints,
+			datasourceQueryParams: map[string]string{
+				"load_balancer_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportLoadBalancerLoadBalancerRoutingPolicyHints,
 			datasourceQueryParams: map[string]string{
 				"load_balancer_id": "id",
 			},

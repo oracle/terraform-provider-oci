@@ -40,6 +40,10 @@ func TestKmsSignResource_basic(t *testing.T) {
 
 	resourceName := "oci_kms_sign.test_sign"
 
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+SignResourceDependencies+
+		generateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Optional, Create, signRepresentation), "keymanagement", "sign", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

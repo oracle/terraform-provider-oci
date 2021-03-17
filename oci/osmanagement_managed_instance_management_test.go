@@ -107,6 +107,10 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 
 	resourceName := "oci_osmanagement_managed_instance_management.test_managed_instance_management"
 
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ManagedInstanceManagementResourceDependencies+
+		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation), "osmanagement", "managedInstanceManagement", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

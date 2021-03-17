@@ -33,6 +33,8 @@ func TestCoreIpSecConnectionDeviceConfigResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_core_ipsec_config.test_ip_sec_connection_device_config"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

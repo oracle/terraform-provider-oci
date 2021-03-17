@@ -73,6 +73,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_cross_connect.test_cross_connect"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+CrossConnectResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectRepresentation), "core", "crossConnect", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

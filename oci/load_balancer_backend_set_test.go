@@ -91,6 +91,11 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 	datasourceName := "data.oci_load_balancer_backend_sets.test_backend_sets"
 
 	var resId, resId2 string
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+BackendSetResourceDependencies+
+		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation), "loadbalancer", "backendSet", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

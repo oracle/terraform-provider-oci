@@ -34,6 +34,8 @@ func TestMarketplaceListingTaxResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_marketplace_listing_taxes.test_listing_taxes"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

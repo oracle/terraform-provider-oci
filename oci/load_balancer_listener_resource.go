@@ -96,6 +96,11 @@ func LoadBalancerListenerResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"routing_policy_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"rule_set_names": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -298,6 +303,11 @@ func (s *LoadBalancerListenerResourceCrud) Create() error {
 		request.Protocol = &tmp
 	}
 
+	if routingPolicyName, ok := s.D.GetOkExists("routing_policy_name"); ok {
+		tmp := routingPolicyName.(string)
+		request.RoutingPolicyName = &tmp
+	}
+
 	if ruleSetNames, ok := s.D.GetOkExists("rule_set_names"); ok {
 		interfaces := ruleSetNames.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -447,6 +457,11 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
 		tmp := protocol.(string)
 		request.Protocol = &tmp
+	}
+
+	if routingPolicyName, ok := s.D.GetOkExists("routing_policy_name"); ok {
+		tmp := routingPolicyName.(string)
+		request.RoutingPolicyName = &tmp
 	}
 
 	if ruleSetNames, ok := s.D.GetOkExists("rule_set_names"); ok {

@@ -50,6 +50,8 @@ func TestCoreShapeResource_basic(t *testing.T) {
 	resourceName := "oci_core_shape_management.test_shape"
 	datasourceName := "data.oci_core_shapes.test_shapes"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

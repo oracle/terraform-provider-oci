@@ -35,6 +35,8 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_identity_fault_domains.test_fault_domains"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

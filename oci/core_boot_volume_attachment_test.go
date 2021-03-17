@@ -42,6 +42,8 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_boot_volume_attachments.test_boot_volume_attachments"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

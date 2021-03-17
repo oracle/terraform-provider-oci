@@ -61,6 +61,10 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_kms_key_versions.test_key_versions"
 	singularDatasourceName := "data.oci_kms_key_version.test_key_version"
 
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+KeyVersionResourceDependencies+
+		generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation), "keymanagement", "keyVersion", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
