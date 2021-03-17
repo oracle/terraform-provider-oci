@@ -82,9 +82,8 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "Default configuration for the VM.Standard.E2.2 MySQL Shape"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "VM.Standard.E2.2.Built-in"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "description", "Default Standalone configuration for the VM.Standard.E2.2 MySQL Shape"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "VM.Standard.E2.2.Standalone"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
