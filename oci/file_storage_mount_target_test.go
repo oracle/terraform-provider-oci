@@ -77,6 +77,9 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 	datasourceName := "data.oci_file_storage_mount_targets.test_mount_targets"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+MountTargetResourceDependencies+
+		generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation), "filestorage", "mountTarget", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

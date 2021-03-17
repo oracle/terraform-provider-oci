@@ -38,6 +38,8 @@ func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services"
 	singularDatasourceName := "data.oci_core_fast_connect_provider_service.test_fast_connect_provider_service"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

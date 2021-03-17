@@ -70,6 +70,9 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_logging_log_saved_search.test_log_saved_search"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+LogSavedSearchResourceDependencies+
+		generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Create, logSavedSearchRepresentation), "logging", "logSavedSearch", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

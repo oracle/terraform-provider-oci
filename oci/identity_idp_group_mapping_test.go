@@ -62,6 +62,10 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 	_, tokenFn := tokenizeWithHttpReplay("idp_group_mapping")
 	IdpGroupMappingResourceDependencies = tokenFn(IdpGroupMappingResourceDependencies, map[string]string{"metadata_file": metadataFile})
 
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+IdpGroupMappingResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Required, Create, idpGroupMappingRepresentation), "identity", "idpGroupMapping", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

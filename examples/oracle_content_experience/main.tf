@@ -41,7 +41,7 @@ resource "oci_oce_oce_instance" "test_oce_instance" {
   compartment_id           = var.compartment_ocid
   idcs_access_token        = var.idcs_access_token
   name                     = "testoceinstance"
-  object_storage_namespace = var.tenancy_name
+  object_storage_namespace = data.oci_objectstorage_namespace.test_namespace.namespace
   tenancy_id               = var.tenancy_ocid
   tenancy_name             = var.tenancy_name
 
@@ -78,4 +78,9 @@ output "active_oce_instances" {
 
 output "output_nested_service_data" {
   value = jsondecode(data.oci_oce_oce_instance.test_oce_instance.service.dns).A.domain
+}
+
+data "oci_objectstorage_namespace" "test_namespace" {
+    #Optional
+    compartment_id = var.compartment_ocid
 }

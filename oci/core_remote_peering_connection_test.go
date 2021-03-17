@@ -61,6 +61,9 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_remote_peering_connections.test_remote_peering_connections"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+RemotePeeringConnectionResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Create, remotePeeringConnectionRepresentation), "core", "remotePeeringConnection", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

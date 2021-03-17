@@ -55,6 +55,10 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 	resourceName := "oci_database_external_pluggable_database_management.test_external_pluggable_database_management"
 	resourcePDB := "oci_database_external_pluggable_database.test_external_pluggable_database"
 
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ExternalPluggableDatabaseManagementResourceDependencies+
+		generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Required, Create, externalPluggableDatabaseManagementRepresentation), "database", "externalPluggableDatabaseManagement", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

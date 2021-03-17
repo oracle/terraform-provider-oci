@@ -70,6 +70,9 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_service_gateways.test_service_gateways"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ServiceGatewayResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Create, serviceGatewayRepresentation), "core", "serviceGateway", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

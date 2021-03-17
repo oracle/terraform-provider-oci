@@ -39,6 +39,8 @@ func TestHealthChecksHttpProbeResultResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_health_checks_http_probe_results.test_http_probe_results"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

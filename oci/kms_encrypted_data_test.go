@@ -46,8 +46,11 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_kms_encrypted_data.test_encrypted_data"
-
 	singularDatasourceName := "data.oci_kms_encrypted_data.test_encrypted_data"
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+EncryptedDataResourceDependencies+
+		generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation), "keymanagement", "encryptedData", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

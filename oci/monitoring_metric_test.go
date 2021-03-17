@@ -38,6 +38,8 @@ func TestMonitoringMetricResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_monitoring_metrics.test_metrics"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

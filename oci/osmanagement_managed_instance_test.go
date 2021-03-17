@@ -60,6 +60,8 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 
 	resourceName := "oci_osmanagement_managed_instance_management.test_managed_instance_management"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

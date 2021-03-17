@@ -72,6 +72,10 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 
 	var compositeId, fingerprint string
 
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ApiKeyResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation), "identity", "apiKey", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

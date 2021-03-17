@@ -9,6 +9,12 @@ resource "oci_containerengine_cluster" "test_cluster" {
   vcn_id             = oci_core_vcn.test_vcn.id
 
   #Optional
+  endpoint_config {
+    subnet_id             = oci_core_subnet.cluster_regional_subnet.id
+    is_public_ip_enabled  = "true"
+    nsg_ids               = [oci_core_network_security_group.test_nsg.id]
+  }
+
   options {
     service_lb_subnet_ids = [oci_core_subnet.clusterSubnet_1.id, oci_core_subnet.clusterSubnet_2.id]
 

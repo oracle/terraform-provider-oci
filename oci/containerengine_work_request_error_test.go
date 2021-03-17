@@ -35,6 +35,8 @@ func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_containerengine_work_request_errors.test_work_request_errors"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

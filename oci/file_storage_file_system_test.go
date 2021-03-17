@@ -70,6 +70,9 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 	datasourceName := "data.oci_file_storage_file_systems.test_file_systems"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+FileSystemResourceDependencies+
+		generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentation), "filestorage", "fileSystem", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

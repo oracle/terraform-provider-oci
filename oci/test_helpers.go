@@ -15,6 +15,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"testing"
 	"text/template"
 	"time"
 
@@ -582,4 +583,35 @@ func isResourceSupportImport(resourceName string) (support bool, err error) {
 		return false, fmt.Errorf("[ERROR]: resouce %v is not found in resource Map", resourceName)
 	}
 	return resource.Importer != nil, nil
+}
+
+func saveConfigContent(content string, service string, resource string, t *testing.T) {
+	if strings.ToLower(getEnvSettingWithBlankDefault("save_configs")) == "true" {
+		if len(content) > 0 {
+			if err := writeToFile(content, service, resource); err != nil {
+				log.Printf("Failed to write TF content to file with error: %q", err)
+			}
+		}
+
+		t.Skip()
+	}
+}
+
+func writeToFile(content string, service string, resource string) error {
+	path, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	path = path + "/output/" + service + "/"
+	if err := os.MkdirAll(path, 0770); err != nil {
+		return err
+	}
+	f, err := os.OpenFile(path+"/"+resource+".tf", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+	if err != nil {
+		return err
+	}
+	if _, err = f.WriteString(content); err != nil {
+		return err
+	}
+	return nil
 }

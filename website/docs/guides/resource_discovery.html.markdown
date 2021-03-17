@@ -399,6 +399,7 @@ datascience
 * oci\_datascience\_notebook\_session
 * oci\_datascience\_model
 * oci\_datascience\_model\_provenance
+* oci\_datascience\_model\_deployment
 
 dns
     
@@ -487,6 +488,7 @@ load_balancer
 * oci\_load\_balancer\_listener
 * oci\_load\_balancer\_load\_balancer
 * oci\_load\_balancer\_path\_route\_set
+* oci\_load\_balancer\_load\_balancer\_routing\_policy
 * oci\_load\_balancer\_rule\_set
 
 logging

@@ -73,6 +73,9 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_osmanagement_managed_instance_group.test_managed_instance_group"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ManagedInstanceGroupResourceDependencies+
+		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Create, managedInstanceGroupRepresentation), "osmanagement", "managedInstanceGroup", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

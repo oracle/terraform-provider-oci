@@ -34,6 +34,8 @@ func TestManagementAgentManagementAgentPluginResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_management_agent_management_agent_plugins.test_management_agent_plugins"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

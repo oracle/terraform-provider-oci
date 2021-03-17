@@ -33,6 +33,8 @@ func TestCoreCrossConnectLocationResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_cross_connect_locations.test_cross_connect_locations"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

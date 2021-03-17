@@ -75,6 +75,9 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_dns_resolver_endpoint.test_resolver_endpoint"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ResolverEndpointResourceDependencies+
+		generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentation), "dns", "resolverEndpoint", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

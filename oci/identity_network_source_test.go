@@ -75,6 +75,9 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_identity_network_source.test_network_source"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+NetworkSourceResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation), "identity", "networkSource", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

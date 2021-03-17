@@ -49,6 +49,8 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 	datasourceName := "data.oci_mysql_mysql_configurations.test_mysql_configurations"
 	singularDatasourceName := "data.oci_mysql_mysql_configuration.test_mysql_configuration"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

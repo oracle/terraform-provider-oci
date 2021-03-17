@@ -33,6 +33,8 @@ func TestCoreNetworkSecurityGroupVnicResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_network_security_group_vnics.test_network_security_group_vnics"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

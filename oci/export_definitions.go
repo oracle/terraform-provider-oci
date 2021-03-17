@@ -981,6 +981,17 @@ var exportDatascienceModelProvenanceHints = &TerraformResourceHints{
 	resourceAbbreviation: "model_provenance",
 }
 
+var exportDatascienceModelDeploymentHints = &TerraformResourceHints{
+	resourceClass:        "oci_datascience_model_deployment",
+	datasourceClass:      "oci_datascience_model_deployments",
+	datasourceItemsAttr:  "model_deployments",
+	resourceAbbreviation: "model_deployment",
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.ModelDeploymentLifecycleStateActive),
+		string(oci_datascience.ModelDeploymentLifecycleStateNeedsAttention),
+	},
+}
+
 var exportDnsZoneHints = &TerraformResourceHints{
 	resourceClass:          "oci_dns_zone",
 	datasourceClass:        "oci_dns_zones",
@@ -1522,6 +1533,13 @@ var exportLoadBalancerPathRouteSetHints = &TerraformResourceHints{
 	datasourceClass:      "oci_load_balancer_path_route_sets",
 	datasourceItemsAttr:  "path_route_sets",
 	resourceAbbreviation: "path_route_set",
+}
+
+var exportLoadBalancerLoadBalancerRoutingPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_load_balancer_load_balancer_routing_policy",
+	datasourceClass:      "oci_load_balancer_load_balancer_routing_policies",
+	datasourceItemsAttr:  "routing_policies",
+	resourceAbbreviation: "load_balancer_routing_policy",
 }
 
 var exportLoadBalancerRuleSetHints = &TerraformResourceHints{

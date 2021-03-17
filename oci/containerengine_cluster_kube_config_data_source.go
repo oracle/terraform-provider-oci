@@ -24,6 +24,10 @@ func ContainerengineClusterKubeConfigDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"endpoint": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"expiration": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -65,6 +69,10 @@ func (s *ContainerengineClusterKubeConfigDataSourceCrud) Get() error {
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
 		tmp := clusterId.(string)
 		request.ClusterId = &tmp
+	}
+
+	if endpoint, ok := s.D.GetOkExists("endpoint"); ok {
+		request.Endpoint = oci_containerengine.CreateClusterKubeconfigContentDetailsEndpointEnum(endpoint.(string))
 	}
 
 	if expiration, ok := s.D.GetOkExists("expiration"); ok {

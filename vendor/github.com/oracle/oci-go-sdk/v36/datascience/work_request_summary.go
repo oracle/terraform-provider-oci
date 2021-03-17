@@ -16,7 +16,7 @@ import (
 // WorkRequestSummary Summary information for a work request.
 type WorkRequestSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The type of work the work request is doing.
@@ -25,7 +25,7 @@ type WorkRequestSummary struct {
 	// The current status of the work request.
 	Status WorkRequestStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request's compartment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request's compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Percentage of the request completed.
@@ -34,13 +34,13 @@ type WorkRequestSummary struct {
 	// The resources affected by this work request.
 	Resources []WorkRequestResource `mandatory:"true" json:"resources"`
 
-	// The date and time the work request was accepted, in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the work request was accepted in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
-	// The date and time the work request was started, in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the work request was started in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the work request was finished, in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the work request was finished in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 

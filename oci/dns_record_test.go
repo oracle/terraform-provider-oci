@@ -73,6 +73,9 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 
 	_, tokenFn := tokenizeWithHttpReplay("dns_resource")
 	var resId, resId2 string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+RecordResourceDependencies+
+		generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), "dns", "record", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

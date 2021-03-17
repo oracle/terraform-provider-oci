@@ -70,6 +70,9 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_ipsec_connections.test_ip_sec_connections"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+IpSecConnectionResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation), "core", "ipSecConnection", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

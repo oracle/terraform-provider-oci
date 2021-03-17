@@ -41,6 +41,8 @@ func TestVaultSecretResource_basic(t *testing.T) {
 	datasourceName := "data.oci_vault_secrets.test_secrets"
 	singularDatasourceName := "data.oci_vault_secret.test_secret"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

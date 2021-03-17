@@ -74,6 +74,12 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_boot_volume_backup.test_boot_volume_backup"
 
 	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+BootVolumeBackupResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Create,
+			representationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
+				"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+			})), "core", "bootVolumeBackup", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

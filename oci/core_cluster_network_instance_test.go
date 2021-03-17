@@ -37,6 +37,8 @@ func TestCoreClusterNetworkInstanceResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_cluster_network_instances.test_cluster_network_instances"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

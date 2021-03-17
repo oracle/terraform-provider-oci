@@ -52,6 +52,9 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_user_group_memberships.test_user_group_memberships"
 
 	var resId string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+UserGroupMembershipResourceDependencies+
+		generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation), "identity", "userGroupMembership", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

@@ -46,8 +46,14 @@ The following attributes are exported:
 
 * `available_kubernetes_upgrades` - Available Kubernetes versions to which the clusters masters may be upgraded.
 * `compartment_id` - The OCID of the compartment in which the cluster exists.
+* `endpoint_config` - The network configuration for access to the Cluster control plane. 
+	* `is_public_ip_enabled` - Whether the cluster should be assigned a public IP address. Defaults to false. If set to true on a private subnet, the cluster provisioning will fail.
+	* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
+	* `subnet_id` - The OCID of the regional subnet in which to place the Cluster endpoint.
 * `endpoints` - Endpoints served up by the cluster masters.
-	* `kubernetes` - The Kubernetes API server endpoint.
+	* `kubernetes` - The non-native networking Kubernetes API server endpoint.
+	* `private_endpoint` - The private native networking Kubernetes API server endpoint.
+	* `public_endpoint` - The public native networking Kubernetes API server endpoint, if one was requested.
 * `id` - The OCID of the cluster.
 * `kms_key_id` - The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption.
 * `kubernetes_version` - The version of Kubernetes running on the cluster masters.

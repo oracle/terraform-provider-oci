@@ -58,6 +58,9 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_app_catalog_subscriptions.test_app_catalog_subscriptions"
 
 	var resId string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+AppCatalogSubscriptionResourceDependencies+
+		generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation), "core", "appCatalogSubscription", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

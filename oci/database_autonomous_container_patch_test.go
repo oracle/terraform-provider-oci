@@ -35,6 +35,8 @@ func TestDatabaseAutonomousContainerPatchResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_autonomous_container_patches.test_autonomous_container_patches"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
