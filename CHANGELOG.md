@@ -1,4 +1,4 @@
-## 4.18.0 (Unreleased)
+## 4.18.0 (March 17, 2021)
 
 ### Added
 - Support for updating instance type in `oci_oce_oce_instance`
