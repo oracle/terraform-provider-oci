@@ -4,6 +4,7 @@ TEST?=./...
 GOFMT_FILES?=$(if $(SERVICE), $$(find . -name '$(SERVICE)*.go' |grep -v vendor), $$(find . -name '*.go' |grep -v vendor))
 PKG_NAME=oci
 WEBSITE_REPO=github.com/hashicorp/terraform-website
+release_date=$(shell date -v +5d +%F)
 
 prefix := $(if $(debug),TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v, )
 timeout := $(if $(timeout), $(timeout), 120m)
@@ -99,6 +100,7 @@ get: ;go get golang.org/x/tools/cmd/goimports; go get github.com/mitchellh/gox
 ### `make update-version version=2.0.1`
 update-version:
 ifdef version
+	sed -i -e 's/ReleaseDate = ".*"/ReleaseDate = "$(release_date)"/g' oci/version.go
 	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' oci/version.go && rm -f oci/version.go-e
 else
 	@echo Err! `make update-version` requires a version argument
