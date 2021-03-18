@@ -67,6 +67,10 @@ func (s *WaasCertificateDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.CertificateData != nil {
+		s.D.Set("certificate_data", *s.Res.CertificateData)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -86,6 +90,10 @@ func (s *WaasCertificateDataSourceCrud) SetData() error {
 	s.D.Set("extensions", extensions)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsTrustVerificationDisabled != nil {
+		s.D.Set("is_trust_verification_disabled", *s.Res.IsTrustVerificationDisabled)
+	}
 
 	if s.Res.IssuedBy != nil {
 		s.D.Set("issued_by", *s.Res.IssuedBy)

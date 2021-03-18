@@ -24,7 +24,7 @@ variable "certificate_display_name" {
 }
 
 variable "waas_policy_display_name" {
-  default = "tf_example_waas_policy"
+  default = "tf_example_waas_policy_test"
 }
 
 provider "oci" {
@@ -86,10 +86,10 @@ resource "oci_waas_address_list" "test_address_list" {
 resource "oci_waas_waas_policy" "test_waas_policy" {
   #Required
   compartment_id = var.compartment_ocid
-  domain         = "somethingnew54.oracle.com"
+  domain         = "somethingnew66.oracle.com"
 
   #Optional
-  additional_domains = ["somethingnew55.oracle.com", "somethingnew56.oracle.com"]
+  additional_domains = ["somethingnew67.oracle.com", "somethingnew68.oracle.com"]
   display_name       = var.waas_policy_display_name
 
   origin_groups {
@@ -177,7 +177,7 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
     is_response_buffering_enabled = true
     is_sni_enabled                = true
     websocket_path_prefixes       = ["/url1"]
-    tls_protocols                 = ["TLS_V1_1"]
+    tls_protocols                 = ["TLS_V1_3"]
 
     health_checks {
       is_enabled                     = true
@@ -467,7 +467,7 @@ data "oci_waas_address_lists" "test_address_lists" {
   compartment_id = var.compartment_ocid
 
   #Optional
-  ids                                   = [oci_waas_address_list.test_address_list.id}]
+  ids                                   = [oci_waas_address_list.test_address_list.id]
   names                                 = ["tf-example-address-list"]
   states                                = ["ACTIVE"]
   time_created_greater_than_or_equal_to = "2018-01-01T00:00:00.000Z"
@@ -489,7 +489,7 @@ data "oci_waas_custom_protection_rules" "test_custom_protection_rules" {
 resource "oci_waas_http_redirect" "test_http_redirect" {
   #Required
   compartment_id = var.compartment_ocid
-  domain         = "example3.com"
+  domain         = "example5.com"
 
   target {
     #Required
@@ -523,4 +523,3 @@ data "oci_waas_http_redirects" "test_http_redirects" {
   time_created_greater_than_or_equal_to = "2018-01-01T00:00:00.000Z"
   time_created_less_than                = "2038-01-01T00:00:00.000Z"
 }
-

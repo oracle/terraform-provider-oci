@@ -7,6 +7,7 @@
 - Support for Compute preemptible Instances
 - Support for MDS High Availability
 - Support for Micro VM shapes added to `core_instance` and `core_instance_configuration` resources
+- Support for WAF legacy DNS naming scheme migration
 
 ## 4.21.0 (April 07, 2021)
 
