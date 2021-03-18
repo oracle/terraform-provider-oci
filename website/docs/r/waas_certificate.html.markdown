@@ -55,6 +55,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `certificate_data` - The data of the SSL certificate.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SSL certificate's compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The user-friendly name of the SSL certificate.
@@ -64,6 +65,7 @@ The following attributes are exported:
 	* `value` - The certificate extension value.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SSL certificate.
+* `is_trust_verification_disabled` - This indicates whether trust verification was disabled during the creation of SSL certificate. If `true` SSL certificate trust verification was disabled and this SSL certificate is most likely self-signed. 
 * `issued_by` - 
 * `issuer_name` - The issuer of the certificate.
 	* `common_name` - The Certificate Authority (CA) name.
