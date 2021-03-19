@@ -19,11 +19,11 @@ import (
 
 // BootVolumeBackup A point-in-time copy of a boot volume that can then be used to create
 // a new boot volume or recover a boot volume. For more information, see Overview
-// of Boot Volume Backups (https://docs.cloud.oracle.com/Content/Block/Concepts/bootvolumebackups.htm)
+// of Boot Volume Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/bootvolumebackups.htm)
 // To use any of the API operations, you must be authorized in an IAM policy.
 // If you're not authorized, talk to an administrator. If you're an administrator
 // who needs to write policies to give users access, see Getting Started with
-// Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you
 // supply string values using the API.
 type BootVolumeBackup struct {
@@ -49,7 +49,7 @@ type BootVolumeBackup struct {
 	BootVolumeId *string `mandatory:"false" json:"bootVolumeId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -65,7 +65,7 @@ type BootVolumeBackup struct {
 	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -74,8 +74,8 @@ type BootVolumeBackup struct {
 
 	// The OCID of the Key Management master encryption assigned to the boot volume backup.
 	// For more information about the Key Management service and encryption keys, see
-	// Overview of Key Management (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm) and
-	// Using Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/usingkeys.htm).
+	// Overview of Key Management (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
+	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
 	// The size of the boot volume, in GBs.

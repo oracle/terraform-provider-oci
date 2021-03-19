@@ -25,7 +25,7 @@ type MaintenanceRun struct {
 	// The user-friendly name for the maintenance run.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The current state of the maintenance run.
+	// The current state of the maintenance run. For Autonomous Database on shared Exadata infrastructure, valid states are IN_PROGRESS, SUCCEEDED and FAILED.
 	LifecycleState MaintenanceRunLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time the maintenance run is scheduled to occur.
@@ -113,6 +113,7 @@ const (
 	MaintenanceRunTargetResourceTypeExadataDbSystem                 MaintenanceRunTargetResourceTypeEnum = "EXADATA_DB_SYSTEM"
 	MaintenanceRunTargetResourceTypeCloudExadataInfrastructure      MaintenanceRunTargetResourceTypeEnum = "CLOUD_EXADATA_INFRASTRUCTURE"
 	MaintenanceRunTargetResourceTypeExaccInfrastructure             MaintenanceRunTargetResourceTypeEnum = "EXACC_INFRASTRUCTURE"
+	MaintenanceRunTargetResourceTypeAutonomousDatabase              MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_DATABASE"
 )
 
 var mappingMaintenanceRunTargetResourceType = map[string]MaintenanceRunTargetResourceTypeEnum{
@@ -121,6 +122,7 @@ var mappingMaintenanceRunTargetResourceType = map[string]MaintenanceRunTargetRes
 	"EXADATA_DB_SYSTEM":                 MaintenanceRunTargetResourceTypeExadataDbSystem,
 	"CLOUD_EXADATA_INFRASTRUCTURE":      MaintenanceRunTargetResourceTypeCloudExadataInfrastructure,
 	"EXACC_INFRASTRUCTURE":              MaintenanceRunTargetResourceTypeExaccInfrastructure,
+	"AUTONOMOUS_DATABASE":               MaintenanceRunTargetResourceTypeAutonomousDatabase,
 }
 
 // GetMaintenanceRunTargetResourceTypeEnumValues Enumerates the set of values for MaintenanceRunTargetResourceTypeEnum
@@ -160,17 +162,21 @@ type MaintenanceRunMaintenanceSubtypeEnum string
 
 // Set of constants representing the allowable values for MaintenanceRunMaintenanceSubtypeEnum
 const (
-	MaintenanceRunMaintenanceSubtypeQuarterly MaintenanceRunMaintenanceSubtypeEnum = "QUARTERLY"
-	MaintenanceRunMaintenanceSubtypeHardware  MaintenanceRunMaintenanceSubtypeEnum = "HARDWARE"
-	MaintenanceRunMaintenanceSubtypeCritical  MaintenanceRunMaintenanceSubtypeEnum = "CRITICAL"
-	MaintenanceRunMaintenanceSubtypeOneoff    MaintenanceRunMaintenanceSubtypeEnum = "ONEOFF"
+	MaintenanceRunMaintenanceSubtypeQuarterly      MaintenanceRunMaintenanceSubtypeEnum = "QUARTERLY"
+	MaintenanceRunMaintenanceSubtypeHardware       MaintenanceRunMaintenanceSubtypeEnum = "HARDWARE"
+	MaintenanceRunMaintenanceSubtypeCritical       MaintenanceRunMaintenanceSubtypeEnum = "CRITICAL"
+	MaintenanceRunMaintenanceSubtypeInfrastructure MaintenanceRunMaintenanceSubtypeEnum = "INFRASTRUCTURE"
+	MaintenanceRunMaintenanceSubtypeDatabase       MaintenanceRunMaintenanceSubtypeEnum = "DATABASE"
+	MaintenanceRunMaintenanceSubtypeOneoff         MaintenanceRunMaintenanceSubtypeEnum = "ONEOFF"
 )
 
 var mappingMaintenanceRunMaintenanceSubtype = map[string]MaintenanceRunMaintenanceSubtypeEnum{
-	"QUARTERLY": MaintenanceRunMaintenanceSubtypeQuarterly,
-	"HARDWARE":  MaintenanceRunMaintenanceSubtypeHardware,
-	"CRITICAL":  MaintenanceRunMaintenanceSubtypeCritical,
-	"ONEOFF":    MaintenanceRunMaintenanceSubtypeOneoff,
+	"QUARTERLY":      MaintenanceRunMaintenanceSubtypeQuarterly,
+	"HARDWARE":       MaintenanceRunMaintenanceSubtypeHardware,
+	"CRITICAL":       MaintenanceRunMaintenanceSubtypeCritical,
+	"INFRASTRUCTURE": MaintenanceRunMaintenanceSubtypeInfrastructure,
+	"DATABASE":       MaintenanceRunMaintenanceSubtypeDatabase,
+	"ONEOFF":         MaintenanceRunMaintenanceSubtypeOneoff,
 }
 
 // GetMaintenanceRunMaintenanceSubtypeEnumValues Enumerates the set of values for MaintenanceRunMaintenanceSubtypeEnum

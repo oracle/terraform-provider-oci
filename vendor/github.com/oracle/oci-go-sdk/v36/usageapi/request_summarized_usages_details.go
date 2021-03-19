@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console. Also see Using the Usage API (https://docs.cloud.oracle.com/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
 //
 
 package usageapi
@@ -32,15 +32,25 @@ type RequestSummarizedUsagesDetails struct {
 	// TOTAL - Not yet supported.
 	Granularity RequestSummarizedUsagesDetailsGranularityEnum `mandatory:"true" json:"granularity"`
 
-	// The query usage type.
+	// is aggregated by time. true isAggregateByTime will add up all usage/cost over query time period
+	IsAggregateByTime *bool `mandatory:"false" json:"isAggregateByTime"`
+
+	// The query usage type. COST by default if it is missing
 	// Usage - Query the usage data.
 	// Cost - Query the cost/billing data.
 	QueryType RequestSummarizedUsagesDetailsQueryTypeEnum `mandatory:"false" json:"queryType,omitempty"`
 
 	// Aggregate the result by.
 	// example:
-	//   `["service"]`
+	//   `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit",
+	//     "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd",
+	//     "resourceId", "tenantId", "tenantName"]`
 	GroupBy []string `mandatory:"false" json:"groupBy"`
+
+	// GroupBy a specific tagKey. Provide tagNamespace and tagKey in tag object. Only support one tag in the list
+	// example:
+	//   `[{"namespace":"oracle", "key":"createdBy"]`
+	GroupByTag []Tag `mandatory:"false" json:"groupByTag"`
 
 	// The compartment depth level.
 	CompartmentDepth *float32 `mandatory:"false" json:"compartmentDepth"`

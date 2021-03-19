@@ -17,10 +17,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// AttachInstancePoolInstanceDetails Contains an instance and availability domain information for attaching an instance to the pool.
+// AttachInstancePoolInstanceDetails An instance that is to be attached to an instance pool.
 type AttachInstancePoolInstanceDetails struct {
 
-	// the instance ocid to attach.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" json:"instanceId"`
 }
 

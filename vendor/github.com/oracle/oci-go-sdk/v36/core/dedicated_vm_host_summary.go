@@ -17,7 +17,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// DedicatedVmHostSummary A dedicated virtual machine (VM) host that enables you to host multiple instances on a dedicated host instance that is not shared with other tenancies.
+// DedicatedVmHostSummary A dedicated virtual machine (VM) host lets you host multiple instances on a dedicated server that is not shared with other tenancies.
 type DedicatedVmHostSummary struct {
 
 	// The availability domain the dedicated VM host is running in.
@@ -36,7 +36,7 @@ type DedicatedVmHostSummary struct {
 	// Example: `My DVH`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the dedicated VM host.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated VM host.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the dedicated VM host.

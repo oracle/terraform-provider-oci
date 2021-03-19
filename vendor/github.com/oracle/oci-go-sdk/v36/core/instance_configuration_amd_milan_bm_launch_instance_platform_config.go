@@ -18,7 +18,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance specific to the AMD Milan platform.
+// InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with an E4 shape
+// (the AMD Milan platform).
 type InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig struct {
 
 	// The number of NUMA nodes per socket.

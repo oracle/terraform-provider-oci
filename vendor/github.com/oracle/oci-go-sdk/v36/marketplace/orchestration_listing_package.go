@@ -36,6 +36,8 @@ type OrchestrationListingPackage struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
+
 	// Link to the orchestration resource.
 	ResourceLink *string `mandatory:"false" json:"resourceLink"`
 
@@ -74,6 +76,11 @@ func (m OrchestrationListingPackage) GetResourceId() *string {
 //GetTimeCreated returns TimeCreated
 func (m OrchestrationListingPackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
+}
+
+//GetOperatingSystem returns OperatingSystem
+func (m OrchestrationListingPackage) GetOperatingSystem() *OperatingSystem {
+	return m.OperatingSystem
 }
 
 func (m OrchestrationListingPackage) String() string {

@@ -17,16 +17,19 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// DetachInstancePoolInstanceDetails Detach an instance from the pool.
+// DetachInstancePoolInstanceDetails An instance that is to be detached from an instance pool.
 type DetachInstancePoolInstanceDetails struct {
 
-	// The instance ocid to detach.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" json:"instanceId"`
 
-	// Decrement the size of the instance pool during detachment.
+	// Whether to decrease the size of the instance pool when the instance is detached. If `true`, the
+	// pool size is decreased. If `false`, the pool will provision a new, replacement instance
+	// using the pool's instance configuration as a template. Default is `true`.
 	IsDecrementSize *bool `mandatory:"false" json:"isDecrementSize"`
 
-	// Terminate the instance after it has been detached.
+	// Whether to permanently terminate (delete) the instance and its attached boot volume
+	// when detaching it from the instance pool. Default is `false`.
 	IsAutoTerminate *bool `mandatory:"false" json:"isAutoTerminate"`
 }
 

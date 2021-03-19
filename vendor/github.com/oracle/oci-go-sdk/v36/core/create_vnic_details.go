@@ -40,12 +40,12 @@ type CreateVnicDetails struct {
 	// about the public IP limits, see
 	// Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 	// Example: `false`
-	// If you specify a `vlanId`, the `assignPublicIp` is required to be set to false. See
+	// If you specify a `vlanId`, then `assignPublicIp` must be set to false. See
 	// Vlan.
 	AssignPublicIp *bool `mandatory:"false" json:"assignPublicIp"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -54,7 +54,7 @@ type CreateVnicDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -75,8 +75,8 @@ type CreateVnicDetails struct {
 	// LaunchInstanceDetails.
 	// If you provide both, the values must match.
 	// Example: `bminstance-1`
-	// If you specify a `vlanId`, the `hostnameLabel` cannot be specified. vnics on a Vlan
-	// can not be assigned a hostname  See Vlan.
+	// If you specify a `vlanId`, the `hostnameLabel` cannot be specified. VNICs on a VLAN
+	// can not be assigned a hostname. See Vlan.
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
 	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more

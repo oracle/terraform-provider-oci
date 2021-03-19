@@ -79,7 +79,8 @@ func (client *DbSystemClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
-// AddAnalyticsCluster Adds an Analytics Cluster to the DB System.
+// AddAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
+// Adds an Analytics Cluster to the DB System.
 //
 // See also
 //
@@ -126,6 +127,65 @@ func (client DbSystemClient) addAnalyticsCluster(ctx context.Context, request co
 	}
 
 	var response AddAnalyticsClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddHeatWaveCluster Adds a HeatWave cluster to the DB System.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/AddHeatWaveCluster.go.html to see an example of how to use AddHeatWaveCluster API.
+func (client DbSystemClient) AddHeatWaveCluster(ctx context.Context, request AddHeatWaveClusterRequest) (response AddHeatWaveClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addHeatWaveCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddHeatWaveClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddHeatWaveClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddHeatWaveClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddHeatWaveClusterResponse")
+	}
+	return
+}
+
+// addHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) addHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/add")
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddHeatWaveClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -197,7 +257,8 @@ func (client DbSystemClient) createDbSystem(ctx context.Context, request common.
 	return response, err
 }
 
-// DeleteAnalyticsCluster Deletes the Analytics Cluster including terminating, detaching, removing, finalizing and
+// DeleteAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
+// Deletes the Analytics Cluster including terminating, detaching, removing, finalizing and
 // otherwise deleting all related resources.
 //
 // See also
@@ -307,7 +368,63 @@ func (client DbSystemClient) deleteDbSystem(ctx context.Context, request common.
 	return response, err
 }
 
-// GenerateAnalyticsClusterMemoryEstimate Sends a request to estimate the memory footprints of user tables when loaded to Analytics Cluster memory.
+// DeleteHeatWaveCluster Deletes the HeatWave cluster including terminating, detaching, removing, finalizing and
+// otherwise deleting all related resources.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteHeatWaveCluster.go.html to see an example of how to use DeleteHeatWaveCluster API.
+func (client DbSystemClient) DeleteHeatWaveCluster(ctx context.Context, request DeleteHeatWaveClusterRequest) (response DeleteHeatWaveClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteHeatWaveCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteHeatWaveClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteHeatWaveClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteHeatWaveClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteHeatWaveClusterResponse")
+	}
+	return
+}
+
+// deleteHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) deleteHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbSystems/{dbSystemId}/heatWaveCluster")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteHeatWaveClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateAnalyticsClusterMemoryEstimate DEPRECATED -- please use HeatWave API instead.
+// Sends a request to estimate the memory footprints of user tables when loaded to Analytics Cluster memory.
 //
 // See also
 //
@@ -366,7 +483,67 @@ func (client DbSystemClient) generateAnalyticsClusterMemoryEstimate(ctx context.
 	return response, err
 }
 
-// GetAnalyticsCluster Gets information about the Analytics Cluster.
+// GenerateHeatWaveClusterMemoryEstimate Sends a request to estimate the memory footprints of user tables when loaded to HeatWave cluster memory.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GenerateHeatWaveClusterMemoryEstimate.go.html to see an example of how to use GenerateHeatWaveClusterMemoryEstimate API.
+func (client DbSystemClient) GenerateHeatWaveClusterMemoryEstimate(ctx context.Context, request GenerateHeatWaveClusterMemoryEstimateRequest) (response GenerateHeatWaveClusterMemoryEstimateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateHeatWaveClusterMemoryEstimate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateHeatWaveClusterMemoryEstimateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateHeatWaveClusterMemoryEstimateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateHeatWaveClusterMemoryEstimateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateHeatWaveClusterMemoryEstimateResponse")
+	}
+	return
+}
+
+// generateHeatWaveClusterMemoryEstimate implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) generateHeatWaveClusterMemoryEstimate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveClusterMemoryEstimate/actions/generate")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateHeatWaveClusterMemoryEstimateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
+// Gets information about the Analytics Cluster.
 //
 // See also
 //
@@ -420,7 +597,8 @@ func (client DbSystemClient) getAnalyticsCluster(ctx context.Context, request co
 	return response, err
 }
 
-// GetAnalyticsClusterMemoryEstimate Gets the most recent Analytics Cluster memory estimate that can be used to determine a suitable
+// GetAnalyticsClusterMemoryEstimate DEPRECATED -- please use HeatWave API instead.
+// Gets the most recent Analytics Cluster memory estimate that can be used to determine a suitable
 // Analytics Cluster size.
 //
 // See also
@@ -529,6 +707,115 @@ func (client DbSystemClient) getDbSystem(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// GetHeatWaveCluster Gets information about the HeatWave cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetHeatWaveCluster.go.html to see an example of how to use GetHeatWaveCluster API.
+func (client DbSystemClient) GetHeatWaveCluster(ctx context.Context, request GetHeatWaveClusterRequest) (response GetHeatWaveClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getHeatWaveCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetHeatWaveClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetHeatWaveClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetHeatWaveClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetHeatWaveClusterResponse")
+	}
+	return
+}
+
+// getHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) getHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/heatWaveCluster")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetHeatWaveClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetHeatWaveClusterMemoryEstimate Gets the most recent HeatWave cluster memory estimate that can be used to determine a suitable
+// HeatWave cluster size.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetHeatWaveClusterMemoryEstimate.go.html to see an example of how to use GetHeatWaveClusterMemoryEstimate API.
+func (client DbSystemClient) GetHeatWaveClusterMemoryEstimate(ctx context.Context, request GetHeatWaveClusterMemoryEstimateRequest) (response GetHeatWaveClusterMemoryEstimateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getHeatWaveClusterMemoryEstimate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetHeatWaveClusterMemoryEstimateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetHeatWaveClusterMemoryEstimateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetHeatWaveClusterMemoryEstimateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetHeatWaveClusterMemoryEstimateResponse")
+	}
+	return
+}
+
+// getHeatWaveClusterMemoryEstimate implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) getHeatWaveClusterMemoryEstimate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/heatWaveClusterMemoryEstimate")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetHeatWaveClusterMemoryEstimateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDbSystems Get a list of DB Systems in the specified compartment.
 // The default sort order is by timeUpdated, descending.
 //
@@ -584,7 +871,8 @@ func (client DbSystemClient) listDbSystems(ctx context.Context, request common.O
 	return response, err
 }
 
-// RestartAnalyticsCluster Restarts the Analytics Cluster.
+// RestartAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
+// Restarts the Analytics Cluster.
 //
 // See also
 //
@@ -702,7 +990,67 @@ func (client DbSystemClient) restartDbSystem(ctx context.Context, request common
 	return response, err
 }
 
-// StartAnalyticsCluster Starts the Analytics Cluster.
+// RestartHeatWaveCluster Restarts the HeatWave cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/RestartHeatWaveCluster.go.html to see an example of how to use RestartHeatWaveCluster API.
+func (client DbSystemClient) RestartHeatWaveCluster(ctx context.Context, request RestartHeatWaveClusterRequest) (response RestartHeatWaveClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.restartHeatWaveCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestartHeatWaveClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestartHeatWaveClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestartHeatWaveClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestartHeatWaveClusterResponse")
+	}
+	return
+}
+
+// restartHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) restartHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/restart")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestartHeatWaveClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StartAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
+// Starts the Analytics Cluster.
 //
 // See also
 //
@@ -820,7 +1168,67 @@ func (client DbSystemClient) startDbSystem(ctx context.Context, request common.O
 	return response, err
 }
 
-// StopAnalyticsCluster Stops the Analytics Cluster.
+// StartHeatWaveCluster Starts the HeatWave cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StartHeatWaveCluster.go.html to see an example of how to use StartHeatWaveCluster API.
+func (client DbSystemClient) StartHeatWaveCluster(ctx context.Context, request StartHeatWaveClusterRequest) (response StartHeatWaveClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startHeatWaveCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartHeatWaveClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartHeatWaveClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartHeatWaveClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartHeatWaveClusterResponse")
+	}
+	return
+}
+
+// startHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) startHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/start")
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartHeatWaveClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StopAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
+// Stops the Analytics Cluster.
 //
 // See also
 //
@@ -939,7 +1347,67 @@ func (client DbSystemClient) stopDbSystem(ctx context.Context, request common.OC
 	return response, err
 }
 
-// UpdateAnalyticsCluster Updates the Analytics Cluster.
+// StopHeatWaveCluster Stops the HeatWave cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StopHeatWaveCluster.go.html to see an example of how to use StopHeatWaveCluster API.
+func (client DbSystemClient) StopHeatWaveCluster(ctx context.Context, request StopHeatWaveClusterRequest) (response StopHeatWaveClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stopHeatWaveCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StopHeatWaveClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StopHeatWaveClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopHeatWaveClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopHeatWaveClusterResponse")
+	}
+	return
+}
+
+// stopHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) stopHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/stop")
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopHeatWaveClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAnalyticsCluster DEPRECATED -- please use HeatWave API instead.
+// Updates the Analytics Cluster.
 //
 // See also
 //
@@ -1041,6 +1509,60 @@ func (client DbSystemClient) updateDbSystem(ctx context.Context, request common.
 	}
 
 	var response UpdateDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateHeatWaveCluster Updates the HeatWave cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateHeatWaveCluster.go.html to see an example of how to use UpdateHeatWaveCluster API.
+func (client DbSystemClient) UpdateHeatWaveCluster(ctx context.Context, request UpdateHeatWaveClusterRequest) (response UpdateHeatWaveClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateHeatWaveCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateHeatWaveClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateHeatWaveClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateHeatWaveClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateHeatWaveClusterResponse")
+	}
+	return
+}
+
+// updateHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) updateHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}/heatWaveCluster")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateHeatWaveClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

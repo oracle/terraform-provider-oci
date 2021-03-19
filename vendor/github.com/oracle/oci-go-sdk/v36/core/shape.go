@@ -18,8 +18,8 @@ import (
 )
 
 // Shape A compute instance shape that can be used in LaunchInstance.
-// For more information, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm) and
-// Compute Shapes (https://docs.cloud.oracle.com/Content/Compute/References/computeshapes.htm).
+// For more information, see Overview of the Compute Service (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm) and
+// Compute Shapes (https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm).
 type Shape struct {
 
 	// The name of the shape. You can enumerate all available shapes by calling

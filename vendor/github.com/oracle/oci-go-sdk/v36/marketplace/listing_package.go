@@ -35,17 +35,20 @@ type ListingPackage interface {
 	// timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	GetTimeCreated() *common.SDKTime
+
+	GetOperatingSystem() *OperatingSystem
 }
 
 type listingpackage struct {
-	JsonData    []byte
-	ListingId   *string         `mandatory:"true" json:"listingId"`
-	Version     *string         `mandatory:"true" json:"version"`
-	Description *string         `mandatory:"false" json:"description"`
-	Pricing     *PricingModel   `mandatory:"false" json:"pricing"`
-	ResourceId  *string         `mandatory:"false" json:"resourceId"`
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
-	PackageType string          `json:"packageType"`
+	JsonData        []byte
+	ListingId       *string          `mandatory:"true" json:"listingId"`
+	Version         *string          `mandatory:"true" json:"version"`
+	Description     *string          `mandatory:"false" json:"description"`
+	Pricing         *PricingModel    `mandatory:"false" json:"pricing"`
+	ResourceId      *string          `mandatory:"false" json:"resourceId"`
+	TimeCreated     *common.SDKTime  `mandatory:"false" json:"timeCreated"`
+	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
+	PackageType     string           `json:"packageType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -65,6 +68,7 @@ func (m *listingpackage) UnmarshalJSON(data []byte) error {
 	m.Pricing = s.Model.Pricing
 	m.ResourceId = s.Model.ResourceId
 	m.TimeCreated = s.Model.TimeCreated
+	m.OperatingSystem = s.Model.OperatingSystem
 	m.PackageType = s.Model.PackageType
 
 	return err
@@ -120,6 +124,11 @@ func (m listingpackage) GetResourceId() *string {
 //GetTimeCreated returns TimeCreated
 func (m listingpackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
+}
+
+//GetOperatingSystem returns OperatingSystem
+func (m listingpackage) GetOperatingSystem() *OperatingSystem {
+	return m.OperatingSystem
 }
 
 func (m listingpackage) String() string {

@@ -25,7 +25,7 @@ type MaintenanceRunSummary struct {
 	// The user-friendly name for the maintenance run.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The current state of the maintenance run.
+	// The current state of the maintenance run. For Autonomous Database on shared Exadata infrastructure, valid states are IN_PROGRESS, SUCCEEDED and FAILED.
 	LifecycleState MaintenanceRunSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time the maintenance run is scheduled to occur.
@@ -113,6 +113,7 @@ const (
 	MaintenanceRunSummaryTargetResourceTypeExadataDbSystem                 MaintenanceRunSummaryTargetResourceTypeEnum = "EXADATA_DB_SYSTEM"
 	MaintenanceRunSummaryTargetResourceTypeCloudExadataInfrastructure      MaintenanceRunSummaryTargetResourceTypeEnum = "CLOUD_EXADATA_INFRASTRUCTURE"
 	MaintenanceRunSummaryTargetResourceTypeExaccInfrastructure             MaintenanceRunSummaryTargetResourceTypeEnum = "EXACC_INFRASTRUCTURE"
+	MaintenanceRunSummaryTargetResourceTypeAutonomousDatabase              MaintenanceRunSummaryTargetResourceTypeEnum = "AUTONOMOUS_DATABASE"
 )
 
 var mappingMaintenanceRunSummaryTargetResourceType = map[string]MaintenanceRunSummaryTargetResourceTypeEnum{
@@ -121,6 +122,7 @@ var mappingMaintenanceRunSummaryTargetResourceType = map[string]MaintenanceRunSu
 	"EXADATA_DB_SYSTEM":                 MaintenanceRunSummaryTargetResourceTypeExadataDbSystem,
 	"CLOUD_EXADATA_INFRASTRUCTURE":      MaintenanceRunSummaryTargetResourceTypeCloudExadataInfrastructure,
 	"EXACC_INFRASTRUCTURE":              MaintenanceRunSummaryTargetResourceTypeExaccInfrastructure,
+	"AUTONOMOUS_DATABASE":               MaintenanceRunSummaryTargetResourceTypeAutonomousDatabase,
 }
 
 // GetMaintenanceRunSummaryTargetResourceTypeEnumValues Enumerates the set of values for MaintenanceRunSummaryTargetResourceTypeEnum
@@ -160,17 +162,21 @@ type MaintenanceRunSummaryMaintenanceSubtypeEnum string
 
 // Set of constants representing the allowable values for MaintenanceRunSummaryMaintenanceSubtypeEnum
 const (
-	MaintenanceRunSummaryMaintenanceSubtypeQuarterly MaintenanceRunSummaryMaintenanceSubtypeEnum = "QUARTERLY"
-	MaintenanceRunSummaryMaintenanceSubtypeHardware  MaintenanceRunSummaryMaintenanceSubtypeEnum = "HARDWARE"
-	MaintenanceRunSummaryMaintenanceSubtypeCritical  MaintenanceRunSummaryMaintenanceSubtypeEnum = "CRITICAL"
-	MaintenanceRunSummaryMaintenanceSubtypeOneoff    MaintenanceRunSummaryMaintenanceSubtypeEnum = "ONEOFF"
+	MaintenanceRunSummaryMaintenanceSubtypeQuarterly      MaintenanceRunSummaryMaintenanceSubtypeEnum = "QUARTERLY"
+	MaintenanceRunSummaryMaintenanceSubtypeHardware       MaintenanceRunSummaryMaintenanceSubtypeEnum = "HARDWARE"
+	MaintenanceRunSummaryMaintenanceSubtypeCritical       MaintenanceRunSummaryMaintenanceSubtypeEnum = "CRITICAL"
+	MaintenanceRunSummaryMaintenanceSubtypeInfrastructure MaintenanceRunSummaryMaintenanceSubtypeEnum = "INFRASTRUCTURE"
+	MaintenanceRunSummaryMaintenanceSubtypeDatabase       MaintenanceRunSummaryMaintenanceSubtypeEnum = "DATABASE"
+	MaintenanceRunSummaryMaintenanceSubtypeOneoff         MaintenanceRunSummaryMaintenanceSubtypeEnum = "ONEOFF"
 )
 
 var mappingMaintenanceRunSummaryMaintenanceSubtype = map[string]MaintenanceRunSummaryMaintenanceSubtypeEnum{
-	"QUARTERLY": MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
-	"HARDWARE":  MaintenanceRunSummaryMaintenanceSubtypeHardware,
-	"CRITICAL":  MaintenanceRunSummaryMaintenanceSubtypeCritical,
-	"ONEOFF":    MaintenanceRunSummaryMaintenanceSubtypeOneoff,
+	"QUARTERLY":      MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
+	"HARDWARE":       MaintenanceRunSummaryMaintenanceSubtypeHardware,
+	"CRITICAL":       MaintenanceRunSummaryMaintenanceSubtypeCritical,
+	"INFRASTRUCTURE": MaintenanceRunSummaryMaintenanceSubtypeInfrastructure,
+	"DATABASE":       MaintenanceRunSummaryMaintenanceSubtypeDatabase,
+	"ONEOFF":         MaintenanceRunSummaryMaintenanceSubtypeOneoff,
 }
 
 // GetMaintenanceRunSummaryMaintenanceSubtypeEnumValues Enumerates the set of values for MaintenanceRunSummaryMaintenanceSubtypeEnum

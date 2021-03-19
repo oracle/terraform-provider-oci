@@ -20,7 +20,7 @@ import (
 // ChangeVolumeCompartmentDetails Contains the details for the compartment to move the volume to.
 type ChangeVolumeCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the volume to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the volume to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

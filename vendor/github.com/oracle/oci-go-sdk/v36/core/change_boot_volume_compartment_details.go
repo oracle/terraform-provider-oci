@@ -20,7 +20,7 @@ import (
 // ChangeBootVolumeCompartmentDetails Contains the details for the compartment to move the boot volume to.
 type ChangeBootVolumeCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the boot volume to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the boot volume to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

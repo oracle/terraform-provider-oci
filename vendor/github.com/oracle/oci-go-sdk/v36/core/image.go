@@ -18,10 +18,10 @@ import (
 )
 
 // Image A boot disk image for launching an instance. For more information, see
-// Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// Overview of the Compute Service (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you
 // supply string values using the API.
 type Image struct {
@@ -55,7 +55,7 @@ type Image struct {
 	BaseImageId *string `mandatory:"false" json:"baseImageId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -66,7 +66,7 @@ type Image struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -81,7 +81,10 @@ type Image struct {
 
 	AgentFeatures *InstanceAgentFeatures `mandatory:"false" json:"agentFeatures"`
 
-	// The boot volume size for an instance launched from this image, (1 MB = 1048576 bytes).
+	// The listing type of the image. The default value is "NONE".
+	ListingType ImageListingTypeEnum `mandatory:"false" json:"listingType,omitempty"`
+
+	// The boot volume size for an instance launched from this image (1 MB = 1,048,576 bytes).
 	// Note this is not the same as the size of the image when it was exported or the actual size of the image.
 	// Example: `47694`
 	SizeInMBs *int64 `mandatory:"false" json:"sizeInMBs"`
@@ -144,6 +147,29 @@ var mappingImageLifecycleState = map[string]ImageLifecycleStateEnum{
 func GetImageLifecycleStateEnumValues() []ImageLifecycleStateEnum {
 	values := make([]ImageLifecycleStateEnum, 0)
 	for _, v := range mappingImageLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ImageListingTypeEnum Enum with underlying type: string
+type ImageListingTypeEnum string
+
+// Set of constants representing the allowable values for ImageListingTypeEnum
+const (
+	ImageListingTypeCommunity ImageListingTypeEnum = "COMMUNITY"
+	ImageListingTypeNone      ImageListingTypeEnum = "NONE"
+)
+
+var mappingImageListingType = map[string]ImageListingTypeEnum{
+	"COMMUNITY": ImageListingTypeCommunity,
+	"NONE":      ImageListingTypeNone,
+}
+
+// GetImageListingTypeEnumValues Enumerates the set of values for ImageListingTypeEnum
+func GetImageListingTypeEnumValues() []ImageListingTypeEnum {
+	values := make([]ImageListingTypeEnum, 0)
+	for _, v := range mappingImageListingType {
 		values = append(values, v)
 	}
 	return values

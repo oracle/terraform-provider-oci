@@ -40,10 +40,16 @@ type DbSystemSummary struct {
 	// The OCID of the compartment the DB System belongs in.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// DEPRECATED -- please use `isHeatWaveClusterAttached` instead.
 	// If the DB System has an Analytics Cluster attached.
 	IsAnalyticsClusterAttached *bool `mandatory:"false" json:"isAnalyticsClusterAttached"`
 
 	AnalyticsCluster *AnalyticsClusterSummary `mandatory:"false" json:"analyticsCluster"`
+
+	// If the DB System has a HeatWave Cluster attached.
+	IsHeatWaveClusterAttached *bool `mandatory:"false" json:"isHeatWaveClusterAttached"`
+
+	HeatWaveCluster *HeatWaveClusterSummary `mandatory:"false" json:"heatWaveCluster"`
 
 	// The Availability Domain where the primary DB System should be located.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`

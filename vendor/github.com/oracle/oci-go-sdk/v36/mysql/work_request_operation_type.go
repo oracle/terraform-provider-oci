@@ -27,6 +27,13 @@ const (
 	WorkRequestOperationTypeStopAnalyticsCluster                   WorkRequestOperationTypeEnum = "STOP_ANALYTICS_CLUSTER"
 	WorkRequestOperationTypeRestartAnalyticsCluster                WorkRequestOperationTypeEnum = "RESTART_ANALYTICS_CLUSTER"
 	WorkRequestOperationTypeGenerateAnalyticsClusterMemoryEstimate WorkRequestOperationTypeEnum = "GENERATE_ANALYTICS_CLUSTER_MEMORY_ESTIMATE"
+	WorkRequestOperationTypeAddHeatwaveCluster                     WorkRequestOperationTypeEnum = "ADD_HEATWAVE_CLUSTER"
+	WorkRequestOperationTypeUpdateHeatwaveCluster                  WorkRequestOperationTypeEnum = "UPDATE_HEATWAVE_CLUSTER"
+	WorkRequestOperationTypeDeleteHeatwaveCluster                  WorkRequestOperationTypeEnum = "DELETE_HEATWAVE_CLUSTER"
+	WorkRequestOperationTypeStartHeatwaveCluster                   WorkRequestOperationTypeEnum = "START_HEATWAVE_CLUSTER"
+	WorkRequestOperationTypeStopHeatwaveCluster                    WorkRequestOperationTypeEnum = "STOP_HEATWAVE_CLUSTER"
+	WorkRequestOperationTypeRestartHeatwaveCluster                 WorkRequestOperationTypeEnum = "RESTART_HEATWAVE_CLUSTER"
+	WorkRequestOperationTypeGenerateHeatwaveClusterMemoryEstimate  WorkRequestOperationTypeEnum = "GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
@@ -43,6 +50,13 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 	"STOP_ANALYTICS_CLUSTER":                     WorkRequestOperationTypeStopAnalyticsCluster,
 	"RESTART_ANALYTICS_CLUSTER":                  WorkRequestOperationTypeRestartAnalyticsCluster,
 	"GENERATE_ANALYTICS_CLUSTER_MEMORY_ESTIMATE": WorkRequestOperationTypeGenerateAnalyticsClusterMemoryEstimate,
+	"ADD_HEATWAVE_CLUSTER":                       WorkRequestOperationTypeAddHeatwaveCluster,
+	"UPDATE_HEATWAVE_CLUSTER":                    WorkRequestOperationTypeUpdateHeatwaveCluster,
+	"DELETE_HEATWAVE_CLUSTER":                    WorkRequestOperationTypeDeleteHeatwaveCluster,
+	"START_HEATWAVE_CLUSTER":                     WorkRequestOperationTypeStartHeatwaveCluster,
+	"STOP_HEATWAVE_CLUSTER":                      WorkRequestOperationTypeStopHeatwaveCluster,
+	"RESTART_HEATWAVE_CLUSTER":                   WorkRequestOperationTypeRestartHeatwaveCluster,
+	"GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE":  WorkRequestOperationTypeGenerateHeatwaveClusterMemoryEstimate,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
