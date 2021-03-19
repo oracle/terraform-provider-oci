@@ -17,8 +17,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// DedicatedVmHost A dedicated virtual machine host that enables you to host multiple VM instances
-// on a dedicated host that is not shared with other tenancies.
+// DedicatedVmHost A dedicated virtual machine host lets you host multiple VM instances
+// on a dedicated server that is not shared with other tenancies.
 type DedicatedVmHost struct {
 
 	// The availability domain the dedicated virtual machine host is running in.
@@ -37,7 +37,7 @@ type DedicatedVmHost struct {
 	// Example: `My Dedicated Vm Host`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the dedicated VM host.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated VM host.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the dedicated VM host.
@@ -54,7 +54,7 @@ type DedicatedVmHost struct {
 	RemainingOcpus *float32 `mandatory:"true" json:"remainingOcpus"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -67,7 +67,7 @@ type DedicatedVmHost struct {
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }

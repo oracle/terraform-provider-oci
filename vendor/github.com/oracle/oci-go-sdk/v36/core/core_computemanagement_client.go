@@ -83,7 +83,9 @@ func (client *ComputeManagementClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// AttachInstancePoolInstance Attach an instance to the instance pool.
+// AttachInstancePoolInstance Attaches an instance to an instance pool. For information about the prerequisites
+// that an instance must meet before you can attach it to a pool, see
+// Attaching an Instance to an Instance Pool (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/updatinginstancepool.htm#attach-instance).
 //
 // See also
 //
@@ -629,7 +631,7 @@ func (client ComputeManagementClient) deleteInstanceConfiguration(ctx context.Co
 	return response, err
 }
 
-// DetachInstancePoolInstance Detach instance from the instance pool.
+// DetachInstancePoolInstance Detaches an instance from an instance pool.
 //
 // See also
 //
@@ -909,7 +911,7 @@ func (client ComputeManagementClient) getInstancePool(ctx context.Context, reque
 	return response, err
 }
 
-// GetInstancePoolInstance Gets the instance pool instance
+// GetInstancePoolInstance Gets information about an instance that belongs to an instance pool.
 //
 // See also
 //

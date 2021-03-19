@@ -19,7 +19,7 @@ type ActivateExadataInfrastructureRequest struct {
 	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
 
-	// The activation details for the Exadata infrastructure.
+	// The activation details for the Exadata infrastructure and the additional storage servers requested.
 	ActivateExadataInfrastructureDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

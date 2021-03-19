@@ -18,8 +18,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// PlatformConfig The platform configuration for the instance. The type of platform configuration is
-// determined by the `type`.
+// PlatformConfig The platform configuration for the instance.
 type PlatformConfig interface {
 }
 

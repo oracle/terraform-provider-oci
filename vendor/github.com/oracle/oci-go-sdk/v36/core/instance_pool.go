@@ -17,19 +17,19 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// InstancePool An instance pool is a group of instances within the same region that are created based off of the same
-// instance configuration. For more information about instance pools and instance configurations, see
-// Managing Compute Instances (https://docs.cloud.oracle.com/Content/Compute/Concepts/instancemanagement.htm).
+// InstancePool An instance pool is a set of instances within the same region that are managed as a group.
+// For more information about instance pools and instance configurations, see
+// Managing Compute Instances (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm).
 type InstancePool struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the instance
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance
 	// pool.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance configuration associated
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated
 	// with the instance pool.
 	InstanceConfigurationId *string `mandatory:"true" json:"instanceConfigurationId"`
 
@@ -47,7 +47,7 @@ type InstancePool struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -55,7 +55,7 @@ type InstancePool struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// AnalyticsCluster An Analytics Cluster is a database accelerator for a DB System.
+// AnalyticsCluster DEPRECATED -- please use HeatWave API instead.
+// An Analytics Cluster is a database accelerator for a DB System.
 type AnalyticsCluster struct {
 
 	// The OCID of the parent DB System this Analytics Cluster is attached to.

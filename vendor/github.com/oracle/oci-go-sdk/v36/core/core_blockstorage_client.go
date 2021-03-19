@@ -85,7 +85,7 @@ func (client *BlockstorageClient) ConfigurationProvider() *common.ConfigurationP
 
 // ChangeBootVolumeBackupCompartment Moves a boot volume backup into a different compartment within the same tenancy.
 // For information about moving resources between compartments,
-// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // See also
 //
@@ -141,7 +141,7 @@ func (client BlockstorageClient) changeBootVolumeBackupCompartment(ctx context.C
 
 // ChangeBootVolumeCompartment Moves a boot volume into a different compartment within the same tenancy.
 // For information about moving resources between compartments,
-// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // See also
 //
@@ -197,7 +197,7 @@ func (client BlockstorageClient) changeBootVolumeCompartment(ctx context.Context
 
 // ChangeVolumeBackupCompartment Moves a volume backup into a different compartment within the same tenancy.
 // For information about moving resources between compartments,
-// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // See also
 //
@@ -253,7 +253,7 @@ func (client BlockstorageClient) changeVolumeBackupCompartment(ctx context.Conte
 
 // ChangeVolumeCompartment Moves a volume into a different compartment within the same tenancy.
 // For information about moving resources between compartments,
-// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // See also
 //
@@ -309,7 +309,7 @@ func (client BlockstorageClient) changeVolumeCompartment(ctx context.Context, re
 
 // ChangeVolumeGroupBackupCompartment Moves a volume group backup into a different compartment within the same tenancy.
 // For information about moving resources between compartments,
-// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // See also
 //
@@ -365,7 +365,7 @@ func (client BlockstorageClient) changeVolumeGroupBackupCompartment(ctx context.
 
 // ChangeVolumeGroupCompartment Moves a volume group into a different compartment within the same tenancy.
 // For information about moving resources between compartments,
-// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // See also
 //
@@ -420,7 +420,7 @@ func (client BlockstorageClient) changeVolumeGroupCompartment(ctx context.Contex
 }
 
 // CopyBootVolumeBackup Creates a boot volume backup copy in specified region. For general information about volume backups,
-// see Overview of Boot Volume Backups (https://docs.cloud.oracle.com/Content/Block/Concepts/bootvolumebackups.htm)
+// see Overview of Boot Volume Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/bootvolumebackups.htm)
 //
 // See also
 //
@@ -480,7 +480,7 @@ func (client BlockstorageClient) copyBootVolumeBackup(ctx context.Context, reque
 }
 
 // CopyVolumeBackup Creates a volume backup copy in specified region. For general information about volume backups,
-// see Overview of Block Volume Service Backups (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumebackups.htm)
+// see Overview of Block Volume Service Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumebackups.htm)
 //
 // See also
 //
@@ -540,7 +540,7 @@ func (client BlockstorageClient) copyVolumeBackup(ctx context.Context, request c
 }
 
 // CreateBootVolume Creates a new boot volume in the specified compartment from an existing boot volume or a boot volume backup.
-// For general information about boot volumes, see Boot Volumes (https://docs.cloud.oracle.com/Content/Block/Concepts/bootvolumes.htm).
+// For general information about boot volumes, see Boot Volumes (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/bootvolumes.htm).
 // You may optionally specify a *display name* for the volume, which is simply a friendly name or
 // description. It does not have to be unique, and you can change it. Avoid entering confidential information.
 //
@@ -602,7 +602,7 @@ func (client BlockstorageClient) createBootVolume(ctx context.Context, request c
 }
 
 // CreateBootVolumeBackup Creates a new boot volume backup of the specified boot volume. For general information about boot volume backups,
-// see Overview of Boot Volume Backups (https://docs.cloud.oracle.com/Content/Block/Concepts/bootvolumebackups.htm)
+// see Overview of Boot Volume Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/bootvolumebackups.htm)
 // When the request is received, the backup object is in a REQUEST_RECEIVED state.
 // When the data is imaged, it goes into a CREATING state.
 // After the backup is fully uploaded to the cloud, it goes into an AVAILABLE state.
@@ -667,11 +667,11 @@ func (client BlockstorageClient) createBootVolumeBackup(ctx context.Context, req
 // CreateVolume Creates a new volume in the specified compartment. Volumes can be created in sizes ranging from
 // 50 GB (51200 MB) to 32 TB (33554432 MB), in 1 GB (1024 MB) increments. By default, volumes are 1 TB (1048576 MB).
 // For general information about block volumes, see
-// Overview of Block Volume Service (https://docs.cloud.oracle.com/Content/Block/Concepts/overview.htm).
+// Overview of Block Volume Service (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm).
 // A volume and instance can be in separate compartments but must be in the same availability domain.
 // For information about access control and compartments, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm). For information about
-// availability domains, see Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about
+// availability domains, see Regions and Availability Domains (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the `ListAvailabilityDomains` operation
 // in the Identity and Access Management Service API.
 // You may optionally specify a *display name* for the volume, which is simply a friendly name or
@@ -735,7 +735,7 @@ func (client BlockstorageClient) createVolume(ctx context.Context, request commo
 }
 
 // CreateVolumeBackup Creates a new backup of the specified volume. For general information about volume backups,
-// see Overview of Block Volume Service Backups (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumebackups.htm)
+// see Overview of Block Volume Service Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumebackups.htm)
 // When the request is received, the backup object is in a REQUEST_RECEIVED state.
 // When the data is imaged, it goes into a CREATING state.
 // After the backup is fully uploaded to the cloud, it goes into an AVAILABLE state.
@@ -919,7 +919,7 @@ func (client BlockstorageClient) createVolumeBackupPolicyAssignment(ctx context.
 // volume group, or by restoring a volume group backup. A volume group can contain up to 64 volumes.
 // You may optionally specify a *display name* for the volume group, which is simply a friendly name or
 // description. It does not have to be unique, and you can change it. Avoid entering confidential information.
-// For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //
@@ -979,7 +979,7 @@ func (client BlockstorageClient) createVolumeGroup(ctx context.Context, request 
 }
 
 // CreateVolumeGroupBackup Creates a new backup volume group of the specified volume group.
-// For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //
@@ -1040,7 +1040,7 @@ func (client BlockstorageClient) createVolumeGroupBackup(ctx context.Context, re
 
 // DeleteBootVolume Deletes the specified boot volume. The volume cannot have an active connection to an instance.
 // To disconnect the boot volume from a connected instance, see
-// Disconnecting From a Boot Volume (https://docs.cloud.oracle.com/Content/Block/Tasks/deletingbootvolume.htm).
+// Disconnecting From a Boot Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/deletingbootvolume.htm).
 // **Warning:** All data on the boot volume will be permanently lost when the boot volume is deleted.
 //
 // See also
@@ -1205,7 +1205,7 @@ func (client BlockstorageClient) deleteBootVolumeKmsKey(ctx context.Context, req
 
 // DeleteVolume Deletes the specified volume. The volume cannot have an active connection to an instance.
 // To disconnect the volume from a connected instance, see
-// Disconnecting From a Volume (https://docs.cloud.oracle.com/Content/Block/Tasks/disconnectingfromavolume.htm).
+// Disconnecting From a Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/disconnectingfromavolume.htm).
 // **Warning:** All data on the volume will be permanently lost when the volume is deleted.
 //
 // See also
@@ -1426,7 +1426,7 @@ func (client BlockstorageClient) deleteVolumeBackupPolicyAssignment(ctx context.
 }
 
 // DeleteVolumeGroup Deletes the specified volume group. Individual volumes are not deleted, only the volume group is deleted.
-// For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //
@@ -1481,7 +1481,7 @@ func (client BlockstorageClient) deleteVolumeGroup(ctx context.Context, request 
 }
 
 // DeleteVolumeGroupBackup Deletes a volume group backup. This operation deletes all the backups in
-// the volume group. For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// the volume group. For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //
@@ -2023,7 +2023,7 @@ func (client BlockstorageClient) getVolumeBackupPolicyAssignment(ctx context.Con
 	return response, err
 }
 
-// GetVolumeGroup Gets information for the specified volume group. For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// GetVolumeGroup Gets information for the specified volume group. For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //
@@ -2077,7 +2077,7 @@ func (client BlockstorageClient) getVolumeGroup(ctx context.Context, request com
 	return response, err
 }
 
-// GetVolumeGroupBackup Gets information for the specified volume group backup. For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// GetVolumeGroupBackup Gets information for the specified volume group backup. For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //
@@ -2404,7 +2404,7 @@ func (client BlockstorageClient) listVolumeBackups(ctx context.Context, request 
 }
 
 // ListVolumeGroupBackups Lists the volume group backups in the specified compartment. You can filter the results by volume group.
-// For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //
@@ -2459,7 +2459,7 @@ func (client BlockstorageClient) listVolumeGroupBackups(ctx context.Context, req
 }
 
 // ListVolumeGroups Lists the volume groups in the specified compartment and availability domain.
-// For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //
@@ -2896,7 +2896,7 @@ func (client BlockstorageClient) updateVolumeBackupPolicy(ctx context.Context, r
 // to add or remove volumes in a volume group. Specify the full list of volume IDs to include in the
 // volume group. If the volume ID is not specified in the call, it will be removed from the volume group.
 // Avoid entering confidential information.
-// For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //
@@ -2950,7 +2950,7 @@ func (client BlockstorageClient) updateVolumeGroup(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateVolumeGroupBackup Updates the display name for the specified volume group backup. For more information, see Volume Groups (https://docs.cloud.oracle.com/Content/Block/Concepts/volumegroups.htm).
+// UpdateVolumeGroupBackup Updates the display name for the specified volume group backup. For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 //
 // See also
 //

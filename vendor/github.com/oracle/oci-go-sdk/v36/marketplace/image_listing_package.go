@@ -36,6 +36,8 @@ type ImageListingPackage struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
+
 	// The ID of the listing resource associated with this listing package. For more information, see AppCatalogListing (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListing/) in the Core Services API.
 	AppCatalogListingId *string `mandatory:"false" json:"appCatalogListingId"`
 
@@ -77,6 +79,11 @@ func (m ImageListingPackage) GetResourceId() *string {
 //GetTimeCreated returns TimeCreated
 func (m ImageListingPackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
+}
+
+//GetOperatingSystem returns OperatingSystem
+func (m ImageListingPackage) GetOperatingSystem() *OperatingSystem {
+	return m.OperatingSystem
 }
 
 func (m ImageListingPackage) String() string {

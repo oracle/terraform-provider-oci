@@ -93,6 +93,12 @@ type Listing struct {
 
 	// Indicates whether the listing is included in Featured Listings.
 	IsFeatured *bool `mandatory:"false" json:"isFeatured"`
+
+	// In which catalog the listing should exist.
+	ListingType ListingTypeEnum `mandatory:"false" json:"listingType,omitempty"`
+
+	// List of operating systems supported.
+	SupportedOperatingSystems []OperatingSystem `mandatory:"false" json:"supportedOperatingSystems"`
 }
 
 func (m Listing) String() string {

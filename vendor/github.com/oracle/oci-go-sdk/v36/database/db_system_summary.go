@@ -15,11 +15,11 @@ import (
 
 // DbSystemSummary The Database Service supports several types of DB systems, ranging in size, price, and performance. For details about
 // each type of system, see Bare Metal and Virtual Machine DB Systems (https://docs.cloud.oracle.com/Content/Database/Concepts/overview.htm).
-// **Note:** Deprecated for Exadata Cloud Service instances using the new resource model (https://docs.cloud.oracle.com/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model).
+// **Note:** Deprecated for Exadata Cloud Service instances using the new resource model (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model).
 // To provision and manage new Exadata Cloud Service systems, use the
 // CloudExadataInfrastructure and CloudVmCluster.
 // See Exadata Cloud Service (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm) for more information on Exadata systems.
-// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.cloud.oracle.com/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
 // To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized, talk to an administrator. If you are an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 // For information about access control and compartments, see
 // Overview of the Identity Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).

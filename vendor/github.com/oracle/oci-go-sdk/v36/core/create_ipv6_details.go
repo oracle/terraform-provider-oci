@@ -20,8 +20,12 @@ import (
 // CreateIpv6Details The representation of CreateIpv6Details
 type CreateIpv6Details struct {
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6 to. The
+	// IPv6 will be in the VNIC's subnet.
+	VnicId *string `mandatory:"true" json:"vnicId"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -30,7 +34,7 @@ type CreateIpv6Details struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -48,10 +52,6 @@ type CreateIpv6Details struct {
 	// for the Ipv6 is null.
 	// Example: `true`
 	IsInternetAccessAllowed *bool `mandatory:"false" json:"isInternetAccessAllowed"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6 to. The
-	// IPv6 will be in the VNIC's subnet.
-	VnicId *string `mandatory:"false" json:"vnicId"`
 }
 
 func (m CreateIpv6Details) String() string {

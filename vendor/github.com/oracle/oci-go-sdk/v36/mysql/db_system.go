@@ -15,8 +15,6 @@ import (
 )
 
 // DbSystem A DB System is the core logical unit of MySQL Database Service.
-// # NOTE: definitions/DbSystemSnapshot is a snapshot version of DbSystem which is stored during backup. Any
-// # addition/deletion of properties should also consider snapshot's definition
 type DbSystem struct {
 
 	// The OCID of the DB System.
@@ -51,10 +49,16 @@ type DbSystem struct {
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
 
+	// DEPRECATED -- please use `isHeatWaveClusterAttached` instead.
 	// If the DB System has an Analytics Cluster attached.
 	IsAnalyticsClusterAttached *bool `mandatory:"false" json:"isAnalyticsClusterAttached"`
 
 	AnalyticsCluster *AnalyticsClusterSummary `mandatory:"false" json:"analyticsCluster"`
+
+	// If the DB System has a HeatWave Cluster attached.
+	IsHeatWaveClusterAttached *bool `mandatory:"false" json:"isHeatWaveClusterAttached"`
+
+	HeatWaveCluster *HeatWaveClusterSummary `mandatory:"false" json:"heatWaveCluster"`
 
 	// The Availability Domain where the primary DB System should be located.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
@@ -122,6 +126,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		Description                *string                           `json:"description"`
 		IsAnalyticsClusterAttached *bool                             `json:"isAnalyticsClusterAttached"`
 		AnalyticsCluster           *AnalyticsClusterSummary          `json:"analyticsCluster"`
+		IsHeatWaveClusterAttached  *bool                             `json:"isHeatWaveClusterAttached"`
+		HeatWaveCluster            *HeatWaveClusterSummary           `json:"heatWaveCluster"`
 		AvailabilityDomain         *string                           `json:"availabilityDomain"`
 		FaultDomain                *string                           `json:"faultDomain"`
 		ShapeName                  *string                           `json:"shapeName"`
@@ -159,6 +165,10 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.IsAnalyticsClusterAttached = model.IsAnalyticsClusterAttached
 
 	m.AnalyticsCluster = model.AnalyticsCluster
+
+	m.IsHeatWaveClusterAttached = model.IsHeatWaveClusterAttached
+
+	m.HeatWaveCluster = model.HeatWaveCluster
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

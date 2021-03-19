@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// AnalyticsClusterNode An Analytics Cluster Node is a compute host that is part of an Analytics Cluster.
+// AnalyticsClusterNode DEPRECATED -- please use HeatWave API instead.
+// An Analytics Cluster Node is a compute host that is part of an Analytics Cluster.
 type AnalyticsClusterNode struct {
 
 	// The ID of the node within MySQL Analytics Cluster.

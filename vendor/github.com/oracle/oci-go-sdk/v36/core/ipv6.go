@@ -52,13 +52,17 @@ type Ipv6 struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC the IPv6 is assigned to.
+	// The VNIC and IPv6 must be in the same subnet.
+	VnicId *string `mandatory:"true" json:"vnicId"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -81,10 +85,6 @@ type Ipv6 struct {
 	// This is null if the IPv6 is created with `isInternetAccessAllowed` set to `false`.
 	// Example: `2001:0db8:0123:1111:abcd:ef01:2345:6789`
 	PublicIpAddress *string `mandatory:"false" json:"publicIpAddress"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC the IPv6 is assigned to.
-	// The VNIC and IPv6 must be in the same subnet.
-	VnicId *string `mandatory:"false" json:"vnicId"`
 }
 
 func (m Ipv6) String() string {

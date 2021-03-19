@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// UpdateAnalyticsClusterDetails Details about the Analytics Cluster properties to be updated.
+// UpdateAnalyticsClusterDetails DEPRECATED -- please use HeatWave API instead.
+// Details about the Analytics Cluster properties to be updated.
 type UpdateAnalyticsClusterDetails struct {
 
 	// A change to the shape of the nodes in the Analytics Cluster will

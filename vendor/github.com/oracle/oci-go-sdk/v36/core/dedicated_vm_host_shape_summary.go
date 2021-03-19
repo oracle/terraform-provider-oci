@@ -20,7 +20,7 @@ import (
 // DedicatedVmHostShapeSummary The shape used to launch the dedicated virtual machine (VM) host.
 type DedicatedVmHostShapeSummary struct {
 
-	// The name of the dedicated vm host shape. You can enumerate all available shapes by calling
+	// The name of the dedicated VM host shape. You can enumerate all available shapes by calling
 	// dedicatedVmHostShapes.
 	DedicatedVmHostShape *string `mandatory:"true" json:"dedicatedVmHostShape"`
 

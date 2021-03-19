@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// UpdateExternalNonContainerDatabaseDetails Details for updating an external non-container database.
+// UpdateExternalNonContainerDatabaseDetails Details for updating an external non-container database. This API is not currently supported.
 type UpdateExternalNonContainerDatabaseDetails struct {
 
 	// The user-friendly name for the external database. The name does not have to be unique.

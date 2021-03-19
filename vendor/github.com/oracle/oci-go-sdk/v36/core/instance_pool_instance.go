@@ -17,36 +17,37 @@ import (
 	"github.com/oracle/oci-go-sdk/v36/common"
 )
 
-// InstancePoolInstance Instance data along with the lifecycleState of instance to instance pool attachment.
+// InstancePoolInstance Information about an instance that belongs to an instance pool.
 type InstancePoolInstance struct {
 
-	// The OCID of the instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.
 	InstancePoolId *string `mandatory:"true" json:"instancePoolId"`
 
 	// The availability domain the instance is running in.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// the lifecycle state of the instance in the instance pool
+	// The attachment state of the instance in relation to the instance pool.
 	LifecycleState InstancePoolInstanceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID of the compartment that contains the instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the
+	// instance.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the instance configuration used to create the instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration
+	// used to create the instance.
 	InstanceConfigurationId *string `mandatory:"true" json:"instanceConfigurationId"`
 
 	// The region that contains the availability domain the instance is running in.
 	Region *string `mandatory:"true" json:"region"`
 
-	// The shape of an instance. The shape determines the number of CPUs, amount of memory,
+	// The shape of the instance. The shape determines the number of CPUs, amount of memory,
 	// and other resources allocated to the instance.
-	// You can enumerate all available shapes by calling ListShapes.
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// The lifecycleState of the underlying instance. Refer lifecycleState in Instance
+	// The lifecycle state of the instance. Refer to `lifecycleState` in the Instance resource.
 	State *string `mandatory:"true" json:"state"`
 
 	// The date and time the instance pool instance was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -59,7 +60,7 @@ type InstancePoolInstance struct {
 	// The fault domain the instance is running in.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
-	// The load balancer backends that are configured for the instance pool instance.
+	// The load balancer backends that are configured for the instance.
 	LoadBalancerBackends []InstancePoolInstanceLoadBalancerBackend `mandatory:"false" json:"loadBalancerBackends"`
 }
 

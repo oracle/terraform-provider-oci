@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstanceDevices.go.html to see an example of how to use ListInstanceDevicesRequest.
 type ListInstanceDevicesRequest struct {
 
-	// The OCID of the instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" contributesTo:"path" name:"instanceId"`
 
 	// A filter to return only available devices or only used devices.

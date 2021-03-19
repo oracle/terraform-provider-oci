@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/TerminateInstance.go.html to see an example of how to use TerminateInstanceRequest.
 type TerminateInstanceRequest struct {
 
-	// The OCID of the instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceId *string `mandatory:"true" contributesTo:"path" name:"instanceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -18,7 +18,7 @@ import (
 )
 
 // InstanceConfigurationCreateVnicDetails Contains the properties of the VNIC for an instance configuration. See CreateVnicDetails
-// and Instance Configurations (https://docs.cloud.oracle.com/Content/Compute/Concepts/instancemanagement.htm#config) for more information.
+// and Instance Configurations (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information.
 type InstanceConfigurationCreateVnicDetails struct {
 
 	// Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of CreateVnicDetails
@@ -26,7 +26,7 @@ type InstanceConfigurationCreateVnicDetails struct {
 	AssignPublicIp *bool `mandatory:"false" json:"assignPublicIp"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -35,7 +35,7 @@ type InstanceConfigurationCreateVnicDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

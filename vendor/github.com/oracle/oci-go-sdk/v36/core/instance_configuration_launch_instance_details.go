@@ -27,13 +27,16 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
+	// The OCID of the compute capacity reservation this instance is launched under.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	CreateVnicDetails *InstanceConfigurationCreateVnicDetails `mandatory:"false" json:"createVnicDetails"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -51,7 +54,7 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	ExtendedMetadata map[string]interface{} `mandatory:"false" json:"extendedMetadata"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -72,7 +75,7 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// iqn.2015-02.oracle.boot.
 	// For more information about the Bring Your Own Image feature of
 	// Oracle Cloud Infrastructure, see
-	// Bring Your Own Image (https://docs.cloud.oracle.com/Content/Compute/References/bringyourownimage.htm).
+	// Bring Your Own Image (https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 	// For more information about iPXE, see http://ipxe.org.
 	IpxeScript *string `mandatory:"false" json:"ipxeScript"`
 
@@ -174,6 +177,7 @@ func (m InstanceConfigurationLaunchInstanceDetails) String() string {
 func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		AvailabilityDomain             *string                                                                  `json:"availabilityDomain"`
+		CapacityReservationId          *string                                                                  `json:"capacityReservationId"`
 		CompartmentId                  *string                                                                  `json:"compartmentId"`
 		CreateVnicDetails              *InstanceConfigurationCreateVnicDetails                                  `json:"createVnicDetails"`
 		DefinedTags                    map[string]map[string]interface{}                                        `json:"definedTags"`
@@ -203,6 +207,8 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	}
 	var nn interface{}
 	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.CapacityReservationId = model.CapacityReservationId
 
 	m.CompartmentId = model.CompartmentId
 

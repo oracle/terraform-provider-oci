@@ -198,7 +198,7 @@ func (client ComputeClient) attachBootVolume(ctx context.Context, request common
 
 // AttachVnic Creates a secondary VNIC and attaches it to the specified instance.
 // For more information about secondary VNICs, see
-// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/Content/Network/Tasks/managingVNICs.htm).
+// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 //
 // See also
 //
@@ -377,6 +377,67 @@ func (client ComputeClient) captureConsoleHistory(ctx context.Context, request c
 	}
 
 	var response CaptureConsoleHistoryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeComputeCapacityReservationCompartment Moves a compute capacity reservation into a different compartment. For information about
+// moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeCapacityReservationCompartment.go.html to see an example of how to use ChangeComputeCapacityReservationCompartment API.
+func (client ComputeClient) ChangeComputeCapacityReservationCompartment(ctx context.Context, request ChangeComputeCapacityReservationCompartmentRequest) (response ChangeComputeCapacityReservationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeComputeCapacityReservationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeComputeCapacityReservationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeComputeCapacityReservationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeComputeCapacityReservationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeComputeCapacityReservationCompartmentResponse")
+	}
+	return
+}
+
+// changeComputeCapacityReservationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeCapacityReservations/{capacityReservationId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeComputeCapacityReservationCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -692,6 +753,69 @@ func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, re
 	return response, err
 }
 
+// CreateComputeCapacityReservation Creates a new compute capacity reservation in the specified compartment and availability domain.
+// Compute capacity reservations let you reserve instances in a compartment.
+// When you launch an instance using this reservation, you are assured that you have enough space for your instance,
+// and you won't get out of capacity errors.
+// For more information, see Reserved Capacity (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCapacityReservation.go.html to see an example of how to use CreateComputeCapacityReservation API.
+func (client ComputeClient) CreateComputeCapacityReservation(ctx context.Context, request CreateComputeCapacityReservationRequest) (response CreateComputeCapacityReservationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createComputeCapacityReservation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateComputeCapacityReservationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateComputeCapacityReservationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateComputeCapacityReservationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateComputeCapacityReservationResponse")
+	}
+	return
+}
+
+// createComputeCapacityReservation implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) createComputeCapacityReservation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeCapacityReservations")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateComputeCapacityReservationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateComputeImageCapabilitySchema Creates compute image capability schema.
 //
 // See also
@@ -816,17 +940,17 @@ func (client ComputeClient) createDedicatedVmHost(ctx context.Context, request c
 // CreateImage Creates a boot disk image for the specified instance or imports an exported image from the Oracle Cloud Infrastructure Object Storage service.
 // When creating a new image, you must provide the OCID of the instance you want to use as the basis for the image, and
 // the OCID of the compartment containing that instance. For more information about images,
-// see Managing Custom Images (https://docs.cloud.oracle.com/Content/Compute/Tasks/managingcustomimages.htm).
+// see Managing Custom Images (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm).
 // When importing an exported image from Object Storage, you specify the source information
 // in ImageSourceDetails.
 // When importing an image based on the namespace, bucket name, and object name,
 // use ImageSourceViaObjectStorageTupleDetails.
 // When importing an image based on the Object Storage URL, use
 // ImageSourceViaObjectStorageUriDetails.
-// See Object Storage URLs (https://docs.cloud.oracle.com/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
+// See Object Storage URLs (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
 // for constructing URLs for image import/export.
 // For more information about importing exported images, see
-// Image Import/Export (https://docs.cloud.oracle.com/Content/Compute/Tasks/imageimportexport.htm).
+// Image Import/Export (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm).
 // You may optionally specify a *display name* for the image, which is simply a friendly name or description.
 // It does not have to be unique, and you can change it. See UpdateImage.
 // Avoid entering confidential information.
@@ -891,7 +1015,7 @@ func (client ComputeClient) createImage(ctx context.Context, request common.OCIR
 // CreateInstanceConsoleConnection Creates a new console connection to the specified instance.
 // After the console connection has been created and is available,
 // you connect to the console using SSH.
-// For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/Content/Compute/References/serialconsole.htm).
+// For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
 //
 // See also
 //
@@ -992,6 +1116,60 @@ func (client ComputeClient) deleteAppCatalogSubscription(ctx context.Context, re
 	}
 
 	var response DeleteAppCatalogSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteComputeCapacityReservation Deletes the specified compute capacity reservation.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeCapacityReservation.go.html to see an example of how to use DeleteComputeCapacityReservation API.
+func (client ComputeClient) DeleteComputeCapacityReservation(ctx context.Context, request DeleteComputeCapacityReservationRequest) (response DeleteComputeCapacityReservationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteComputeCapacityReservation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteComputeCapacityReservationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteComputeCapacityReservationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteComputeCapacityReservationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteComputeCapacityReservationResponse")
+	}
+	return
+}
+
+// deleteComputeCapacityReservation implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) deleteComputeCapacityReservation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/computeCapacityReservations/{capacityReservationId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteComputeCapacityReservationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1338,7 +1516,7 @@ func (client ComputeClient) detachBootVolume(ctx context.Context, request common
 // and secondary) are automatically detached and deleted.
 // **Important:** If the VNIC has a
 // PrivateIp that is the
-// target of a route rule (https://docs.cloud.oracle.com/Content/Network/Tasks/managingroutetables.htm#privateip),
+// target of a route rule (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip),
 // deleting the VNIC causes that route rule to blackhole and the traffic
 // will be dropped.
 //
@@ -1452,10 +1630,10 @@ func (client ComputeClient) detachVolume(ctx context.Context, request common.OCI
 
 // ExportImage Exports the specified image to the Oracle Cloud Infrastructure Object Storage service. You can use the Object Storage URL,
 // or the namespace, bucket name, and object name when specifying the location to export to.
-// For more information about exporting images, see Image Import/Export (https://docs.cloud.oracle.com/Content/Compute/Tasks/imageimportexport.htm).
+// For more information about exporting images, see Image Import/Export (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm).
 // To perform an image export, you need write access to the Object Storage bucket for the image,
-// see Let Users Write Objects to Object Storage Buckets (https://docs.cloud.oracle.com/Content/Identity/Concepts/commonpolicies.htm#Let4).
-// See Object Storage URLs (https://docs.cloud.oracle.com/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
+// see Let Users Write Objects to Object Storage Buckets (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/commonpolicies.htm#Let4).
+// See Object Storage URLs (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
 // for constructing URLs for image import/export.
 //
 // See also
@@ -1719,6 +1897,60 @@ func (client ComputeClient) getBootVolumeAttachment(ctx context.Context, request
 	}
 
 	var response GetBootVolumeAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetComputeCapacityReservation Gets information about the specified compute capacity reservation.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeCapacityReservation.go.html to see an example of how to use GetComputeCapacityReservation API.
+func (client ComputeClient) GetComputeCapacityReservation(ctx context.Context, request GetComputeCapacityReservationRequest) (response GetComputeCapacityReservationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getComputeCapacityReservation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetComputeCapacityReservationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetComputeCapacityReservationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetComputeCapacityReservationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetComputeCapacityReservationResponse")
+	}
+	return
+}
+
+// getComputeCapacityReservation implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getComputeCapacityReservation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservations/{capacityReservationId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetComputeCapacityReservationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2455,10 +2687,10 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // OS to crash and then reboot. Before you send a diagnostic interrupt, you must configure the instance to generate a
 // crash dump file when it crashes. The crash dump captures information about the state of the OS at the time of
 // the crash. After the OS restarts, you can analyze the crash dump to diagnose the issue. For more information, see
-// Sending a Diagnostic Interrupt (https://docs.cloud.oracle.com/Content/Compute/Tasks/sendingdiagnosticinterrupt.htm).
+// Sending a Diagnostic Interrupt (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/sendingdiagnosticinterrupt.htm).
 //
 // For more information about managing instance lifecycle states, see
-// Stopping and Starting an Instance (https://docs.cloud.oracle.com/Content/Compute/Tasks/restartinginstance.htm).
+// Stopping and Starting an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
 //
 // See also
 //
@@ -2519,11 +2751,11 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 
 // LaunchInstance Creates a new instance in the specified compartment and the specified availability domain.
 // For general information about instances, see
-// Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// Overview of the Compute Service (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm).
 // For information about access control and compartments, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about availability domains, see
-// Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// Regions and Availability Domains (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the `ListAvailabilityDomains` operation
 // in the Identity and Access Management Service API.
 // All Oracle Cloud Infrastructure resources, including instances, get an Oracle-assigned,
@@ -2541,7 +2773,7 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 // operation to get the VNIC ID for the instance, and then call
 // GetVnic with the VNIC ID.
 // You can later add secondary VNICs to an instance. For more information, see
-// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/Content/Network/Tasks/managingVNICs.htm).
+// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 // To launch an instance from a Marketplace image listing, you must provide the image ID of the
 // listing resource version that you want, but you also must subscribe to the listing before you try
 // to launch the instance. To subscribe to the listing, use the GetAppCatalogListingAgreements
@@ -2812,6 +3044,170 @@ func (client ComputeClient) listBootVolumeAttachments(ctx context.Context, reque
 	}
 
 	var response ListBootVolumeAttachmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListComputeCapacityReservationInstanceShapes Lists the shapes that can be reserved within the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservationInstanceShapes.go.html to see an example of how to use ListComputeCapacityReservationInstanceShapes API.
+func (client ComputeClient) ListComputeCapacityReservationInstanceShapes(ctx context.Context, request ListComputeCapacityReservationInstanceShapesRequest) (response ListComputeCapacityReservationInstanceShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeCapacityReservationInstanceShapes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeCapacityReservationInstanceShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeCapacityReservationInstanceShapesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeCapacityReservationInstanceShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeCapacityReservationInstanceShapesResponse")
+	}
+	return
+}
+
+// listComputeCapacityReservationInstanceShapes implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listComputeCapacityReservationInstanceShapes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservationInstanceShapes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeCapacityReservationInstanceShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListComputeCapacityReservationInstances Lists the instances launched under a capacity reservation. You can filter results by specifying criteria.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservationInstances.go.html to see an example of how to use ListComputeCapacityReservationInstances API.
+func (client ComputeClient) ListComputeCapacityReservationInstances(ctx context.Context, request ListComputeCapacityReservationInstancesRequest) (response ListComputeCapacityReservationInstancesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeCapacityReservationInstances, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeCapacityReservationInstancesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeCapacityReservationInstancesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeCapacityReservationInstancesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeCapacityReservationInstancesResponse")
+	}
+	return
+}
+
+// listComputeCapacityReservationInstances implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listComputeCapacityReservationInstances(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservations/{capacityReservationId}/instances")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeCapacityReservationInstancesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListComputeCapacityReservations Lists the compute capacity reservations that match the specified criteria and compartment.
+// You can limit the list by specifying a compute capacity reservation display name
+// (the list will include all the identically-named compute capacity reservations in the compartment).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservations.go.html to see an example of how to use ListComputeCapacityReservations API.
+func (client ComputeClient) ListComputeCapacityReservations(ctx context.Context, request ListComputeCapacityReservationsRequest) (response ListComputeCapacityReservationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeCapacityReservations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeCapacityReservationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeCapacityReservationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeCapacityReservationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeCapacityReservationsResponse")
+	}
+	return
+}
+
+// listComputeCapacityReservations implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listComputeCapacityReservations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservations")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeCapacityReservationsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -3314,8 +3710,8 @@ func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Conte
 }
 
 // ListImages Lists the available images in the specified compartment, including both
-// Oracle-provided images (https://docs.cloud.oracle.com/Content/Compute/References/images.htm) and
-// custom images (https://docs.cloud.oracle.com/Content/Compute/Tasks/managingcustomimages.htm) that have
+// Oracle-provided images (https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm) and
+// custom images (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm) that have
 // been created. The list of images returned is ordered to first show all
 // Oracle-provided images, then all custom images.
 // The order of images returned may change when new images are released.
@@ -3373,7 +3769,7 @@ func (client ComputeClient) listImages(ctx context.Context, request common.OCIRe
 }
 
 // ListInstanceConsoleConnections Lists the console connections for the specified compartment or instance.
-// For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/Content/Compute/References/serialconsole.htm).
+// For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
 //
 // See also
 //
@@ -3822,6 +4218,62 @@ func (client ComputeClient) terminateInstance(ctx context.Context, request commo
 	}
 
 	var response TerminateInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateComputeCapacityReservation Updates the display name, defined tag, and freeform tag fields for the specified compute capacity reservation.
+// Fields that are not provided in the request will not be updated. Avoid entering confidential information.
+// The update also modifies the reservation configurations of the specified compute capacity reservation.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeCapacityReservation.go.html to see an example of how to use UpdateComputeCapacityReservation API.
+func (client ComputeClient) UpdateComputeCapacityReservation(ctx context.Context, request UpdateComputeCapacityReservationRequest) (response UpdateComputeCapacityReservationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateComputeCapacityReservation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateComputeCapacityReservationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateComputeCapacityReservationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateComputeCapacityReservationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateComputeCapacityReservationResponse")
+	}
+	return
+}
+
+// updateComputeCapacityReservation implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) updateComputeCapacityReservation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeCapacityReservations/{capacityReservationId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateComputeCapacityReservationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
