@@ -55,9 +55,10 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Required: true,
 			},
 			"gi_version": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: giVersionDiffSuppress,
 			},
 			"hostname": {
 				Type:             schema.TypeString,
