@@ -255,6 +255,7 @@ github.com/oracle/oci-go-sdk/v36/managementdashboard
 github.com/oracle/oci-go-sdk/v36/marketplace
 github.com/oracle/oci-go-sdk/v36/monitoring
 github.com/oracle/oci-go-sdk/v36/mysql
+github.com/oracle/oci-go-sdk/v36/networkloadbalancer
 github.com/oracle/oci-go-sdk/v36/nosql
 github.com/oracle/oci-go-sdk/v36/objectstorage
 github.com/oracle/oci-go-sdk/v36/oce
