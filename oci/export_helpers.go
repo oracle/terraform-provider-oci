@@ -348,7 +348,6 @@ func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {
 	return getRuleSetCompositeId(loadBalancerId, name), nil
 }
 
-
 func getNetworkLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
 
 	backendSetName, ok := resource.sourceAttributes["name"].(string)
