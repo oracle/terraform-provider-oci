@@ -24,3 +24,20 @@ func TestDbVersionDiffSuppress(t *testing.T) {
 		}
 	}
 }
+
+func TestGiVersionDiffSuppress(t *testing.T) {
+	oldValues := [7]string{"", "18.0.0.0", "19.0.0.0", "19.0.0.0", "18.0.2.0", "19.0.0.3", "18.0.0.0"}
+	newValues := [7]string{"18.0.0.0", "", "18.2.0.0", "19.0.0.0", "18.0.0.0", "19.0.0.0", "18.0.3.0"}
+	assertResult := [7]bool{true, true, true, false, false, false, false}
+	for i := 0; i < 7; i++ {
+		old := oldValues[i]
+		new := newValues[i]
+		if giVersionDiffSuppress("", old, new, nil) == assertResult[i] {
+			if assertResult[i] == true {
+				t.Errorf(fmt.Sprintf("Suppress expected, old : %s, new : %s", old, new))
+			} else {
+				t.Errorf(fmt.Sprintf("No Suppress expected, old : %s, new : %s", old, new))
+			}
+		}
+	}
+}
