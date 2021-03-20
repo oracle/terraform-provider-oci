@@ -64,6 +64,42 @@ func MeteringComputationUsageResource() *schema.Resource {
 				ForceNew:     true,
 				ValidateFunc: validateFilterJson,
 			},
+			"forecast": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"time_forecast_ended": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: timeDiffSuppressFunction,
+						},
+
+						// Optional
+						"forecast_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"time_forecast_started": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: timeDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"group_by": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -160,6 +196,10 @@ func MeteringComputationUsageResource() *schema.Resource {
 						},
 						"discount": {
 							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"is_forecast": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"list_rate": {
@@ -315,6 +355,17 @@ func (s *MeteringComputationUsageResourceCrud) Create() error {
 		request.Filter = &filterObj
 	}
 
+	if forecast, ok := s.D.GetOkExists("forecast"); ok {
+		if tmpList := forecast.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "forecast", 0)
+			tmp, err := s.mapToForecast(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Forecast = &tmp
+		}
+	}
+
 	if granularity, ok := s.D.GetOkExists("granularity"); ok {
 		request.Granularity = oci_metering_computation.RequestSummarizedUsagesDetailsGranularityEnum(granularity.(string))
 	}
@@ -402,6 +453,31 @@ func (s *MeteringComputationUsageResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *MeteringComputationUsageResourceCrud) mapToForecast(fieldKeyFormat string) (oci_metering_computation.Forecast, error) {
+	result := oci_metering_computation.Forecast{}
+
+	if forecastType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "forecast_type")); ok {
+		result.ForecastType = oci_metering_computation.ForecastForecastTypeEnum(forecastType.(string))
+	}
+
+	if timeForecastEnded, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_forecast_ended")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeForecastEnded.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeForecastEnded = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeForecastStarted, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_forecast_started")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeForecastStarted.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeForecastStarted = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
 func (s *MeteringComputationUsageResourceCrud) mapToTag(fieldKeyFormat string) (oci_metering_computation.Tag, error) {
 	result := oci_metering_computation.Tag{}
 
@@ -419,7 +495,6 @@ func (s *MeteringComputationUsageResourceCrud) mapToTag(fieldKeyFormat string) (
 		tmp := value.(string)
 		result.Value = &tmp
 	}
-
 	return result, nil
 }
 
@@ -474,6 +549,10 @@ func UsageSummaryToMap(obj oci_metering_computation.UsageSummary) map[string]int
 
 	if obj.Discount != nil {
 		result["discount"] = float32(*obj.Discount)
+	}
+
+	if obj.IsForecast != nil {
+		result["is_forecast"] = bool(*obj.IsForecast)
 	}
 
 	if obj.ListRate != nil {

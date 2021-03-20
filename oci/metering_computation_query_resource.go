@@ -106,6 +106,38 @@ func MeteringComputationQueryResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"forecast": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"time_forecast_ended": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: timeDiffSuppressFunction,
+												},
+
+												// Optional
+												"forecast_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"time_forecast_started": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													DiffSuppressFunc: timeDiffSuppressFunction,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"group_by": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -361,6 +393,48 @@ func CostAnalysisUIToMap(obj *oci_metering_computation.CostAnalysisUi) map[strin
 	return result
 }
 
+func (s *MeteringComputationQueryResourceCrud) mapToForecast(fieldKeyFormat string) (oci_metering_computation.Forecast, error) {
+	result := oci_metering_computation.Forecast{}
+
+	if forecastType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "forecast_type")); ok {
+		result.ForecastType = oci_metering_computation.ForecastForecastTypeEnum(forecastType.(string))
+	}
+
+	if timeForecastEnded, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_forecast_ended")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeForecastEnded.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeForecastEnded = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeForecastStarted, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_forecast_started")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeForecastStarted.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeForecastStarted = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
+
+func ForecastToMap(obj *oci_metering_computation.Forecast) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["forecast_type"] = string(obj.ForecastType)
+
+	if obj.TimeForecastEnded != nil {
+		result["time_forecast_ended"] = obj.TimeForecastEnded.Format(time.RFC3339Nano)
+	}
+
+	if obj.TimeForecastStarted != nil {
+		result["time_forecast_started"] = obj.TimeForecastStarted.Format(time.RFC3339Nano)
+	}
+
+	return result
+}
+
 func (s *MeteringComputationQueryResourceCrud) mapToQueryDefinition(fieldKeyFormat string) (oci_metering_computation.QueryDefinition, error) {
 	result := oci_metering_computation.QueryDefinition{}
 
@@ -458,6 +532,17 @@ func (s *MeteringComputationQueryResourceCrud) mapToReportQuery(fieldKeyFormat s
 		result.Filter = &filterObj
 	}
 
+	if forecast, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "forecast")); ok {
+		if tmpList := forecast.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "forecast"), 0)
+			tmp, err := s.mapToForecast(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert forecast, encountered error: %v", err)
+			}
+			result.Forecast = &tmp
+		}
+	}
+
 	if granularity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "granularity")); ok {
 		result.Granularity = oci_metering_computation.ReportQueryGranularityEnum(granularity.(string))
 	}
@@ -537,6 +622,10 @@ func ReportQueryToMap(obj *oci_metering_computation.ReportQuery) map[string]inte
 	if obj.Filter != nil {
 		tmp, _ := json.Marshal(obj.Filter)
 		result["filter"] = string(tmp)
+	}
+
+	if obj.Forecast != nil {
+		result["forecast"] = []interface{}{ForecastToMap(obj.Forecast)}
 	}
 
 	result["granularity"] = string(obj.Granularity)

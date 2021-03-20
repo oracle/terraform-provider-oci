@@ -1,7 +1,8 @@
-## 4.19.0 (unreleased)
+## 4.20.0 (Unreleased)
 
 ### Added
 - Support for VMware vSphere 7.x to Oracle Cloud VMware Solution added
+- Support for Cost Analysis: Forecasting added
 
 ## 4.19.0 (March 24, 2021)
 

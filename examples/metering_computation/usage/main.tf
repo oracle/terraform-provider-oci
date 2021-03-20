@@ -40,6 +40,18 @@ variable "dimensions_value" {
   default = "dimensions_value"
 }
 
+variable "usage_forecast_forecast_type" {
+  default = "BASIC"
+}
+
+variable "usage_forecast_time_forecast_ended" {
+  default = "2020-01-03T00:00:00.000Z"
+}
+
+variable "usage_forecast_time_forecast_started" {
+  default = "2020-01-02T00:00:00.000Z"
+}
+
 resource "oci_metering_computation_usage" "test_usage" {
   #Required
   granularity        = "DAILY"
@@ -71,7 +83,14 @@ resource "oci_metering_computation_usage" "test_usage" {
 }
 EOF
 
+  forecast {
+    #Required
+    time_forecast_ended = var.usage_forecast_time_forecast_ended
 
+    #Optional
+    forecast_type = var.usage_forecast_forecast_type
+    time_forecast_started = var.usage_forecast_time_forecast_started
+  }
   group_by   = ["service"]
   query_type = "COST"
 }
