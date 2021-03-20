@@ -50,9 +50,13 @@ The following attributes are exported:
 		* `compartment_depth` - The compartment depth level.
 		* `date_range_name` - the date range for ui, eg LAST_THREE_MONTHS. It is conflict with timeUsageStarted and timeUsageEnded
 		* `filter` - 
+		* `forecast` - Forecast configuration of usage/cost.
+			* `forecast_type` - BASIC uses ETS to project future usage/cost based on history data. The basis for projections will be a rolling set of equivalent historical days for which projection is being made.
+			* `time_forecast_ended` - forecast end time.
+			* `time_forecast_started` - forecast start time. Will default to UTC-1 if not specified
 		* `granularity` - The usage granularity. HOURLY - Hourly data aggregation. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. TOTAL - Not yet supported. 
 		* `group_by` - Aggregate the result by. example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
-		* `group_by_tag` - GroupBy a specific tagKey. Provide tagNamespace and tagKey in tag object. Only support one tag in the list example: `[{"namespace":"oracle", "key":"createdBy"]` 
+		* `group_by_tag` - GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: `[{"namespace":"oracle", "key":"createdBy"]` 
 			* `key` - The tag key.
 			* `namespace` - The tag namespace.
 			* `value` - The tag value.

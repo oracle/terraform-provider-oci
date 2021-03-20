@@ -37,22 +37,22 @@ EOF`
 compartment_depth = 1
 filter = <<EOF
 {
-        "operator": "AND",
-        "dimensions": [],
-        "tags": [],
-        "filters": [
-            {
+		"operator": "AND",
+		"dimensions": [],
+		"tags": [],
+		"filters": [
+			{
 				"operator": "OR",
-                "dimensions": [
-				    {
-                        "key": "compartmentName",
-                        "value": "dxterraformtest"
+			 	"dimensions": [
+					{
+						"key": "compartmentName",
+						"value": "dxterraformtest"
 					}
-                ],
-                "filters": [],
-                "tags": []
-		    }
-        ]
+				],
+				"filters": [],
+				"tags": []
+			}
+		]
 }
 EOF
 granularity = "DAILY"
@@ -61,6 +61,7 @@ query_type = "COST"
 tenant_id = "${var.tenancy_id}"
 time_usage_ended = "${var.time_usage_ended}"
 time_usage_started = "${var.time_usage_started}"
+time_forecast_ended= "2021-03-21T00:00:00Z"
 }
 `
 
@@ -68,16 +69,23 @@ time_usage_started = "${var.time_usage_started}"
 		generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Required, Create, usageRepresentation)
 
 	usageRepresentation = map[string]interface{}{
-		"granularity":          Representation{repType: Required, create: `DAILY`},
-		"tenant_id":            Representation{repType: Required, create: `${var.tenancy_id}`},
-		"time_usage_ended":     Representation{repType: Required, create: `${var.time_usage_ended}`},
-		"time_usage_started":   Representation{repType: Required, create: `${var.time_usage_started}`},
-		"compartment_depth":    Representation{repType: Optional, create: `1`},
-		"filter":               Representation{repType: Optional, create: `filter`},
-		"group_by":             Representation{repType: Optional, create: []string{`service`}},
-		"group_by_tag":         RepresentationGroup{Optional, usageGroupByTagRepresentation},
+		"granularity":        Representation{repType: Required, create: `DAILY`},
+		"tenant_id":          Representation{repType: Required, create: `${var.tenancy_id}`},
+		"time_usage_ended":   Representation{repType: Required, create: `2021-03-19T00:00:00Z`},
+		"time_usage_started": Representation{repType: Required, create: `2021-03-18T00:00:00Z`},
+		"compartment_depth":  Representation{repType: Optional, create: `1`},
+		//"filter":               Representation{repType: Optional, create: },
+		"filter":   Representation{repType: Optional, create: `{\"operator\":\"OR\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"dxterraformtest\"}],\"tags\":[],\"filters\":[]}`, update: `{\"operator\":\"OR\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"dxterraformtest\"}],\"tags\":[],\"filters\":[]}`},
+		"forecast": RepresentationGroup{Optional, usageForecastRepresentation},
+		"group_by": Representation{repType: Optional, create: []string{`service`}},
+		//"group_by_tag":         RepresentationGroup{Optional, usageGroupByTagRepresentation},
 		"is_aggregate_by_time": Representation{repType: Optional, create: `false`},
 		"query_type":           Representation{repType: Optional, create: `COST`},
+	}
+	usageForecastRepresentation = map[string]interface{}{
+		"time_forecast_ended":   Representation{repType: Required, create: `2021-03-20T00:00:00Z`},
+		"forecast_type":         Representation{repType: Optional, create: `BASIC`},
+		"time_forecast_started": Representation{repType: Optional, create: `2021-03-19T00:00:00Z`},
 	}
 	usageGroupByTagRepresentation = map[string]interface{}{
 		"key":       Representation{repType: Optional, create: `key`},
@@ -138,9 +146,13 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
-					usageRepresentationWithOptionals,
+					generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_depth", "1"),
+					resource.TestCheckResourceAttr(resourceName, "forecast.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "forecast.0.forecast_type", "BASIC"),
+					resource.TestCheckResourceAttr(resourceName, "forecast.0.time_forecast_ended", "2021-03-20T00:00:00Z"),
+					resource.TestCheckResourceAttr(resourceName, "forecast.0.time_forecast_started", "2021-03-19T00:00:00Z"),
 					resource.TestCheckResourceAttrSet(resourceName, "filter"),
 					resource.TestCheckResourceAttr(resourceName, "granularity", "DAILY"),
 					resource.TestCheckResourceAttr(resourceName, "group_by.#", "1"),
