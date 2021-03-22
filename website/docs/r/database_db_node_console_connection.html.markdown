@@ -47,6 +47,14 @@ The following attributes are exported:
 * `id` - The OCID of the console connection.
 * `state` - The current state of the console connection.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Db Node Console Connection
+	* `update` - (Defaults to 20 minutes), when updating the Db Node Console Connection
+	* `delete` - (Defaults to 20 minutes), when destroying the Db Node Console Connection
+
+
 ## Import
 
 DbNodeConsoleConnections can be imported using the `id`, e.g.

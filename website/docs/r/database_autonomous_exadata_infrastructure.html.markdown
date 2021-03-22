@@ -125,6 +125,14 @@ The following attributes are exported:
 * `time_created` - The date and time the Autonomous Exadata Infrastructure was created.
 * `zone_id` - The OCID of the zone the Autonomous Exadata Infrastructure is associated with. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 12 hours), when creating the Autonomous Exadata Infrastructure
+	* `update` - (Defaults to 12 hours), when updating the Autonomous Exadata Infrastructure
+	* `delete` - (Defaults to 12 hours), when destroying the Autonomous Exadata Infrastructure
+
+
 ## Import
 
 AutonomousExadataInfrastructures can be imported using the `id`, e.g.

@@ -55,6 +55,14 @@ The following attributes are exported:
 * `signature` - The base64-encoded binary data object denoting the cryptographic signature generated for the message or message digest. 
 * `signing_algorithm` - The algorithm to use to sign the message or message digest. For RSA keys, supported signature schemes include PKCS #1 and RSASSA-PSS, along with  different hashing algorithms.  For ECDSA keys, ECDSA is the supported signature scheme with different hashing algorithms. When you pass a message digest for signing, ensure that you specify the same hashing algorithm  as used when creating the message digest.       
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Sign
+	* `update` - (Defaults to 20 minutes), when updating the Sign
+	* `delete` - (Defaults to 20 minutes), when destroying the Sign
+
+
 ## Import
 
 Sign can be imported using the `id`, e.g.

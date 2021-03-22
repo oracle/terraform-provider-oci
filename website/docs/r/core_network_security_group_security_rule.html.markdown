@@ -278,6 +278,14 @@ The following attributes are exported:
         * `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - The minimum port number. Must not be greater than the maximum port number.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Network Security Group Security Rule
+	* `update` - (Defaults to 20 minutes), when updating the Network Security Group Security Rule
+	* `delete` - (Defaults to 20 minutes), when destroying the Network Security Group Security Rule
+
+
 ## Import
 
 NetworkSecurityGroupSecurityRule can be imported using the `id`, e.g.

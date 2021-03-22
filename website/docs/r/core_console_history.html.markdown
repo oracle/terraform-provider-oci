@@ -70,6 +70,14 @@ The following attributes are exported:
 * `state` - The current state of the console history.
 * `time_created` - The date and time the history was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Console History
+	* `update` - (Defaults to 20 minutes), when updating the Console History
+	* `delete` - (Defaults to 20 minutes), when destroying the Console History
+
+
 ## Import
 
 ConsoleHistories can be imported using the `id`, e.g.

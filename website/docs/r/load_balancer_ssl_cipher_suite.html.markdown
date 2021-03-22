@@ -82,6 +82,14 @@ The following attributes are exported:
 
 	example: `example_cipher_suite` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Ssl Cipher Suite
+	* `update` - (Defaults to 20 minutes), when updating the Ssl Cipher Suite
+	* `delete` - (Defaults to 20 minutes), when destroying the Ssl Cipher Suite
+
+
 ## Import
 
 SslCipherSuites can be imported using the `id`, e.g.

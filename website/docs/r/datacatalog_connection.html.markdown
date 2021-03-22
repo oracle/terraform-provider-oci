@@ -67,6 +67,14 @@ The following attributes are exported:
 * `updated_by_id` - OCID of the user who modified the connection.
 * `uri` - URI to the connection instance in the API.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Connection
+	* `update` - (Defaults to 20 minutes), when updating the Connection
+	* `delete` - (Defaults to 20 minutes), when destroying the Connection
+
+
 ## Import
 
 Connections can be imported using the `id`, e.g.

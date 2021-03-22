@@ -76,6 +76,14 @@ The following attributes are exported:
 * `time_created` - The time the bastion was created. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2020-01-25T21:10:29.600Z` 
 * `time_updated` - The time the bastion was updated. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2020-01-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Bastion
+	* `update` - (Defaults to 20 minutes), when updating the Bastion
+	* `delete` - (Defaults to 20 minutes), when destroying the Bastion
+
+
 ## Import
 
 Bastions can be imported using the `id`, e.g.

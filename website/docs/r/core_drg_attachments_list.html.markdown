@@ -50,6 +50,14 @@ The following attributes are exported:
 
 * `id` - The Oracle-assigned ID of the DRG attachment 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Drg Attachments List
+	* `update` - (Defaults to 20 minutes), when updating the Drg Attachments List
+	* `delete` - (Defaults to 20 minutes), when destroying the Drg Attachments List
+
+
 ## Import
 
 Import is not supported for this resource.

@@ -184,6 +184,14 @@ The following attributes are exported:
 * `time_created` - The date and time when the service connector was created. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2020-01-25T21:10:29.600Z` 
 * `time_updated` - The date and time when the service connector was updated. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2020-01-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Service Connector
+	* `update` - (Defaults to 20 minutes), when updating the Service Connector
+	* `delete` - (Defaults to 20 minutes), when destroying the Service Connector
+
+
 ## Import
 
 ServiceConnectors can be imported using the `id`, e.g.

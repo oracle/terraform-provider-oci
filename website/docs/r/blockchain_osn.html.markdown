@@ -51,6 +51,14 @@ The following attributes are exported:
 * `osn_key` - OSN identifier
 * `state` - The current state of the OSN.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 30 minutes), when creating the Osn
+	* `update` - (Defaults to 30 minutes), when updating the Osn
+	* `delete` - (Defaults to 30 minutes), when destroying the Osn
+
+
 ## Import
 
 Osns can be imported using the `id`, e.g.

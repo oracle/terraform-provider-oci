@@ -68,6 +68,14 @@ The following attributes are exported:
 * `time_created` - An RFC 3339 timestamp indicating when the repository was created.
 * `time_last_pushed` - An RFC 3339 timestamp indicating when an image was last pushed to the repository.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Container Repository
+	* `update` - (Defaults to 20 minutes), when updating the Container Repository
+	* `delete` - (Defaults to 20 minutes), when destroying the Container Repository
+
+
 ## Import
 
 ContainerRepositories can be imported using the `id`, e.g.

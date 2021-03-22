@@ -83,6 +83,14 @@ The following attributes are exported:
 * `time_created` - The date and time the volume group was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `volume_ids` - OCIDs for the volumes in this volume group.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Volume Group
+	* `update` - (Defaults to 20 minutes), when updating the Volume Group
+	* `delete` - (Defaults to 20 minutes), when destroying the Volume Group
+
+
 ## Import
 
 VolumeGroups can be imported using the `id`, e.g.

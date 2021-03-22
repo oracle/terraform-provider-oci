@@ -58,6 +58,14 @@ The following attributes are exported:
 * `time_created` - Date and time the `SwiftPassword` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the password belongs to.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Swift Password
+	* `update` - (Defaults to 20 minutes), when updating the Swift Password
+	* `delete` - (Defaults to 20 minutes), when destroying the Swift Password
+
+
 ## Import
 
 SwiftPasswords can be imported using the `id`, e.g.

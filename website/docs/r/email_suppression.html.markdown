@@ -47,6 +47,14 @@ The following attributes are exported:
 * `reason` - The reason that the email address was suppressed. For more information on the types of bounces, see [Suppression List](https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm#components).
 * `time_created` - The date and time a recipient's email address was added to the suppression list, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Suppression
+	* `update` - (Defaults to 20 minutes), when updating the Suppression
+	* `delete` - (Defaults to 20 minutes), when destroying the Suppression
+
+
 ## Import
 
 Suppressions can be imported using the `id`, e.g.

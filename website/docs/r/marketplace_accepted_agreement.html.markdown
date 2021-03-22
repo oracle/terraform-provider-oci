@@ -63,6 +63,14 @@ The following attributes are exported:
 * `package_version` - The package version associated with the agreement.
 * `time_accepted` - The time the agreement was accepted.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Accepted Agreement
+	* `update` - (Defaults to 20 minutes), when updating the Accepted Agreement
+	* `delete` - (Defaults to 20 minutes), when destroying the Accepted Agreement
+
+
 ## Import
 
 AcceptedAgreements can be imported using the `id`, e.g.

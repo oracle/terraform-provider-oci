@@ -92,6 +92,14 @@ The following attributes are exported:
 * `status` - status of the managed instance.
 * `updates_available` - Number of updates available to be installed
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Managed Instance Management
+	* `update` - (Defaults to 20 minutes), when updating the Managed Instance Management
+	* `delete` - (Defaults to 20 minutes), when destroying the Managed Instance Management
+
+
 ## Import
 
 Import is not supported for this resource.

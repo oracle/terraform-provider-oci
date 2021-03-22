@@ -88,6 +88,14 @@ The following attributes are exported:
 * `state` - The lifecycle state of the subscription. The status of a new subscription is PENDING; when confirmed, the subscription status changes to ACTIVE. 
 * `topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated topic. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Subscription
+	* `update` - (Defaults to 20 minutes), when updating the Subscription
+	* `delete` - (Defaults to 20 minutes), when destroying the Subscription
+
+
 ## Import
 
 Subscriptions can be imported using the `id`, e.g.

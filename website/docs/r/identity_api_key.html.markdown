@@ -57,6 +57,14 @@ The following attributes are exported:
 * `time_created` - Date and time the `ApiKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the key belongs to.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Api Key
+	* `update` - (Defaults to 20 minutes), when updating the Api Key
+	* `delete` - (Defaults to 20 minutes), when destroying the Api Key
+
+
 ## Import
 
 ApiKeys can be imported using the `id`, e.g.

@@ -65,6 +65,14 @@ The following attributes are exported:
 * `state` - The current state of the pluggable database.
 * `time_created` - The date and time the pluggable database was created
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Pluggable Database
+	* `update` - (Defaults to 20 minutes), when updating the Pluggable Database
+	* `delete` - (Defaults to 20 minutes), when destroying the Pluggable Database
+
+
 ## Import
 
 PluggableDatabases can be imported using the `id`, e.g.

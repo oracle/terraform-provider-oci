@@ -80,6 +80,14 @@ The following attributes are exported:
 	* `error_message` - The error message indicating the reason for failure or `null` if the parameter was updated successfully. 
 	* `status` - The status of the parameter update.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Managed Databases Change Database Parameter
+	* `update` - (Defaults to 20 minutes), when updating the Managed Databases Change Database Parameter
+	* `delete` - (Defaults to 20 minutes), when destroying the Managed Databases Change Database Parameter
+
+
 ## Import
 
 Import is not supported for this resource.

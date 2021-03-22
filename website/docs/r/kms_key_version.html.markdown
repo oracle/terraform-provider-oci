@@ -57,6 +57,14 @@ The following attributes are exported:
 * `time_of_deletion` - An optional property to indicate when to delete the key version, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 * `vault_id` - The OCID of the vault that contains this key version.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Key Version
+	* `update` - (Defaults to 20 minutes), when updating the Key Version
+	* `delete` - (Defaults to 20 minutes), when destroying the Key Version
+
+
 ## Import
 
 KeyVersions can be imported using the `id`, e.g.

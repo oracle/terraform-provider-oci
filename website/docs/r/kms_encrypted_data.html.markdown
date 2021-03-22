@@ -56,6 +56,14 @@ The following attributes are exported:
 * `key_id` - The OCID of the key used to encrypt the ciphertext.
 * `key_version_id` - The OCID of the key version used to encrypt the ciphertext.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Encrypted Data
+	* `update` - (Defaults to 20 minutes), when updating the Encrypted Data
+	* `delete` - (Defaults to 20 minutes), when destroying the Encrypted Data
+
+
 ## Import
 
 Import is not supported for this resource.

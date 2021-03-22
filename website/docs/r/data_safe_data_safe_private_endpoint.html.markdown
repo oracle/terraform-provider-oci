@@ -70,6 +70,14 @@ The following attributes are exported:
 * `time_created` - The date and time the private endpoint was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `vcn_id` - The OCID of the VCN.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Data Safe Private Endpoint
+	* `update` - (Defaults to 20 minutes), when updating the Data Safe Private Endpoint
+	* `delete` - (Defaults to 20 minutes), when destroying the Data Safe Private Endpoint
+
+
 ## Import
 
 DataSafePrivateEndpoints can be imported using the `id`, e.g.

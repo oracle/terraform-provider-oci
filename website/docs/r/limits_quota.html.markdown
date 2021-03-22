@@ -57,6 +57,14 @@ The following attributes are exported:
 * `statements` - An array of one or more quota statements written in the declarative quota statement language.
 * `time_created` - Date and time the quota was created, in the format defined by RFC 3339. Example: `2016-08-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Quota
+	* `update` - (Defaults to 20 minutes), when updating the Quota
+	* `delete` - (Defaults to 20 minutes), when destroying the Quota
+
+
 ## Import
 
 Quotas can be imported using the `id`, e.g.

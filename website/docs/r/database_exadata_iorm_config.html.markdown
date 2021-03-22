@@ -63,6 +63,14 @@ The following attributes are exported:
 * `objective` - The current value for the IORM objective. The default is `AUTO`. 
 * `state` - The current state of IORM configuration for the Exadata DB system. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Exadata Iorm Config
+	* `update` - (Defaults to 20 minutes), when updating the Exadata Iorm Config
+	* `delete` - (Defaults to 20 minutes), when destroying the Exadata Iorm Config
+
+
 ## Import
 
 Import is not supported for this resource.

@@ -65,6 +65,14 @@ The following attributes are exported:
 * `ttl` - The Time To Live for the record, in seconds.
 * `zone_name_or_id` - The name or OCID of the target zone.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Record
+	* `update` - (Defaults to 20 minutes), when updating the Record
+	* `delete` - (Defaults to 20 minutes), when destroying the Record
+
+
 ## Import
 
 Import is not supported for this resource.

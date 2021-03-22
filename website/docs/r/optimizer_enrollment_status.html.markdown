@@ -46,6 +46,14 @@ The following attributes are exported:
 * `time_created` - The date and time the enrollment status was created, in the format defined by RFC3339.
 * `time_updated` - The date and time the enrollment status was last updated, in the format defined by RFC3339.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Enrollment Status
+	* `update` - (Defaults to 20 minutes), when updating the Enrollment Status
+	* `delete` - (Defaults to 20 minutes), when destroying the Enrollment Status
+
+
 ## Import
 
 EnrollmentStatus can be imported using the `id`, e.g.

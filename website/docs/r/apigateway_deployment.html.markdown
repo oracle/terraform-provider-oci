@@ -736,6 +736,14 @@ The following attributes are exported:
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Deployment
+	* `update` - (Defaults to 20 minutes), when updating the Deployment
+	* `delete` - (Defaults to 20 minutes), when destroying the Deployment
+
+
 ## Import
 
 Deployments can be imported using the `id`, e.g.

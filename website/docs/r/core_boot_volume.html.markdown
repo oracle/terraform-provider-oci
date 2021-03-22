@@ -115,6 +115,14 @@ The following attributes are exported:
 * `boot_volume_replicas_deletion` - The boolean value, if you have replicas and want to disable replicas set this argument to true and remove `boot_volume_replicas` in representation at the same time. If you want to enable a new replicas, remove this argument and use `boot_volume_replicas` again.
 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Boot Volume
+	* `update` - (Defaults to 20 minutes), when updating the Boot Volume
+	* `delete` - (Defaults to 20 minutes), when destroying the Boot Volume
+
+
 ## Import
 
 BootVolumes can be imported using the `id`, e.g.

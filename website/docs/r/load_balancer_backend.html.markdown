@@ -67,6 +67,14 @@ The following attributes are exported:
 * `port` - The communication port for the backend server.  Example: `8080` 
 * `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Backend
+	* `update` - (Defaults to 20 minutes), when updating the Backend
+	* `delete` - (Defaults to 20 minutes), when destroying the Backend
+
+
 ## Import
 
 Backends can be imported using the `id`, e.g.

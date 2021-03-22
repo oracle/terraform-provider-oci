@@ -70,6 +70,14 @@ The following attributes are exported:
 	* `rtype` - The type of DNS record, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 	* `ttl` - The Time To Live for the record, in seconds.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Rrset
+	* `update` - (Defaults to 20 minutes), when updating the Rrset
+	* `delete` - (Defaults to 20 minutes), when destroying the Rrset
+
+
 ## Import
 
 For legacy Rrsets that were created without using `scope`, these Rrsets can be imported using the `id`, e.g.

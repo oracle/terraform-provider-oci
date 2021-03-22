@@ -331,6 +331,14 @@ The following attributes are exported:
 	**Note:** For a single-node DB system, this list is empty. 
 * `zone_id` - The OCID of the zone the DB system is associated with. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 0 hours), when creating the Db System
+	* `update` - (Defaults to 2 hours), when updating the Db System
+	* `delete` - (Defaults to 2 hours), when destroying the Db System
+
+
 ## Import
 
 DbSystems can be imported using the `id`, e.g.

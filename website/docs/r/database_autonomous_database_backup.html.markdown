@@ -55,6 +55,14 @@ The following attributes are exported:
 * `type` - The type of backup.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Autonomous Database Backup
+	* `update` - (Defaults to 20 minutes), when updating the Autonomous Database Backup
+	* `delete` - (Defaults to 20 minutes), when destroying the Autonomous Database Backup
+
+
 ## Import
 
 AutonomousDatabaseBackups can be imported using the `id`, e.g.

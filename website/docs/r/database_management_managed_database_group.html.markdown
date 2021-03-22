@@ -63,6 +63,14 @@ The following attributes are exported:
 * `time_created` - The date and time the Managed Database Group was created.
 * `time_updated` - The date and time the Managed Database Group was last updated.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Managed Database Group
+	* `update` - (Defaults to 20 minutes), when updating the Managed Database Group
+	* `delete` - (Defaults to 20 minutes), when destroying the Managed Database Group
+
+
 ## Import
 
 ManagedDatabaseGroups can be imported using the `id`, e.g.
