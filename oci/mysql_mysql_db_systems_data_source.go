@@ -166,6 +166,12 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			mysqlDbSystem["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.CurrentPlacement != nil {
+			mysqlDbSystem["current_placement"] = []interface{}{DbSystemPlacementToMap(r.CurrentPlacement)}
+		} else {
+			mysqlDbSystem["current_placement"] = nil
+		}
+
 		if r.DefinedTags != nil {
 			mysqlDbSystem["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
@@ -206,6 +212,10 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 
 		if r.IsHeatWaveClusterAttached != nil {
 			mysqlDbSystem["is_heat_wave_cluster_attached"] = *r.IsHeatWaveClusterAttached
+		}
+
+		if r.IsHighlyAvailable != nil {
+			mysqlDbSystem["is_highly_available"] = *r.IsHighlyAvailable
 		}
 
 		if r.MysqlVersion != nil {

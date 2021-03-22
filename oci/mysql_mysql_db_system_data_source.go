@@ -97,6 +97,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("configuration_id", *s.Res.ConfigurationId)
 	}
 
+	if s.Res.CurrentPlacement != nil {
+		s.D.Set("current_placement", []interface{}{DbSystemPlacementToMap(s.Res.CurrentPlacement)})
+	} else {
+		s.D.Set("current_placement", nil)
+	}
+
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
@@ -145,6 +151,10 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 
 	if s.Res.IsHeatWaveClusterAttached != nil {
 		s.D.Set("is_heat_wave_cluster_attached", *s.Res.IsHeatWaveClusterAttached)
+	}
+
+	if s.Res.IsHighlyAvailable != nil {
+		s.D.Set("is_highly_available", *s.Res.IsHighlyAvailable)
 	}
 
 	if s.Res.LifecycleDetails != nil {

@@ -118,6 +118,11 @@ func MysqlMysqlConfigurationDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"group_replication_consistency": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"information_schema_stats_expiry": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -460,6 +465,8 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 	if obj.GeneratedRandomPasswordLength != nil {
 		result["generated_random_password_length"] = int(*obj.GeneratedRandomPasswordLength)
 	}
+
+	result["group_replication_consistency"] = string(obj.GroupReplicationConsistency)
 
 	if obj.InformationSchemaStatsExpiry != nil {
 		result["information_schema_stats_expiry"] = int(*obj.InformationSchemaStatsExpiry)

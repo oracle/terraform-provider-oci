@@ -17,7 +17,30 @@ var (
 		"source_type": Representation{repType: Required, create: `BACKUP`},
 		"backup_id":   Representation{repType: Optional, create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
 	}
-	MysqlDbSystemSourceBackupResourceDependencies = MysqlDbSystemResourceDependencies +
+
+	mysqlHADbSystemRepresentation = map[string]interface{}{
+		"admin_password":          Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"admin_username":          Representation{repType: Required, create: `adminUser`},
+		"availability_domain":     Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
+		"configuration_id":        Representation{repType: Optional, create: `${var.MysqlHAConfigurationOCID[var.region]}`},
+		"shape_name":              Representation{repType: Required, create: `MySQL.VM.Standard.E3.1.8GB`},
+		"subnet_id":               Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"backup_policy":           RepresentationGroup{Optional, mysqlDbSystemBackupPolicyRepresentation},
+		"data_storage_size_in_gb": Representation{repType: Required, create: `50`},
+		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":             Representation{repType: Optional, create: `MySQL Database Service`, update: `description2`},
+		"display_name":            Representation{repType: Optional, create: `DBSystem001`, update: `displayName2`},
+		"fault_domain":            Representation{repType: Optional, create: `FAULT-DOMAIN-1`},
+		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":          Representation{repType: Optional, create: `hostnameLabel`},
+		"is_highly_available":     Representation{repType: Optional, create: `true`},
+		"maintenance":             RepresentationGroup{Optional, mysqlDbSystemMaintenanceRepresentation},
+		"port":                    Representation{repType: Optional, create: `3306`},
+		"port_x":                  Representation{repType: Optional, create: `33306`},
+	}
+
+	MysqlDbSystemSourceBackupResourceDependencies = MysqlDbSystemResourceDependencies + MysqlHAConfigurationIdVariable +
 		generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupRepresentation) +
 		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", Required, Create, mysqlDbSystemRepresentation)
 )
@@ -226,6 +249,42 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 						}
 						return err
 					},
+				),
+			},
+		},
+	})
+}
+
+func TestMysqlMysqlDbSystemResource_HA(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_HA")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			// verify HA create
+			{
+				Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlHADbSystemRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_highly_available", "true"),
 				),
 			},
 		},
