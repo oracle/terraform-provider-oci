@@ -109,6 +109,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}
 
+	customerContacts := []interface{}{}
+	for _, item := range s.Res.CustomerContacts {
+		customerContacts = append(customerContacts, CustomerContactToMap(item))
+	}
+	s.D.Set("customer_contacts", customerContacts)
+
 	s.D.Set("data_safe_status", s.Res.DataSafeStatus)
 
 	if s.Res.DataStorageSizeInGBs != nil {
