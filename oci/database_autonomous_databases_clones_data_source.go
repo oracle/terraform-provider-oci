@@ -181,6 +181,23 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"customer_contacts": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"email": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"data_safe_status": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -540,6 +557,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.CpuCoreCount != nil {
 			autonomousDatabasesClone["cpu_core_count"] = *r.CpuCoreCount
 		}
+
+		customerContacts := []interface{}{}
+		for _, item := range r.CustomerContacts {
+			customerContacts = append(customerContacts, CustomerContactToMap(item))
+		}
+		autonomousDatabasesClone["customer_contacts"] = customerContacts
 
 		autonomousDatabasesClone["data_safe_status"] = r.DataSafeStatus
 

@@ -209,6 +209,12 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["cpu_core_count"] = *r.CpuCoreCount
 		}
 
+		customerContacts := []interface{}{}
+		for _, item := range r.CustomerContacts {
+			customerContacts = append(customerContacts, CustomerContactToMap(item))
+		}
+		autonomousDatabase["customer_contacts"] = customerContacts
+
 		autonomousDatabase["data_safe_status"] = r.DataSafeStatus
 
 		if r.DataStorageSizeInGBs != nil {

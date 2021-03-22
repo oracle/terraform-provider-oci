@@ -2,6 +2,7 @@
 
 ### Added
 - Support for customer option for live migration added to `core_instance` and `core_shape` resources
+- Support for `customer_contacts` in autonomous database - shared
 
 ## 4.22.0 (April 14, 2021)
 

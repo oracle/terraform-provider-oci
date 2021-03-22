@@ -70,6 +70,8 @@ The following attributes are exported:
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of OCPU cores to be made available to the database.
+* `customer_contacts` - Customer Contacts.
+	* `email` - The email address of an Oracle Autonomous Database contact.
 * `data_safe_status` - Status of the Data Safe registration for this Autonomous Database.
 * `data_storage_size_in_gb` - The quantity of data in the database, in gigabytes.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
@@ -109,7 +111,7 @@ The following attributes are exported:
 * `private_endpoint_label` - The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
 * `refreshable_mode` - The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 * `refreshable_status` - The refresh status of the clone. REFRESHING indicates that the clone is currently being refreshed with data from the source Autonomous Database.
-* `role` - The role of the Autonomous Dataguard enabled Autonomous Container Database.
+* `role` - The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled. 
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
 * `source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that was cloned to create the current Autonomous Database.
 * `standby_db` - Autonomous Data Guard standby database details. 

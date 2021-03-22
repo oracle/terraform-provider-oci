@@ -95,7 +95,7 @@ The following attributes are exported:
 * `last_backup_timestamp` - The date and time when the latest database backup was created.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `ncharacter_set` - The national character set for the database.
-* `pdb_name` - The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
+* `pdb_name` - The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 * `source_database_point_in_time_recovery_timestamp` - Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339)
 * `state` - The current state of the database.
 * `time_created` - The date and time the database was created.
