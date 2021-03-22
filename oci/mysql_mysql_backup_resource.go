@@ -233,6 +233,10 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_highly_available": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"maintenance": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -690,6 +694,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface
 
 	if obj.IpAddress != nil {
 		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	if obj.IsHighlyAvailable != nil {
+		result["is_highly_available"] = bool(*obj.IsHighlyAvailable)
 	}
 
 	if obj.Maintenance != nil {

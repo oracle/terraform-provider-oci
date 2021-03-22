@@ -166,6 +166,12 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_highly_available": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"maintenance": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -434,6 +440,29 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Computed: true,
 						},
 						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"current_placement": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"availability_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"fault_domain": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -754,6 +783,11 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.IpAddress = &tmp
 	}
 
+	if isHighlyAvailable, ok := s.D.GetOkExists("is_highly_available"); ok {
+		tmp := isHighlyAvailable.(bool)
+		request.IsHighlyAvailable = &tmp
+	}
+
 	if maintenance, ok := s.D.GetOkExists("maintenance"); ok {
 		if tmpList := maintenance.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance", 0)
@@ -932,6 +966,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("configuration_id", *s.Res.ConfigurationId)
 	}
 
+	if s.Res.CurrentPlacement != nil {
+		s.D.Set("current_placement", []interface{}{DbSystemPlacementToMap(s.Res.CurrentPlacement)})
+	} else {
+		s.D.Set("current_placement", nil)
+	}
+
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
@@ -980,6 +1020,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	if s.Res.IsHeatWaveClusterAttached != nil {
 		s.D.Set("is_heat_wave_cluster_attached", *s.Res.IsHeatWaveClusterAttached)
+	}
+
+	if s.Res.IsHighlyAvailable != nil {
+		s.D.Set("is_highly_available", *s.Res.IsHighlyAvailable)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -1310,6 +1354,20 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateMaintenanceDetails(fieldKeyF
 	}
 
 	return result, nil
+}
+
+func DbSystemPlacementToMap(obj *oci_mysql.DbSystemPlacement) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.FaultDomain != nil {
+		result["fault_domain"] = string(*obj.FaultDomain)
+	}
+
+	return result
 }
 
 func HeatWaveClusterSummaryToMap(obj *oci_mysql.HeatWaveClusterSummary) map[string]interface{} {
