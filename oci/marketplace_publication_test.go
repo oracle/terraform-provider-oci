@@ -75,6 +75,8 @@ var (
 )
 
 func TestMarketplacePublicationResource_basic(t *testing.T) {
+	t.Skip("Skip this test till Marketplace automates background processes and reduces the turnaround time.")
+
 	httpreplay.SetScenario("TestMarketplacePublicationResource_basic")
 	defer httpreplay.SaveScenario()
 
