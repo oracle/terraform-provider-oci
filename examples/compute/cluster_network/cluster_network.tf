@@ -46,7 +46,7 @@ resource "oci_core_route_table" "test_route_table" {
 
 resource "oci_core_subnet" "test_subnet" {
   availability_domain = lower(
-    data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name,
+    data.oci_identity_availability_domains.test_availability_domains.availability_domains[1].name,
   )
   cidr_block        = "10.0.2.0/24"
   compartment_id    = var.compartment_ocid
@@ -84,7 +84,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
     instance_type = "compute"
 
     launch_details {
-      availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
+      availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[1].name
       compartment_id      = var.compartment_ocid
 
       create_vnic_details {
@@ -102,8 +102,6 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
       extended_metadata = {
         "extendedMetadata" = "extendedMetadata"
       }
-
-      fault_domain = "FAULT-DOMAIN-2"
 
       ipxe_script = "ipxeScript"
 
@@ -135,7 +133,7 @@ resource "oci_core_cluster_network" "test_cluster_network" {
   }
 
   placement_configuration {
-    availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
+    availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[1].name
     primary_subnet_id   = oci_core_subnet.test_subnet.id
   }
 }

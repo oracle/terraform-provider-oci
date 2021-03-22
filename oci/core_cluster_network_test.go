@@ -33,7 +33,6 @@ var (
 	clusterNetworkDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `hpc-cluster-network`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `RUNNING`},
 		"filter":         RepresentationGroup{Required, clusterNetworkDataSourceFilterRepresentation}}
 	clusterNetworkDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -50,10 +49,10 @@ var (
 	}
 	clusterNetworkInstancePoolsRepresentation = map[string]interface{}{
 		"instance_configuration_id": Representation{repType: Required, create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
-		"size":                      Representation{repType: Required, create: `1`},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
-		"display_name":              Representation{repType: Optional, create: `hpc-cluster-network`},
-		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}},
+		"size":                      Representation{repType: Required, create: `1`, update: `2`},
+		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{repType: Optional, create: `hpc-cluster-network-pool`, update: `hpc-cluster-network-pool2`},
+		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 	clusterNetworkPlacementConfigurationRepresentation = map[string]interface{}{
 		"availability_domain":    Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -75,7 +74,7 @@ var (
 		"filter":         RepresentationGroup{Required, availabilityDomainDataSourceFilterRepresentation}}
 	availabilityDomainDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`LOil:US-ASHBURN-AD-2`}},
+		"values": Representation{repType: Required, create: []string{`${var.logical_ad}`}},
 	}
 
 	AvailabilityDomainClusterNetworkConfig = generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceClusterNetworkRepresentation)
@@ -100,39 +99,6 @@ var (
 		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 			getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
 				representationCopyWithRemovedProperties(instanceConfigurationInstanceDetailsClusterNetworkRepresentation, []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
-
-	marketplaceDependency = `
-
-		data "oci_core_app_catalog_listing" "app_catalog_listing" {
-			listing_id = var.listing_id
-		}
-
-		data "oci_core_app_catalog_listing_resource_versions" "app_catalog_listing_resource_versions" {
-			listing_id = var.listing_id
-		}
-
-		resource "oci_core_app_catalog_listing_resource_version_agreement" "mp_image_agreement" {
-		  count = 1
-		
-		  listing_id               = var.listing_id
-		  listing_resource_version = data.oci_core_app_catalog_listing_resource_versions.app_catalog_listing_resource_versions.app_catalog_listing_resource_versions[0].listing_resource_version
-		
-		}
-
-		resource "oci_core_app_catalog_subscription" "mp_image_subscription" {
-		  count                    = 1
-		  compartment_id           = var.compartment_id
-		  eula_link                = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].eula_link
-		  listing_id               = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].listing_id
-		  listing_resource_version = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].listing_resource_version
-		  oracle_terms_of_use_link = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].oracle_terms_of_use_link
-		  signature                = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].signature
-		  time_retrieved           = oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement[0].time_retrieved
-		
-		  timeouts {
-			create = "20m"
-		  }
-		}`
 )
 
 func TestCoreClusterNetworkResource_basic(t *testing.T) {
@@ -145,14 +111,14 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	logicalAd := getEnvSettingWithBlankDefault("logical_ad")
+	logicalAdVariableStr := fmt.Sprintf("variable \"logical_ad\" { default = \"%s\" }\n", logicalAd)
+
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	imageId := getEnvSettingWithBlankDefault("image_id")
 	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
-
-	listingId := getEnvSettingWithBlankDefault("listing_id")
-	listingIdVariableStr := fmt.Sprintf("variable \"listing_id\" { default = \"%s\" }\n", listingId)
 
 	resourceName := "oci_core_cluster_network.test_cluster_network"
 	datasourceName := "data.oci_core_cluster_networks.test_cluster_networks"
@@ -160,7 +126,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ClusterNetworkResourceDependencies+
+	saveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+ClusterNetworkResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create, clusterNetworkRepresentation), "core", "clusterNetwork", t)
 
 	resource.Test(t, resource.TestCase{
@@ -172,7 +138,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic + marketplaceDependency +
+				Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -196,7 +162,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies + marketplaceDependency +
+				Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create, clusterNetworkRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -206,7 +172,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network"),
+					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
 					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
@@ -242,7 +208,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies + marketplaceDependency +
+				Config: config + logicalAdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create,
 						representationCopyWithNewProperties(clusterNetworkRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
@@ -255,7 +221,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network"),
+					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
 					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
@@ -289,7 +255,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies + marketplaceDependency +
+				Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -298,13 +264,12 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network"),
+					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool2"),
 					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.placement_configurations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.state"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
@@ -334,12 +299,12 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_cluster_networks", "test_cluster_networks", Optional, Update, clusterNetworkDataSourceRepresentation) +
-					compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies + marketplaceDependency +
+					logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
+					//resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
 
 					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.compartment_id", compartmentId),
@@ -349,13 +314,12 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.display_name", "hpc-cluster-network"),
+					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.display_name", "hpc-cluster-network-pool2"),
 					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.instance_configuration_id"),
 					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.placement_configurations.#", "0"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.size", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.size", "2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.state"),
@@ -367,7 +331,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig + marketplaceDependency,
+					logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_network_id"),
 
@@ -378,13 +342,12 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.display_name", "hpc-cluster-network"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.load_balancers.#", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.placement_configurations.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.size", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.size", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.time_created"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "placement_configuration.#", "1"),
@@ -401,7 +364,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + listingIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig + marketplaceDependency,
+				Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig,
 			},
 			// verify resource import
 			{
@@ -486,7 +449,8 @@ func sweepCoreClusterNetworkResource(compartment string) error {
 				fmt.Printf("Error deleting ClusterNetwork %s %s, It is possible that the resource is already deleted. Please verify manually \n", clusterNetworkId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &clusterNetworkId, clusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
+			waitTillCondition(testAccProvider, &clusterNetworkId, clusterNetworkSweepWaitCondition,
+				time.Duration(7*time.Minute),
 				clusterNetworkSweepResponseFetchOperation, "core", true)
 		}
 	}
