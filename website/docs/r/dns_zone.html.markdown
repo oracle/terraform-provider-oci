@@ -108,6 +108,14 @@ The following attributes are exported:
 * `view_id` - The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view. 
 * `zone_type` - The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL zones. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Zone
+	* `update` - (Defaults to 20 minutes), when updating the Zone
+	* `delete` - (Defaults to 20 minutes), when destroying the Zone
+
+
 ## Import
 
 For legacy Zones that were created without using `scope`, these Zones can be imported using the `id`, e.g.

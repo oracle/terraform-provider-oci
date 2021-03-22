@@ -194,6 +194,14 @@ The following attributes are exported:
 * `time_created` - The date and time the Autonomous Container Database was created.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 12 hours), when creating the Autonomous Container Database
+	* `update` - (Defaults to 12 hours), when updating the Autonomous Container Database
+	* `delete` - (Defaults to 12 hours), when destroying the Autonomous Container Database
+
+
 ## Import
 
 AutonomousContainerDatabases can be imported using the `id`, e.g.

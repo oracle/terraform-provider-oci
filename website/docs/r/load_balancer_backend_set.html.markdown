@@ -346,6 +346,14 @@ The following attributes are exported:
 	* `verify_depth` - The maximum depth for peer certificate chain verification.  Example: `3` 
 	* `verify_peer_certificate` - Whether the load balancer listener should verify peer certificates.  Example: `true` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Backend Set
+	* `update` - (Defaults to 20 minutes), when updating the Backend Set
+	* `delete` - (Defaults to 20 minutes), when destroying the Backend Set
+
+
 ## Import
 
 BackendSets can be imported using the `id`, e.g.

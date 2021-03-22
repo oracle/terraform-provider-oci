@@ -116,6 +116,14 @@ The following attributes are exported:
 * `time_created` - The date and time the Data Guard association was created.
 * `transport_type` - The redo transport type used by this Data Guard association.  For more information, see [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400) in the Oracle Data Guard documentation. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 2 hours), when creating the Data Guard Association
+	* `update` - (Defaults to 2 hours), when updating the Data Guard Association
+	* `delete` - (Defaults to 2 hours), when destroying the Data Guard Association
+
+
 ## Import
 
 Import is not supported for this resource.

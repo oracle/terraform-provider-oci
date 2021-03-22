@@ -1048,7 +1048,7 @@ func getTimeoutDuration(timeout string) *time.Duration {
 	timeoutDuration, err := time.ParseDuration(timeout)
 	if err != nil {
 		// Return the OCI Provider's default timeout if there is an error
-		return &FifteenMinutes
+		return &TwentyMinutes
 	}
 	return &timeoutDuration
 }

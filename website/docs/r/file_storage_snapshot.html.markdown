@@ -64,6 +64,14 @@ The following attributes are exported:
 * `state` - The current state of the snapshot.
 * `time_created` - The date and time the snapshot was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Snapshot
+	* `update` - (Defaults to 20 minutes), when updating the Snapshot
+	* `delete` - (Defaults to 20 minutes), when destroying the Snapshot
+
+
 ## Import
 
 Snapshots can be imported using the `id`, e.g.

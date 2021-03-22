@@ -35,6 +35,14 @@ The following attributes are exported:
 * `is_repository_created_on_first_push` - Whether to create a new container repository when a container is pushed to a new repository path. Repositories created in this way belong to the root compartment. 
 * `namespace` - The tenancy namespace used in the container repository path.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Container Configuration
+	* `update` - (Defaults to 20 minutes), when updating the Container Configuration
+	* `delete` - (Defaults to 20 minutes), when destroying the Container Configuration
+
+
 ## Import
 
 ContainerConfiguration can be imported using the `id`, e.g.

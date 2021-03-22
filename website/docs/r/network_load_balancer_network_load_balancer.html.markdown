@@ -128,6 +128,14 @@ The following attributes are exported:
 * `time_created` - The date and time the network load balancer was created, in the format defined by RFC3339.  Example: `2020-05-01T21:10:29.600Z` 
 * `time_updated` - The time the network load balancer was updated. An RFC3339 formatted date-time string.  Example: `2020-05-01T22:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Network Load Balancer
+	* `update` - (Defaults to 20 minutes), when updating the Network Load Balancer
+	* `delete` - (Defaults to 20 minutes), when destroying the Network Load Balancer
+
+
 ## Import
 
 NetworkLoadBalancers can be imported using the `id`, e.g.

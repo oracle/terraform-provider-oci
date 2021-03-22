@@ -254,6 +254,14 @@ The following attributes are exported:
 * `time_created` - The date and time the DB System was created.
 * `time_updated` - The time the DB System was last updated.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 1 hours), when creating the Mysql Db System
+	* `update` - (Defaults to 1 hours), when updating the Mysql Db System
+	* `delete` - (Defaults to 1 hours), when destroying the Mysql Db System
+
+
 ## Import
 
 MysqlDbSystems can be imported using the `id`, e.g.

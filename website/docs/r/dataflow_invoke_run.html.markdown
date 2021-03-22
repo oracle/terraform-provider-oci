@@ -114,6 +114,14 @@ The following attributes are exported:
 * `total_ocpu` - The total number of oCPU requested by the run. 
 * `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Invoke Run
+	* `update` - (Defaults to 20 minutes), when updating the Invoke Run
+	* `delete` - (Defaults to 20 minutes), when destroying the Invoke Run
+
+
 ## Import
 
 InvokeRuns can be imported using the `id`, e.g.

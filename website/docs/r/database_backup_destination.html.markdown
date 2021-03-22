@@ -85,6 +85,14 @@ The following attributes are exported:
 * `type` - Type of the backup destination.
 * `vpc_users` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) users that are used to access the Recovery Appliance.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Backup Destination
+	* `update` - (Defaults to 20 minutes), when updating the Backup Destination
+	* `delete` - (Defaults to 20 minutes), when destroying the Backup Destination
+
+
 ## Import
 
 BackupDestinations can be imported using the `id`, e.g.

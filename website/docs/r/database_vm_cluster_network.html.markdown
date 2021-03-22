@@ -119,6 +119,14 @@ The following attributes are exported:
 		* `vip_hostname` - The node virtual IP (VIP) host name.
 	* `vlan_id` - The network VLAN ID.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Vm Cluster Network
+	* `update` - (Defaults to 20 minutes), when updating the Vm Cluster Network
+	* `delete` - (Defaults to 20 minutes), when destroying the Vm Cluster Network
+
+
 ## Import
 
 VmClusterNetworks can be imported using the `id`, e.g.

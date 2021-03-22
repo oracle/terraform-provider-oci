@@ -113,6 +113,14 @@ The following attributes are exported:
 * `time_created` - The date and time the Channel was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `time_updated` - The time the Channel was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 30 minutes), when creating the Channel
+	* `update` - (Defaults to 30 minutes), when updating the Channel
+	* `delete` - (Defaults to 30 minutes), when destroying the Channel
+
+
 ## Import
 
 Channels can be imported using the `id`, e.g.

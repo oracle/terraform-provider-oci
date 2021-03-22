@@ -82,6 +82,14 @@ The following attributes are exported:
 
 			For a full description of how the system handles `matchType` in a path route set containing multiple rules, see [Managing Request Routing](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm). 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Path Route Set
+	* `update` - (Defaults to 20 minutes), when updating the Path Route Set
+	* `delete` - (Defaults to 20 minutes), when destroying the Path Route Set
+
+
 ## Import
 
 PathRouteSets can be imported using the `id`, e.g.

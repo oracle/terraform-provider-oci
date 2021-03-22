@@ -69,6 +69,14 @@ The following attributes are exported:
 * `time_created` - The date and time the database was created.
 * `time_zone` - The time zone of the external database. It is a time zone offset (a character type in the format '[+|-]TZH:TZM') or a time zone region name, depending on how the time zone value was specified when the database was created / last altered. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the External Non Container Database
+	* `update` - (Defaults to 20 minutes), when updating the External Non Container Database
+	* `delete` - (Defaults to 20 minutes), when destroying the External Non Container Database
+
+
 ## Import
 
 ExternalNonContainerDatabases can be imported using the `id`, e.g.

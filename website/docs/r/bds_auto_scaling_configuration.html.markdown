@@ -91,6 +91,14 @@ The following attributes are exported:
 * `time_created` - The time the BDS instance was created. An RFC3339 formatted datetime string
 * `time_updated` - The time the autoscale configuration was updated. An RFC3339 formatted datetime string 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Auto Scaling Configuration
+	* `update` - (Defaults to 20 minutes), when updating the Auto Scaling Configuration
+	* `delete` - (Defaults to 20 minutes), when destroying the Auto Scaling Configuration
+
+
 ## Import
 
 AutoScalingConfiguration can be imported using the `id`, e.g.

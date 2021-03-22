@@ -128,6 +128,14 @@ The following attributes are exported:
 	* `public_certificate` - PEM certificate for HTTPS connections. 
 	* `urls` - List of urls supported by this vanity URL definition (max of 3). 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 1 hours), when creating the Analytics Instance
+	* `update` - (Defaults to 1 hours), when updating the Analytics Instance
+	* `delete` - (Defaults to 1 hours), when destroying the Analytics Instance
+
+
 ## Import
 
 AnalyticsInstances can be imported using the `id`, e.g.

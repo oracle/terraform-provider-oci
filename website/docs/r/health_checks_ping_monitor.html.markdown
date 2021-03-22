@@ -76,6 +76,14 @@ The following attributes are exported:
 * `timeout_in_seconds` - The probe timeout in seconds. Valid values: 10, 20, 30, and 60. The probe timeout must be less than or equal to `intervalInSeconds` for monitors. 
 * `vantage_point_names` - A list of names of vantage points from which to execute the probe.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Ping Monitor
+	* `update` - (Defaults to 20 minutes), when updating the Ping Monitor
+	* `delete` - (Defaults to 20 minutes), when destroying the Ping Monitor
+
+
 ## Import
 
 PingMonitors can be imported using the `id`, e.g.

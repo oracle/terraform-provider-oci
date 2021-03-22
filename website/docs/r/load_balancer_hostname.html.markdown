@@ -53,6 +53,14 @@ The following attributes are exported:
 * `hostname` - A virtual hostname. For more information about virtual hostname string construction, see [Managing Request Routing](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm#routing).  Example: `app.example.com` 
 * `name` - A friendly name for the hostname resource. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: `example_hostname_001` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Hostname
+	* `update` - (Defaults to 20 minutes), when updating the Hostname
+	* `delete` - (Defaults to 20 minutes), when destroying the Hostname
+
+
 ## Import
 
 Hostnames can be imported using the `id`, e.g.

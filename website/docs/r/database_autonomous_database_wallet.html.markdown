@@ -56,6 +56,14 @@ The following attributes are exported:
 
 * `content` - content of the downloaded zipped wallet for the Autonomous Database. If `base64_encode_content` is set to `true`, then this content will be base64 encoded.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Autonomous Database Wallet
+	* `update` - (Defaults to 20 minutes), when updating the Autonomous Database Wallet
+	* `delete` - (Defaults to 20 minutes), when destroying the Autonomous Database Wallet
+
+
 ## Import
 
 Import is not supported for this resource.

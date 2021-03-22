@@ -104,6 +104,14 @@ The following attributes are exported:
 * `time_connection_status_last_updated` - The date and time the `connectionStatus` of this external connector was last updated.
 * `time_created` - The date and time the external connector was created.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the External Database Connector
+	* `update` - (Defaults to 20 minutes), when updating the External Database Connector
+	* `delete` - (Defaults to 20 minutes), when destroying the External Database Connector
+
+
 ## Import
 
 ExternalDatabaseConnectors can be imported using the `id`, e.g.

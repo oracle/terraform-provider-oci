@@ -101,6 +101,14 @@ The following attributes are exported:
 	* `validator_type` - Specifies the type of validation: a static value (no validation) or a list. 
 	* `values` - The list of allowed values for a definedTag value. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 15 minutes), when creating the Tag
+	* `update` - (Defaults to 15 minutes), when updating the Tag
+	* `delete` - (Defaults to 12 hours), when destroying the Tag
+
+
 ## Import
 
 Tags can be imported using the `tagNamespaceId` and `tagName`, e.g.

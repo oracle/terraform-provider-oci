@@ -251,6 +251,14 @@ The following attributes are exported:
 
 	For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 12 hours), when creating the Autonomous Database
+	* `update` - (Defaults to 12 hours), when updating the Autonomous Database
+	* `delete` - (Defaults to 12 hours), when destroying the Autonomous Database
+
+
 ## Import
 
 AutonomousDatabases can be imported using the `id`, e.g.

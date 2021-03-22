@@ -105,6 +105,14 @@ The following attributes are exported:
 * `time_updated` - The time the Platform Instance was updated. An RFC3339 formatted datetime string
 * `total_ocpu_capacity` - Number of total OCPUs allocated to the platform cluster
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 30 minutes), when creating the Blockchain Platform
+	* `update` - (Defaults to 30 minutes), when updating the Blockchain Platform
+	* `delete` - (Defaults to 30 minutes), when destroying the Blockchain Platform
+
+
 ## Import
 
 BlockchainPlatforms can be imported using the `id`, e.g.

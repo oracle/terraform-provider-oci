@@ -66,6 +66,14 @@ The following attributes are exported:
 * `table_id` - the OCID of the table to which this index belongs.
 * `table_name` - The name of the table to which this index belongs.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Index
+	* `update` - (Defaults to 20 minutes), when updating the Index
+	* `delete` - (Defaults to 20 minutes), when destroying the Index
+
+
 ## Import
 
 Indexes can be imported using the `id`, e.g.

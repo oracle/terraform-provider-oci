@@ -64,6 +64,14 @@ The following attributes are exported:
 * `time_updated` - The time the Management Agent was updated. An RFC3339 formatted datetime string
 * `version` - Management Agent Version
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Management Agent
+	* `update` - (Defaults to 20 minutes), when updating the Management Agent
+	* `delete` - (Defaults to 20 minutes), when destroying the Management Agent
+
+
 ## Import
 
 ManagementAgents can be imported using the `id`, e.g.

@@ -103,6 +103,14 @@ Note: Metadata keys are case-insensitive and all returned keys will be lower cas
     * `bucket` - The name of the bucket for the source object.
     * `object` - The name of the source object.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Object
+	* `update` - (Defaults to 20 minutes), when updating the Object
+	* `delete` - (Defaults to 20 minutes), when destroying the Object
+
+
 ## Import
 
 Objects can be imported using the `id`, e.g.

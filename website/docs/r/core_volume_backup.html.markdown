@@ -76,6 +76,14 @@ The following attributes are exported:
 * `unique_size_in_mbs` - The size used by the backup, in MBs. It is typically smaller than sizeInMBs, depending on the space consumed on the volume and whether the backup is full or incremental. This field is deprecated. Please use uniqueSizeInGBs. 
 * `volume_id` - The OCID of the volume.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Volume Backup
+	* `update` - (Defaults to 20 minutes), when updating the Volume Backup
+	* `delete` - (Defaults to 20 minutes), when destroying the Volume Backup
+
+
 ## Import
 
 VolumeBackups can be imported using the `id`, e.g.

@@ -48,6 +48,14 @@ The following attributes are exported:
 * `time_enabled` - The date and time Data Safe was enabled, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `url` - The URL of the Data Safe service.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Data Safe Configuration
+	* `update` - (Defaults to 20 minutes), when updating the Data Safe Configuration
+	* `delete` - (Defaults to 20 minutes), when destroying the Data Safe Configuration
+
+
 ## Import
 
 Import is not supported for this resource.

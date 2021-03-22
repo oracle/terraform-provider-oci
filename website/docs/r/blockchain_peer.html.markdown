@@ -58,6 +58,14 @@ The following attributes are exported:
 * `role` - Peer role
 * `state` - The current state of the peer.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 30 minutes), when creating the Peer
+	* `update` - (Defaults to 30 minutes), when updating the Peer
+	* `delete` - (Defaults to 30 minutes), when destroying the Peer
+
+
 ## Import
 
 Peers can be imported using the `id`, e.g.

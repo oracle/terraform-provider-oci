@@ -112,6 +112,14 @@ The following attributes are exported:
 	* `unit_price` - The price per unit.
 	* `weight` - The resource size being metered.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Usage
+	* `update` - (Defaults to 20 minutes), when updating the Usage
+	* `delete` - (Defaults to 20 minutes), when destroying the Usage
+
+
 ## Import
 
 Import is not supported for this resource.

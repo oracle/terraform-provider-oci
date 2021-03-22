@@ -51,6 +51,14 @@ The following attributes are exported:
 * `user_id` - The OCID of the user the SMTP credential belongs to.
 * `username` - The SMTP user name. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Smtp Credential
+	* `update` - (Defaults to 20 minutes), when updating the Smtp Credential
+	* `delete` - (Defaults to 20 minutes), when destroying the Smtp Credential
+
+
 ## Import
 
 SmtpCredentials can be imported using the `id`, e.g.

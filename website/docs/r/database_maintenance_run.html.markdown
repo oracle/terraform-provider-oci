@@ -65,6 +65,14 @@ The following attributes are exported:
 * `time_scheduled` - The date and time the maintenance run is scheduled to occur.
 * `time_started` - The date and time the maintenance run starts.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Maintenance Run
+	* `update` - (Defaults to 20 minutes), when updating the Maintenance Run
+	* `delete` - (Defaults to 20 minutes), when destroying the Maintenance Run
+
+
 ## Import
 
 MaintenanceRuns can be imported using the `id`, e.g.

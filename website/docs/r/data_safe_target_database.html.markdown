@@ -145,6 +145,14 @@ The following attributes are exported:
 	* `store_password` - The password to read the trust store and key store files, if they are password protected.
 	* `trust_store_content` - Base64 encoded string of trust store file content.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Target Database
+	* `update` - (Defaults to 20 minutes), when updating the Target Database
+	* `delete` - (Defaults to 20 minutes), when destroying the Target Database
+
+
 ## Import
 
 TargetDatabases can be imported using the `id`, e.g.

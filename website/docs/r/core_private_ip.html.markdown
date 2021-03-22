@@ -82,6 +82,14 @@ The following attributes are exported:
 * `vlan_id` - Applicable only if the `PrivateIp` object is being used with a VLAN as part of the Oracle Cloud VMware Solution. The `vlanId` is the OCID of the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
 * `vnic_id` - The OCID of the VNIC the private IP is assigned to. The VNIC and private IP must be in the same subnet. However, if the `PrivateIp` object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the `vnicId` is null. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Private Ip
+	* `update` - (Defaults to 20 minutes), when updating the Private Ip
+	* `delete` - (Defaults to 20 minutes), when destroying the Private Ip
+
+
 ## Import
 
 PrivateIps can be imported using the `id`, e.g.

@@ -509,6 +509,14 @@ The following attributes are exported:
 * `time_created` - The date and time the instance was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_maintenance_reboot_due` - The date and time the instance is expected to be stopped / started,  in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). After that time if instance hasn't been rebooted, Oracle will reboot the instance within 24 hours of the due time. Regardless of how the instance was stopped, the flag will be reset to empty as soon as instance reaches Stopped state. Example: `2018-05-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 45 minutes), when creating the Instance
+	* `update` - (Defaults to 45 minutes), when updating the Instance
+	* `delete` - (Defaults to 75 minutes), when destroying the Instance
+
+
 ## Import
 
 Instances can be imported using the `id`, e.g.

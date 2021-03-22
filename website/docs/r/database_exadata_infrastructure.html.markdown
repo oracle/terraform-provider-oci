@@ -168,6 +168,14 @@ The following attributes are exported:
 * `time_created` - The date and time the Exadata infrastructure was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Exadata Infrastructure
+	* `update` - (Defaults to 20 minutes), when updating the Exadata Infrastructure
+	* `delete` - (Defaults to 20 minutes), when destroying the Exadata Infrastructure
+
+
 ## Import
 
 ExadataInfrastructures can be imported using the `id`, e.g.

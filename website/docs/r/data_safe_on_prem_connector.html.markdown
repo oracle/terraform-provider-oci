@@ -59,6 +59,14 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the on-premises connector was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the On Prem Connector
+	* `update` - (Defaults to 20 minutes), when updating the On Prem Connector
+	* `delete` - (Defaults to 20 minutes), when destroying the On Prem Connector
+
+
 ## Import
 
 OnPremConnectors can be imported using the `id`, e.g.

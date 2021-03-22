@@ -61,6 +61,14 @@ The following attributes are exported:
 * `mod_security_rule_ids` - The list of the ModSecurity rule IDs that apply to this protection rule. For more information about ModSecurity's open source WAF rules, see [Mod Security's documentation](https://www.modsecurity.org/CRS/Documentation/index.html).
 * `name` - The name of the protection rule.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Protection Rule
+	* `update` - (Defaults to 20 minutes), when updating the Protection Rule
+	* `delete` - (Defaults to 20 minutes), when destroying the Protection Rule
+
+
 ## Import
 
 ProtectionRules can be imported using the `id`, e.g.

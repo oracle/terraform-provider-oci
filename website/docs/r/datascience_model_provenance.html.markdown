@@ -53,6 +53,14 @@ The following attributes are exported:
 * `script_dir` - For model reproducibility purposes. Path to model artifacts.
 * `training_script` - For model reproducibility purposes. Path to the python script or notebook in which the model was trained." 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Model Provenance
+	* `update` - (Defaults to 20 minutes), when updating the Model Provenance
+	* `delete` - (Defaults to 20 minutes), when destroying the Model Provenance
+
+
 ## Import
 
 ModelProvenances can be imported using the `id`, e.g.

@@ -45,6 +45,14 @@ The following attributes are exported:
 * `policy_id` - The OCID of the volume backup policy that has been assigned to the volume. 
 * `time_created` - The date and time the volume backup policy was assigned to the volume. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Volume Backup Policy Assignment
+	* `update` - (Defaults to 20 minutes), when updating the Volume Backup Policy Assignment
+	* `delete` - (Defaults to 20 minutes), when destroying the Volume Backup Policy Assignment
+
+
 ## Import
 
 VolumeBackupPolicyAssignments can be imported using the `id`, e.g.

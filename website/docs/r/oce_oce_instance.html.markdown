@@ -89,6 +89,14 @@ The following attributes are exported:
 * `upgrade_schedule` - Upgrade schedule type representing service to be upgraded immediately whenever latest version is released or delay upgrade of the service to previous released version 
 * `waf_primary_domain` - Web Application Firewall(WAF) primary domain
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Oce Instance
+	* `update` - (Defaults to 20 minutes), when updating the Oce Instance
+	* `delete` - (Defaults to 20 minutes), when destroying the Oce Instance
+
+
 ## Import
 
 OceInstances can be imported using the `id`, e.g.

@@ -71,6 +71,14 @@ The following attributes are exported:
 * `volume_backup_ids` - OCIDs for the volume backups in this volume group backup.
 * `volume_group_id` - The OCID of the source volume group.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Volume Group Backup
+	* `update` - (Defaults to 20 minutes), when updating the Volume Group Backup
+	* `delete` - (Defaults to 20 minutes), when destroying the Volume Group Backup
+
+
 ## Import
 
 VolumeGroupBackups can be imported using the `id`, e.g.

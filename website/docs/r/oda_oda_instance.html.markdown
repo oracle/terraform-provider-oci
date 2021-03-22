@@ -66,6 +66,14 @@ The following attributes are exported:
 * `time_updated` - When the Digital Assistance instance was last updated. A date-time string as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339), section 14.29.
 * `web_app_url` - URL for the Digital Assistant web application that's associated with the instance.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Oda Instance
+	* `update` - (Defaults to 20 minutes), when updating the Oda Instance
+	* `delete` - (Defaults to 20 minutes), when destroying the Oda Instance
+
+
 ## Import
 
 OdaInstances can be imported using the `id`, e.g.

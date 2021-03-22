@@ -85,6 +85,14 @@ The following attributes are exported:
 	For example, "The current `postponed` status of the resource action will end and change to `pending` on this date and time." 
 * `time_updated` - The date and time the resource action details were last updated, in the format defined by RFC3339.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Resource Action
+	* `update` - (Defaults to 20 minutes), when updating the Resource Action
+	* `delete` - (Defaults to 20 minutes), when destroying the Resource Action
+
+
 ## Import
 
 ResourceActions can be imported using the `id`, e.g.
