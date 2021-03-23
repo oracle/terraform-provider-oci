@@ -16,8 +16,8 @@ import (
 var (
 	resourceAvailabilitySingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"limit_name":          Representation{repType: Required, create: `custom-image-count`},
-		"service_name":        Representation{repType: Required, create: `${data.oci_limits_services.test_services.services.0.name}`},
+		"limit_name":          Representation{repType: Required, create: `adb-free-count`},
+		"service_name":        Representation{repType: Required, create: `database`},
 		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 	}
 
@@ -55,6 +55,10 @@ func TestLimitsResourceAvailabilityResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "limit_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_name"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "available"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_availability"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_usage"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "used"),
 				),
 			},
 		},

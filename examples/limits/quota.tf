@@ -2,12 +2,14 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
+
 }
 
 variable "user_ocid" {
 }
 
 variable "fingerprint" {
+
 }
 
 variable "private_key_path" {
@@ -31,9 +33,11 @@ provider "oci" {
 resource "oci_limits_quota" "test_quota" {
   #Required
   compartment_id = var.tenancy_ocid
-  description    = "Quotas for notifications"
+  description    = "Quotas for VCN"
   name           = "TestQuotas"
-  statements     = ["Set notifications quota topic-count to 99 in tenancy"]
+  statements     = ["Set vcn quotas to 0 in tenancy"]
+
+  depends_on = [oci_identity_tag.tag1]
 
   #Optional
   defined_tags = {
