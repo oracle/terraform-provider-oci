@@ -83,10 +83,15 @@ func CoreSubnetResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ForceNew:         true,
 				DiffSuppressFunc: ipv6CompressionDiffSuppressFunction,
 			},
 			"prohibit_public_ip_on_vnic": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"prohibit_internet_ingress": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -110,10 +115,6 @@ func CoreSubnetResource() *schema.Resource {
 			},
 
 			// Computed
-			"ipv6public_cidr_block": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"ipv6virtual_router_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -265,6 +266,11 @@ func (s *CoreSubnetResourceCrud) Create() error {
 		request.ProhibitPublicIpOnVnic = &tmp
 	}
 
+	if prohibitInternetIngress, ok := s.D.GetOkExists("prohibit_internet_ingress"); ok {
+		tmp := prohibitInternetIngress.(bool)
+		request.ProhibitInternetIngress = &tmp
+	}
+
 	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
 		tmp := routeTableId.(string)
 		request.RouteTableId = &tmp
@@ -356,6 +362,14 @@ func (s *CoreSubnetResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if ipv6CidrBlock, ok := s.D.GetOkExists("ipv6cidr_block"); ok && s.D.HasChange("ipv6cidr_block") {
+		oldRaw, newRaw := s.D.GetChange("ipv6cidr_block")
+		if newRaw != "" && oldRaw == "" {
+			tmp := ipv6CidrBlock.(string)
+			request.Ipv6CidrBlock = &tmp
+		}
+	}
+
 	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
 		tmp := routeTableId.(string)
 		request.RouteTableId = &tmp
@@ -436,12 +450,12 @@ func (s *CoreSubnetResourceCrud) SetData() error {
 		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
 	}
 
-	if s.Res.Ipv6PublicCidrBlock != nil {
-		s.D.Set("ipv6public_cidr_block", *s.Res.Ipv6PublicCidrBlock)
-	}
-
 	if s.Res.Ipv6VirtualRouterIp != nil {
 		s.D.Set("ipv6virtual_router_ip", *s.Res.Ipv6VirtualRouterIp)
+	}
+
+	if s.Res.ProhibitInternetIngress != nil {
+		s.D.Set("prohibit_internet_ingress", *s.Res.ProhibitInternetIngress)
 	}
 
 	if s.Res.ProhibitPublicIpOnVnic != nil {

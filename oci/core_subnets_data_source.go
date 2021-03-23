@@ -154,12 +154,12 @@ func (s *CoreSubnetsDataSourceCrud) SetData() error {
 			subnet["ipv6cidr_block"] = *r.Ipv6CidrBlock
 		}
 
-		if r.Ipv6PublicCidrBlock != nil {
-			subnet["ipv6public_cidr_block"] = *r.Ipv6PublicCidrBlock
-		}
-
 		if r.Ipv6VirtualRouterIp != nil {
 			subnet["ipv6virtual_router_ip"] = *r.Ipv6VirtualRouterIp
+		}
+
+		if r.ProhibitInternetIngress != nil {
+			subnet["prohibit_internet_ingress"] = *r.ProhibitInternetIngress
 		}
 
 		if r.ProhibitPublicIpOnVnic != nil {

@@ -5,7 +5,6 @@ package oci
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -19,30 +18,14 @@ var (
 		generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/48`},
 			"is_ipv6enabled": Representation{repType: Optional, create: `true`},
-		})) +
-		`
-	resource "oci_core_internet_gateway" "test_network_entity" {
-		compartment_id = "${var.compartment_id}"
-		vcn_id = "${oci_core_vcn.test_vcn.id}"
-		display_name = "-tf-internet-gateway"
-	}
-
-	resource "oci_core_service_gateway" "test_service_gateway" {
-		#Required
-		compartment_id = "${var.compartment_id}"
-		services {
-			service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
-		}
-		vcn_id = "${oci_core_vcn.test_vcn.id}"
-	}`
+		}))
 )
 
 func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
-	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
-		t.Skip("DoDIPv6 test not supported in this realm")
-	}
+	//if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
+	//	t.Skip("DoDIPv6 test not supported in this realm")
+	//}
 	httpreplay.SetScenario("TestGovSpecificCoreSubnetResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -56,6 +39,9 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_subnets.test_subnets"
 	singularDatasourceName := "data.oci_core_subnet.test_subnet"
 
+	// Get subnet CIDR block based on its VCN CIDR Block
+	// For example: VCN CIDR Block: 2607:9b80:9a0f:0100::/56, Subnet CIDR Block: 2607:9b80:9a0f:0100::/64
+	subnetCidrBlock := `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
@@ -65,22 +51,21 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckCoreSubnetDestroy,
 		Steps: []resource.TestStep{
+			// verify create
 			{
 				Config: config + compartmentIdVariableStr + govSubnetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-						"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/64`},
-					})),
+					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MySubnet"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ipv6cidr_block", "fd00:aaaa:123::/64"),
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
+					resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttr(resourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -99,7 +84,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + govSubnetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-						"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/64`},
+						"ipv6cidr_block": Representation{repType: Optional, update: subnetCidrBlock},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -111,8 +96,9 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ipv6cidr_block", "fd00:aaaa:123::/64"),
+					resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
+					resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttr(resourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -134,9 +120,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", Optional, Update, subnetDataSourceRepresentation) +
 					compartmentIdVariableStr + govSubnetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-						"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/64`},
-					})),
+					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -153,10 +137,9 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "subnets.0.ipv6cidr_block", "fd00:aaaa:123::/64"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.ipv6public_cidr_block"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.ipv6virtual_router_ip"),
+					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.ipv6cidr_block"),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.prohibit_public_ip_on_vnic", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "subnets.0.prohibit_internet_ingress", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.route_table_id"),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.state"),
@@ -179,10 +162,9 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ipv6cidr_block", "fd00:aaaa:123::/64"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6public_cidr_block"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6virtual_router_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6cidr_block"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "prohibit_public_ip_on_vnic", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "prohibit_internet_ingress", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_domain_name"),

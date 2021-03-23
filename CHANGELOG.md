@@ -1,3 +1,8 @@
+## 4.22.0 (Unreleased)
+
+### Added
+- Support for IPv6
+
 ## 4.21.0 (April 07, 2021)
 
 ### Added

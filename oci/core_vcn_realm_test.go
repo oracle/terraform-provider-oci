@@ -5,7 +5,6 @@ package oci
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -15,9 +14,9 @@ import (
 )
 
 func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
-	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
-		t.Skip("DoDIPv6 test not supported in this realm")
-	}
+	//if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
+	//	t.Skip("DoDIPv6 test not supported in this realm")
+	//}
 	httpreplay.SetScenario("TestGovSpecificCoreVcnResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -44,7 +43,6 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/48`},
 						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -55,7 +53,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ipv6cidr_block", "fd00:aaaa:123::/48"),
+					resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "is_ipv6enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -70,7 +68,6 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/48`},
 						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -81,7 +78,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ipv6cidr_block", "fd00:aaaa:123::/48"),
+					resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "is_ipv6enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -100,7 +97,6 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", Optional, Update, vcnDataSourceRepresentation) +
 					compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/48`},
 						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -119,8 +115,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.ipv6cidr_block", "fd00:aaaa:123::/48"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.ipv6public_cidr_block"),
+					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.ipv6cidr_blocks.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.vcn_domain_name"),
@@ -132,7 +127,6 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/48`},
 						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -148,8 +142,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ipv6cidr_block", "fd00:aaaa:123::/48"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6public_cidr_block"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "ipv6cidr_blocks.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_domain_name"),
@@ -159,7 +152,6 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/48`},
 						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
 					})),
 			},

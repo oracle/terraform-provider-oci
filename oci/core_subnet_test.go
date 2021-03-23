@@ -20,14 +20,8 @@ import (
 )
 
 var (
-	SubnetRequiredOnlyResource = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-		"dns_label":           Representation{repType: Required, create: `dnslabel`},
-		"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
-	})) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
-		})) +
-		AvailabilityDomainConfig
+	SubnetRequiredOnlyResource = SubnetResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation)
 
 	SubnetResourceConfig = SubnetResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation)
@@ -58,6 +52,7 @@ var (
 		"dns_label":                  Representation{repType: Optional, create: `dnslabel`},
 		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"prohibit_public_ip_on_vnic": Representation{repType: Optional, create: `false`},
+		"prohibit_internet_ingress":  Representation{repType: Optional, create: `false`},
 		"route_table_id":             Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_route_table_id}`, update: `${oci_core_route_table.test_route_table.id}`},
 		"security_list_ids":          Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, update: []string{`${oci_core_security_list.test_security_list.id}`}},
 	}
@@ -67,8 +62,9 @@ var (
 		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation) +
 		generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label":      Representation{repType: Required, create: `dnslabel`},
+			"is_ipv6enabled": Representation{repType: Optional, create: `true`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
@@ -93,6 +89,9 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_subnets.test_subnets"
 	singularDatasourceName := "data.oci_core_subnet.test_subnet"
 
+	// Get subnet CIDR block based on its VCN CIDR Block
+	// For example: VCN CIDR Block: 2607:9b80:9a0f:0100::/56, Subnet CIDR Block: 2607:9b80:9a0f:0100::/64
+	subnetCidrBlock := `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	saveConfigContent(config+compartmentIdVariableStr+SubnetResourceDependencies+
@@ -128,7 +127,9 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + SubnetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation),
+					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+						"ipv6cidr_block": Representation{repType: Optional, create: subnetCidrBlock},
+					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
@@ -138,9 +139,10 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MySubnet"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
+					resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
-					resource.TestCheckResourceAttr(resourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
@@ -175,9 +177,10 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
+					resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
-					resource.TestCheckResourceAttr(resourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
@@ -196,7 +199,9 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + SubnetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation),
+					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+						"ipv6cidr_block": Representation{repType: Optional, update: subnetCidrBlock},
+					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -207,9 +212,10 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
+					resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
-					resource.TestCheckResourceAttr(resourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
@@ -246,9 +252,10 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.ipv6cidr_block"),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.prohibit_public_ip_on_vnic", "false"),
+					resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.route_table_id"),
-					resource.TestCheckResourceAttr(datasourceName, "subnets.0.security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.subnet_domain_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.time_created"),
@@ -271,8 +278,9 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6cidr_block"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "prohibit_public_ip_on_vnic", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "security_list_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_domain_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
