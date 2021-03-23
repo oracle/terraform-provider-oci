@@ -3,6 +3,7 @@
 ### Added
 - Support for opting out of DNS when launching `core_instance` added
 - Support for Cluster Network Resize
+- Support for Intelligent Tiering in added to `Object Storage`
 
 ## 4.23.0 (April 21, 2021)
 

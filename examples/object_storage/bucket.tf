@@ -10,6 +10,7 @@ resource "oci_objectstorage_bucket" "bucket1" {
   namespace      = data.oci_objectstorage_namespace.ns.namespace
   name           = "tf-example-bucket"
   access_type    = "NoPublicAccess"
+  auto_tiering = "Disabled"
 }
 
 resource "oci_objectstorage_bucket" "bucket_with_versioning" {
