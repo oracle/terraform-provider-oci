@@ -27,7 +27,7 @@ var (
 	}
 
 	queryDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_id}`},
 		"filter":         RepresentationGroup{Required, queryDataSourceFilterRepresentation}}
 	queryDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -35,7 +35,7 @@ var (
 	}
 
 	queryRepresentation = map[string]interface{}{
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":   Representation{repType: Required, create: `${var.tenancy_id}`},
 		"query_definition": RepresentationGroup{Required, queryQueryDefinitionRepresentation},
 	}
 	queryQueryDefinitionRepresentation = map[string]interface{}{
@@ -76,8 +76,8 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyIdVariableStr := fmt.Sprintf("variable \"tenancy_id\" { default = \"%s\" }\n", tenancyId)
 
 	resourceName := "oci_metering_computation_query.test_query"
 	datasourceName := "data.oci_metering_computation_queries.test_queries"
@@ -94,10 +94,10 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + QueryResourceDependencies +
+				Config: config + tenancyIdVariableStr + QueryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, queryRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.display_name", "displayName"),
@@ -109,7 +109,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -120,10 +120,10 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + QueryResourceDependencies +
+				Config: config + tenancyIdVariableStr + QueryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.#", "1"),
@@ -159,10 +159,10 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_metering_computation_queries", "test_queries", Optional, Update, queryDataSourceRepresentation) +
-					compartmentIdVariableStr + QueryResourceDependencies +
+					tenancyIdVariableStr + QueryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(datasourceName, "query_collection.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "query_collection.0.items.#", "1"),
@@ -172,11 +172,11 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, querySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + QueryResourceConfig,
+					tenancyIdVariableStr + QueryResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "query_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.cost_analysis_ui.#", "1"),
@@ -199,7 +199,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + QueryResourceConfig,
+				Config: config + tenancyIdVariableStr + QueryResourceConfig,
 			},
 			// verify resource import
 			{
