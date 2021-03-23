@@ -65,8 +65,14 @@ The following attributes are exported:
 * `instance_id` - The OCID of the instance the volume is attached to.
 * `ipv4` - The volume's iSCSI IP address.  Example: `169.254.0.2` 
 * `iqn` - The target volume's iSCSI Qualified Name in the format defined by [RFC 3720](https://tools.ietf.org/html/rfc3720#page-32).  Example: `iqn.2015-12.us.oracle.com:<CHAP_username>` 
+* `is_multipath` - Whether the attachment is multipath or not.
 * `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 * `is_read_only` - Whether the attachment was created in read-only mode.
+* `iscsi_login_state` - The iscsi login state of the volume attachment. For a multipath volume attachment, all iscsi sessions need to be all logged-in or logged-out to be in logged-in or logged-out state. 
+* `multipath_devices` - A list of secondary multipath devices
+	* `ipv4` - The volume's iSCSI IP address.  Example: `169.254.2.2` 
+	* `iqn` - The target volume's iSCSI Qualified Name in the format defined by [RFC 3720](https://tools.ietf.org/html/rfc3720#page-32).  Example: `iqn.2015-12.com.oracleiaas:40b7ee03-883f-46c6-a951-63d2841d2195` 
+	* `port` - The volume's iSCSI port, usually port 860 or 3260.  Example: `3260` 
 * `port` - The volume's iSCSI port, usually port 860 or 3260.  Example: `3260` 
 * `state` - The current state of the volume attachment.
 * `time_created` - The date and time the volume was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

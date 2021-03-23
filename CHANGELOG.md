@@ -1,3 +1,8 @@
+## 4.29.0 (Unreleased)
+
+### Added
+- Support for Higher performance volumes added to `core`
+
 ## 4.29.0 (June 02, 2021)
 
 ### Added
