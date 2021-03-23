@@ -694,6 +694,16 @@ var exportCorePublicIpPoolHints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreIpv6Hints = &TerraformResourceHints{
+	resourceClass:        "oci_core_ipv6",
+	datasourceClass:      "oci_core_ipv6s",
+	datasourceItemsAttr:  "ipv6s",
+	resourceAbbreviation: "ipv6",
+	discoverableLifecycleStates: []string{
+		string(oci_core.Ipv6LifecycleStateAvailable),
+	},
+}
+
 var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	resourceClass:          "oci_data_safe_data_safe_private_endpoint",
 	datasourceClass:        "oci_data_safe_data_safe_private_endpoints",

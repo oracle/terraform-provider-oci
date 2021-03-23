@@ -353,6 +353,7 @@ core
 * oci\_core\_volume\_group\_backup
 * oci\_core\_volume
 * oci\_core\_public\_ip\_pool
+* oci\_core\_ipv6
 
 data_safe
     

@@ -101,12 +101,12 @@ func (s *CoreSubnetDataSourceCrud) SetData() error {
 		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
 	}
 
-	if s.Res.Ipv6PublicCidrBlock != nil {
-		s.D.Set("ipv6public_cidr_block", *s.Res.Ipv6PublicCidrBlock)
-	}
-
 	if s.Res.Ipv6VirtualRouterIp != nil {
 		s.D.Set("ipv6virtual_router_ip", *s.Res.Ipv6VirtualRouterIp)
+	}
+
+	if s.Res.ProhibitInternetIngress != nil {
+		s.D.Set("prohibit_internet_ingress", *s.Res.ProhibitInternetIngress)
 	}
 
 	if s.Res.ProhibitPublicIpOnVnic != nil {
