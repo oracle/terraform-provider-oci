@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v36/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v37/marketplace"
 )
 
 func init() {
@@ -295,10 +295,10 @@ func (s *MarketplaceListingsDataSourceCrud) Get() error {
 
 	if listingTypes, ok := s.D.GetOkExists("listing_types"); ok {
 		interfaces := listingTypes.([]interface{})
-		tmp := make([]oci_marketplace.ListListingsListingTypesEnum, len(interfaces))
+		tmp := make([]oci_marketplace.ListingTypeEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = oci_marketplace.ListListingsListingTypesEnum(interfaces[i].(string))
+				tmp[i] = oci_marketplace.ListingTypeEnum(interfaces[i].(string))
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("listing_types") {
@@ -339,10 +339,10 @@ func (s *MarketplaceListingsDataSourceCrud) Get() error {
 
 	if pricing, ok := s.D.GetOkExists("pricing"); ok {
 		interfaces := pricing.([]interface{})
-		tmp := make([]oci_marketplace.ListListingsPricingEnum, len(interfaces))
+		tmp := make([]oci_marketplace.PricingTypeEnumEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = oci_marketplace.ListListingsPricingEnum(interfaces[i].(string))
+				tmp[i] = oci_marketplace.PricingTypeEnumEnum(interfaces[i].(string))
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("pricing") {
