@@ -48,6 +48,7 @@ var (
 		"name":                  Representation{repType: Required, create: testBucketName, update: testBucketName2},
 		"namespace":             Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"access_type":           Representation{repType: Optional, create: `NoPublicAccess`, update: `ObjectRead`},
+		"auto_tiering":          Representation{repType: Optional, create: `Disabled`, update: `InfrequentAccess`},
 		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"kms_key_id":            Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
@@ -118,6 +119,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
+					resource.TestCheckResourceAttr(resourceName, "auto_tiering", "Disabled"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -192,6 +194,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
+					resource.TestCheckResourceAttr(resourceName, "auto_tiering", "InfrequentAccess"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -250,6 +253,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_count"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_size"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "auto_tiering", "InfrequentAccess"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
