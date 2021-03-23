@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v36/containerengine"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v37/containerengine"
 )
 
 func init() {
@@ -75,9 +75,9 @@ func (s *ContainerengineClustersDataSourceCrud) Get() error {
 	}
 
 	if states, ok := s.D.GetOkExists("state"); ok {
-		var enumStates []oci_containerengine.ListClustersLifecycleStateEnum
+		var enumStates []oci_containerengine.ClusterLifecycleStateEnum
 		for _, r := range states.([]interface{}) {
-			enumStates = append(enumStates, oci_containerengine.ListClustersLifecycleStateEnum(r.(string)))
+			enumStates = append(enumStates, oci_containerengine.ClusterLifecycleStateEnum(r.(string)))
 		}
 		request.LifecycleState = enumStates
 	}
