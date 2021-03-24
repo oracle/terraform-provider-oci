@@ -41,6 +41,12 @@ func OcvpEsxiHostResource() *schema.Resource {
 			},
 
 			// Optional
+			"current_sku": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+				Default:  "MONTH",
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -59,8 +65,17 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"next_sku": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
+			"billing_contract_end_date": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -161,6 +176,10 @@ func (s *OcvpEsxiHostResourceCrud) DeletedTarget() []string {
 func (s *OcvpEsxiHostResourceCrud) Create() error {
 	request := oci_ocvp.CreateEsxiHostRequest{}
 
+	if currentSku, ok := s.D.GetOkExists("current_sku"); ok {
+		request.CurrentSku = oci_ocvp.SkuEnum(currentSku.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -176,6 +195,10 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
+		request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
 	}
 
 	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {
@@ -349,6 +372,10 @@ func (s *OcvpEsxiHostResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
+		request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.UpdateEsxiHost(context.Background(), request)
@@ -381,6 +408,10 @@ func (s *OcvpEsxiHostResourceCrud) Delete() error {
 }
 
 func (s *OcvpEsxiHostResourceCrud) SetData() error {
+	if s.Res.BillingContractEndDate != nil {
+		s.D.Set("billing_contract_end_date", s.Res.BillingContractEndDate.String())
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -388,6 +419,8 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	if s.Res.ComputeInstanceId != nil {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}
+
+	s.D.Set("current_sku", s.Res.CurrentSku)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
@@ -398,6 +431,8 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("next_sku", s.Res.NextSku)
 
 	if s.Res.SddcId != nil {
 		s.D.Set("sddc_id", *s.Res.SddcId)
@@ -419,6 +454,10 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.BillingContractEndDate != nil {
+		result["billing_contract_end_date"] = obj.BillingContractEndDate.String()
+	}
+
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
@@ -426,6 +465,8 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 	if obj.ComputeInstanceId != nil {
 		result["compute_instance_id"] = string(*obj.ComputeInstanceId)
 	}
+
+	result["current_sku"] = string(obj.CurrentSku)
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
@@ -440,6 +481,8 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
+
+	result["next_sku"] = string(obj.NextSku)
 
 	if obj.SddcId != nil {
 		result["sddc_id"] = string(*obj.SddcId)
