@@ -77,7 +77,8 @@ var (
 	}
 
 	UnifiedAgentConfigurationResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation) +
+		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create,
+			getUpdatedRepresentationCopy("name", Representation{repType: Required, create: `LoggingAgentIdentityGroup`}, groupRepresentation)) +
 		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
 		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, customLogRepresentation) +
 		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +

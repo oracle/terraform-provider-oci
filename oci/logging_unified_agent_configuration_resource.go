@@ -750,8 +750,9 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Delete() error {
 	}
 
 	workId := response.OpcWorkRequestId
+
 	// Wait until it finishes
-	_, delWorkRequestErr := unifiedAgentConfigurationWaitForWorkRequest(workId, "logging",
+	_, delWorkRequestErr := unifiedAgentConfigurationWaitForWorkRequest(workId, "unifiedagentconfiguration",
 		oci_logging.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
