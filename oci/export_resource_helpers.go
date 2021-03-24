@@ -19,15 +19,15 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v36/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v37/dns"
 
 	"github.com/hashicorp/hcl2/hclwrite"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v36/core"
-	oci_identity "github.com/oracle/oci-go-sdk/v36/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v36/loadbalancer"
+	oci_core "github.com/oracle/oci-go-sdk/v37/core"
+	oci_identity "github.com/oracle/oci-go-sdk/v37/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v37/loadbalancer"
 )
 
 var isInitDone bool
@@ -741,6 +741,11 @@ func init() {
 	exportMysqlMysqlBackupHints.requireResourceRefresh = true
 	exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
 	exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem
+
+	// Custom overrides for generating composite Network Load Balancer IDs within the resource discovery framework
+	exportNetworkLoadBalancerBackendHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackends
+	exportNetworkLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackendSets
+	exportNetworkLoadBalancerListenerHints.processDiscoveredResourcesFn = processNetworkLoadBalancerListeners
 }
 
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
@@ -1305,6 +1310,69 @@ func processObjectStorageReplicationPolicy(ctx *resourceDiscoveryContext, resour
 		resource.sourceAttributes["bucket"] = resource.parent.sourceAttributes["name"].(string)
 		resource.sourceAttributes["namespace"] = resource.parent.sourceAttributes["namespace"].(string)
 	}
+	return resources, nil
+}
+
+func processNetworkLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, backendSet := range resources {
+		if backendSet.parent == nil {
+			continue
+		}
+
+		backendSetName := backendSet.sourceAttributes["name"].(string)
+		backendSet.id = getNlbBackendSetCompositeId(backendSetName, backendSet.parent.id)
+		backendSet.sourceAttributes["network_load_balancer_id"] = backendSet.parent.id
+	}
+
+	return resources, nil
+}
+
+func processNetworkLoadBalancerBackends(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, backend := range resources {
+		if backend.parent == nil {
+			continue
+		}
+
+		backend.id = getNlbBackendCompositeId(backend.sourceAttributes["name"].(string), backend.parent.sourceAttributes["name"].(string), backend.parent.sourceAttributes["network_load_balancer_id"].(string))
+		backend.sourceAttributes["network_load_balancer_id"] = backend.parent.sourceAttributes["network_load_balancer_id"].(string)
+
+		// Don't use references to parent resources if they will be omitted from final result
+		if !backend.parent.omitFromExport {
+			backend.sourceAttributes["backend_set_name"] = InterpolationString{
+				resourceReference: backend.parent.getTerraformReference(),
+				interpolation:     tfHclVersion.getDoubleExpHclString(backend.parent.getTerraformReference(), "name"),
+				value:             backend.parent.sourceAttributes["name"].(string),
+			}
+		} else {
+			backend.sourceAttributes["backend_set_name"] = backend.parent.sourceAttributes["name"].(string)
+		}
+	}
+
+	return resources, nil
+}
+
+func processNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, listener := range resources {
+		if listener.parent == nil {
+			continue
+		}
+
+		listenerName := listener.sourceAttributes["name"].(string)
+		listener.id = getNlbListenerCompositeId(listenerName, listener.parent.sourceAttributes["network_load_balancer_id"].(string))
+		listener.sourceAttributes["network_load_balancer_id"] = listener.parent.sourceAttributes["network_load_balancer_id"].(string)
+
+		// Don't use references to parent resources if they will be omitted from final result
+		if !listener.parent.omitFromExport {
+			listener.sourceAttributes["default_backend_set_name"] = InterpolationString{
+				resourceReference: listener.parent.getTerraformReference(),
+				interpolation:     tfHclVersion.getDoubleExpHclString(listener.parent.getTerraformReference(), "name"),
+				value:             listener.parent.sourceAttributes["name"].(string),
+			}
+		} else {
+			listener.sourceAttributes["default_backend_set_name"] = listener.parent.sourceAttributes["name"].(string)
+		}
+	}
+
 	return resources, nil
 }
 

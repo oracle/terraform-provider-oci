@@ -8,8 +8,9 @@ import (
 	"log"
 	"reflect"
 	"strings"
+	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
 )
 
 type errorTypeEnum string
@@ -30,6 +31,7 @@ type customError struct {
 	OpcRequestID  string
 	ResourceOCID  string
 	Suggestion    string
+	VersionError  string
 }
 
 // Create new error format for Terraform output
@@ -68,6 +70,7 @@ func newCustomError(sync interface{}, err error) error {
 		return err
 	}
 
+	tfError.VersionError = getVersionAndDateError()
 	tfError.Suggestion = getSuggestionFromError(tfError)
 	return tfError.Error()
 }
@@ -76,24 +79,27 @@ func (tfE customError) Error() error {
 	switch tfE.TypeOfError {
 	case ServiceError:
 		return fmt.Errorf("%d-%s \n"+
+			"%s \n"+
 			"Service: %s \n"+
 			"Error Message: %s \n"+
 			"OPC request ID: %s \n"+
 			"Suggestion: %s\n",
-			tfE.ErrorCode, tfE.ErrorCodeName, tfE.Service, tfE.Message, tfE.OpcRequestID, tfE.Suggestion)
+			tfE.ErrorCode, tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.OpcRequestID, tfE.Suggestion)
 	case TimeoutError:
 		return fmt.Errorf("%s \n"+
+			"%s \n"+
 			"Service: %s \n"+
 			"Error Message: %s \n"+
 			"Suggestion: %s\n",
-			tfE.ErrorCodeName, tfE.Service, tfE.Message, tfE.Suggestion)
+			tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.Suggestion)
 	case UnexpectedStateError:
 		return fmt.Errorf("%s \n"+
+			"%s \n"+
 			"Service: %s \n"+
 			"Error Message: %s \n"+
 			"Resource OCID: %s \n"+
 			"Suggestion: %s\n",
-			tfE.ErrorCodeName, tfE.Service, tfE.Message, tfE.ResourceOCID, tfE.Suggestion)
+			tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.ResourceOCID, tfE.Suggestion)
 	default:
 		return fmt.Errorf(tfE.Message)
 	}
@@ -143,4 +149,17 @@ func getResourceOCID(sync interface{}) string {
 		return syn.ID()
 	}
 	return ""
+}
+
+func getVersionAndDateError() string {
+	result := fmt.Sprintf("Provider version: %s, released on %s. ", Version, ReleaseDate)
+	today := time.Now()
+	releaseDate, _ := time.Parse("2006-01-02", ReleaseDate)
+	days := today.Sub(releaseDate).Hours() / 24
+
+	if days > 7 {
+		versionOld := int(days / 7)
+		result += fmt.Sprintf("This provider is %v updates behind to current.", versionOld)
+	}
+	return result
 }

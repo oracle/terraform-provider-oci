@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
-	oci_integration "github.com/oracle/oci-go-sdk/v36/integration"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
+	oci_integration "github.com/oracle/oci-go-sdk/v37/integration"
 )
 
 func init() {
@@ -579,20 +579,20 @@ func integrationInstanceWaitForWorkRequest(wId *string, entityType string, actio
 			}
 		}
 	}
-	// The workrequest may have failed, check for errors if identifier is not found
-	if identifier == nil {
-		return nil, getErrorFromIntegrationInstanceWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_integration.WorkRequestStatusFailed || response.Status == oci_integration.WorkRequestStatusCanceled {
+		return nil, getErrorFromIntegrationIntegrationInstanceWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromIntegrationInstanceWorkRequest(client *oci_integration.IntegrationInstanceClient, workRequestId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_integration.WorkRequestResourceActionTypeEnum) error {
-
+func getErrorFromIntegrationIntegrationInstanceWorkRequest(client *oci_integration.IntegrationInstanceClient, compartmentId *string, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_integration.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_integration.ListWorkRequestErrorsRequest{
 			CompartmentId: compartmentId,
-			WorkRequestId: workRequestId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -607,7 +607,7 @@ func getErrorFromIntegrationInstanceWorkRequest(client *oci_integration.Integrat
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workRequestId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }

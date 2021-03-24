@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -12,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v36/ocvp"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v37/ocvp"
 )
 
 func init() {
@@ -483,12 +484,35 @@ func sddcWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.Acti
 		}
 	}
 
-	// The API Gateway workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_ocvp.OperationStatusFailed || response.Status == oci_ocvp.OperationStatusCanceled {
-		return nil, getErrorFromOcvpWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOcvpSddcWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
+}
+
+func getErrorFromOcvpSddcWorkRequest(client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_ocvp.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *OcvpSddcResourceCrud) Get() error {

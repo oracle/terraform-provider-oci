@@ -8,7 +8,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v36/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v37/marketplace"
 )
 
 func init() {
@@ -43,6 +43,23 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 			"description": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"operating_system": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"image_id": {
 				Type:     schema.TypeString,
@@ -258,13 +275,13 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		s.D.Set("package_type", oci_marketplace.PackageTypeEnumImage)
 
 		if v.Pricing != nil {
-			s.D.Set("pricing", []interface{}{PricingModelToMap(v.Pricing)})
+			s.D.Set("pricing", []interface{}{MarketplaceListingPackagePricingModelToMap(v.Pricing)})
 		}
 
 		if v.Regions != nil {
 			regions := []interface{}{}
 			for _, item := range v.Regions {
-				regions = append(regions, RegionToMap(item))
+				regions = append(regions, MarketplaceListingPackageRegionToMap(item))
 			}
 			s.D.Set("regions", regions)
 		}
@@ -275,6 +292,12 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.OperatingSystem != nil {
+			s.D.Set("operating_system", []interface{}{MarketplaceListingPackageOperatingSystemToMap(v.OperatingSystem)})
+		} else {
+			s.D.Set("operating_system", nil)
 		}
 
 		if v.Version != nil {
@@ -292,7 +315,7 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		s.D.Set("package_type", oci_marketplace.PackageTypeEnumOrchestration)
 
 		if v.Pricing != nil {
-			s.D.Set("pricing", []interface{}{PricingModelToMap(v.Pricing)})
+			s.D.Set("pricing", []interface{}{MarketplaceListingPackagePricingModelToMap(v.Pricing)})
 		}
 
 		if v.ResourceId != nil {
@@ -307,10 +330,16 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
 
+		if v.OperatingSystem != nil {
+			s.D.Set("operating_system", []interface{}{MarketplaceListingPackageOperatingSystemToMap(v.OperatingSystem)})
+		} else {
+			s.D.Set("operating_system", nil)
+		}
+
 		if v.Variables != nil {
 			variables := []interface{}{}
 			for _, item := range v.Variables {
-				variables = append(variables, OrchestrationVariableToMap(item))
+				variables = append(variables, MarketplaceListingPackageOrchestrationVariableToMap(item))
 			}
 			s.D.Set("variables", variables)
 		}
@@ -325,7 +354,37 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 	return nil
 }
 
-func OrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[string]interface{} {
+func MarketplaceListingPackageRegionToMap(obj oci_marketplace.Region) interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Code != nil {
+		result["code"] = string(*obj.Code)
+	}
+
+	countries := []interface{}{}
+	for _, item := range obj.Countries {
+		countries = append(countries, MarketplaceListingPackagesItemToMap(item))
+	}
+	result["countries"] = countries
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func MarketplaceListingPackageOperatingSystemToMap(obj *oci_marketplace.OperatingSystem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func MarketplaceListingPackageOrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["data_type"] = string(obj.DataType)
@@ -353,7 +412,7 @@ func OrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[s
 	return result
 }
 
-func PricingModelToMap(obj *oci_marketplace.PricingModel) map[string]interface{} {
+func MarketplaceListingPackagePricingModelToMap(obj *oci_marketplace.PricingModel) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["currency"] = string(obj.Currency)

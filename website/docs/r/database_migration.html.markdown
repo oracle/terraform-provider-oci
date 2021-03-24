@@ -10,7 +10,7 @@ description: |-
 # oci_database_migration
 This resource provides the Migration resource in Oracle Cloud Infrastructure Database service.
 
-Migrates the Exadata DB system to the new [Exadata resource model](/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model).
+Migrates the Exadata DB system to the new [Exadata resource model](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model).
 All related resources will be migrated.
 
 

@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v36/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v37/dns"
 )
 
 func init() {

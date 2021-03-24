@@ -146,8 +146,10 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `logging` - Discovers logging resources within the specified compartment
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
+    * `metering_computation` - Discovers metering_computation resources within the specified compartment
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `mysql` - Discovers mysql resources within the specified compartment
+    * `network_load_balancer` - Discovers network_load_balancer resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `oce` - Discovers oce resources within the specified compartment
@@ -505,6 +507,11 @@ management_agent
 marketplace
     
 * oci\_marketplace\_accepted\_agreement
+* oci\_marketplace\_publication
+
+metering_computation
+    
+* oci\_metering\_computation\_query
 
 monitoring
     
@@ -512,9 +519,18 @@ monitoring
 
 mysql
     
+* oci\_mysql\_heat\_wave\_cluster
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system
 * oci\_mysql\_channel
+
+network_load_balancer
+    
+* oci\_network\_load\_balancer\_network\_load\_balancer
+* oci\_network\_load\_balancer\_backend\_set
+* oci\_network\_load\_balancer\_backend\_sets\_health\_checker
+* oci\_network\_load\_balancer\_backend
+* oci\_network\_load\_balancer\_listener
 
 nosql
     

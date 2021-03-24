@@ -12,48 +12,48 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 }
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
-	"availability_domain": availabilityDomainResourceGraph,
-	"analytics":           analyticsResourceGraph,
-	"apigateway":          apigatewayResourceGraph,
-	"artifacts":           artifactsResourceGraph,
-	"auto_scaling":        autoScalingResourceGraph,
-	"bds":                 bdsResourceGraph,
-	"blockchain":          blockchainResourceGraph,
-	"cloud_guard":         cloudGuardResourceGraph,
-	"containerengine":     containerengineResourceGraph,
-	"core":                coreResourceGraph,
-	"data_safe":           dataSafeResourceGraph,
-	"database":            databaseResourceGraph,
-	"datacatalog":         datacatalogResourceGraph,
-	"dataflow":            dataflowResourceGraph,
-	"dataintegration":     dataintegrationResourceGraph,
-	"datascience":         datascienceResourceGraph,
-	"dns":                 dnsResourceGraph,
-	"email":               emailResourceGraph,
-	"events":              eventsResourceGraph,
-	"file_storage":        fileStorageResourceGraph,
-	"functions":           functionsResourceGraph,
-	"golden_gate":         goldenGateResourceGraph,
-	"health_checks":       healthChecksResourceGraph,
-	"integration":         integrationResourceGraph,
-	"kms":                 kmsResourceGraph,
-	"load_balancer":       loadBalancerResourceGraph,
-	"logging":             loggingResourceGraph,
-	"management_agent":    managementAgentResourceGraph,
-	"marketplace":         marketplaceResourceGraph,
-	"monitoring":          monitoringResourceGraph,
-	"mysql":               mysqlResourceGraph,
-	"nosql":               nosqlResourceGraph,
-	"object_storage":      objectStorageResourceGraph,
-	"oce":                 oceResourceGraph,
-	"ocvp":                ocvpResourceGraph,
-	"oda":                 odaResourceGraph,
-	"ons":                 onsResourceGraph,
-	"osmanagement":        osmanagementResourceGraph,
-	"sch":                 schResourceGraph,
-	"streaming":           streamingResourceGraph,
-	"tagging":             taggingResourceGraph,
-	"waas":                waasResourceGraph,
+	"availability_domain":   availabilityDomainResourceGraph,
+	"analytics":             analyticsResourceGraph,
+	"apigateway":            apigatewayResourceGraph,
+	"artifacts":             artifactsResourceGraph,
+	"auto_scaling":          autoScalingResourceGraph,
+	"bds":                   bdsResourceGraph,
+	"blockchain":            blockchainResourceGraph,
+	"cloud_guard":           cloudGuardResourceGraph,
+	"containerengine":       containerengineResourceGraph,
+	"core":                  coreResourceGraph,
+	"data_safe":             dataSafeResourceGraph,
+	"database":              databaseResourceGraph,
+	"datacatalog":           datacatalogResourceGraph,
+	"dataflow":              dataflowResourceGraph,
+	"dataintegration":       dataintegrationResourceGraph,
+	"datascience":           datascienceResourceGraph,
+	"dns":                   dnsResourceGraph,
+	"email":                 emailResourceGraph,
+	"events":                eventsResourceGraph,
+	"file_storage":          fileStorageResourceGraph,
+	"functions":             functionsResourceGraph,
+	"golden_gate":           goldenGateResourceGraph,
+	"health_checks":         healthChecksResourceGraph,
+	"integration":           integrationResourceGraph,
+	"kms":                   kmsResourceGraph,
+	"load_balancer":         loadBalancerResourceGraph,
+	"logging":               loggingResourceGraph,
+	"management_agent":      managementAgentResourceGraph,
+	"marketplace":           marketplaceResourceGraph,
+	"monitoring":            monitoringResourceGraph,
+	"mysql":                 mysqlResourceGraph,
+	"network_load_balancer": networkLoadBalancerResourceGraph,
+	"nosql":                 nosqlResourceGraph,
+	"object_storage":        objectStorageResourceGraph,
+	"oce":                   oceResourceGraph,
+	"ocvp":                  ocvpResourceGraph,
+	"oda":                   odaResourceGraph,
+	"ons":                   onsResourceGraph,
+	"osmanagement":          osmanagementResourceGraph,
+	"sch":                   schResourceGraph,
+	"streaming":             streamingResourceGraph,
+	"waas":                  waasResourceGraph,
 }
 
 var availabilityDomainResourceGraph = TerraformResourceGraph{
@@ -706,6 +706,12 @@ var marketplaceResourceGraph = TerraformResourceGraph{
 	},
 }
 
+var meteringComputationResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportMeteringComputationQueryHints},
+	},
+}
+
 var monitoringResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMonitoringAlarmHints},
@@ -717,6 +723,35 @@ var mysqlResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportMysqlMysqlBackupHints},
 		{TerraformResourceHints: exportMysqlMysqlDbSystemHints},
 		{TerraformResourceHints: exportMysqlChannelHints},
+	},
+}
+
+var networkLoadBalancerResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportNetworkLoadBalancerNetworkLoadBalancerHints},
+	},
+	"oci_network_load_balancer_network_load_balancer": {
+		{
+			TerraformResourceHints: exportNetworkLoadBalancerBackendSetHints,
+			datasourceQueryParams: map[string]string{
+				"network_load_balancer_id": "id",
+			},
+		},
+	},
+	"oci_network_load_balancer_backend_set": {
+		{
+			TerraformResourceHints: exportNetworkLoadBalancerBackendHints,
+			datasourceQueryParams: map[string]string{
+				"backend_set_name":         "name",
+				"network_load_balancer_id": "network_load_balancer_id",
+			},
+		},
+		{
+			TerraformResourceHints: exportNetworkLoadBalancerListenerHints,
+			datasourceQueryParams: map[string]string{
+				"network_load_balancer_id": "network_load_balancer_id",
+			},
+		},
 	},
 }
 

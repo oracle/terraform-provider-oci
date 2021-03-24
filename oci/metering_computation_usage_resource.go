@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/structure"
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v36/usageapi"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v37/usageapi"
 )
 
 func init() {
@@ -72,6 +72,45 @@ func MeteringComputationUsageResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"group_by_tag": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"key": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"value": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"is_aggregate_by_time": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"query_type": {
 				Type:     schema.TypeString,
@@ -293,6 +332,28 @@ func (s *MeteringComputationUsageResourceCrud) Create() error {
 		}
 	}
 
+	if groupByTag, ok := s.D.GetOkExists("group_by_tag"); ok {
+		interfaces := groupByTag.([]interface{})
+		tmp := make([]oci_metering_computation.Tag, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "group_by_tag", stateDataIndex)
+			converted, err := s.mapToTag(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("group_by_tag") {
+			request.GroupByTag = tmp
+		}
+	}
+
+	if isAggregateByTime, ok := s.D.GetOkExists("is_aggregate_by_time"); ok {
+		tmp := isAggregateByTime.(bool)
+		request.IsAggregateByTime = &tmp
+	}
+
 	if queryType, ok := s.D.GetOkExists("query_type"); ok {
 		request.QueryType = oci_metering_computation.RequestSummarizedUsagesDetailsQueryTypeEnum(queryType.(string))
 	}
@@ -341,7 +402,28 @@ func (s *MeteringComputationUsageResourceCrud) SetData() error {
 	return nil
 }
 
-func TagToMap(obj oci_metering_computation.Tag) map[string]interface{} {
+func (s *MeteringComputationUsageResourceCrud) mapToTag(fieldKeyFormat string) (oci_metering_computation.Tag, error) {
+	result := oci_metering_computation.Tag{}
+
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		tmp := key.(string)
+		result.Key = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.Namespace = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func TagToMapInUsage(obj oci_metering_computation.Tag) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Key != nil {
@@ -444,7 +526,7 @@ func UsageSummaryToMap(obj oci_metering_computation.UsageSummary) map[string]int
 
 	tags := []interface{}{}
 	for _, item := range obj.Tags {
-		tags = append(tags, TagToMap(item))
+		tags = append(tags, TagToMapInUsage(item))
 	}
 	result["tags"] = tags
 

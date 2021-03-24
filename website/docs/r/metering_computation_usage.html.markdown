@@ -27,6 +27,14 @@ resource "oci_metering_computation_usage" "test_usage" {
 	compartment_depth = var.usage_compartment_depth
 	filter = var.usage_filter
 	group_by = var.usage_group_by
+	group_by_tag {
+
+		#Optional
+		key = var.usage_group_by_tag_key
+		namespace = var.usage_group_by_tag_namespace
+		value = var.usage_group_by_tag_value
+	}
+	is_aggregate_by_time = var.usage_is_aggregate_by_time
 	query_type = var.usage_query_type
 }
 ```
@@ -38,8 +46,13 @@ The following arguments are supported:
 * `compartment_depth` - (Optional) The compartment depth level.
 * `filter` - (Optional) 
 * `granularity` - (Required) The usage granularity. HOURLY - Hourly data aggregation. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. TOTAL - Not yet supported. 
-* `group_by` - (Optional) Aggregate the result by. example: `["service"]` 
-* `query_type` - (Optional) The query usage type. Usage - Query the usage data. Cost - Query the cost/billing data. 
+* `group_by` - (Optional) Aggregate the result by. example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
+* `group_by_tag` - (Optional) GroupBy a specific tagKey. Provide tagNamespace and tagKey in tag object. Only support one tag in the list example: `[{"namespace":"oracle", "key":"createdBy"]` 
+	* `key` - (Optional) The tag key.
+	* `namespace` - (Optional) The tag namespace.
+	* `value` - (Optional) The tag value.
+* `is_aggregate_by_time` - (Optional) is aggregated by time. true isAggregateByTime will add up all usage/cost over query time period
+* `query_type` - (Optional) The query usage type. COST by default if it is missing Usage - Query the usage data. Cost - Query the cost/billing data. 
 * `tenant_id` - (Required) Tenant ID
 * `time_usage_ended` - (Required) The usage end time.
 * `time_usage_started` - (Required) The usage start time.

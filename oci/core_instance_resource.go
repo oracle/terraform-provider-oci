@@ -18,9 +18,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v36/common"
-	oci_core "github.com/oracle/oci-go-sdk/v36/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v36/workrequests"
+	"github.com/oracle/oci-go-sdk/v37/common"
+	oci_core "github.com/oracle/oci-go-sdk/v37/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v37/workrequests"
 )
 
 func init() {
@@ -132,6 +132,11 @@ func CoreInstanceResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"capacity_reservation_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"create_vnic_details": {
 				Type:     schema.TypeList,
@@ -731,6 +736,11 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		request.AvailabilityDomain = &tmp
 	}
 
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -964,6 +974,11 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -1110,6 +1125,10 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
 	}
 
 	if s.Res.CompartmentId != nil {

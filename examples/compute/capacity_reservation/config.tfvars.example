@@ -1,0 +1,13 @@
+# Modify these to reflect your account
+user_ocid = "ocid1.user.oc1..123456789abcdf0123456789abcdf0123456789abcdf0123456789abcdf0"
+private_key_path = "/home/opc/.oci/oci_api_key.pem"
+private_key_fingerprint = "12:34:56:78:9a:bc:de:f0:12:34:56:78:9a:bc:de:f0"
+
+tenancy_ocid = "ocid1.tenancy.oc1..123456789abcdf0123456789abcdf0123456789abcdf0123456789abcdf0"
+availability_domain = "aBcD:PHX-AD-1"
+compartment_id = "ocid1.tenancy.oc1..123456789abcdf0123456789abcdf0123456789abcdf0123456789abcdf0"
+
+subnet_id = "ocid1.subnet.oc1.phx.123456789abcdf0123456789abcdf0123456789abcdf0123456789abcdf0"
+
+# Modify these to adjust the scale of the test
+instance_count = "1"

@@ -100,7 +100,6 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
 
   #Optional
   state        = "ACTIVE"
-  display_name = "VM.Standard.E2.2.Built-in"
   shape_name   = "VM.Standard.E2.2"
 }
 
