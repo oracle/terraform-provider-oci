@@ -32,9 +32,9 @@ var (
 
 	vlanDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, vlanDataSourceFilterRepresentation}}
 	vlanDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -349,26 +349,16 @@ func getVlanIds(compartment string) ([]string, error) {
 
 	listVlansRequest := oci_core.ListVlansRequest{}
 	listVlansRequest.CompartmentId = &compartmentId
+	listVlansRequest.LifecycleState = oci_core.VlanLifecycleStateAvailable
+	listVlansResponse, err := virtualNetworkClient.ListVlans(context.Background(), listVlansRequest)
 
-	vcnIds, error := getVcnIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting vcnId required for Vlan resource requests \n")
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Vlan list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, vcnId := range vcnIds {
-		listVlansRequest.VcnId = &vcnId
-
-		listVlansRequest.LifecycleState = oci_core.VlanLifecycleStateAvailable
-		listVlansResponse, err := virtualNetworkClient.ListVlans(context.Background(), listVlansRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting Vlan list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, vlan := range listVlansResponse.Items {
-			id := *vlan.Id
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "VlanId", id)
-		}
-
+	for _, vlan := range listVlansResponse.Items {
+		id := *vlan.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VlanId", id)
 	}
 	return resourceIds, nil
 }
