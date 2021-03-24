@@ -164,7 +164,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_emptySta
 "",
 "Allow group ${oci_identity_group.t.name} to inspect instances in tenancy"]
 				}`, nil),
-				ExpectError: regexp.MustCompile("Service error:InvalidParameter"),
+				ExpectError: regexp.MustCompile("InvalidParameter"),
 			},
 		},
 	},
