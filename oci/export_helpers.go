@@ -36,6 +36,9 @@ func init() {
 	exportLoadBalancerPathRouteSetHints.getIdFn = getLoadBalancerPathRouteSetId
 	exportLoadBalancerLoadBalancerRoutingPolicyHints.getIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
 	exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
+	exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
+	exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
+	exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
 	exportNosqlIndexHints.getIdFn = getNosqlIndexId
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
 	exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
@@ -343,6 +346,39 @@ func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find name for LoadBalancer RuleSet")
 	}
 	return getRuleSetCompositeId(loadBalancerId, name), nil
+}
+
+func getNetworkLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
+
+	backendSetName, ok := resource.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find backendSetName for NetworkLoadBalancer BackendSet")
+	}
+	networkLoadBalancerId := resource.parent.id
+	return getNlbBackendSetCompositeId(backendSetName, networkLoadBalancerId), nil
+}
+
+func getNetworkLoadBalancerBackendId(resource *OCIResource) (string, error) {
+	backendName, ok := resource.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find backendName for NetworkLoadBalancer Backend")
+	}
+	backendsetName, ok := resource.parent.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find backendSetName for NetworkLoadBalancer Backend")
+	}
+	networkLoadBalancerId := resource.parent.parent.id
+	return getNlbBackendCompositeId(backendName, backendsetName, networkLoadBalancerId), nil
+}
+
+func getNetworkLoadBalancerListenerId(resource *OCIResource) (string, error) {
+
+	listenerName, ok := resource.sourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find listenerName for NetworkLoadBalancer Listener")
+	}
+	networkLoadBalancerId := resource.parent.parent.id
+	return getNlbListenerCompositeId(listenerName, networkLoadBalancerId), nil
 }
 
 func getNosqlIndexId(resource *OCIResource) (string, error) {

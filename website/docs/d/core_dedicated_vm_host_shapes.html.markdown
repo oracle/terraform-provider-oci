@@ -46,5 +46,5 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `availability_domain` - The shape's availability domain. 
-* `dedicated_vm_host_shape` - The name of the dedicated vm host shape. You can enumerate all available shapes by calling [ListDedicatedVmHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/dedicatedVmHostShapes). 
+* `dedicated_vm_host_shape` - The name of the dedicated VM host shape. You can enumerate all available shapes by calling [ListDedicatedVmHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/dedicatedVmHostShapes). 
 

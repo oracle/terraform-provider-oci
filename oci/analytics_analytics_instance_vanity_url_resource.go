@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_analytics "github.com/oracle/oci-go-sdk/v36/analytics"
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v37/analytics"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
 )
 
 func init() {
@@ -205,18 +205,18 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) getAnalyticsInstanceVa
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
-		//// Try to cancel the work request
-		//log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, analyticsInstanceVanityUrlId)
-		//_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
-		//	oci_analytics.CancelWorkRequestRequest{
-		//		WorkRequestId: workId,
-		//		RequestMetadata: oci_common.RequestMetadata{
-		//			RetryPolicy: retryPolicy,
-		//		},
-		//	})
-		//if cancelErr != nil {
-		//	log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
-		//}
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, analyticsInstanceId)
+		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+			oci_analytics.DeleteWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	// Figure out what the vanity url is and set the composite id
@@ -342,12 +342,35 @@ func analyticsInstanceVanityUrlWaitForWorkRequest(wId *string, entityType string
 		}
 	}
 
-	// The OAC workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_analytics.WorkRequestStatusFailed || response.Status == oci_analytics.WorkRequestStatusCanceled {
-		return nil, getErrorFromAnalyticsInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAnalyticsAnalyticsInstanceVanityUrlWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
+}
+
+func getErrorFromAnalyticsAnalyticsInstanceVanityUrlWorkRequest(client *oci_analytics.AnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_analytics.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Get() error {

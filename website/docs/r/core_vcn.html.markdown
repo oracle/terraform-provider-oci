@@ -74,11 +74,11 @@ resource "oci_core_vcn" "test_vcn" {
 
 The following arguments are supported:
 
-* `cidr_block` - (Optional) Deprecated. Instead use 'cidrBlocks'. It is an error to set both cidrBlock and cidrBlocks. Example: `10.0.0.0/16`
-* `cidr_blocks` - (Optional) (Updatable) Either 'cidr_block or 'cidr_blocks' must be provided. List of IPv4 CIDR blocks associated with the VCN. The CIDRs must maintain the following rules -
-    a. The list of CIDRs provided are valid 
-    b. There is no overlap between different CIDRs 
-    c. The number of CIDRs should not exceed the max limit of CIDRs per VCN d. It is an error to set both cidrBlock and cidrBlocks. Note: cidr_blocks update must be restricted to one operation at a time (either add/remove or modify one single cidr_block) or the operation will be declined. new cidr_block to be added must be placed at the end of the list. Once you migrate to using `cidr_blocks` from `cidr_block`, you will not be able to switch back.
+* `cidr_block` - (Optional) **Deprecated.** Do *not* set this value. Use `cidrBlocks` instead. Example: `10.0.0.0/16` 
+* `cidr_blocks` - (Optional) (Updatable) The list of one or more IPv4 CIDR blocks for the VCN that meet the following criteria:
+	* The CIDR blocks must be valid.
+	* They must not overlap with each other or with the on-premises network CIDR block.
+	* The number of CIDR blocks must not exceed the limit of CIDR blocks allowed per VCN. It is an error to set both cidrBlock and cidrBlocks. Note: cidr_blocks update must be restricted to one operation at a time (either add/remove or modify one single cidr_block) or the operation will be declined. new cidr_block to be added must be placed at the end of the list. Once you migrate to using `cidr_blocks` from `cidr_block`, you will not be able to switch back.
 	**Important:** Do *not* specify a value for `cidrBlock`. Use this parameter instead. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the VCN.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 

@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v36/datascience"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v37/datascience"
 )
 
 func init() {
@@ -501,18 +501,18 @@ func modelDeploymentWaitForWorkRequest(wId *string, entityType string, action oc
 		}
 	}
 
-	// The OAC workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled {
-		return nil, getErrorFromModelDeploymentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatascienceModelDeploymentWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromModelDeploymentWorkRequest(client *oci_datascience.DataScienceClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromDatascienceModelDeploymentWorkRequest(client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_datascience.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -527,7 +527,7 @@ func getErrorFromModelDeploymentWorkRequest(client *oci_datascience.DataScienceC
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }

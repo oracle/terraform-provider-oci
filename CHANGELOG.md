@@ -1,3 +1,16 @@
+## 4.19.0 (Unreleased)
+
+### Added
+- Support for Maintenance Windows History in `database`
+- Support save report in cost analysis
+- Support for Capacity Reservations
+- Support for Renaming Analytics Service to HeatWave
+- Support for Marketplace-Community Catalog
+- Support for Network Load Balancer
+
+### Fixed
+- Doc update for `image_digest` and `image` fields in `functions` resource
+
 ## 4.18.0 (March 17, 2021)
 
 ### Added

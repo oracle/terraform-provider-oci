@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_core "github.com/oracle/oci-go-sdk/v36/core"
+	oci_core "github.com/oracle/oci-go-sdk/v37/core"
 )
 
 func init() {
@@ -202,6 +202,8 @@ func (s *CoreImagesDataSourceCrud) SetData() error {
 		} else {
 			image["launch_options"] = nil
 		}
+
+		image["listing_type"] = r.ListingType
 
 		if r.OperatingSystem != nil {
 			image["operating_system"] = *r.OperatingSystem

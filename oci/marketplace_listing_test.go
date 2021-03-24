@@ -20,14 +20,16 @@ var (
 	}
 
 	listingDataSourceRepresentation = map[string]interface{}{
-		"category":       Representation{repType: Optional, create: []string{`category`}},
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"is_featured":    Representation{repType: Optional, create: `false`},
-		"listing_id":     Representation{repType: Optional, create: `${oci_marketplace_listing.test_listing.id}`},
-		"name":           Representation{repType: Optional, create: `name`},
-		"package_type":   Representation{repType: Optional, create: `packageType`},
-		"pricing":        Representation{repType: Optional, create: []string{`pricing`}},
-		"publisher_id":   Representation{repType: Optional, create: `${oci_marketplace_publisher.test_publisher.id}`},
+		"category":          Representation{repType: Optional, create: []string{`category`}},
+		"compartment_id":    Representation{repType: Optional, create: `${var.compartment_id}`},
+		"is_featured":       Representation{repType: Optional, create: `false`},
+		"listing_id":        Representation{repType: Optional, create: `${oci_marketplace_listing.test_listing.id}`},
+		"listing_types":     Representation{repType: Optional, create: []string{`listingTypes`}},
+		"name":              Representation{repType: Optional, create: []string{`name`}},
+		"operating_systems": Representation{repType: Optional, create: []string{`operatingSystems`}},
+		"package_type":      Representation{repType: Optional, create: `packageType`},
+		"pricing":           Representation{repType: Optional, create: []string{`pricing`}},
+		"publisher_id":      Representation{repType: Optional, create: `${oci_marketplace_publisher.test_publisher.id}`},
 	}
 
 	ListingResourceConfig = ``
@@ -74,7 +76,7 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.package_type"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.publisher.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.short_description"),
-					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.tagline"),
+					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.supported_operating_systems.#"),
 				),
 			},
 			// verify singular datasource
@@ -102,6 +104,7 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "regions.#"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "screenshots.#"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "short_description"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "supported_operating_systems.#"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "support_contacts.#"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "support_links.#"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "system_requirements"),

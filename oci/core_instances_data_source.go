@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v36/core"
+	oci_core "github.com/oracle/oci-go-sdk/v37/core"
 )
 
 func init() {
@@ -21,6 +21,10 @@ func CoreInstancesDataSource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"capacity_reservation_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -69,6 +73,11 @@ func (s *CoreInstancesDataSourceCrud) Get() error {
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
+	}
+
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -135,6 +144,10 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 
 		if r.AvailabilityDomain != nil {
 			instance["availability_domain"] = *r.AvailabilityDomain
+		}
+
+		if r.CapacityReservationId != nil {
+			instance["capacity_reservation_id"] = *r.CapacityReservationId
 		}
 
 		if r.DedicatedVmHostId != nil {

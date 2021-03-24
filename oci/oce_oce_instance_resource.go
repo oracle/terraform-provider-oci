@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
-	oci_oce "github.com/oracle/oci-go-sdk/v36/oce"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
+	oci_oce "github.com/oracle/oci-go-sdk/v37/oce"
 )
 
 func init() {
@@ -398,12 +398,35 @@ func oceInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oc
 		}
 	}
 
-	// The OCE workrequest may have failed, check for errors if identifier is not found
-	if identifier == nil {
-		return nil, getErrorFromOceInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_oce.WorkRequestStatusFailed || response.Status == oci_oce.WorkRequestStatusCanceled {
+		return nil, getErrorFromOceOceInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
+}
+
+func getErrorFromOceOceInstanceWorkRequest(client *oci_oce.OceInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oce.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_oce.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *OceOceInstanceResourceCrud) Get() error {
@@ -591,28 +614,4 @@ func (s *OceOceInstanceResourceCrud) updateCompartment(compartment interface{}) 
 
 	workId := response.OpcWorkRequestId
 	return s.getOceInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
-}
-
-func getErrorFromOceInstanceWorkRequest(client *oci_oce.OceInstanceClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oce.WorkRequestResourceActionTypeEnum) error {
-
-	response, err := client.ListWorkRequestErrors(context.Background(),
-		oci_oce.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
-			RequestMetadata: oci_common.RequestMetadata{
-				RetryPolicy: retryPolicy,
-			},
-		})
-	if err != nil {
-		return err
-	}
-
-	allErrs := make([]string, 0)
-	for _, wrkErr := range response.Items {
-		allErrs = append(allErrs, *wrkErr.Message)
-	}
-	errorMessage := strings.Join(allErrs, "\n")
-
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
-
-	return workRequestErr
 }

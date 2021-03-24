@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v36/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v37/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
 )
 
 func init() {
@@ -1422,12 +1422,35 @@ func deploymentWaitForWorkRequest(wId *string, entityType string, action oci_api
 		}
 	}
 
-	// The API Gateway workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_apigateway.WorkRequestStatusFailed || response.Status == oci_apigateway.WorkRequestStatusCanceled {
-		return nil, getErrorFromGatewayWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromApigatewayDeploymentWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
+}
+
+func getErrorFromApigatewayDeploymentWorkRequest(client *oci_apigateway.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_apigateway.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *ApigatewayDeploymentResourceCrud) Get() error {

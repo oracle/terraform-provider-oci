@@ -1,7 +1,7 @@
 package oci
 
 import (
-	oci_core "github.com/oracle/oci-go-sdk/v36/core"
+	oci_core "github.com/oracle/oci-go-sdk/v37/core"
 )
 
 /*
@@ -64,6 +64,20 @@ var exportRelatedResourcesGraph = TerraformResourceGraph{
 				"load_balancer_id": "id",
 			},
 		},
+	},
+
+	/*
+		NETWORK LOAD BALANCERS
+	*/
+	"oci_network_load_balancer_backend_set": {
+		{
+			TerraformResourceHints: exportNetworkLoadBalancerBackendHints,
+			datasourceQueryParams: map[string]string{
+				"backend_set_name":         "name",
+				"network_load_balancer_id": "network_load_balancer_id",
+			},
+		},
+		{TerraformResourceHints: exportNetworkLoadBalancerListenerHints},
 	},
 }
 

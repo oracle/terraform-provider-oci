@@ -13,8 +13,8 @@ This data source provides the list of Volume Attachments in Oracle Cloud Infrast
 Lists the volume attachments in the specified compartment. You can filter the
 list by specifying an instance OCID, volume OCID, or both.
 
-Currently, the only supported volume attachment type are [IScsiVolumeAttachment](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IScsiVolumeAttachment/) and
-[ParavirtualizedVolumeAttachment](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/ParavirtualizedVolumeAttachment/).
+Currently, the only supported volume attachment type are [IScsiVolumeAttachment](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IScsiVolumeAttachment/) and
+[ParavirtualizedVolumeAttachment](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ParavirtualizedVolumeAttachment/).
 
 
 ## Example Usage

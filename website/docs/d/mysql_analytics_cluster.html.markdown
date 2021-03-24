@@ -10,7 +10,9 @@ description: |-
 # Data Source: oci_mysql_analytics_cluster
 This data source provides details about a specific Analytics Cluster resource in Oracle Cloud Infrastructure MySQL Database service.
 
+DEPRECATED -- please use HeatWave API instead.
 Gets information about the Analytics Cluster.
+
 
 ## Example Usage
 

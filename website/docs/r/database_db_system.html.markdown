@@ -16,9 +16,9 @@ Database edition that you specify applies to all the databases on that DB system
 An initial database is created on the DB system based on the request parameters you provide and some default
 options. For detailed information about default options, see [Bare metal and virtual machine DB system default options.](https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/creatingDBsystem.htm#Default)
 
-**Note:** Deprecated for Exadata Cloud Service systems. Use the [new resource model APIs](/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
+**Note:** Deprecated for Exadata Cloud Service systems. Use the [new resource model APIs](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
 
-For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See [Switching an Exadata DB System to the New Resource Model and APIs](/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
+For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See [Switching an Exadata DB System to the New Resource Model and APIs](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
 
 Use the [CreateCloudExadataInfrastructure](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/CreateCloudExadataInfrastructure/) and [CreateCloudVmCluster](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudVmCluster/CreateCloudVmCluster/) APIs to provision a new Exadata Cloud Service instance.
 

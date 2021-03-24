@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v36/core"
+	oci_core "github.com/oracle/oci-go-sdk/v37/core"
 )
 
 func init() {
@@ -103,6 +103,8 @@ func (s *CoreImageDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("launch_options", nil)
 	}
+
+	s.D.Set("listing_type", s.Res.ListingType)
 
 	if s.Res.OperatingSystem != nil {
 		s.D.Set("operating_system", *s.Res.OperatingSystem)

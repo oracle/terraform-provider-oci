@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v36/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v36/containerengine"
+	"github.com/oracle/oci-go-sdk/v37/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v37/containerengine"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -44,14 +44,13 @@ var (
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
+		"node_image_name":     Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.images.0}`},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`, update: `VM.Standard2.2`},
+		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
 		"initial_node_labels": RepresentationGroup{Optional, nodePoolInitialNodeLabelsRepresentation},
-		"node_image_name":     Representation{repType: Optional, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.images.0}`},
 		"node_metadata":       Representation{repType: Optional, create: map[string]string{"nodeMetadata": "nodeMetadata"}, update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
 		"quantity_per_subnet": Representation{repType: Optional, create: `1`, update: `2`},
-		"ssh_public_key":      Representation{repType: Optional, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
-		"subnet_ids":          Representation{repType: Optional, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
-	}
+		"ssh_public_key":      Representation{repType: Optional, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}}
 	nodePoolInitialNodeLabelsRepresentation = map[string]interface{}{
 		"key":   Representation{repType: Optional, create: `key`, update: `key2`},
 		"value": Representation{repType: Optional, create: `value`, update: `value2`},
@@ -65,7 +64,6 @@ var (
 		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.21.0/24`}, "dns_label": Representation{repType: Required, create: `cluster2`}})) +
 		AvailabilityDomainConfig +
 		generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
-		OciImageIdsVariable +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{repType: Required, create: `dnslabel`},
 		}))
@@ -107,6 +105,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -137,6 +136,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -153,7 +153,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation),
+					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, getUpdatedRepresentationCopy("node_metadata", Representation{repType: Optional, update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -168,6 +168,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
 					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
 					resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -198,7 +199,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.value", "value2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.kubernetes_version"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_image_id", "nodeImageId"),
+					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_name"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.2"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_source.#", "1"),
@@ -212,6 +213,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + NodePoolResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -222,12 +224,13 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_source.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "nodes.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "quantity_per_subnet", "2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "2"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

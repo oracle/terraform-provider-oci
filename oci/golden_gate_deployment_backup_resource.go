@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v36/goldengate"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v37/goldengate"
 )
 
 func init() {
@@ -329,18 +329,18 @@ func goldenGateDeploymentBackupWaitForWorkRequest(wId *string, entityType string
 		}
 	}
 
-	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, getErrorFromDeploymentBackupWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGoldenGateDeploymentBackupWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDeploymentBackupWorkRequest(client *oci_golden_gate.GoldenGateClient, wId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
+func getErrorFromGoldenGateDeploymentBackupWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_golden_gate.ListWorkRequestErrorsRequest{
-			WorkRequestId: wId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -355,7 +355,7 @@ func getErrorFromDeploymentBackupWorkRequest(client *oci_golden_gate.GoldenGateC
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }

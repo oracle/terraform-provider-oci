@@ -64,6 +64,8 @@ The following attributes are exported:
 * `app_catalog_listing_resource_version` - The resource version of the listing resource associated with this listing package.
 * `description` - Description of this package.
 * `listing_id` - The ID of the listing that the specified package belongs to.
+* `operating_system` - OS used by the listing.
+	* `name` - name of the operating system
 * `package_type` - The specified package's type.
 * `pricing` - The model for pricing.
 	* `currency` - The currency of the pricing model.
@@ -78,7 +80,7 @@ The following attributes are exported:
 	* `name` - The name of the region.
 * `resource_id` - The unique identifier for the package resource.
 * `resource_link` - Link to the orchestration resource.
-* `time_created` - The date and time this listing package was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339)  timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time this listing package was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 * `variables` - List of variables for the orchestration resource.
 	* `data_type` - The data type of the variable.
 	* `default_value` - The variable's default value.

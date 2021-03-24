@@ -44,7 +44,7 @@ The following attributes are exported:
 * `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead. 
-* `source_details` - 
+* `source_details` - Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup.  
 	* `id` - The OCID of the volume or volume backup.
 	* `type` - The type can be one of these values: `volume`, `volumeBackup`
 * `state` - The current state of a volume.

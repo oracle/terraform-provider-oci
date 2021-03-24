@@ -15,8 +15,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v36/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v36/dns"
+	"github.com/oracle/oci-go-sdk/v37/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v37/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

@@ -37,7 +37,9 @@ data "oci_marketplace_listings" "test_listings" {
 	compartment_id = var.compartment_id
 	is_featured = var.listing_is_featured
 	listing_id = oci_marketplace_listing.test_listing.id
+	listing_types = var.listing_listing_types
 	name = var.listing_name
+	operating_systems = var.listing_operating_systems
 	package_type = var.listing_package_type
 	pricing = var.listing_pricing
 	publisher_id = oci_marketplace_publisher.test_publisher.id
@@ -52,7 +54,9 @@ The following arguments are supported:
 * `compartment_id` - (Optional) The unique identifier for the compartment.
 * `is_featured` - (Optional) Indicates whether to show only featured listings. If this is set to `false` or is omitted, then all listings will be returned. 
 * `listing_id` - (Optional) The unique identifier for the listing.
+* `listing_types` - (Optional) The type of the listing
 * `name` - (Optional) The name of the listing.
+* `operating_systems` - (Optional) OS of the listing.
 * `package_type` - (Optional) A filter to return only packages that match the given package type exactly. 
 * `pricing` - (Optional) Name of the pricing type. If multiple pricing types are provided, then any listing with one or more matching pricing models will be returned. 
 * `publisher_id` - (Optional) Limit results to just this publisher.
@@ -94,6 +98,7 @@ The following attributes are exported:
 * `links` - Links to reference material.
 	* `href` - The anchor tag.
 	* `rel` - Reference links to the previous page, next page, and other pages.
+* `listing_type` - In which catalog the listing should exist.
 * `long_description` - A long description of the listing.
 * `name` - The name of the listing.
 * `package_type` - The listing's package type.
@@ -136,6 +141,8 @@ The following attributes are exported:
 * `support_links` - Links to support resources for the listing.
 	* `name` - Text that describes the resource.
 	* `url` - The URL of the resource.
+* `supported_operating_systems` - List of operating systems supported.
+	* `name` - name of the operating system
 * `system_requirements` - System requirements for the listing.
 * `tagline` - The tagline of the listing.
 * `time_released` - The release date of the listing.

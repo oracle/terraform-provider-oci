@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v36/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v36/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v37/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v37/workrequests"
 )
 
 func init() {
@@ -203,6 +203,10 @@ func CoreImageResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"listing_type": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"operating_system": {
 				Type:     schema.TypeString,
@@ -474,6 +478,8 @@ func (s *CoreImageResourceCrud) SetData() error {
 	} else {
 		s.D.Set("launch_options", nil)
 	}
+
+	s.D.Set("listing_type", s.Res.ListingType)
 
 	if s.Res.OperatingSystem != nil {
 		s.D.Set("operating_system", *s.Res.OperatingSystem)

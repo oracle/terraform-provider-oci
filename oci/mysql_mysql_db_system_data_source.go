@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v36/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v37/mysql"
 )
 
 func init() {
@@ -125,6 +125,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HeatWaveCluster != nil {
+		s.D.Set("heat_wave_cluster", []interface{}{HeatWaveClusterSummaryToMap(s.Res.HeatWaveCluster)})
+	} else {
+		s.D.Set("heat_wave_cluster", nil)
+	}
+
 	if s.Res.HostnameLabel != nil {
 		s.D.Set("hostname_label", *s.Res.HostnameLabel)
 	}
@@ -135,6 +141,10 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 
 	if s.Res.IsAnalyticsClusterAttached != nil {
 		s.D.Set("is_analytics_cluster_attached", *s.Res.IsAnalyticsClusterAttached)
+	}
+
+	if s.Res.IsHeatWaveClusterAttached != nil {
+		s.D.Set("is_heat_wave_cluster_attached", *s.Res.IsHeatWaveClusterAttached)
 	}
 
 	if s.Res.LifecycleDetails != nil {

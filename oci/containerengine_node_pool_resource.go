@@ -19,8 +19,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v36/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v36/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v37/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v37/containerengine"
 )
 
 func init() {
@@ -652,9 +652,35 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 		}
 	}
 
-	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
-	errorMessage, _ := getErrorFromWorkRequest(wId, response.CompartmentId, client, disableFoundRetries)
-	return identifier, fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
+		return nil, getErrorFromContainerengineNodePoolWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+func getErrorFromContainerengineNodePoolWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_containerengine.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *ContainerengineNodePoolResourceCrud) Get() error {

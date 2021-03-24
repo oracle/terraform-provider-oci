@@ -77,6 +77,7 @@ The following attributes are exported:
 * `links` - Links to reference material.
 	* `href` - The anchor tag.
 	* `rel` - Reference links to the previous page, next page, and other pages.
+* `listing_type` - In which catalog the listing should exist.
 * `long_description` - A long description of the listing.
 * `name` - The name of the listing.
 * `package_type` - The listing's package type.
@@ -119,6 +120,8 @@ The following attributes are exported:
 * `support_links` - Links to support resources for the listing.
 	* `name` - Text that describes the resource.
 	* `url` - The URL of the resource.
+* `supported_operating_systems` - List of operating systems supported.
+	* `name` - name of the operating system
 * `system_requirements` - System requirements for the listing.
 * `tagline` - The tagline of the listing.
 * `time_released` - The release date of the listing.
