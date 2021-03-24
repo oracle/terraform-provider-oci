@@ -10,6 +10,7 @@
 - Support for Micro VM shapes added to `core_instance` and `core_instance_configuration` resources
 - Support for WAF legacy DNS naming scheme migration
 - Support for fractional usage in limits
+- Support for Oracle Cloud VMware Solution Flexible Billing
 
 ## 4.21.0 (April 07, 2021)
 

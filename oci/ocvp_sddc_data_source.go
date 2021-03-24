@@ -110,6 +110,8 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
 	}
 
+	s.D.Set("initial_sku", s.Res.InitialSku)
+
 	if s.Res.InstanceDisplayNamePrefix != nil {
 		s.D.Set("instance_display_name_prefix", *s.Res.InstanceDisplayNamePrefix)
 	}

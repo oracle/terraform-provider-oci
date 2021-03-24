@@ -42,6 +42,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
 	display_name = var.sddc_display_name
 	freeform_tags = {"Department"= "Finance"}
 	hcx_vlan_id = oci_core_vlan.test_vlan.id
+	initial_sku = var.sddc_initial_sku
 	instance_display_name_prefix = var.sddc_instance_display_name_prefix
 	is_hcx_enabled = var.sddc_is_hcx_enabled
 	provisioning_vlan_id = oci_core_vlan.test_vlan.id
@@ -63,6 +64,7 @@ The following arguments are supported:
 	**Note:** If you later delete EXSi hosts from the SDDC to total less than 3, you are still billed for the 3 minimum recommended EXSi hosts. Also, you cannot add more VMware workloads to the SDDC until it again has at least 3 ESXi hosts. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hcx_vlan_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN to use for the HCX component of the VMware environment. This value is required only when `isHcxEnabled` is true. 
+* `initial_sku` - (Optional) Billing option selected during SDDC creation. Default value is `MONTH`. [ListSupportedSkus](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus). 
 * `instance_display_name_prefix` - (Optional) A prefix used in the name of each ESXi host and Compute instance in the SDDC. If this isn't set, the SDDC's `displayName` is used as the prefix.
 
 	For example, if the value is `mySDDC`, the ESXi hosts are named `mySDDC-1`, `mySDDC-2`, and so on. 
@@ -108,6 +110,7 @@ The following attributes are exported:
 
 	Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the HCX component of the VMware environment, you should use [UpdateSddc](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc) to update the SDDC's `hcxVlanId` with that new VLAN's OCID. 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC. 
+* `initial_sku` - Billing option selected during SDDC creation [ListSupportedSkus](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus). 
 * `instance_display_name_prefix` - A prefix used in the name of each ESXi host and Compute instance in the SDDC. If this isn't set, the SDDC's `displayName` is used as the prefix.
 
 	For example, if the value is `MySDDC`, the ESXi hosts are named `MySDDC-1`, `MySDDC-2`, and so on. 

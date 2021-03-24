@@ -42,31 +42,15 @@ var (
 	}
 
 	esxiHostRepresentation = map[string]interface{}{
+		"current_sku":   Representation{repType: Optional, create: `HOUR`},
 		"sddc_id":       Representation{repType: Required, create: `${oci_ocvp_sddc.test_sddc.id}`},
 		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"next_sku":      Representation{repType: Optional, create: `HOUR`, update: `MONTH`},
 	}
 
-	EsxiHostResourceDependencies = SddcResourceDependencies + `
-
-resource "oci_ocvp_sddc" "test_sddc" {
-    compartment_id = "${var.compartment_id}"
-    compute_availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
-    esxi_hosts_count = "3"
-    nsx_edge_uplink1vlan_id = "${oci_core_vlan.test_nsx_edge_uplink1_vlan.id}"
-    nsx_edge_uplink2vlan_id = "${oci_core_vlan.test_nsx_edge_uplink2_vlan.id}"
-    nsx_edge_vtep_vlan_id = "${oci_core_vlan.test_nsx_edge_vtep_vlan.id}"
-    nsx_vtep_vlan_id = "${oci_core_vlan.test_nsx_vtep_vlan.id}"
-    provisioning_subnet_id = "${oci_core_subnet.test_provisioning_subnet.id}"
-    ssh_authorized_keys = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
-    vmotion_vlan_id = "${oci_core_vlan.test_vmotion_net_vlan.id}"
-    vmware_software_version = "${lookup(data.oci_ocvp_supported_vmware_software_versions.test_supported_vmware_software_versions.items[1], "version")}"
-    vsan_vlan_id = "${oci_core_vlan.test_vsan_net_vlan.id}"
-    vsphere_vlan_id = "${oci_core_vlan.test_vsphere_net_vlan.id}"
-}
-
-`
+	EsxiHostResourceDependencies = SddcRequiredOnlyResource
 )
 
 func TestOcvpEsxiHostResource_basic(t *testing.T) {
@@ -118,10 +102,13 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, esxiHostRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
+					resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "next_sku", "HOUR"),
 					resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
 
 					func(s *terraform.State) (err error) {
@@ -141,10 +128,13 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
+					resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "next_sku", "MONTH"),
 					resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
 
 					func(s *terraform.State) (err error) {
@@ -186,11 +176,14 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "esxi_host_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "billing_contract_end_date"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "HOUR"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "next_sku", "MONTH"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
