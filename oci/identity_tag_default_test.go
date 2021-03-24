@@ -39,7 +39,6 @@ var (
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
 	tagDefaultDataSourceRepresentationWithTagDefinitionIdFilter = map[string]interface{}{
-		"compartment_id":    Representation{repType: Optional, create: `${var.compartment_id}`},
 		"tag_definition_id": Representation{repType: Optional, create: `${oci_identity_tag.test_tag.id}`},
 		"filter":            RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
 	tagDefaultDataSourceFilterRepresentation = map[string]interface{}{
@@ -197,7 +196,6 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.time_created"),
 					resource.TestCheckResourceAttr(datasourceName+"_with_state_filter", "tag_defaults.0.value", "value2"),
 
-					resource.TestCheckResourceAttr(datasourceName+"_with_tag_definition_id_filter", "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_definition_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.#"),
