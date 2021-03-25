@@ -6,6 +6,9 @@
 - Support for OCI Vulnerability Scanning Service
 - Support for artifacts container image datasource
 
+### Fixed
+- Fixed `image_digest` field update behavior causing issues in `functions` resource
+
 ## 4.19.0 (March 24, 2021)
 
 ### Added
