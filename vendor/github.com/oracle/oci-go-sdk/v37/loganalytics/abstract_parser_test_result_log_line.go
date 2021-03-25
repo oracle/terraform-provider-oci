@@ -16,10 +16,10 @@ import (
 // AbstractParserTestResultLogLine AbstractParserTestResultLogLine
 type AbstractParserTestResultLogLine struct {
 
-	// original log line
+	// The original log line.
 	OriginalLogLine *string `mandatory:"false" json:"originalLogLine"`
 
-	// pre-processed log line
+	// The pre-processed log line.
 	PreProcessedLogLine *string `mandatory:"false" json:"preProcessedLogLine"`
 }
 

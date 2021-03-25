@@ -16,28 +16,28 @@ import (
 // LogAnalyticsMetaSourceType LogAnalyticsMetaSourceType
 type LogAnalyticsMetaSourceType struct {
 
-	// built in parser name
+	// The built in parser name.
 	BuiltInParserName *string `mandatory:"false" json:"builtInParserName"`
 
-	// type description
+	// The source type description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// display name
+	// The source type display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// entity display name
+	// The entity display name.
 	EntityDisplayName *string `mandatory:"false" json:"entityDisplayName"`
 
-	// entity name
+	// The entity internal name.
 	EntityName *string `mandatory:"false" json:"entityName"`
 
-	// source type name
+	// The source type name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// maximum exclude pattern
+	// The maximum exclude pattern.
 	MaximumExcludePattern *int64 `mandatory:"false" json:"maximumExcludePattern"`
 
-	// maximum include pattern
+	// The maximum include pattern.
 	MaximumIncludePattern *int64 `mandatory:"false" json:"maximumIncludePattern"`
 }
 

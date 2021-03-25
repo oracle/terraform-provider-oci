@@ -23,7 +23,8 @@ type ImportCustomContentRequest struct {
 	// The file to upload which contains the custom content.
 	ImportCustomContentFileBody io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
 
-	// is overwrite
+	// A flag indicating whether or not to overwrite existing content if a conflict is
+	// found during import content operation.
 	IsOverwrite *bool `mandatory:"false" contributesTo:"query" name:"isOverwrite"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

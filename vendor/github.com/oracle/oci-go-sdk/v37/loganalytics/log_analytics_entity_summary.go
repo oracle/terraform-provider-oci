@@ -60,6 +60,8 @@ type LogAnalyticsEntitySummary struct {
 	// This indicates the type of source. It is primarily for Enterprise Manager Repository ID.
 	SourceId *string `mandatory:"false" json:"sourceId"`
 
+	CreationSource *CreationSource `mandatory:"false" json:"creationSource"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

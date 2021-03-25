@@ -4,7 +4,7 @@
 
 // Oracle Cloud VMware Solution API
 //
-// Use this API to manage the Oracle Cloud VMware Solution.
+// Use this API to manage your Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -140,9 +140,10 @@ func (client SddcClient) changeSddcCompartment(ctx context.Context, request comm
 	return response, err
 }
 
-// CreateSddc Creates a software-defined data center (SDDC).
+// CreateSddc Creates an Oracle Cloud VMware Solution software-defined data center (SDDC).
 // Use the WorkRequest operations to track the
 // creation of the SDDC.
+// **Important:** You must configure the SDDC's networking resources with the security rules detailed in Security Rules for Oracle Cloud VMware Solution SDDCs (https://docs.cloud.oracle.com/iaas/Content/VMware/Reference/ocvssecurityrules.htm). Otherwise, provisioning the SDDC will fail. The rules are based on the requirements set by VMware.
 //
 // See also
 //

@@ -16,44 +16,47 @@ import (
 // LogAnalyticsMetaFunctionArgument LogAnalyticsMetaFunctionArgument
 type LogAnalyticsMetaFunctionArgument struct {
 
-	// override output fields
+	// The override output fields.
 	IsOverrideOutputFields *bool `mandatory:"false" json:"isOverrideOutputFields"`
 
-	// argument display name
+	// The argument display name.
 	ArgumentDisplayName *string `mandatory:"false" json:"argumentDisplayName"`
 
-	// argument example
+	// The argument example.
 	ArgumentExample *string `mandatory:"false" json:"argumentExample"`
 
-	// argument service
+	// The argument service.
 	ArgumentService *string `mandatory:"false" json:"argumentService"`
 
-	// argument data type
+	// The argument data type.
 	ArgumentDataType *string `mandatory:"false" json:"argumentDataType"`
 
-	// argument description
+	// The argument description.
 	ArgumentDescription *string `mandatory:"false" json:"argumentDescription"`
 
-	// argument name
+	// The argument name.
 	ArgumentName *string `mandatory:"false" json:"argumentName"`
 
-	// argument order
+	// The argument order.
 	ArgumentOrder *int64 `mandatory:"false" json:"argumentOrder"`
 
-	// argument type
+	// The argument type.
 	ArgumentType *int64 `mandatory:"false" json:"argumentType"`
 
-	// meta function id
+	// The argument unique identifier.
 	ArgumentId *int64 `mandatory:"false" json:"argumentId"`
 
-	// column
+	// The lookup column.
 	ArgumentLookupColumn *string `mandatory:"false" json:"argumentLookupColumn"`
 
-	// column position
+	// The lookup column position.
 	ArgumentLookupColumnPosition *int64 `mandatory:"false" json:"argumentLookupColumnPosition"`
 
-	// value
+	// The argument value.
 	ArgumentValue *string `mandatory:"false" json:"argumentValue"`
+
+	// The argument unique identifier as a string.
+	ArgumentReference *string `mandatory:"false" json:"argumentReference"`
 }
 
 func (m LogAnalyticsMetaFunctionArgument) String() string {

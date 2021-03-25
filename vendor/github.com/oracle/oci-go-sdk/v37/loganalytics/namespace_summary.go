@@ -24,6 +24,9 @@ type NamespaceSummary struct {
 
 	// This indicates if the tenancy is onboarded to Logging Analytics
 	IsOnboarded *bool `mandatory:"true" json:"isOnboarded"`
+
+	// This indicates if the log set feature is enabled for the tenancy
+	IsLogSetEnabled *bool `mandatory:"false" json:"isLogSetEnabled"`
 }
 
 func (m NamespaceSummary) String() string {

@@ -16,28 +16,28 @@ import (
 // UpsertLogAnalyticsAssociation UpsertLogAnalyticsAssociation
 type UpsertLogAnalyticsAssociation struct {
 
-	// Lama Idf
+	// The agent unique identifier.
 	AgentId *string `mandatory:"false" json:"agentId"`
 
-	// source name
+	// The source name.
 	SourceName *string `mandatory:"false" json:"sourceName"`
 
-	// source type internal name
+	// The source type internal name.
 	SourceTypeName *string `mandatory:"false" json:"sourceTypeName"`
 
-	// entity GUID
+	// The entity unique identifier.
 	EntityId *string `mandatory:"false" json:"entityId"`
 
-	// entity name
+	// The entity name.
 	EntityName *string `mandatory:"false" json:"entityName"`
 
-	// entity type internal name
+	// The entity type internal name.
 	EntityTypeName *string `mandatory:"false" json:"entityTypeName"`
 
-	// host name
+	// The host name.
 	Host *string `mandatory:"false" json:"host"`
 
-	// log group ocid
+	// The log group unique identifier.
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 }
 

@@ -699,6 +699,63 @@ func (client KmsManagementClient) getKeyVersion(ctx context.Context, request com
 	return response, err
 }
 
+// GetReplicationStatus When a vault has a replica, each operation on the vault or its resources, such as
+// keys, is replicated and has an associated replicationId. Replication status provides
+// details about whether the operation associated with the given replicationId has been
+// successfully applied across replicas.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetReplicationStatus.go.html to see an example of how to use GetReplicationStatus API.
+func (client KmsManagementClient) GetReplicationStatus(ctx context.Context, request GetReplicationStatusRequest) (response GetReplicationStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getReplicationStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetReplicationStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetReplicationStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetReplicationStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetReplicationStatusResponse")
+	}
+	return
+}
+
+// getReplicationStatus implements the OCIOperation interface (enables retrying operations)
+func (client KmsManagementClient) getReplicationStatus(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/replicaOperations/{replicationId}/status")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetReplicationStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWrappingKey Gets details about the public RSA wrapping key associated with the vault in the endpoint. Each vault has an RSA key-pair that wraps and
 // unwraps AES key material for import into Key Management.
 //
@@ -1247,7 +1304,7 @@ func (client KmsManagementClient) scheduleKeyVersionDeletion(ctx context.Context
 
 // UpdateKey Updates the properties of a master encryption key. Specifically, you can update the
 // `displayName`, `freeformTags`, and `definedTags` properties. Furthermore,
-// the key must in an ENABLED or CREATING state to be updated.
+// the key must be in an `ENABLED` or `CREATING` state to be updated.
 // As a management operation, this call is subject to a Key Management limit that applies to the total number
 // of requests across all management write operations. Key Management might throttle this call to reject an
 // otherwise valid request when the total rate of management write operations exceeds 10 requests per second

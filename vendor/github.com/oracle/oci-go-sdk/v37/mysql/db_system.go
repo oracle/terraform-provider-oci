@@ -49,6 +49,12 @@ type DbSystem struct {
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
 
+	// If the policy is to enable high availability of the instance, by
+	// maintaining secondary/failover capacity as necessary.
+	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
+
+	CurrentPlacement *DbSystemPlacement `mandatory:"false" json:"currentPlacement"`
+
 	// DEPRECATED -- please use `isHeatWaveClusterAttached` instead.
 	// If the DB System has an Analytics Cluster attached.
 	IsAnalyticsClusterAttached *bool `mandatory:"false" json:"isAnalyticsClusterAttached"`
@@ -60,10 +66,18 @@ type DbSystem struct {
 
 	HeatWaveCluster *HeatWaveClusterSummary `mandatory:"false" json:"heatWaveCluster"`
 
-	// The Availability Domain where the primary DB System should be located.
+	// The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
+	// In a failover scenario, the Read/Write endpoint is redirected to one of the other availability domains
+	// and the MySQL instance in that domain is promoted to the primary instance.
+	// This redirection does not affect the IP address of the DB System in any way.
+	// For a standalone DB System, this defines the availability domain in which the DB System is placed.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The name of the Fault Domain the DB System is located in.
+	// The fault domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
+	// In a failover scenario, the Read/Write endpoint is redirected to one of the other fault domains
+	// and the MySQL instance in that domain is promoted to the primary instance.
+	// This redirection does not affect the IP address of the DB System in any way.
+	// For a standalone DB System, this defines the fault domain in which the DB System is placed.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
 	// The shape of the primary instances of the DB System. The shape
@@ -124,6 +138,8 @@ func (m DbSystem) String() string {
 func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                *string                           `json:"description"`
+		IsHighlyAvailable          *bool                             `json:"isHighlyAvailable"`
+		CurrentPlacement           *DbSystemPlacement                `json:"currentPlacement"`
 		IsAnalyticsClusterAttached *bool                             `json:"isAnalyticsClusterAttached"`
 		AnalyticsCluster           *AnalyticsClusterSummary          `json:"analyticsCluster"`
 		IsHeatWaveClusterAttached  *bool                             `json:"isHeatWaveClusterAttached"`
@@ -161,6 +177,10 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.IsHighlyAvailable = model.IsHighlyAvailable
+
+	m.CurrentPlacement = model.CurrentPlacement
 
 	m.IsAnalyticsClusterAttached = model.IsAnalyticsClusterAttached
 

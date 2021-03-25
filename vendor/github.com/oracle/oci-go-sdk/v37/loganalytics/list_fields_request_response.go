@@ -19,22 +19,31 @@ type ListFieldsRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// isMatchAll
+	// A flag indicating how to handle filtering when multiple filter criteria are specified.
+	// A value of true will always result in the most expansive list of items being returned.
+	// For example, if two field lists are supplies as filter criteria, a value of true will
+	// result in any item matching a field in either list being returned, while a value of
+	// false will result in a list of items which only have fields contained in both input lists.
 	IsMatchAll *bool `mandatory:"false" contributesTo:"query" name:"isMatchAll"`
 
-	// comma delimited list of source ids
+	// A list of source IDs used for filtering.  Only fields used by the specified
+	// sources will be returned.
 	SourceIds *string `mandatory:"false" contributesTo:"query" name:"sourceIds"`
 
-	// comma delimited list of source Names
+	// A list of source names used for filtering.  Only fields used by the specified
+	// sources will be returned.
 	SourceNames *string `mandatory:"false" contributesTo:"query" name:"sourceNames"`
 
-	// parserType
+	// The parser type used for filtering.  Only items with, or associated with, parsers
+	// of the specified type will be returned.
 	ParserType ListFieldsParserTypeEnum `mandatory:"false" contributesTo:"query" name:"parserType" omitEmpty:"true"`
 
-	// comma delimited list of parser ids
+	// A list of parser names used for filtering.  Only fields used by the specified
+	// parsers will be returned.
 	ParserIds *string `mandatory:"false" contributesTo:"query" name:"parserIds"`
 
-	// comma delimited list of parser names
+	// A list of parser names used for filtering.  Only fields used by the specified
+	// parsers will be returned.
 	ParserNames *string `mandatory:"false" contributesTo:"query" name:"parserNames"`
 
 	// isIncludeParser
@@ -52,7 +61,7 @@ type ListFieldsRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListFieldsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// sort by field
+	// The attribute used to sort the returned fields
 	SortBy ListFieldsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -114,17 +123,21 @@ type ListFieldsParserTypeEnum string
 
 // Set of constants representing the allowable values for ListFieldsParserTypeEnum
 const (
-	ListFieldsParserTypeAll   ListFieldsParserTypeEnum = "ALL"
-	ListFieldsParserTypeRegex ListFieldsParserTypeEnum = "REGEX"
-	ListFieldsParserTypeXml   ListFieldsParserTypeEnum = "XML"
-	ListFieldsParserTypeJson  ListFieldsParserTypeEnum = "JSON"
+	ListFieldsParserTypeAll       ListFieldsParserTypeEnum = "ALL"
+	ListFieldsParserTypeRegex     ListFieldsParserTypeEnum = "REGEX"
+	ListFieldsParserTypeXml       ListFieldsParserTypeEnum = "XML"
+	ListFieldsParserTypeJson      ListFieldsParserTypeEnum = "JSON"
+	ListFieldsParserTypeOdl       ListFieldsParserTypeEnum = "ODL"
+	ListFieldsParserTypeDelimited ListFieldsParserTypeEnum = "DELIMITED"
 )
 
 var mappingListFieldsParserType = map[string]ListFieldsParserTypeEnum{
-	"ALL":   ListFieldsParserTypeAll,
-	"REGEX": ListFieldsParserTypeRegex,
-	"XML":   ListFieldsParserTypeXml,
-	"JSON":  ListFieldsParserTypeJson,
+	"ALL":       ListFieldsParserTypeAll,
+	"REGEX":     ListFieldsParserTypeRegex,
+	"XML":       ListFieldsParserTypeXml,
+	"JSON":      ListFieldsParserTypeJson,
+	"ODL":       ListFieldsParserTypeOdl,
+	"DELIMITED": ListFieldsParserTypeDelimited,
 }
 
 // GetListFieldsParserTypeEnumValues Enumerates the set of values for ListFieldsParserTypeEnum

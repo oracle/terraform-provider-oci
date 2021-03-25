@@ -16,58 +16,59 @@ import (
 // LogAnalyticsSourceLabelCondition LogAnalyticsSourceLabelCondition
 type LogAnalyticsSourceLabelCondition struct {
 
-	// message
+	// The message.
 	Message *string `mandatory:"false" json:"message"`
 
-	// visible flag
+	// A flag indicating whether or not the label condition is visible.
 	IsVisible *bool `mandatory:"false" json:"isVisible"`
 
-	// block condition field
+	// The block condition field.
 	BlockConditionField *string `mandatory:"false" json:"blockConditionField"`
 
-	// block condition operator
+	// The block condition operator.
 	BlockConditionOperator *string `mandatory:"false" json:"blockConditionOperator"`
 
-	// block condition value
+	// The block condition value.
 	BlockConditionValue *string `mandatory:"false" json:"blockConditionValue"`
 
-	// condition value
+	// The condition value.
 	LabelConditionValue *string `mandatory:"false" json:"labelConditionValue"`
 
-	// list of condition values
+	// A list of condition values.
 	LabelConditionValues []string `mandatory:"false" json:"labelConditionValues"`
 
-	// content example
+	// The content example.
 	ContentExample *string `mandatory:"false" json:"contentExample"`
 
-	// enabled
+	// A flag inidcating whether or not the condition is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// field internal name
+	// The internal field name.
 	FieldName *string `mandatory:"false" json:"fieldName"`
 
-	// Id
+	// The unique identifier of the condition.
 	LabelConditionId *int64 `mandatory:"false" json:"labelConditionId"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// operator
+	// The condition operator.
 	LabelConditionOperator *string `mandatory:"false" json:"labelConditionOperator"`
 
-	// source Id
+	// The unique identifier of the source.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// label display name
+	// The label display name.
 	LabelDisplayName *string `mandatory:"false" json:"labelDisplayName"`
 
-	// label storage field
+	// The label storage field.
 	StorageField *string `mandatory:"false" json:"storageField"`
 
-	// label name
+	// The label name.
 	LabelName *string `mandatory:"false" json:"labelName"`
 
-	// inline label exists in DB flag
+	// A flag indicating whether or not the inline label exists in the database.
 	IsInlineLabelExistingInDatabase *bool `mandatory:"false" json:"isInlineLabelExistingInDatabase"`
 }
 

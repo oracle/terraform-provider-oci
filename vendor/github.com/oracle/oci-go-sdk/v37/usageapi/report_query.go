@@ -35,6 +35,8 @@ type ReportQuery struct {
 	// is aggregated by time. true isAggregateByTime will add up all usage/cost over query time period
 	IsAggregateByTime *bool `mandatory:"false" json:"isAggregateByTime"`
 
+	Forecast *Forecast `mandatory:"false" json:"forecast"`
+
 	// The query usage type. COST by default if it is missing
 	// Usage - Query the usage data.
 	// Cost - Query the cost/billing data.
@@ -47,8 +49,8 @@ type ReportQuery struct {
 	//     "resourceId", "tenantId", "tenantName"]`
 	GroupBy []string `mandatory:"false" json:"groupBy"`
 
-	// GroupBy a specific tagKey. Provide tagNamespace and tagKey in tag object. Only support one tag in the list
-	// example:
+	// GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list.
+	// For example:
 	//   `[{"namespace":"oracle", "key":"createdBy"]`
 	GroupByTag []Tag `mandatory:"false" json:"groupByTag"`
 

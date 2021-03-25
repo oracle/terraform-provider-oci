@@ -16,7 +16,7 @@ import (
 // ExtendedFieldsValidationResult ExtendedFieldsValidationResult
 type ExtendedFieldsValidationResult struct {
 
-	// items
+	// The regular expression evaluation result of an extended field definition.
 	Items []EfdRegexResult `mandatory:"false" json:"items"`
 }
 

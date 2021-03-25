@@ -16,7 +16,7 @@ import (
 // LogAnalyticsParserFunctionCollection LogAnalyticsParserFunctionCollection
 type LogAnalyticsParserFunctionCollection struct {
 
-	// meta pre-process pagination list
+	// An array of parser function.
 	Items []LogAnalyticsParserFunction `mandatory:"false" json:"items"`
 }
 

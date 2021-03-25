@@ -16,7 +16,7 @@ import (
 // LogAnalyticsMetaFunctionCollection LogAnalyticsMetaFunctionCollection
 type LogAnalyticsMetaFunctionCollection struct {
 
-	// list of meta functions
+	// An array of meta functions.
 	Items []LogAnalyticsMetaFunction `mandatory:"false" json:"items"`
 }
 

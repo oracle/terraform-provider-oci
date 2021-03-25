@@ -16,10 +16,10 @@ import (
 // Indexes Indexes
 type Indexes struct {
 
-	// endIndex
+	// The end index.
 	EndIndex *int `mandatory:"false" json:"endIndex"`
 
-	// startIndex
+	// The start index.
 	StartIndex *int `mandatory:"false" json:"startIndex"`
 }
 

@@ -46,13 +46,13 @@ type ListKeysRequest struct {
 	// `SOFTWARE` are performed on the server.
 	ProtectionMode ListKeysProtectionModeEnum `mandatory:"false" contributesTo:"query" name:"protectionMode" omitEmpty:"true"`
 
-	// The algorithm used by a key's key versions to encrypt or decrypt. Currently, only AES, RSA and ECDSA are supported.
+	// The algorithm used by a key's key versions to encrypt or decrypt data. Currently, support includes AES, RSA, and ECDSA algorithms.
 	Algorithm ListKeysAlgorithmEnum `mandatory:"false" contributesTo:"query" name:"algorithm" omitEmpty:"true"`
 
-	// The length of the key in bytes, expressed as an integer. Values of 16, 24, 32 are supported.
+	// The length of the key in bytes, expressed as an integer. Supported values include 16, 24, or 32.
 	Length *int `mandatory:"false" contributesTo:"query" name:"length"`
 
-	// The curve Id of the keys in case of ECDSA keys
+	// The curve ID of the keys. (This pertains only to ECDSA keys.)
 	CurveId ListKeysCurveIdEnum `mandatory:"false" contributesTo:"query" name:"curveId" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

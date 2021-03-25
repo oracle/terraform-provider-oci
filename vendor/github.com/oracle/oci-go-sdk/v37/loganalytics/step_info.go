@@ -16,13 +16,13 @@ import (
 // StepInfo StepInfo
 type StepInfo struct {
 
-	// inputSequenceCurrentMatch
+	// The currnet input sequence match.
 	InputSequenceCurrentMatch *string `mandatory:"false" json:"inputSequenceCurrentMatch"`
 
-	// regexEngineClassName
+	// The regular expression engine class name.
 	RegexEngineClassName *string `mandatory:"false" json:"regexEngineClassName"`
 
-	// stepCount
+	// The step count.
 	StepCount *int `mandatory:"false" json:"stepCount"`
 }
 

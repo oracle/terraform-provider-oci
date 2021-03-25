@@ -19,7 +19,7 @@ type ListSourceExtendedFieldDefinitionsRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// source name
+	// The source name.
 	SourceName *string `mandatory:"true" contributesTo:"path" name:"sourceName"`
 
 	// The maximum number of items to return.
@@ -28,7 +28,7 @@ type ListSourceExtendedFieldDefinitionsRequest struct {
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// sort by source extended field definition
+	// The attribute used to sort the returned source patterns
 	SortBy ListSourceExtendedFieldDefinitionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).

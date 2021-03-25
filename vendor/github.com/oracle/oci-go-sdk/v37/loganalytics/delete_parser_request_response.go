@@ -19,7 +19,7 @@ type DeleteParserRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// parserName
+	// The parser name.
 	ParserName *string `mandatory:"true" contributesTo:"path" name:"parserName"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -22,10 +22,11 @@ type TestParserRequest struct {
 	// Details for test payload
 	TestParserPayloadDetails `contributesTo:"body"`
 
-	// scope
+	// The scope used when testing a parser.
 	Scope TestParserScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
 
-	// module
+	// The module to test.  A value of 'ParserFunctionTest' will result in testing of
+	// the parser functions.
 	ReqOriginModule *string `mandatory:"false" contributesTo:"query" name:"reqOriginModule"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

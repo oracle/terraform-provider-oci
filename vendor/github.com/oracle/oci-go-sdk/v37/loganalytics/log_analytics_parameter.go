@@ -16,19 +16,19 @@ import (
 // LogAnalyticsParameter LogAnalyticsParameter
 type LogAnalyticsParameter struct {
 
-	// default value
+	// The default value of the parameter.
 	DefaultValue *string `mandatory:"false" json:"defaultValue"`
 
-	// description
+	// The parameter description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// is active flag
+	// A flag indicating whether or not the parameter is active.
 	IsActive *bool `mandatory:"false" json:"isActive"`
 
-	// parameter name
+	// The parameter name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 }
 

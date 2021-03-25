@@ -25,7 +25,7 @@ type ListConfigWorkRequestsRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListConfigWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// work requests sort by
+	// The attribute used to sort the returned work requests
 	SortBy ListConfigWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The maximum number of items to return.

@@ -16,7 +16,7 @@ import (
 // LogAnalyticsMetaSourceTypeCollection Source Meta Type List
 type LogAnalyticsMetaSourceTypeCollection struct {
 
-	// list of tag priorities
+	// An array of meta source types.
 	Items []LogAnalyticsMetaSourceType `mandatory:"false" json:"items"`
 }
 

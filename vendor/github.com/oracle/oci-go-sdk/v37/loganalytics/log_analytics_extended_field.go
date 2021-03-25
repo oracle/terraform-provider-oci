@@ -19,19 +19,19 @@ type LogAnalyticsExtendedField struct {
 
 	ExtendedFieldDefinition *LogAnalyticsSourceExtendedFieldDefinition `mandatory:"false" json:"extendedFieldDefinition"`
 
-	// Id
+	// The extended field unique identifier.
 	ExtendedFieldDefinitionId *int64 `mandatory:"false" json:"extendedFieldDefinitionId"`
 
-	// new field internal name
+	// The field internal name
 	FieldName *string `mandatory:"false" json:"fieldName"`
 
-	// new field internal display name
+	// The field internal display name.
 	FieldDisplayName *string `mandatory:"false" json:"fieldDisplayName"`
 
-	// saved regular expression internal name
+	// The saved regular expression name.
 	SavedRegularExpressionName *string `mandatory:"false" json:"savedRegularExpressionName"`
 
-	// extended field Id
+	// The extended field unique identifier.
 	ExtendedFieldId *int64 `mandatory:"false" json:"extendedFieldId"`
 }
 

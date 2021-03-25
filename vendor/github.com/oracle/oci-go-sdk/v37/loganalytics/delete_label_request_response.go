@@ -19,7 +19,7 @@ type DeleteLabelRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// name of the label to get
+	// The label name.
 	LabelName *string `mandatory:"true" contributesTo:"path" name:"labelName"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

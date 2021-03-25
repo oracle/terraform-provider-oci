@@ -16,24 +16,24 @@ import (
 // LogAnalyticsParserFilter LogAnalyticsParserFilter
 type LogAnalyticsParserFilter struct {
 
-	// id
+	// The parser filter unique identifier.
 	Id *string `mandatory:"false" json:"id"`
 
 	Parser *LogAnalyticsParser `mandatory:"false" json:"parser"`
 
-	// agent version
+	// The agent version.
 	AgentVersion *string `mandatory:"false" json:"agentVersion"`
 
-	// is in use flag
+	// A flag idicating whether or not hte filter is currently being used.
 	IsInUse *int64 `mandatory:"false" json:"isInUse"`
 
-	// operating system
+	// The operating system.
 	OperatingSystem *string `mandatory:"false" json:"operatingSystem"`
 
-	// parser Id
+	// The parser unique identifier.
 	ParserId *int64 `mandatory:"false" json:"parserId"`
 
-	// version
+	// The version.
 	Version *string `mandatory:"false" json:"version"`
 }
 

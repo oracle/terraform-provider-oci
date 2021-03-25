@@ -16,37 +16,38 @@ import (
 // UpsertLogAnalyticsLabelDetails Upsert LogAnalytics Label Details
 type UpsertLogAnalyticsLabelDetails struct {
 
-	// alias list
+	// The alias list.
 	Aliases []LogAnalyticsLabelAlias `mandatory:"false" json:"aliases"`
 
 	// suggest type
 	SuggestType *int64 `mandatory:"false" json:"suggestType"`
 
-	// description
+	// The label description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// display name
+	// The label display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// edit version
+	// The edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// impact
+	// The label impact.
 	Impact *string `mandatory:"false" json:"impact"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined label.  A value of true denotes a built in label.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// label identifier
+	// The label name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Valid values are (NONE, LOW, HIGH). NONE is default.
+	// The label priority. Valid values are (NONE, LOW, HIGH). NONE is default.
 	Priority UpsertLogAnalyticsLabelDetailsPriorityEnum `mandatory:"false" json:"priority,omitempty"`
 
-	// tag recommendation
+	// The label recommendation.
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
-	// Valid values are (INFO, PROBLEM). INFO is default.
+	// The label type. Valid values are (INFO, PROBLEM). INFO is default.
 	Type UpsertLogAnalyticsLabelDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 

@@ -16,13 +16,13 @@ import (
 // MatchInfo MatchInfo
 type MatchInfo struct {
 
-	// matchingLogEntryEndIndex
+	// The end index of the matching log entry.
 	MatchingLogEntryEndIndex *int `mandatory:"false" json:"matchingLogEntryEndIndex"`
 
-	// regexScore
+	// The regular expression score.
 	RegexScore *int `mandatory:"false" json:"regexScore"`
 
-	// stepCount
+	// The step count.
 	StepCount *int `mandatory:"false" json:"stepCount"`
 }
 

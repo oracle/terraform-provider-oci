@@ -16,55 +16,57 @@ import (
 // LogAnalyticsAssociation LogAnalyticsAssociation
 type LogAnalyticsAssociation struct {
 
-	// failure message
+	// The failure message.
 	FailureMessage *string `mandatory:"false" json:"failureMessage"`
 
-	// Lama Idf
+	// The agent unique identifier.
 	AgentId *string `mandatory:"false" json:"agentId"`
 
-	// last attempt date
+	// The last attempt date.
 	TimeLastAttempted *common.SDKTime `mandatory:"false" json:"timeLastAttempted"`
 
-	// retry count
+	// The number of times the association will be attempted
+	// before failing.
 	RetryCount *int64 `mandatory:"false" json:"retryCount"`
 
-	// source name
+	// The source name.
 	SourceName *string `mandatory:"false" json:"sourceName"`
 
-	// source display name
+	// The source display name.
 	SourceDisplayName *string `mandatory:"false" json:"sourceDisplayName"`
 
-	// source type internal name
+	// The source type internal name.
 	SourceTypeName *string `mandatory:"false" json:"sourceTypeName"`
 
-	// lifeCycleState
+	// The lifecycle status.  Valid values are ACCEPTED, IN_PROGRESS, SUCCEEDED
+	// or FAILED.
 	LifeCycleState LogAnalyticsAssociationLifeCycleStateEnum `mandatory:"false" json:"lifeCycleState,omitempty"`
 
-	// entity GUID
+	// The entity unique identifier.
 	EntityId *string `mandatory:"false" json:"entityId"`
 
-	// entity name
+	// The entity name.
 	EntityName *string `mandatory:"false" json:"entityName"`
 
-	// entity type internal name
+	// The entity type internal name.
 	EntityTypeName *string `mandatory:"false" json:"entityTypeName"`
 
-	// host name
+	// The host name.
 	Host *string `mandatory:"false" json:"host"`
 
-	// Agent entity name
+	// The name of the entity which contains the agent.
 	AgentEntityName *string `mandatory:"false" json:"agentEntityName"`
 
-	// entity type display name
+	// The entity type display name.
 	EntityTypeDisplayName *string `mandatory:"false" json:"entityTypeDisplayName"`
 
-	// log group ocid
+	// The log group unique identifier.
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 
-	// log group name
+	// The log group name.
 	LogGroupName *string `mandatory:"false" json:"logGroupName"`
 
-	// log group compartment
+	// The log group compartment.
 	LogGroupCompartment *string `mandatory:"false" json:"logGroupCompartment"`
 }
 

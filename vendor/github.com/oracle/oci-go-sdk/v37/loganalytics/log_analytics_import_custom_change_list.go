@@ -16,31 +16,31 @@ import (
 // LogAnalyticsImportCustomChangeList LogAnalyticsImportCustomChangeList
 type LogAnalyticsImportCustomChangeList struct {
 
-	// createdParserNames
+	// An array of created parser names.
 	CreatedParserNames []string `mandatory:"false" json:"createdParserNames"`
 
-	// updatedParserNames
+	// An array of updated parser names.
 	UpdatedParserNames []string `mandatory:"false" json:"updatedParserNames"`
 
-	// createdSourceNames
+	// An array of created source names.
 	CreatedSourceNames []string `mandatory:"false" json:"createdSourceNames"`
 
-	// updatedSourceNames
+	// An array of updated source names.
 	UpdatedSourceNames []string `mandatory:"false" json:"updatedSourceNames"`
 
-	// createdFieldDisplayNames
+	// An array of created field display names.
 	CreatedFieldDisplayNames []string `mandatory:"false" json:"createdFieldDisplayNames"`
 
-	// updatedFieldDisplayNames
+	// An array of updated field display names.
 	UpdatedFieldDisplayNames []string `mandatory:"false" json:"updatedFieldDisplayNames"`
 
-	// conflictParserNames
+	// A list of parser names with conflicts.
 	ConflictParserNames []string `mandatory:"false" json:"conflictParserNames"`
 
-	// conflictSourceNames
+	// A list of source names with conflicts.
 	ConflictSourceNames []string `mandatory:"false" json:"conflictSourceNames"`
 
-	// conflictFieldDisplayNames
+	// A list of field display names with conflicts.
 	ConflictFieldDisplayNames []string `mandatory:"false" json:"conflictFieldDisplayNames"`
 }
 

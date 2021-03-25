@@ -36,8 +36,36 @@ type LogAnalyticsEntityTypeSummary struct {
 
 	// Time the log analytics entity type was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// This field indicates whether logs for entities of this type can be collected using a management agent.
+	ManagementAgentEligibilityStatus LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum `mandatory:"false" json:"managementAgentEligibilityStatus,omitempty"`
 }
 
 func (m LogAnalyticsEntityTypeSummary) String() string {
 	return common.PointerString(m)
+}
+
+// LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum Enum with underlying type: string
+type LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum string
+
+// Set of constants representing the allowable values for LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum
+const (
+	LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEligible   LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum = "ELIGIBLE"
+	LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusIneligible LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum = "INELIGIBLE"
+	LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusUnknown    LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum = "UNKNOWN"
+)
+
+var mappingLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatus = map[string]LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum{
+	"ELIGIBLE":   LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEligible,
+	"INELIGIBLE": LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusIneligible,
+	"UNKNOWN":    LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusUnknown,
+}
+
+// GetLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnumValues Enumerates the set of values for LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum
+func GetLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnumValues() []LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum {
+	values := make([]LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum, 0)
+	for _, v := range mappingLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatus {
+		values = append(values, v)
+	}
+	return values
 }

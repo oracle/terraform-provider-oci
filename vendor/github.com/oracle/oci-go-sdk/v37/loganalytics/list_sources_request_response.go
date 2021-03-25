@@ -22,22 +22,27 @@ type ListSourcesRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// entityType
+	// A filter to return only sources associated with entities of the specified type.
+	// The match is case-insensitive.
 	EntityType *string `mandatory:"false" contributesTo:"query" name:"entityType"`
 
-	// Search by source display name or description.
+	// The source display text used for filtering.  Only sources with the specified name
+	// or description will be returned.
 	SourceDisplayText *string `mandatory:"false" contributesTo:"query" name:"sourceDisplayText"`
 
-	// Is system param of value (all, custom, sourceUsing)
+	// The system value used for filtering.  Only items with the specified system value
+	// will be returned.  Valid values are built in, custom (for user defined items), or
+	// all (for all items, regardless of system value).
 	IsSystem ListSourcesIsSystemEnum `mandatory:"false" contributesTo:"query" name:"isSystem" omitEmpty:"true"`
 
-	// auto association flag
+	// An auto-associate flag used for filtering.  Only sources which are marked for automatic
+	// association will be returned.
 	IsAutoAssociated *bool `mandatory:"false" contributesTo:"query" name:"isAutoAssociated"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListSourcesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// sort by source
+	// The attribute used to sort the returned sources
 	SortBy ListSourcesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The maximum number of items to return.
@@ -50,7 +55,10 @@ type ListSourcesRequest struct {
 	// is case-insensitive.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// is simplified
+	// A flag specifying whether or not to return all source information, or a subset of the
+	// information about each source.  A value of true will return only the source unique
+	// identifier and the source name.  A value of false will return all source information
+	// (such as author, updated date, system flag, etc.)
 	IsSimplified *bool `mandatory:"false" contributesTo:"query" name:"isSimplified"`
 
 	// The client request ID for tracing.

@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v37/common"
 )
 
-// DeleteLogAnalyticsAssociationDetails DeleteLogAnalyticsAssociationDetails
+// DeleteLogAnalyticsAssociationDetails The information required to delete a list of associations.
 type DeleteLogAnalyticsAssociationDetails struct {
 
-	// compartmentId
+	// The compartment ID
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// list of rule entity association details
+	// The information required to delete an association.
 	Items []DeleteLogAnalyticsAssociation `mandatory:"false" json:"items"`
 }
 

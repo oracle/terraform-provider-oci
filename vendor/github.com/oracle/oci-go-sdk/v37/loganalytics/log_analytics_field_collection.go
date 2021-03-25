@@ -16,7 +16,7 @@ import (
 // LogAnalyticsFieldCollection LogAnalytics Field Collection
 type LogAnalyticsFieldCollection struct {
 
-	// list of fields
+	// An array of fields.
 	Items []LogAnalyticsFieldSummary `mandatory:"false" json:"items"`
 }
 

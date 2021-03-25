@@ -17,22 +17,23 @@ import (
 type LogAnalyticsPatternFilter struct {
 	Pattern *LogAnalyticsSourcePattern `mandatory:"false" json:"pattern"`
 
-	// agent version
+	// The agent version.
 	AgentVersion *string `mandatory:"false" json:"agentVersion"`
 
-	// is in use flag
+	// A flag indicating whether or not the pattern filter is currently
+	// in use.
 	IsInUse *bool `mandatory:"false" json:"isInUse"`
 
-	// operating system
+	// The operating system.
 	OperatingSystem *string `mandatory:"false" json:"operatingSystem"`
 
-	// pattern Id
+	// The pattern unique identifier.
 	PatternId *int64 `mandatory:"false" json:"patternId"`
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// version
+	// The pattern filter version.
 	Version *string `mandatory:"false" json:"version"`
 
 	Source *LogAnalyticsSource `mandatory:"false" json:"source"`

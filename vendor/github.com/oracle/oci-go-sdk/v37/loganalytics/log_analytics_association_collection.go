@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v37/common"
 )
 
-// LogAnalyticsAssociationCollection LogAnalyticsAssociationCollection
+// LogAnalyticsAssociationCollection A collection of associations.
 type LogAnalyticsAssociationCollection struct {
 
-	// list of rule entity association details
+	// An array of associations.
 	Items []LogAnalyticsAssociation `mandatory:"false" json:"items"`
 }
 

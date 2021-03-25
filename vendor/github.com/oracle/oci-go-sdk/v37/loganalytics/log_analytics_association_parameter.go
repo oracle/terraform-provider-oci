@@ -16,31 +16,31 @@ import (
 // LogAnalyticsAssociationParameter LogAnalyticsAssociationParameter
 type LogAnalyticsAssociationParameter struct {
 
-	// agent guid
+	// The agent unique identifier.
 	AgentId *string `mandatory:"false" json:"agentId"`
 
-	// entity type
+	// The entity type.
 	EntityType *string `mandatory:"false" json:"entityType"`
 
-	// entity guid
+	// The entity unique identifier.
 	EntityId *string `mandatory:"false" json:"entityId"`
 
-	// source name
+	// The source name.
 	SourceId *string `mandatory:"false" json:"sourceId"`
 
-	// source display name
+	// The source display name.
 	SourceDisplayName *string `mandatory:"false" json:"sourceDisplayName"`
 
-	// source type
+	// The source type.
 	SourceType *string `mandatory:"false" json:"sourceType"`
 
-	// status
+	// The status.  Either FAILED or SUCCEEDED.
 	Status LogAnalyticsAssociationParameterStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// missingProperties
+	// A list of missing properties.
 	MissingProperties []string `mandatory:"false" json:"missingProperties"`
 
-	// requiredProperties
+	// A list of requried properties.
 	RequiredProperties []string `mandatory:"false" json:"requiredProperties"`
 }
 

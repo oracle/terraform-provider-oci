@@ -16,7 +16,7 @@ import (
 // SourceValidateResults results of source validation
 type SourceValidateResults struct {
 
-	// items
+	// An arrya of source validation details.
 	Items []SourceValidateDetails `mandatory:"false" json:"items"`
 }
 

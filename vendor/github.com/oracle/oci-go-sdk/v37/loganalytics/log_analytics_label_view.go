@@ -16,49 +16,50 @@ import (
 // LogAnalyticsLabelView LogAnalyticsLabelView
 type LogAnalyticsLabelView struct {
 
-	// alias list
+	// An arrya of label aliases.
 	Aliases []LogAnalyticsLabelAlias `mandatory:"false" json:"aliases"`
 
-	// alert rule usage count
+	// The label alert rule usage count.
 	CountUsageInAlertRule *int64 `mandatory:"false" json:"countUsageInAlertRule"`
 
-	// source usage count
+	// The label source usage count.
 	CountUsageInSource *int64 `mandatory:"false" json:"countUsageInSource"`
 
-	// id
+	// The label unique identifier.
 	Id *interface{} `mandatory:"false" json:"id"`
 
-	// suggest type
+	// The label suggestion type.
 	SuggestType *int64 `mandatory:"false" json:"suggestType"`
 
-	// label description
+	// The label description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// label display name
+	// The label display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// tag edit version
+	// The label edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// label impact
+	// The label impact.
 	Impact *string `mandatory:"false" json:"impact"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// label name
+	// The label name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// priority
+	// The label priority.  Default value is NONE.
 	Priority LogAnalyticsLabelViewPriorityEnum `mandatory:"false" json:"priority,omitempty"`
 
-	// recommendation
+	// The label recommendation.
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
-	// type
+	// The label type.
 	Type *int64 `mandatory:"false" json:"type"`
 
-	// user deleted flag
+	// A flag indicating whether or not the label has been deleted.
 	IsUserDeleted *bool `mandatory:"false" json:"isUserDeleted"`
 }
 

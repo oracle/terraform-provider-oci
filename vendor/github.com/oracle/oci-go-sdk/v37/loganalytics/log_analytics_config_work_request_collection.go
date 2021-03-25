@@ -16,7 +16,7 @@ import (
 // LogAnalyticsConfigWorkRequestCollection LogAnalyticsConfigWorkRequestCollection
 type LogAnalyticsConfigWorkRequestCollection struct {
 
-	// list of workrequest responses
+	// A list of workrequest responses.
 	Items []LogAnalyticsConfigWorkRequestSummary `mandatory:"false" json:"items"`
 }
 

@@ -73,6 +73,9 @@ type UploadLogFileRequest struct {
 	// might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
+	// The log set that gets associated with the uploaded logs.
+	LogSet *string `mandatory:"false" contributesTo:"query" name:"logSet"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

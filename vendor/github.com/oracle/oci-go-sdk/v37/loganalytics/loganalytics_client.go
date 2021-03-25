@@ -138,8 +138,66 @@ func (client LogAnalyticsClient) addEntityAssociation(ctx context.Context, reque
 	return response, err
 }
 
-// AppendLookupData Append data to a lookup.  The file containing the information to append
-// must be provided.
+// AddSourceEventTypes Add one or more event types to a source. An event type and version can be enabled only on one source.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/AddSourceEventTypes.go.html to see an example of how to use AddSourceEventTypes API.
+func (client LogAnalyticsClient) AddSourceEventTypes(ctx context.Context, request AddSourceEventTypesRequest) (response AddSourceEventTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addSourceEventTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddSourceEventTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddSourceEventTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddSourceEventTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddSourceEventTypesResponse")
+	}
+	return
+}
+
+// addSourceEventTypes implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) addSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/addEventTypes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddSourceEventTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AppendLookupData Appends data to the lookup content. The csv file containing the content to be appended is passed in as binary data in the request.
 //
 // See also
 //
@@ -198,7 +256,7 @@ func (client LogAnalyticsClient) appendLookupData(ctx context.Context, request c
 	return response, err
 }
 
-// BatchGetBasicInfo get basic information about a specified set of labels
+// BatchGetBasicInfo Lists basic information about a specified set of labels in batch.
 //
 // See also
 //
@@ -306,6 +364,65 @@ func (client LogAnalyticsClient) cancelQueryWorkRequest(ctx context.Context, req
 	return response, err
 }
 
+// ChangeLogAnalyticsEmBridgeCompartment Update the compartment of the log analytics enterprise manager bridge with the given id.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeLogAnalyticsEmBridgeCompartment.go.html to see an example of how to use ChangeLogAnalyticsEmBridgeCompartment API.
+func (client LogAnalyticsClient) ChangeLogAnalyticsEmBridgeCompartment(ctx context.Context, request ChangeLogAnalyticsEmBridgeCompartmentRequest) (response ChangeLogAnalyticsEmBridgeCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeLogAnalyticsEmBridgeCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeLogAnalyticsEmBridgeCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeLogAnalyticsEmBridgeCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeLogAnalyticsEmBridgeCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeLogAnalyticsEmBridgeCompartmentResponse")
+	}
+	return
+}
+
+// changeLogAnalyticsEmBridgeCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) changeLogAnalyticsEmBridgeCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeLogAnalyticsEmBridgeCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeLogAnalyticsEntityCompartment Update the compartment of the log analytics entity with the given id.
 //
 // See also
@@ -365,7 +482,7 @@ func (client LogAnalyticsClient) changeLogAnalyticsEntityCompartment(ctx context
 	return response, err
 }
 
-// ChangeLogAnalyticsLogGroupCompartment Updates the compartment of the Log-Analytics group with the given id.
+// ChangeLogAnalyticsLogGroupCompartment Moves the specified log group to a different compartment.
 //
 // See also
 //
@@ -597,6 +714,65 @@ func (client LogAnalyticsClient) clean(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
+// CreateLogAnalyticsEmBridge Add configuration for enterprise manager bridge. Enterprise manager bridge is used to automatically add selected entities from enterprise manager cloud control. A corresponding OCI bridge configuration is required in enterprise manager.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateLogAnalyticsEmBridge.go.html to see an example of how to use CreateLogAnalyticsEmBridge API.
+func (client LogAnalyticsClient) CreateLogAnalyticsEmBridge(ctx context.Context, request CreateLogAnalyticsEmBridgeRequest) (response CreateLogAnalyticsEmBridgeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createLogAnalyticsEmBridge, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateLogAnalyticsEmBridgeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateLogAnalyticsEmBridgeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateLogAnalyticsEmBridgeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateLogAnalyticsEmBridgeResponse")
+	}
+	return
+}
+
+// createLogAnalyticsEmBridge implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) createLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEmBridges")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateLogAnalyticsEmBridgeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateLogAnalyticsEntity Create a new log analytics entity.
 //
 // See also
@@ -715,7 +891,7 @@ func (client LogAnalyticsClient) createLogAnalyticsEntityType(ctx context.Contex
 	return response, err
 }
 
-// CreateLogAnalyticsLogGroup Creates a new Log-Analytics group.
+// CreateLogAnalyticsLogGroup Creates a new log group in the specified compartment with the input display name. You may also specify optional information such as description, defined tags, and free-form tags.
 //
 // See also
 //
@@ -887,7 +1063,7 @@ func (client LogAnalyticsClient) createScheduledTask(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteAssociations delete associations
+// DeleteAssociations Deletes the associations between the sources and entities specified.
 //
 // See also
 //
@@ -946,7 +1122,7 @@ func (client LogAnalyticsClient) deleteAssociations(ctx context.Context, request
 	return response, err
 }
 
-// DeleteField delete field with specified name
+// DeleteField Deletes field with the specified name.
 //
 // See also
 //
@@ -1005,7 +1181,7 @@ func (client LogAnalyticsClient) deleteField(ctx context.Context, request common
 	return response, err
 }
 
-// DeleteLabel delete a label
+// DeleteLabel Deletes label with the specified name.
 //
 // See also
 //
@@ -1052,6 +1228,60 @@ func (client LogAnalyticsClient) deleteLabel(ctx context.Context, request common
 	}
 
 	var response DeleteLabelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteLogAnalyticsEmBridge Delete log analytics enterprise manager bridge with the given id.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsEmBridge.go.html to see an example of how to use DeleteLogAnalyticsEmBridge API.
+func (client LogAnalyticsClient) DeleteLogAnalyticsEmBridge(ctx context.Context, request DeleteLogAnalyticsEmBridgeRequest) (response DeleteLogAnalyticsEmBridgeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteLogAnalyticsEmBridge, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteLogAnalyticsEmBridgeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteLogAnalyticsEmBridgeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteLogAnalyticsEmBridgeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteLogAnalyticsEmBridgeResponse")
+	}
+	return
+}
+
+// deleteLogAnalyticsEmBridge implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) deleteLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteLogAnalyticsEmBridgeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1172,7 +1402,7 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEntityType(ctx context.Contex
 	return response, err
 }
 
-// DeleteLogAnalyticsLogGroup Deletes the Log-Analytics group with the given id.
+// DeleteLogAnalyticsLogGroup Deletes the specified log group. The log group cannot be part of an active association or have an active upload.
 //
 // See also
 //
@@ -1281,7 +1511,7 @@ func (client LogAnalyticsClient) deleteLogAnalyticsObjectCollectionRule(ctx cont
 	return response, err
 }
 
-// DeleteLookup Delete the specified lookup.
+// DeleteLookup Deletes lookup with the specified name.
 //
 // See also
 //
@@ -1340,7 +1570,7 @@ func (client LogAnalyticsClient) deleteLookup(ctx context.Context, request commo
 	return response, err
 }
 
-// DeleteParser delete parser with specified name
+// DeleteParser Deletes parser with the specified name.
 //
 // See also
 //
@@ -1453,7 +1683,7 @@ func (client LogAnalyticsClient) deleteScheduledTask(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteSource delete source with specified ID
+// DeleteSource Deletes source with the specified name.
 //
 // See also
 //
@@ -1730,6 +1960,126 @@ func (client LogAnalyticsClient) disableArchiving(ctx context.Context, request c
 	return response, err
 }
 
+// DisableAutoAssociation Disables auto association for a log source. In the future, this log source would not be automatically
+// associated with any entity that becomes eligible for association. In addition, you may also optionally
+// remove all existing associations for this log source.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DisableAutoAssociation.go.html to see an example of how to use DisableAutoAssociation API.
+func (client LogAnalyticsClient) DisableAutoAssociation(ctx context.Context, request DisableAutoAssociationRequest) (response DisableAutoAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableAutoAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableAutoAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableAutoAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableAutoAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableAutoAssociationResponse")
+	}
+	return
+}
+
+// disableAutoAssociation implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) disableAutoAssociation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/disableAutoAssociation")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableAutoAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableSourceEventTypes Disable one or more event types in a source.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DisableSourceEventTypes.go.html to see an example of how to use DisableSourceEventTypes API.
+func (client LogAnalyticsClient) DisableSourceEventTypes(ctx context.Context, request DisableSourceEventTypesRequest) (response DisableSourceEventTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableSourceEventTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableSourceEventTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableSourceEventTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableSourceEventTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableSourceEventTypesResponse")
+	}
+	return
+}
+
+// disableSourceEventTypes implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) disableSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/disableEventTypes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableSourceEventTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableArchiving THis API enables archiving.
 //
 // See also
@@ -1772,6 +2122,126 @@ func (client LogAnalyticsClient) enableArchiving(ctx context.Context, request co
 	}
 
 	var response EnableArchivingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableAutoAssociation Enables auto association for a log source. This would initiate immediate association of the source
+// to any eligible entities it is not already associated with, and would also ensure the log source gets
+// associated with entities that are added or become eligible in the future.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EnableAutoAssociation.go.html to see an example of how to use EnableAutoAssociation API.
+func (client LogAnalyticsClient) EnableAutoAssociation(ctx context.Context, request EnableAutoAssociationRequest) (response EnableAutoAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableAutoAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableAutoAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableAutoAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableAutoAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableAutoAssociationResponse")
+	}
+	return
+}
+
+// enableAutoAssociation implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) enableAutoAssociation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/enableAutoAssociation")
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableAutoAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableSourceEventTypes Enable one or more event types in a source. An event type and version can be enabled only in one source.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EnableSourceEventTypes.go.html to see an example of how to use EnableSourceEventTypes API.
+func (client LogAnalyticsClient) EnableSourceEventTypes(ctx context.Context, request EnableSourceEventTypesRequest) (response EnableSourceEventTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableSourceEventTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableSourceEventTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableSourceEventTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableSourceEventTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableSourceEventTypesResponse")
+	}
+	return
+}
+
+// enableSourceEventTypes implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) enableSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/enableEventTypes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableSourceEventTypesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1951,7 +2421,7 @@ func (client LogAnalyticsClient) estimateReleaseDataSize(ctx context.Context, re
 	return response, err
 }
 
-// ExportCustomContent export
+// ExportCustomContent Exports all custom details of the specified sources, parsers, fields and labels, in zip format.
 //
 // See also
 //
@@ -2062,7 +2532,7 @@ func (client LogAnalyticsClient) exportQueryResult(ctx context.Context, request 
 	return response, err
 }
 
-// ExtractStructuredLogFieldPaths structured log fieldpaths
+// ExtractStructuredLogFieldPaths Extracts the field paths from the example json or xml content.
 //
 // See also
 //
@@ -2121,7 +2591,7 @@ func (client LogAnalyticsClient) extractStructuredLogFieldPaths(ctx context.Cont
 	return response, err
 }
 
-// ExtractStructuredLogHeaderPaths structured log header paths
+// ExtractStructuredLogHeaderPaths Extracts the header paths from the example json or xml content.
 //
 // See also
 //
@@ -2234,7 +2704,7 @@ func (client LogAnalyticsClient) filter(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// GetAssociationSummary association summary
+// GetAssociationSummary Returns the count of source associations for entities in the specified compartment.
 //
 // See also
 //
@@ -2288,7 +2758,7 @@ func (client LogAnalyticsClient) getAssociationSummary(ctx context.Context, requ
 	return response, err
 }
 
-// GetColumnNames extract column names from SQL query
+// GetColumnNames Extracts column names from the input SQL query.
 //
 // See also
 //
@@ -2347,7 +2817,7 @@ func (client LogAnalyticsClient) getColumnNames(ctx context.Context, request com
 	return response, err
 }
 
-// GetConfigWorkRequest association summary by source
+// GetConfigWorkRequest Returns detailed information about the configuration work request with the specified id.
 //
 // See also
 //
@@ -2401,7 +2871,7 @@ func (client LogAnalyticsClient) getConfigWorkRequest(ctx context.Context, reque
 	return response, err
 }
 
-// GetField get common field with specified name
+// GetField Gets detailed information about the field with the specified name.
 //
 // See also
 //
@@ -2455,7 +2925,7 @@ func (client LogAnalyticsClient) getField(ctx context.Context, request common.OC
 	return response, err
 }
 
-// GetFieldsSummary get field summary
+// GetFieldsSummary Returns the count of fields. You may optionally specify isShowDetail=true to view a summary of each field data type.
 //
 // See also
 //
@@ -2509,7 +2979,7 @@ func (client LogAnalyticsClient) getFieldsSummary(ctx context.Context, request c
 	return response, err
 }
 
-// GetLabel get label with specified name
+// GetLabel Gets detailed information about the label with the specified name.
 //
 // See also
 //
@@ -2563,7 +3033,7 @@ func (client LogAnalyticsClient) getLabel(ctx context.Context, request common.OC
 	return response, err
 }
 
-// GetLabelSummary get total count
+// GetLabelSummary Returns the count of labels.
 //
 // See also
 //
@@ -2605,6 +3075,114 @@ func (client LogAnalyticsClient) getLabelSummary(ctx context.Context, request co
 	}
 
 	var response GetLabelSummaryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetLogAnalyticsEmBridge Retrieve the log analytics enterprise manager bridge with the given id.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsEmBridge.go.html to see an example of how to use GetLogAnalyticsEmBridge API.
+func (client LogAnalyticsClient) GetLogAnalyticsEmBridge(ctx context.Context, request GetLogAnalyticsEmBridgeRequest) (response GetLogAnalyticsEmBridgeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLogAnalyticsEmBridge, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLogAnalyticsEmBridgeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLogAnalyticsEmBridgeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetLogAnalyticsEmBridgeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLogAnalyticsEmBridgeResponse")
+	}
+	return
+}
+
+// getLogAnalyticsEmBridge implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) getLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetLogAnalyticsEmBridgeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetLogAnalyticsEmBridgeSummary Returns log analytics enterprise manager bridges summary report.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsEmBridgeSummary.go.html to see an example of how to use GetLogAnalyticsEmBridgeSummary API.
+func (client LogAnalyticsClient) GetLogAnalyticsEmBridgeSummary(ctx context.Context, request GetLogAnalyticsEmBridgeSummaryRequest) (response GetLogAnalyticsEmBridgeSummaryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLogAnalyticsEmBridgeSummary, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLogAnalyticsEmBridgeSummaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLogAnalyticsEmBridgeSummaryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetLogAnalyticsEmBridgeSummaryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLogAnalyticsEmBridgeSummaryResponse")
+	}
+	return
+}
+
+// getLogAnalyticsEmBridgeSummary implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) getLogAnalyticsEmBridgeSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEmBridges/emBridgeSummary")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetLogAnalyticsEmBridgeSummaryResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2779,7 +3357,7 @@ func (client LogAnalyticsClient) getLogAnalyticsEntityType(ctx context.Context, 
 	return response, err
 }
 
-// GetLogAnalyticsLogGroup Retrieves the Log-Analytics group with the given id.
+// GetLogAnalyticsLogGroup Gets detailed information about the specified log group such as display name, description, defined tags, and free-form tags.
 //
 // See also
 //
@@ -2833,7 +3411,7 @@ func (client LogAnalyticsClient) getLogAnalyticsLogGroup(ctx context.Context, re
 	return response, err
 }
 
-// GetLogAnalyticsLogGroupsSummary Returns a count of Log-Analytics groups.
+// GetLogAnalyticsLogGroupsSummary Returns the count of log groups in a compartment.
 //
 // See also
 //
@@ -2941,7 +3519,7 @@ func (client LogAnalyticsClient) getLogAnalyticsObjectCollectionRule(ctx context
 	return response, err
 }
 
-// GetLookup Obtains the lookup with the specified reference.
+// GetLookup Gets detailed information about the lookup with the specified name.
 //
 // See also
 //
@@ -2983,6 +3561,60 @@ func (client LogAnalyticsClient) getLookup(ctx context.Context, request common.O
 	}
 
 	var response GetLookupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetLookupSummary Returns the count of user created and oracle defined lookups.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLookupSummary.go.html to see an example of how to use GetLookupSummary API.
+func (client LogAnalyticsClient) GetLookupSummary(ctx context.Context, request GetLookupSummaryRequest) (response GetLookupSummaryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLookupSummary, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLookupSummaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLookupSummaryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetLookupSummaryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLookupSummaryResponse")
+	}
+	return
+}
+
+// getLookupSummary implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) getLookupSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/lookupSummary")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetLookupSummaryResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -3049,7 +3681,7 @@ func (client LogAnalyticsClient) getNamespace(ctx context.Context, request commo
 	return response, err
 }
 
-// GetParser get parser with fields by Name
+// GetParser Gets detailed information about the parser with the specified name.
 //
 // See also
 //
@@ -3103,7 +3735,7 @@ func (client LogAnalyticsClient) getParser(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetParserSummary parser summary
+// GetParserSummary Returns the count of parsers.
 //
 // See also
 //
@@ -3320,7 +3952,7 @@ func (client LogAnalyticsClient) getScheduledTask(ctx context.Context, request c
 	return response, err
 }
 
-// GetSource get source with specified name
+// GetSource Gets detailed information about the source with the specified name.
 //
 // See also
 //
@@ -3374,7 +4006,7 @@ func (client LogAnalyticsClient) getSource(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetSourceSummary source summary
+// GetSourceSummary Returns the count of sources.
 //
 // See also
 //
@@ -3700,7 +4332,7 @@ func (client LogAnalyticsClient) getWorkRequest(ctx context.Context, request com
 	return response, err
 }
 
-// ImportCustomContent register custom content
+// ImportCustomContent Imports the specified custom content from the input in zip format.
 //
 // See also
 //
@@ -3759,7 +4391,61 @@ func (client LogAnalyticsClient) importCustomContent(ctx context.Context, reques
 	return response, err
 }
 
-// ListAssociatedEntities list of entities that have been associated to at least one source
+// ListAssociableEntities Lists the entities in the specified compartment which are (in)eligible for association with this source.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListAssociableEntities.go.html to see an example of how to use ListAssociableEntities API.
+func (client LogAnalyticsClient) ListAssociableEntities(ctx context.Context, request ListAssociableEntitiesRequest) (response ListAssociableEntitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAssociableEntities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAssociableEntitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAssociableEntitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAssociableEntitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAssociableEntitiesResponse")
+	}
+	return
+}
+
+// listAssociableEntities implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listAssociableEntities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/associableEntities")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAssociableEntitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAssociatedEntities Lists the association details of entities in the specified compartment that are associated with at least one source.
 //
 // See also
 //
@@ -3813,7 +4499,61 @@ func (client LogAnalyticsClient) listAssociatedEntities(ctx context.Context, req
 	return response, err
 }
 
-// ListConfigWorkRequests association summary by source
+// ListAutoAssociations Gets information related to auto association for the source with the specified name.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListAutoAssociations.go.html to see an example of how to use ListAutoAssociations API.
+func (client LogAnalyticsClient) ListAutoAssociations(ctx context.Context, request ListAutoAssociationsRequest) (response ListAutoAssociationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutoAssociations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAutoAssociationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAutoAssociationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutoAssociationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutoAssociationsResponse")
+	}
+	return
+}
+
+// listAutoAssociations implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listAutoAssociations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/autoAssociations")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutoAssociationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListConfigWorkRequests Returns the list of configuration work requests such as association or lookup operations, containing detailed information about them. You may paginate or limit the number of results.
 //
 // See also
 //
@@ -3921,7 +4661,7 @@ func (client LogAnalyticsClient) listEntityAssociations(ctx context.Context, req
 	return response, err
 }
 
-// ListEntitySourceAssociations entity associations summary
+// ListEntitySourceAssociations Returns the list of source associations for the specified entity.
 //
 // See also
 //
@@ -3975,7 +4715,7 @@ func (client LogAnalyticsClient) listEntitySourceAssociations(ctx context.Contex
 	return response, err
 }
 
-// ListFields get all common field with specified display name and description
+// ListFields Returns a list of log fields, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by specifying various options including parser and source names.
 //
 // See also
 //
@@ -4029,7 +4769,7 @@ func (client LogAnalyticsClient) listFields(ctx context.Context, request common.
 	return response, err
 }
 
-// ListLabelPriorities get list of priorities
+// ListLabelPriorities Lists the available problem priorities that could be associated with a label.
 //
 // See also
 //
@@ -4083,7 +4823,7 @@ func (client LogAnalyticsClient) listLabelPriorities(ctx context.Context, reques
 	return response, err
 }
 
-// ListLabelSourceDetails get details of sources using the label
+// ListLabelSourceDetails Lists sources using the label, along with configuration details like base field, operator and condition.
 //
 // See also
 //
@@ -4137,7 +4877,7 @@ func (client LogAnalyticsClient) listLabelSourceDetails(ctx context.Context, req
 	return response, err
 }
 
-// ListLabels get labels passing specified filter
+// ListLabels Returns a list of labels, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as label name, display name, description and priority.
 //
 // See also
 //
@@ -4179,6 +4919,60 @@ func (client LogAnalyticsClient) listLabels(ctx context.Context, request common.
 	}
 
 	var response ListLabelsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListLogAnalyticsEmBridges Return a list of log analytics enterprise manager bridges.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogAnalyticsEmBridges.go.html to see an example of how to use ListLogAnalyticsEmBridges API.
+func (client LogAnalyticsClient) ListLogAnalyticsEmBridges(ctx context.Context, request ListLogAnalyticsEmBridgesRequest) (response ListLogAnalyticsEmBridgesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLogAnalyticsEmBridges, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLogAnalyticsEmBridgesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLogAnalyticsEmBridgesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListLogAnalyticsEmBridgesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLogAnalyticsEmBridgesResponse")
+	}
+	return
+}
+
+// listLogAnalyticsEmBridges implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listLogAnalyticsEmBridges(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEmBridges")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListLogAnalyticsEmBridgesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -4299,7 +5093,7 @@ func (client LogAnalyticsClient) listLogAnalyticsEntityTypes(ctx context.Context
 	return response, err
 }
 
-// ListLogAnalyticsLogGroups Returns a list of Log-Analytics groups.
+// ListLogAnalyticsLogGroups Returns a list of log groups in a compartment. You may limit the number of log groups, provide sorting options, and filter the results by specifying a display name.
 //
 // See also
 //
@@ -4407,8 +5201,61 @@ func (client LogAnalyticsClient) listLogAnalyticsObjectCollectionRules(ctx conte
 	return response, err
 }
 
-// ListLookups Obtains a list of lookups.  The list is filtered according to the filter criteria
-// specified by the user, and sorted according to the ordering criteria specified.
+// ListLogSets This API returns a list of log sets.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogSets.go.html to see an example of how to use ListLogSets API.
+func (client LogAnalyticsClient) ListLogSets(ctx context.Context, request ListLogSetsRequest) (response ListLogSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLogSets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLogSetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLogSetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListLogSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLogSetsResponse")
+	}
+	return
+}
+
+// listLogSets implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listLogSets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage/logSets")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListLogSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListLookups Returns a list of lookups, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as lookup name, description and type.
 //
 // See also
 //
@@ -4462,7 +5309,7 @@ func (client LogAnalyticsClient) listLookups(ctx context.Context, request common
 	return response, err
 }
 
-// ListMetaSourceTypes get all meta source types
+// ListMetaSourceTypes Lists the types of log sources supported.
 //
 // See also
 //
@@ -4571,7 +5418,7 @@ func (client LogAnalyticsClient) listNamespaces(ctx context.Context, request com
 	return response, err
 }
 
-// ListParserFunctions get pre-process plugin instance
+// ListParserFunctions Lists the parser functions defined for the specified parser.
 //
 // See also
 //
@@ -4625,7 +5472,7 @@ func (client LogAnalyticsClient) listParserFunctions(ctx context.Context, reques
 	return response, err
 }
 
-// ListParserMetaPlugins get pre-process Meta plugins
+// ListParserMetaPlugins Lists the parser meta plugins available for defining parser functions.
 //
 // See also
 //
@@ -4679,7 +5526,7 @@ func (client LogAnalyticsClient) listParserMetaPlugins(ctx context.Context, requ
 	return response, err
 }
 
-// ListParsers List parsers passing specified filter
+// ListParsers Returns a list of parsers, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as parser name, type, display name and description.
 //
 // See also
 //
@@ -4895,7 +5742,7 @@ func (client LogAnalyticsClient) listScheduledTasks(ctx context.Context, request
 	return response, err
 }
 
-// ListSourceAssociations association summary by source
+// ListSourceAssociations Returns the list of entity associations in the input compartment for the specified source.
 //
 // See also
 //
@@ -4949,7 +5796,61 @@ func (client LogAnalyticsClient) listSourceAssociations(ctx context.Context, req
 	return response, err
 }
 
-// ListSourceExtendedFieldDefinitions get source extended fields for source with specified Id
+// ListSourceEventTypes Lists the event types mapped to the source with the specified name. The event type string could be the fully qualified name or a prefix that matches the event type.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceEventTypes.go.html to see an example of how to use ListSourceEventTypes API.
+func (client LogAnalyticsClient) ListSourceEventTypes(ctx context.Context, request ListSourceEventTypesRequest) (response ListSourceEventTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSourceEventTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSourceEventTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSourceEventTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSourceEventTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSourceEventTypesResponse")
+	}
+	return
+}
+
+// listSourceEventTypes implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/eventTypes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSourceEventTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSourceExtendedFieldDefinitions Lists the extended field definitions for the source with the specified name.
 //
 // See also
 //
@@ -5003,7 +5904,7 @@ func (client LogAnalyticsClient) listSourceExtendedFieldDefinitions(ctx context.
 	return response, err
 }
 
-// ListSourceLabelOperators list source label operators
+// ListSourceLabelOperators Lists the supported conditional operators that could be used for matching log field values to generate a label. You may use patterns to specify a condition. If a log entry matches that condition, it is tagged with the corresponding label.
 //
 // See also
 //
@@ -5057,7 +5958,7 @@ func (client LogAnalyticsClient) listSourceLabelOperators(ctx context.Context, r
 	return response, err
 }
 
-// ListSourceMetaFunctions get source meta functions
+// ListSourceMetaFunctions Lists the functions that could be used to enrich log entries based on meaningful information extracted from the log fields.
 //
 // See also
 //
@@ -5111,7 +6012,7 @@ func (client LogAnalyticsClient) listSourceMetaFunctions(ctx context.Context, re
 	return response, err
 }
 
-// ListSourcePatterns get source patterns for source with specified Id
+// ListSourcePatterns Lists the source patterns for the source with the specified name.
 //
 // See also
 //
@@ -5165,7 +6066,7 @@ func (client LogAnalyticsClient) listSourcePatterns(ctx context.Context, request
 	return response, err
 }
 
-// ListSources source list
+// ListSources Returns a list of sources, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as display name, description and entity type.
 //
 // See also
 //
@@ -5598,8 +6499,7 @@ func (client LogAnalyticsClient) listUploads(ctx context.Context, request common
 	return response, err
 }
 
-// ListWarnings Obtains a list of warnings.  The list is filtered according to the filter criteria
-// specified by the user, and sorted according to the ordering criteria specified.
+// ListWarnings Returns a list of collection warnings, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as start time, end time, warning type, warning state, source name, source pattern and entity name.
 //
 // See also
 //
@@ -6268,7 +7168,7 @@ func (client LogAnalyticsClient) recallArchivedData(ctx context.Context, request
 	return response, err
 }
 
-// RegisterLookup register lookup
+// RegisterLookup Creates a lookup with the specified name, type and description. The csv file containing the lookup content is passed in as binary data in the request.
 //
 // See also
 //
@@ -6433,6 +7333,65 @@ func (client LogAnalyticsClient) removeEntityAssociations(ctx context.Context, r
 	}
 
 	var response RemoveEntityAssociationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveSourceEventTypes Remove one or more event types from a source.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RemoveSourceEventTypes.go.html to see an example of how to use RemoveSourceEventTypes API.
+func (client LogAnalyticsClient) RemoveSourceEventTypes(ctx context.Context, request RemoveSourceEventTypesRequest) (response RemoveSourceEventTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeSourceEventTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveSourceEventTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveSourceEventTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveSourceEventTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveSourceEventTypesResponse")
+	}
+	return
+}
+
+// removeSourceEventTypes implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) removeSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/removeEventTypes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveSourceEventTypesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -6614,9 +7573,7 @@ func (client LogAnalyticsClient) suggest(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// SuppressWarning Accepts a list of warnings.  Any unsuppressed warnings in the input list will
-// be suppressed.  Warnings in the input list which are already suppressed will
-// not be modified.
+// SuppressWarning Supresses a list of warnings. Any unsuppressed warnings in the input list would be suppressed. Warnings in the input list which are already suppressed will not be modified.
 //
 // See also
 //
@@ -6675,7 +7632,7 @@ func (client LogAnalyticsClient) suppressWarning(ctx context.Context, request co
 	return response, err
 }
 
-// TestParser test parser
+// TestParser Tests the parser definition against the specified example content to ensure fields are successfully extracted.
 //
 // See also
 //
@@ -6734,9 +7691,7 @@ func (client LogAnalyticsClient) testParser(ctx context.Context, request common.
 	return response, err
 }
 
-// UnsuppressWarning Accepts a list of warnings.  Any suppressed warnings in the input list will
-// be unsuppressed.  Warnings in the input list which are unsuppressed will
-// not be modified.
+// UnsuppressWarning Unsupresses a list of warnings. Any suppressed warnings in the input list would be unsuppressed. Warnings in the input list which are already unsuppressed will not be modified.
 //
 // See also
 //
@@ -6783,6 +7738,60 @@ func (client LogAnalyticsClient) unsuppressWarning(ctx context.Context, request 
 	}
 
 	var response UnsuppressWarningResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateLogAnalyticsEmBridge Update log analytics enterprise manager bridge with the given id.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLogAnalyticsEmBridge.go.html to see an example of how to use UpdateLogAnalyticsEmBridge API.
+func (client LogAnalyticsClient) UpdateLogAnalyticsEmBridge(ctx context.Context, request UpdateLogAnalyticsEmBridgeRequest) (response UpdateLogAnalyticsEmBridgeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateLogAnalyticsEmBridge, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateLogAnalyticsEmBridgeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateLogAnalyticsEmBridgeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateLogAnalyticsEmBridgeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateLogAnalyticsEmBridgeResponse")
+	}
+	return
+}
+
+// updateLogAnalyticsEmBridge implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) updateLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateLogAnalyticsEmBridgeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -6903,7 +7912,7 @@ func (client LogAnalyticsClient) updateLogAnalyticsEntityType(ctx context.Contex
 	return response, err
 }
 
-// UpdateLogAnalyticsLogGroup Updates the Log-Analytics group with the given id.
+// UpdateLogAnalyticsLogGroup Updates the specified log group's display name, description, defined tags, and free-form tags.
 //
 // See also
 //
@@ -7070,8 +8079,7 @@ func (client LogAnalyticsClient) updateLookup(ctx context.Context, request commo
 	return response, err
 }
 
-// UpdateLookupData Updates the specified lookup with the details provided.  This API will not update
-// lookup metadata (such as lookup description).
+// UpdateLookupData Updates the lookup content. The csv file containing the content to be updated is passed in as binary data in the request.
 //
 // See also
 //
@@ -7238,6 +8246,75 @@ func (client LogAnalyticsClient) updateStorage(ctx context.Context, request comm
 	return response, err
 }
 
+// UploadLogEventsFile Accepts log events for processing by Logging Analytics.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UploadLogEventsFile.go.html to see an example of how to use UploadLogEventsFile API.
+func (client LogAnalyticsClient) UploadLogEventsFile(ctx context.Context, request UploadLogEventsFileRequest) (response UploadLogEventsFileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.uploadLogEventsFile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UploadLogEventsFileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UploadLogEventsFileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UploadLogEventsFileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UploadLogEventsFileResponse")
+	}
+	return
+}
+
+// uploadLogEventsFile implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) uploadLogEventsFile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/uploadLogEventsFile")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UploadLogEventsFileResponse
+	var httpResponse *http.Response
+	var customSigner common.HTTPRequestSigner
+	excludeBodySigningPredicate := func(r *http.Request) bool { return false }
+	customSigner, err = common.NewSignerFromOCIRequestSigner(client.Signer, excludeBodySigningPredicate)
+
+	//if there was an error overriding the signer, then use the signer from the client itself
+	if err != nil {
+		customSigner = client.Signer
+	}
+
+	//Execute the request with a custom signer
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UploadLogFile Accepts log data for processing by Logging Analytics.
 //
 // See also
@@ -7307,7 +8384,7 @@ func (client LogAnalyticsClient) uploadLogFile(ctx context.Context, request comm
 	return response, err
 }
 
-// UpsertAssociations create or update associations for a source
+// UpsertAssociations Creates or updates associations between sources and entities. All entities should belong to the specified input compartment.
 //
 // See also
 //
@@ -7366,7 +8443,7 @@ func (client LogAnalyticsClient) upsertAssociations(ctx context.Context, request
 	return response, err
 }
 
-// UpsertField Defines or update a field.
+// UpsertField Creates or updates a field that could be used in parser expressions to extract and assign value. To create a field, specify its display name. A name would be generated for the field. For subsequent calls to update the field, include the name attribute.
 //
 // See also
 //
@@ -7425,7 +8502,7 @@ func (client LogAnalyticsClient) upsertField(ctx context.Context, request common
 	return response, err
 }
 
-// UpsertLabel Define or update a label.
+// UpsertLabel Creates or updates a label that could be used to tag a log entry. You may optionally designate the label as a problem, and assign it a priority. You may also provide its related terms (aliases). To create a label, specify its display name. A name would be generated for the label. For subsequent calls to update the label, include the name attribute.
 //
 // See also
 //
@@ -7484,7 +8561,7 @@ func (client LogAnalyticsClient) upsertLabel(ctx context.Context, request common
 	return response, err
 }
 
-// UpsertParser Define or update parser
+// UpsertParser Creates or updates a parser, which defines how fields are extracted from a log entry.
 //
 // See also
 //
@@ -7543,7 +8620,7 @@ func (client LogAnalyticsClient) upsertParser(ctx context.Context, request commo
 	return response, err
 }
 
-// UpsertSource Define or update a source
+// UpsertSource Creates or updates a log source. You may also specify parsers, labels, extended fields etc., for the source.
 //
 // See also
 //
@@ -7602,7 +8679,7 @@ func (client LogAnalyticsClient) upsertSource(ctx context.Context, request commo
 	return response, err
 }
 
-// ValidateAssociationParameters association parameter validation
+// ValidateAssociationParameters Checks if the passed in entities could be associated with the specified sources. The validation is performed to ensure that the entities have the relevant property values that are used in the corresponding source patterns.
 //
 // See also
 //
@@ -7715,7 +8792,7 @@ func (client LogAnalyticsClient) validateFile(ctx context.Context, request commo
 	return response, err
 }
 
-// ValidateSource Pre-define or update a source
+// ValidateSource Checks if the specified input is a valid log source definition.
 //
 // See also
 //
@@ -7774,7 +8851,7 @@ func (client LogAnalyticsClient) validateSource(ctx context.Context, request com
 	return response, err
 }
 
-// ValidateSourceExtendedFieldDetails test extended fields
+// ValidateSourceExtendedFieldDetails Checks if the specified input contains valid extended field definitions against the provided example content.
 //
 // See also
 //

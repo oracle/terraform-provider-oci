@@ -19,22 +19,27 @@ type ListLabelsRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// label name
+	// The label name used for filtering.  Only items with, or associated with, the
+	// specified label name will be returned.
 	LabelName *string `mandatory:"false" contributesTo:"query" name:"labelName"`
 
-	// search by label display name or description
+	// The label display text used for filtering.  Only labels with the specified name or
+	// description will be returned.
 	LabelDisplayText *string `mandatory:"false" contributesTo:"query" name:"labelDisplayText"`
 
-	// Is system param of value (all, custom, sourceUsing)
+	// The system value used for filtering.  Only items with the specified system value
+	// will be returned.  Valid values are built in, custom (for user defined items), or
+	// all (for all items, regardless of system value).
 	IsSystem ListLabelsIsSystemEnum `mandatory:"false" contributesTo:"query" name:"isSystem" omitEmpty:"true"`
 
-	// label priority
+	// The label priority used for filtering.  Only labels with the specified
+	// priority will be returned.
 	LabelPriority ListLabelsLabelPriorityEnum `mandatory:"false" contributesTo:"query" name:"labelPriority" omitEmpty:"true"`
 
-	// isCountPop
+	// A flag indicating whether or not to count the label usage per source and per rule.
 	IsCountPop *bool `mandatory:"false" contributesTo:"query" name:"isCountPop"`
 
-	// isAliasPop
+	// A flag indicating whether or not return the aliases used by each label.
 	IsAliasPop *bool `mandatory:"false" contributesTo:"query" name:"isAliasPop"`
 
 	// The maximum number of items to return.
@@ -46,7 +51,7 @@ type ListLabelsRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListLabelsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// sort by label
+	// The attribute used to sort the returned labels
 	LabelSortBy ListLabelsLabelSortByEnum `mandatory:"false" contributesTo:"query" name:"labelSortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.

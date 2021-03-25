@@ -16,60 +16,62 @@ import (
 // LogAnalyticsSourcePattern LogAnalyticsSourcePattern
 type LogAnalyticsSourcePattern struct {
 
-	// converted text
+	// The converted text.
 	ConvertedText *string `mandatory:"false" json:"convertedText"`
 
-	// parser Id
+	// The parser unique identifier.
 	DbParserId *int64 `mandatory:"false" json:"dbParserId"`
 
-	// date time columns
+	// The date time columns.
 	DbPatternDateTimeColumns *string `mandatory:"false" json:"dbPatternDateTimeColumns"`
 
-	// date time field
+	// The date time field.
 	DbPatternDateTimeField *string `mandatory:"false" json:"dbPatternDateTimeField"`
 
-	// sequence column
+	// The sequence column.
 	DbPatternSequenceColumn *string `mandatory:"false" json:"dbPatternSequenceColumn"`
 
-	// field list
+	// The parser field list.
 	Fields []LogAnalyticsParserField `mandatory:"false" json:"fields"`
 
-	// is include flag
+	// A flag indicating if this is source pattern is included.
 	IsInclude *bool `mandatory:"false" json:"isInclude"`
 
-	// is default flag
+	// A flag indicating if this is the default source pattern.
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 
 	PatternFilter *LogAnalyticsPatternFilter `mandatory:"false" json:"patternFilter"`
 
-	// alias
+	// The source pattern alias.
 	Alias *string `mandatory:"false" json:"alias"`
 
-	// description
+	// The source pattern description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// is enabled flag
+	// A flag inidcating whether or not the source pattern is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// pattern Id
+	// The source pattern unique identifier.
 	PatternId *int64 `mandatory:"false" json:"patternId"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// suppress agent warning
+	// A flag indicating whether or not agent warnings are suppressed for
+	// this source pattern.
 	IsAgentWarningSuppressed *bool `mandatory:"false" json:"isAgentWarningSuppressed"`
 
-	// pattern text
+	// The pattern text.
 	PatternText *string `mandatory:"false" json:"patternText"`
 
-	// pattern type
+	// The pattern type.
 	PatternType *int64 `mandatory:"false" json:"patternType"`
 
-	// source entity types
+	// The source entity type.
 	EntityType []string `mandatory:"false" json:"entityType"`
 }
 

@@ -20,7 +20,7 @@ type RegisterLookupRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// type - possible values are Lookup or Dictionary
+	// The lookup type.  Valid values are Lookup or Dictionary.
 	Type RegisterLookupTypeEnum `mandatory:"true" contributesTo:"query" name:"type" omitEmpty:"true"`
 
 	// file containing data for lookup creation
@@ -30,13 +30,13 @@ type RegisterLookupRequest struct {
 	// is case-insensitive.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// Description of the fields to get
+	// The description for a created lookup.
 	Description *string `mandatory:"false" contributesTo:"query" name:"description"`
 
-	// Character Encoding
+	// The character encoding of the uploaded file.
 	CharEncoding *string `mandatory:"false" contributesTo:"query" name:"charEncoding"`
 
-	// is hidden
+	// A flag indicating whether or not the new lookup should be hidden.
 	IsHidden *bool `mandatory:"false" contributesTo:"query" name:"isHidden"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

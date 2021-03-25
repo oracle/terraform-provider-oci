@@ -16,25 +16,28 @@ import (
 // LogAnalyticsConfigWorkRequestSummary LogAnalyticsConfigWorkRequestSummary
 type LogAnalyticsConfigWorkRequestSummary struct {
 
-	// workrequest id
+	// The workrequest unique identifier.
 	Id *string `mandatory:"false" json:"id"`
 
-	// compartment id
+	// The compartment unique identifier.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// operation type
+	// The operation type.  There are two classes of operations, association operations and
+	// lookup operations.  Associations may be created or deleted, and lookup operations include
+	// append, update and delete.
 	OperationType LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum `mandatory:"false" json:"operationType,omitempty"`
 
-	// percentage complete
+	// The completion percentage.
 	PercentComplete *int64 `mandatory:"false" json:"percentComplete"`
 
-	// when the work request finished
+	// The time at which the work request finished.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
-	// when the work request accepted
+	// The time at which the work request was accepted.
 	TimeAccepted *common.SDKTime `mandatory:"false" json:"timeAccepted"`
 
-	// status
+	// The lifecycle status.  Valid values are ACCEPTED, IN_PROGRESS, SUCCEEDED
+	// or FAILED.
 	LifecycleState LogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 

@@ -13,16 +13,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v37/common"
 )
 
-// ExportContent ExportContent
+// ExportContent The content to export.
 type ExportContent struct {
 
-	// fieldNames
+	// The field names.
 	FieldNames []string `mandatory:"false" json:"fieldNames"`
 
-	// parserNames
+	// The parser names.
 	ParserNames []string `mandatory:"false" json:"parserNames"`
 
-	// sourceNames
+	// The source names.
 	SourceNames []string `mandatory:"false" json:"sourceNames"`
 }
 

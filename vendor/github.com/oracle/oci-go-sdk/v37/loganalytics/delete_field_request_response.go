@@ -19,7 +19,7 @@ type DeleteFieldRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// name of the field to get
+	// The field name.
 	FieldName *string `mandatory:"true" contributesTo:"path" name:"fieldName"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

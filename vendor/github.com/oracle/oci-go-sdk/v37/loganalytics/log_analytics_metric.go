@@ -16,67 +16,69 @@ import (
 // LogAnalyticsMetric LogAnalyticsMetric
 type LogAnalyticsMetric struct {
 
-	// aggregation field
+	// The aggregation field.
 	AggregationField *string `mandatory:"false" json:"aggregationField"`
 
-	// bucket metadata
+	// The bucket metadata.
 	BucketMetadata *string `mandatory:"false" json:"bucketMetadata"`
 
-	// clock period
+	// The clock period.
 	ClockPeriod *string `mandatory:"false" json:"clockPeriod"`
 
-	// description
+	// The metric description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// edit version
+	// The metric edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// field name
+	// The field name.
 	FieldName *string `mandatory:"false" json:"fieldName"`
 
-	// field value array
+	// The field values.
 	FieldValues []string `mandatory:"false" json:"fieldValues"`
 
-	// grouping fields
+	// The grouping fields.
 	GroupingField *string `mandatory:"false" json:"groupingField"`
 
-	// is enabled flag
+	// A flag inidcating whether or not the metric is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// metric display name
+	// The metric display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// metric Id
+	// The metric unique identifier.
 	MetricReference *int64 `mandatory:"false" json:"metricReference"`
 
-	// name
+	// The metric name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// metric type
+	// The metric type, specifying the type of aggreation to perform.  Default value
+	// is COUNT.
 	MetricType LogAnalyticsMetricMetricTypeEnum `mandatory:"false" json:"metricType,omitempty"`
 
-	// is metric source map enabled flag
+	// A flag specifying whether or not the metric source is enabled.
 	IsMetricSourceEnabled *bool `mandatory:"false" json:"isMetricSourceEnabled"`
 
-	// operator
+	// The metric operator.
 	Operator LogAnalyticsMetricOperatorEnum `mandatory:"false" json:"operator,omitempty"`
 
-	// sources
+	// The metric sources.
 	Sources []LogAnalyticsSource `mandatory:"false" json:"sources"`
 
-	// entity type
+	// The entity type.
 	EntityType *string `mandatory:"false" json:"entityType"`
 
-	// last updated date
+	// The last updated date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// unit type
+	// The unit type.
 	UnitType *string `mandatory:"false" json:"unitType"`
 
-	// user customized
+	// A flag specifying whether or not this is a custom (user defined) metric.
 	IsUserCustomized *bool `mandatory:"false" json:"isUserCustomized"`
 }
 

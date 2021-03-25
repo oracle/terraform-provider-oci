@@ -19,22 +19,31 @@ type ListParsersRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// isMatchAll
+	// A flag indicating how to handle filtering when multiple filter criteria are specified.
+	// A value of true will always result in the most expansive list of items being returned.
+	// For example, if two field lists are supplies as filter criteria, a value of true will
+	// result in any item matching a field in either list being returned, while a value of
+	// false will result in a list of items which only have fields contained in both input lists.
 	IsMatchAll *bool `mandatory:"false" contributesTo:"query" name:"isMatchAll"`
 
-	// source type
+	// The source type used for filtering.  Only parsers associated with a source of the
+	// specified type will be returned.
 	SourceType ListParsersSourceTypeEnum `mandatory:"false" contributesTo:"query" name:"sourceType" omitEmpty:"true"`
 
-	// parserName
+	// The parser name used for filtering.
 	ParserName *string `mandatory:"false" contributesTo:"query" name:"parserName"`
 
-	// search by parser display name or description
+	// The parser display text used for filtering.  Only parsers with the specified name
+	// or description will be returned.
 	ParserDisplayText *string `mandatory:"false" contributesTo:"query" name:"parserDisplayText"`
 
-	// parserType
+	// The parser type used for filtering.  Only items with, or associated with, parsers
+	// of the specified type will be returned.
 	ParserType ListParsersParserTypeEnum `mandatory:"false" contributesTo:"query" name:"parserType" omitEmpty:"true"`
 
-	// Is system param of value (all, custom, sourceUsing)
+	// The system value used for filtering.  Only items with the specified system value
+	// will be returned.  Valid values are built in, custom (for user defined items), or
+	// all (for all items, regardless of system value).
 	IsSystem ListParsersIsSystemEnum `mandatory:"false" contributesTo:"query" name:"isSystem" omitEmpty:"true"`
 
 	// The maximum number of items to return.
@@ -46,7 +55,7 @@ type ListParsersRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListParsersSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// sort by parser
+	// The attribute used to sort the returned parsers
 	SortBy ListParsersSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -135,17 +144,21 @@ type ListParsersParserTypeEnum string
 
 // Set of constants representing the allowable values for ListParsersParserTypeEnum
 const (
-	ListParsersParserTypeAll   ListParsersParserTypeEnum = "ALL"
-	ListParsersParserTypeRegex ListParsersParserTypeEnum = "REGEX"
-	ListParsersParserTypeXml   ListParsersParserTypeEnum = "XML"
-	ListParsersParserTypeJson  ListParsersParserTypeEnum = "JSON"
+	ListParsersParserTypeAll       ListParsersParserTypeEnum = "ALL"
+	ListParsersParserTypeRegex     ListParsersParserTypeEnum = "REGEX"
+	ListParsersParserTypeXml       ListParsersParserTypeEnum = "XML"
+	ListParsersParserTypeJson      ListParsersParserTypeEnum = "JSON"
+	ListParsersParserTypeOdl       ListParsersParserTypeEnum = "ODL"
+	ListParsersParserTypeDelimited ListParsersParserTypeEnum = "DELIMITED"
 )
 
 var mappingListParsersParserType = map[string]ListParsersParserTypeEnum{
-	"ALL":   ListParsersParserTypeAll,
-	"REGEX": ListParsersParserTypeRegex,
-	"XML":   ListParsersParserTypeXml,
-	"JSON":  ListParsersParserTypeJson,
+	"ALL":       ListParsersParserTypeAll,
+	"REGEX":     ListParsersParserTypeRegex,
+	"XML":       ListParsersParserTypeXml,
+	"JSON":      ListParsersParserTypeJson,
+	"ODL":       ListParsersParserTypeOdl,
+	"DELIMITED": ListParsersParserTypeDelimited,
 }
 
 // GetListParsersParserTypeEnumValues Enumerates the set of values for ListParsersParserTypeEnum

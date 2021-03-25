@@ -16,7 +16,7 @@ import (
 // ColumnName Column Names from a SQL Query
 type ColumnName struct {
 
-	// column name
+	// The column name from a SQL query.
 	Name *string `mandatory:"false" json:"name"`
 }
 

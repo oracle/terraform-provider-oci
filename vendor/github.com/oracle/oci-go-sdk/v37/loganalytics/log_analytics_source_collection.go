@@ -16,7 +16,7 @@ import (
 // LogAnalyticsSourceCollection LogAnalyticsSourceCollection
 type LogAnalyticsSourceCollection struct {
 
-	// list of sources
+	// An array of sources.
 	Items []LogAnalyticsSourceSummary `mandatory:"false" json:"items"`
 }
 

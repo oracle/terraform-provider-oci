@@ -20,13 +20,13 @@ type KeyShape struct {
 	// The algorithm used by a key's key versions to encrypt or decrypt.
 	Algorithm KeyShapeAlgorithmEnum `mandatory:"true" json:"algorithm"`
 
-	// The length of the key in bytes, expressed as an integer. Values supported:
-	//   - AES: 16, 24 or 32
-	//   - RSA: 256, 384 or 512
-	//   - ECDSA: 32, 48, 66
+	// The length of the key in bytes, expressed as an integer. Supported values include the following:
+	//   - AES: 16, 24, or 32
+	//   - RSA: 256, 384, or 512
+	//   - ECDSA: 32, 48, or 66
 	Length *int `mandatory:"true" json:"length"`
 
-	// Supported curve Ids for ECDSA keys
+	// Supported curve IDs for ECDSA keys.
 	CurveId KeyShapeCurveIdEnum `mandatory:"false" json:"curveId,omitempty"`
 }
 

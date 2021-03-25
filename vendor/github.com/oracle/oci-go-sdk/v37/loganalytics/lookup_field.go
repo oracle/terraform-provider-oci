@@ -16,25 +16,25 @@ import (
 // LookupField LookupField
 type LookupField struct {
 
-	// common field name
+	// The common field name.
 	CommonFieldName *string `mandatory:"false" json:"commonFieldName"`
 
-	// default match value
+	// The default match value.
 	DefaultMatchValue *string `mandatory:"false" json:"defaultMatchValue"`
 
-	// display name
+	// The field display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// is common field
+	// A flag indicating whether or not the lookup field is a common field.
 	IsCommonField *bool `mandatory:"false" json:"isCommonField"`
 
-	// match operator
+	// The match operator.
 	MatchOperator *string `mandatory:"false" json:"matchOperator"`
 
-	// name
+	// The field name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// position
+	// THe field position.
 	Position *int64 `mandatory:"false" json:"position"`
 }
 

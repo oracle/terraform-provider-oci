@@ -17,49 +17,50 @@ import (
 type LogAnalyticsSourceExtendedFieldDefinition struct {
 	Field *LogAnalyticsField `mandatory:"false" json:"field"`
 
-	// display regular expression
+	// The regular expression.
 	DisplayRegularExpression *string `mandatory:"false" json:"displayRegularExpression"`
 
-	// extended fields
+	// An array of extended fields.
 	ExtendedFields []LogAnalyticsExtendedField `mandatory:"false" json:"extendedFields"`
 
-	// base field internal name
+	// The base field internal name.
 	BaseFieldName *string `mandatory:"false" json:"baseFieldName"`
 
-	// base field log text
+	// The base field log text.
 	BaseFieldLogText *string `mandatory:"false" json:"baseFieldLogText"`
 
-	// conditional data type
+	// The conditional data type.
 	ConditionDataType *string `mandatory:"false" json:"conditionDataType"`
 
-	// conditional field
+	// The onditional field.
 	ConditionField *string `mandatory:"false" json:"conditionField"`
 
-	// conditional operator
+	// The conditional operator.
 	ConditionOperator *string `mandatory:"false" json:"conditionOperator"`
 
-	// conditional value
+	// The conditional value.
 	ConditionValue *string `mandatory:"false" json:"conditionValue"`
 
-	// converted regular expression
+	// The converted regular expression.
 	ConvertedRegularExpression *string `mandatory:"false" json:"convertedRegularExpression"`
 
-	// enabled
+	// A flag inidcating whether or not the extended definition is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// id
+	// The extended field definition unique identifier.
 	ExtendedFieldDefinitionId *int64 `mandatory:"false" json:"extendedFieldDefinitionId"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// regular expression
+	// The regular expression.
 	RegularExpression *string `mandatory:"false" json:"regularExpression"`
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// last updated date
+	// The last updated date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 

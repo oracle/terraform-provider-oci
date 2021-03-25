@@ -338,6 +338,135 @@ func (client KmsVaultClient) createVault(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// CreateVaultReplica Creates a replica for the vault in another region in the same realm
+// The API is a no-op if called for same region that a vault is already replicated to.
+// 409 if called on a vault that is already replicated to a different region. Users need to delete
+// existing replica first before calling it with a different region.
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning write operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// write operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateVaultReplica.go.html to see an example of how to use CreateVaultReplica API.
+func (client KmsVaultClient) CreateVaultReplica(ctx context.Context, request CreateVaultReplicaRequest) (response CreateVaultReplicaResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createVaultReplica, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVaultReplicaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVaultReplicaResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateVaultReplicaResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateVaultReplicaResponse")
+	}
+	return
+}
+
+// createVaultReplica implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) createVaultReplica(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/createReplica")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateVaultReplicaResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteVaultReplica Deletes a vault replica
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning write operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// write operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DeleteVaultReplica.go.html to see an example of how to use DeleteVaultReplica API.
+func (client KmsVaultClient) DeleteVaultReplica(ctx context.Context, request DeleteVaultReplicaRequest) (response DeleteVaultReplicaResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteVaultReplica, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVaultReplicaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVaultReplicaResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteVaultReplicaResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteVaultReplicaResponse")
+	}
+	return
+}
+
+// deleteVaultReplica implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) deleteVaultReplica(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/deleteReplica")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteVaultReplicaResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetVault Gets the specified vault's configuration information.
 // As a provisioning operation, this call is subject to a Key Management limit that applies to
 // the total number of requests across all provisioning read operations. Key Management might
@@ -438,6 +567,69 @@ func (client KmsVaultClient) getVaultUsage(ctx context.Context, request common.O
 	}
 
 	var response GetVaultUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListVaultReplicas Lists the replicas for a vault
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning write operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// write operations exceeds 10 requests per second for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListVaultReplicas.go.html to see an example of how to use ListVaultReplicas API.
+func (client KmsVaultClient) ListVaultReplicas(ctx context.Context, request ListVaultReplicasRequest) (response ListVaultReplicasResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listVaultReplicas, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVaultReplicasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVaultReplicasResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVaultReplicasResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVaultReplicasResponse")
+	}
+	return
+}
+
+// listVaultReplicas implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) listVaultReplicas(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}/actions/listReplicas")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVaultReplicasResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
