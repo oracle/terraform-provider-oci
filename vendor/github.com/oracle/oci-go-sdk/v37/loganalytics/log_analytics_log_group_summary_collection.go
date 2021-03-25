@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v37/common"
 )
 
-// LogAnalyticsLogGroupSummaryCollection LogAnalyticsLogGroupSummaryCollection
+// LogAnalyticsLogGroupSummaryCollection A collection of Log-Analytics log groups.
 type LogAnalyticsLogGroupSummaryCollection struct {
 
-	// list of log group summary objects
+	// An array of log group summary objects.
 	Items []LogAnalyticsLogGroupSummary `mandatory:"false" json:"items"`
 }
 

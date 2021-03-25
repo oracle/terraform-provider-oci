@@ -16,16 +16,17 @@ import (
 // LogAnalyticsLabelDefinition LogAnalyticsLabelDefinition
 type LogAnalyticsLabelDefinition struct {
 
-	// edit version
+	// The edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// label name
+	// The label name.
 	LabelName *string `mandatory:"false" json:"labelName"`
 }
 

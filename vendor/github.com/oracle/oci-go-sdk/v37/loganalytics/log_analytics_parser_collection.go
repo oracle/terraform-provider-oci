@@ -16,7 +16,7 @@ import (
 // LogAnalyticsParserCollection LogAnalyticsParserCollection
 type LogAnalyticsParserCollection struct {
 
-	// list of parsers
+	// An array of parsers.
 	Items []LogAnalyticsParserSummary `mandatory:"false" json:"items"`
 }
 

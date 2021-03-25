@@ -19,13 +19,16 @@ type ListLookupsRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// type - possible values are Lookup or Dictionary
+	// The lookup type.  Valid values are Lookup or Dictionary.
 	Type ListLookupsTypeEnum `mandatory:"true" contributesTo:"query" name:"type" omitEmpty:"true"`
 
-	// Search by lookup display name or description.
+	// The lookup text used for filtering.  Only lookups with the specified name
+	// or description will be returned.
 	LookupDisplayText *string `mandatory:"false" contributesTo:"query" name:"lookupDisplayText"`
 
-	// Is system param of value (all, custom, sourceUsing)
+	// The system value used for filtering.  Only items with the specified system value
+	// will be returned.  Valid values are built in, custom (for user defined items), or
+	// all (for all items, regardless of system value).
 	IsSystem ListLookupsIsSystemEnum `mandatory:"false" contributesTo:"query" name:"isSystem" omitEmpty:"true"`
 
 	// sort by field
@@ -34,7 +37,7 @@ type ListLookupsRequest struct {
 	// The lookup status used for filtering when fetching a list of lookups.
 	Status ListLookupsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
-	// is include items
+	// A flag indicating whether or not to return OMC annotated or hidden lookups.
 	IsHideSpecial *bool `mandatory:"false" contributesTo:"query" name:"isHideSpecial"`
 
 	// The maximum number of items to return.
@@ -183,14 +186,14 @@ type ListLookupsStatusEnum string
 // Set of constants representing the allowable values for ListLookupsStatusEnum
 const (
 	ListLookupsStatusAll        ListLookupsStatusEnum = "ALL"
-	ListLookupsStatusSuccesful  ListLookupsStatusEnum = "SUCCESFUL"
+	ListLookupsStatusSuccessful ListLookupsStatusEnum = "SUCCESSFUL"
 	ListLookupsStatusFailed     ListLookupsStatusEnum = "FAILED"
 	ListLookupsStatusInprogress ListLookupsStatusEnum = "INPROGRESS"
 )
 
 var mappingListLookupsStatus = map[string]ListLookupsStatusEnum{
 	"ALL":        ListLookupsStatusAll,
-	"SUCCESFUL":  ListLookupsStatusSuccesful,
+	"SUCCESSFUL": ListLookupsStatusSuccessful,
 	"FAILED":     ListLookupsStatusFailed,
 	"INPROGRESS": ListLookupsStatusInprogress,
 }

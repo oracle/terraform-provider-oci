@@ -16,7 +16,7 @@ import (
 // AssociationSummaryReport AssociationSummaryReport
 type AssociationSummaryReport struct {
 
-	// association count
+	// The association count.
 	AssociationCount *int `mandatory:"false" json:"associationCount"`
 }
 

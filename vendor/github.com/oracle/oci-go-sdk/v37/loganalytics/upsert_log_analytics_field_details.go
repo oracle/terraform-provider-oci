@@ -16,19 +16,19 @@ import (
 // UpsertLogAnalyticsFieldDetails Upsert LogAnalytics Field Details
 type UpsertLogAnalyticsFieldDetails struct {
 
-	// data type
+	// The data type.
 	DataType *string `mandatory:"false" json:"dataType"`
 
-	// is multi-valued flag
+	// A flag indicating whether or not the field is multi-valued.
 	IsMultiValued *bool `mandatory:"false" json:"isMultiValued"`
 
-	// description
+	// The field description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// display name
+	// The field display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// internal name
+	// The field internal name.
 	Name *string `mandatory:"false" json:"name"`
 }
 

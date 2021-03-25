@@ -13,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v37/common"
 )
 
-// UpsertLogAnalyticsAssociationDetails UpsertLogAnalyticsAssociationDetails
+// UpsertLogAnalyticsAssociationDetails The required information to update or create a list of associations.
 type UpsertLogAnalyticsAssociationDetails struct {
 
-	// compartmentId
+	// The compartment ID
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// list of rule entity association details
+	// The information required to create or update an association.
 	Items []UpsertLogAnalyticsAssociation `mandatory:"false" json:"items"`
 }
 

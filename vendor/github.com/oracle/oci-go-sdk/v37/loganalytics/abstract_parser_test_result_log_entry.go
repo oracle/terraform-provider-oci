@@ -16,25 +16,25 @@ import (
 // AbstractParserTestResultLogEntry AbstractParserTestResultLogEntry
 type AbstractParserTestResultLogEntry struct {
 
-	// extra info attributes
+	// Extra information attributes.
 	ExtraInfoAttributes map[string]string `mandatory:"false" json:"extraInfoAttributes"`
 
-	// field name value map
+	// The field name value map.
 	FieldNameValueMap map[string]string `mandatory:"false" json:"fieldNameValueMap"`
 
-	// field position value map
+	// The field position value map.
 	FieldPositionValueMap map[string]string `mandatory:"false" json:"fieldPositionValueMap"`
 
-	// fields
+	// The parser fields.
 	Fields map[string]string `mandatory:"false" json:"fields"`
 
-	// log entry
+	// The log entry.
 	LogEntry *string `mandatory:"false" json:"logEntry"`
 
-	// match status
+	// The match status.
 	MatchStatus *string `mandatory:"false" json:"matchStatus"`
 
-	// match status description
+	// The match status description.
 	MatchStatusDescription *string `mandatory:"false" json:"matchStatusDescription"`
 }
 

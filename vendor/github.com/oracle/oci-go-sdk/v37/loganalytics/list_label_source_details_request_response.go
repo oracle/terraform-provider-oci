@@ -19,7 +19,8 @@ type ListLabelSourceDetailsRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// label name
+	// The label name used for filtering.  Only items with, or associated with, the
+	// specified label name will be returned.
 	LabelName *string `mandatory:"false" contributesTo:"query" name:"labelName"`
 
 	// The maximum number of items to return.
@@ -31,7 +32,7 @@ type ListLabelSourceDetailsRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListLabelSourceDetailsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// sort by source displayname
+	// The attribute used to sort the returned sources
 	LabelSourceSortBy ListLabelSourceDetailsLabelSourceSortByEnum `mandatory:"false" contributesTo:"query" name:"labelSourceSortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.

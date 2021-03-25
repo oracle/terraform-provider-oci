@@ -28,25 +28,30 @@ type ListWarningsRequest struct {
 	// suppression state.  Default is UNSUPPRESSED.
 	WarningState ListWarningsWarningStateEnum `mandatory:"false" contributesTo:"query" name:"warningState" omitEmpty:"true"`
 
-	// sourceName
+	// The source name.
 	SourceName *string `mandatory:"false" contributesTo:"query" name:"sourceName"`
 
-	// sourcePattern
+	// The source pattern used for filtering.  Only warnings associated with a source with the
+	// specified pattern will be returned.
 	SourcePattern *string `mandatory:"false" contributesTo:"query" name:"sourcePattern"`
 
 	// warning message query parameter
 	WarningMessage *string `mandatory:"false" contributesTo:"query" name:"warningMessage"`
 
-	// entityName
+	// The entity name used for filtering.  Only warnings associated with an entity with the
+	// specified name will be returned.
 	EntityName *string `mandatory:"false" contributesTo:"query" name:"entityName"`
 
-	// entity type name
+	// The entity type used for filtering.  Only associations on an entity with the
+	// specified type will be returned.
 	EntityType *string `mandatory:"false" contributesTo:"query" name:"entityType"`
 
 	// The warning type query parameter.
 	WarningType *string `mandatory:"false" contributesTo:"query" name:"warningType"`
 
-	// isNoSource
+	// A flag indicating whether to filter warnings based on source display name or on warning level.
+	// A value of true will filter based on warning level (rule, source, or pattern), while a
+	// value of false will filter based on source display name.
 	IsNoSource *bool `mandatory:"false" contributesTo:"query" name:"isNoSource"`
 
 	// The warning start date query parameter.

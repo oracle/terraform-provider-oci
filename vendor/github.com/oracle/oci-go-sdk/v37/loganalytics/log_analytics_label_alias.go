@@ -16,22 +16,23 @@ import (
 // LogAnalyticsLabelAlias Label alias mapping view
 type LogAnalyticsLabelAlias struct {
 
-	// alias
+	// The alias.
 	Alias *string `mandatory:"false" json:"alias"`
 
-	// alias display name
+	// The alias display name.
 	AliasDisplayName *string `mandatory:"false" json:"aliasDisplayName"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// label display name
+	// The label display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// label name
+	// The label name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// priority
+	// The label priority. Default value is NONE.
 	Priority LogAnalyticsLabelAliasPriorityEnum `mandatory:"false" json:"priority,omitempty"`
 }
 

@@ -22,7 +22,7 @@ type ExtractStructuredLogFieldPathsRequest struct {
 	// parser definition
 	LoganParserDetails LogAnalyticsParser `contributesTo:"body"`
 
-	// type - possible values are xml or json
+	// The parser type - possible values are XML or JSON.
 	ParserType ExtractStructuredLogFieldPathsParserTypeEnum `mandatory:"false" contributesTo:"query" name:"parserType" omitEmpty:"true"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

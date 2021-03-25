@@ -41,6 +41,10 @@ type ListUploadsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Use this for filtering uploads w.r.t warnings. Only one value is allowed. If no value is specified then ALL is taken as default,
+	// which means that all the uploads with and without warnings will be returned.
+	WarningsFilter ListUploadsWarningsFilterEnum `mandatory:"false" contributesTo:"query" name:"warningsFilter" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -133,6 +137,31 @@ var mappingListUploadsSortBy = map[string]ListUploadsSortByEnum{
 func GetListUploadsSortByEnumValues() []ListUploadsSortByEnum {
 	values := make([]ListUploadsSortByEnum, 0)
 	for _, v := range mappingListUploadsSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListUploadsWarningsFilterEnum Enum with underlying type: string
+type ListUploadsWarningsFilterEnum string
+
+// Set of constants representing the allowable values for ListUploadsWarningsFilterEnum
+const (
+	ListUploadsWarningsFilterWithWarnings    ListUploadsWarningsFilterEnum = "WITH_WARNINGS"
+	ListUploadsWarningsFilterWithoutWarnings ListUploadsWarningsFilterEnum = "WITHOUT_WARNINGS"
+	ListUploadsWarningsFilterAll             ListUploadsWarningsFilterEnum = "ALL"
+)
+
+var mappingListUploadsWarningsFilter = map[string]ListUploadsWarningsFilterEnum{
+	"WITH_WARNINGS":    ListUploadsWarningsFilterWithWarnings,
+	"WITHOUT_WARNINGS": ListUploadsWarningsFilterWithoutWarnings,
+	"ALL":              ListUploadsWarningsFilterAll,
+}
+
+// GetListUploadsWarningsFilterEnumValues Enumerates the set of values for ListUploadsWarningsFilterEnum
+func GetListUploadsWarningsFilterEnumValues() []ListUploadsWarningsFilterEnum {
+	values := make([]ListUploadsWarningsFilterEnum, 0)
+	for _, v := range mappingListUploadsWarningsFilter {
 		values = append(values, v)
 	}
 	return values

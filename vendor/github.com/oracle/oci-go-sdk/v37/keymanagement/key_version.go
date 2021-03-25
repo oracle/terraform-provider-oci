@@ -33,7 +33,7 @@ type KeyVersion struct {
 	// The OCID of the vault that contains this key version.
 	VaultId *string `mandatory:"true" json:"vaultId"`
 
-	// The public key in PEM format which will be populated only in case of RSA and ECDSA keys.
+	// The public key in PEM format. (This value pertains only to RSA and ECDSA keys.)
 	PublicKey *string `mandatory:"false" json:"publicKey"`
 
 	// The key version's current lifecycle state.
@@ -51,6 +51,10 @@ type KeyVersion struct {
 
 	// The OCID of the key version from which this key version was restored.
 	RestoredFromKeyVersionId *string `mandatory:"false" json:"restoredFromKeyVersionId"`
+
+	ReplicaDetails *KeyVersionReplicaDetails `mandatory:"false" json:"replicaDetails"`
+
+	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
 }
 
 func (m KeyVersion) String() string {

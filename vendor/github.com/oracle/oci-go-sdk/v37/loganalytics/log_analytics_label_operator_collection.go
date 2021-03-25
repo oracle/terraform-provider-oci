@@ -16,7 +16,7 @@ import (
 // LogAnalyticsLabelOperatorCollection LogAnalyticsLabelOperatorCollection
 type LogAnalyticsLabelOperatorCollection struct {
 
-	// list of label operators
+	// An array of of label operators.
 	Items []LogAnalyticsLabelOperator `mandatory:"false" json:"items"`
 }
 

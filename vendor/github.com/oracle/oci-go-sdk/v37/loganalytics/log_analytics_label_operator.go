@@ -16,10 +16,10 @@ import (
 // LogAnalyticsLabelOperator LogAnalyticsLabelOperator
 type LogAnalyticsLabelOperator struct {
 
-	// operator display name
+	// The operator display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// operator internal name
+	// The operator internal name.
 	Name *string `mandatory:"false" json:"name"`
 }
 

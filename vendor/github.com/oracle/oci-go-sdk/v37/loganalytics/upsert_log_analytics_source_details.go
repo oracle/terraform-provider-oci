@@ -16,88 +16,89 @@ import (
 // UpsertLogAnalyticsSourceDetails UpsertLogAnalyticsSourceDetails
 type UpsertLogAnalyticsSourceDetails struct {
 
-	// source label conditions
+	// An array of source label conditions.
 	LabelConditions []LogAnalyticsSourceLabelCondition `mandatory:"false" json:"labelConditions"`
 
-	// data filter definitions
+	// An array of data filter definitions.
 	DataFilterDefinitions []LogAnalyticsSourceDataFilter `mandatory:"false" json:"dataFilterDefinitions"`
 
-	// DB credential name
+	// The database credential name.
 	DatabaseCredential *string `mandatory:"false" json:"databaseCredential"`
 
-	// extended field definition
+	// An array of extended field definitions.
 	ExtendedFieldDefinitions []LogAnalyticsSourceExtendedFieldDefinition `mandatory:"false" json:"extendedFieldDefinitions"`
 
-	// is for cloud flag
+	// A flag indicating whether or not this is a cloud source.
 	IsForCloud *bool `mandatory:"false" json:"isForCloud"`
 
-	// labels
+	// An array of labels.
 	Labels []LogAnalyticsLabelView `mandatory:"false" json:"labels"`
 
-	// metric definitions
+	// An array of metric definitions.
 	MetricDefinitions []LogAnalyticsMetric `mandatory:"false" json:"metricDefinitions"`
 
-	// metric source map
+	// An array of metrics.
 	Metrics []LogAnalyticsSourceMetric `mandatory:"false" json:"metrics"`
 
-	// out-of-the-box source parser list
+	// An array of built in source parsers.
 	OobParsers []LogAnalyticsParser `mandatory:"false" json:"oobParsers"`
 
-	// parameters
+	// An array of parameters.
 	Parameters []LogAnalyticsParameter `mandatory:"false" json:"parameters"`
 
-	// patterns
+	// An array of patterns.
 	Patterns []LogAnalyticsSourcePattern `mandatory:"false" json:"patterns"`
 
-	// description
+	// The source description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// display name
+	// The source display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// source edit version
+	// The source edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// source functions
+	// An array of source functions.
 	Functions []LogAnalyticsSourceFunction `mandatory:"false" json:"functions"`
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// source internal name
+	// The source internal name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// is secure content flag
+	// A flag indicating whether or not the source content is secure.
 	IsSecureContent *bool `mandatory:"false" json:"isSecureContent"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// parser list
+	// An array of parser.
 	Parsers []LogAnalyticsParser `mandatory:"false" json:"parsers"`
 
-	// rule Id
+	// The rule unique identifier.
 	RuleId *int64 `mandatory:"false" json:"ruleId"`
 
-	// source type internal name
+	// The source type internal name.
 	TypeName *string `mandatory:"false" json:"typeName"`
 
-	// source warning configuration
+	// The source warning configuration.
 	WarningConfig *int64 `mandatory:"false" json:"warningConfig"`
 
-	// source metadata fields
+	// An array of source metadata fields.
 	MetadataFields []LogAnalyticsSourceMetadataField `mandatory:"false" json:"metadataFields"`
 
-	// tags
+	// An array of labels.
 	LabelDefinitions []LogAnalyticsLabelDefinition `mandatory:"false" json:"labelDefinitions"`
 
-	// entity types
+	// An array of entity types.
 	EntityTypes []LogAnalyticsSourceEntityType `mandatory:"false" json:"entityTypes"`
 
-	// time zone override
+	// A flag indicating whether or not the source has a time zone override.
 	IsTimezoneOverride *bool `mandatory:"false" json:"isTimezoneOverride"`
 
-	// source parser list
+	// An array of custom parsers.
 	UserParsers []LogAnalyticsParser `mandatory:"false" json:"userParsers"`
 }
 

@@ -16,13 +16,13 @@ import (
 // SourceSummaryReport SourceSummaryReport
 type SourceSummaryReport struct {
 
-	// non out-of-the-box count
+	// The count of custom (user defined) sources.
 	NonOobCount *int `mandatory:"false" json:"nonOobCount"`
 
-	// count of sources set to auto-associate
+	// The count of sources set to auto-associate.
 	AutoAssociationSourceCount *int `mandatory:"false" json:"autoAssociationSourceCount"`
 
-	// out-of-the-box count
+	// The count of built in sources.
 	OobCount *int `mandatory:"false" json:"oobCount"`
 }
 

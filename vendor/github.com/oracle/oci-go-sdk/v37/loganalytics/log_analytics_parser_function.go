@@ -17,31 +17,32 @@ import (
 type LogAnalyticsParserFunction struct {
 	ParserMetaPlugin *LogAnalyticsParserMetaPlugin `mandatory:"false" json:"parserMetaPlugin"`
 
-	// plugin instance Id
+	// The parser function unique identifier.
 	ParserFunctionId *int64 `mandatory:"false" json:"parserFunctionId"`
 
-	// plugin instance internal name
+	// The parser function internal name.
 	ParserFunctionName *string `mandatory:"false" json:"parserFunctionName"`
 
-	// is enabled flag
+	// A flag inidcating whether or not the parser function is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// parser Id
+	// The associated parser unique identifier.
 	ParserId *int64 `mandatory:"false" json:"parserId"`
 
-	// parser internal name
+	// The associated parser internal name.
 	ParserName *string `mandatory:"false" json:"parserName"`
 
-	// plugin type internal name
+	// The plugin internal name.
 	ParserMetaPluginName *string `mandatory:"false" json:"parserMetaPluginName"`
 
-	// priority
+	// The parser function priority.
 	ParserFunctionPriority *int64 `mandatory:"false" json:"parserFunctionPriority"`
 
-	// parameter map list
+	// The parser function parameter list.
 	ParserFunctionParameters []LogAnalyticsParserFunctionParameter `mandatory:"false" json:"parserFunctionParameters"`
 }
 

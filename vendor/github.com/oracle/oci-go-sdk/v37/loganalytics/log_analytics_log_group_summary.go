@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v37/common"
 )
 
-// LogAnalyticsLogGroupSummary Summary of an Log-Analytics log group.
+// LogAnalyticsLogGroupSummary Summary of a Log-Analytics log group.
 type LogAnalyticsLogGroupSummary struct {
 
 	// The log analytics entity OCID. This ID is a reference used by log analytics features and it represents

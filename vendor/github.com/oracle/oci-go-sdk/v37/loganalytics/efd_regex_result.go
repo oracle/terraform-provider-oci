@@ -16,33 +16,33 @@ import (
 // EfdRegexResult EfdRegexResult
 type EfdRegexResult struct {
 
-	// baseFieldName
+	// The base field name.
 	BaseFieldName *string `mandatory:"false" json:"baseFieldName"`
 
-	// id
+	// the unique identifier.
 	Id *int64 `mandatory:"false" json:"id"`
 
 	MatchResult *RegexMatchResult `mandatory:"false" json:"matchResult"`
 
-	// parsedFieldCount
+	// The parsed field count.
 	ParsedFieldCount *int `mandatory:"false" json:"parsedFieldCount"`
 
-	// parsedFields
+	// The parsed fields.
 	ParsedFields map[string]string `mandatory:"false" json:"parsedFields"`
 
-	// regex
+	// The regular expression.
 	Regex *string `mandatory:"false" json:"regex"`
 
-	// status
+	// The status.
 	Status *string `mandatory:"false" json:"status"`
 
-	// statusDescription
+	// The Status description.
 	StatusDescription *string `mandatory:"false" json:"statusDescription"`
 
-	// isValidRegexSyntax
+	// A flag indicating whether or not the regular expression is valid.
 	IsValidRegexSyntax *bool `mandatory:"false" json:"isValidRegexSyntax"`
 
-	// violations
+	// The list of violations (if any).
 	Violations []Violation `mandatory:"false" json:"violations"`
 }
 

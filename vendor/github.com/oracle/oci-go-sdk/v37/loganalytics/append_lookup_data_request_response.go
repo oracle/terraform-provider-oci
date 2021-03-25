@@ -29,7 +29,7 @@ type AppendLookupDataRequest struct {
 	// is force
 	IsForce *bool `mandatory:"false" contributesTo:"query" name:"isForce"`
 
-	// Character Encoding
+	// The character encoding of the uploaded file.
 	CharEncoding *string `mandatory:"false" contributesTo:"query" name:"charEncoding"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

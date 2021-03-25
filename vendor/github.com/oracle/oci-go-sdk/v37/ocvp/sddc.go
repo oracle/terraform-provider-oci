@@ -4,7 +4,7 @@
 
 // Oracle Cloud VMware Solution API
 //
-// Use this API to manage the Oracle Cloud VMware Solution.
+// Use this API to manage your Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v37/common"
 )
 
-// Sddc A software-defined data center (SDDC) contains the resources required for a
+// Sddc An Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm) software-defined data center (SDDC) contains the resources required for a
 // functional VMware environment. Instances in an SDDC
 // (see EsxiHost) run in a virtual cloud network (VCN)
 // and are preconfigured with VMware and storage. Use the vCenter utility to manage
@@ -56,11 +56,11 @@ type Sddc struct {
 	// The number of ESXi hosts in the SDDC.
 	EsxiHostsCount *int `mandatory:"true" json:"esxiHostsCount"`
 
-	// FQDN for vCenter
+	// The FQDN for vCenter.
 	// Example: `vcenter-my-sddc.sddc.us-phoenix-1.oraclecloud.com`
 	VcenterFqdn *string `mandatory:"true" json:"vcenterFqdn"`
 
-	// FQDN for NSX Manager
+	// The FQDN for NSX Manager.
 	// Example: `nsx-my-sddc.sddc.us-phoenix-1.oraclecloud.com`
 	NsxManagerFqdn *string `mandatory:"true" json:"nsxManagerFqdn"`
 
@@ -233,22 +233,45 @@ type Sddc struct {
 	// For information about `PrivateIp` objects, see the Core Services API.
 	NsxEdgeUplinkIpId *string `mandatory:"false" json:"nsxEdgeUplinkIpId"`
 
-	// HCX Private IP
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// for the vSphere Replication component of the VMware environment.
+	ReplicationVlanId *string `mandatory:"false" json:"replicationVlanId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// for the Provisioning component of the VMware environment.
+	ProvisioningVlanId *string `mandatory:"false" json:"provisioningVlanId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is
+	// the virtual IP (VIP) for HCX Manager. For information about `PrivateIp` objects, see the
+	// Core Services API.
 	HcxPrivateIpId *string `mandatory:"false" json:"hcxPrivateIpId"`
 
-	// HCX Fully Qualified Domain Name
+	// The FQDN for HCX Manager.
+	// Example: `hcx-my-sddc.sddc.us-phoenix-1.oraclecloud.com`
 	HcxFqdn *string `mandatory:"false" json:"hcxFqdn"`
 
-	// HCX initial password
+	// The SDDC includes an administrator username and initial password for HCX Manager. Make sure
+	// to change this initial HCX Manager password to a different value.
 	HcxInitialPassword *string `mandatory:"false" json:"hcxInitialPassword"`
 
-	// HCX vlan id
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// for the HCX component of the VMware environment.
+	// This attribute is not guaranteed to reflect the HCX VLAN
+	// currently used by the ESXi hosts in the SDDC. The purpose
+	// of this attribute is to show the HCX VLAN that the Oracle
+	// Cloud VMware Solution will use for any new ESXi hosts that you *add to this
+	// SDDC in the future* with CreateEsxiHost.
+	// Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN
+	// for the HCX component of the VMware environment, you
+	// should use UpdateSddc to update the SDDC's
+	// `hcxVlanId` with that new VLAN's OCID.
 	HcxVlanId *string `mandatory:"false" json:"hcxVlanId"`
 
-	// HCX enabled or not
+	// Indicates whether HCX is enabled for this SDDC.
 	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
 
-	// HCX on-premise license key
+	// The activation key to use on the on-premises HCX Enterprise appliance you site pair with HCX Manager in your VMware Solution.
+	// Your implementation might need more than one activation key. To obtain additional keys, contact Oracle Support.
 	HcxOnPremKey *string `mandatory:"false" json:"hcxOnPremKey"`
 
 	// The date and time the SDDC was updated, in the format defined by

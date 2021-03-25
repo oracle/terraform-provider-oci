@@ -17,30 +17,30 @@ import (
 type LogAnalyticsParserField struct {
 	Field *LogAnalyticsField `mandatory:"false" json:"field"`
 
-	// parser field map Id
+	// The parser field unique identifier.
 	ParserFieldId *int64 `mandatory:"false" json:"parserFieldId"`
 
-	// field expression
+	// the parser field expression.
 	ParserFieldExpression *string `mandatory:"false" json:"parserFieldExpression"`
 
-	// field internal name
+	// The parser field internal name.
 	ParserFieldName *string `mandatory:"false" json:"parserFieldName"`
 
-	// internal name
+	// The storage field name.
 	StorageFieldName *string `mandatory:"false" json:"storageFieldName"`
 
-	// integrator name
+	// The integrator name.
 	ParserFieldIntegratorName *string `mandatory:"false" json:"parserFieldIntegratorName"`
 
-	// parser internal name
+	// The parser internal name.
 	ParserName *string `mandatory:"false" json:"parserName"`
 
-	// sequence
+	// The parser field sequence.
 	ParserFieldSequence *int64 `mandatory:"false" json:"parserFieldSequence"`
 
 	Parser *LogAnalyticsParser `mandatory:"false" json:"parser"`
 
-	// structured column information
+	// The structured column information.
 	StructuredColumnInfo *string `mandatory:"false" json:"structuredColumnInfo"`
 }
 

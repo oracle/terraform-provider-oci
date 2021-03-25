@@ -16,16 +16,16 @@ import (
 // LogAnalyticsSourceEntityType LogAnalyticsSourceEntityType
 type LogAnalyticsSourceEntityType struct {
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// Entity type
+	// The entity type.
 	EntityType *string `mandatory:"false" json:"entityType"`
 
-	// type category
+	// The type category.
 	EntityTypeCategory *string `mandatory:"false" json:"entityTypeCategory"`
 
-	// Entity type display name
+	// The entity type display name.
 	EntityTypeDisplayName *string `mandatory:"false" json:"entityTypeDisplayName"`
 }
 

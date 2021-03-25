@@ -57,6 +57,12 @@ type ListLogAnalyticsEntitiesRequest struct {
 	// A filter to return only log analytics entities whose sourceId matches the sourceId given.
 	SourceId *string `mandatory:"false" contributesTo:"query" name:"sourceId"`
 
+	// A filter to return only those log analytics entities with the specified auto-creation source.
+	CreationSourceType []CreationSourceTypeEnum `contributesTo:"query" name:"creationSourceType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only log analytics entities whose auto-creation source details contains the specified string.
+	CreationSourceDetails *string `mandatory:"false" contributesTo:"query" name:"creationSourceDetails"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

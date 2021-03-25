@@ -22,7 +22,7 @@ type BatchGetBasicInfoRequest struct {
 	// List of label names to get information on
 	BasicDetails LabelNames `contributesTo:"body"`
 
-	// flag for whether or not to include information on deleted labels
+	// A flag specifying whether or not to include information on deleted labels.
 	IsIncludeDeleted *bool `mandatory:"true" contributesTo:"query" name:"isIncludeDeleted"`
 
 	// The maximum number of items to return.
@@ -34,7 +34,7 @@ type BatchGetBasicInfoRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder BatchGetBasicInfoSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// sort by label
+	// The attribute used to sort the returned labels
 	BasicLabelSortBy BatchGetBasicInfoBasicLabelSortByEnum `mandatory:"false" contributesTo:"query" name:"basicLabelSortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.

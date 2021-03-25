@@ -25,10 +25,12 @@ type ListAssociatedEntitiesRequest struct {
 	// The entity OCID.
 	EntityId *string `mandatory:"false" contributesTo:"query" name:"entityId"`
 
-	// entity type name
+	// The entity type used for filtering.  Only associations on an entity with the
+	// specified type will be returned.
 	EntityType *string `mandatory:"false" contributesTo:"query" name:"entityType"`
 
-	// entity type display name
+	// The entity type display name used for filtering.  Only items associated with the entity
+	// with the specified type display name will be returned.
 	EntityTypeDisplayName *string `mandatory:"false" contributesTo:"query" name:"entityTypeDisplayName"`
 
 	// The maximum number of items to return.
@@ -40,7 +42,7 @@ type ListAssociatedEntitiesRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListAssociatedEntitiesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// sort by field
+	// The attribute used to sort the returned entities
 	SortBy ListAssociatedEntitiesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.

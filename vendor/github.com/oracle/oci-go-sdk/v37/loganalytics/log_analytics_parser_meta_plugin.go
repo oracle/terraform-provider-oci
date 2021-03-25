@@ -16,16 +16,16 @@ import (
 // LogAnalyticsParserMetaPlugin LogAnalyticsParserMetaPlugin
 type LogAnalyticsParserMetaPlugin struct {
 
-	// parameter list
+	// An array of plugin parameters.
 	MetaPluginParameters []LogAnalyticsParserMetaPluginParameter `mandatory:"false" json:"metaPluginParameters"`
 
-	// plugin description
+	// The plugin description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// plugin display name
+	// The plugin display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// plugin internal name
+	// The plugin internal name.
 	Name *string `mandatory:"false" json:"name"`
 }
 

@@ -16,25 +16,25 @@ import (
 // LogAnalyticsMetaFunction LogAnalyticsMetaFunction
 type LogAnalyticsMetaFunction struct {
 
-	// meta function argument object
+	// An array of meta function arguments.
 	MetaFunctionArgument []LogAnalyticsMetaFunctionArgument `mandatory:"false" json:"metaFunctionArgument"`
 
-	// component
+	// The component.
 	Component *string `mandatory:"false" json:"component"`
 
-	// description
+	// The description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// edit version
+	// The edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// meta function Id
+	// The meta function unique identifier.
 	MetaFunctionId *int64 `mandatory:"false" json:"metaFunctionId"`
 
-	// java class name
+	// The java class name.
 	JavaClassName *string `mandatory:"false" json:"javaClassName"`
 
-	// meta function name
+	// The meta function name.
 	Name *string `mandatory:"false" json:"name"`
 }
 

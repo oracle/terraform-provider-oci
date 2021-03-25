@@ -16,13 +16,13 @@ import (
 // LogAnalyticsConfigWorkRequestPayload LogAnalyticsConfigWorkRequestPayload
 type LogAnalyticsConfigWorkRequestPayload struct {
 
-	// sourceName
+	// The source name.
 	SourceName *string `mandatory:"false" json:"sourceName"`
 
-	// entityId
+	// The entity unique identifier.
 	EntityId *string `mandatory:"false" json:"entityId"`
 
-	// lookupReference
+	// The lookup reference as an integer.
 	LookupReference *int64 `mandatory:"false" json:"lookupReference"`
 
 	// lookupReference

@@ -16,22 +16,22 @@ import (
 // LogAnalyticsParserMetaPluginParameter LogAnalyticsParserMetaPluginParameter
 type LogAnalyticsParserMetaPluginParameter struct {
 
-	// parameter description
+	// The parameter description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// parameter internal name
+	// The parameter internal name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// is mandatory flag
+	// A flag indicating whether or not the parameter is mandatory.
 	IsMandatory *bool `mandatory:"false" json:"isMandatory"`
 
-	// is repeatable flag
+	// A flag indicating whether or not the parameter is repeatable.
 	IsRepeatable *bool `mandatory:"false" json:"isRepeatable"`
 
-	// plugin internal name
+	// The plugin internal name.
 	PluginName *string `mandatory:"false" json:"pluginName"`
 
-	// parameter type
+	// The parameter type.
 	Type *string `mandatory:"false" json:"type"`
 }
 

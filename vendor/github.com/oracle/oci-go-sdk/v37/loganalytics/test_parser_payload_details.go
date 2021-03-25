@@ -16,75 +16,82 @@ import (
 // TestParserPayloadDetails TestParserPayloadDetails
 type TestParserPayloadDetails struct {
 
-	// content
+	// The content used for testing.
 	Content *string `mandatory:"false" json:"content"`
 
-	// description
+	// The parser description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Display name
+	// The parser display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// encoding
+	// The content encoding.
 	Encoding *string `mandatory:"false" json:"encoding"`
 
-	// exampleContent
+	// The example content.
 	ExampleContent *string `mandatory:"false" json:"exampleContent"`
 
-	// fieldMaps
+	// The parser fields.
 	FieldMaps []LogAnalyticsParserField `mandatory:"false" json:"fieldMaps"`
 
-	// footerRegex
+	// The footer regular expression.
 	FooterContent *string `mandatory:"false" json:"footerContent"`
 
-	// headerContent
+	// The header content.
 	HeaderContent *string `mandatory:"false" json:"headerContent"`
 
-	// name
+	// The parser name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// isDefault
+	// A flag indicating if this is a default parser.
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 
-	// isSingleLineContent
+	// A flag indicating if this is a single line content parser.
 	IsSingleLineContent *bool `mandatory:"false" json:"isSingleLineContent"`
 
-	// isSystem
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// language
+	// The language.
 	Language *string `mandatory:"false" json:"language"`
 
-	// lastUpdatedDate
+	// The last updated date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// logTypeTestRequestVersion
+	// The log type test request version.
 	LogTypeTestRequestVersion *int `mandatory:"false" json:"logTypeTestRequestVersion"`
 
 	Metadata *UiParserTestMetadata `mandatory:"false" json:"metadata"`
 
-	// parser ignore linechars
+	// The line characters for the parser to ignore.
 	ParserIgnorelineCharacters *string `mandatory:"false" json:"parserIgnorelineCharacters"`
 
-	// parser is hidden
+	// A flag indicating if the parser is hidden or not.
 	IsHidden *int64 `mandatory:"false" json:"isHidden"`
 
-	// parser seq
+	// The parser sequence.
 	ParserSequence *int `mandatory:"false" json:"parserSequence"`
 
-	// parser timezone
+	// The parser timezone.
 	ParserTimezone *string `mandatory:"false" json:"parserTimezone"`
 
-	// isParserWrittenOnce
+	// A flag indicating whther or not the parser is write once.
 	IsParserWrittenOnce *bool `mandatory:"false" json:"isParserWrittenOnce"`
 
-	// plugin instance list
+	// The parser function list.
 	ParserFunctions []LogAnalyticsParserFunction `mandatory:"false" json:"parserFunctions"`
 
-	// tokenize original text
+	// A flag indicating whether or not to tokenize the original text.
 	ShouldTokenizeOriginalText *bool `mandatory:"false" json:"shouldTokenizeOriginalText"`
 
-	// type
+	// The parser field delimiter.
+	FieldDelimiter *string `mandatory:"false" json:"fieldDelimiter"`
+
+	// The parser field qualifier.
+	FieldQualifier *string `mandatory:"false" json:"fieldQualifier"`
+
+	// The parser type.  Default value is REGEX.
 	Type TestParserPayloadDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 
@@ -97,17 +104,19 @@ type TestParserPayloadDetailsTypeEnum string
 
 // Set of constants representing the allowable values for TestParserPayloadDetailsTypeEnum
 const (
-	TestParserPayloadDetailsTypeXml   TestParserPayloadDetailsTypeEnum = "XML"
-	TestParserPayloadDetailsTypeJson  TestParserPayloadDetailsTypeEnum = "JSON"
-	TestParserPayloadDetailsTypeRegex TestParserPayloadDetailsTypeEnum = "REGEX"
-	TestParserPayloadDetailsTypeOdl   TestParserPayloadDetailsTypeEnum = "ODL"
+	TestParserPayloadDetailsTypeXml       TestParserPayloadDetailsTypeEnum = "XML"
+	TestParserPayloadDetailsTypeJson      TestParserPayloadDetailsTypeEnum = "JSON"
+	TestParserPayloadDetailsTypeRegex     TestParserPayloadDetailsTypeEnum = "REGEX"
+	TestParserPayloadDetailsTypeOdl       TestParserPayloadDetailsTypeEnum = "ODL"
+	TestParserPayloadDetailsTypeDelimited TestParserPayloadDetailsTypeEnum = "DELIMITED"
 )
 
 var mappingTestParserPayloadDetailsType = map[string]TestParserPayloadDetailsTypeEnum{
-	"XML":   TestParserPayloadDetailsTypeXml,
-	"JSON":  TestParserPayloadDetailsTypeJson,
-	"REGEX": TestParserPayloadDetailsTypeRegex,
-	"ODL":   TestParserPayloadDetailsTypeOdl,
+	"XML":       TestParserPayloadDetailsTypeXml,
+	"JSON":      TestParserPayloadDetailsTypeJson,
+	"REGEX":     TestParserPayloadDetailsTypeRegex,
+	"ODL":       TestParserPayloadDetailsTypeOdl,
+	"DELIMITED": TestParserPayloadDetailsTypeDelimited,
 }
 
 // GetTestParserPayloadDetailsTypeEnumValues Enumerates the set of values for TestParserPayloadDetailsTypeEnum

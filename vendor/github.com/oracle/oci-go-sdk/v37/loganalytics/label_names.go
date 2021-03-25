@@ -16,7 +16,7 @@ import (
 // LabelNames LabelName
 type LabelNames struct {
 
-	// string list
+	// An array of label names.
 	LabelNames []string `mandatory:"false" json:"labelNames"`
 }
 

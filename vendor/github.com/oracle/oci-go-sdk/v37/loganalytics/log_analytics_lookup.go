@@ -16,19 +16,19 @@ import (
 // LogAnalyticsLookup LogAnalyticsLookup
 type LogAnalyticsLookup struct {
 
-	// active edit version
+	// The active edit version.
 	ActiveEditVersion *int64 `mandatory:"false" json:"activeEditVersion"`
 
-	// canonical link
+	// The canonical link.
 	CanonicalLink *string `mandatory:"false" json:"canonicalLink"`
 
-	// description
+	// The lookup description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// edit version
+	// The edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// fields
+	// The lookup fields.
 	Fields []LookupField `mandatory:"false" json:"fields"`
 
 	// The lookup reference as an integer.
@@ -40,23 +40,25 @@ type LogAnalyticsLookup struct {
 	// The lookup type.  Valid values are LOOKUP or DICTIONARY.
 	Type LogAnalyticsLookupTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// iname
+	// The lookup name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// is built in
+	// A flag indicating if the lookup is custom (user-defined) or
+	// built in.
 	IsBuiltIn *int64 `mandatory:"false" json:"isBuiltIn"`
 
-	// is hidden
+	// A flag indicating if the lookup is hidden or not.  A hidden lookup will
+	// not be returned in list operations by default.
 	IsHidden *bool `mandatory:"false" json:"isHidden"`
 
-	// name
+	// The lookup display name.
 	LookupDisplayName *string `mandatory:"false" json:"lookupDisplayName"`
 
 	ReferringSources *AutoLookups `mandatory:"false" json:"referringSources"`
 
 	StatusSummary *StatusSummary `mandatory:"false" json:"statusSummary"`
 
-	// last updated date
+	// The last updated date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 

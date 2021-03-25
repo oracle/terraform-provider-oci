@@ -19,7 +19,7 @@ type GetSourceRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// source name
+	// The source name.
 	SourceName *string `mandatory:"true" contributesTo:"path" name:"sourceName"`
 
 	// The ID of the compartment in which to list resources.

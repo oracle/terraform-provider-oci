@@ -19,7 +19,7 @@ type GetFieldsSummaryRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// show detail flag
+	// A boolean indicating whether or not to display detailed field summary information
 	IsShowDetail *bool `mandatory:"false" contributesTo:"query" name:"isShowDetail"`
 
 	// The client request ID for tracing.

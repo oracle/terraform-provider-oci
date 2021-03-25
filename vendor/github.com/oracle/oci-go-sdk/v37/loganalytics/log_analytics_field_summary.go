@@ -13,71 +13,72 @@ import (
 	"github.com/oracle/oci-go-sdk/v37/common"
 )
 
-// LogAnalyticsFieldSummary summary of fields
+// LogAnalyticsFieldSummary A summary of a field.
 type LogAnalyticsFieldSummary struct {
 
 	// The name this field is given in the common event expression standard from mitre.org.
 	// This is used for reference when exporting content conforming to CEE standard
 	CeeAlias *string `mandatory:"false" json:"ceeAlias"`
 
-	// data type
+	// The field data type.
 	DataType *string `mandatory:"false" json:"dataType"`
 
-	// default regular expression
+	// The field default regular expression.
 	RegularExpression *string `mandatory:"false" json:"regularExpression"`
 
-	// description
+	// The field description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// display name
+	// The field display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// edit version
+	// The field edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// facet priority
+	// The facet priority.
 	FacetPriority *int64 `mandatory:"false" json:"facetPriority"`
 
-	// internal name
+	// The field internal name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// is facet eligible flag
+	// A flag inidcating whether or not the facet is elibigle for use.
 	IsFacetEligible *bool `mandatory:"false" json:"isFacetEligible"`
 
-	// is high cardinality flag
+	// A flag inidcating whether or not the cardinality of the field is high.
 	IsHighCardinality *bool `mandatory:"false" json:"isHighCardinality"`
 
-	// is larget data flag
+	// A flag inidcating whether or not the field is a large data field.
 	IsLargeData *bool `mandatory:"false" json:"isLargeData"`
 
-	// is multi-valued flag
+	// A flag indicating whether or not the field is multi-valued.
 	IsMultiValued *bool `mandatory:"false" json:"isMultiValued"`
 
-	// is primary flag
+	// A flag inidcating whether or not this is a primary field.
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// is summarizable flag
+	// A flag inidcating whether or not the field can be summarized.
 	IsSummarizable *bool `mandatory:"false" json:"isSummarizable"`
 
-	// mappable
+	// The mapped value.
 	MappedValue *string `mandatory:"false" json:"mappedValue"`
 
-	// metric key eligible
+	// A flag inidcating whether or not the field is metric key eligible.
 	IsMetricKeyEligible *bool `mandatory:"false" json:"isMetricKeyEligible"`
 
-	// metric value eligible
+	// A flag inidcating whether or not the field is metric value eligible.
 	IsMetricValueEligible *bool `mandatory:"false" json:"isMetricValueEligible"`
 
-	// range facet eligible
+	// A flag inidcating whether or not the field is range facet eligible.
 	RangeFacetEligible *int64 `mandatory:"false" json:"rangeFacetEligible"`
 
-	// table eligible
+	// A flag inidcating whether or not the field is table eligible.
 	IsTableEligible *bool `mandatory:"false" json:"isTableEligible"`
 
-	// unit type
+	// The field unit type.
 	UnitType *string `mandatory:"false" json:"unitType"`
 }
 

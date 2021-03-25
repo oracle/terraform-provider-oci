@@ -16,25 +16,25 @@ import (
 // LabelSourceSummary source summary
 type LabelSourceSummary struct {
 
-	// display name
+	// The source display name.
 	SourceDisplayName *string `mandatory:"false" json:"sourceDisplayName"`
 
-	// source internal name
+	// The source internal name.
 	SourceName *string `mandatory:"false" json:"sourceName"`
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// label Operator
+	// The label operator.
 	LabelOperatorName *string `mandatory:"false" json:"labelOperatorName"`
 
-	// label Condition
+	// The label condition.
 	LabelCondition *string `mandatory:"false" json:"labelCondition"`
 
-	// label Field Display Name
+	// The label field display name.
 	LabelFieldDisplayname *string `mandatory:"false" json:"labelFieldDisplayname"`
 
-	// label Field name
+	// The label field name.
 	LabelFieldName *string `mandatory:"false" json:"labelFieldName"`
 }
 

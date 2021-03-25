@@ -16,90 +16,97 @@ import (
 // LogAnalyticsParser LoganParserDetails
 type LogAnalyticsParser struct {
 
-	// content
+	// The content.
 	Content *string `mandatory:"false" json:"content"`
 
-	// description
+	// The parser description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// display name
+	// The parser display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// edit version
+	// The parser edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// encoding
+	// The encoding.
 	Encoding *string `mandatory:"false" json:"encoding"`
 
-	// example content
+	// The example content.
 	ExampleContent *string `mandatory:"false" json:"exampleContent"`
 
-	// fields Maps
+	// The parser fields.
 	FieldMaps []LogAnalyticsParserField `mandatory:"false" json:"fieldMaps"`
 
-	// footer regular expression
+	// The footer regular expression.
 	FooterContent *string `mandatory:"false" json:"footerContent"`
 
-	// header content
+	// The header content.
 	HeaderContent *string `mandatory:"false" json:"headerContent"`
 
-	// Name
+	// The parser name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// is default flag
+	// A flag indicating if this is a default parser.
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 
-	// is single line content
+	// A flag indicating if this is a single line content parser.
 	IsSingleLineContent *bool `mandatory:"false" json:"isSingleLineContent"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// language
+	// The language.
 	Language *string `mandatory:"false" json:"language"`
 
-	// last updated date
+	// The last updated date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// log type test request version
+	// The log type test request .
 	LogTypeTestRequestVersion *int `mandatory:"false" json:"logTypeTestRequestVersion"`
 
-	// mapped parser list
+	// The mapped parser list.
 	MappedParsers []LogAnalyticsParser `mandatory:"false" json:"mappedParsers"`
 
-	// parser ignore line characters
+	// The line characters for the parser to ignore.
 	ParserIgnorelineCharacters *string `mandatory:"false" json:"parserIgnorelineCharacters"`
 
-	// is hidden flag
+	// A flag indicating if the parser is hidden or not.
 	IsHidden *bool `mandatory:"false" json:"isHidden"`
 
-	// sequence
+	// The parser sequence.
 	ParserSequence *int `mandatory:"false" json:"parserSequence"`
 
-	// time zone
+	// The time zone.
 	ParserTimezone *string `mandatory:"false" json:"parserTimezone"`
 
 	ParserFilter *LogAnalyticsParserFilter `mandatory:"false" json:"parserFilter"`
 
-	// write once
+	// A flag indicating whther or not the parser is write once.
 	IsParserWrittenOnce *bool `mandatory:"false" json:"isParserWrittenOnce"`
 
-	// plugin instance list
+	// The parser function list.
 	ParserFunctions []LogAnalyticsParserFunction `mandatory:"false" json:"parserFunctions"`
 
-	// sources using this parser
+	// The number of sources using this parser
 	SourcesCount *int64 `mandatory:"false" json:"sourcesCount"`
 
-	// sources using list
+	// The list of sources using this parser.
 	Sources []LogAnalyticsSource `mandatory:"false" json:"sources"`
 
-	// tokenize original text
+	// A flag indicating whether or not to tokenize the original text.
 	ShouldTokenizeOriginalText *bool `mandatory:"false" json:"shouldTokenizeOriginalText"`
 
-	// type
+	// The parser field delimiter.
+	FieldDelimiter *string `mandatory:"false" json:"fieldDelimiter"`
+
+	// The parser field qualifier.
+	FieldQualifier *string `mandatory:"false" json:"fieldQualifier"`
+
+	// The parser type. Default value is REGEX.
 	Type LogAnalyticsParserTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// user deleted flag
+	// A flag indicating whether or not the parser has been deleted.
 	IsUserDeleted *bool `mandatory:"false" json:"isUserDeleted"`
 }
 
@@ -112,17 +119,19 @@ type LogAnalyticsParserTypeEnum string
 
 // Set of constants representing the allowable values for LogAnalyticsParserTypeEnum
 const (
-	LogAnalyticsParserTypeXml   LogAnalyticsParserTypeEnum = "XML"
-	LogAnalyticsParserTypeJson  LogAnalyticsParserTypeEnum = "JSON"
-	LogAnalyticsParserTypeRegex LogAnalyticsParserTypeEnum = "REGEX"
-	LogAnalyticsParserTypeOdl   LogAnalyticsParserTypeEnum = "ODL"
+	LogAnalyticsParserTypeXml       LogAnalyticsParserTypeEnum = "XML"
+	LogAnalyticsParserTypeJson      LogAnalyticsParserTypeEnum = "JSON"
+	LogAnalyticsParserTypeRegex     LogAnalyticsParserTypeEnum = "REGEX"
+	LogAnalyticsParserTypeOdl       LogAnalyticsParserTypeEnum = "ODL"
+	LogAnalyticsParserTypeDelimited LogAnalyticsParserTypeEnum = "DELIMITED"
 )
 
 var mappingLogAnalyticsParserType = map[string]LogAnalyticsParserTypeEnum{
-	"XML":   LogAnalyticsParserTypeXml,
-	"JSON":  LogAnalyticsParserTypeJson,
-	"REGEX": LogAnalyticsParserTypeRegex,
-	"ODL":   LogAnalyticsParserTypeOdl,
+	"XML":       LogAnalyticsParserTypeXml,
+	"JSON":      LogAnalyticsParserTypeJson,
+	"REGEX":     LogAnalyticsParserTypeRegex,
+	"ODL":       LogAnalyticsParserTypeOdl,
+	"DELIMITED": LogAnalyticsParserTypeDelimited,
 }
 
 // GetLogAnalyticsParserTypeEnumValues Enumerates the set of values for LogAnalyticsParserTypeEnum

@@ -16,19 +16,19 @@ import (
 // ParserTestResult ParserTestResult
 type ParserTestResult struct {
 
-	// additional info
+	// Additional information for the test result.
 	AdditionalInfo map[string]string `mandatory:"false" json:"additionalInfo"`
 
-	// entries
+	// The test result log entries.
 	Entries []AbstractParserTestResultLogEntry `mandatory:"false" json:"entries"`
 
-	// example content
+	// The example content.
 	ExampleContent *string `mandatory:"false" json:"exampleContent"`
 
-	// lines
+	// The test result log lines.
 	Lines []AbstractParserTestResultLogLine `mandatory:"false" json:"lines"`
 
-	// named capture groups
+	// The named capture groups.
 	NamedCaptureGroups []string `mandatory:"false" json:"namedCaptureGroups"`
 }
 

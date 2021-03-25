@@ -16,42 +16,75 @@ import (
 // LogAnalyticsSourceFunction LogAnalyticsSourceFunction
 type LogAnalyticsSourceFunction struct {
 
-	// argument
+	// The function argument.
 	Arguments []LogAnalyticsMetaFunctionArgument `mandatory:"false" json:"arguments"`
 
-	// enabled flag
+	// A flag inidcating whether or not the source function is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	Function *LogAnalyticsMetaFunction `mandatory:"false" json:"function"`
 
-	// source function Id
+	// The source function name
+	FunctionName LogAnalyticsSourceFunctionFunctionNameEnum `mandatory:"false" json:"functionName,omitempty"`
+
+	// The source function unique identifier as a string.
+	FunctionReference *string `mandatory:"false" json:"functionReference"`
+
+	// The source unique identifier as a string.
+	SourceReference *string `mandatory:"false" json:"sourceReference"`
+
+	// The source function unique identifier.
 	FunctionId *int64 `mandatory:"false" json:"functionId"`
 
-	// source function order
+	// The source function order.
 	Order *int64 `mandatory:"false" json:"order"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// column
+	// The lookup column.
 	LookupColumn *string `mandatory:"false" json:"lookupColumn"`
 
-	// column position
+	// The lookup column position.
 	LookupColumnPosition *int64 `mandatory:"false" json:"lookupColumnPosition"`
 
-	// lookup display name
+	// The lookup display name.
 	LookupDisplayName *string `mandatory:"false" json:"lookupDisplayName"`
 
-	// lookup mode
+	// The lookup  mode.
 	LookupMode *int64 `mandatory:"false" json:"lookupMode"`
 
-	// lookup table
+	// The lookup table.
 	LookupTable *string `mandatory:"false" json:"lookupTable"`
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 }
 
 func (m LogAnalyticsSourceFunction) String() string {
 	return common.PointerString(m)
+}
+
+// LogAnalyticsSourceFunctionFunctionNameEnum Enum with underlying type: string
+type LogAnalyticsSourceFunctionFunctionNameEnum string
+
+// Set of constants representing the allowable values for LogAnalyticsSourceFunctionFunctionNameEnum
+const (
+	LogAnalyticsSourceFunctionFunctionNameGeolocation LogAnalyticsSourceFunctionFunctionNameEnum = "GEOLOCATION"
+	LogAnalyticsSourceFunctionFunctionNameLookup      LogAnalyticsSourceFunctionFunctionNameEnum = "LOOKUP"
+)
+
+var mappingLogAnalyticsSourceFunctionFunctionName = map[string]LogAnalyticsSourceFunctionFunctionNameEnum{
+	"GEOLOCATION": LogAnalyticsSourceFunctionFunctionNameGeolocation,
+	"LOOKUP":      LogAnalyticsSourceFunctionFunctionNameLookup,
+}
+
+// GetLogAnalyticsSourceFunctionFunctionNameEnumValues Enumerates the set of values for LogAnalyticsSourceFunctionFunctionNameEnum
+func GetLogAnalyticsSourceFunctionFunctionNameEnumValues() []LogAnalyticsSourceFunctionFunctionNameEnum {
+	values := make([]LogAnalyticsSourceFunctionFunctionNameEnum, 0)
+	for _, v := range mappingLogAnalyticsSourceFunctionFunctionName {
+		values = append(values, v)
+	}
+	return values
 }

@@ -16,11 +16,13 @@ type EntityCloudTypeEnum string
 const (
 	EntityCloudTypeCloud    EntityCloudTypeEnum = "CLOUD"
 	EntityCloudTypeNonCloud EntityCloudTypeEnum = "NON_CLOUD"
+	EntityCloudTypeAll      EntityCloudTypeEnum = "ALL"
 )
 
 var mappingEntityCloudType = map[string]EntityCloudTypeEnum{
 	"CLOUD":     EntityCloudTypeCloud,
 	"NON_CLOUD": EntityCloudTypeNonCloud,
+	"ALL":       EntityCloudTypeAll,
 }
 
 // GetEntityCloudTypeEnumValues Enumerates the set of values for EntityCloudTypeEnum

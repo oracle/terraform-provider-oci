@@ -42,8 +42,36 @@ type LogAnalyticsEntityType struct {
 
 	// The parameters used in file patterns specified in log sources for this log analytics entity type.
 	Properties []EntityTypeProperty `mandatory:"false" json:"properties"`
+
+	// This field indicates whether logs for entities of this type can be collected using a management agent.
+	ManagementAgentEligibilityStatus LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum `mandatory:"false" json:"managementAgentEligibilityStatus,omitempty"`
 }
 
 func (m LogAnalyticsEntityType) String() string {
 	return common.PointerString(m)
+}
+
+// LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum Enum with underlying type: string
+type LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum string
+
+// Set of constants representing the allowable values for LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum
+const (
+	LogAnalyticsEntityTypeManagementAgentEligibilityStatusEligible   LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum = "ELIGIBLE"
+	LogAnalyticsEntityTypeManagementAgentEligibilityStatusIneligible LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum = "INELIGIBLE"
+	LogAnalyticsEntityTypeManagementAgentEligibilityStatusUnknown    LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum = "UNKNOWN"
+)
+
+var mappingLogAnalyticsEntityTypeManagementAgentEligibilityStatus = map[string]LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum{
+	"ELIGIBLE":   LogAnalyticsEntityTypeManagementAgentEligibilityStatusEligible,
+	"INELIGIBLE": LogAnalyticsEntityTypeManagementAgentEligibilityStatusIneligible,
+	"UNKNOWN":    LogAnalyticsEntityTypeManagementAgentEligibilityStatusUnknown,
+}
+
+// GetLogAnalyticsEntityTypeManagementAgentEligibilityStatusEnumValues Enumerates the set of values for LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum
+func GetLogAnalyticsEntityTypeManagementAgentEligibilityStatusEnumValues() []LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum {
+	values := make([]LogAnalyticsEntityTypeManagementAgentEligibilityStatusEnum, 0)
+	for _, v := range mappingLogAnalyticsEntityTypeManagementAgentEligibilityStatus {
+		values = append(values, v)
+	}
+	return values
 }

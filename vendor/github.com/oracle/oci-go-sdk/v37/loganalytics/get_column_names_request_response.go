@@ -19,7 +19,7 @@ type GetColumnNamesRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// sql query to get the columns
+	// The SQL query from which column names are to be extracted.
 	SqlQuery *string `mandatory:"true" contributesTo:"query" name:"sqlQuery"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

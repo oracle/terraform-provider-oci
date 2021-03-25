@@ -16,7 +16,7 @@ import (
 // ExtractLogFieldResults log field path values
 type ExtractLogFieldResults struct {
 
-	// log field path values
+	// The log field path values.
 	Paths []string `mandatory:"false" json:"paths"`
 }
 

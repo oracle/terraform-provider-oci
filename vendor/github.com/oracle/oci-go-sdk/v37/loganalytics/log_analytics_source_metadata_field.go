@@ -16,19 +16,20 @@ import (
 // LogAnalyticsSourceMetadataField LogAnalyticsSourceMetadataField
 type LogAnalyticsSourceMetadataField struct {
 
-	// field internal name
+	// The field internal name.
 	FieldName *string `mandatory:"false" json:"fieldName"`
 
-	// is enabled flag
+	// A flag inidcating whether or not the source metadata field is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// key
+	// The key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// source internal name
+	// The source internal name.
 	SourceName *string `mandatory:"false" json:"sourceName"`
 }
 

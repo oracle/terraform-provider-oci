@@ -16,18 +16,18 @@ import (
 // LogAnalyticsImportCustomContent LogAnalyticsImportCustomContent
 type LogAnalyticsImportCustomContent struct {
 
-	// parserNames
+	// The parser names.
 	ParserNames []string `mandatory:"false" json:"parserNames"`
 
-	// sourceNames
+	// The source names.
 	SourceNames []string `mandatory:"false" json:"sourceNames"`
 
-	// fieldNames
+	// The field names.
 	FieldNames []string `mandatory:"false" json:"fieldNames"`
 
 	ChangeList *LogAnalyticsImportCustomChangeList `mandatory:"false" json:"changeList"`
 
-	// contentName
+	// The content name.
 	ContentName *string `mandatory:"false" json:"contentName"`
 }
 

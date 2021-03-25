@@ -97,6 +97,9 @@ type UsageSummary struct {
 	// The overage usage.
 	Overage *string `mandatory:"false" json:"overage"`
 
+	// is forecasted data
+	IsForecast *bool `mandatory:"false" json:"isForecast"`
+
 	// For grouping, a tag definition. For filtering, a definition and key.
 	Tags []Tag `mandatory:"false" json:"tags"`
 }

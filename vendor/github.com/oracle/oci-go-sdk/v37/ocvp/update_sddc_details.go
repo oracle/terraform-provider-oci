@@ -4,7 +4,7 @@
 
 // Oracle Cloud VMware Solution API
 //
-// Use this API to manage the Oracle Cloud VMware Solution.
+// Use this API to manage your Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -63,9 +63,19 @@ type UpdateSddcDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for
 	// the NSX Edge Uplink 2 component of the VMware environment when adding new ESXi hosts to the SDDC.
+	// **Note:** This VLAN is reserved for future use to deploy public-facing applications on the VMware SDDC.
 	NsxEdgeUplink2VlanId *string `mandatory:"false" json:"nsxEdgeUplink2VlanId"`
 
-	// This id is editable only when hcxEnabled is true
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// for the vSphere Replication component of the VMware environment.
+	ReplicationVlanId *string `mandatory:"false" json:"replicationVlanId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// for the Provisioning component of the VMware environment.
+	ProvisioningVlanId *string `mandatory:"false" json:"provisioningVlanId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the HCX
+	// component of the VMware environment when adding new ESXi hosts to the SDDC. This value can be updated only when `isHcxEnabled` is true.
 	HcxVlanId *string `mandatory:"false" json:"hcxVlanId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no

@@ -16,46 +16,47 @@ import (
 // LogAnalyticsSourceDataFilter LogAnalyticsSourceDataFilter
 type LogAnalyticsSourceDataFilter struct {
 
-	// description
+	// The filter description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// display name
+	// The filter display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// edit version
+	// The filter edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// enabled
+	// A flag inidcating whether or not the filter is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// field internal name
+	// The field internal name.
 	FieldName *string `mandatory:"false" json:"fieldName"`
 
-	// hash type
+	// The hash type.
 	HashType *int `mandatory:"false" json:"hashType"`
 
-	// filter Id
+	// The filter unique identifier.
 	DataFilterId *int64 `mandatory:"false" json:"dataFilterId"`
 
-	// is system flag
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// regular expression match
+	// The regular expression for matching.
 	MatchRegularExpression *string `mandatory:"false" json:"matchRegularExpression"`
 
-	// order
+	// The filter order.
 	Order *int64 `mandatory:"false" json:"order"`
 
-	// path
+	// The filter path.
 	Path *string `mandatory:"false" json:"path"`
 
-	// replacement string
+	// The replacement string.
 	ReplacementString *string `mandatory:"false" json:"replacementString"`
 
-	// source Id
+	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// filterType
+	// The filter type.
 	FilterType LogAnalyticsSourceDataFilterFilterTypeEnum `mandatory:"false" json:"filterType,omitempty"`
 }
 

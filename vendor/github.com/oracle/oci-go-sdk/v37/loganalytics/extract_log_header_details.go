@@ -16,10 +16,10 @@ import (
 // ExtractLogHeaderDetails log header values
 type ExtractLogHeaderDetails struct {
 
-	// key
+	// The log key.
 	LogKey *string `mandatory:"false" json:"logKey"`
 
-	// log header values
+	// The log header values.
 	HeaderValues []string `mandatory:"false" json:"headerValues"`
 }
 

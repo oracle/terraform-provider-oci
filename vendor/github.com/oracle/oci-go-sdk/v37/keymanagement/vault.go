@@ -68,6 +68,10 @@ type Vault struct {
 	// If you restore a vault to the same region, the vault retains the same OCID that it had when you
 	// backed up the vault.
 	RestoredFromVaultId *string `mandatory:"false" json:"restoredFromVaultId"`
+
+	ReplicaDetails *VaultReplicaDetails `mandatory:"false" json:"replicaDetails"`
+
+	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
 }
 
 func (m Vault) String() string {

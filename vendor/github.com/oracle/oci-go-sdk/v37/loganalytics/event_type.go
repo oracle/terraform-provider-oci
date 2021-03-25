@@ -27,6 +27,9 @@ type EventType struct {
 
 	// A flag indicating whether or not the event type is user defined.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
+
+	// The last updated time.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
 func (m EventType) String() string {

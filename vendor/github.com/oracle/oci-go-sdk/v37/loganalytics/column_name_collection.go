@@ -16,7 +16,7 @@ import (
 // ColumnNameCollection Column Name Collection
 type ColumnNameCollection struct {
 
-	// list of column names
+	// A list of SQL query column names.
 	Items []ColumnName `mandatory:"false" json:"items"`
 }
 

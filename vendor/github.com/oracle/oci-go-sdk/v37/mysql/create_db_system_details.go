@@ -44,10 +44,26 @@ type CreateDbSystemDetails struct {
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The Availability Domain where the primary instance should be located.
+	// Specifies if the DB System is highly available.
+	// When creating a DB System with High Availability, three instances
+	// are created and placed according to your region- and
+	// subnet-type. The secondaries are placed automatically in the other
+	// two availability or fault domains.  You can choose the preferred
+	// location of your primary instance, only.
+	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
+
+	// The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
+	// In a failover scenario, the Read/Write endpoint is redirected to one of the other availability domains
+	// and the MySQL instance in that domain is promoted to the primary instance.
+	// This redirection does not affect the IP address of the DB System in any way.
+	// For a standalone DB System, this defines the availability domain in which the DB System is placed.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The name of the Fault Domain the DB System is located in.
+	// The fault domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
+	// In a failover scenario, the Read/Write endpoint is redirected to one of the other fault domains
+	// and the MySQL instance in that domain is promoted to the primary instance.
+	// This redirection does not affect the IP address of the DB System in any way.
+	// For a standalone DB System, this defines the fault domain in which the DB System is placed.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
 	// The OCID of the Configuration to be used for this DB System.
@@ -104,6 +120,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName          *string                           `json:"displayName"`
 		Description          *string                           `json:"description"`
+		IsHighlyAvailable    *bool                             `json:"isHighlyAvailable"`
 		AvailabilityDomain   *string                           `json:"availabilityDomain"`
 		FaultDomain          *string                           `json:"faultDomain"`
 		ConfigurationId      *string                           `json:"configurationId"`
@@ -133,6 +150,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
+
+	m.IsHighlyAvailable = model.IsHighlyAvailable
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

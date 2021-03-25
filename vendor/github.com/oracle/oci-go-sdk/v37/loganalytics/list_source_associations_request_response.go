@@ -19,7 +19,7 @@ type ListSourceAssociationsRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// sourceName
+	// The souce name used for filtering associations.
 	SourceName *string `mandatory:"true" contributesTo:"query" name:"sourceName"`
 
 	// The ID of the compartment in which to list resources.
@@ -28,10 +28,11 @@ type ListSourceAssociationsRequest struct {
 	// The entity OCID.
 	EntityId *string `mandatory:"false" contributesTo:"query" name:"entityId"`
 
-	// Status
+	// The life cycle state used for filtering.  Only associations with the specified
+	// life cycle state will be returned.
 	LifeCycleState ListSourceAssociationsLifeCycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifeCycleState" omitEmpty:"true"`
 
-	// is Show Total
+	// A flag indicating whether or not to return the total number of items returned.
 	IsShowTotal *bool `mandatory:"false" contributesTo:"query" name:"isShowTotal"`
 
 	// The client request ID for tracing.
@@ -46,7 +47,7 @@ type ListSourceAssociationsRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListSourceAssociationsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// sort by field
+	// The attribute used to sort the returned associations
 	SortBy ListSourceAssociationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

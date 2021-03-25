@@ -19,7 +19,7 @@ type ListParserFunctionsRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// parserName
+	// The parser name used for filtering.
 	ParserName *string `mandatory:"false" contributesTo:"query" name:"parserName"`
 
 	// The maximum number of items to return.
@@ -28,7 +28,7 @@ type ListParserFunctionsRequest struct {
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// sort by field
+	// The attribute used to sort the returned items
 	SortBy ListParserFunctionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).

@@ -16,19 +16,19 @@ import (
 // StatusSummary StatusSummary
 type StatusSummary struct {
 
-	// chunks processed
+	// The number of chunks processed.
 	ChunksProcessed *int64 `mandatory:"false" json:"chunksProcessed"`
 
-	// failure details
+	// The failure details, if any.
 	FailureDetails *string `mandatory:"false" json:"failureDetails"`
 
-	// filename
+	// The filename.
 	Filename *string `mandatory:"false" json:"filename"`
 
-	// status
+	// The status.
 	Status *string `mandatory:"false" json:"status"`
 
-	// total chunks
+	// The total number of chunks.
 	TotalChunks *int64 `mandatory:"false" json:"totalChunks"`
 }
 

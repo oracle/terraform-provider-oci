@@ -16,7 +16,7 @@ import (
 // LabelSourceCollection LogAnalytics Label Source Collection
 type LabelSourceCollection struct {
 
-	// list of fields
+	// An array labels.
 	Items []LabelSourceSummary `mandatory:"false" json:"items"`
 }
 

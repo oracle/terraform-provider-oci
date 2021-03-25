@@ -16,7 +16,7 @@ import (
 // LogAnalyticsSourceExtendedFieldDefinitionCollection LogAnalyticsSourceExtendedFieldDefinitionCollection
 type LogAnalyticsSourceExtendedFieldDefinitionCollection struct {
 
-	// list of extended field definitions
+	// An array of extended field definitions.
 	Items []LogAnalyticsSourceExtendedFieldDefinition `mandatory:"false" json:"items"`
 }
 

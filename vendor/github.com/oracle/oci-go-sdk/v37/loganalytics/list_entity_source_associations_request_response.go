@@ -25,16 +25,19 @@ type ListEntitySourceAssociationsRequest struct {
 	// The entity OCID.
 	EntityId *string `mandatory:"false" contributesTo:"query" name:"entityId"`
 
-	// entity type name
+	// The entity type used for filtering.  Only associations on an entity with the
+	// specified type will be returned.
 	EntityType *string `mandatory:"false" contributesTo:"query" name:"entityType"`
 
-	// entity type display name
+	// The entity type display name used for filtering.  Only items associated with the entity
+	// with the specified type display name will be returned.
 	EntityTypeDisplayName *string `mandatory:"false" contributesTo:"query" name:"entityTypeDisplayName"`
 
-	// Status
+	// The life cycle state used for filtering.  Only associations with the specified
+	// life cycle state will be returned.
 	LifeCycleState ListEntitySourceAssociationsLifeCycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifeCycleState" omitEmpty:"true"`
 
-	// is Show Total
+	// A flag indicating whether or not to return the total number of items returned.
 	IsShowTotal *bool `mandatory:"false" contributesTo:"query" name:"isShowTotal"`
 
 	// The maximum number of items to return.
@@ -46,7 +49,7 @@ type ListEntitySourceAssociationsRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListEntitySourceAssociationsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// sort by field
+	// The attribute used to sort the returned associations
 	SortBy ListEntitySourceAssociationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.

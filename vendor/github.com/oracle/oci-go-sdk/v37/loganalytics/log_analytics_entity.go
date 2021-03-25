@@ -59,6 +59,8 @@ type LogAnalyticsEntity struct {
 	// The name/value pairs for parameter values to be used in file patterns specified in log sources.
 	Properties map[string]string `mandatory:"false" json:"properties"`
 
+	CreationSource *CreationSource `mandatory:"false" json:"creationSource"`
+
 	// The Boolean flag to indicate if logs are collected for an entity for log analytics usage.
 	AreLogsCollected *bool `mandatory:"false" json:"areLogsCollected"`
 

@@ -16,13 +16,13 @@ import (
 // UiParserTestMetadata UiParserTestMetadata
 type UiParserTestMetadata struct {
 
-	// Last modified time
+	// The last modified time.
 	LastModifiedTime *string `mandatory:"false" json:"lastModifiedTime"`
 
-	// Name of log file
+	// The log file name.
 	LogFileName *string `mandatory:"false" json:"logFileName"`
 
-	// timeZone
+	// The time zone.
 	TimeZone *common.SDKTime `mandatory:"false" json:"timeZone"`
 }
 

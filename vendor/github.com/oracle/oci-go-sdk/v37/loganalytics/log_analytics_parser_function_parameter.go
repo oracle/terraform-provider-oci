@@ -16,22 +16,22 @@ import (
 // LogAnalyticsParserFunctionParameter LogAnalyticsParserFunctionParameter
 type LogAnalyticsParserFunctionParameter struct {
 
-	// plugin Id
+	// The parser function unique identifier.
 	ParserFunctionId *int64 `mandatory:"false" json:"parserFunctionId"`
 
-	// internal name
+	// The internal name
 	ParserFunctionParameterName *string `mandatory:"false" json:"parserFunctionParameterName"`
 
-	// plugin instance Id
+	// The parameter unique identifier.
 	ParserFunctionParameterId *int64 `mandatory:"false" json:"parserFunctionParameterId"`
 
-	// parameter internal name
+	// The parameter internal name.
 	ParserMetaPluginParameterName *string `mandatory:"false" json:"parserMetaPluginParameterName"`
 
-	// parameter value
+	// The parameter value.
 	ParserMetaPluginParameterValue *string `mandatory:"false" json:"parserMetaPluginParameterValue"`
 
-	// parser internal name
+	// The parser internal name.
 	ParserName *string `mandatory:"false" json:"parserName"`
 
 	ParserMetaPluginParameter *LogAnalyticsParserMetaPluginParameter `mandatory:"false" json:"parserMetaPluginParameter"`

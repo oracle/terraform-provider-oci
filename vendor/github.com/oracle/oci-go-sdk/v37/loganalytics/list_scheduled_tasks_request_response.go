@@ -43,6 +43,13 @@ type ListScheduledTasksRequest struct {
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending. If no value is specified timeCreated is default.
 	SortBy ListScheduledTasksSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// A filter to return only scheduled tasks whose stream action savedSearchId matches the given
+	// ManagementSavedSearch id [OCID] exactly.
+	SavedSearchId *string `mandatory:"false" contributesTo:"query" name:"savedSearchId"`
+
+	// A filter to return only resources whose display name contains the substring.
+	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

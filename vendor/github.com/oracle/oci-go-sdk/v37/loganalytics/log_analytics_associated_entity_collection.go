@@ -16,7 +16,7 @@ import (
 // LogAnalyticsAssociatedEntityCollection LogAnalytics Associated Entity Collection
 type LogAnalyticsAssociatedEntityCollection struct {
 
-	// list of entities
+	// A list of entities.
 	Items []LogAnalyticsAssociatedEntity `mandatory:"false" json:"items"`
 }
 

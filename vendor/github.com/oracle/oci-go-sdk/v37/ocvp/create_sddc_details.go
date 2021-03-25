@@ -4,7 +4,7 @@
 
 // Oracle Cloud VMware Solution API
 //
-// Use this API to manage the Oracle Cloud VMware Solution.
+// Use this API to manage your Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -70,6 +70,7 @@ type CreateSddcDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the NSX Edge
 	// Uplink 2 component of the VMware environment.
+	// **Note:** This VLAN is reserved for future use to deploy public-facing applications on the VMware SDDC.
 	NsxEdgeUplink2VlanId *string `mandatory:"true" json:"nsxEdgeUplink2VlanId"`
 
 	// A descriptive name for the SDDC.
@@ -83,15 +84,24 @@ type CreateSddcDetails struct {
 	// `mySDDC-2`, and so on.
 	InstanceDisplayNamePrefix *string `mandatory:"false" json:"instanceDisplayNamePrefix"`
 
-	// This flag tells us if HCX is enabled or not.
+	// Indicates whether to enable HCX for this SDDC.
 	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
 
-	// This id is required only when hcxEnabled is true
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the HCX
+	// component of the VMware environment. This value is required only when `isHcxEnabled` is true.
 	HcxVlanId *string `mandatory:"false" json:"hcxVlanId"`
 
 	// The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application
 	// workloads.
 	WorkloadNetworkCidr *string `mandatory:"false" json:"workloadNetworkCidr"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// for the vSphere Replication component of the VMware environment.
+	ReplicationVlanId *string `mandatory:"false" json:"replicationVlanId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
+	// for the Provisioning component of the VMware environment.
+	ProvisioningVlanId *string `mandatory:"false" json:"provisioningVlanId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
