@@ -282,7 +282,7 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 		request.Image = &tmp
 	}
 
-	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
+	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok && s.D.HasChange("image_digest") {
 		tmp := imageDigest.(string)
 		request.ImageDigest = &tmp
 	}
