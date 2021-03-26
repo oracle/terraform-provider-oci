@@ -499,6 +499,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.apex_url"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.machine_learning_user_management_url"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.sql_dev_web_url"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.graph_studio_url"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),

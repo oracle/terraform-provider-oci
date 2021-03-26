@@ -166,6 +166,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"graph_studio_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"machine_learning_user_management_url": {
 										Type:     schema.TypeString,
 										Computed: true,
