@@ -385,6 +385,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"graph_studio_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"machine_learning_user_management_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1327,6 +1331,10 @@ func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseC
 
 	if obj.ApexUrl != nil {
 		result["apex_url"] = string(*obj.ApexUrl)
+	}
+
+	if obj.GraphStudioUrl != nil {
+		result["graph_studio_url"] = string(*obj.GraphStudioUrl)
 	}
 
 	if obj.MachineLearningUserManagementUrl != nil {
