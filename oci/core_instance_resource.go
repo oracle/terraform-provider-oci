@@ -458,6 +458,11 @@ func CoreInstanceResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"baseline_ocpu_utilization": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"memory_in_gbs": {
 							Type:     schema.TypeFloat,
 							Optional: true,
@@ -1850,6 +1855,10 @@ func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.LaunchInstanceShapeConfigDetails, error) {
 	result := oci_core.LaunchInstanceShapeConfigDetails{}
 
+	if baselineOcpuUtilization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "baseline_ocpu_utilization")); ok {
+		result.BaselineOcpuUtilization = oci_core.LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(baselineOcpuUtilization.(string))
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
@@ -1866,6 +1875,10 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKe
 func (s *CoreInstanceResourceCrud) mapToUpdateInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.UpdateInstanceShapeConfigDetails, error) {
 	result := oci_core.UpdateInstanceShapeConfigDetails{}
 
+	if baselineOcpuUtilization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "baseline_ocpu_utilization")); ok {
+		result.BaselineOcpuUtilization = oci_core.UpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(baselineOcpuUtilization.(string))
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
@@ -1881,6 +1894,8 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceShapeConfigDetails(fieldKe
 
 func InstanceShapeConfigToMap(obj *oci_core.InstanceShapeConfig) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["baseline_ocpu_utilization"] = string(obj.BaselineOcpuUtilization)
 
 	if obj.GpuDescription != nil {
 		result["gpu_description"] = string(*obj.GpuDescription)
