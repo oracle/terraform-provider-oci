@@ -42,19 +42,38 @@ var (
 	}
 
 	gatewayRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"endpoint_type":  Representation{repType: Required, create: `PUBLIC`},
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"certificate_id": Representation{repType: Optional, create: `${oci_apigateway_certificate.test_certificate.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
+		"endpoint_type":          Representation{repType: Required, create: `PUBLIC`},
+		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"certificate_id":         Representation{repType: Optional, create: `${oci_apigateway_certificate.test_certificate.id}`},
+		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"response_cache_details": RepresentationGroup{Optional, gatewayResponseCacheDetailsRepresentation},
+	}
+	gatewayResponseCacheDetailsRepresentation = map[string]interface{}{
+		"type":                                 Representation{repType: Required, create: `EXTERNAL_RESP_CACHE`},
+		"authentication_secret_id":             Representation{repType: Optional, create: `${var.oci_vault_secret_id}`},
+		"authentication_secret_version_number": Representation{repType: Optional, create: `1`, update: `2`},
+		"connect_timeout_in_ms":                Representation{repType: Optional, create: `10`, update: `11`},
+		"is_ssl_enabled":                       Representation{repType: Optional, create: `false`, update: `true`},
+		"is_ssl_verify_disabled":               Representation{repType: Optional, create: `false`, update: `true`},
+		"read_timeout_in_ms":                   Representation{repType: Optional, create: `10`, update: `11`},
+		"send_timeout_in_ms":                   Representation{repType: Optional, create: `10`, update: `11`},
+		"servers":                              RepresentationGroup{Optional, gatewayResponseCacheDetailsServersRepresentation},
+	}
+	gatewayResponseCacheDetailsServersRepresentation = map[string]interface{}{
+		"host": Representation{repType: Optional, create: `host`, update: `host2`},
+		"port": Representation{repType: Optional, create: `10`, update: `11`},
 	}
 
 	GatewayResourceDependencies = generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		DefinedTagsDependencies + apiCertificateVariableStr + apiPrivateKeyVariableStr
+		apiCertificateVariableStr + apiPrivateKeyVariableStr +
+		DefinedTagsDependencies +
+		generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultRepresentation) +
+		generateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", Required, Create, secretDataSourceRepresentation)
 )
 
 func TestApigatewayGatewayResource_basic(t *testing.T) {
@@ -70,13 +89,16 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	vaultSecretId := getEnvSettingWithBlankDefault("oci_vault_secret_id")
+	vaultSecretIdStr := fmt.Sprintf("variable \"oci_vault_secret_id\" { default = \"%s\" }\n", vaultSecretId)
+
 	resourceName := "oci_apigateway_gateway.test_gateway"
 	datasourceName := "data.oci_apigateway_gateways.test_gateways"
 	singularDatasourceName := "data.oci_apigateway_gateway.test_gateway"
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+GatewayResourceDependencies+
+	saveConfigContent(config+compartmentIdVariableStr+vaultSecretIdStr+GatewayResourceDependencies+
 		generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create, gatewayRepresentation), "apigateway", "gateway", t)
 
 	resource.Test(t, resource.TestCase{
@@ -88,7 +110,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + GatewayResourceDependencies +
+				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -114,7 +136,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + GatewayResourceDependencies +
+				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create, gatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
@@ -124,6 +146,18 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "1"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.connect_timeout_in_ms", "10"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_verify_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.read_timeout_in_ms", "10"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.send_timeout_in_ms", "10"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.host", "host"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 					func(s *terraform.State) (err error) {
@@ -140,7 +174,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + GatewayResourceDependencies +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create,
 						representationCopyWithNewProperties(gatewayRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
@@ -153,6 +187,18 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "1"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.connect_timeout_in_ms", "10"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_verify_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.read_timeout_in_ms", "10"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.send_timeout_in_ms", "10"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.host", "host"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 					func(s *terraform.State) (err error) {
@@ -167,7 +213,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + GatewayResourceDependencies +
+				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
@@ -177,6 +223,18 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "2"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.connect_timeout_in_ms", "11"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_verify_disabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.read_timeout_in_ms", "11"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.send_timeout_in_ms", "11"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.host", "host2"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.port", "11"),
+					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 					func(s *terraform.State) (err error) {
@@ -192,7 +250,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_apigateway_gateways", "test_gateways", Optional, Update, gatewayDataSourceRepresentation) +
-					compartmentIdVariableStr + GatewayResourceDependencies +
+					compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "certificate_id"),
@@ -210,7 +268,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewaySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + GatewayResourceConfig,
+					compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 
@@ -222,6 +280,19 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "hostname"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "response_cache_details.0.authentication_secret_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.authentication_secret_version_number", "2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.connect_timeout_in_ms", "11"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.is_ssl_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.is_ssl_verify_disabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.read_timeout_in_ms", "11"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.send_timeout_in_ms", "11"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.servers.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.servers.0.host", "host2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.servers.0.port", "11"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -229,14 +300,14 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + GatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
 			},
 			// verify resource import
 			{
 				Config:                  config,
 				ImportState:             true,
 				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
+				ImportStateVerifyIgnore: []string{"lifecycle_details"},
 				ResourceName:            resourceName,
 			},
 		},

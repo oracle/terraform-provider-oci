@@ -48,9 +48,30 @@ func ApigatewayDeploymentResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+
+			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"specification": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -972,6 +993,48 @@ func ApigatewayDeploymentResource() *schema.Resource {
 														},
 													},
 												},
+												"response_cache_lookup": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"SIMPLE_LOOKUP_POLICY",
+																}, true),
+															},
+
+															// Optional
+															"cache_key_additions": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"is_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+															"is_private_caching_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
 
 												// Computed
 											},
@@ -1123,6 +1186,34 @@ func ApigatewayDeploymentResource() *schema.Resource {
 														},
 													},
 												},
+												"response_cache_store": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"time_to_live_in_seconds": {
+																Type:     schema.TypeInt,
+																Required: true,
+															},
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"FIXED_TTL_STORE_POLICY",
+																}, true),
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
 
 												// Computed
 											},
@@ -1137,26 +1228,6 @@ func ApigatewayDeploymentResource() *schema.Resource {
 						// Computed
 					},
 				},
-			},
-
-			// Optional
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: definedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
 			},
 
 			// Computed
@@ -2059,6 +2130,17 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteRequestPoli
 		}
 	}
 
+	if responseCacheLookup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_cache_lookup")); ok {
+		if tmpList := responseCacheLookup.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "response_cache_lookup"), 0)
+			tmp, err := s.mapToResponseCacheLookupPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert response_cache_lookup, encountered error: %v", err)
+			}
+			result.ResponseCacheLookup = tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -2085,6 +2167,14 @@ func ApiSpecificationRouteRequestPoliciesToMap(obj *oci_apigateway.ApiSpecificat
 		result["query_parameter_transformations"] = []interface{}{QueryParameterTransformationPolicyToMap(obj.QueryParameterTransformations)}
 	}
 
+	if obj.ResponseCacheLookup != nil {
+		responseCacheLookupArray := []interface{}{}
+		if responseCacheLookupMap := ResponseCacheLookupPolicyToMap(&obj.ResponseCacheLookup); responseCacheLookupMap != nil {
+			responseCacheLookupArray = append(responseCacheLookupArray, responseCacheLookupMap)
+		}
+		result["response_cache_lookup"] = responseCacheLookupArray
+	}
+
 	return result
 }
 
@@ -2102,6 +2192,17 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteResponsePol
 		}
 	}
 
+	if responseCacheStore, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_cache_store")); ok {
+		if tmpList := responseCacheStore.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "response_cache_store"), 0)
+			tmp, err := s.mapToResponseCacheStorePolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert response_cache_store, encountered error: %v", err)
+			}
+			result.ResponseCacheStore = tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -2110,6 +2211,14 @@ func ApiSpecificationRouteResponsePoliciesToMap(obj *oci_apigateway.ApiSpecifica
 
 	if obj.HeaderTransformations != nil {
 		result["header_transformations"] = []interface{}{HeaderTransformationPolicyToMap(obj.HeaderTransformations)}
+	}
+
+	if obj.ResponseCacheStore != nil {
+		responseCacheStoreArray := []interface{}{}
+		if responseCacheStoreMap := ResponseCacheStorePolicyToMap(&obj.ResponseCacheStore); responseCacheStoreMap != nil {
+			responseCacheStoreArray = append(responseCacheStoreArray, responseCacheStoreMap)
+		}
+		result["response_cache_store"] = responseCacheStoreArray
 	}
 
 	return result
@@ -3015,6 +3124,110 @@ func RenameQueryParameterPolicyItemToMap(obj oci_apigateway.RenameQueryParameter
 
 	if obj.To != nil {
 		result["to"] = string(*obj.To)
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToResponseCacheLookupPolicy(fieldKeyFormat string) (oci_apigateway.ResponseCacheLookupPolicy, error) {
+	var baseObject oci_apigateway.ResponseCacheLookupPolicy
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("SIMPLE_LOOKUP_POLICY"):
+		details := oci_apigateway.SimpleLookupPolicy{}
+		if cacheKeyAdditions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cache_key_additions")); ok {
+			interfaces := cacheKeyAdditions.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cache_key_additions")) {
+				details.CacheKeyAdditions = tmp
+			}
+		}
+		if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
+		}
+		if isPrivateCachingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_private_caching_enabled")); ok {
+			tmp := isPrivateCachingEnabled.(bool)
+			details.IsPrivateCachingEnabled = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func ResponseCacheLookupPolicyToMap(obj *oci_apigateway.ResponseCacheLookupPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.SimpleLookupPolicy:
+		result["type"] = "SIMPLE_LOOKUP_POLICY"
+
+		result["cache_key_additions"] = v.CacheKeyAdditions
+
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
+		}
+
+		if v.IsPrivateCachingEnabled != nil {
+			result["is_private_caching_enabled"] = bool(*v.IsPrivateCachingEnabled)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToResponseCacheStorePolicy(fieldKeyFormat string) (oci_apigateway.ResponseCacheStorePolicy, error) {
+	var baseObject oci_apigateway.ResponseCacheStorePolicy
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("FIXED_TTL_STORE_POLICY"):
+		details := oci_apigateway.FixedTtlResponseCacheStorePolicy{}
+		if timeToLiveInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_to_live_in_seconds")); ok {
+			tmp := timeToLiveInSeconds.(int)
+			details.TimeToLiveInSeconds = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func ResponseCacheStorePolicyToMap(obj *oci_apigateway.ResponseCacheStorePolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.FixedTtlResponseCacheStorePolicy:
+		result["type"] = "FIXED_TTL_STORE_POLICY"
+
+		if v.TimeToLiveInSeconds != nil {
+			result["time_to_live_in_seconds"] = int(*v.TimeToLiveInSeconds)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

@@ -3,6 +3,7 @@
 ### Added
 - Support for Marketplace-Service Catalog
 - Support for Extending DRG with local and cross-tenancy peering added
+- Support for Response Caching to API Gateway
 
 ### Fixed
 - Fixed update and destroy operations for management resources for external databases.

@@ -43,6 +43,18 @@ The following attributes are exported:
 * `ip_addresses` - An array of IP addresses associated with the gateway.
 	* `ip_address` - An IP address.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
+* `response_cache_details` - Base Gateway response cache. 
+	* `authentication_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
+	* `authentication_secret_version_number` - The version number of the authentication secret to use. 
+	* `connect_timeout_in_ms` - Defines the timeout for establishing a connection with the Response Cache. 
+	* `is_ssl_enabled` - Defines if the connection should be over SSL. 
+	* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
+	* `read_timeout_in_ms` - Defines the timeout for reading data from the Response Cache. 
+	* `send_timeout_in_ms` - Defines the timeout for transmitting data to the Response Cache. 
+	* `servers` - The set of cache store members to connect to. At present only a single server is supported. 
+		* `host` - Hostname or IP address (IPv4 only) where the cache store is running.
+		* `port` - The port the cache store is exposed on.
+	* `type` - Type of the Response Cache.
 * `state` - The current state of the gateway.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in which related resources are created. 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.

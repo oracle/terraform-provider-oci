@@ -21,6 +21,11 @@ resource "oci_apigateway_deployment" "test_deployment" {
 	compartment_id = var.compartment_id
 	gateway_id = oci_apigateway_gateway.test_gateway.id
 	path_prefix = var.deployment_path_prefix
+
+	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
+	display_name = var.deployment_display_name
+	freeform_tags = {"Department"= "Finance"}
 	specification {
 
 		#Optional
@@ -226,6 +231,15 @@ resource "oci_apigateway_deployment" "test_deployment" {
 						}
 					}
 				}
+				response_cache_lookup {
+					#Required
+					type = var.deployment_specification_routes_request_policies_response_cache_lookup_type
+
+					#Optional
+					cache_key_additions = var.deployment_specification_routes_request_policies_response_cache_lookup_cache_key_additions
+					is_enabled = var.deployment_specification_routes_request_policies_response_cache_lookup_is_enabled
+					is_private_caching_enabled = var.deployment_specification_routes_request_policies_response_cache_lookup_is_private_caching_enabled
+				}
 			}
 			response_policies {
 
@@ -261,14 +275,14 @@ resource "oci_apigateway_deployment" "test_deployment" {
 						}
 					}
 				}
+				response_cache_store {
+					#Required
+					time_to_live_in_seconds = var.deployment_specification_routes_response_policies_response_cache_store_time_to_live_in_seconds
+					type = var.deployment_specification_routes_response_policies_response_cache_store_type
+				}
 			}
 		}
 	}
-
-	#Optional
-	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = var.deployment_display_name
-	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
@@ -282,7 +296,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gateway_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `path_prefix` - (Required) A path on which to deploy all routes contained in the API deployment specification. For more information, see [Deploying an API on an API Gateway by Creating an API Deployment](https://docs.cloud.oracle.com/iaas/Content/APIGateway/Tasks/apigatewaycreatingdeployment.htm). 
-* `specification` - (Required) (Updatable) The logical configuration of the API exposed by a deployment.
+* `specification` - (Optional) (Updatable) The logical configuration of the API exposed by a deployment.
 	* `logging_policies` - (Optional) (Updatable) Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging. 
 		* `access_log` - (Optional) (Updatable) Configures the logging policies for the access logs of an API Deployment. 
 			* `is_enabled` - (Optional) (Updatable) Enables pushing of access logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
@@ -406,6 +420,15 @@ The following arguments are supported:
 						* `if_exists` - (Optional) (Updatable) If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - (Required) (Updatable) The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 						* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `response_cache_lookup` - (Optional) (Updatable) Base policy for Response Cache lookup. 
+				* `cache_key_additions` - (Optional) (Updatable) A list of context expressions whose values will be added to the base cache key. Values should contain an expression enclosed within ${} delimiters. Only the request context is available. 
+				* `is_enabled` - (Optional) (Updatable) Whether this policy is currently enabled. 
+				* `is_private_caching_enabled` - (Optional) (Updatable) Set true to allow caching responses where the request has an Authorization header. Ensure you have configured your  cache key additions to get the level of isolation across authenticated requests that you require.
+
+					When false, any request with an Authorization header will not be stored in the Response Cache.
+
+					If using the CustomAuthenticationPolicy then the tokenHeader/tokenQueryParam are also subject to this check. 
+				* `type` - (Required) (Updatable) Type of the Response Cache Store Policy.
 		* `response_policies` - (Optional) (Updatable) Behavior applied to any responses sent by the API for requests on this route. 
 			* `header_transformations` - (Optional) (Updatable) A set of transformations to apply to HTTP headers that pass through the gateway. 
 				* `filter_headers` - (Optional) (Updatable) Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy. 
@@ -421,6 +444,9 @@ The following arguments are supported:
 						* `if_exists` - (Optional) (Updatable) If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - (Required) (Updatable) The case-insensitive name of the header.  This name must be unique across transformation policies. 
 						* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `response_cache_store` - (Optional) (Updatable) Base policy for how a response from a backend is cached in the Response Cache. 
+				* `time_to_live_in_seconds` - (Required) (Updatable) Sets the number of seconds for a response from a backend being stored in the Response Cache before it expires. 
+				* `type` - (Required) (Updatable) Type of the Response Cache Store Policy.
 
 
 ** IMPORTANT **
@@ -563,6 +589,15 @@ The following attributes are exported:
 						* `if_exists` - If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `response_cache_lookup` - Base policy for Response Cache lookup. 
+				* `cache_key_additions` - A list of context expressions whose values will be added to the base cache key. Values should contain an expression enclosed within ${} delimiters. Only the request context is available. 
+				* `is_enabled` - Whether this policy is currently enabled. 
+				* `is_private_caching_enabled` - Set true to allow caching responses where the request has an Authorization header. Ensure you have configured your  cache key additions to get the level of isolation across authenticated requests that you require.
+
+					When false, any request with an Authorization header will not be stored in the Response Cache.
+
+					If using the CustomAuthenticationPolicy then the tokenHeader/tokenQueryParam are also subject to this check. 
+				* `type` - Type of the Response Cache Store Policy.
 		* `response_policies` - Behavior applied to any responses sent by the API for requests on this route. 
 			* `header_transformations` - A set of transformations to apply to HTTP headers that pass through the gateway. 
 				* `filter_headers` - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy. 
@@ -578,6 +613,9 @@ The following attributes are exported:
 						* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
 						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `response_cache_store` - Base policy for how a response from a backend is cached in the Response Cache. 
+				* `time_to_live_in_seconds` - Sets the number of seconds for a response from a backend being stored in the Response Cache before it expires. 
+				* `type` - Type of the Response Cache Store Policy.
 * `state` - The current state of the deployment.
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
