@@ -155,6 +155,15 @@ The following attributes are exported:
 					* `if_exists` - If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 					* `name` - The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 					* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+		* `response_cache_lookup` - Base policy for Response Cache lookup. 
+			* `cache_key_additions` - A list of context expressions whose values will be added to the base cache key. Values should contain an expression enclosed within ${} delimiters. Only the request context is available. 
+			* `is_enabled` - Whether this policy is currently enabled. 
+			* `is_private_caching_enabled` - Set true to allow caching responses where the request has an Authorization header. Ensure you have configured your  cache key additions to get the level of isolation across authenticated requests that you require.
+
+				When false, any request with an Authorization header will not be stored in the Response Cache.
+
+				If using the CustomAuthenticationPolicy then the tokenHeader/tokenQueryParam are also subject to this check. 
+			* `type` - Type of the Response Cache Store Policy.
 	* `response_policies` - Behavior applied to any responses sent by the API for requests on this route. 
 		* `header_transformations` - A set of transformations to apply to HTTP headers that pass through the gateway. 
 			* `filter_headers` - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy. 
@@ -170,4 +179,7 @@ The following attributes are exported:
 					* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 					* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
 					* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+		* `response_cache_store` - Base policy for how a response from a backend is cached in the Response Cache. 
+			* `time_to_live_in_seconds` - Sets the number of seconds for a response from a backend being stored in the Response Cache before it expires. 
+			* `type` - Type of the Response Cache Store Policy.
 

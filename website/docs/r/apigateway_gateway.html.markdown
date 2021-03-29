@@ -27,6 +27,25 @@ resource "oci_apigateway_gateway" "test_gateway" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
+	response_cache_details {
+		#Required
+		type = var.gateway_response_cache_details_type
+
+		#Optional
+		authentication_secret_id = oci_vault_secret.test_secret.id
+		authentication_secret_version_number = var.gateway_response_cache_details_authentication_secret_version_number
+		connect_timeout_in_ms = var.gateway_response_cache_details_connect_timeout_in_ms
+		is_ssl_enabled = var.gateway_response_cache_details_is_ssl_enabled
+		is_ssl_verify_disabled = var.gateway_response_cache_details_is_ssl_verify_disabled
+		read_timeout_in_ms = var.gateway_response_cache_details_read_timeout_in_ms
+		send_timeout_in_ms = var.gateway_response_cache_details_send_timeout_in_ms
+		servers {
+
+			#Optional
+			host = var.gateway_response_cache_details_servers_host
+			port = var.gateway_response_cache_details_servers_port
+		}
+	}
 }
 ```
 
@@ -40,6 +59,18 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `endpoint_type` - (Required) Gateway endpoint type. `PUBLIC` will have a public ip address assigned to it, while `PRIVATE` will only be accessible on a private IP address on the subnet.  Example: `PUBLIC` or `PRIVATE` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `response_cache_details` - (Optional) (Updatable) Base Gateway response cache. 
+	* `authentication_secret_id` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
+	* `authentication_secret_version_number` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) The version number of the authentication secret to use. 
+	* `connect_timeout_in_ms` - (Applicable when type=EXTERNAL_RESP_CACHE) (Updatable) Defines the timeout for establishing a connection with the Response Cache. 
+	* `is_ssl_enabled` - (Applicable when type=EXTERNAL_RESP_CACHE) (Updatable) Defines if the connection should be over SSL. 
+	* `is_ssl_verify_disabled` - (Applicable when type=EXTERNAL_RESP_CACHE) (Updatable) Defines whether or not to uphold SSL verification. 
+	* `read_timeout_in_ms` - (Applicable when type=EXTERNAL_RESP_CACHE) (Updatable) Defines the timeout for reading data from the Response Cache. 
+	* `send_timeout_in_ms` - (Applicable when type=EXTERNAL_RESP_CACHE) (Updatable) Defines the timeout for transmitting data to the Response Cache. 
+	* `servers` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) The set of cache store members to connect to. At present only a single server is supported. 
+		* `host` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) Hostname or IP address (IPv4 only) where the cache store is running.
+		* `port` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) The port the cache store is exposed on.
+	* `type` - (Required) (Updatable) Type of the Response Cache.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in which related resources are created. 
 
 
@@ -61,6 +92,18 @@ The following attributes are exported:
 * `ip_addresses` - An array of IP addresses associated with the gateway.
 	* `ip_address` - An IP address.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
+* `response_cache_details` - Base Gateway response cache. 
+	* `authentication_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
+	* `authentication_secret_version_number` - The version number of the authentication secret to use. 
+	* `connect_timeout_in_ms` - Defines the timeout for establishing a connection with the Response Cache. 
+	* `is_ssl_enabled` - Defines if the connection should be over SSL. 
+	* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
+	* `read_timeout_in_ms` - Defines the timeout for reading data from the Response Cache. 
+	* `send_timeout_in_ms` - Defines the timeout for transmitting data to the Response Cache. 
+	* `servers` - The set of cache store members to connect to. At present only a single server is supported. 
+		* `host` - Hostname or IP address (IPv4 only) where the cache store is running.
+		* `port` - The port the cache store is exposed on.
+	* `type` - Type of the Response Cache.
 * `state` - The current state of the gateway.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in which related resources are created. 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
