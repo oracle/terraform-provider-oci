@@ -71,14 +71,10 @@ var (
 		`
 	data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
 		compartment_id = var.compartment_id
-		filter {
-			name = "display_name"
-			values = [ "tf_vgdr_test" ]
-		}
 	}
 	` +
 		AvailabilityDomainConfig +
-		DefinedTagsDependencies
+		VolumeBackupPolicyRequiredOnlyResource
 	VolumeGroupRequiredOnlyResourceDependencies = AvailabilityDomainConfig + SourceVolumeListDependency
 	VolumeGroupAsDependency                     = generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) + SourceVolumeListDependency
 	SourceVolumeListDependency                  = `
