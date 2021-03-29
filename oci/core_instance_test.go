@@ -31,7 +31,6 @@ var (
 	instanceSingularDataSourceRepresentation = map[string]interface{}{
 		"instance_id": Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
 	}
-
 	instanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -42,7 +41,6 @@ var (
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_core_instance.test_instance.id}`}},
 	}
-
 	instanceRepresentation = map[string]interface{}{
 		"availability_domain":  Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
@@ -106,6 +104,10 @@ var (
 		"network_type":                        Representation{repType: Optional, create: `PARAVIRTUALIZED`},
 		"remote_data_volume_type":             Representation{repType: Optional, create: `PARAVIRTUALIZED`},
 	}
+	instanceSubCorePlatformConfigRepresentation = map[string]interface{}{
+		"type":                  Representation{repType: Required, create: `AMD_MILAN_BM`},
+		"numa_nodes_per_socket": Representation{repType: Optional, create: `NPS0`},
+	}
 	instanceSourceDetailsRepresentation = map[string]interface{}{
 		"source_id":               Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
 		"source_type":             Representation{repType: Required, create: `image`},
@@ -144,6 +146,60 @@ resource "oci_core_instance" "test_instance" {
 	InstanceResourceDependencies = generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation) +
 		InstanceResourceDependenciesWithoutDHV
 
+	// ------------- For flex shape -------------
+	InstanceWithPVEncryptionInTransitEnabledForFlexShape = `
+	resource "oci_core_instance" "test_instance" {
+		availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}"
+		compartment_id = "${var.compartment_id}"
+		image = "${var.FlexInstanceImageOCID[var.region]}"
+		is_pv_encryption_in_transit_enabled = "true"
+		shape = "VM.Standard.E3.Flex"
+		subnet_id = "${oci_core_subnet.test_subnet.id}"
+		shape_config {
+			baseline_ocpu_utilization = "BASELINE_1_8"
+			ocpus = 1
+		}
+	}
+	`
+	// We can not launch E3 flex instance in PHX ad1 eue to an temporary issue, use AD2 to get the test passed.
+	// TODO: https://jira.oci.oraclecorp.com/browse/TERSI-674 to use AD1 for test of Flex shape
+	instanceDataSourceRepresentationForFlexShape = getUpdatedRepresentationCopy("availability_domain",
+		Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`}, instanceDataSourceRepresentation)
+	InstanceResourceConfigForFlexShape = InstanceResourceDependenciesWithoutDHV +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationForFlexShape)
+	instanceSourceDetailsRepresentationForFlexShape = getMultipleUpdatedRepresenationCopy(
+		[]string{"source_id", "boot_volume_size_in_gbs"},
+		[]interface{}{
+			Representation{repType: Required, create: `${var.FlexInstanceImageOCID[var.region]}`},
+			Representation{repType: Optional, create: `60`},
+		},
+		instanceSourceDetailsRepresentation)
+
+	instanceShapeConfigRepresentationForFlexShape = map[string]interface{}{
+		"baseline_ocpu_utilization": Representation{repType: Required, create: `BASELINE_1_8`, update: `BASELINE_1_2`},
+		"memory_in_gbs":             Representation{repType: Required, create: `1.0`, update: `4.0`},
+		"ocpus":                     Representation{repType: Required, create: `1`},
+	}
+	instanceLaunchOptionsRepresentationForFlexShape = getUpdatedRepresentationCopy("boot_volume_type",
+		Representation{repType: Optional, create: `PARAVIRTUALIZED`}, instanceLaunchOptionsRepresentation)
+
+	instanceRepresentationForFlexShape = representationCopyWithRemovedProperties(
+		getMultipleUpdatedRepresenationCopy(
+			[]string{"availability_domain", "shape", "image", "create_vnic_details", "launch_options", "source_details", "shape_config"},
+			[]interface{}{
+				Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+				Representation{repType: Required, create: InstanceConfigurationVmShapeForFlex},
+				Representation{repType: Required, create: `${var.FlexInstanceImageOCID[var.region]}`},
+				RepresentationGroup{Optional, instanceCreateVnicDetailsRepresentation},
+				RepresentationGroup{Optional, instanceLaunchOptionsRepresentationForFlexShape},
+				RepresentationGroup{Optional, instanceSourceDetailsRepresentationForFlexShape},
+				RepresentationGroup{Required, instanceShapeConfigRepresentationForFlexShape},
+			},
+			instanceRepresentation),
+		[]string{"dedicated_vm_host_id"},
+	)
+
+	// ------------- for capacity reservation -------------
 	instanceSourceDetailsSansKmsRepresentation = map[string]interface{}{
 		"source_id":               Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
 		"source_type":             Representation{repType: Required, create: `image`},
@@ -1129,6 +1185,430 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "70"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
+				),
+			},
+		},
+	})
+}
+
+func TestCoreInstanceResource_flexShape(t *testing.T) {
+	httpreplay.SetScenario("TestCoreFlexInstanceResource_basic")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_core_instance.test_instance"
+	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// step 0 verify create
+			{
+				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentationForFlexShape),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					// currently E3 subcore is forced to use launch_mode = PARAVIRTUALIZED
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// step 1 delete before next create
+			{
+				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable,
+			},
+
+			// step 2 verify create with is_pv_encryption_in_transit_enabled = true
+			{
+				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable + InstanceWithPVEncryptionInTransitEnabledForFlexShape,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// step 3 delete before next create
+			{
+				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable,
+			},
+
+			// step 4 verify create with optionals
+			{
+				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationForFlexShape),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnamelabel"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.boot_volume_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.firmware", "UEFI_64"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_consistent_volume_naming_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
+					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+
+			//step 5: verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: testProviderConfig() + compartmentIdVariableStr + compartmentIdUVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create,
+						representationCopyWithNewProperties(instanceRepresentationForFlexShape, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnamelabel"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.boot_volume_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.firmware", "UEFI_64"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_consistent_volume_naming_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
+					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+
+			// step 6: verify updates to updatable parameters
+			{
+				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationForFlexShape),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "STOP_INSTANCE"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnamelabel"),
+					// resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					// resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "3"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.boot_volume_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.firmware", "UEFI_64"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_consistent_volume_naming_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
+					// resource.TestCheckResourceAttr(resourceName, "metadata.%", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_2"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "4"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
+					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
+			// step 7: verify datasource
+			{
+				Config: testProviderConfig() +
+					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentationForFlexShape) +
+					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationForFlexShape),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.are_all_plugins_disabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_config.0.recovery_action", "STOP_INSTANCE"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.extended_metadata.%", "3"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.fault_domain", "FAULT-DOMAIN-3"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.instance_options.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.image"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.launch_mode"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.0.boot_volume_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.0.firmware", "UEFI_64"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.0.is_consistent_volume_naming_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.0.is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.0.network_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.metadata.%", "2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.baseline_ocpu_utilization", "BASELINE_1_2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.gpus"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.local_disks"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.local_disks_total_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.max_vnic_attachments"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.memory_in_gbs"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.networking_bandwidth_in_gbps"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.processor_description"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.source_details.0.source_id"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
+				),
+			},
+
+			// step 8: verify singular datasource
+			{
+				Config: testProviderConfig() + FlexVmImageIdsVariable +
+					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + InstanceResourceConfigForFlexShape,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.are_all_plugins_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.plugins_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "availability_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "availability_config.0.recovery_action", "STOP_INSTANCE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "fault_domain", "FAULT-DOMAIN-3"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_options.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "launch_mode"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.0.boot_volume_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.0.firmware", "UEFI_64"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.0.is_consistent_volume_naming_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "region"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard.E3.Flex"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.gpus"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks_total_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.max_vnic_attachments"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.memory_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.networking_bandwidth_in_gbps"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 

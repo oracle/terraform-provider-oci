@@ -139,6 +139,12 @@ The following attributes are exported:
 	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `shape_config` - The shape configuration for an instance. The shape configuration determines the resources allocated to an instance. 
+	* `baseline_ocpu_utilization` - The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+
+		The following values are supported:
+		* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+		* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+		* `BASELINE_1_1` - baseline usage is the entire OCPU. This represents a non-burstable instance. 
 	* `gpu_description` - A short description of the instance's graphics processing unit (GPU).
 
 		If the instance does not have any GPUs, this field is `null`. 

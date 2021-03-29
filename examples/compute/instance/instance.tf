@@ -104,8 +104,8 @@ resource "oci_core_instance" "test_instance" {
   shape               = var.instance_shape
 
   shape_config {
-    ocpus = "${var.instance_ocpus}"
-    memory_in_gbs = "${var.instance_shape_config_memory_in_gbs}"
+    ocpus = var.instance_ocpus
+    memory_in_gbs = var.instance_shape_config_memory_in_gbs
   }
 
   create_vnic_details {
@@ -118,7 +118,7 @@ resource "oci_core_instance" "test_instance" {
   source_details {
     source_type = "image"
     source_id = var.flex_instance_image_ocid[var.region]
-    # Apply this to set the size of the boot volume that's created for this instance.
+    # Apply this to set the size of the boot volume that is created for this instance.
     # Otherwise, the default boot volume size of the image is used.
     # This should only be specified when source_type is set to "image".
     #boot_volume_size_in_gbs = "60"
@@ -195,7 +195,7 @@ resource "oci_core_volume_attachment" "test_block_volume_attach_paravirtualized"
 }
 
 resource "oci_core_volume_backup_policy_assignment" "policy" {
-  count     = 2
+  count     = var.num_instances
   asset_id  = oci_core_instance.test_instance[count.index].boot_volume_id
   policy_id = data.oci_core_volume_backup_policies.test_predefined_volume_backup_policies.volume_backup_policies[0].id
 }
