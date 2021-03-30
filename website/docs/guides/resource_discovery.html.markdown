@@ -117,6 +117,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
+    * `apm` - Discovers apm resources within the specified compartment
     * `artifacts` - Discovers artifacts resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `bastion` - Discovers bastion resources within the specified compartment
@@ -272,6 +273,10 @@ apigateway
 * oci\_apigateway\_gateway
 * oci\_apigateway\_deployment
 * oci\_apigateway\_certificate
+
+apm
+    
+* oci\_apm\_apm\_domain
 
 artifacts
     

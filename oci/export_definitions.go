@@ -6,6 +6,7 @@ package oci
 import (
 	oci_analytics "github.com/oracle/oci-go-sdk/v42/analytics"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v42/apigateway"
+	oci_apm "github.com/oracle/oci-go-sdk/v42/apmcontrolplane"
 	oci_artifacts "github.com/oracle/oci-go-sdk/v42/artifacts"
 	oci_bastion "github.com/oracle/oci-go-sdk/v42/bastion"
 	oci_bds "github.com/oracle/oci-go-sdk/v42/bds"
@@ -108,6 +109,22 @@ var exportApigatewayCertificateHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_apigateway.CertificateLifecycleStateActive),
 	},
+}
+
+var exportApmApmDomainHints = &TerraformResourceHints{
+	resourceClass:        "oci_apm_apm_domain",
+	datasourceClass:      "oci_apm_apm_domains",
+	datasourceItemsAttr:  "apm_domains",
+	resourceAbbreviation: "apm_domain",
+	discoverableLifecycleStates: []string{
+		string(oci_apm.LifecycleStatesActive),
+	},
+}
+
+var exportArtifactsContainerConfigurationHints = &TerraformResourceHints{
+	resourceClass:        "oci_artifacts_container_configuration",
+	datasourceClass:      "oci_artifacts_container_configuration",
+	resourceAbbreviation: "container_configuration",
 }
 
 var exportArtifactsContainerRepositoryHints = &TerraformResourceHints{
