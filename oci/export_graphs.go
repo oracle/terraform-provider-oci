@@ -17,6 +17,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"availability_domain":    availabilityDomainResourceGraph,
 	"analytics":              analyticsResourceGraph,
 	"apigateway":             apigatewayResourceGraph,
+	"apm":                    apmResourceGraph,
 	"artifacts":              artifactsResourceGraph,
 	"auto_scaling":           autoScalingResourceGraph,
 	"bastion":                bastionResourceGraph,
@@ -111,6 +112,12 @@ var apigatewayResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportApigatewayGatewayHints},
 		{TerraformResourceHints: exportApigatewayDeploymentHints},
 		{TerraformResourceHints: exportApigatewayCertificateHints},
+	},
+}
+
+var apmResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportApmApmDomainHints},
 	},
 }
 
