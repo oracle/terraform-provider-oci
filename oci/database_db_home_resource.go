@@ -1330,7 +1330,7 @@ func getDbHomeRetryDurationFunction(retryTimeout time.Duration) expectedRetryDur
 		switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 		case 409:
 			if e := response.Error; e != nil {
-				if strings.Contains(e.Error(), "has a conflicting state of UPDATING") {
+				if strings.Contains(e.Error(), "IncorrectState") {
 					defaultRetryTime = retryTimeout
 				} else if strings.Contains(e.Error(), "InvalidatedRetryToken") {
 					defaultRetryTime = 0
