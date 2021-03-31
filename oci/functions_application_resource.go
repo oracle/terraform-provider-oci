@@ -12,7 +12,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v37/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v38/functions"
 )
 
 func init() {

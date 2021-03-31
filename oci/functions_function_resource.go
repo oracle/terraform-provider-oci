@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v37/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v38/functions"
 )
 
 func init() {
@@ -282,7 +282,7 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 		request.Image = &tmp
 	}
 
-	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
+	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok && s.D.HasChange("image_digest") {
 		tmp := imageDigest.(string)
 		request.ImageDigest = &tmp
 	}

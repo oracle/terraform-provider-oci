@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v37/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v37/ocvp"
+	"github.com/oracle/oci-go-sdk/v38/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v38/ocvp"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -25,6 +25,9 @@ var (
 
 	SddcResourceConfig = SddcResourceDependencies +
 		generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcRepresentation)
+
+	SddcV7ResourceConfig = SddcResourceDependencies +
+		generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation)
 
 	sddcSingularDataSourceRepresentation = map[string]interface{}{
 		"sddc_id": Representation{repType: Required, create: `${oci_ocvp_sddc.test_sddc.id}`},
@@ -62,7 +65,18 @@ var (
 		"instance_display_name_prefix": Representation{repType: Optional, create: `njki`},
 		"is_hcx_enabled":               Representation{repType: Optional, create: `true`},
 		"workload_network_cidr":        Representation{repType: Optional, create: `172.20.0.0/24`},
+		"provisioning_vlan_id":         Representation{repType: Optional, create: `${oci_core_vlan.test_provisioning_vlan.id}`},
+		"replication_vlan_id":          Representation{repType: Optional, create: `${oci_core_vlan.test_replication_vlan.id}`},
+		"lifecycle":                    RepresentationGroup{Required, ignoreDefinedTagsChangesRepresentation},
 	}
+
+	ignoreDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+	}
+
+	sddcV7Representation = representationCopyWithNewProperties(sddcRepresentation, map[string]interface{}{
+		"vmware_software_version": Representation{repType: Required, create: `${lookup(data.oci_ocvp_supported_vmware_software_versions.test_supported_vmware_software_versions.items[2], "version")}`},
+	})
 
 	SddcResourceDependencies = DefinedTagsDependencies +
 		generateDataSourceFromRepresentationMap("oci_ocvp_supported_vmware_software_versions", "test_supported_vmware_software_versions", Required, Create, supportedVmwareSoftwareVersionDataSourceRepresentation) + `
@@ -339,6 +353,26 @@ resource "oci_core_vlan" "test_hcx_vlan" {
   route_table_id      = oci_core_vcn.test_vcn_ocvp.default_route_table_id
 }
 
+resource "oci_core_vlan" "test_provisioning_vlan" {
+  display_name        = "provisioning-vlan"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  cidr_block          = "10.0.104.128/25"
+  compartment_id      = var.compartment_id
+  vcn_id              = oci_core_vcn.test_vcn_ocvp.id
+  nsg_ids             = [oci_core_network_security_group.test_nsg_allow_all.id]
+  route_table_id      = oci_core_vcn.test_vcn_ocvp.default_route_table_id
+}
+
+resource "oci_core_vlan" "test_replication_vlan" {
+  display_name        = "replication-vlan"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  cidr_block          = "10.0.104.0/25"
+  compartment_id      = var.compartment_id
+  vcn_id              = oci_core_vcn.test_vcn_ocvp.id
+  nsg_ids             = [oci_core_network_security_group.test_nsg_allow_all.id]
+  route_table_id      = oci_core_vcn.test_vcn_ocvp.default_route_table_id
+}
+
 `
 )
 
@@ -399,6 +433,34 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify update VMware version
+			{
+				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
+					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Update, sddcRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+					resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
+					resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
+					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
+					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
+					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
+					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
 			// delete before next create
 			{
 				Config: config + compartmentIdVariableStr + SddcResourceDependencies,
@@ -406,7 +468,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcRepresentation),
+					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcV7Representation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
@@ -426,12 +488,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
+					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 1"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 					resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -452,7 +516,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SddcResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create,
-						representationCopyWithNewProperties(sddcRepresentation, map[string]interface{}{
+						representationCopyWithNewProperties(sddcV7Representation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -474,12 +538,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
+					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 1"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 					resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -495,9 +561,10 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			},
 
 			// verify updates to updatable parameters
+			// Cannot update VMware version here because some of the optional arguments are not applicable to VMware version less than 7.0
 			{
 				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcRepresentation),
+					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
@@ -517,12 +584,14 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
+					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 1"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 					resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -541,13 +610,13 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", Optional, Update, sddcDataSourceRepresentation) +
 					compartmentIdVariableStr + SddcResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcRepresentation),
+					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "6.5 update 3"),
+					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 update 1"),
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
@@ -562,7 +631,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + SddcResourceConfig,
+					compartmentIdVariableStr + SddcV7ResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
 
@@ -595,13 +664,13 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_initial_password"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_private_ip_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_username"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "6.5 update 3"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 update 1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "workload_network_cidr", "172.20.0.0/24"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + SddcResourceConfig,
+				Config: config + compartmentIdVariableStr + SddcV7ResourceConfig,
 			},
 			// verify resource import
 			{

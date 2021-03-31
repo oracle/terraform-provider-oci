@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v37/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v37/logging"
+	"github.com/oracle/oci-go-sdk/v38/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v38/logging"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -77,7 +77,8 @@ var (
 	}
 
 	UnifiedAgentConfigurationResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation) +
+		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create,
+			getUpdatedRepresentationCopy("name", Representation{repType: Required, create: `LoggingAgentIdentityGroup`}, groupRepresentation)) +
 		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
 		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, customLogRepresentation) +
 		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +

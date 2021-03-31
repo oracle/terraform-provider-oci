@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v37/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v37/logging"
+	oci_common "github.com/oracle/oci-go-sdk/v38/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v38/logging"
 )
 
 func init() {
@@ -750,8 +750,9 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Delete() error {
 	}
 
 	workId := response.OpcWorkRequestId
+
 	// Wait until it finishes
-	_, delWorkRequestErr := unifiedAgentConfigurationWaitForWorkRequest(workId, "logging",
+	_, delWorkRequestErr := unifiedAgentConfigurationWaitForWorkRequest(workId, "unifiedagentconfiguration",
 		oci_logging.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

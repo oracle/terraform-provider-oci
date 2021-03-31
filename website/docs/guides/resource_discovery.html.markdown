@@ -160,6 +160,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
+    * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
     * 0.11
@@ -581,6 +582,18 @@ streaming
 * oci\_streaming\_connect\_harness
 * oci\_streaming\_stream\_pool
 * oci\_streaming\_stream
+
+vulnerability_scanning
+    
+* oci\_vulnerability\_scanning\_host\_scan\_recipe
+* oci\_vulnerability\_scanning\_host\_scan\_target
+* oci\_vulnerability\_scanning\_host\_agent\_scan\_result
+* oci\_vulnerability\_scanning\_host\_port\_scan\_result
+* oci\_vulnerability\_scanning\_host\_cis\_benchmark\_scan\_result
+* oci\_vulnerability\_scanning\_host\_endpoint\_protection\_scan\_result
+* oci\_vulnerability\_scanning\_container\_scan\_recipe
+* oci\_vulnerability\_scanning\_container\_scan\_target
+* oci\_vulnerability\_scanning\_container\_scan\_result
 
 waas
     
