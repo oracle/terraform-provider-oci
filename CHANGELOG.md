@@ -1,4 +1,4 @@
-## 4.20.0 (Unreleased)
+## 4.20.0 (March 31, 2021)
 
 ### Added
 - Support for VMware vSphere 7.x to Oracle Cloud VMware Solution added
