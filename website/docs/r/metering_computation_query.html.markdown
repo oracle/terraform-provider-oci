@@ -37,6 +37,14 @@ resource "oci_metering_computation_query" "test_query" {
 			compartment_depth = var.query_query_definition_report_query_compartment_depth
 			date_range_name = var.query_query_definition_report_query_date_range_name
 			filter = var.query_query_definition_report_query_filter
+			forecast {
+				#Required
+				time_forecast_ended = var.query_query_definition_report_query_forecast_time_forecast_ended
+
+				#Optional
+				forecast_type = var.query_query_definition_report_query_forecast_forecast_type
+				time_forecast_started = var.query_query_definition_report_query_forecast_time_forecast_started
+			}
 			group_by = var.query_query_definition_report_query_group_by
 			group_by_tag {
 
@@ -69,9 +77,13 @@ The following arguments are supported:
 		* `compartment_depth` - (Optional) (Updatable) The compartment depth level.
 		* `date_range_name` - (Optional) (Updatable) the date range for ui, eg LAST_THREE_MONTHS. It is conflict with timeUsageStarted and timeUsageEnded
 		* `filter` - (Optional) (Updatable) 
+		* `forecast` - (Optional) (Updatable) Forecast configuration of usage/cost.
+			* `forecast_type` - (Optional) (Updatable) BASIC uses ETS to project future usage/cost based on history data. The basis for projections will be a rolling set of equivalent historical days for which projection is being made.
+			* `time_forecast_ended` - (Required) (Updatable) forecast end time.
+			* `time_forecast_started` - (Optional) (Updatable) forecast start time. Will default to UTC-1 if not specified
 		* `granularity` - (Required) (Updatable) The usage granularity. HOURLY - Hourly data aggregation. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. TOTAL - Not yet supported. 
 		* `group_by` - (Optional) (Updatable) Aggregate the result by. example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
-		* `group_by_tag` - (Optional) (Updatable) GroupBy a specific tagKey. Provide tagNamespace and tagKey in tag object. Only support one tag in the list example: `[{"namespace":"oracle", "key":"createdBy"]` 
+		* `group_by_tag` - (Optional) (Updatable) GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: `[{"namespace":"oracle", "key":"createdBy"]` 
 			* `key` - (Optional) (Updatable) The tag key.
 			* `namespace` - (Optional) (Updatable) The tag namespace.
 			* `value` - (Optional) (Updatable) The tag value.
@@ -101,9 +113,13 @@ The following attributes are exported:
 		* `compartment_depth` - The compartment depth level.
 		* `date_range_name` - the date range for ui, eg LAST_THREE_MONTHS. It is conflict with timeUsageStarted and timeUsageEnded
 		* `filter` - 
+		* `forecast` - Forecast configuration of usage/cost.
+			* `forecast_type` - BASIC uses ETS to project future usage/cost based on history data. The basis for projections will be a rolling set of equivalent historical days for which projection is being made.
+			* `time_forecast_ended` - forecast end time.
+			* `time_forecast_started` - forecast start time. Will default to UTC-1 if not specified
 		* `granularity` - The usage granularity. HOURLY - Hourly data aggregation. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. TOTAL - Not yet supported. 
 		* `group_by` - Aggregate the result by. example: `["tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName"]` 
-		* `group_by_tag` - GroupBy a specific tagKey. Provide tagNamespace and tagKey in tag object. Only support one tag in the list example: `[{"namespace":"oracle", "key":"createdBy"]` 
+		* `group_by_tag` - GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: `[{"namespace":"oracle", "key":"createdBy"]` 
 			* `key` - The tag key.
 			* `namespace` - The tag namespace.
 			* `value` - The tag value.

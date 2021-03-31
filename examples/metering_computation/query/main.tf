@@ -40,6 +40,18 @@ variable "dimensions_value" {
   default = "dimensions_value"
 }
 
+variable "query_query_definition_report_query_forecast_forecast_type" {
+  default = "BASIC"
+}
+
+variable "query_query_definition_report_query_forecast_time_forecast_ended" {
+  default = "2020-01-03T00:00:00.000Z"
+}
+
+variable "query_query_definition_report_query_forecast_time_forecast_started" {
+  default = "2020-01-02T00:00:00.000Z"
+}
+
 resource "oci_metering_computation_query" "test_query" {
   #Required
   compartment_id = var.tenancy_ocid
@@ -81,6 +93,14 @@ resource "oci_metering_computation_query" "test_query" {
     }
     EOF
 
+      forecast {
+        #Required
+        time_forecast_ended = var.query_query_definition_report_query_forecast_time_forecast_ended
+
+        #Optional
+        forecast_type         = var.query_query_definition_report_query_forecast_forecast_type
+        time_forecast_started = var.query_query_definition_report_query_forecast_time_forecast_started
+      }
       group_by = []
       is_aggregate_by_time = false
       query_type           = "COST"

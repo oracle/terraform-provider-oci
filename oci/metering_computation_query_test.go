@@ -8,12 +8,13 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v37/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v37/usageapi"
+	"github.com/oracle/oci-go-sdk/v38/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v38/usageapi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -49,6 +50,7 @@ var (
 		"is_cumulative_graph": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 	queryQueryDefinitionReportQueryRepresentation = map[string]interface{}{
+		"forecast":             RepresentationGroup{Optional, queryQueryDefinitionReportQueryForecastRepresentation},
 		"granularity":          Representation{repType: Required, create: `DAILY`, update: `MONTHLY`},
 		"tenant_id":            Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"compartment_depth":    Representation{repType: Optional, create: `1.0`, update: `2.0`},
@@ -57,17 +59,30 @@ var (
 		"group_by_tag":         RepresentationGroup{Optional, queryQueryDefinitionReportQueryGroupByTagRepresentation},
 		"is_aggregate_by_time": Representation{repType: Optional, create: `false`, update: `true`},
 		"query_type":           Representation{repType: Optional, create: `USAGE`, update: `COST`},
-		"time_usage_ended":     Representation{repType: Required, create: `2020-01-02T00:00:00Z`, update: `2020-01-03T00:00:00Z`},
-		"time_usage_started":   Representation{repType: Required, create: `2020-01-01T00:00:00Z`, update: `2020-01-02T00:00:00Z`},
+		"time_usage_ended":     Representation{repType: Required, create: timeUsageEnded.Format(time.RFC3339Nano), update: timeUsageEnded.Format(time.RFC3339Nano)},
+		"time_usage_started":   Representation{repType: Required, create: timeUsageStarted.Format(time.RFC3339Nano), update: timeUsageStarted.Format(time.RFC3339Nano)},
+	}
+	queryQueryDefinitionReportQueryForecastRepresentation = map[string]interface{}{
+		"time_forecast_ended":   Representation{repType: Required, create: timeForecastEnded.Format(time.RFC3339Nano), update: timeForecastEnded.Format(time.RFC3339Nano)},
+		"forecast_type":         Representation{repType: Optional, create: `BASIC`},
+		"time_forecast_started": Representation{repType: Optional, create: timeUsageEnded.Format(time.RFC3339Nano), update: timeUsageEnded.Format(time.RFC3339Nano)},
 	}
 	queryQueryDefinitionReportQueryGroupByTagRepresentation = map[string]interface{}{
 		"key":       Representation{repType: Optional, create: `key`, update: `key2`},
 		"namespace": Representation{repType: Optional, create: `namespace`, update: `namespace2`},
 		"value":     Representation{repType: Optional, create: `value`, update: `value2`},
 	}
+	timeUsageStarted  = StartOfDay(time.Now().UTC().Truncate(time.Millisecond))
+	timeUsageEnded    = StartOfDay(time.Now().UTC().AddDate(0, 0, 1).Truncate(time.Millisecond))
+	timeForecastEnded = StartOfDay(time.Now().UTC().AddDate(0, 0, 2).Truncate(time.Millisecond))
 
 	QueryResourceDependencies = ""
 )
+
+func StartOfDay(t time.Time) time.Time {
+	year, month, day := t.Date()
+	return time.Date(year, month, day, 0, 0, 0, 0, t.Location())
+}
 
 func TestMeteringComputationQueryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationQueryResource_basic")
@@ -131,6 +146,10 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.0.is_cumulative_graph", "true"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.0.forecast_type", "BASIC"),
+					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_ended", timeForecastEnded.Format(time.RFC3339Nano)),
+					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_started", timeUsageEnded.Format(time.RFC3339Nano)),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.compartment_depth", "2"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.filter", "{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue2\"}],\"tags\":[],\"filters\":[]}"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.granularity", "MONTHLY"),
@@ -142,8 +161,8 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.is_aggregate_by_time", "true"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.query_type", "COST"),
 					resource.TestCheckResourceAttrSet(resourceName, "query_definition.0.report_query.0.tenant_id"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.time_usage_ended", "2020-01-03T00:00:00Z"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.time_usage_started", "2020-01-02T00:00:00Z"),
+					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.time_usage_ended", timeUsageEnded.Format(time.RFC3339Nano)),
+					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.time_usage_started", timeUsageStarted.Format(time.RFC3339Nano)),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.version", "1"),
 
 					func(s *terraform.State) (err error) {
@@ -184,6 +203,10 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.cost_analysis_ui.0.is_cumulative_graph", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.forecast.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.forecast.0.forecast_type", "BASIC"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_ended"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_started"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.compartment_depth", "2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.filter", "{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue2\"}],\"tags\":[],\"filters\":[]}"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.granularity", "MONTHLY"),

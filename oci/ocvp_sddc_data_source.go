@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v37/ocvp"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v38/ocvp"
 )
 
 func init() {
@@ -160,6 +160,14 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 
 	if s.Res.ProvisioningSubnetId != nil {
 		s.D.Set("provisioning_subnet_id", *s.Res.ProvisioningSubnetId)
+	}
+
+	if s.Res.ProvisioningVlanId != nil {
+		s.D.Set("provisioning_vlan_id", *s.Res.ProvisioningVlanId)
+	}
+
+	if s.Res.ReplicationVlanId != nil {
+		s.D.Set("replication_vlan_id", *s.Res.ReplicationVlanId)
 	}
 
 	if s.Res.SshAuthorizedKeys != nil {
