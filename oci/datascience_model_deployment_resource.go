@@ -27,11 +27,15 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createDatascienceModelDeployment,
-		Read:     readDatascienceModelDeployment,
-		Update:   updateDatascienceModelDeployment,
-		Delete:   deleteDatascienceModelDeployment,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &TwentyMinutes,
+			Update: &ThirtyMinutes,
+			Delete: &TwentyMinutes,
+		},
+		Create: createDatascienceModelDeployment,
+		Read:   readDatascienceModelDeployment,
+		Update: updateDatascienceModelDeployment,
+		Delete: deleteDatascienceModelDeployment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
