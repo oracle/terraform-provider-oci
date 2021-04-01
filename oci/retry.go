@@ -124,9 +124,7 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 	case 400, 401, 403, 413:
 		return 0
 	case 404:
-		if disableNotFoundRetries {
-			return 0
-		}
+		return 0
 	case 409:
 		if e != nil && (strings.Contains(e.Error(), "InvalidatedRetryToken") ||
 			strings.Contains(e.Error(), "BucketNotEmpty")) {
@@ -158,11 +156,7 @@ func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 	}
 	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 	case 404:
-		if disableNotFoundRetries {
-			defaultRetryTime = 0
-		} else {
-			defaultRetryTime = longRetryTime
-		}
+		return 0
 	case 409:
 		if e := response.Error; e != nil {
 			if strings.Contains(e.Error(), "CompartmentAlreadyExists") || strings.Contains(e.Error(), "TagDefinitionAlreadyExists") ||
@@ -200,15 +194,9 @@ func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperati
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
-	e := response.Error
 	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 	case 404:
-		if disableNotFoundRetries ||
-			strings.Contains(e.Error(), "does not define a lifecycle policy") {
-			defaultRetryTime = 0
-		} else {
-			defaultRetryTime = longRetryTime
-		}
+		return 0
 	case 409:
 		if e := response.Error; e != nil {
 			if strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") {
