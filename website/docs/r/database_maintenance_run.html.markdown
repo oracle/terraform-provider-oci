@@ -23,6 +23,7 @@ resource "oci_database_maintenance_run" "test_maintenance_run" {
 	is_enabled = var.maintenance_run_is_enabled
 	is_patch_now_enabled = var.maintenance_run_is_patch_now_enabled
 	patch_id = oci_database_patch.test_patch.id
+	patching_mode = var.maintenance_run_patching_mode
 	time_scheduled = var.maintenance_run_time_scheduled
 }
 ```
@@ -35,6 +36,7 @@ The following arguments are supported:
 * `is_patch_now_enabled` - (Optional) (Updatable) If set to `TRUE`, starts patching immediately.
 * `maintenance_run_id` - (Required) The maintenance run OCID.
 * `patch_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch to be applied in the maintenance run.
+* `patching_mode` - (Optional) (Updatable) Maintenance method, it will be either "ROLLING" or "NONROLLING". Default value is ROLLING.
 * `time_scheduled` - (Optional) (Updatable) The scheduled date and time of the maintenance run to update.
 
 
@@ -52,7 +54,9 @@ The following attributes are exported:
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `maintenance_subtype` - Maintenance sub-type.
 * `maintenance_type` - Maintenance type.
+* `patch_failure_count` - Contain the patch failure count.
 * `patch_id` - The unique identifier of the patch. The identifier string includes the patch type, the Oracle Database version, and the patch creation date (using the format YYMMDD). For example, the identifier `ru_patch_19.9.0.0_201030` is used for an RU patch for Oracle Database 19.9.0.0 that was released October 30, 2020.
+* `patching_mode` - Maintenance method, it will be either "ROLLING" or "NONROLLING". Default value is ROLLING.
 * `peer_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance run for the Autonomous Data Guard association's peer container database.
 * `state` - The current state of the maintenance run. For Autonomous Database on shared Exadata infrastructure, valid states are IN_PROGRESS, SUCCEEDED and FAILED. 
 * `target_resource_id` - The ID of the target resource on which the maintenance run occurs.

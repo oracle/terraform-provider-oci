@@ -51,6 +51,11 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"patching_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"time_scheduled": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -81,6 +86,10 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 			},
 			"maintenance_type": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"patch_failure_count": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"peer_maintenance_run_id": {
@@ -146,6 +155,10 @@ type DatabaseMaintenanceRunResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
+type DatabaseMaintenanceUpdateResource struct {
+	Details *oci_database.UpdateMaintenanceRunDetails
+}
+
 func (s *DatabaseMaintenanceRunResourceCrud) ID() string {
 	return *s.Res.Id
 }
@@ -201,6 +214,10 @@ func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 		request.PatchId = &tmp
 	}
 
+	if patchingMode, ok := s.D.GetOkExists("patching_mode"); ok {
+		request.PatchingMode = oci_database.UpdateMaintenanceRunDetailsPatchingModeEnum(patchingMode.(string))
+	}
+
 	if timeScheduled, ok := s.D.GetOkExists("time_scheduled"); ok {
 		tmp, err := time.Parse(time.RFC3339, timeScheduled.(string))
 		if err != nil {
@@ -243,14 +260,15 @@ func (s *DatabaseMaintenanceRunResourceCrud) Get() error {
 }
 
 func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
+
 	request := oci_database.UpdateMaintenanceRunRequest{}
 
-	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok && s.D.HasChange("is_enabled") {
 		tmp := isEnabled.(bool)
 		request.IsEnabled = &tmp
 	}
 
-	if isPatchNowEnabled, ok := s.D.GetOkExists("is_patch_now_enabled"); ok {
+	if isPatchNowEnabled, ok := s.D.GetOkExists("is_patch_now_enabled"); ok && s.D.HasChange("is_patch_now_enabled") {
 		tmp := isPatchNowEnabled.(bool)
 		request.IsPatchNowEnabled = &tmp
 	}
@@ -258,9 +276,13 @@ func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.MaintenanceRunId = &tmp
 
-	if patchId, ok := s.D.GetOkExists("patch_id"); ok {
+	if patchId, ok := s.D.GetOkExists("patch_id"); ok && s.D.HasChange("patchId") {
 		tmp := patchId.(string)
 		request.PatchId = &tmp
+	}
+
+	if patchingMode, ok := s.D.GetOkExists("patching_mode"); ok && s.D.HasChange("patching_mode") {
+		request.PatchingMode = oci_database.UpdateMaintenanceRunDetailsPatchingModeEnum(patchingMode.(string))
 	}
 
 	if timeScheduled, ok := s.D.GetOkExists("time_scheduled"); ok {
@@ -273,13 +295,18 @@ func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateMaintenanceRun(context.Background(), request)
+	_, err := s.Client.UpdateMaintenanceRun(context.Background(), request)
 	if err != nil {
 		return err
 	}
+	// Workaround: Sleep for some time before polling the configuration. Because update happens asynchronously, polling too
+	// soon may result in service returning stale configuration values.
+	time.Sleep(time.Second * 10)
 
-	s.Res = &response.MaintenanceRun
-	return nil
+	// Requests to update may succeed instantly but may not see the actual update take effect
+	// until minutes later. Add polling here to return only when the change has taken effect.
+	maintenanceRunUpdatePatchingModeFunc := func() bool { return s.Res.LifecycleState != oci_database.MaintenanceRunLifecycleStateUpdating }
+	return WaitForResourceCondition(s, maintenanceRunUpdatePatchingModeFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
@@ -303,9 +330,15 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 
 	s.D.Set("maintenance_type", s.Res.MaintenanceType)
 
+	if s.Res.PatchFailureCount != nil {
+		s.D.Set("patch_failure_count", *s.Res.PatchFailureCount)
+	}
+
 	if s.Res.PatchId != nil {
 		s.D.Set("patch_id", *s.Res.PatchId)
 	}
+
+	s.D.Set("patching_mode", s.Res.PatchingMode)
 
 	if s.Res.PeerMaintenanceRunId != nil {
 		s.D.Set("peer_maintenance_run_id", *s.Res.PeerMaintenanceRunId)
