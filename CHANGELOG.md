@@ -1,3 +1,8 @@
+## 4.25.0 (Unreleased)
+
+### Added
+- Support for ADB on ExaCC | Infra Patching (DOMU-GI)
+
 ## 4.25.0 (May 05, 2021)
 
 ### Added
