@@ -9,6 +9,7 @@
 - Support for Generic Artifacts Service
 - Support Update `DrgAttachment` of types `Virtual_Circuit`, `RPC` and `IPSec`
 - Support for E3 Flex Notebooks added to `datascience`
+- Support for Non-Rolling patch mode added to `database_maintenance_run_resource`
 
 ## 4.27.0 (May 19, 2021)
 

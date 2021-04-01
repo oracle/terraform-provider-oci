@@ -122,8 +122,7 @@ The following attributes are exported:
 * `private_endpoint_label` - The private endpoint label for the resource.
 * `refreshable_mode` - The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 * `refreshable_status` - The refresh status of the clone. REFRESHING indicates that the clone is currently being refreshed with data from the source Autonomous Database.
-* `role` - The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled. 
-* `service_console_url` - The URL of the Service Console for the Autonomous Database.
+* `role` - The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled.
 * `source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that was cloned to create the current Autonomous Database.
 * `standby_db` - Autonomous Data Guard standby database details. 
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.

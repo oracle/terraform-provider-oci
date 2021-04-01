@@ -31,10 +31,11 @@ var (
 
 	maintenanceRunRepresentation = map[string]interface{}{
 		"maintenance_run_id":   Representation{repType: Required, create: `${var.maintenance_run_id}`},
-		"is_enabled":           Representation{repType: Required, create: `false`, update: `true`},
-		"is_patch_now_enabled": Representation{repType: Optional, update: `true`},
+		"is_enabled":           Representation{repType: Required, create: `true`},
+		"is_patch_now_enabled": Representation{repType: Optional},
 		"patch_id":             Representation{repType: Optional, create: `${var.maintenance_run_patch_id}`},
-		"time_scheduled":       Representation{repType: Optional, create: mrTimeScheduledCreate.Format(time.RFC3339Nano), update: mrTimeScheduledUpdate.Format(time.RFC3339Nano)},
+		"patching_mode":        Representation{repType: Optional, create: `ROLLING`, update: `NONROLLING`},
+		"time_scheduled":       Representation{repType: Required, create: mrTimeScheduledCreate.Format(time.RFC3339Nano), update: mrTimeScheduledUpdate.Format(time.RFC3339Nano)},
 	}
 
 	MaintenanceRunResourceDependencies = ""
@@ -90,6 +91,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies,
 			},
+
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
@@ -98,9 +100,10 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
+					resource.TestCheckResourceAttr(resourceName, "patching_mode", "ROLLING"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
 
@@ -128,8 +131,9 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_patch_now_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
+					resource.TestCheckResourceAttr(resourceName, "patching_mode", "NONROLLING"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledUpdate.Format(time.RFC3339Nano)),
+					resource.TestCheckResourceAttrSet(resourceName, "time_scheduled"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -154,6 +158,9 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_subtype"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_type"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_failure_count"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "patching_mode", "NONROLLING"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_maintenance_run_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_resource_type"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled"),

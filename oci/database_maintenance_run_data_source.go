@@ -88,9 +88,15 @@ func (s *DatabaseMaintenanceRunDataSourceCrud) SetData() error {
 
 	s.D.Set("maintenance_type", s.Res.MaintenanceType)
 
+	if s.Res.PatchFailureCount != nil {
+		s.D.Set("patch_failure_count", *s.Res.PatchFailureCount)
+	}
+
 	if s.Res.PatchId != nil {
 		s.D.Set("patch_id", *s.Res.PatchId)
 	}
+
+	s.D.Set("patching_mode", s.Res.PatchingMode)
 
 	if s.Res.PeerMaintenanceRunId != nil {
 		s.D.Set("peer_maintenance_run_id", *s.Res.PeerMaintenanceRunId)
