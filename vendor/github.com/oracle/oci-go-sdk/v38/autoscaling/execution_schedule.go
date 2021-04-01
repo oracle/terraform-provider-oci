@@ -18,10 +18,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v38/common"
 )
 
-// ExecutionSchedule Specifies the execution schedule for a policy.
+// ExecutionSchedule An execution schedule for an autoscaling policy.
 type ExecutionSchedule interface {
 
-	// Specifies the time zone the schedule is in.
+	// The time zone for the execution schedule.
 	GetTimezone() ExecutionScheduleTimezoneEnum
 }
 

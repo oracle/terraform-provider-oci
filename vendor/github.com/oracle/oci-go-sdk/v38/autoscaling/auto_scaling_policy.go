@@ -21,14 +21,18 @@ import (
 // AutoScalingPolicy Autoscaling policies define the criteria that trigger autoscaling actions and the actions to take.
 // An autoscaling policy is part of an autoscaling configuration. For more information, see
 // Autoscaling (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm).
+// You can create the following types of autoscaling policies:
+//
+//   - **Schedule-based:** Autoscaling events take place at the specific times that you schedule.
+//   - **Threshold-based:** An autoscaling action is triggered when a performance metric meets or exceeds a threshold.
 type AutoScalingPolicy interface {
-
-	// The capacity requirements of the autoscaling policy.
-	GetCapacity() *Capacity
 
 	// The date and time the autoscaling configuration was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	GetTimeCreated() *common.SDKTime
+
+	// The capacity requirements of the autoscaling policy.
+	GetCapacity() *Capacity
 
 	// The ID of the autoscaling policy that is assigned after creation.
 	GetId() *string
@@ -36,14 +40,14 @@ type AutoScalingPolicy interface {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// Boolean field indicating whether this policy is enabled or not.
+	// Whether the autoscaling policy is enabled.
 	GetIsEnabled() *bool
 }
 
 type autoscalingpolicy struct {
 	JsonData    []byte
-	Capacity    *Capacity       `mandatory:"true" json:"capacity"`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+	Capacity    *Capacity       `mandatory:"false" json:"capacity"`
 	Id          *string         `mandatory:"false" json:"id"`
 	DisplayName *string         `mandatory:"false" json:"displayName"`
 	IsEnabled   *bool           `mandatory:"false" json:"isEnabled"`
@@ -61,8 +65,8 @@ func (m *autoscalingpolicy) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.Capacity = s.Model.Capacity
 	m.TimeCreated = s.Model.TimeCreated
+	m.Capacity = s.Model.Capacity
 	m.Id = s.Model.Id
 	m.DisplayName = s.Model.DisplayName
 	m.IsEnabled = s.Model.IsEnabled
@@ -93,14 +97,14 @@ func (m *autoscalingpolicy) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetCapacity returns Capacity
-func (m autoscalingpolicy) GetCapacity() *Capacity {
-	return m.Capacity
-}
-
 //GetTimeCreated returns TimeCreated
 func (m autoscalingpolicy) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
+}
+
+//GetCapacity returns Capacity
+func (m autoscalingpolicy) GetCapacity() *Capacity {
+	return m.Capacity
 }
 
 //GetId returns Id

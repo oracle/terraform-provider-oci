@@ -54,6 +54,10 @@ func (m *volumesourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.Type {
+	case "blockVolumeReplica":
+		mm := VolumeSourceFromBlockVolumeReplicaDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "volume":
 		mm := VolumeSourceFromVolumeDetails{}
 		err = json.Unmarshal(data, &mm)

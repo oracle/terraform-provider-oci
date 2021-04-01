@@ -36,6 +36,11 @@ type PreauthenticatedRequestSummary struct {
 	// The name of object that is being granted access to by the pre-authenticated request. This can be null and if it is,
 	// the pre-authenticated request grants access to the entire bucket.
 	ObjectName *string `mandatory:"false" json:"objectName"`
+
+	// Specifies whether a list operation is allowed on a PAR with accessType "AnyObjectRead" or "AnyObjectReadWrite".
+	// Deny: Prevents the user from performing a list operation.
+	// ListObjects: Authorizes the user to perform a list operation.
+	BucketListingAction PreauthenticatedRequestBucketListingActionEnum `mandatory:"false" json:"bucketListingAction,omitempty"`
 }
 
 func (m PreauthenticatedRequestSummary) String() string {
@@ -47,17 +52,21 @@ type PreauthenticatedRequestSummaryAccessTypeEnum string
 
 // Set of constants representing the allowable values for PreauthenticatedRequestSummaryAccessTypeEnum
 const (
-	PreauthenticatedRequestSummaryAccessTypeObjectread      PreauthenticatedRequestSummaryAccessTypeEnum = "ObjectRead"
-	PreauthenticatedRequestSummaryAccessTypeObjectwrite     PreauthenticatedRequestSummaryAccessTypeEnum = "ObjectWrite"
-	PreauthenticatedRequestSummaryAccessTypeObjectreadwrite PreauthenticatedRequestSummaryAccessTypeEnum = "ObjectReadWrite"
-	PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite  PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectWrite"
+	PreauthenticatedRequestSummaryAccessTypeObjectread         PreauthenticatedRequestSummaryAccessTypeEnum = "ObjectRead"
+	PreauthenticatedRequestSummaryAccessTypeObjectwrite        PreauthenticatedRequestSummaryAccessTypeEnum = "ObjectWrite"
+	PreauthenticatedRequestSummaryAccessTypeObjectreadwrite    PreauthenticatedRequestSummaryAccessTypeEnum = "ObjectReadWrite"
+	PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite     PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectWrite"
+	PreauthenticatedRequestSummaryAccessTypeAnyobjectread      PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectRead"
+	PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectReadWrite"
 )
 
 var mappingPreauthenticatedRequestSummaryAccessType = map[string]PreauthenticatedRequestSummaryAccessTypeEnum{
-	"ObjectRead":      PreauthenticatedRequestSummaryAccessTypeObjectread,
-	"ObjectWrite":     PreauthenticatedRequestSummaryAccessTypeObjectwrite,
-	"ObjectReadWrite": PreauthenticatedRequestSummaryAccessTypeObjectreadwrite,
-	"AnyObjectWrite":  PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite,
+	"ObjectRead":         PreauthenticatedRequestSummaryAccessTypeObjectread,
+	"ObjectWrite":        PreauthenticatedRequestSummaryAccessTypeObjectwrite,
+	"ObjectReadWrite":    PreauthenticatedRequestSummaryAccessTypeObjectreadwrite,
+	"AnyObjectWrite":     PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite,
+	"AnyObjectRead":      PreauthenticatedRequestSummaryAccessTypeAnyobjectread,
+	"AnyObjectReadWrite": PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite,
 }
 
 // GetPreauthenticatedRequestSummaryAccessTypeEnumValues Enumerates the set of values for PreauthenticatedRequestSummaryAccessTypeEnum

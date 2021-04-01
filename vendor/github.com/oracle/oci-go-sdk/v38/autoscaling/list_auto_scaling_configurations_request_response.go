@@ -17,7 +17,7 @@ import (
 type ListAutoScalingConfigurationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the
-	// resources monitored by the metric that you are searching for. Use tenancyId to search in
+	// resource. Use tenancyId to search in
 	// the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 

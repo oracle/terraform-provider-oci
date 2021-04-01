@@ -41,8 +41,10 @@ type CreateAutoScalingConfigurationDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize
-	// before rescaling. The minimum value is 300 seconds, which is also the default.
+	// For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions.
+	// The cooldown period gives the system time to stabilize before rescaling. The minimum value is 300 seconds, which
+	// is also the default. The cooldown period starts when the instance pool reaches the running state.
+	// For schedule-based autoscaling policies, this value is not used.
 	CoolDownInSeconds *int `mandatory:"false" json:"coolDownInSeconds"`
 
 	// Whether the autoscaling configuration is enabled.

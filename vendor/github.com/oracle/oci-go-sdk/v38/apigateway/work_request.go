@@ -71,6 +71,8 @@ const (
 	WorkRequestOperationTypeUpdateApi         WorkRequestOperationTypeEnum = "UPDATE_API"
 	WorkRequestOperationTypeDeleteApi         WorkRequestOperationTypeEnum = "DELETE_API"
 	WorkRequestOperationTypeValidateApi       WorkRequestOperationTypeEnum = "VALIDATE_API"
+	WorkRequestOperationTypeCreateSdk         WorkRequestOperationTypeEnum = "CREATE_SDK"
+	WorkRequestOperationTypeDeleteSdk         WorkRequestOperationTypeEnum = "DELETE_SDK"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
@@ -87,6 +89,8 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 	"UPDATE_API":         WorkRequestOperationTypeUpdateApi,
 	"DELETE_API":         WorkRequestOperationTypeDeleteApi,
 	"VALIDATE_API":       WorkRequestOperationTypeValidateApi,
+	"CREATE_SDK":         WorkRequestOperationTypeCreateSdk,
+	"DELETE_SDK":         WorkRequestOperationTypeDeleteSdk,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

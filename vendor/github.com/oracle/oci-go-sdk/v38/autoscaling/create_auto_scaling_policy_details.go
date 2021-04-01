@@ -18,10 +18,12 @@ import (
 	"github.com/oracle/oci-go-sdk/v38/common"
 )
 
-// CreateAutoScalingPolicyDetails Creation details for an autoscaling policy.
-// Each autoscaling configuration can have one autoscaling policy.
-// In a threshold-based autoscaling policy, an autoscaling action is triggered when a performance metric meets
+// CreateAutoScalingPolicyDetails Creation details for an autoscaling policy. You can create the following types of autoscaling policies:
+// - **Schedule-based:** Autoscaling events take place at the specific times that you schedule.
+// - **Threshold-based:** An autoscaling action is triggered when a performance metric meets
 // or exceeds a threshold.
+// An autoscaling configuration can either have multiple schedule-based autoscaling policies, or one
+// threshold-based autoscaling policy.
 type CreateAutoScalingPolicyDetails interface {
 
 	// The capacity requirements of the autoscaling policy.
@@ -30,13 +32,13 @@ type CreateAutoScalingPolicyDetails interface {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// Boolean field indicating whether this policy is enabled or not.
+	// Whether the autoscaling policy is enabled.
 	GetIsEnabled() *bool
 }
 
 type createautoscalingpolicydetails struct {
 	JsonData    []byte
-	Capacity    *Capacity `mandatory:"true" json:"capacity"`
+	Capacity    *Capacity `mandatory:"false" json:"capacity"`
 	DisplayName *string   `mandatory:"false" json:"displayName"`
 	IsEnabled   *bool     `mandatory:"false" json:"isEnabled"`
 	PolicyType  string    `json:"policyType"`

@@ -31,12 +31,12 @@ type CreateDeploymentDetails struct {
 	// Deployment (https://docs.cloud.oracle.com/iaas/Content/APIGateway/Tasks/apigatewaycreatingdeployment.htm).
 	PathPrefix *string `mandatory:"true" json:"pathPrefix"`
 
-	Specification *ApiSpecification `mandatory:"true" json:"specification"`
-
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	Specification *ApiSpecification `mandatory:"false" json:"specification"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see

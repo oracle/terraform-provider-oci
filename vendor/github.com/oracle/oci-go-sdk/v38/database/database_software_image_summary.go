@@ -143,11 +143,13 @@ type DatabaseSoftwareImageSummaryImageShapeFamilyEnum string
 const (
 	DatabaseSoftwareImageSummaryImageShapeFamilyVmBmShape    DatabaseSoftwareImageSummaryImageShapeFamilyEnum = "VM_BM_SHAPE"
 	DatabaseSoftwareImageSummaryImageShapeFamilyExadataShape DatabaseSoftwareImageSummaryImageShapeFamilyEnum = "EXADATA_SHAPE"
+	DatabaseSoftwareImageSummaryImageShapeFamilyExaccShape   DatabaseSoftwareImageSummaryImageShapeFamilyEnum = "EXACC_SHAPE"
 )
 
 var mappingDatabaseSoftwareImageSummaryImageShapeFamily = map[string]DatabaseSoftwareImageSummaryImageShapeFamilyEnum{
 	"VM_BM_SHAPE":   DatabaseSoftwareImageSummaryImageShapeFamilyVmBmShape,
 	"EXADATA_SHAPE": DatabaseSoftwareImageSummaryImageShapeFamilyExadataShape,
+	"EXACC_SHAPE":   DatabaseSoftwareImageSummaryImageShapeFamilyExaccShape,
 }
 
 // GetDatabaseSoftwareImageSummaryImageShapeFamilyEnumValues Enumerates the set of values for DatabaseSoftwareImageSummaryImageShapeFamilyEnum
