@@ -10,10 +10,10 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_apm.ApmDomainClient", &OracleClient{initClientFn: initApmApmDomainClient})
+	RegisterOracleClient("oci_apm.ApmDomainClient", &OracleClient{initClientFn: initApmcontrolplaneApmDomainClient})
 }
 
-func initApmApmDomainClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+func initApmcontrolplaneApmDomainClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_apm.NewApmDomainClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err

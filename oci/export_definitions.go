@@ -16,6 +16,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/v42/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/v42/core"
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v42/databasemigration"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v42/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v42/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v42/dataintegration"
@@ -1030,6 +1031,30 @@ var exportDatabaseExternalDatabaseConnectorHints = &TerraformResourceHints{
 	resourceAbbreviation: "external_database_connector",
 	discoverableLifecycleStates: []string{
 		string(oci_database.ExternalDatabaseConnectorLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseMigrationMigrationHints = &TerraformResourceHints{
+	resourceClass:          "oci_database_migration_migration",
+	datasourceClass:        "oci_database_migration_migrations",
+	datasourceItemsAttr:    "migration_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "migration",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_database_migration.LifecycleStatesActive),
+	},
+}
+
+var exportDatabaseMigrationConnectionHints = &TerraformResourceHints{
+	resourceClass:          "oci_database_migration_connection",
+	datasourceClass:        "oci_database_migration_connections",
+	datasourceItemsAttr:    "connection_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "connection",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_database_migration.LifecycleStatesActive),
 	},
 }
 
