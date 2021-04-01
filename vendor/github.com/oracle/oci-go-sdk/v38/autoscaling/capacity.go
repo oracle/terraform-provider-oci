@@ -20,15 +20,22 @@ import (
 // Capacity Capacity limits for the instance pool.
 type Capacity struct {
 
-	// The maximum number of instances the instance pool is allowed to increase to (scale out).
+	// For a threshold-based autoscaling policy, this value is the maximum number of instances the instance pool is allowed
+	// to increase to (scale out).
+	// For a schedule-based autoscaling policy, this value is not used.
 	Max *int `mandatory:"false" json:"max"`
 
-	// The minimum number of instances the instance pool is allowed to decrease to (scale in).
+	// For a threshold-based autoscaling policy, this value is the minimum number of instances the instance pool is allowed
+	// to decrease to (scale in).
+	// For a schedule-based autoscaling policy, this value is not used.
 	Min *int `mandatory:"false" json:"min"`
 
-	// The initial number of instances to launch in the instance pool immediately after autoscaling is
-	// enabled. After autoscaling retrieves performance metrics, the number of instances is automatically adjusted from this
-	// initial number to a number that is based on the limits that you set.
+	// For a threshold-based autoscaling policy, this value is the initial number of instances to launch in the instance pool
+	// immediately after autoscaling is enabled. After autoscaling retrieves performance metrics, the number of
+	// instances is automatically adjusted from this initial number to a number that is based on the limits that
+	// you set.
+	// For a schedule-based autoscaling policy, this value is the target pool size to scale to when executing the schedule
+	// that's defined in the autoscaling policy.
 	Initial *int `mandatory:"false" json:"initial"`
 }
 

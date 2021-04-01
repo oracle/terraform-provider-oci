@@ -94,6 +94,9 @@ type Volume struct {
 
 	// The number of Volume Performance Units per GB that this volume is effectively tuned to when it's idle.
 	AutoTunedVpusPerGB *int64 `mandatory:"false" json:"autoTunedVpusPerGB"`
+
+	// The list of block volume replicas of this volume.
+	BlockVolumeReplicas []BlockVolumeReplicaInfo `mandatory:"false" json:"blockVolumeReplicas"`
 }
 
 func (m Volume) String() string {
@@ -103,24 +106,25 @@ func (m Volume) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
-		IsHydrated         *bool                             `json:"isHydrated"`
-		KmsKeyId           *string                           `json:"kmsKeyId"`
-		VpusPerGB          *int64                            `json:"vpusPerGB"`
-		SizeInGBs          *int64                            `json:"sizeInGBs"`
-		SourceDetails      volumesourcedetails               `json:"sourceDetails"`
-		VolumeGroupId      *string                           `json:"volumeGroupId"`
-		IsAutoTuneEnabled  *bool                             `json:"isAutoTuneEnabled"`
-		AutoTunedVpusPerGB *int64                            `json:"autoTunedVpusPerGB"`
-		AvailabilityDomain *string                           `json:"availabilityDomain"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		DisplayName        *string                           `json:"displayName"`
-		Id                 *string                           `json:"id"`
-		LifecycleState     VolumeLifecycleStateEnum          `json:"lifecycleState"`
-		SizeInMBs          *int64                            `json:"sizeInMBs"`
-		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
+		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags        map[string]string                 `json:"freeformTags"`
+		SystemTags          map[string]map[string]interface{} `json:"systemTags"`
+		IsHydrated          *bool                             `json:"isHydrated"`
+		KmsKeyId            *string                           `json:"kmsKeyId"`
+		VpusPerGB           *int64                            `json:"vpusPerGB"`
+		SizeInGBs           *int64                            `json:"sizeInGBs"`
+		SourceDetails       volumesourcedetails               `json:"sourceDetails"`
+		VolumeGroupId       *string                           `json:"volumeGroupId"`
+		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
+		AutoTunedVpusPerGB  *int64                            `json:"autoTunedVpusPerGB"`
+		BlockVolumeReplicas []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
+		AvailabilityDomain  *string                           `json:"availabilityDomain"`
+		CompartmentId       *string                           `json:"compartmentId"`
+		DisplayName         *string                           `json:"displayName"`
+		Id                  *string                           `json:"id"`
+		LifecycleState      VolumeLifecycleStateEnum          `json:"lifecycleState"`
+		SizeInMBs           *int64                            `json:"sizeInMBs"`
+		TimeCreated         *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -157,6 +161,11 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	m.IsAutoTuneEnabled = model.IsAutoTuneEnabled
 
 	m.AutoTunedVpusPerGB = model.AutoTunedVpusPerGB
+
+	m.BlockVolumeReplicas = make([]BlockVolumeReplicaInfo, len(model.BlockVolumeReplicas))
+	for i, n := range model.BlockVolumeReplicas {
+		m.BlockVolumeReplicas[i] = n
+	}
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

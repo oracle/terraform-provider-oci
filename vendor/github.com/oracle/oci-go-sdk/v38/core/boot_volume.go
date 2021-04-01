@@ -97,6 +97,9 @@ type BootVolume struct {
 
 	// The number of Volume Performance Units per GB that this boot volume is effectively tuned to when it's idle.
 	AutoTunedVpusPerGB *int64 `mandatory:"false" json:"autoTunedVpusPerGB"`
+
+	// The list of boot volume replicas of this boot volume
+	BootVolumeReplicas []BootVolumeReplicaInfo `mandatory:"false" json:"bootVolumeReplicas"`
 }
 
 func (m BootVolume) String() string {
@@ -119,6 +122,7 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 		KmsKeyId           *string                           `json:"kmsKeyId"`
 		IsAutoTuneEnabled  *bool                             `json:"isAutoTuneEnabled"`
 		AutoTunedVpusPerGB *int64                            `json:"autoTunedVpusPerGB"`
+		BootVolumeReplicas []BootVolumeReplicaInfo           `json:"bootVolumeReplicas"`
 		AvailabilityDomain *string                           `json:"availabilityDomain"`
 		CompartmentId      *string                           `json:"compartmentId"`
 		Id                 *string                           `json:"id"`
@@ -165,6 +169,11 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 	m.IsAutoTuneEnabled = model.IsAutoTuneEnabled
 
 	m.AutoTunedVpusPerGB = model.AutoTunedVpusPerGB
+
+	m.BootVolumeReplicas = make([]BootVolumeReplicaInfo, len(model.BootVolumeReplicas))
+	for i, n := range model.BootVolumeReplicas {
+		m.BootVolumeReplicas[i] = n
+	}
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

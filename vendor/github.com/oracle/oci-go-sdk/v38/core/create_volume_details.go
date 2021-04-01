@@ -75,6 +75,10 @@ type CreateVolumeDetails struct {
 
 	// Specifies whether the auto-tune performance is enabled for this volume.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
+
+	// The list of block volume replicas to be enabled for this volume
+	// in the specified destination availability domains.
+	BlockVolumeReplicas []BlockVolumeReplicaDetails `mandatory:"false" json:"blockVolumeReplicas"`
 }
 
 func (m CreateVolumeDetails) String() string {
@@ -84,19 +88,20 @@ func (m CreateVolumeDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupPolicyId     *string                           `json:"backupPolicyId"`
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName        *string                           `json:"displayName"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		KmsKeyId           *string                           `json:"kmsKeyId"`
-		VpusPerGB          *int64                            `json:"vpusPerGB"`
-		SizeInGBs          *int64                            `json:"sizeInGBs"`
-		SizeInMBs          *int64                            `json:"sizeInMBs"`
-		SourceDetails      volumesourcedetails               `json:"sourceDetails"`
-		VolumeBackupId     *string                           `json:"volumeBackupId"`
-		IsAutoTuneEnabled  *bool                             `json:"isAutoTuneEnabled"`
-		AvailabilityDomain *string                           `json:"availabilityDomain"`
-		CompartmentId      *string                           `json:"compartmentId"`
+		BackupPolicyId      *string                           `json:"backupPolicyId"`
+		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName         *string                           `json:"displayName"`
+		FreeformTags        map[string]string                 `json:"freeformTags"`
+		KmsKeyId            *string                           `json:"kmsKeyId"`
+		VpusPerGB           *int64                            `json:"vpusPerGB"`
+		SizeInGBs           *int64                            `json:"sizeInGBs"`
+		SizeInMBs           *int64                            `json:"sizeInMBs"`
+		SourceDetails       volumesourcedetails               `json:"sourceDetails"`
+		VolumeBackupId      *string                           `json:"volumeBackupId"`
+		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
+		BlockVolumeReplicas []BlockVolumeReplicaDetails       `json:"blockVolumeReplicas"`
+		AvailabilityDomain  *string                           `json:"availabilityDomain"`
+		CompartmentId       *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -133,6 +138,11 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	m.VolumeBackupId = model.VolumeBackupId
 
 	m.IsAutoTuneEnabled = model.IsAutoTuneEnabled
+
+	m.BlockVolumeReplicas = make([]BlockVolumeReplicaDetails, len(model.BlockVolumeReplicas))
+	for i, n := range model.BlockVolumeReplicas {
+		m.BlockVolumeReplicas[i] = n
+	}
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

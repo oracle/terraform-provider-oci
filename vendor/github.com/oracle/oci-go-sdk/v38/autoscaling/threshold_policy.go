@@ -21,14 +21,14 @@ import (
 // ThresholdPolicy An autoscaling policy that defines threshold-based rules for an autoscaling configuration.
 type ThresholdPolicy struct {
 
-	// The capacity requirements of the autoscaling policy.
-	Capacity *Capacity `mandatory:"true" json:"capacity"`
-
 	// The date and time the autoscaling configuration was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	Rules []Condition `mandatory:"true" json:"rules"`
+
+	// The capacity requirements of the autoscaling policy.
+	Capacity *Capacity `mandatory:"false" json:"capacity"`
 
 	// The ID of the autoscaling policy that is assigned after creation.
 	Id *string `mandatory:"false" json:"id"`
@@ -36,7 +36,7 @@ type ThresholdPolicy struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Boolean field indicating whether this policy is enabled or not.
+	// Whether the autoscaling policy is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 }
 

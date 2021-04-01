@@ -27,10 +27,13 @@ type UpdateScheduledPolicyDetails struct {
 	// The capacity requirements of the autoscaling policy.
 	Capacity *Capacity `mandatory:"false" json:"capacity"`
 
-	// Boolean field indicating whether this policy is enabled or not.
+	// Whether the autoscaling policy is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
+	// The schedule for executing the autoscaling policy.
 	ExecutionSchedule ExecutionSchedule `mandatory:"false" json:"executionSchedule"`
+
+	ResourceAction ResourceAction `mandatory:"false" json:"resourceAction"`
 }
 
 //GetDisplayName returns DisplayName
@@ -73,6 +76,7 @@ func (m *UpdateScheduledPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 		Capacity          *Capacity         `json:"capacity"`
 		IsEnabled         *bool             `json:"isEnabled"`
 		ExecutionSchedule executionschedule `json:"executionSchedule"`
+		ResourceAction    resourceaction    `json:"resourceAction"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -94,6 +98,16 @@ func (m *UpdateScheduledPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ExecutionSchedule = nn.(ExecutionSchedule)
 	} else {
 		m.ExecutionSchedule = nil
+	}
+
+	nn, e = model.ResourceAction.UnmarshalPolymorphicJSON(model.ResourceAction.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ResourceAction = nn.(ResourceAction)
+	} else {
+		m.ResourceAction = nil
 	}
 
 	return

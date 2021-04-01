@@ -48,10 +48,38 @@ type PreauthenticatedRequest struct {
 	// information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket.
 	// Example: test/object1.log
 	ObjectName *string `mandatory:"false" json:"objectName"`
+
+	// Specifies whether a list operation is allowed on a PAR with accessType "AnyObjectRead" or "AnyObjectReadWrite".
+	// Deny: Prevents the user from performing a list operation.
+	// ListObjects: Authorizes the user to perform a list operation.
+	BucketListingAction PreauthenticatedRequestBucketListingActionEnum `mandatory:"false" json:"bucketListingAction,omitempty"`
 }
 
 func (m PreauthenticatedRequest) String() string {
 	return common.PointerString(m)
+}
+
+// PreauthenticatedRequestBucketListingActionEnum Enum with underlying type: string
+type PreauthenticatedRequestBucketListingActionEnum string
+
+// Set of constants representing the allowable values for PreauthenticatedRequestBucketListingActionEnum
+const (
+	PreauthenticatedRequestBucketListingActionDeny        PreauthenticatedRequestBucketListingActionEnum = "Deny"
+	PreauthenticatedRequestBucketListingActionListobjects PreauthenticatedRequestBucketListingActionEnum = "ListObjects"
+)
+
+var mappingPreauthenticatedRequestBucketListingAction = map[string]PreauthenticatedRequestBucketListingActionEnum{
+	"Deny":        PreauthenticatedRequestBucketListingActionDeny,
+	"ListObjects": PreauthenticatedRequestBucketListingActionListobjects,
+}
+
+// GetPreauthenticatedRequestBucketListingActionEnumValues Enumerates the set of values for PreauthenticatedRequestBucketListingActionEnum
+func GetPreauthenticatedRequestBucketListingActionEnumValues() []PreauthenticatedRequestBucketListingActionEnum {
+	values := make([]PreauthenticatedRequestBucketListingActionEnum, 0)
+	for _, v := range mappingPreauthenticatedRequestBucketListingAction {
+		values = append(values, v)
+	}
+	return values
 }
 
 // PreauthenticatedRequestAccessTypeEnum Enum with underlying type: string
@@ -59,17 +87,21 @@ type PreauthenticatedRequestAccessTypeEnum string
 
 // Set of constants representing the allowable values for PreauthenticatedRequestAccessTypeEnum
 const (
-	PreauthenticatedRequestAccessTypeObjectread      PreauthenticatedRequestAccessTypeEnum = "ObjectRead"
-	PreauthenticatedRequestAccessTypeObjectwrite     PreauthenticatedRequestAccessTypeEnum = "ObjectWrite"
-	PreauthenticatedRequestAccessTypeObjectreadwrite PreauthenticatedRequestAccessTypeEnum = "ObjectReadWrite"
-	PreauthenticatedRequestAccessTypeAnyobjectwrite  PreauthenticatedRequestAccessTypeEnum = "AnyObjectWrite"
+	PreauthenticatedRequestAccessTypeObjectread         PreauthenticatedRequestAccessTypeEnum = "ObjectRead"
+	PreauthenticatedRequestAccessTypeObjectwrite        PreauthenticatedRequestAccessTypeEnum = "ObjectWrite"
+	PreauthenticatedRequestAccessTypeObjectreadwrite    PreauthenticatedRequestAccessTypeEnum = "ObjectReadWrite"
+	PreauthenticatedRequestAccessTypeAnyobjectwrite     PreauthenticatedRequestAccessTypeEnum = "AnyObjectWrite"
+	PreauthenticatedRequestAccessTypeAnyobjectread      PreauthenticatedRequestAccessTypeEnum = "AnyObjectRead"
+	PreauthenticatedRequestAccessTypeAnyobjectreadwrite PreauthenticatedRequestAccessTypeEnum = "AnyObjectReadWrite"
 )
 
 var mappingPreauthenticatedRequestAccessType = map[string]PreauthenticatedRequestAccessTypeEnum{
-	"ObjectRead":      PreauthenticatedRequestAccessTypeObjectread,
-	"ObjectWrite":     PreauthenticatedRequestAccessTypeObjectwrite,
-	"ObjectReadWrite": PreauthenticatedRequestAccessTypeObjectreadwrite,
-	"AnyObjectWrite":  PreauthenticatedRequestAccessTypeAnyobjectwrite,
+	"ObjectRead":         PreauthenticatedRequestAccessTypeObjectread,
+	"ObjectWrite":        PreauthenticatedRequestAccessTypeObjectwrite,
+	"ObjectReadWrite":    PreauthenticatedRequestAccessTypeObjectreadwrite,
+	"AnyObjectWrite":     PreauthenticatedRequestAccessTypeAnyobjectwrite,
+	"AnyObjectRead":      PreauthenticatedRequestAccessTypeAnyobjectread,
+	"AnyObjectReadWrite": PreauthenticatedRequestAccessTypeAnyobjectreadwrite,
 }
 
 // GetPreauthenticatedRequestAccessTypeEnumValues Enumerates the set of values for PreauthenticatedRequestAccessTypeEnum

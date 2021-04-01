@@ -19,19 +19,20 @@ import (
 )
 
 // CreateScheduledPolicyDetails Creation details for a schedule-based autoscaling policy.
-// In a schedule-based autoscaling policy, an autoscaling action is triggered when execution time is current.
+// In a schedule-based autoscaling policy, an autoscaling action is triggered at the scheduled execution time.
 type CreateScheduledPolicyDetails struct {
+	ExecutionSchedule ExecutionSchedule `mandatory:"true" json:"executionSchedule"`
 
 	// The capacity requirements of the autoscaling policy.
-	Capacity *Capacity `mandatory:"true" json:"capacity"`
-
-	ExecutionSchedule ExecutionSchedule `mandatory:"true" json:"executionSchedule"`
+	Capacity *Capacity `mandatory:"false" json:"capacity"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Boolean field indicating whether this policy is enabled or not.
+	// Whether the autoscaling policy is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+
+	ResourceAction ResourceAction `mandatory:"false" json:"resourceAction"`
 }
 
 //GetCapacity returns Capacity
@@ -70,9 +71,10 @@ func (m CreateScheduledPolicyDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateScheduledPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Capacity          *Capacity         `json:"capacity"`
 		DisplayName       *string           `json:"displayName"`
 		IsEnabled         *bool             `json:"isEnabled"`
-		Capacity          *Capacity         `json:"capacity"`
+		ResourceAction    resourceaction    `json:"resourceAction"`
 		ExecutionSchedule executionschedule `json:"executionSchedule"`
 	}{}
 
@@ -81,11 +83,21 @@ func (m *CreateScheduledPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Capacity = model.Capacity
+
 	m.DisplayName = model.DisplayName
 
 	m.IsEnabled = model.IsEnabled
 
-	m.Capacity = model.Capacity
+	nn, e = model.ResourceAction.UnmarshalPolymorphicJSON(model.ResourceAction.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ResourceAction = nn.(ResourceAction)
+	} else {
+		m.ResourceAction = nil
+	}
 
 	nn, e = model.ExecutionSchedule.UnmarshalPolymorphicJSON(model.ExecutionSchedule.JsonData)
 	if e != nil {

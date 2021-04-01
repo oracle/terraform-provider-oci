@@ -39,12 +39,12 @@ type Deployment struct {
 	// The endpoint to access this deployment on the gateway.
 	Endpoint *string `mandatory:"true" json:"endpoint"`
 
-	Specification *ApiSpecification `mandatory:"true" json:"specification"`
-
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	Specification *ApiSpecification `mandatory:"false" json:"specification"`
 
 	// The time this resource was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

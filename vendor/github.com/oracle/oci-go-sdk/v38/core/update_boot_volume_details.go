@@ -47,6 +47,10 @@ type UpdateBootVolumeDetails struct {
 
 	// Specifies whether the auto-tune performance is enabled for this boot volume.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
+
+	// The list of boot volume replicas that this boot volume will be updated to have
+	// in the specified destination availability domains.
+	BootVolumeReplicas []BootVolumeReplicaDetails `mandatory:"false" json:"bootVolumeReplicas"`
 }
 
 func (m UpdateBootVolumeDetails) String() string {

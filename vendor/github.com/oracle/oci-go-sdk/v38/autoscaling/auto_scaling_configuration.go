@@ -18,7 +18,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v38/common"
 )
 
-// AutoScalingConfiguration An autoscaling configuration allows you to dynamically scale the resources in a Compute instance pool.
+// AutoScalingConfiguration An autoscaling configuration lets you dynamically scale the resources in a Compute instance pool.
 // For more information, see Autoscaling (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm).
 type AutoScalingConfiguration struct {
 
@@ -32,10 +32,9 @@ type AutoScalingConfiguration struct {
 
 	// Autoscaling policy definitions for the autoscaling configuration. An autoscaling policy defines the criteria that
 	// trigger autoscaling actions and the actions to take.
-	// Each autoscaling configuration can have one autoscaling policy.
 	Policies []AutoScalingPolicy `mandatory:"true" json:"policies"`
 
-	// The date and time the AutoScalingConfiguration was created, in the format defined by RFC3339.
+	// The date and time the autoscaling configuration was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -52,8 +51,10 @@ type AutoScalingConfiguration struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize
-	// before rescaling. The minimum value is 300 seconds, which is also the default.
+	// For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions.
+	// The cooldown period gives the system time to stabilize before rescaling. The minimum value is 300 seconds, which
+	// is also the default. The cooldown period starts when the instance pool reaches the running state.
+	// For schedule-based autoscaling policies, this value is not used.
 	CoolDownInSeconds *int `mandatory:"false" json:"coolDownInSeconds"`
 
 	// Whether the autoscaling configuration is enabled.
