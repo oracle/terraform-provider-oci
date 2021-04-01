@@ -1,0 +1,86 @@
+---
+subcategory: "Database Management"
+layout: "oci"
+page_title: "Oracle Cloud Infrastructure: oci_database_management_managed_databases_change_database_parameter"
+sidebar_current: "docs-oci-resource-database_management-managed_databases_change_database_parameter"
+description: |-
+  Provides the Managed Databases Change Database Parameter resource in Oracle Cloud Infrastructure Database Management service
+---
+
+# oci_database_management_managed_databases_change_database_parameter
+This resource provides the Managed Databases Change Database Parameter resource in Oracle Cloud Infrastructure Database Management service.
+
+Changes database parameters' values. There are two kinds of database
+parameters:
+
+- Dynamic parameters: They can be changed for the current Oracle
+Database instance. The changes take effect immediately.
+- Static parameters: They cannot be changed for the current instance.
+You must change these parameters and then restart the database before
+changes take effect.
+
+**Note:** If the instance is started using a text initialization
+parameter file, the parameter changes are applicable only for the
+current instance. You must update them manually to be passed to
+a future instance.
+
+
+## Example Usage
+
+```hcl
+resource "oci_database_management_managed_databases_change_database_parameter" "test_managed_databases_change_database_parameter" {
+	#Required
+	credentials {
+
+		#Optional
+		password = var.managed_databases_change_database_parameter_credentials_password
+		role = var.managed_databases_change_database_parameter_credentials_role
+		user_name = oci_identity_user.test_user.name
+	}
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+	parameters {
+		#Required
+		name = var.managed_databases_change_database_parameter_parameters_name
+		value = var.managed_databases_change_database_parameter_parameters_value
+
+		#Optional
+		update_comment = var.managed_databases_change_database_parameter_parameters_update_comment
+	}
+	scope = var.managed_databases_change_database_parameter_scope
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `credentials` - (Required) The database credentials used to perform management activity.
+	* `password` - (Optional) The password for the database user name. 
+	* `role` - (Optional) The role of the database user. Indicates whether the database user is a normal user or sysdba.
+	* `user_name` - (Optional) The database user name used to perform management activity. 
+* `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
+* `parameters` - (Required) A list of database parameters and their values.
+	* `name` - (Required) The parameter name.
+	* `update_comment` - (Optional) A comment string to associate with the change in parameter value. It cannot contain control characters or a line break. 
+	* `value` - (Required) The parameter value.
+* `scope` - (Required) The clause used to specify when the parameter change takes effect.
+
+	Use `MEMORY` to make the change in memory and affect it immediately. Use `SPFILE` to make the change in the server parameter file. The change takes effect when the database is next shut down and started up again. Use `BOTH` to make the change in memory and in the server parameter file. The change takes effect immediately and persists after the database is shut down and started up again. 
+
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+
+## Attributes Reference
+
+The following attributes are exported:
+
+* `status` - A map with the parameter name as key and its update status as value. 
+	* `error_code` - An error code that defines the failure or `null` if the parameter was updated successfully. 
+	* `error_message` - The error message indicating the reason for failure or `null` if the parameter was updated successfully. 
+	* `status` - The status of the parameter update.
+
+## Import
+
+Import is not supported for this resource.
+

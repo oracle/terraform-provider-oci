@@ -8,6 +8,7 @@
 - Support for CloudGuard features release
 - Support for RAC External Database for DB Management
 - Support for Application Performance Monitoring for `functions` 
+- Support for database parameters for external databases
 
 ## 4.23.0 (April 21, 2021)
 
