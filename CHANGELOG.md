@@ -10,6 +10,9 @@
 - Support for Compute DVH E3 shape added
 - Support for Container Engine Image Signing and Deploy Authorization
 
+### Notes
+- The OCI Terraform provider no longer automatically retries operations after receiving an HTTP 404 error. If your Terraform configurations expect automatic retries in this scenario, you should update them accordingly.
+
 ## 4.20.0 (March 31, 2021)
 
 ### Added
