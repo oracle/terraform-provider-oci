@@ -129,6 +129,7 @@ var exportArtifactsContainerImageSignatureHints = &TerraformResourceHints{
 	resourceClass:          "oci_artifacts_container_image_signature",
 	datasourceClass:        "oci_artifacts_container_image_signatures",
 	datasourceItemsAttr:    "container_image_signature_collection",
+	isDatasourceCollection: true,
 	resourceAbbreviation:   "container_image_signature",
 	requireResourceRefresh: true,
 }

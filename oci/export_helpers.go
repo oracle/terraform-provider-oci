@@ -52,7 +52,7 @@ func init() {
 
 func getArtifactsContainerImageSignatureId(resource *OCIResource) (string, error) {
 
-	imageSignatureId, ok := resource.sourceAttributes["image_signature_id"].(string)
+	imageSignatureId, ok := resource.sourceAttributes["id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find imageSignatureId for Artifacts ContainerImageSignature")
 	}
