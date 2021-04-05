@@ -25,6 +25,23 @@ variable "config" {
   }
 }
 
+##### Application Performance Monitoring ######
+# To use APM tracing with functions as a service, you need to have created an APM domain.
+#
+# You can learn how to create an APM domain to begins tracing your functions here:
+# https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-apm-domain.html
+#
+
+variable "application_trace_config" {
+  type = object({
+    domain_id = string
+    is_enabled = bool
+  })
+  default = {
+    is_enabled = true
+  }
+}
+
 variable "syslog_url" {
 }
 
@@ -43,6 +60,15 @@ variable "function_image" {
 }
 
 variable "function_image_digest" {
+}
+
+variable "function_trace_config" {
+  type = object({
+    is_enabled = bool
+  })
+  default = {
+    is_enabled = true
+  }
 }
 
 variable "function_memory_in_mbs" {

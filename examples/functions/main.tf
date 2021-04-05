@@ -61,8 +61,12 @@ resource "oci_functions_application" "test_application" {
   subnet_ids     = [oci_core_subnet.test_subnet.id]
 
   #Optional
-  config     = var.config
-  syslog_url = var.syslog_url
+  config       = var.config
+  syslog_url   = var.syslog_url
+  trace_config {
+    domain_id  = var.application_trace_config.domain_id
+    is_enabled = var.application_trace_config.is_enabled
+  }
 }
 
 data "oci_functions_applications" "test_applications" {
@@ -86,6 +90,9 @@ resource "oci_functions_function" "test_function" {
   config             = var.config
   image_digest       = var.function_image_digest
   timeout_in_seconds = "30"
+  trace_config {
+    is_enabled = var.function_trace_config.is_enabled
+  }
 }
 
 data "oci_functions_functions" "test_functions" {
