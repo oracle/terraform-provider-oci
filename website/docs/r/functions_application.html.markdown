@@ -28,6 +28,12 @@ resource "oci_functions_application" "test_application" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 	syslog_url = var.application_syslog_url
+	trace_config {
+
+		#Optional
+		domain_id = oci_functions_domain.test_domain.id
+		is_enabled = var.application_trace_config_is_enabled
+	}
 }
 ```
 
@@ -44,6 +50,9 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `subnet_ids` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the subnets in which to run functions in the application. 
 * `syslog_url` - (Optional) (Updatable) A syslog URL to which to send all function logs. Supports tcp, udp, and tcp+tls. The syslog URL must be reachable from all of the subnets configured for the application. Note: If you enable the Oracle Cloud Infrastructure Logging service for this application, the syslogUrl value is ignored. Function logs are sent to the Oracle Cloud Infrastructure Logging service, and not to the syslog URL.  Example: `tcp://logserver.myserver:1234` 
+* `trace_config` - (Optional) (Updatable) Define the tracing configuration for an application. 
+	* `domain_id` - (Optional) (Updatable) The OCID of the collector (e.g. an APM Domain) trace events will be sent to.  
+	* `is_enabled` - (Optional) (Updatable) Define if tracing is enabled for the resource. 
 
 
 ** IMPORTANT **
@@ -66,6 +75,9 @@ The following attributes are exported:
 * `syslog_url` - A syslog URL to which to send all function logs. Supports tcp, udp, and tcp+tls. The syslog URL must be reachable from all of the subnets configured for the application. Note: If you enable the Oracle Cloud Infrastructure Logging service for this application, the syslogUrl value is ignored. Function logs are sent to the Oracle Cloud Infrastructure Logging service, and not to the syslog URL.  Example: `tcp://logserver.myserver:1234` 
 * `time_created` - The time the application was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `time_updated` - The time the application was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-09-12T22:47:12.613Z` 
+* `trace_config` - Define the tracing configuration for an application. 
+	* `domain_id` - The OCID of the collector (e.g. an APM Domain) trace events will be sent to.  
+	* `is_enabled` - Define if tracing is enabled for the resource. 
 
 ## Import
 

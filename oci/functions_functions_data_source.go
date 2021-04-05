@@ -169,6 +169,12 @@ func (s *FunctionsFunctionsDataSourceCrud) SetData() error {
 			function["timeout_in_seconds"] = *r.TimeoutInSeconds
 		}
 
+		if r.TraceConfig != nil {
+			function["trace_config"] = []interface{}{FunctionTraceConfigToMap(r.TraceConfig)}
+		} else {
+			function["trace_config"] = nil
+		}
+
 		resources = append(resources, function)
 	}
 

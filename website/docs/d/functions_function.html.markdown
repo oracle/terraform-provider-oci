@@ -49,4 +49,6 @@ The following attributes are exported:
 * `time_created` - The time the function was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `time_updated` - The time the function was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `timeout_in_seconds` - Timeout for executions of the function. Value in seconds.
+* `trace_config` - Define the tracing configuration for a function. 
+	* `is_enabled` - Define if tracing is enabled for the resource. 
 

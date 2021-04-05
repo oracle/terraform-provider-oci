@@ -99,5 +99,11 @@ func (s *FunctionsApplicationDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	if s.Res.TraceConfig != nil {
+		s.D.Set("trace_config", []interface{}{ApplicationTraceConfigToMap(s.Res.TraceConfig)})
+	} else {
+		s.D.Set("trace_config", nil)
+	}
+
 	return nil
 }

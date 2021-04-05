@@ -28,6 +28,11 @@ resource "oci_functions_function" "test_function" {
 	freeform_tags = {"Department"= "Finance"}
 	image_digest = var.function_image_digest
 	timeout_in_seconds = var.function_timeout_in_seconds
+	trace_config {
+
+		#Optional
+		is_enabled = var.function_trace_config_is_enabled
+	}
 }
 ```
 
@@ -46,6 +51,8 @@ The following arguments are supported:
 * `image_digest` - (Optional) (Updatable) The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. This field must be updated if image is updated. Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
 * `memory_in_mbs` - (Required) (Updatable) Maximum usable memory for the function (MiB).
 * `timeout_in_seconds` - (Optional) (Updatable) Timeout for executions of the function. Value in seconds.
+* `trace_config` - (Optional) (Updatable) Define the tracing configuration for a function. 
+	* `is_enabled` - (Optional) (Updatable) Define if tracing is enabled for the resource. 
 
 
 ** IMPORTANT **
@@ -72,6 +79,8 @@ The following attributes are exported:
 * `time_created` - The time the function was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `time_updated` - The time the function was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `timeout_in_seconds` - Timeout for executions of the function. Value in seconds.
+* `trace_config` - Define the tracing configuration for a function. 
+	* `is_enabled` - Define if tracing is enabled for the resource. 
 
 ## Import
 
