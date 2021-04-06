@@ -266,6 +266,7 @@ github.com/oracle/oci-go-sdk/v40/optimizer
 github.com/oracle/oci-go-sdk/v40/osmanagement
 github.com/oracle/oci-go-sdk/v40/resourcemanager
 github.com/oracle/oci-go-sdk/v40/sch
+github.com/oracle/oci-go-sdk/v40/servicecatalog
 github.com/oracle/oci-go-sdk/v40/streaming
 github.com/oracle/oci-go-sdk/v40/usageapi
 github.com/oracle/oci-go-sdk/v40/vault

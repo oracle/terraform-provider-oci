@@ -13,12 +13,11 @@ This resource provides the Internet Gateway resource in Oracle Cloud Infrastruct
 Creates a new internet gateway for the specified VCN. For more information, see
 [Access to the Internet](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm).
 
-For the purposes of access control, you must provide the OCID of the compartment where you want the Internet
+For the purposes of access control, you must provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the Internet
 Gateway to reside. Notice that the internet gateway doesn't have to be in the same compartment as the VCN or
 other Networking Service components. If you're not sure which compartment to use, put the Internet
 Gateway in the same compartment with the VCN. For more information about compartments and access control, see
-[Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
-[Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+[Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 
 You may optionally specify a *display name* for the internet gateway, otherwise a default is provided. It
 does not have to be unique, and you can change it. Avoid entering confidential information.

@@ -35,6 +35,7 @@ var (
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `MyDrg`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      RepresentationGroup{Required, ignoreChangesLBRepresentation},
 	}
 
 	DrgResourceDependencies = DefinedTagsDependencies
@@ -167,9 +168,11 @@ func TestCoreDrgResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-
+					resource.TestCheckResourceAttrSet(resourceName, "redundancy_status"),
 					resource.TestCheckResourceAttr(datasourceName, "drgs.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "drgs.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "drgs.0.default_drg_route_tables.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "drgs.0.default_export_drg_route_distribution_id"),
 					resource.TestCheckResourceAttr(datasourceName, "drgs.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "drgs.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "drgs.0.freeform_tags.%", "1"),
@@ -288,6 +291,8 @@ func getDrgIds(compartment string) ([]string, error) {
 		id := *drg.Id
 		resourceIds = append(resourceIds, id)
 		addResourceIdToSweeperResourceIdMap(compartmentId, "DrgId", id)
+		SweeperDefaultResourceId[*drg.DefaultExportDrgRouteDistributionId] = true
+
 	}
 	return resourceIds, nil
 }

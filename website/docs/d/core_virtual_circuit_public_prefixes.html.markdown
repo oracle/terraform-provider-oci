@@ -33,7 +33,7 @@ The following arguments are supported:
 * `verification_state` - (Optional) A filter to only return resources that match the given verification state.
 
 	The state value is case-insensitive. 
-* `virtual_circuit_id` - (Required) The OCID of the virtual circuit.
+* `virtual_circuit_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit.
 
 
 ## Attributes Reference

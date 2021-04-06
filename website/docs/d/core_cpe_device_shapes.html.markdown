@@ -16,7 +16,7 @@ the actual CPE device represented by a [Cpe](https://docs.cloud.oracle.com/iaas/
 
 If you want to generate CPE configuration content for one of the returned CPE device types,
 ensure that the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Cpe/) object's `cpeDeviceShapeId` attribute is set
-to the CPE device type's OCID (returned by this operation).
+to the CPE device type's [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (returned by this operation).
 
 For information about generating CPE configuration content, see these operations:
 

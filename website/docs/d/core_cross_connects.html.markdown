@@ -11,7 +11,7 @@ description: |-
 This data source provides the list of Cross Connects in Oracle Cloud Infrastructure Core service.
 
 Lists the cross-connects in the specified compartment. You can filter the list
-by specifying the OCID of a cross-connect group.
+by specifying the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a cross-connect group.
 
 
 ## Example Usage
@@ -33,7 +33,7 @@ data "oci_core_cross_connects" "test_cross_connects" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cross_connect_group_id` - (Optional) The OCID of the cross-connect group.
+* `cross_connect_group_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect group.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `state` - (Optional) A filter to return only resources that match the specified lifecycle state. The value is case insensitive. 
 

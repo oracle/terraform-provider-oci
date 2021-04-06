@@ -233,6 +233,20 @@ var coreResourceGraph = TerraformResourceGraph{
 			},
 		},
 	},
+	"oci_core_drg": {
+		{
+			TerraformResourceHints: exportCoreDrgRouteDistributionHints,
+			datasourceQueryParams: map[string]string{
+				"drg_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportCoreDrgRouteTableHints,
+			datasourceQueryParams: map[string]string{
+				"drg_id": "id",
+			},
+		},
+	},
 	"oci_core_instance_pool": {
 		{
 			TerraformResourceHints: exportCoreInstancePoolInstanceHints,
@@ -308,6 +322,22 @@ var coreResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportCoreVolumeBackupPolicyAssignmentHints,
 			datasourceQueryParams: map[string]string{
 				"asset_id": "id",
+			},
+		},
+	},
+	"oci_core_drg_route_table": {
+		{
+			TerraformResourceHints: exportCoreDrgRouteTableRouteRuleHints,
+			datasourceQueryParams: map[string]string{
+				"drg_route_table_id": "id",
+			},
+		},
+	},
+	"oci_core_drg_route_distribution": {
+		{
+			TerraformResourceHints: exportCoreDrgRouteDistributionStatementHints,
+			datasourceQueryParams: map[string]string{
+				"drg_route_distribution_id": "id",
 			},
 		},
 	},

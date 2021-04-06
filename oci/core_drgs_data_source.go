@@ -94,6 +94,16 @@ func (s *CoreDrgsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefaultDrgRouteTables != nil {
+			drg["default_drg_route_tables"] = []interface{}{DefaultDrgRouteTablesToMap(r.DefaultDrgRouteTables)}
+		} else {
+			drg["default_drg_route_tables"] = nil
+		}
+
+		if r.DefaultExportDrgRouteDistributionId != nil {
+			drg["default_export_drg_route_distribution_id"] = *r.DefaultExportDrgRouteDistributionId
+		}
+
 		if r.DefinedTags != nil {
 			drg["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

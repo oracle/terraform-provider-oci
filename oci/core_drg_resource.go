@@ -5,6 +5,8 @@ package oci
 
 import (
 	"context"
+	"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
@@ -54,6 +56,41 @@ func CoreDrgResource() *schema.Resource {
 			},
 
 			// Computed
+			"default_drg_route_tables": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"ipsec_tunnel": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"remote_peering_connection": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vcn": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"virtual_circuit": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"default_export_drg_route_distribution_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"redundancy_status": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -213,6 +250,17 @@ func (s *CoreDrgResourceCrud) Update() error {
 	}
 	request := oci_core.UpdateDrgRequest{}
 
+	if defaultDrgRouteTables, ok := s.D.GetOkExists("default_drg_route_tables"); ok {
+		if tmpList := defaultDrgRouteTables.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "default_drg_route_tables", 0)
+			tmp, err := s.mapToDefaultDrgRouteTables(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DefaultDrgRouteTables = &tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -261,6 +309,16 @@ func (s *CoreDrgResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefaultDrgRouteTables != nil {
+		s.D.Set("default_drg_route_tables", []interface{}{DefaultDrgRouteTablesToMap(s.Res.DefaultDrgRouteTables)})
+	} else {
+		s.D.Set("default_drg_route_tables", nil)
+	}
+
+	if s.Res.DefaultExportDrgRouteDistributionId != nil {
+		s.D.Set("default_export_drg_route_distribution_id", *s.Res.DefaultExportDrgRouteDistributionId)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -284,6 +342,54 @@ func (s *CoreDrgResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *CoreDrgResourceCrud) mapToDefaultDrgRouteTables(fieldKeyFormat string) (oci_core.DefaultDrgRouteTables, error) {
+	result := oci_core.DefaultDrgRouteTables{}
+
+	if ipsecTunnel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipsec_tunnel")); ok {
+		tmp := ipsecTunnel.(string)
+		result.IpsecTunnel = &tmp
+	}
+
+	if remotePeeringConnection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_peering_connection")); ok {
+		tmp := remotePeeringConnection.(string)
+		result.RemotePeeringConnection = &tmp
+	}
+
+	if vcn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcn")); ok {
+		tmp := vcn.(string)
+		result.Vcn = &tmp
+	}
+
+	if virtualCircuit, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "virtual_circuit")); ok {
+		tmp := virtualCircuit.(string)
+		result.VirtualCircuit = &tmp
+	}
+
+	return result, nil
+}
+
+func DefaultDrgRouteTablesToMap(obj *oci_core.DefaultDrgRouteTables) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IpsecTunnel != nil {
+		result["ipsec_tunnel"] = string(*obj.IpsecTunnel)
+	}
+
+	if obj.RemotePeeringConnection != nil {
+		result["remote_peering_connection"] = string(*obj.RemotePeeringConnection)
+	}
+
+	if obj.Vcn != nil {
+		result["vcn"] = string(*obj.Vcn)
+	}
+
+	if obj.VirtualCircuit != nil {
+		result["virtual_circuit"] = string(*obj.VirtualCircuit)
+	}
+
+	return result
+}
+
 func (s *CoreDrgResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeDrgCompartmentRequest{}
 
@@ -295,13 +401,19 @@ func (s *CoreDrgResourceCrud) updateCompartment(compartment interface{}) error {
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.ChangeDrgCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeDrgCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	workId := response.OpcWorkRequestId
-	// work request doesn't return identifier once succeeded
-	_, err = WaitForWorkRequest(s.workRequestClient, workId, "core", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, false)
+
+	// Workaround: Sleep for some time before polling the configuration. Because update happens asynchronously, polling too
+	// soon may result in service returning stale configuration values.
+	time.Sleep(time.Second * 20)
+	request := oci_core.GetDrgRequest{}
+	tmp := s.D.Id()
+	request.DrgId = &tmp
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	_, err = s.Client.GetDrg(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -75,5 +75,5 @@ The following attributes are exported:
 	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm). 
 * `state` - The route table's current state.
 * `time_created` - The date and time the route table was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `vcn_id` - The OCID of the VCN the route table list belongs to.
+* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN the route table list belongs to.
 

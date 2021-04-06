@@ -26,7 +26,7 @@ data "oci_core_ipsec_connection_tunnels" "test_ip_sec_connection_tunnels" {
 
 The following arguments are supported:
 
-* `ipsec_id` - (Required) The OCID of the IPSec connection.
+* `ipsec_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPSec connection.
 
 
 ## Attributes Reference
