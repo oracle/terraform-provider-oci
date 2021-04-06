@@ -43,8 +43,8 @@ var (
 	caCertificate            = getEnvSettingWithBlankDefault("ca_certificate")
 	caCertificateVariableStr = fmt.Sprintf("variable \"ca_certificate_value\" { default = \"%s\" }\n", caCertificate)
 
-	privateKey            = getEnvSettingWithBlankDefault("private_key")
-	privateKeyVariableStr = fmt.Sprintf("variable \"private_key_value\" { default = \"%s\" }\n", privateKey)
+	privateKeyData        = getEnvSettingWithBlankDefault("private_key_data")
+	privateKeyVariableStr = fmt.Sprintf("variable \"private_key_value\" { default = \"%s\" }\n", privateKeyData)
 
 	CertificateResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies + privateKeyVariableStr + caCertificateVariableStr
