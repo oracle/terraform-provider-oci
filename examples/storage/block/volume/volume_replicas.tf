@@ -12,7 +12,7 @@ resource "oci_core_volume" "test_volume_with_optional_parameter" {
 
   // please find allowed other region's availability_domain and hardcode here
   block_volume_replicas {
-    availability_domain = "NyKp:US-ASHBURN-AD-1"
+    availability_domain =data.oci_identity_availability_domain.ad.name
     display_name = "test_replicas"
   }
   // if you want delete volume and this volume has replicas, please disable replicas at first, set this "block_volume_replicas_deletion" to true
