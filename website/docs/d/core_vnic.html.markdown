@@ -29,7 +29,7 @@ data "oci_core_vnic" "test_vnic" {
 
 The following arguments are supported:
 
-* `vnic_id` - (Required) The OCID of the VNIC.
+* `vnic_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 
 
 ## Attributes Reference

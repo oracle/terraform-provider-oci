@@ -716,6 +716,36 @@ var exportCoreIpv6Hints = &TerraformResourceHints{
 	},
 }
 
+var exportCoreDrgRouteTableHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_drg_route_table",
+	datasourceClass:      "oci_core_drg_route_tables",
+	datasourceItemsAttr:  "drg_route_tables",
+	resourceAbbreviation: "drg_route_table",
+	discoverableLifecycleStates: []string{
+		string(oci_core.DrgRouteTableLifecycleStateAvailable),
+	},
+}
+
+var exportCoreDrgRouteDistributionHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_drg_route_distribution",
+	datasourceClass:      "oci_core_drg_route_distributions",
+	datasourceItemsAttr:  "drg_route_distributions",
+	resourceAbbreviation: "drg_route_distribution",
+	discoverableLifecycleStates: []string{
+		string(oci_core.DrgRouteDistributionLifecycleStateAvailable),
+	},
+}
+
+var exportCoreDrgRouteTableRouteRuleHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_drg_route_table_route_rule",
+	resourceAbbreviation: "drg_route_table_route_rule",
+}
+
+var exportCoreDrgRouteDistributionStatementHints = &TerraformResourceHints{
+	resourceClass:        "oci_core_drg_route_distribution_statement",
+	resourceAbbreviation: "drg_route_distribution_statement",
+}
+
 var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	resourceClass:          "oci_data_safe_data_safe_private_endpoint",
 	datasourceClass:        "oci_data_safe_data_safe_private_endpoints",

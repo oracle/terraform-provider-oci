@@ -29,7 +29,7 @@ data "oci_core_private_ip" "test_private_ip" {
 
 The following arguments are supported:
 
-* `private_ip_id` - (Required) The OCID of the private IP.
+* `private_ip_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP.
 
 
 ## Attributes Reference

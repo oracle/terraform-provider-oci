@@ -18,7 +18,7 @@ After creating the `CrossConnect` object, you need to go the FastConnect locatio
 and request to have the physical cable installed. For more information, see
 [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 
-For the purposes of access control, you must provide the OCID of the
+For the purposes of access control, you must provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 compartment where you want the cross-connect to reside. If you're
 not sure which compartment to use, put the cross-connect in the
 same compartment with your VCN. For more information about

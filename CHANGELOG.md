@@ -2,6 +2,7 @@
 
 ### Added
 - Support for Marketplace-Service Catalog
+- Support for Extending DRG with local and cross-tenancy peering added
 
 ## 4.24.0 (April 29, 2021)
 
