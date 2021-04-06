@@ -67,6 +67,10 @@ var (
 	kmsKeyIdForUpdate         = getEnvSettingWithBlankDefault("key_ocid_for_update")
 	kmsKeyIdUpdateVariableStr = fmt.Sprintf("variable \"kms_key_id_for_update\" { default = \"%s\" }\n", kmsKeyIdForUpdate)
 
+	kmsKeyCompartmentId            = getEnvSettingWithBlankDefault("compartment_ocid")
+	kmsKeyCompartmentIdVariableStr = fmt.Sprintf("variable \"kms_key_compartment_id\" { default = \"%s\" }\n", kmsKeyCompartmentId)
+
+	// Should deprecate use of tenancy level resources
 	KeyResourceDependencies = KmsVaultIdVariableStr + `
 	data "oci_kms_vault" "test_vault" {
 		#Required
@@ -88,6 +92,31 @@ var (
 	data "oci_kms_keys" "test_keys_dependency_RSA" {
 		#Required
 		compartment_id = "${var.tenancy_ocid}"
+		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
+		algorithm = "RSA"
+
+		filter {
+    		name = "state"
+    		values = ["ENABLED", "UPDATING"]
+        }
+	}
+	`
+
+	KeyResourceDependencyConfig2 = KeyResourceDependencies + kmsKeyCompartmentIdVariableStr + `
+	data "oci_kms_keys" "test_keys_dependency" {
+		#Required
+		compartment_id = "${var.kms_key_compartment_id}"
+		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
+		algorithm = "AES"
+
+		filter {
+    		name = "state"
+    		values = ["ENABLED", "UPDATING"]
+        }
+	}
+	data "oci_kms_keys" "test_keys_dependency_RSA" {
+		#Required
+		compartment_id = "${var.kms_key_compartment_id}"
 		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
 		algorithm = "RSA"
 

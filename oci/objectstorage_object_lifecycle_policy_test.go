@@ -29,12 +29,12 @@ var (
 	bucketName3 = randomStringOrHttpReplayValue(32, charset, "bucket3")
 
 	objectLifecyclePolicySingularDataSourceRepresentation = map[string]interface{}{
-		"bucket":    Representation{repType: Required, create: bucketName},
+		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
 	objectLifecyclePolicyRepresentation = map[string]interface{}{
-		"bucket":    Representation{repType: Required, create: bucketName},
+		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"rules":     RepresentationGroup{Optional, objectLifecyclePolicyRulesRepresentation},
 	}
