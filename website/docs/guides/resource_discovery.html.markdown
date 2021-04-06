@@ -462,6 +462,8 @@ email
     
 * oci\_email\_suppression
 * oci\_email\_sender
+* oci\_email\_email\_domain
+* oci\_email\_dkim
 
 events
     

@@ -2,7 +2,7 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "sender_email_address" {
-  default = "JohnSmith@example.com"
+  default = "johnsmithtester@example.com"
 }
 
 variable "sender_state" {
@@ -36,4 +36,3 @@ data "oci_email_senders" "test_senders" {
 output "emailSenders" {
   value = data.oci_email_senders.test_senders.senders
 }
-
