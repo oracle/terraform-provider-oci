@@ -21,6 +21,7 @@ data "oci_email_senders" "test_senders" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	domain = var.sender_domain
 	email_address = var.sender_email_address
 	state = var.sender_state
 }
@@ -31,6 +32,7 @@ data "oci_email_senders" "test_senders" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID for the compartment.
+* `domain` - (Optional) A filter to only return resources that match the given domain exactly.
 * `email_address` - (Optional) The email address of the approved sender.
 * `state` - (Optional) The current state of a sender.
 
@@ -46,9 +48,10 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID for the compartment.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `email_address` - The email address of the sender.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `email_domain_id` - The email domain used to assert responsibility for emails sent from this sender. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The unique OCID of the sender.
 * `is_spf` - Value of the SPF field. For more information about SPF, please see [SPF Authentication](https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm#components). 
 * `state` - The current status of the approved sender.

@@ -23,6 +23,10 @@ func EmailSendersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"email_address": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -64,6 +68,11 @@ func (s *EmailSendersDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if domain, ok := s.D.GetOkExists("domain"); ok {
+		tmp := domain.(string)
+		request.Domain = &tmp
 	}
 
 	if emailAddress, ok := s.D.GetOkExists("email_address"); ok {
