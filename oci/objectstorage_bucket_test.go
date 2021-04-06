@@ -60,7 +60,7 @@ var (
 
 	BucketResourceDependencies = generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
 		DefinedTagsDependencies +
-		KeyResourceDependencyConfig
+		KeyResourceDependencyConfig2
 )
 
 func TestObjectStorageBucketResource_basic(t *testing.T) {

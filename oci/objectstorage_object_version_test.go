@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	testVersioningBucketName = randomStringOrHttpReplayValue(32, charset, "bucket")
+	testVersioningBucketName = randomStringOrHttpReplayValue(32, charset, "bucketVersioning")
 
 	objectVersionDataSourceRepresentation = map[string]interface{}{
 		"bucket":      Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
