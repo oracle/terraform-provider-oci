@@ -112,6 +112,7 @@ var artifactsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportArtifactsContainerConfigurationHints},
 		{TerraformResourceHints: exportArtifactsContainerRepositoryHints},
+		{TerraformResourceHints: exportArtifactsContainerImageSignatureHints},
 	},
 }
 

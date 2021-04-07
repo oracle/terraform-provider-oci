@@ -38,6 +38,12 @@ type CreateVirtualCircuitDetails struct {
 	// group this virtual circuit will run on.
 	CrossConnectMappings []CrossConnectMapping `mandatory:"false" json:"crossConnectMappings"`
 
+	// The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit.
+	// Policies available are: `ORACLE_SERVICE_NETWORK`, `REGIONAL`, `MARKET_LEVEL`, and `GLOBAL`.
+	// See Route Filtering (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details.
+	// By default, routing information is shared for all routes in the same market.
+	RoutingPolicy []CreateVirtualCircuitDetailsRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
+
 	// Deprecated. Instead use `customerAsn`.
 	// If you specify values for both, the request will be rejected.
 	CustomerBgpAsn *int `mandatory:"false" json:"customerBgpAsn"`
@@ -96,6 +102,33 @@ type CreateVirtualCircuitDetails struct {
 
 func (m CreateVirtualCircuitDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateVirtualCircuitDetailsRoutingPolicyEnum Enum with underlying type: string
+type CreateVirtualCircuitDetailsRoutingPolicyEnum string
+
+// Set of constants representing the allowable values for CreateVirtualCircuitDetailsRoutingPolicyEnum
+const (
+	CreateVirtualCircuitDetailsRoutingPolicyOracleServiceNetwork CreateVirtualCircuitDetailsRoutingPolicyEnum = "ORACLE_SERVICE_NETWORK"
+	CreateVirtualCircuitDetailsRoutingPolicyRegional             CreateVirtualCircuitDetailsRoutingPolicyEnum = "REGIONAL"
+	CreateVirtualCircuitDetailsRoutingPolicyMarketLevel          CreateVirtualCircuitDetailsRoutingPolicyEnum = "MARKET_LEVEL"
+	CreateVirtualCircuitDetailsRoutingPolicyGlobal               CreateVirtualCircuitDetailsRoutingPolicyEnum = "GLOBAL"
+)
+
+var mappingCreateVirtualCircuitDetailsRoutingPolicy = map[string]CreateVirtualCircuitDetailsRoutingPolicyEnum{
+	"ORACLE_SERVICE_NETWORK": CreateVirtualCircuitDetailsRoutingPolicyOracleServiceNetwork,
+	"REGIONAL":               CreateVirtualCircuitDetailsRoutingPolicyRegional,
+	"MARKET_LEVEL":           CreateVirtualCircuitDetailsRoutingPolicyMarketLevel,
+	"GLOBAL":                 CreateVirtualCircuitDetailsRoutingPolicyGlobal,
+}
+
+// GetCreateVirtualCircuitDetailsRoutingPolicyEnumValues Enumerates the set of values for CreateVirtualCircuitDetailsRoutingPolicyEnum
+func GetCreateVirtualCircuitDetailsRoutingPolicyEnumValues() []CreateVirtualCircuitDetailsRoutingPolicyEnum {
+	values := make([]CreateVirtualCircuitDetailsRoutingPolicyEnum, 0)
+	for _, v := range mappingCreateVirtualCircuitDetailsRoutingPolicy {
+		values = append(values, v)
+	}
+	return values
 }
 
 // CreateVirtualCircuitDetailsTypeEnum Enum with underlying type: string

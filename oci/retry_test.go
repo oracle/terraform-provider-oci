@@ -91,7 +91,7 @@ func TestUnitRetryLoop_basic(t *testing.T) {
 		httpResponseStatusCode:   404,
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("Retriable error"),
-		expectedRetryTimeSeconds: 15,
+		expectedRetryTimeSeconds: 0,
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)
@@ -150,7 +150,7 @@ func TestUnitRetryLoop_configuredRetryWith404(t *testing.T) {
 		httpResponseStatusCode:   404,
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("Retriable error"),
-		expectedRetryTimeSeconds: 15,
+		expectedRetryTimeSeconds: 0,
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)
@@ -346,7 +346,7 @@ func TestUnitRetryDbHomeWith404Error(t *testing.T) {
 		httpResponseStatusCode:   404,
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("NotAuthorizedOrNotFound"),
-		expectedRetryTimeSeconds: 15,
+		expectedRetryTimeSeconds: 0,
 		jitterMode:               true,
 		optionals:                []interface{}{getDbHomeRetryDurationFunction(20 * time.Second)},
 	}

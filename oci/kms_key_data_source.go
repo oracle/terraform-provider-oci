@@ -100,6 +100,10 @@ func (s *KmsKeyDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsPrimary != nil {
+		s.D.Set("is_primary", *s.Res.IsPrimary)
+	}
+
 	if s.Res.KeyShape != nil {
 		s.D.Set("key_shape", []interface{}{KeyShapeToMap(s.Res.KeyShape)})
 	} else {
@@ -107,6 +111,12 @@ func (s *KmsKeyDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("protection_mode", s.Res.ProtectionMode)
+
+	if s.Res.ReplicaDetails != nil {
+		s.D.Set("replica_details", []interface{}{KeyReplicaDetailsToMap(s.Res.ReplicaDetails)})
+	} else {
+		s.D.Set("replica_details", nil)
+	}
 
 	if s.Res.RestoredFromKeyId != nil {
 		s.D.Set("restored_from_key_id", *s.Res.RestoredFromKeyId)

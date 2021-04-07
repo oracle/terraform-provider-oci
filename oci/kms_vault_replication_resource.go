@@ -1,0 +1,245 @@
+package oci
+
+import (
+	"context"
+	"strings"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	oci_kms "github.com/oracle/oci-go-sdk/v38/keymanagement"
+)
+
+func init() {
+	RegisterResource("oci_kms_vault_replication", KmsVaultReplicationResource())
+}
+
+func KmsVaultReplicationResource() *schema.Resource {
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Timeouts: DefaultTimeout,
+		Create:   createKmsVaultReplica,
+		Read:     readKmsVaultReplica,
+		Update:   updateKmsVaultReplica,
+		Delete:   deleteKmsVaultReplica,
+		Schema: map[string]*schema.Schema{
+			// Required
+			"vault_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"replica_region": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+
+			// Optional
+
+			// Computed
+		},
+	}
+}
+
+func createKmsVaultReplica(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultReplicaResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).kmsVaultClient()
+
+	return CreateResource(d, sync)
+}
+
+func readKmsVaultReplica(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultReplicaResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).kmsVaultClient()
+
+	return ReadResource(sync)
+}
+
+func updateKmsVaultReplica(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultReplicaResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).kmsVaultClient()
+
+	return UpdateResource(d, sync)
+}
+
+func deleteKmsVaultReplica(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultReplicaResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).kmsVaultClient()
+
+	return DeleteResource(d, sync)
+}
+
+type KmsVaultReplicaResourceCrud struct {
+	BaseCrud
+	Client                 *oci_kms.KmsVaultClient
+	Res                    *oci_kms.ListVaultReplicasResponse
+	DisableNotFoundRetries bool
+}
+
+func (s *KmsVaultReplicaResourceCrud) ID() string {
+	return *s.Res.OpcRequestId
+}
+
+func (s *KmsVaultReplicaResourceCrud) Create() error {
+	replicaRegionStr := ""
+	if replicaRegion, ok := s.D.GetOkExists("replica_region"); ok {
+		tmp := replicaRegion.(string)
+		replicaRegionStr = tmp
+	}
+
+	vaultIdStr := ""
+	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+		tmp := vaultId.(string)
+		vaultIdStr = tmp
+	}
+
+	return s.createVaultReplicaHelper(vaultIdStr, replicaRegionStr)
+}
+
+func (s *KmsVaultReplicaResourceCrud) Get() error {
+	request := oci_kms.ListVaultReplicasRequest{}
+
+	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+		tmp := vaultId.(string)
+		request.VaultId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+
+	response, err := s.Client.ListVaultReplicas(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
+}
+
+func (s *KmsVaultReplicaResourceCrud) Update() error {
+
+	// Update is only supported for the change in replica region. All others are a forceNew
+	if s.D.HasChange("replica_region") {
+
+		oldRaw, newRaw := s.D.GetChange("replica_region")
+		oldReplicaRegionName := oldRaw.(string)
+		newReplicaRegionName := newRaw.(string)
+
+		vaultIdStr := ""
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			vaultIdStr = tmp
+		}
+
+		// delete replica in the old region for the primary vault
+		err := s.deleteVaultReplicaHelper(vaultIdStr, oldReplicaRegionName)
+		if err != nil {
+			return err
+		}
+
+		// create replica in the new region for the primary vault after deletion is completed
+		return s.createVaultReplicaHelper(vaultIdStr, newReplicaRegionName)
+	}
+	return nil
+}
+
+func (s *KmsVaultReplicaResourceCrud) Delete() error {
+	replicaRegionStr := ""
+	if replicaRegion, ok := s.D.GetOkExists("replica_region"); ok {
+		tmp := replicaRegion.(string)
+		replicaRegionStr = tmp
+	}
+
+	vaultIdStr := ""
+	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+		tmp := vaultId.(string)
+		vaultIdStr = tmp
+	}
+
+	return s.deleteVaultReplicaHelper(vaultIdStr, replicaRegionStr)
+}
+
+func (s *KmsVaultReplicaResourceCrud) createVaultReplicaHelper(vaultId string, replicaRegion string) error {
+	request := oci_kms.CreateVaultReplicaRequest{}
+
+	if len(strings.TrimSpace(vaultId)) != 0 {
+		request.VaultId = &vaultId
+	}
+
+	if len(strings.TrimSpace(replicaRegion)) != 0 {
+		request.ReplicaRegion = &replicaRegion
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+
+	_, err := s.Client.CreateVaultReplica(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.Items[0].Status == oci_kms.VaultReplicaSummaryStatusCreated }
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *KmsVaultReplicaResourceCrud) deleteVaultReplicaHelper(vaultId string, replicaRegion string) error {
+	request := oci_kms.DeleteVaultReplicaRequest{}
+
+	if len(strings.TrimSpace(vaultId)) != 0 {
+		request.VaultId = &vaultId
+	}
+
+	if len(strings.TrimSpace(replicaRegion)) != 0 {
+		request.ReplicaRegion = &replicaRegion
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+
+	_, err := s.Client.DeleteVaultReplica(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool {
+		return (len(s.Res.Items) == 0 || s.Res.Items[0].Status == oci_kms.VaultReplicaSummaryStatusDeleted)
+	}
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutDelete))
+}
+
+func (s *KmsVaultReplicaResourceCrud) SetData() error {
+	return nil
+}
+
+// Necessary to have. Otherwise cause "Could not set resource state" error from setState() in crud helper
+func (s *KmsVaultReplicaResourceCrud) State() oci_kms.VaultReplicaSummaryStatusEnum {
+	if len(s.Res.Items) > 0 {
+		return s.Res.Items[0].Status
+	}
+	return ""
+}
+
+func (s *KmsVaultReplicaResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_kms.VaultReplicaSummaryStatusCreating),
+	}
+}
+
+func (s *KmsVaultReplicaResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_kms.VaultReplicaSummaryStatusCreated),
+	}
+}
+
+func (s *KmsVaultReplicaResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_kms.VaultReplicaSummaryStatusDeleting),
+	}
+}
+
+func (s *KmsVaultReplicaResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_kms.VaultReplicaSummaryStatusDeleted),
+	}
+}

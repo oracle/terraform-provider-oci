@@ -36,8 +36,6 @@ type UpdateAutoScalingConfigurationDetails struct {
 	// Whether the autoscaling configuration is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// The minimum period of time to wait between scaling actions. The cooldown period gives the system time
-	// to stabilize before rescaling. The minimum value is 300 seconds, which is also the default.
 	CoolDownInSeconds *int `mandatory:"false" json:"coolDownInSeconds"`
 }
 

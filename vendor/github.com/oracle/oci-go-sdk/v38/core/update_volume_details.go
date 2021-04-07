@@ -48,6 +48,10 @@ type UpdateVolumeDetails struct {
 
 	// Specifies whether the auto-tune performance is enabled for this volume.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
+
+	// The list of block volume replicas that this volume will be updated to have
+	// in the specified destination availability domains.
+	BlockVolumeReplicas []BlockVolumeReplicaDetails `mandatory:"false" json:"blockVolumeReplicas"`
 }
 
 func (m UpdateVolumeDetails) String() string {

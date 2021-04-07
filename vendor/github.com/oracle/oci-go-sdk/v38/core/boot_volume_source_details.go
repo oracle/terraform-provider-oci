@@ -60,6 +60,10 @@ func (m *bootvolumesourcedetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := BootVolumeSourceFromBootVolumeDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "bootVolumeReplica":
+		mm := BootVolumeSourceFromBootVolumeReplicaDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

@@ -70,9 +70,22 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
+						"policy_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"scheduled",
+								"threshold",
+							}, true),
+						},
+
+						// Optional
 						"capacity": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
+							Computed: true,
 							ForceNew: true,
 							MaxItems: 1,
 							MinItems: 1,
@@ -104,18 +117,6 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 								},
 							},
 						},
-						"policy_type": {
-							Type:             schema.TypeString,
-							Required:         true,
-							ForceNew:         true,
-							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
-							ValidateFunc: validation.StringInSlice([]string{
-								"scheduled",
-								"threshold",
-							}, true),
-						},
-
-						// Optional
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -163,6 +164,37 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"resource_action": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"action": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Required
+									"action_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"power",
+										}, true),
+									},
+
+									// Computed
+								},
+							},
 						},
 						"rules": {
 							Type:     schema.TypeSet,
@@ -683,6 +715,16 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 				details.ExecutionSchedule = tmp
 			}
 		}
+		if resourceAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_action")); ok {
+			if tmpList := resourceAction.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "resource_action"), 0)
+				tmp, err := s.mapToResourceAction(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert resource_action, encountered error: %v", err)
+				}
+				details.ResourceAction = tmp
+			}
+		}
 		if capacity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity")); ok {
 			if tmpList := capacity.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "capacity"), 0)
@@ -758,6 +800,14 @@ func AutoScalingPolicyToMap(obj oci_auto_scaling.AutoScalingPolicy, datasource b
 				executionScheduleArray = append(executionScheduleArray, executionScheduleMap)
 			}
 			result["execution_schedule"] = executionScheduleArray
+		}
+
+		if v.ResourceAction != nil {
+			resourceActionArray := []interface{}{}
+			if resourceActionMap := ResourceActionToMap(&v.ResourceAction); resourceActionMap != nil {
+				resourceActionArray = append(resourceActionArray, resourceActionMap)
+			}
+			result["resource_action"] = resourceActionArray
 		}
 
 		if v.Capacity != nil {
@@ -988,6 +1038,44 @@ func ResourceToMap(obj *oci_auto_scaling.Resource) map[string]interface{} {
 		result["id"] = string(*v.Id)
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToResourceAction(fieldKeyFormat string) (oci_auto_scaling.ResourceAction, error) {
+	var baseObject oci_auto_scaling.ResourceAction
+	//discriminator
+	actionTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action_type"))
+	var actionType string
+	if ok {
+		actionType = actionTypeRaw.(string)
+	} else {
+		actionType = "" // default value
+	}
+	switch strings.ToLower(actionType) {
+	case strings.ToLower("power"):
+		details := oci_auto_scaling.ResourcePowerAction{}
+		if action, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action")); ok {
+			details.Action = oci_auto_scaling.ResourcePowerActionActionEnum(action.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown action_type '%v' was specified", actionType)
+	}
+	return baseObject, nil
+}
+
+func ResourceActionToMap(obj *oci_auto_scaling.ResourceAction) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_auto_scaling.ResourcePowerAction:
+		result["action_type"] = "power"
+
+		result["action"] = string(v.Action)
+	default:
+		log.Printf("[WARN] Received 'action_type' of unknown type %v", *obj)
 		return nil
 	}
 

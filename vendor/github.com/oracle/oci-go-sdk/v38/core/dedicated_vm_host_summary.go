@@ -58,6 +58,12 @@ type DedicatedVmHostSummary struct {
 	// To get a list of fault domains, use the ListFaultDomains operation in the Identity and Access Management Service API.
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
+
+	// The current total memory of the dedicated VM host, in GBs.
+	TotalMemoryInGBs *float32 `mandatory:"false" json:"totalMemoryInGBs"`
+
+	// The current available memory of the dedicated VM host, in GBs.
+	RemainingMemoryInGBs *float32 `mandatory:"false" json:"remainingMemoryInGBs"`
 }
 
 func (m DedicatedVmHostSummary) String() string {

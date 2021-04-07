@@ -114,9 +114,10 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_endpoint"),
-
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "replica_details.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -136,6 +137,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 				ImportStateVerifyIgnore: []string{
 					"management_endpoint",
 					"time_of_deletion",
+					"replica_details",
 				},
 				ResourceName: resourceName,
 			},

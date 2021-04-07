@@ -39,6 +39,11 @@ type CreateClusterDetails struct {
 
 	// Optional attributes for the cluster.
 	Options *ClusterCreateOptions `mandatory:"false" json:"options"`
+
+	// The image verification policy for signature validation. Once a policy is created and enabled with
+	// one or more kms keys, the policy will ensure all images deployed has been signed with the key(s)
+	// attached to the policy.
+	ImagePolicyConfig *CreateImagePolicyConfigDetails `mandatory:"false" json:"imagePolicyConfig"`
 }
 
 func (m CreateClusterDetails) String() string {

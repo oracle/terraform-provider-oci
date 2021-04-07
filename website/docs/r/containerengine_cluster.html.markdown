@@ -30,6 +30,16 @@ resource "oci_containerengine_cluster" "test_cluster" {
 		nsg_ids = var.cluster_endpoint_config_nsg_ids
 		subnet_id = oci_core_subnet.test_subnet.id
 	}
+	image_policy_config {
+
+		#Optional
+		is_policy_enabled = var.cluster_image_policy_config_is_policy_enabled
+		key_details {
+
+			#Optional
+			kms_key_id = oci_kms_key.test_key.id
+		}
+	}
 	kms_key_id = oci_kms_key.test_key.id
 	options {
 
@@ -65,6 +75,10 @@ The following arguments are supported:
 	* `is_public_ip_enabled` - (Optional) Whether the cluster should be assigned a public IP address. Defaults to false. If set to true on a private subnet, the cluster provisioning will fail.
 	* `nsg_ids` - (Optional) A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 	* `subnet_id` - (Optional) The OCID of the regional subnet in which to place the Cluster endpoint.
+* `image_policy_config` - (Optional) (Updatable) The image verification policy for signature validation. Once a policy is created and enabled with one or more kms keys, the policy will ensure all images deployed has been signed with the key(s) attached to the policy. 
+	* `is_policy_enabled` - (Optional) (Updatable) Whether the image verification policy is enabled. Defaults to false. If set to true, the images will be verified against the policy at runtime.
+	* `key_details` - (Optional) (Updatable) A list of KMS key details.
+		* `kms_key_id` - (Optional) (Updatable) The OCIDs of the KMS key that will be used to verify whether the images are signed by an approved source. 
 * `kms_key_id` - (Optional) The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption. When used, `kubernetesVersion` must be at least `v1.13.0`. 
 * `kubernetes_version` - (Required) (Updatable) The version of Kubernetes to install into the cluster masters.
 * `name` - (Required) (Updatable) The name of the cluster. Avoid entering confidential information.
@@ -99,6 +113,10 @@ The following attributes are exported:
 	* `private_endpoint` - The private native networking Kubernetes API server endpoint.
 	* `public_endpoint` - The public native networking Kubernetes API server endpoint, if one was requested.
 * `id` - The OCID of the cluster.
+* `image_policy_config` - The image verification policy for signature validation. 
+	* `is_policy_enabled` - Whether the image verification policy is enabled. Defaults to false. If set to true, the images will be verified against the policy at runtime.
+	* `key_details` - A list of KMS key details.
+		* `kms_key_id` - The OCIDs of the KMS key that will be used to verify whether the images are signed by an approved source. 
 * `kms_key_id` - The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption.
 * `kubernetes_version` - The version of Kubernetes running on the cluster masters.
 * `lifecycle_details` - Details about the state of the cluster masters.

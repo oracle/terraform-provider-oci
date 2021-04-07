@@ -25,6 +25,10 @@ variable "node_pool_ssh_public_key" {
 
 }
 
+variable "kms_vault_id" {
+
+}
+
 provider "oci" {
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
@@ -41,6 +45,23 @@ data "oci_identity_availability_domain" "ad1" {
 data "oci_identity_availability_domain" "ad2" {
   compartment_id = var.tenancy_ocid
   ad_number      = 2
+}
+
+data "oci_kms_vault" "test_vault" {
+  #Required
+  vault_id = var.kms_vault_id
+}
+
+data "oci_kms_keys" "test_keys_dependency_RSA" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  management_endpoint = data.oci_kms_vault.test_vault.management_endpoint
+  algorithm = "RSA"
+
+  filter {
+    name = "state"
+    values = ["ENABLED", "UPDATING"]
+  }
 }
 
 resource "oci_core_vcn" "test_vcn" {
@@ -125,6 +146,14 @@ resource "oci_containerengine_cluster" "test_cluster" {
   kubernetes_version = data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[0]
   name               = "tfTestCluster"
   vcn_id             = oci_core_vcn.test_vcn.id
+
+  #Optional
+  image_policy_config {
+    is_policy_enabled = "true"
+    key_details {
+      kms_key_id = data.oci_kms_keys.test_keys_dependency_RSA.keys[0].id
+    }
+  }
 
   #Optional
   options {

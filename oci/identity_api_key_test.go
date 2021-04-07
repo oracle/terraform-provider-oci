@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"regexp"
 	"strconv"
 	"testing"
 
@@ -32,27 +33,13 @@ var (
 		"user_id":   Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
 	}
 
-	ApiKeyResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+	ApiKeyResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation) + publicKeyVariableStr
 
-	apiKey = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4fGHcxbEs3VaWoKaGUiP
-HGZ5ILiOXCcWN4nOgLr6CSzUjtgjmN3aA6rsT2mYiD+M5EecDbEUMectUhNtLl5L
-PABN9kpjuR0zxCJXvYYQiCBtdjb1/YxrZI9T/9Jtd+cTabCahJHR/cR8jFmvO4cK
-JCa/0+Y00zvktrqniHIn3edGAKC4Ttlwj/1NqT0ZVePMXg3rWHPsIW6ONfdn6FNf
-Met8Qa8K3C9xVvzImlYx8PQBy/44Ilu5T3A+puwb2QMeZnQZGDALOY4MvrBTTA1T
-djFpg1N/Chj2rGYzreysqlnKFu+1qg64wel39kHkppz4Fv2vaLXF9qIeDjeo3G4s
-HQIDAQAB
------END PUBLIC KEY-----`
+	publicKey            = getEnvSettingWithBlankDefault("public_key")
+	publicKeyVariableStr = fmt.Sprintf("variable \"api_key_value\" { default = \"%s\" }\n", publicKey)
 
-	apiKey2 = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvLA8ZvgZBJy1nNvFAc7V
-qocUbYTg3skMJqEn6N9iH9le7Isvgc/owePuH4eP6AOIvKZA4g9TdxJoJIuh06J1
-KpMmRbvA8556zIUjaGwF7dL0qfp2Llv3KEAcWfmWQxtfy/IBh9FgA+xHl6QXDp+O
-nsRc4FBQSw9Ldp36h9JLQrXo9PcGkD8IGmsJ/7gvdh/tvccSYhJ1vYYLtq5WZnn6
-Di9EjV2cP2F43YE1wlrRjzliZOB8M2neUjF7IG3Rszd6Ij3jYL1W1N5GZj+E+Yiu
-27Z+8kUy/d4s9TVKr6BWaH2xL/YirrE2ARM57WBOXciqaE9PUGs8bdKjRzImfp/4
-pQIDAQAB
------END PUBLIC KEY-----`
+	publicKeyUpdate            = getEnvSettingWithBlankDefault("public_key_update")
+	publicKeyUpdateVariableStr = fmt.Sprintf("variable \"api_key_update_value\" { default = \"%s\" }\n", publicKeyUpdate)
 )
 
 func TestIdentityApiKeyResource_basic(t *testing.T) {
@@ -64,8 +51,6 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	apiKeyVarStr := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%s\nEOF\n}\n", apiKey)
 
 	resourceName := "oci_identity_api_key.test_api_key"
 	datasourceName := "data.oci_identity_api_keys.test_api_keys"
@@ -85,23 +70,23 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + apiKeyVarStr + compartmentIdVariableStr + ApiKeyResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey),
+					resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 				),
 			},
 			// delete before next create
 			{
-				Config: config + apiKeyVarStr + compartmentIdVariableStr + ApiKeyResourceDependencies,
+				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies,
 			},
 			// verify create with export
 			{
-				Config: config + apiKeyVarStr + compartmentIdVariableStr + ApiKeyResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey),
+					resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 					func(s *terraform.State) (err error) {
@@ -121,7 +106,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + apiKeyVarStr +
+				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", Optional, Update, apiKeyDataSourceRepresentation) +
 					compartmentIdVariableStr + ApiKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Optional, Update, apiKeyRepresentation),
@@ -131,7 +116,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "api_keys.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.fingerprint"),
 					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "api_keys.0.key_value", apiKey),
+					resource.TestMatchResourceAttr(datasourceName, "api_keys.0.key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.user_id"),

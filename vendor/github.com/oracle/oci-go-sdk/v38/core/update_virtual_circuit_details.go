@@ -33,6 +33,12 @@ type UpdateVirtualCircuitDetails struct {
 	// CrossConnectMapping.
 	CrossConnectMappings []CrossConnectMapping `mandatory:"false" json:"crossConnectMappings"`
 
+	// The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit.
+	// Policies available are: `ORACLE_SERVICE_NETWORK`, `REGIONAL`, `MARKET_LEVEL`, and `GLOBAL`.
+	// See Route Filtering (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details.
+	// By default, routing information is shared for all routes in the same market.
+	RoutingPolicy []UpdateVirtualCircuitDetailsRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
+
 	// Deprecated. Instead use `customerAsn`.
 	// If you specify values for both, the request will be rejected.
 	CustomerBgpAsn *int `mandatory:"false" json:"customerBgpAsn"`
@@ -87,6 +93,33 @@ type UpdateVirtualCircuitDetails struct {
 
 func (m UpdateVirtualCircuitDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UpdateVirtualCircuitDetailsRoutingPolicyEnum Enum with underlying type: string
+type UpdateVirtualCircuitDetailsRoutingPolicyEnum string
+
+// Set of constants representing the allowable values for UpdateVirtualCircuitDetailsRoutingPolicyEnum
+const (
+	UpdateVirtualCircuitDetailsRoutingPolicyOracleServiceNetwork UpdateVirtualCircuitDetailsRoutingPolicyEnum = "ORACLE_SERVICE_NETWORK"
+	UpdateVirtualCircuitDetailsRoutingPolicyRegional             UpdateVirtualCircuitDetailsRoutingPolicyEnum = "REGIONAL"
+	UpdateVirtualCircuitDetailsRoutingPolicyMarketLevel          UpdateVirtualCircuitDetailsRoutingPolicyEnum = "MARKET_LEVEL"
+	UpdateVirtualCircuitDetailsRoutingPolicyGlobal               UpdateVirtualCircuitDetailsRoutingPolicyEnum = "GLOBAL"
+)
+
+var mappingUpdateVirtualCircuitDetailsRoutingPolicy = map[string]UpdateVirtualCircuitDetailsRoutingPolicyEnum{
+	"ORACLE_SERVICE_NETWORK": UpdateVirtualCircuitDetailsRoutingPolicyOracleServiceNetwork,
+	"REGIONAL":               UpdateVirtualCircuitDetailsRoutingPolicyRegional,
+	"MARKET_LEVEL":           UpdateVirtualCircuitDetailsRoutingPolicyMarketLevel,
+	"GLOBAL":                 UpdateVirtualCircuitDetailsRoutingPolicyGlobal,
+}
+
+// GetUpdateVirtualCircuitDetailsRoutingPolicyEnumValues Enumerates the set of values for UpdateVirtualCircuitDetailsRoutingPolicyEnum
+func GetUpdateVirtualCircuitDetailsRoutingPolicyEnumValues() []UpdateVirtualCircuitDetailsRoutingPolicyEnum {
+	values := make([]UpdateVirtualCircuitDetailsRoutingPolicyEnum, 0)
+	for _, v := range mappingUpdateVirtualCircuitDetailsRoutingPolicy {
+		values = append(values, v)
+	}
+	return values
 }
 
 // UpdateVirtualCircuitDetailsProviderStateEnum Enum with underlying type: string

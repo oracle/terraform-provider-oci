@@ -27,7 +27,7 @@ type UpdateAutoScalingPolicyDetails interface {
 	// The capacity requirements of the autoscaling policy.
 	GetCapacity() *Capacity
 
-	// Boolean field indicating whether this policy is enabled or not.
+	// Whether the autoscaling policy is enabled.
 	GetIsEnabled() *bool
 }
 

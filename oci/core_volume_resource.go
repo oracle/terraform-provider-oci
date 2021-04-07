@@ -51,6 +51,38 @@ func CoreVolumeResource() *schema.Resource {
 				ForceNew:   true,
 				Deprecated: FieldDeprecatedButSupportedThroughAnotherResource("backup_policy_id", "oci_core_volume_backup_policy_assignment"),
 			},
+			"block_volume_replicas": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"availability_domain": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+						},
+
+						// Optional
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"block_volume_replica_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"block_volume_replicas_deletion": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -116,6 +148,7 @@ func CoreVolumeResource() *schema.Resource {
 							ForceNew:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"blockVolumeReplica",
 								"volume",
 								"volumeBackup",
 							}, true),
@@ -265,6 +298,23 @@ func (s *CoreVolumeResourceCrud) Create() error {
 		request.BackupPolicyId = &tmp
 	}
 
+	if blockVolumeReplicas, ok := s.D.GetOkExists("block_volume_replicas"); ok {
+		interfaces := blockVolumeReplicas.([]interface{})
+		tmp := make([]oci_core.BlockVolumeReplicaDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "block_volume_replicas", stateDataIndex)
+			converted, err := s.mapToBlockVolumeReplicaDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("block_volume_replicas") {
+			request.BlockVolumeReplicas = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -385,6 +435,30 @@ func (s *CoreVolumeResourceCrud) Update() error {
 	}
 	request := oci_core.UpdateVolumeRequest{}
 
+	if blockVolumeReplicas, ok := s.D.GetOkExists("block_volume_replicas"); ok {
+		interfaces := blockVolumeReplicas.([]interface{})
+		tmp := make([]oci_core.BlockVolumeReplicaDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "block_volume_replicas", stateDataIndex)
+			converted, err := s.mapToBlockVolumeReplicaDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("block_volume_replicas") {
+			request.BlockVolumeReplicas = tmp
+		}
+	}
+
+	if blockVolumeReplicasDeletion, ok := s.D.GetOkExists("block_volume_replicas_deletion"); ok {
+		tmp := blockVolumeReplicasDeletion.(bool)
+		if tmp == true {
+			request.BlockVolumeReplicas = []oci_core.BlockVolumeReplicaDetails{}
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -477,6 +551,12 @@ func (s *CoreVolumeResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	blockVolumeReplicas := []interface{}{}
+	for _, item := range s.Res.BlockVolumeReplicas {
+		blockVolumeReplicas = append(blockVolumeReplicas, BlockVolumeReplicaInfoToMap(item))
+	}
+	s.D.Set("block_volume_replicas", blockVolumeReplicas)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -549,6 +629,40 @@ func (s *CoreVolumeResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *CoreVolumeResourceCrud) mapToBlockVolumeReplicaDetails(fieldKeyFormat string) (oci_core.BlockVolumeReplicaDetails, error) {
+	result := oci_core.BlockVolumeReplicaDetails{}
+
+	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+		tmp := availabilityDomain.(string)
+		result.AvailabilityDomain = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	return result, nil
+}
+
+func BlockVolumeReplicaInfoToMap(obj oci_core.BlockVolumeReplicaInfo) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.BlockVolumeReplicaId != nil {
+		result["block_volume_replica_id"] = string(*obj.BlockVolumeReplicaId)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	return result
+}
+
 func (s *CoreVolumeResourceCrud) mapToVolumeSourceDetails(fieldKeyFormat string) (oci_core.VolumeSourceDetails, error) {
 	var baseObject oci_core.VolumeSourceDetails
 	//discriminator
@@ -560,6 +674,13 @@ func (s *CoreVolumeResourceCrud) mapToVolumeSourceDetails(fieldKeyFormat string)
 		type_ = "" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("blockVolumeReplica"):
+		details := oci_core.VolumeSourceFromBlockVolumeReplicaDetails{}
+		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+			tmp := id.(string)
+			details.Id = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("volume"):
 		details := oci_core.VolumeSourceFromVolumeDetails{}
 		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
@@ -583,6 +704,12 @@ func (s *CoreVolumeResourceCrud) mapToVolumeSourceDetails(fieldKeyFormat string)
 func VolumeSourceDetailsToMap(obj *oci_core.VolumeSourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_core.VolumeSourceFromBlockVolumeReplicaDetails:
+		result["type"] = "blockVolumeReplica"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
 	case oci_core.VolumeSourceFromVolumeDetails:
 		result["type"] = "volume"
 

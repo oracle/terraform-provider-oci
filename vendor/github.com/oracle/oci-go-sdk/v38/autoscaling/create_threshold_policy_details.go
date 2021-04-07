@@ -22,16 +22,15 @@ import (
 // In a threshold-based autoscaling policy, an autoscaling action is triggered when a performance metric meets
 // or exceeds a threshold.
 type CreateThresholdPolicyDetails struct {
+	Rules []CreateConditionDetails `mandatory:"true" json:"rules"`
 
 	// The capacity requirements of the autoscaling policy.
-	Capacity *Capacity `mandatory:"true" json:"capacity"`
-
-	Rules []CreateConditionDetails `mandatory:"true" json:"rules"`
+	Capacity *Capacity `mandatory:"false" json:"capacity"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Boolean field indicating whether this policy is enabled or not.
+	// Whether the autoscaling policy is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 }
 

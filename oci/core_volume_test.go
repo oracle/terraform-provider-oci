@@ -50,12 +50,16 @@ var (
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[1], "id")}`},
+		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"size_in_gbs":         Representation{repType: Optional, create: `51`, update: `52`},
-		"source_details":      RepresentationGroup{Optional, sourceDetailsVolumeRepresentation},
+		"source_details":      RepresentationGroup{Optional, volumeSourceDetailsRepresentation},
 		"vpus_per_gb":         Representation{repType: Optional, create: `10`, update: `20`},
 	}
-	sourceDetailsVolumeRepresentation = map[string]interface{}{
+	volumeBlockVolumeReplicasRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `NyKp:US-ASHBURN-AD-1`},
+		"display_name":        Representation{repType: Optional, create: `displayName`},
+	}
+	volumeSourceDetailsRepresentation = map[string]interface{}{
 		"id":   Representation{repType: Required, create: `${oci_core_volume.source_volume.id}`},
 		"type": Representation{repType: Required, create: `volume`},
 	}
@@ -108,7 +112,6 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-
 					// Check on default values used
 					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
@@ -118,12 +121,11 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					},
 				),
 			},
-
 			// delete before next create
 			{
 				Config: config + compartmentIdVariableStr + VolumeResourceDependencies,
 			},
-			// verify create with optionals
+
 			{
 				Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, volumeRepresentation),
@@ -158,7 +160,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
+			//verify update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create,
@@ -265,7 +267,8 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "volume_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -284,9 +287,10 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + VolumeResourceDependencies + generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
+				Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
 			},
-			// verify resource import
+			//verify resource import
 			{
 				Config:            config,
 				ImportState:       true,

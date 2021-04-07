@@ -43,6 +43,21 @@ data "oci_core_volumes" "test_volumes" {
   }
 }
 
+// Get replication status of a vault.
+// Currently only support virtual private vault.
+/*data "oci_kms_replication_status" "test_replication_status" {
+  # Required
+  management_endpoint = data.oci_kms_vault.test_vault.management_endpoint
+  replication_id = data.oci_kms_vault.test_vault.replica_details[0].replication_id
+}*/
+
+// List replicas of a vault.
+// Currently only support virtual private vault.
+/*data "oci_kms_vault_replicas" "test_vault_replicas" {
+  # Required
+  vault_id = data.oci_kms_vault.test_vault.id
+}*/
+
 //bucket object details where key was backed up
 /*data "oci_objectstorage_object" "key_backup_object" {
   #Required

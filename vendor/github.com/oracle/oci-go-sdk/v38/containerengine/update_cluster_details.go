@@ -25,6 +25,11 @@ type UpdateClusterDetails struct {
 	KubernetesVersion *string `mandatory:"false" json:"kubernetesVersion"`
 
 	Options *UpdateClusterOptionsDetails `mandatory:"false" json:"options"`
+
+	// The image verification policy for signature validation. Once a policy is created and enabled with
+	// one or more kms keys, the policy will ensure all images deployed has been signed with the key(s)
+	// attached to the policy.
+	ImagePolicyConfig *UpdateImagePolicyConfigDetails `mandatory:"false" json:"imagePolicyConfig"`
 }
 
 func (m UpdateClusterDetails) String() string {
