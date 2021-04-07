@@ -4,7 +4,7 @@
 - Support for Container Image Signing
 - Support for Scheduled Compute Instance Suspension
 - Support for KMS Cross Region Replication
-- Support for Casper - Enhancing PARs
+- Support for ObjectStorage - Enhancing PARs
 - Support for ExaCC | Software Images
 - Support for Cross-region asynchronous volume replication
 - Support for Compute DVH E3 shape added
