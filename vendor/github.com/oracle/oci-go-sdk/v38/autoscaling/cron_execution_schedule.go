@@ -18,13 +18,17 @@ import (
 	"github.com/oracle/oci-go-sdk/v38/common"
 )
 
-// CronExecutionSchedule Specifies the execution schedule of CRON type.
+// CronExecutionSchedule An autoscaling execution schedule that uses a cron expression.
 type CronExecutionSchedule struct {
 
-	// The value representing the execution schedule, as defined by cron format.
+	// A cron expression that represents the time at which to execute the autoscaling policy.
+	// Cron expressions have this format: `<second> <minute> <hour> <day of month> <month> <day of week> <year>`
+	// You can use special characters that are supported with the Quartz cron implementation.
+	// You must specify `0` as the value for seconds.
+	// Example: `0 15 10 ? * *`
 	Expression *string `mandatory:"true" json:"expression"`
 
-	// Specifies the time zone the schedule is in.
+	// The time zone for the execution schedule.
 	Timezone ExecutionScheduleTimezoneEnum `mandatory:"true" json:"timezone"`
 }
 

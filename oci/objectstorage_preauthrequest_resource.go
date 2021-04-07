@@ -42,6 +42,8 @@ func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 					string(oci_object_storage.PreauthenticatedRequestSummaryAccessTypeObjectwrite),
 					string(oci_object_storage.PreauthenticatedRequestSummaryAccessTypeObjectreadwrite),
 					string(oci_object_storage.PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite),
+					string(oci_object_storage.PreauthenticatedRequestSummaryAccessTypeAnyobjectread),
+					string(oci_object_storage.PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite),
 				}, true),
 			},
 			"bucket": {
@@ -67,6 +69,12 @@ func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 			},
 
 			// Optional
+			"bucket_listing_action": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"object": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -151,6 +159,10 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Create() error {
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
 		tmp := bucket.(string)
 		request.BucketName = &tmp
+	}
+
+	if bucketListingAction, ok := s.D.GetOkExists("bucket_listing_action"); ok {
+		request.BucketListingAction = oci_object_storage.PreauthenticatedRequestBucketListingActionEnum(bucketListingAction.(string))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -261,6 +273,8 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) SetData() error {
 	if s.Res.AccessUri != nil {
 		s.D.Set("access_uri", *s.Res.AccessUri)
 	}
+
+	s.D.Set("bucket_listing_action", s.Res.BucketListingAction)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

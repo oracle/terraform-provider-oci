@@ -138,6 +138,12 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 			volume["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		blockVolumeReplicas := []interface{}{}
+		for _, item := range r.BlockVolumeReplicas {
+			blockVolumeReplicas = append(blockVolumeReplicas, BlockVolumeReplicaInfoToMap(item))
+		}
+		volume["block_volume_replicas"] = blockVolumeReplicas
+
 		if r.DefinedTags != nil {
 			volume["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

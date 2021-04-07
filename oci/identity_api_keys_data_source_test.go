@@ -4,6 +4,7 @@
 package oci
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -26,7 +27,7 @@ func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	_, tokenFn := tokenizeWithHttpReplay("api_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
-	s.Config = legacyTestProviderConfig() + tokenFn(`
+	s.Config = legacyTestProviderConfig() + publicKeyVariableStr + publicKeyUpdateVariableStr + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.userName}}"
 		description = "automated test user"
@@ -35,16 +36,12 @@ func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	
 	resource "oci_identity_api_key" "t" {
 		user_id = "${oci_identity_user.t.id}"
-		key_value = <<EOF
-`+apiKey+`
-EOF
+		key_value = "${var.api_key_value}"
 	}
 	
 	resource "oci_identity_api_key" "u" {
 		user_id = "${oci_identity_user.t.id}"
-		key_value = <<EOF
-`+apiKey2+`
-EOF
+		key_value = "${var.api_key_update_value}"
 	}`, map[string]string{"userName": "user_" + timestamp()})
 	s.ResourceName = "data.oci_identity_api_keys.t"
 }
@@ -80,7 +77,7 @@ func (s *DatasourceIdentityAPIKeysTestSuite) TestAccDatasourceIdentityAPIKeys_ba
 					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.id", "oci_identity_api_key.t", "id"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.fingerprint", "oci_identity_api_key.t", "fingerprint"),
-					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.0.key_value", apiKey),
+					resource.TestMatchResourceAttr(s.ResourceName, "api_keys.0.key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 					TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.time_created", "oci_identity_api_key.t", "time_created"),
 					// TODO: This field is not being returned by the service call but is showing up in the datasource
 					//resource.TestCheckNoResourceAttr(s.ResourceName, "api_keys.0.inactive_status"),

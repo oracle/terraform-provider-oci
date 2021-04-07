@@ -21,14 +21,15 @@ import (
 // ScheduledPolicy An autoscaling policy that defines execution schedules for an autoscaling configuration.
 type ScheduledPolicy struct {
 
-	// The capacity requirements of the autoscaling policy.
-	Capacity *Capacity `mandatory:"true" json:"capacity"`
-
 	// The date and time the autoscaling configuration was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The schedule for executing the autoscaling policy.
 	ExecutionSchedule ExecutionSchedule `mandatory:"true" json:"executionSchedule"`
+
+	// The capacity requirements of the autoscaling policy.
+	Capacity *Capacity `mandatory:"false" json:"capacity"`
 
 	// The ID of the autoscaling policy that is assigned after creation.
 	Id *string `mandatory:"false" json:"id"`
@@ -36,8 +37,10 @@ type ScheduledPolicy struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Boolean field indicating whether this policy is enabled or not.
+	// Whether the autoscaling policy is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+
+	ResourceAction ResourceAction `mandatory:"false" json:"resourceAction"`
 }
 
 //GetCapacity returns Capacity
@@ -86,10 +89,11 @@ func (m ScheduledPolicy) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ScheduledPolicy) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Capacity          *Capacity         `json:"capacity"`
 		Id                *string           `json:"id"`
 		DisplayName       *string           `json:"displayName"`
 		IsEnabled         *bool             `json:"isEnabled"`
-		Capacity          *Capacity         `json:"capacity"`
+		ResourceAction    resourceaction    `json:"resourceAction"`
 		TimeCreated       *common.SDKTime   `json:"timeCreated"`
 		ExecutionSchedule executionschedule `json:"executionSchedule"`
 	}{}
@@ -99,13 +103,23 @@ func (m *ScheduledPolicy) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Capacity = model.Capacity
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName
 
 	m.IsEnabled = model.IsEnabled
 
-	m.Capacity = model.Capacity
+	nn, e = model.ResourceAction.UnmarshalPolymorphicJSON(model.ResourceAction.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ResourceAction = nn.(ResourceAction)
+	} else {
+		m.ResourceAction = nil
+	}
 
 	m.TimeCreated = model.TimeCreated
 

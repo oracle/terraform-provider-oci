@@ -76,6 +76,12 @@ func (s *CoreVolumeDataSourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	blockVolumeReplicas := []interface{}{}
+	for _, item := range s.Res.BlockVolumeReplicas {
+		blockVolumeReplicas = append(blockVolumeReplicas, BlockVolumeReplicaInfoToMap(item))
+	}
+	s.D.Set("block_volume_replicas", blockVolumeReplicas)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

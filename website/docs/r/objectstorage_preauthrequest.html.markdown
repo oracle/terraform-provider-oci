@@ -25,6 +25,7 @@ resource "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
 	time_expires = var.preauthenticated_request_time_expires
 
 	#Optional
+	bucket_listing_action = var.preauthenticated_request_bucket_listing_action
 	object = var.preauthenticated_request_object
 }
 ```
@@ -33,11 +34,12 @@ resource "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
 
 The following arguments are supported:
 
-* `access_type` - (Required) The operation that can be performed on this resource. Allowed Values: `ObjectRead`, `ObjectWrite`, `ObjectReadWrite`, or `AnyObjectWrite`
+* `access_type` - (Required) The operation that can be performed on this resource. Allowed Values: `ObjectRead`, `ObjectWrite`, `ObjectReadWrite`, `AnyObjectReadWrite` or `AnyObjectRead`
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
+* `bucket_listing_action` - (Optional) Specifies whether a list operation is allowed on a PAR with accessType "AnyObjectRead" or "AnyObjectReadWrite". Deny: Prevents the user from performing a list operation. ListObjects: Authorizes the user to perform a list operation.
 * `name` - (Required) A user-specified name for the pre-authenticated request. Names can be helpful in managing pre-authenticated requests. Avoid entering confidential information. 
 * `namespace` - (Required) The Object Storage namespace used for the request.
-* `object` - (Optional) The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. 
+* `object` - (Optional) The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket if the access type allows that. The object name can be a prefix as well, in that case pre-authenticated request grants access to all the objects within the bucket starting with that prefix provided that we have the correct access type. 
 * `time_expires` - (Required) The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/html/rfc3339). After this date the pre-authenticated request will no longer be valid. 
 
 
@@ -49,6 +51,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `access_type` - The operation that can be performed on this resource.
+* `bucket_listing_action` - Specifies whether a list operation is allowed on a PAR with accessType "AnyObjectRead" or "AnyObjectReadWrite". Deny: Prevents the user from performing a list operation. ListObjects: Authorizes the user to perform a list operation. 
 * `access_uri` - The URI to embed in the URL `https://objectstorage.${var.region}.oraclecloud.com{var.access_uri}` when using the pre-authenticated request.
 * `bucket` - The name of the bucket.  Example: `my-new-bucket1` 
 * `id` - The unique identifier to use when directly addressing the pre-authenticated request.

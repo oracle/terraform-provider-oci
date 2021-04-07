@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"reflect"
+	"regexp"
 	"strings"
 	"time"
 
@@ -138,9 +139,24 @@ func handleError(sync interface{}, err error) error {
 func getServiceName(sync interface{}) string {
 	syncTypeName := reflect.TypeOf(sync).String()
 	if strings.Contains(syncTypeName, "ResourceCrud") {
-		return syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
+		serviceName := syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
+		return removeDuplicate(serviceName)
 	}
 	return ""
+}
+
+func removeDuplicate(name string) string {
+	re := regexp.MustCompile(`[A-Z][^A-Z]*`)
+	subMatchAll := re.FindAllString(name, -1)
+	keys := make(map[string]bool)
+	list := []string{}
+	for _, entry := range subMatchAll {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return strings.Join(list, " ")
 }
 
 // Use to get OCID from refresh state only

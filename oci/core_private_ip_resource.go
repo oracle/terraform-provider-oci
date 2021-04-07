@@ -84,6 +84,10 @@ func CorePrivateIpResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"is_reserved": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"subnet_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -294,6 +298,10 @@ func (s *CorePrivateIpResourceCrud) SetData() error {
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
 	}
+
+	/*if s.Res.IsReserved != nil {
+		s.D.Set("is_reserved", *s.Res.IsReserved)
+	}*/
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)

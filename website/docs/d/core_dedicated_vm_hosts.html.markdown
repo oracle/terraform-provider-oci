@@ -27,6 +27,8 @@ data "oci_core_dedicated_vm_hosts" "test_dedicated_vm_hosts" {
 	availability_domain = var.dedicated_vm_host_availability_domain
 	display_name = var.dedicated_vm_host_display_name
 	instance_shape_name = var.dedicated_vm_host_instance_shape_name
+	remaining_memory_in_gbs_greater_than_or_equal_to = var.dedicated_vm_host_remaining_memory_in_gbs_greater_than_or_equal_to
+	remaining_ocpus_greater_than_or_equal_to = var.dedicated_vm_host_remaining_ocpus_greater_than_or_equal_to
 	state = var.dedicated_vm_host_state
 }
 ```
@@ -39,6 +41,8 @@ The following arguments are supported:
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `instance_shape_name` - (Optional) The name for the instance's shape. 
+* `remaining_memory_in_gbs_greater_than_or_equal_to` - (Optional) The remaining memory of the dedicated VM host, in GBs.
+* `remaining_ocpus_greater_than_or_equal_to` - (Optional) The available OCPUs of the dedicated VM host.
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.
 
 
@@ -66,8 +70,10 @@ The following attributes are exported:
 	Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated VM host. 
+* `remaining_memory_in_gbs` - The current available memory of the dedicated VM host, in GBs. 
 * `remaining_ocpus` - The current available OCPUs of the dedicated VM host. 
 * `state` - The current state of the dedicated VM host. 
 * `time_created` - The date and time the dedicated VM host was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `total_memory_in_gbs` - The current total memory of the dedicated VM host, in GBs. 
 * `total_ocpus` - The current total OCPUs of the dedicated VM host. 
 

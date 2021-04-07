@@ -136,6 +136,8 @@ func (s *CoreVirtualCircuitDataSourceCrud) SetData() error {
 		s.D.Set("region", *s.Res.Region)
 	}
 
+	s.D.Set("routing_policy", s.Res.RoutingPolicy)
+
 	s.D.Set("service_type", s.Res.ServiceType)
 
 	s.D.Set("state", s.Res.LifecycleState)

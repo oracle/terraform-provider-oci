@@ -27,7 +27,7 @@ type UpdateThresholdPolicyDetails struct {
 	// The capacity requirements of the autoscaling policy.
 	Capacity *Capacity `mandatory:"false" json:"capacity"`
 
-	// Boolean field indicating whether this policy is enabled or not.
+	// Whether the autoscaling policy is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	Rules []UpdateConditionDetails `mandatory:"false" json:"rules"`

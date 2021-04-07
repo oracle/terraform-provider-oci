@@ -180,6 +180,8 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["region"] = *r.Region
 		}
 
+		virtualCircuit["routing_policy"] = r.RoutingPolicy
+
 		virtualCircuit["service_type"] = r.ServiceType
 
 		virtualCircuit["state"] = r.LifecycleState

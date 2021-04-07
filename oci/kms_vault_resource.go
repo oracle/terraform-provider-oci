@@ -151,9 +151,32 @@ func KmsVaultResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_primary": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"management_endpoint": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"replica_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"replication_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"restored_from_vault_id": {
 				Type:     schema.TypeString,
@@ -410,8 +433,18 @@ func (s *KmsVaultResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsPrimary != nil {
+		s.D.Set("is_primary", *s.Res.IsPrimary)
+	}
+
 	if s.Res.ManagementEndpoint != nil {
 		s.D.Set("management_endpoint", *s.Res.ManagementEndpoint)
+	}
+
+	if s.Res.ReplicaDetails != nil {
+		s.D.Set("replica_details", []interface{}{VaultReplicaDetailsToMap(s.Res.ReplicaDetails)})
+	} else {
+		s.D.Set("replica_details", nil)
 	}
 
 	if s.Res.RestoredFromVaultId != nil {
@@ -431,6 +464,16 @@ func (s *KmsVaultResourceCrud) SetData() error {
 	s.D.Set("vault_type", s.Res.VaultType)
 
 	return nil
+}
+
+func VaultReplicaDetailsToMap(obj *oci_kms.VaultReplicaDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ReplicationId != nil {
+		result["replication_id"] = string(*obj.ReplicationId)
+	}
+
+	return result
 }
 
 func (s *KmsVaultResourceCrud) updateCompartment(compartment interface{}) error {

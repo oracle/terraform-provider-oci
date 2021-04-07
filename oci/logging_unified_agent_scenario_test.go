@@ -40,7 +40,7 @@ var (
 
 	unifiedAgentConfigurationLogTailRepresentation = map[string]interface{}{
 		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
-		"is_enabled":            Representation{repType: Required, create: `true`, update: `true`},
+		"is_enabled":            Representation{repType: Required, create: `true`, update: `false`},
 		"service_configuration": RepresentationGroup{Required, unifiedAgentConfigurationServiceConfigurationLogTailRepresentation},
 		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":           Representation{repType: Required, create: `description`, update: `description2`},
@@ -198,7 +198,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Uncomment configuration_state once bug is fixed
-					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
+					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -247,7 +247,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
+					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -290,8 +290,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesJSONParserRepresentation,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//Uncomment configuration_state once bug fixed
-					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
+					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -299,7 +298,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "group_association.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "group_association.0.group_list.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.configuration_type", "LOGGING"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
@@ -338,7 +337,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 					//Uncomment configuration_state once bug fixed
 					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.keys.#", "1"),
@@ -360,10 +359,9 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesGROKParserRepresentation,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//Uncomment configuration_state once bug fixed
-					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
+					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.grok_failure_key", "grokFailureKey2"),
@@ -394,7 +392,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 					//Uncomment configuration_state once bug fixed
 					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.field_time_key", "fieldTimeKey3"),
@@ -423,7 +421,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 					//Uncomment configuration_state once bug fixed
 					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.format.#", "1"),
@@ -445,10 +443,9 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMULTILINEGROKParserRepresentation,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//Uncomment configuration_state once bug fixed
-					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
+					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.grok_failure_key", "grokFailureKey2"),
@@ -472,8 +469,6 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 				),
 			},
 
-			//Uncomment configuration_state once bug fixed
-			//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 			// verify datasource
 			{
 				Config: config +
@@ -500,7 +495,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "unified_agent_configuration_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_state"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
@@ -508,7 +503,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "group_association.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "group_association.0.group_list.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.configuration_type", "LOGGING"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.#", "1"),

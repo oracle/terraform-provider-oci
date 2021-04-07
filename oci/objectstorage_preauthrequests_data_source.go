@@ -112,6 +112,8 @@ func (s *ObjectStoragePreauthenticatedRequestsDataSourceCrud) SetData() error {
 
 		preauthenticatedRequest["access_type"] = r.AccessType
 
+		preauthenticatedRequest["bucket_listing_action"] = r.BucketListingAction
+
 		if r.Id != nil {
 			preauthenticatedRequest["id"] = *r.Id
 		}

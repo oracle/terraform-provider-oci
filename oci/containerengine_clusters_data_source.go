@@ -136,6 +136,12 @@ func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 			cluster["id"] = *r.Id
 		}
 
+		if r.ImagePolicyConfig != nil {
+			cluster["image_policy_config"] = []interface{}{ImagePolicyConfigToMap(r.ImagePolicyConfig)}
+		} else {
+			cluster["image_policy_config"] = nil
+		}
+
 		if r.KubernetesVersion != nil {
 			cluster["kubernetes_version"] = *r.KubernetesVersion
 		}

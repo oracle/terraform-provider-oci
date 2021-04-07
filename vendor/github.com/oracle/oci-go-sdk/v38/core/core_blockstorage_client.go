@@ -1589,6 +1589,60 @@ func (client BlockstorageClient) deleteVolumeKmsKey(ctx context.Context, request
 	return response, err
 }
 
+// GetBlockVolumeReplica Gets information for the specified block volume replica.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetBlockVolumeReplica.go.html to see an example of how to use GetBlockVolumeReplica API.
+func (client BlockstorageClient) GetBlockVolumeReplica(ctx context.Context, request GetBlockVolumeReplicaRequest) (response GetBlockVolumeReplicaResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBlockVolumeReplica, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBlockVolumeReplicaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBlockVolumeReplicaResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBlockVolumeReplicaResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBlockVolumeReplicaResponse")
+	}
+	return
+}
+
+// getBlockVolumeReplica implements the OCIOperation interface (enables retrying operations)
+func (client BlockstorageClient) getBlockVolumeReplica(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockVolumeReplicas/{blockVolumeReplicaId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBlockVolumeReplicaResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetBootVolume Gets information for the specified boot volume.
 //
 // See also
@@ -1739,6 +1793,60 @@ func (client BlockstorageClient) getBootVolumeKmsKey(ctx context.Context, reques
 	}
 
 	var response GetBootVolumeKmsKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetBootVolumeReplica Gets information for the specified boot volume replica.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetBootVolumeReplica.go.html to see an example of how to use GetBootVolumeReplica API.
+func (client BlockstorageClient) GetBootVolumeReplica(ctx context.Context, request GetBootVolumeReplicaRequest) (response GetBootVolumeReplicaResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBootVolumeReplica, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBootVolumeReplicaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBootVolumeReplicaResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBootVolumeReplicaResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBootVolumeReplicaResponse")
+	}
+	return
+}
+
+// getBootVolumeReplica implements the OCIOperation interface (enables retrying operations)
+func (client BlockstorageClient) getBootVolumeReplica(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bootVolumeReplicas/{bootVolumeReplicaId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBootVolumeReplicaResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2185,6 +2293,60 @@ func (client BlockstorageClient) getVolumeKmsKey(ctx context.Context, request co
 	return response, err
 }
 
+// ListBlockVolumeReplicas Lists the block volume replicas in the specified compartment and availability domain.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListBlockVolumeReplicas.go.html to see an example of how to use ListBlockVolumeReplicas API.
+func (client BlockstorageClient) ListBlockVolumeReplicas(ctx context.Context, request ListBlockVolumeReplicasRequest) (response ListBlockVolumeReplicasResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBlockVolumeReplicas, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBlockVolumeReplicasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBlockVolumeReplicasResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBlockVolumeReplicasResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBlockVolumeReplicasResponse")
+	}
+	return
+}
+
+// listBlockVolumeReplicas implements the OCIOperation interface (enables retrying operations)
+func (client BlockstorageClient) listBlockVolumeReplicas(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockVolumeReplicas")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBlockVolumeReplicasResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListBootVolumeBackups Lists the boot volume backups in the specified compartment. You can filter the results by boot volume.
 //
 // See also
@@ -2227,6 +2389,60 @@ func (client BlockstorageClient) listBootVolumeBackups(ctx context.Context, requ
 	}
 
 	var response ListBootVolumeBackupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListBootVolumeReplicas Lists the boot volume replicas in the specified compartment and availability domain.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListBootVolumeReplicas.go.html to see an example of how to use ListBootVolumeReplicas API.
+func (client BlockstorageClient) ListBootVolumeReplicas(ctx context.Context, request ListBootVolumeReplicasRequest) (response ListBootVolumeReplicasResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBootVolumeReplicas, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBootVolumeReplicasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBootVolumeReplicasResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBootVolumeReplicasResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBootVolumeReplicasResponse")
+	}
+	return
+}
+
+// listBootVolumeReplicas implements the OCIOperation interface (enables retrying operations)
+func (client BlockstorageClient) listBootVolumeReplicas(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bootVolumeReplicas")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBootVolumeReplicasResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

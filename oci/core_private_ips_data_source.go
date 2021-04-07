@@ -153,6 +153,10 @@ func (s *CorePrivateIpsDataSourceCrud) SetData() error {
 			privateIp["is_primary"] = *r.IsPrimary
 		}
 
+		/*		if r.IsReserved != nil {
+				privateIp["is_reserved"] = *r.IsReserved
+			}*/
+
 		if r.SubnetId != nil {
 			privateIp["subnet_id"] = *r.SubnetId
 		}

@@ -67,6 +67,7 @@ var (
 		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"gateway_id":             Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
 		"region":                 Representation{repType: Optional, create: `us-phoenix-1`},
+		"routing_policy":         Representation{repType: Optional, create: []string{`REGIONAL`}, update: []string{`GLOBAL`}},
 	}
 
 	virtualCircuitWithProviderRepresentation = map[string]interface{}{
@@ -195,6 +196,32 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					},
 						[]string{}),
 					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+			},
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
+						representationCopyWithNewProperties(representationCopyWithRemovedProperties(virtualCircuitRepresentation, []string{"gateway_id", "cross_connect_mappings", "customer_asn"}),
+							map[string]interface{}{
+								"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsPublicRequiredOnlyRepresentation},
+								"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
+							})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
+					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
+					resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -352,6 +379,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
+					resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 					func(s *terraform.State) (err error) {
@@ -385,6 +413,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
+					resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 					func(s *terraform.State) (err error) {
@@ -415,6 +444,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
+					resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 					func(s *terraform.State) (err error) {
@@ -452,6 +482,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.gateway_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.oracle_bgp_asn"),
+					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.routing_policy.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.service_type"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.time_created"),
@@ -482,6 +513,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "oracle_bgp_asn"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "routing_policy.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_type"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "oracle_bgp_asn", "31898"),

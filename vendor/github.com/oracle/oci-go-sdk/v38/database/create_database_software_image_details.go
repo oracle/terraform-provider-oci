@@ -62,11 +62,13 @@ type CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum string
 const (
 	CreateDatabaseSoftwareImageDetailsImageShapeFamilyVmBmShape    CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "VM_BM_SHAPE"
 	CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadataShape CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "EXADATA_SHAPE"
+	CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape   CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "EXACC_SHAPE"
 )
 
 var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamily = map[string]CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum{
 	"VM_BM_SHAPE":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyVmBmShape,
 	"EXADATA_SHAPE": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadataShape,
+	"EXACC_SHAPE":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape,
 }
 
 // GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumValues Enumerates the set of values for CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum

@@ -175,7 +175,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 							type = "SearchDomain"
 						}
 					}`,
-				ExpectError: regexp.MustCompile("InvalidParameter.*JSON input"),
+				ExpectError: regexp.MustCompile(".*JSON input"),
 			},
 			{
 				Config: config + additionalDhcpOption4 + defaultDhcpOpts,

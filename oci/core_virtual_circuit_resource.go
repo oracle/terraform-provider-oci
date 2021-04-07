@@ -172,6 +172,14 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"routing_policy": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 
 			// Computed
 			"bgp_management": {
@@ -398,6 +406,19 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		request.Region = &tmp
 	}
 
+	if routingPolicy, ok := s.D.GetOkExists("routing_policy"); ok {
+		interfaces := routingPolicy.([]interface{})
+		tmp := make([]oci_core.CreateVirtualCircuitDetailsRoutingPolicyEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_core.CreateVirtualCircuitDetailsRoutingPolicyEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("routing_policy") {
+			request.RoutingPolicy = tmp
+		}
+	}
+
 	if type_, ok := s.D.GetOkExists("type"); ok {
 		request.Type = oci_core.CreateVirtualCircuitDetailsTypeEnum(type_.(string))
 	}
@@ -540,6 +561,19 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 	if referenceComment, ok := s.D.GetOkExists("reference_comment"); ok {
 		tmp := referenceComment.(string)
 		request.ReferenceComment = &tmp
+	}
+
+	if routingPolicy, ok := s.D.GetOkExists("routing_policy"); ok {
+		interfaces := routingPolicy.([]interface{})
+		tmp := make([]oci_core.UpdateVirtualCircuitDetailsRoutingPolicyEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_core.UpdateVirtualCircuitDetailsRoutingPolicyEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("routing_policy") {
+			request.RoutingPolicy = tmp
+		}
 	}
 
 	tmp := s.D.Id()
@@ -700,6 +734,8 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 	if s.Res.Region != nil {
 		s.D.Set("region", *s.Res.Region)
 	}
+
+	s.D.Set("routing_policy", s.Res.RoutingPolicy)
 
 	s.D.Set("service_type", s.Res.ServiceType)
 
