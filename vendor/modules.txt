@@ -260,6 +260,7 @@ github.com/oklog/run
 github.com/oracle/oci-go-sdk/v43/analytics
 github.com/oracle/oci-go-sdk/v43/apigateway
 github.com/oracle/oci-go-sdk/v43/apmcontrolplane
+github.com/oracle/oci-go-sdk/v43/apmsynthetics
 github.com/oracle/oci-go-sdk/v43/artifacts
 github.com/oracle/oci-go-sdk/v43/audit
 github.com/oracle/oci-go-sdk/v43/autoscaling
