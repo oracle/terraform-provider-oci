@@ -12,6 +12,9 @@
 - Support for fractional usage in limits
 - Support for Oracle Cloud VMware Solution Flexible Billing
 
+### Fixed
+- Fixed functions resource to sync `image_digest` with `image` appropriately
+
 ## 4.21.0 (April 07, 2021)
 
 ### Added

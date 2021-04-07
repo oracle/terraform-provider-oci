@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/customdiff"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_functions "github.com/oracle/oci-go-sdk/v38/functions"
@@ -27,6 +29,18 @@ func FunctionsFunctionResource() *schema.Resource {
 		Read:     readFunctionsFunction,
 		Update:   updateFunctionsFunction,
 		Delete:   deleteFunctionsFunction,
+		CustomizeDiff: customdiff.All(
+			customdiff.IfValueChange("image",
+				func(old, new, meta interface{}) bool {
+					return (old.(string) != new.(string)) && old.(string) != ""
+				},
+				func(d *schema.ResourceDiff, _ interface{}) error {
+					if !d.HasChange("image_digest") {
+						d.SetNewComputed("image_digest")
+					}
+					return nil
+				}),
+		),
 		Schema: map[string]*schema.Schema{
 			// Required
 			"application_id": {
@@ -282,7 +296,7 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 		request.Image = &tmp
 	}
 
-	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok && s.D.HasChange("image_digest") {
+	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
 		tmp := imageDigest.(string)
 		request.ImageDigest = &tmp
 	}
