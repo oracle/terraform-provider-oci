@@ -123,6 +123,22 @@ var exportApmApmDomainHints = &TerraformResourceHints{
 	},
 }
 
+var exportApmSyntheticsScriptHints = &TerraformResourceHints{
+	resourceClass:          "oci_apm_synthetics_script",
+	datasourceClass:        "oci_apm_synthetics_scripts",
+	datasourceItemsAttr:    "script_collection",
+	resourceAbbreviation:   "script",
+	requireResourceRefresh: true,
+}
+
+var exportApmSyntheticsMonitorHints = &TerraformResourceHints{
+	resourceClass:          "oci_apm_synthetics_monitor",
+	datasourceClass:        "oci_apm_synthetics_monitors",
+	datasourceItemsAttr:    "monitor_collection",
+	resourceAbbreviation:   "monitor",
+	requireResourceRefresh: true,
+}
+
 var exportArtifactsContainerConfigurationHints = &TerraformResourceHints{
 	resourceClass:        "oci_artifacts_container_configuration",
 	datasourceClass:      "oci_artifacts_container_configuration",
