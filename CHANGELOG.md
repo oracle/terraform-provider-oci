@@ -1,3 +1,8 @@
+## 4.25.0 (Unreleased)
+
+### Added
+- Support for Marketplace-Service Catalog
+
 ## 4.24.0 (April 29, 2021)
 
 ### Added
