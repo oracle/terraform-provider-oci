@@ -110,7 +110,7 @@ _Note: the parameter names are slightly different. Provider block from terraform
  
  If the parameters have multiple sources, the priority is going to be: 1 environment value, 2 non-default profile if provided, 3 DEFAULT profile
  
- TO used a non-default profile, you can set it through environment value like: `export TF_VAR_config_file_profile=<value>` or set it in a provider block like:
+ To use a non-default profile, you can set it through environment value like: `export TF_VAR_config_file_profile=<value>` or set it in a provider block like:
  
 ```
 provider "oci" {
