@@ -1,0 +1,703 @@
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package oci
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
+	"strings"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v45/loganalytics"
+)
+
+func init() {
+	RegisterResource("oci_log_analytics_log_analytics_object_collection_rule", LogAnalyticsLogAnalyticsObjectCollectionRuleResource())
+}
+
+func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Timeouts: DefaultTimeout,
+		Create:   createLogAnalyticsLogAnalyticsObjectCollectionRule,
+		Read:     readLogAnalyticsLogAnalyticsObjectCollectionRule,
+		Update:   updateLogAnalyticsLogAnalyticsObjectCollectionRule,
+		Delete:   deleteLogAnalyticsLogAnalyticsObjectCollectionRule,
+		Schema: map[string]*schema.Schema{
+			// Required
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"log_group_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"log_source_name": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"namespace": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"os_bucket_name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"os_namespace": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
+			"char_encoding": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"collection_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"entity_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"overrides": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: false,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"match_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"match_value": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"property_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"property_value": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"poll_since": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"poll_till": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+
+			// Computed
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
+	}
+}
+
+func createLogAnalyticsLogAnalyticsObjectCollectionRule(d *schema.ResourceData, m interface{}) error {
+	sync := &LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).logAnalyticsClient()
+
+	return CreateResource(d, sync)
+}
+
+func readLogAnalyticsLogAnalyticsObjectCollectionRule(d *schema.ResourceData, m interface{}) error {
+	sync := &LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).logAnalyticsClient()
+
+	return ReadResource(sync)
+}
+
+func updateLogAnalyticsLogAnalyticsObjectCollectionRule(d *schema.ResourceData, m interface{}) error {
+	sync := &LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).logAnalyticsClient()
+
+	return UpdateResource(d, sync)
+}
+
+func deleteLogAnalyticsLogAnalyticsObjectCollectionRule(d *schema.ResourceData, m interface{}) error {
+	sync := &LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).logAnalyticsClient()
+	sync.DisableNotFoundRetries = true
+
+	return DeleteResource(d, sync)
+}
+
+type LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud struct {
+	BaseCrud
+	Client                 *oci_log_analytics.LogAnalyticsClient
+	Res                    *oci_log_analytics.LogAnalyticsObjectCollectionRule
+	DisableNotFoundRetries bool
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) ID() string {
+	return getLogAnalyticsObjectCollectionRuleCompositeId(*s.Res.Id, s.D.Get("namespace").(string))
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) CreatedPending() []string {
+	return []string{}
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_log_analytics.ObjectCollectionRuleLifecycleStatesActive),
+	}
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) DeletedPending() []string {
+	return []string{}
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_log_analytics.ObjectCollectionRuleLifecycleStatesDeleted),
+	}
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Create() error {
+	request := oci_log_analytics.CreateLogAnalyticsObjectCollectionRuleRequest{}
+
+	if charEncoding, ok := s.D.GetOkExists("char_encoding"); ok {
+		tmp := charEncoding.(string)
+		request.CharEncoding = &tmp
+	}
+
+	if collectionType, ok := s.D.GetOkExists("collection_type"); ok {
+		request.CollectionType = oci_log_analytics.ObjectCollectionRuleCollectionTypesEnum(collectionType.(string))
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
+	if entityId, ok := s.D.GetOkExists("entity_id"); ok {
+		tmp := entityId.(string)
+		request.EntityId = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
+		tmp := logGroupId.(string)
+		request.LogGroupId = &tmp
+	}
+
+	if logSourceName, ok := s.D.GetOkExists("log_source_name"); ok {
+		tmp := logSourceName.(string)
+		request.LogSourceName = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	if osBucketName, ok := s.D.GetOkExists("os_bucket_name"); ok {
+		tmp := osBucketName.(string)
+		request.OsBucketName = &tmp
+	}
+
+	if osNamespace, ok := s.D.GetOkExists("os_namespace"); ok {
+		tmp := osNamespace.(string)
+		request.OsNamespace = &tmp
+	}
+
+	if overrides, ok := s.D.GetOkExists("overrides"); ok {
+		interfaces := overrides.([]interface{})
+		tmp := make([]oci_log_analytics.PropertyOverride, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", "overrides", stateDataIndex)
+			converted, err := s.mapToPropertyOverrides(fieldKeyFormatNextLevel)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("overrides") {
+			request.Overrides = map[string][]oci_log_analytics.PropertyOverride{"items": tmp}
+		}
+	}
+
+	if pollSince, ok := s.D.GetOkExists("poll_since"); ok {
+		tmp := pollSince.(string)
+		request.PollSince = &tmp
+	}
+
+	if pollTill, ok := s.D.GetOkExists("poll_till"); ok {
+		tmp := pollTill.(string)
+		request.PollTill = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+
+	response, err := s.Client.CreateLogAnalyticsObjectCollectionRule(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.LogAnalyticsObjectCollectionRule
+	return nil
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Get() error {
+	request := oci_log_analytics.GetLogAnalyticsObjectCollectionRuleRequest{}
+
+	tmp := s.D.Id()
+	request.LogAnalyticsObjectCollectionRuleId = &tmp
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	if logAnalyticsObjectCollectionRuleId, ok := s.D.GetOkExists("log_analytics_object_collection_rule_id"); ok {
+		tmp := logAnalyticsObjectCollectionRuleId.(string)
+		request.LogAnalyticsObjectCollectionRuleId = &tmp
+	}
+
+	logAnalyticsObjectCollectionRuleId, namespace, err := parseLogAnalyticsObjectCollectionRuleCompositeId(s.D.Id())
+	if err == nil {
+		request.LogAnalyticsObjectCollectionRuleId = &logAnalyticsObjectCollectionRuleId
+		request.NamespaceName = &namespace
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+
+	response, err := s.Client.GetLogAnalyticsObjectCollectionRule(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.LogAnalyticsObjectCollectionRule
+	return nil
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	request := oci_log_analytics.UpdateLogAnalyticsObjectCollectionRuleRequest{}
+
+	if charEncoding, ok := s.D.GetOkExists("char_encoding"); ok {
+		tmp := charEncoding.(string)
+		request.CharEncoding = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
+	if entityId, ok := s.D.GetOkExists("entity_id"); ok {
+		tmp := entityId.(string)
+		request.EntityId = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	tmp := s.D.Id()
+	request.LogAnalyticsObjectCollectionRuleId = &tmp
+
+	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
+		tmp := logGroupId.(string)
+		request.LogGroupId = &tmp
+	}
+
+	if logSourceName, ok := s.D.GetOkExists("log_source_name"); ok {
+		tmp := logSourceName.(string)
+		request.LogSourceName = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	if overrides, ok := s.D.GetOkExists("overrides"); ok {
+		interfaces := overrides.([]interface{})
+		tmp := make([]oci_log_analytics.PropertyOverride, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", "overrides", stateDataIndex)
+			converted, err := s.mapToPropertyOverrides(fieldKeyFormatNextLevel)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("overrides") {
+			request.Overrides = map[string][]oci_log_analytics.PropertyOverride{"items": tmp}
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+
+	response, err := s.Client.UpdateLogAnalyticsObjectCollectionRule(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.LogAnalyticsObjectCollectionRule
+	return nil
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Delete() error {
+	request := oci_log_analytics.DeleteLogAnalyticsObjectCollectionRuleRequest{}
+
+	tmp := s.D.Id()
+	request.LogAnalyticsObjectCollectionRuleId = &tmp
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+
+	_, err := s.Client.DeleteLogAnalyticsObjectCollectionRule(context.Background(), request)
+	return err
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) SetData() error {
+
+	logAnalyticsObjectCollectionRuleId, namespace, err := parseLogAnalyticsObjectCollectionRuleCompositeId(s.D.Id())
+	if err == nil {
+		s.D.SetId(logAnalyticsObjectCollectionRuleId)
+		s.D.Set("namespace", &namespace)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
+	if s.Res.CharEncoding != nil {
+		s.D.Set("char_encoding", *s.Res.CharEncoding)
+	}
+
+	s.D.Set("collection_type", s.Res.CollectionType)
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.EntityId != nil {
+		s.D.Set("entity_id", *s.Res.EntityId)
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LogGroupId != nil {
+		s.D.Set("log_group_id", *s.Res.LogGroupId)
+	}
+
+	if s.Res.LogSourceName != nil {
+		s.D.Set("log_source_name", *s.Res.LogSourceName)
+	}
+
+	if s.Res.Name != nil {
+		s.D.Set("name", *s.Res.Name)
+	}
+
+	if s.Res.OsBucketName != nil {
+		s.D.Set("os_bucket_name", *s.Res.OsBucketName)
+	}
+
+	if s.Res.OsNamespace != nil {
+		s.D.Set("os_namespace", *s.Res.OsNamespace)
+	}
+
+	if s.Res.Overrides != nil {
+		s.D.Set("overrides", propertyOverridesToMap(s.Res.Overrides))
+	} else {
+		s.D.Set("overrides", nil)
+	}
+
+	if s.Res.PollSince != nil {
+		s.D.Set("poll_since", *s.Res.PollSince)
+	}
+
+	if s.Res.PollTill != nil {
+		s.D.Set("poll_till", *s.Res.PollTill)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	return nil
+}
+
+func getLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId string, namespace string) string {
+	logAnalyticsObjectCollectionRuleId = url.PathEscape(logAnalyticsObjectCollectionRuleId)
+	namespace = url.PathEscape(namespace)
+	compositeId := "namespaces/" + namespace + "/logAnalyticsObjectCollectionRules/" + logAnalyticsObjectCollectionRuleId
+	return compositeId
+}
+
+func parseLogAnalyticsObjectCollectionRuleCompositeId(compositeId string) (logAnalyticsObjectCollectionRuleId string, namespace string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("namespaces/.*/logAnalyticsObjectCollectionRules/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	namespace, _ = url.PathUnescape(parts[1])
+	logAnalyticsObjectCollectionRuleId, _ = url.PathUnescape(parts[3])
+
+	return
+}
+
+func LogAnalyticsObjectCollectionRuleSummaryToMap(obj oci_log_analytics.LogAnalyticsObjectCollectionRuleSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["collection_type"] = string(obj.CollectionType)
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.OsBucketName != nil {
+		result["os_bucket_name"] = string(*obj.OsBucketName)
+	}
+
+	if obj.OsNamespace != nil {
+		result["os_namespace"] = string(*obj.OsNamespace)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_log_analytics.ChangeLogAnalyticsObjectCollectionRuleCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.LogAnalyticsObjectCollectionRuleId = &idTmp
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		changeCompartmentRequest.NamespaceName = &tmp
+	}
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+
+	_, err := s.Client.ChangeLogAnalyticsObjectCollectionRuleCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) mapToPropertyOverrides(fieldKeyFormat string) (oci_log_analytics.PropertyOverride, error) {
+	result := oci_log_analytics.PropertyOverride{}
+
+	if matchType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "match_type")); ok {
+		tmp := matchType.(string)
+		result.MatchType = &tmp
+	}
+	if matchValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "match_value")); ok {
+		tmp := matchValue.(string)
+		result.MatchValue = &tmp
+	}
+	if propertyName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "property_name")); ok {
+		tmp := propertyName.(string)
+		result.PropertyName = &tmp
+	}
+	if propertyValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "property_value")); ok {
+		tmp := propertyValue.(string)
+		result.PropertyValue = &tmp
+	}
+
+	return result, nil
+}
+
+func propertyOverridesToMap(obj map[string][]oci_log_analytics.PropertyOverride) []map[string]string {
+	overrides := make([]map[string]string, len(obj["items"]))
+	i := 0
+	for _, item := range obj["items"] {
+		overrides[i] = propertyOverrideToMap(item)
+		i++
+	}
+
+	return overrides
+}
+
+func propertyOverrideToMap(obj oci_log_analytics.PropertyOverride) map[string]string {
+	result := make(map[string]string)
+
+	result["match_type"] = *obj.MatchType
+	result["match_value"] = *obj.MatchValue
+	result["property_name"] = *obj.PropertyName
+	result["property_value"] = *obj.PropertyValue
+
+	return result
+}

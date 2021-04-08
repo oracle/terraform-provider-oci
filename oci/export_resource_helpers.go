@@ -29,6 +29,8 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/v45/core"
 	oci_identity "github.com/oracle/oci-go-sdk/v45/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v45/loadbalancer"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v45/loganalytics"
+	oci_objectstorage "github.com/oracle/oci-go-sdk/v45/objectstorage"
 )
 
 var isInitDone bool
@@ -836,6 +838,9 @@ func init() {
 	exportCoreDrgRouteTableRouteRuleHints.datasourceClass = "oci_core_drg_route_table_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.datasourceItemsAttr = "drg_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.processDiscoveredResourcesFn = processDrgRouteTableRouteRules
+
+	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.findResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
+	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.processDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
 }
 
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
@@ -1403,6 +1408,16 @@ func processObjectStorageReplicationPolicy(ctx *resourceDiscoveryContext, resour
 	return resources, nil
 }
 
+func processLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		namespace := resource.sourceAttributes["namespace"].(string)
+		logAnalyticsObjectCollectionRuleId := resource.id
+		resource.importId = getLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId, namespace)
+	}
+
+	return resources, nil
+}
+
 func processNetworkLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, backendSet := range resources {
 		if backendSet.parent == nil {
@@ -1590,6 +1605,77 @@ func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformR
 	}
 
 	return results, nil
+}
+
+func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
+	// List on LogAnalyticsObjectCollectionRules requires namespaceName path parameter.
+	// Getting namespace from ObjectStorage.GetNamespace API before calling ListLogAnalyticsObjectCollectionRules API.
+	results := []*OCIResource{}
+
+	namespaceRequest := oci_objectstorage.GetNamespaceRequest{}
+	namespaceResponse, err := ctx.clients.objectStorageClient().GetNamespace(context.Background(), namespaceRequest)
+	if err != nil {
+		return results, err
+	}
+	namespace := namespaceResponse.Value
+	request := oci_log_analytics.ListLogAnalyticsObjectCollectionRulesRequest{}
+
+	request.NamespaceName = namespace
+	request.CompartmentId = ctx.CompartmentId
+	request.LifecycleState = oci_log_analytics.ListLogAnalyticsObjectCollectionRulesLifecycleStateActive
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "log_analytics")
+
+	response, err := ctx.clients.logAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
+	if err != nil {
+		return results, err
+	}
+
+	request.Page = response.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := ctx.clients.logAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
+		if err != nil {
+			return results, err
+		}
+
+		response.Items = append(response.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	for _, logAnalyticsObjectCollectionRule := range response.Items {
+		logAnalyticsObjectCollectionRuleResource := resourcesMap[tfMeta.resourceClass]
+
+		d := logAnalyticsObjectCollectionRuleResource.TestResourceData()
+		d.SetId(getLogAnalyticsObjectCollectionRuleCompositeId(*logAnalyticsObjectCollectionRule.Id, *namespace))
+
+		if err := logAnalyticsObjectCollectionRuleResource.Read(d, ctx.clients); err != nil {
+			rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
+			ctx.addErrorToList(rdError)
+			continue
+		}
+
+		resource := &OCIResource{
+			compartmentId:    *ctx.CompartmentId,
+			sourceAttributes: convertResourceDataToMap(logAnalyticsObjectCollectionRuleResource.Schema, d),
+			rawResource:      logAnalyticsObjectCollectionRule,
+			TerraformResource: TerraformResource{
+				id:             d.Id(),
+				terraformClass: tfMeta.resourceClass,
+			},
+			getHclStringFn: getHclStringFromGenericMap,
+			parent:         parent,
+		}
+
+		if resource.terraformName, err = generateTerraformNameFromResource(resource.sourceAttributes, logAnalyticsObjectCollectionRuleResource.Schema); err != nil {
+			resource.terraformName = fmt.Sprintf("%s_%s", parent.parent.terraformName, *logAnalyticsObjectCollectionRule.Name)
+		}
+
+		results = append(results, resource)
+	}
+
+	return results, nil
+
 }
 
 func processLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {

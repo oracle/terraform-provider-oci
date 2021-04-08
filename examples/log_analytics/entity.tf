@@ -7,11 +7,6 @@
 
 variable "managed_agent_id" {}
 
-# Fetch namespace name from object store GET /n
-data "oci_objectstorage_namespace" "ns" {
-  compartment_id          = var.compartment_ocid
-}
-
 # Sample create entity with required parameters.
 resource "oci_log_analytics_log_analytics_entity" "entityRequired" {
   compartment_id          = var.compartment_ocid
