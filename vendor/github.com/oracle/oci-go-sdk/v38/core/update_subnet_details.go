@@ -55,6 +55,16 @@ type UpdateSubnetDetails struct {
 	// **Note:** If you are changing the CIDR block, you cannot create VNICs or private IPs for this resource while the update is in progress.
 	// Example: `172.16.0.0/16`
 	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
+
+	// This is the IPv6 CIDR block for the subnet's IP address space.
+	// The subnet size is always /64.
+	// See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// The provided CIDR must maintain the following rules -
+	// a. The IPv6 CIDR block is valid and correctly formatted.
+	// b. The IPv6 CIDR is within the parent VCN IPv6 range.
+	// c. Once added the IPv6 CIDR block cannot me removed or modified
+	// Example: `2001:0db8:0123:1111::/64`
+	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 }
 
 func (m UpdateSubnetDetails) String() string {

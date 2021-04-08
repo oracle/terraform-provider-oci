@@ -36,9 +36,8 @@ type Ipv6 struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPv6.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The IPv6 address of the `IPv6` object. The address is within the private IPv6 CIDR block
-	// of the VNIC's subnet (see the `ipv6CidrBlock` attribute for the Subnet
-	// object.
+	// The IPv6 address of the `IPv6` object. The address is within the IPv6 CIDR block of the VNIC's subnet
+	// (see the `ipv6CidrBlock` attribute for the Subnet object.
 	// Example: `2001:0db8:0123:1111:abcd:ef01:2345:6789`
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
@@ -65,26 +64,6 @@ type Ipv6 struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Whether the IPv6 can be used for internet communication. Allowed by default for an IPv6 in
-	// a public subnet. Never allowed for an IPv6 in a private subnet. If the value is `true`, the
-	// IPv6 uses its public IP address for internet communication.
-	// Example: `true`
-	IsInternetAccessAllowed *bool `mandatory:"false" json:"isInternetAccessAllowed"`
-
-	// The IPv6 address to be used for internet communication. The address is within the public
-	// IPv6 CIDR block of the VNIC's subnet (see the `ipv6PublicCidrBlock` attribute for the
-	// Subnet object).
-	// If your organization did NOT assign a custom IPv6 CIDR to the VCN for the private address
-	// space, Oracle provides the IPv6 CIDR and uses that same CIDR for the private and public
-	// address space. Therefore the `publicIpAddress` would be the same as the `ipAddress`.
-	// If your organization assigned a custom IPv6 CIDR to the VCN for the private address space,
-	// the right 80 bits of the IPv6 public IP (the subnet and address bits) are the same as for
-	// the `ipAddress`. But the left 48 bits are from the public IPv6 CIDR that Oracle assigned
-	// to the VCN.
-	// This is null if the IPv6 is created with `isInternetAccessAllowed` set to `false`.
-	// Example: `2001:0db8:0123:1111:abcd:ef01:2345:6789`
-	PublicIpAddress *string `mandatory:"false" json:"publicIpAddress"`
 }
 
 func (m Ipv6) String() string {

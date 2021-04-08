@@ -50,6 +50,26 @@ type ManagedDatabase struct {
 	// is UP, DOWN, or UNKNOWN at the current time.
 	DatabaseStatus DatabaseStatusEnum `mandatory:"false" json:"databaseStatus,omitempty"`
 
+	// The name of the parent Container Database.
+	ParentContainerName *string `mandatory:"false" json:"parentContainerName"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// in which the parent Container Database resides, if the Managed Database
+	// is a Pluggable Database (PDB).
+	ParentContainerCompartmentId *string `mandatory:"false" json:"parentContainerCompartmentId"`
+
+	// The number of Oracle Real Application Clusters (Oracle RAC) database instances.
+	InstanceCount *int `mandatory:"false" json:"instanceCount"`
+
+	// The details of the Oracle Real Application Clusters (Oracle RAC) database instances.
+	InstanceDetails []InstanceDetails `mandatory:"false" json:"instanceDetails"`
+
+	// The number of PDBs in the Container Database.
+	PdbCount *int `mandatory:"false" json:"pdbCount"`
+
+	// The status of the PDB in the Container Database.
+	PdbStatus []PdbStatusDetails `mandatory:"false" json:"pdbStatus"`
+
 	// The additional details specific to a type of database defined in `{"key": "value"}` format.
 	// Example: `{"bar-key": "value"}`
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`

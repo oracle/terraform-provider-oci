@@ -12,6 +12,7 @@
 package apigateway
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/v38/common"
 )
 
@@ -25,6 +26,8 @@ type UpdateGatewayDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource.
 	CertificateId *string `mandatory:"false" json:"certificateId"`
+
+	ResponseCacheDetails ResponseCacheDetails `mandatory:"false" json:"responseCacheDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see
@@ -41,4 +44,40 @@ type UpdateGatewayDetails struct {
 
 func (m UpdateGatewayDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName          *string                           `json:"displayName"`
+		CertificateId        *string                           `json:"certificateId"`
+		ResponseCacheDetails responsecachedetails              `json:"responseCacheDetails"`
+		FreeformTags         map[string]string                 `json:"freeformTags"`
+		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.CertificateId = model.CertificateId
+
+	nn, e = model.ResponseCacheDetails.UnmarshalPolymorphicJSON(model.ResponseCacheDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ResponseCacheDetails = nn.(ResponseCacheDetails)
+	} else {
+		m.ResponseCacheDetails = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }

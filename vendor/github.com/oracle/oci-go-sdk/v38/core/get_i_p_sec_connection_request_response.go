@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnection.go.html to see an example of how to use GetIPSecConnectionRequest.
 type GetIPSecConnectionRequest struct {
 
-	// The OCID of the IPSec connection.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IPSec connection.
 	IpscId *string `mandatory:"true" contributesTo:"path" name:"ipscId"`
 
 	// Unique Oracle-assigned identifier for the request.

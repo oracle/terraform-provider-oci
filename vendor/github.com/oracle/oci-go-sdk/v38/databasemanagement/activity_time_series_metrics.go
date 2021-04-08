@@ -28,6 +28,8 @@ type ActivityTimeSeriesMetrics struct {
 	UserIoTime *MetricDataPoint `mandatory:"false" json:"userIoTime"`
 
 	CpuCount *MetricDataPoint `mandatory:"false" json:"cpuCount"`
+
+	Cluster *MetricDataPoint `mandatory:"false" json:"cluster"`
 }
 
 func (m ActivityTimeSeriesMetrics) String() string {

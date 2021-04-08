@@ -45,8 +45,11 @@ type VirtualCircuit struct {
 	// FastConnectProviderService.
 	BgpManagement VirtualCircuitBgpManagementEnum `mandatory:"false" json:"bgpManagement,omitempty"`
 
-	// The state of the BGP session associated with the virtual circuit.
+	// The state of the Ipv4 BGP session associated with the virtual circuit.
 	BgpSessionState VirtualCircuitBgpSessionStateEnum `mandatory:"false" json:"bgpSessionState,omitempty"`
+
+	// The state of the Ipv6 BGP session associated with the virtual circuit.
+	BgpIpv6SessionState VirtualCircuitBgpIpv6SessionStateEnum `mandatory:"false" json:"bgpIpv6SessionState,omitempty"`
 
 	// The OCID of the compartment containing the virtual circuit.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
@@ -194,6 +197,29 @@ var mappingVirtualCircuitBgpSessionState = map[string]VirtualCircuitBgpSessionSt
 func GetVirtualCircuitBgpSessionStateEnumValues() []VirtualCircuitBgpSessionStateEnum {
 	values := make([]VirtualCircuitBgpSessionStateEnum, 0)
 	for _, v := range mappingVirtualCircuitBgpSessionState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// VirtualCircuitBgpIpv6SessionStateEnum Enum with underlying type: string
+type VirtualCircuitBgpIpv6SessionStateEnum string
+
+// Set of constants representing the allowable values for VirtualCircuitBgpIpv6SessionStateEnum
+const (
+	VirtualCircuitBgpIpv6SessionStateUp   VirtualCircuitBgpIpv6SessionStateEnum = "UP"
+	VirtualCircuitBgpIpv6SessionStateDown VirtualCircuitBgpIpv6SessionStateEnum = "DOWN"
+)
+
+var mappingVirtualCircuitBgpIpv6SessionState = map[string]VirtualCircuitBgpIpv6SessionStateEnum{
+	"UP":   VirtualCircuitBgpIpv6SessionStateUp,
+	"DOWN": VirtualCircuitBgpIpv6SessionStateDown,
+}
+
+// GetVirtualCircuitBgpIpv6SessionStateEnumValues Enumerates the set of values for VirtualCircuitBgpIpv6SessionStateEnum
+func GetVirtualCircuitBgpIpv6SessionStateEnumValues() []VirtualCircuitBgpIpv6SessionStateEnum {
+	values := make([]VirtualCircuitBgpIpv6SessionStateEnum, 0)
+	for _, v := range mappingVirtualCircuitBgpIpv6SessionState {
 		values = append(values, v)
 	}
 	return values

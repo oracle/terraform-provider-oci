@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateRouteTable.go.html to see an example of how to use UpdateRouteTableRequest.
 type UpdateRouteTableRequest struct {
 
-	// The OCID of the route table.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table.
 	RtId *string `mandatory:"true" contributesTo:"path" name:"rtId"`
 
 	// Details object for updating a route table.

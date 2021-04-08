@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListFastConnectProviderVirtualCircuitBandwidthShapes.go.html to see an example of how to use ListFastConnectProviderVirtualCircuitBandwidthShapesRequest.
 type ListFastConnectProviderVirtualCircuitBandwidthShapesRequest struct {
 
-	// The OCID of the provider service.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the provider service.
 	ProviderServiceId *string `mandatory:"true" contributesTo:"path" name:"providerServiceId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

@@ -12,14 +12,44 @@
 package apigateway
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/v38/common"
 )
 
 // ApiSpecificationRouteResponsePolicies Behavior applied to any responses sent by the API for requests on this route.
 type ApiSpecificationRouteResponsePolicies struct {
 	HeaderTransformations *HeaderTransformationPolicy `mandatory:"false" json:"headerTransformations"`
+
+	ResponseCacheStore ResponseCacheStorePolicy `mandatory:"false" json:"responseCacheStore"`
 }
 
 func (m ApiSpecificationRouteResponsePolicies) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ApiSpecificationRouteResponsePolicies) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		HeaderTransformations *HeaderTransformationPolicy `json:"headerTransformations"`
+		ResponseCacheStore    responsecachestorepolicy    `json:"responseCacheStore"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.HeaderTransformations = model.HeaderTransformations
+
+	nn, e = model.ResponseCacheStore.UnmarshalPolymorphicJSON(model.ResponseCacheStore.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ResponseCacheStore = nn.(ResponseCacheStorePolicy)
+	} else {
+		m.ResponseCacheStore = nil
+	}
+
+	return
 }

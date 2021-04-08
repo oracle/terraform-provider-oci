@@ -44,14 +44,6 @@ type CreateIpv6Details struct {
 	// contains the VNIC you specify in `vnicId`.
 	// Example: `2001:DB8::`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
-
-	// Whether the IPv6 can be used for internet communication. Allowed by default for an IPv6 in
-	// a public subnet. Never allowed for an IPv6 in a private subnet. If the value is `true`, the
-	// IPv6 uses its public IP address for internet communication.
-	// If `isInternetAccessAllowed` is set to `false`, the resulting `publicIpAddress` attribute
-	// for the Ipv6 is null.
-	// Example: `true`
-	IsInternetAccessAllowed *bool `mandatory:"false" json:"isInternetAccessAllowed"`
 }
 
 func (m CreateIpv6Details) String() string {

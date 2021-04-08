@@ -24,6 +24,8 @@ type DatabaseTimeAggregateMetrics struct {
 	WaitTime *MetricDataPoint `mandatory:"false" json:"waitTime"`
 
 	UserIoTime *MetricDataPoint `mandatory:"false" json:"userIoTime"`
+
+	Cluster *MetricDataPoint `mandatory:"false" json:"cluster"`
 }
 
 func (m DatabaseTimeAggregateMetrics) String() string {

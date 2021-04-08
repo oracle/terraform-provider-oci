@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetFastConnectProviderService.go.html to see an example of how to use GetFastConnectProviderServiceRequest.
 type GetFastConnectProviderServiceRequest struct {
 
-	// The OCID of the provider service.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the provider service.
 	ProviderServiceId *string `mandatory:"true" contributesTo:"path" name:"providerServiceId"`
 
 	// Unique Oracle-assigned identifier for the request.

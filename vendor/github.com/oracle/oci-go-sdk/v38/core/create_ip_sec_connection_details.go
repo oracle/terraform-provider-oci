@@ -26,7 +26,7 @@ type CreateIpSecConnectionDetails struct {
 	// The OCID of the Cpe object.
 	CpeId *string `mandatory:"true" json:"cpeId"`
 
-	// The OCID of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
 	// Static routes to the CPE. A static route's CIDR must not be a

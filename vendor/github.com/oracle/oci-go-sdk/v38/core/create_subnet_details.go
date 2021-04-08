@@ -90,8 +90,8 @@ type CreateSubnetDetails struct {
 	// If `prohibitPublicIpOnVnic` is set to true, VNICs created in this
 	// subnet cannot have public IP addresses (that is, it's a private
 	// subnet).
-	// For IPv6, if `prohibitPublicIpOnVnic` is set to `true`, internet access is not allowed for any
-	// IPv6s assigned to VNICs in the subnet.
+	// If you intend to use a an IPv6 CIDR block, you should use the flag `prohibitInternetIngress` to
+	// specify ingress internet traffic behavior of the subnet.
 	// Example: `true`
 	ProhibitPublicIpOnVnic *bool `mandatory:"false" json:"prohibitPublicIpOnVnic"`
 

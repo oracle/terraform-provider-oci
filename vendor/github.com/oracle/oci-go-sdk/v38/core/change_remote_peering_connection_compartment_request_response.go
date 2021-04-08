@@ -16,10 +16,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeRemotePeeringConnectionCompartment.go.html to see an example of how to use ChangeRemotePeeringConnectionCompartmentRequest.
 type ChangeRemotePeeringConnectionCompartmentRequest struct {
 
-	// The OCID of the remote peering connection (RPC).
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the remote peering connection (RPC).
 	RemotePeeringConnectionId *string `mandatory:"true" contributesTo:"path" name:"remotePeeringConnectionId"`
 
-	// Request to change the compartment of a Remote Peering Connection.
+	// Request to change the compartment of a remote peering connection.
 	ChangeRemotePeeringConnectionCompartmentDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

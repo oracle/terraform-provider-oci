@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCpe.go.html to see an example of how to use DeleteCpeRequest.
 type DeleteCpeRequest struct {
 
-	// The OCID of the CPE.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the CPE.
 	CpeId *string `mandatory:"true" contributesTo:"path" name:"cpeId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

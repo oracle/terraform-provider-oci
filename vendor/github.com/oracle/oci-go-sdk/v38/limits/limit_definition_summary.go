@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service limits APIs
+// Service Limits APIs
 //
 // APIs that interact with the resource limits of a specific resource type
 //
@@ -34,6 +34,12 @@ type LimitDefinitionSummary struct {
 	// Reflects if the GetResourceAvailability API is supported for this limit or not.
 	// If not, the API will return an empty JSON response.
 	IsResourceAvailabilitySupported *bool `mandatory:"false" json:"isResourceAvailabilitySupported"`
+
+	// Indicates if the limit has been deprecated.
+	IsDeprecated *bool `mandatory:"false" json:"isDeprecated"`
+
+	// Indicates if the customer can request a limit increase for this resource.
+	IsEligibleForLimitIncrease *bool `mandatory:"false" json:"isEligibleForLimitIncrease"`
 }
 
 func (m LimitDefinitionSummary) String() string {

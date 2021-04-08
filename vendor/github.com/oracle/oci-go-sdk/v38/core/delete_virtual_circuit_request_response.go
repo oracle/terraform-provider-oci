@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVirtualCircuit.go.html to see an example of how to use DeleteVirtualCircuitRequest.
 type DeleteVirtualCircuitRequest struct {
 
-	// The OCID of the virtual circuit.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual circuit.
 	VirtualCircuitId *string `mandatory:"true" contributesTo:"path" name:"virtualCircuitId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

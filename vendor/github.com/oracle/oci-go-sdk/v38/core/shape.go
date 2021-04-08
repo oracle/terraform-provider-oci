@@ -26,6 +26,13 @@ type Shape struct {
 	// ListShapes.
 	Shape *string `mandatory:"true" json:"shape"`
 
+	// For a subcore burstable VM, the supported baseline OCPU utilization for instances that use this shape.
+	BaselineOcpuUtilizations []ShapeBaselineOcpuUtilizationsEnum `mandatory:"false" json:"baselineOcpuUtilizations,omitempty"`
+
+	// For a subcore burstable VM, the minimum total baseline OCPUs required. The total baseline OCPUs is equal to
+	// baselineOcpuUtilization chosen multiplied by the number of OCPUs chosen.
+	MinTotalBaselineOcpusRequired *float32 `mandatory:"false" json:"minTotalBaselineOcpusRequired"`
+
 	// A short description of the shape's processor (CPU).
 	ProcessorDescription *string `mandatory:"false" json:"processorDescription"`
 
@@ -70,4 +77,29 @@ type Shape struct {
 
 func (m Shape) String() string {
 	return common.PointerString(m)
+}
+
+// ShapeBaselineOcpuUtilizationsEnum Enum with underlying type: string
+type ShapeBaselineOcpuUtilizationsEnum string
+
+// Set of constants representing the allowable values for ShapeBaselineOcpuUtilizationsEnum
+const (
+	ShapeBaselineOcpuUtilizations8 ShapeBaselineOcpuUtilizationsEnum = "BASELINE_1_8"
+	ShapeBaselineOcpuUtilizations2 ShapeBaselineOcpuUtilizationsEnum = "BASELINE_1_2"
+	ShapeBaselineOcpuUtilizations1 ShapeBaselineOcpuUtilizationsEnum = "BASELINE_1_1"
+)
+
+var mappingShapeBaselineOcpuUtilizations = map[string]ShapeBaselineOcpuUtilizationsEnum{
+	"BASELINE_1_8": ShapeBaselineOcpuUtilizations8,
+	"BASELINE_1_2": ShapeBaselineOcpuUtilizations2,
+	"BASELINE_1_1": ShapeBaselineOcpuUtilizations1,
+}
+
+// GetShapeBaselineOcpuUtilizationsEnumValues Enumerates the set of values for ShapeBaselineOcpuUtilizationsEnum
+func GetShapeBaselineOcpuUtilizationsEnumValues() []ShapeBaselineOcpuUtilizationsEnum {
+	values := make([]ShapeBaselineOcpuUtilizationsEnum, 0)
+	for _, v := range mappingShapeBaselineOcpuUtilizations {
+		values = append(values, v)
+	}
+	return values
 }

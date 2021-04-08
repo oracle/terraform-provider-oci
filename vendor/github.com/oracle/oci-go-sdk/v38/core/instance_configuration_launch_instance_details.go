@@ -146,7 +146,7 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
 
 	// Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
-	// * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
+	// * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 	// * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
@@ -167,6 +167,8 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	InstanceOptions *InstanceConfigurationInstanceOptions `mandatory:"false" json:"instanceOptions"`
 
 	AvailabilityConfig *InstanceConfigurationAvailabilityConfig `mandatory:"false" json:"availabilityConfig"`
+
+	PreemptibleInstanceConfig *PreemptibleInstanceConfigDetails `mandatory:"false" json:"preemptibleInstanceConfig"`
 }
 
 func (m InstanceConfigurationLaunchInstanceDetails) String() string {
@@ -199,6 +201,7 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 		PreferredMaintenanceAction     InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum `json:"preferredMaintenanceAction"`
 		InstanceOptions                *InstanceConfigurationInstanceOptions                                    `json:"instanceOptions"`
 		AvailabilityConfig             *InstanceConfigurationAvailabilityConfig                                 `json:"availabilityConfig"`
+		PreemptibleInstanceConfig      *PreemptibleInstanceConfigDetails                                        `json:"preemptibleInstanceConfig"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -267,6 +270,8 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	m.InstanceOptions = model.InstanceOptions
 
 	m.AvailabilityConfig = model.AvailabilityConfig
+
+	m.PreemptibleInstanceConfig = model.PreemptibleInstanceConfig
 
 	return
 }

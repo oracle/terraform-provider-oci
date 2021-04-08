@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVnic.go.html to see an example of how to use UpdateVnicRequest.
 type UpdateVnicRequest struct {
 
-	// The OCID of the VNIC.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VNIC.
 	VnicId *string `mandatory:"true" contributesTo:"path" name:"vnicId"`
 
 	// Details object for updating a VNIC.

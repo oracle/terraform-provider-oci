@@ -57,6 +57,10 @@ func (m *sourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := LoggingSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "streaming":
+		mm := StreamingSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -71,11 +75,13 @@ type SourceDetailsKindEnum string
 
 // Set of constants representing the allowable values for SourceDetailsKindEnum
 const (
-	SourceDetailsKindLogging SourceDetailsKindEnum = "logging"
+	SourceDetailsKindLogging   SourceDetailsKindEnum = "logging"
+	SourceDetailsKindStreaming SourceDetailsKindEnum = "streaming"
 )
 
 var mappingSourceDetailsKind = map[string]SourceDetailsKindEnum{
-	"logging": SourceDetailsKindLogging,
+	"logging":   SourceDetailsKindLogging,
+	"streaming": SourceDetailsKindStreaming,
 }
 
 // GetSourceDetailsKindEnumValues Enumerates the set of values for SourceDetailsKindEnum

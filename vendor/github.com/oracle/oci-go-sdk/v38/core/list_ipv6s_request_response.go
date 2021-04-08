@@ -31,7 +31,7 @@ type ListIpv6sRequest struct {
 	// Example: `10.0.3.3`
 	IpAddress *string `mandatory:"false" contributesTo:"query" name:"ipAddress"`
 
-	// The OCID of the subnet.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"false" contributesTo:"query" name:"subnetId"`
 
 	// The OCID of the VNIC.

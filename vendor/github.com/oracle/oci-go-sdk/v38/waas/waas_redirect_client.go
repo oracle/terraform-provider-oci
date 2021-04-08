@@ -58,7 +58,7 @@ func newRedirectClientFromBaseClient(baseClient common.BaseClient, configProvide
 
 // SetRegion overrides the region of this client.
 func (client *RedirectClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("waas", "https://waas.{region}.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("waas", "https://waas.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

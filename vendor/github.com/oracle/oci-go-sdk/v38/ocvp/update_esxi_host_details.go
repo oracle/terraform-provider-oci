@@ -21,6 +21,10 @@ type UpdateEsxiHostDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Billing option to switch to once existing billing cycle ends.
+	// ListSupportedSkus.
+	NextSku SkuEnum `mandatory:"false" json:"nextSku,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

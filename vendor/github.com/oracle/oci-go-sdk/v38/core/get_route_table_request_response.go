@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetRouteTable.go.html to see an example of how to use GetRouteTableRequest.
 type GetRouteTableRequest struct {
 
-	// The OCID of the route table.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table.
 	RtId *string `mandatory:"true" contributesTo:"path" name:"rtId"`
 
 	// Unique Oracle-assigned identifier for the request.

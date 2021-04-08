@@ -142,7 +142,7 @@ func (client DbManagementClient) addManagedDatabaseToManagedDatabaseGroup(ctx co
 	return response, err
 }
 
-// ChangeDatabaseParameters Changes database parameters' values. There are two kinds of database
+// ChangeDatabaseParameters Changes database parameter values. There are two kinds of database
 // parameters:
 // - Dynamic parameters: They can be changed for the current Oracle
 // Database instance. The changes take effect immediately.
@@ -549,6 +549,62 @@ func (client DbManagementClient) deleteManagedDatabaseGroup(ctx context.Context,
 	}
 
 	var response DeleteManagedDatabaseGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetClusterCacheMetric Gets the metrics related to cluster cache for the Oracle
+// Real Application Clusters (Oracle RAC) database specified
+// by managedDatabaseId.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetClusterCacheMetric.go.html to see an example of how to use GetClusterCacheMetric API.
+func (client DbManagementClient) GetClusterCacheMetric(ctx context.Context, request GetClusterCacheMetricRequest) (response GetClusterCacheMetricResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getClusterCacheMetric, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetClusterCacheMetricResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetClusterCacheMetricResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetClusterCacheMetricResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetClusterCacheMetricResponse")
+	}
+	return
+}
+
+// getClusterCacheMetric implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getClusterCacheMetric(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/clusterCacheMetrics")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetClusterCacheMetricResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1394,7 +1450,7 @@ func (client DbManagementClient) removeManagedDatabaseFromManagedDatabaseGroup(c
 	return response, err
 }
 
-// ResetDatabaseParameters Resets database parameters' values to their default or startup values.
+// ResetDatabaseParameters Resets database parameter values to their default or startup values.
 //
 // See also
 //

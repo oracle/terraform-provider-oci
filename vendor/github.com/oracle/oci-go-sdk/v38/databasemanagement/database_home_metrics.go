@@ -18,6 +18,9 @@ import (
 // DatabaseHomeMetrics The response containing the metric collection for a specific database.
 type DatabaseHomeMetrics struct {
 	DatabaseHomeMetrics *DatabaseHomeMetricDefinition `mandatory:"true" json:"databaseHomeMetrics"`
+
+	// The metrics for the RAC database instances.
+	DatabaseInstanceHomeMetrics []DatabaseInstanceHomeMetricsDefinition `mandatory:"false" json:"databaseInstanceHomeMetrics"`
 }
 
 func (m DatabaseHomeMetrics) String() string {
