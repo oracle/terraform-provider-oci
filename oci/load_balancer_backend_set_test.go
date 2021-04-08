@@ -74,7 +74,7 @@ var (
 
 	BackendSetResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
-		LoadBalancerResourceDependencies
+		LoadBalancerResourceDependencies + caCertificateVariableStr + privateKeyVariableStr
 )
 
 func TestLoadBalancerBackendSetResource_basic(t *testing.T) {

@@ -52,6 +52,7 @@ var (
 		generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation) +
+		caCertificateVariableStr + privateKeyVariableStr +
 		`
 	resource "oci_load_balancer_hostname" "test_hostname2" {
 		#Required
