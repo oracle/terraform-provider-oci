@@ -30,8 +30,41 @@ type LaunchInstanceShapeConfigDetails struct {
 
 	// The total amount of memory available to the instance, in gigabytes.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
+
+	// The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a
+	// non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+	// The following values are supported:
+	// - `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+	// - `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+	// - `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance.
+	BaselineOcpuUtilization LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum `mandatory:"false" json:"baselineOcpuUtilization,omitempty"`
 }
 
 func (m LaunchInstanceShapeConfigDetails) String() string {
 	return common.PointerString(m)
+}
+
+// LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum Enum with underlying type: string
+type LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum string
+
+// Set of constants representing the allowable values for LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum
+const (
+	LaunchInstanceShapeConfigDetailsBaselineOcpuUtilization8 LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum = "BASELINE_1_8"
+	LaunchInstanceShapeConfigDetailsBaselineOcpuUtilization2 LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum = "BASELINE_1_2"
+	LaunchInstanceShapeConfigDetailsBaselineOcpuUtilization1 LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum = "BASELINE_1_1"
+)
+
+var mappingLaunchInstanceShapeConfigDetailsBaselineOcpuUtilization = map[string]LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum{
+	"BASELINE_1_8": LaunchInstanceShapeConfigDetailsBaselineOcpuUtilization8,
+	"BASELINE_1_2": LaunchInstanceShapeConfigDetailsBaselineOcpuUtilization2,
+	"BASELINE_1_1": LaunchInstanceShapeConfigDetailsBaselineOcpuUtilization1,
+}
+
+// GetLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnumValues Enumerates the set of values for LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum
+func GetLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnumValues() []LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum {
+	values := make([]LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum, 0)
+	for _, v := range mappingLaunchInstanceShapeConfigDetailsBaselineOcpuUtilization {
+		values = append(values, v)
+	}
+	return values
 }

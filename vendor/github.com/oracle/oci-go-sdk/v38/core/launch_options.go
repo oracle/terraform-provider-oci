@@ -26,16 +26,16 @@ type LaunchOptions struct {
 	// * `SCSI` - Emulated SCSI disk.
 	// * `IDE` - Emulated IDE disk.
 	// * `VFIO` - Direct attached Virtual Function storage. This is the default option for local data
-	// volumes on Oracle-provided images.
+	// volumes on platform images.
 	// * `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block
-	// storage volumes on Oracle-provided images.
+	// storage volumes on platform images.
 	BootVolumeType LaunchOptionsBootVolumeTypeEnum `mandatory:"false" json:"bootVolumeType,omitempty"`
 
 	// Firmware used to boot VM. Select the option that matches your operating system.
 	// * `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating
 	// systems that boot using MBR style bootloaders.
 	// * `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the
-	// default for Oracle-provided images.
+	// default for platform images.
 	Firmware LaunchOptionsFirmwareEnum `mandatory:"false" json:"firmware,omitempty"`
 
 	// Emulation type for the physical network interface card (NIC).
@@ -50,9 +50,9 @@ type LaunchOptions struct {
 	// * `SCSI` - Emulated SCSI disk.
 	// * `IDE` - Emulated IDE disk.
 	// * `VFIO` - Direct attached Virtual Function storage. This is the default option for local data
-	// volumes on Oracle-provided images.
+	// volumes on platform images.
 	// * `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block
-	// storage volumes on Oracle-provided images.
+	// storage volumes on platform images.
 	RemoteDataVolumeType LaunchOptionsRemoteDataVolumeTypeEnum `mandatory:"false" json:"remoteDataVolumeType,omitempty"`
 
 	// Deprecated. Instead use `isPvEncryptionInTransitEnabled` in

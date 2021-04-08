@@ -40,6 +40,26 @@ type CreateIpSecTunnelBgpSessionDetails struct {
 	// Example: `10.0.0.5/31`
 	CustomerInterfaceIp *string `mandatory:"false" json:"customerInterfaceIp"`
 
+	// The IPv6 address for the Oracle end of the inside tunnel interface. This IP address is optional.
+	// If the tunnel's `routing` attribute is set to `BGP`
+	// (see IPSecConnectionTunnel), this IP address
+	// is used for the tunnel's BGP session.
+	// If `routing` is instead set to `STATIC`, you can set this IP
+	// address to troubleshoot or monitor the tunnel.
+	// Only subnet masks from /64 up to /127 are allowed.
+	// Example: `2001:db8::1/64`
+	OracleInterfaceIpv6 *string `mandatory:"false" json:"oracleInterfaceIpv6"`
+
+	// The IPv6 address for the CPE end of the inside tunnel interface. This IP address is optional.
+	// If the tunnel's `routing` attribute is set to `BGP`
+	// (see IPSecConnectionTunnel), this IP address
+	// is used for the tunnel's BGP session.
+	// If `routing` is instead set to `STATIC`, you can set this IP
+	// address to troubleshoot or monitor the tunnel.
+	// Only subnet masks from /64 up to /127 are allowed.
+	// Example: `2001:db8::1/64`
+	CustomerInterfaceIpv6 *string `mandatory:"false" json:"customerInterfaceIpv6"`
+
 	// If the tunnel's `routing` attribute is set to `BGP`
 	// (see IPSecConnectionTunnel), this ASN
 	// is required and used for the tunnel's BGP session. This is the ASN of the network on the

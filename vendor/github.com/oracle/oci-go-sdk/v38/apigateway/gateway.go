@@ -12,6 +12,7 @@
 package apigateway
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/v38/common"
 )
 
@@ -63,6 +64,8 @@ type Gateway struct {
 	// An array of IP addresses associated with the gateway.
 	IpAddresses []IpAddress `mandatory:"false" json:"ipAddresses"`
 
+	ResponseCacheDetails ResponseCacheDetails `mandatory:"false" json:"responseCacheDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see
 	// Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -78,6 +81,75 @@ type Gateway struct {
 
 func (m Gateway) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName          *string                           `json:"displayName"`
+		SubnetId             *string                           `json:"subnetId"`
+		TimeCreated          *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated          *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleState       GatewayLifecycleStateEnum         `json:"lifecycleState"`
+		LifecycleDetails     *string                           `json:"lifecycleDetails"`
+		Hostname             *string                           `json:"hostname"`
+		CertificateId        *string                           `json:"certificateId"`
+		IpAddresses          []IpAddress                       `json:"ipAddresses"`
+		ResponseCacheDetails responsecachedetails              `json:"responseCacheDetails"`
+		FreeformTags         map[string]string                 `json:"freeformTags"`
+		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
+		Id                   *string                           `json:"id"`
+		CompartmentId        *string                           `json:"compartmentId"`
+		EndpointType         GatewayEndpointTypeEnum           `json:"endpointType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.SubnetId = model.SubnetId
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.Hostname = model.Hostname
+
+	m.CertificateId = model.CertificateId
+
+	m.IpAddresses = make([]IpAddress, len(model.IpAddresses))
+	for i, n := range model.IpAddresses {
+		m.IpAddresses[i] = n
+	}
+
+	nn, e = model.ResponseCacheDetails.UnmarshalPolymorphicJSON(model.ResponseCacheDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ResponseCacheDetails = nn.(ResponseCacheDetails)
+	} else {
+		m.ResponseCacheDetails = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.EndpointType = model.EndpointType
+
+	return
 }
 
 // GatewayEndpointTypeEnum Enum with underlying type: string

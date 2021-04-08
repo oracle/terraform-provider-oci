@@ -35,6 +35,10 @@ type CreateSddcDetails struct {
 	// 3 ESXi hosts.
 	EsxiHostsCount *int `mandatory:"true" json:"esxiHostsCount"`
 
+	// Billing option selected during SDDC creation
+	// ListSupportedSkus.
+	InitialSku SkuEnum `mandatory:"true" json:"initialSku"`
+
 	// One or more public SSH keys to be included in the `~/.ssh/authorized_keys` file for
 	// the default user on each ESXi host. Use a newline character to separate multiple keys.
 	// The SSH keys must be in the format required for the `authorized_keys` file

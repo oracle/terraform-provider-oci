@@ -20,7 +20,7 @@ import (
 // CreateDrgDetails The representation of CreateDrgDetails
 type CreateDrgDetails struct {
 
-	// The OCID of the compartment to contain the DRG.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the DRG.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

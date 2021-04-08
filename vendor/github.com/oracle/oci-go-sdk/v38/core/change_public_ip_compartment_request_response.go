@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangePublicIpCompartment.go.html to see an example of how to use ChangePublicIpCompartmentRequest.
 type ChangePublicIpCompartmentRequest struct {
 
-	// The OCID of the public IP.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the public IP.
 	PublicIpId *string `mandatory:"true" contributesTo:"path" name:"publicIpId"`
 
 	// Request to change the compartment of a Public IP.

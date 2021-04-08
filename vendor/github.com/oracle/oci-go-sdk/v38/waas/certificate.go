@@ -67,6 +67,13 @@ type Certificate struct {
 
 	// The date and time the certificate was created, expressed in RFC 3339 timestamp format.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// This indicates whether trust verification was disabled during the creation of SSL certificate.
+	// If `true` SSL certificate trust verification was disabled and this SSL certificate is most likely self-signed.
+	IsTrustVerificationDisabled *bool `mandatory:"false" json:"isTrustVerificationDisabled"`
+
+	// The data of the SSL certificate.
+	CertificateData *string `mandatory:"false" json:"certificateData"`
 }
 
 func (m Certificate) String() string {

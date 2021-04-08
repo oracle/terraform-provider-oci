@@ -19,10 +19,10 @@ type ListIPSecConnectionsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"false" contributesTo:"query" name:"drgId"`
 
-	// The OCID of the CPE.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the CPE.
 	CpeId *string `mandatory:"false" contributesTo:"query" name:"cpeId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

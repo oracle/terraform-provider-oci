@@ -88,22 +88,26 @@ type Subnet struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's private IP address
-	// space. The subnet size is always /64. Note that IPv6 addressing is currently supported only
-	// in certain regions. See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's IP address space.
+	// The subnet size is always /64. See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
-
-	// For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's public IP address
-	// space. The subnet size is always /64. The left 48 bits are inherited from the
-	// `ipv6PublicCidrBlock` of the Vcn,
-	// and the remaining 16 bits are from the subnet's `ipv6CidrBlock`.
-	// Example: `2001:0db8:0123:1111::/64`
-	Ipv6PublicCidrBlock *string `mandatory:"false" json:"ipv6PublicCidrBlock"`
 
 	// For an IPv6-enabled subnet, this is the IPv6 address of the virtual router.
 	// Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678`
 	Ipv6VirtualRouterIp *string `mandatory:"false" json:"ipv6VirtualRouterIp"`
+
+	// Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
+	// For IPV4, `prohibitInternetIngress` behaves similarly to `prohibitPublicIpOnVnic`.
+	// If it is set to false, VNICs created in this subnet will automatically be assigned public IP
+	// addresses unless specified otherwise during instance launch or VNIC creation (with the `assignPublicIp`
+	// flag in CreateVnicDetails).
+	// If `prohibitInternetIngress` is set to true, VNICs created in this subnet cannot have public IP addresses
+	// (that is, it's a privatesubnet).
+	// For IPv6, if `prohibitInternetIngress` is set to `true`, internet access is not allowed for any
+	// IPv6s assigned to VNICs in the subnet. Otherwise, ingress internet traffic is allowed by default.
+	// Example: `true`
+	ProhibitInternetIngress *bool `mandatory:"false" json:"prohibitInternetIngress"`
 
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will

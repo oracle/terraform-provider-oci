@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteCrossConnect.go.html to see an example of how to use DeleteCrossConnectRequest.
 type DeleteCrossConnectRequest struct {
 
-	// The OCID of the cross-connect.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cross-connect.
 	CrossConnectId *string `mandatory:"true" contributesTo:"path" name:"crossConnectId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -20,6 +20,10 @@ type CreateEsxiHostDetails struct {
 	// ESXi host to.
 	SddcId *string `mandatory:"true" json:"sddcId"`
 
+	// Billing option selected during SDDC creation.
+	// ListSupportedSkus.
+	CurrentSku SkuEnum `mandatory:"true" json:"currentSku"`
+
 	// A descriptive name for the ESXi host. It's changeable.
 	// Esxi Host name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the SDDC.
 	// If this attribute is not specified, the SDDC's `instanceDisplayNamePrefix` attribute is used
@@ -28,6 +32,11 @@ type CreateEsxiHostDetails struct {
 	// name is `MySDDC-4`.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Billing option to switch to once existing billing cycle ends.
+	// If nextSku is null or empty, currentSku will be used to continue with next billing term.
+	// ListSupportedSkus.
+	NextSku SkuEnum `mandatory:"false" json:"nextSku,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

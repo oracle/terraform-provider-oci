@@ -116,6 +116,8 @@ type LaunchInstanceDetails struct {
 
 	AvailabilityConfig *LaunchInstanceAvailabilityConfigDetails `mandatory:"false" json:"availabilityConfig"`
 
+	PreemptibleInstanceConfig *PreemptibleInstanceConfigDetails `mandatory:"false" json:"preemptibleInstanceConfig"`
+
 	// Custom metadata key/value pairs that you provide, such as the SSH public key
 	// required to connect to the instance.
 	// A metadata service runs on every launched instance. The service is an HTTP
@@ -191,6 +193,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		LaunchOptions                  *LaunchOptions                           `json:"launchOptions"`
 		InstanceOptions                *InstanceOptions                         `json:"instanceOptions"`
 		AvailabilityConfig             *LaunchInstanceAvailabilityConfigDetails `json:"availabilityConfig"`
+		PreemptibleInstanceConfig      *PreemptibleInstanceConfigDetails        `json:"preemptibleInstanceConfig"`
 		Metadata                       map[string]string                        `json:"metadata"`
 		AgentConfig                    *LaunchInstanceAgentConfigDetails        `json:"agentConfig"`
 		ShapeConfig                    *LaunchInstanceShapeConfigDetails        `json:"shapeConfig"`
@@ -235,6 +238,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.InstanceOptions = model.InstanceOptions
 
 	m.AvailabilityConfig = model.AvailabilityConfig
+
+	m.PreemptibleInstanceConfig = model.PreemptibleInstanceConfig
 
 	m.Metadata = model.Metadata
 

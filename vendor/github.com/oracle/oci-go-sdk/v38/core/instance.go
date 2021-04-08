@@ -120,7 +120,7 @@ type Instance struct {
 	IpxeScript *string `mandatory:"false" json:"ipxeScript"`
 
 	// Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
-	// * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
+	// * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 	// * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
@@ -131,6 +131,8 @@ type Instance struct {
 	InstanceOptions *InstanceOptions `mandatory:"false" json:"instanceOptions"`
 
 	AvailabilityConfig *InstanceAvailabilityConfig `mandatory:"false" json:"availabilityConfig"`
+
+	PreemptibleInstanceConfig *PreemptibleInstanceConfigDetails `mandatory:"false" json:"preemptibleInstanceConfig"`
 
 	// Custom metadata that you provide.
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
@@ -161,33 +163,34 @@ func (m Instance) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CapacityReservationId    *string                           `json:"capacityReservationId"`
-		DedicatedVmHostId        *string                           `json:"dedicatedVmHostId"`
-		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName              *string                           `json:"displayName"`
-		ExtendedMetadata         map[string]interface{}            `json:"extendedMetadata"`
-		FaultDomain              *string                           `json:"faultDomain"`
-		FreeformTags             map[string]string                 `json:"freeformTags"`
-		ImageId                  *string                           `json:"imageId"`
-		IpxeScript               *string                           `json:"ipxeScript"`
-		LaunchMode               InstanceLaunchModeEnum            `json:"launchMode"`
-		LaunchOptions            *LaunchOptions                    `json:"launchOptions"`
-		InstanceOptions          *InstanceOptions                  `json:"instanceOptions"`
-		AvailabilityConfig       *InstanceAvailabilityConfig       `json:"availabilityConfig"`
-		Metadata                 map[string]string                 `json:"metadata"`
-		ShapeConfig              *InstanceShapeConfig              `json:"shapeConfig"`
-		SourceDetails            instancesourcedetails             `json:"sourceDetails"`
-		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
-		AgentConfig              *InstanceAgentConfig              `json:"agentConfig"`
-		TimeMaintenanceRebootDue *common.SDKTime                   `json:"timeMaintenanceRebootDue"`
-		PlatformConfig           platformconfig                    `json:"platformConfig"`
-		AvailabilityDomain       *string                           `json:"availabilityDomain"`
-		CompartmentId            *string                           `json:"compartmentId"`
-		Id                       *string                           `json:"id"`
-		LifecycleState           InstanceLifecycleStateEnum        `json:"lifecycleState"`
-		Region                   *string                           `json:"region"`
-		Shape                    *string                           `json:"shape"`
-		TimeCreated              *common.SDKTime                   `json:"timeCreated"`
+		CapacityReservationId     *string                           `json:"capacityReservationId"`
+		DedicatedVmHostId         *string                           `json:"dedicatedVmHostId"`
+		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName               *string                           `json:"displayName"`
+		ExtendedMetadata          map[string]interface{}            `json:"extendedMetadata"`
+		FaultDomain               *string                           `json:"faultDomain"`
+		FreeformTags              map[string]string                 `json:"freeformTags"`
+		ImageId                   *string                           `json:"imageId"`
+		IpxeScript                *string                           `json:"ipxeScript"`
+		LaunchMode                InstanceLaunchModeEnum            `json:"launchMode"`
+		LaunchOptions             *LaunchOptions                    `json:"launchOptions"`
+		InstanceOptions           *InstanceOptions                  `json:"instanceOptions"`
+		AvailabilityConfig        *InstanceAvailabilityConfig       `json:"availabilityConfig"`
+		PreemptibleInstanceConfig *PreemptibleInstanceConfigDetails `json:"preemptibleInstanceConfig"`
+		Metadata                  map[string]string                 `json:"metadata"`
+		ShapeConfig               *InstanceShapeConfig              `json:"shapeConfig"`
+		SourceDetails             instancesourcedetails             `json:"sourceDetails"`
+		SystemTags                map[string]map[string]interface{} `json:"systemTags"`
+		AgentConfig               *InstanceAgentConfig              `json:"agentConfig"`
+		TimeMaintenanceRebootDue  *common.SDKTime                   `json:"timeMaintenanceRebootDue"`
+		PlatformConfig            platformconfig                    `json:"platformConfig"`
+		AvailabilityDomain        *string                           `json:"availabilityDomain"`
+		CompartmentId             *string                           `json:"compartmentId"`
+		Id                        *string                           `json:"id"`
+		LifecycleState            InstanceLifecycleStateEnum        `json:"lifecycleState"`
+		Region                    *string                           `json:"region"`
+		Shape                     *string                           `json:"shape"`
+		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -220,6 +223,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.InstanceOptions = model.InstanceOptions
 
 	m.AvailabilityConfig = model.AvailabilityConfig
+
+	m.PreemptibleInstanceConfig = model.PreemptibleInstanceConfig
 
 	m.Metadata = model.Metadata
 

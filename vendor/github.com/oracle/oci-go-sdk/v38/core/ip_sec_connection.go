@@ -43,10 +43,10 @@ type IpSecConnection struct {
 	// The OCID of the Cpe object.
 	CpeId *string `mandatory:"true" json:"cpeId"`
 
-	// The OCID of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
-	// The IPSec connection's Oracle ID (OCID).
+	// The IPSec connection's Oracle ID (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
 	Id *string `mandatory:"true" json:"id"`
 
 	// The IPSec connection's current state.

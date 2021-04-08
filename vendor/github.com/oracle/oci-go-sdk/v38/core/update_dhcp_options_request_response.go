@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDhcpOptions.go.html to see an example of how to use UpdateDhcpOptionsRequest.
 type UpdateDhcpOptionsRequest struct {
 
-	// The OCID for the set of DHCP options.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the set of DHCP options.
 	DhcpId *string `mandatory:"true" contributesTo:"path" name:"dhcpId"`
 
 	// Request object for updating a set of DHCP options.

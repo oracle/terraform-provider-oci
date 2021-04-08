@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service limits APIs
+// Service Limits APIs
 //
 // APIs that interact with the resource limits of a specific resource type
 //
@@ -17,11 +17,23 @@ import (
 // Note: We cannot guarantee this data for all the limits. In those cases, these fields will be empty.
 type ResourceAvailability struct {
 
-	// The current usage in the given compartment.
+	// The current usage in the given compartment. Because we have introduced resources with fractional counts,
+	// the field will round up to the nearest integer.
 	Used *int64 `mandatory:"false" json:"used"`
 
-	// The count of available resources.
+	// The count of available resources. Because we have introduced resources with fractional counts,
+	// the field will round down to the nearest integer.
 	Available *int64 `mandatory:"false" json:"available"`
+
+	// The current most accurate usage in the given compartment.
+	FractionalUsage *float32 `mandatory:"false" json:"fractionalUsage"`
+
+	// The most accurate count of available resources.
+	FractionalAvailability *float32 `mandatory:"false" json:"fractionalAvailability"`
+
+	// The effective quota value for given compartment. This field is only present if there is a
+	// current quota policy affecting the current resource in the target region or availability domain.
+	EffectiveQuotaValue *float32 `mandatory:"false" json:"effectiveQuotaValue"`
 }
 
 func (m ResourceAvailability) String() string {

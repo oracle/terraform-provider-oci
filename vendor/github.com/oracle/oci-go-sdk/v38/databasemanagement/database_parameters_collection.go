@@ -15,7 +15,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v38/common"
 )
 
-// DatabaseParametersCollection The details of the database parameters.
+// DatabaseParametersCollection A collection of database parameters.
 type DatabaseParametersCollection struct {
 
 	// The name of the Managed Database.

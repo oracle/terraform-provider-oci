@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInternetGateway.go.html to see an example of how to use GetInternetGatewayRequest.
 type GetInternetGatewayRequest struct {
 
-	// The OCID of the internet gateway.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the internet gateway.
 	IgId *string `mandatory:"true" contributesTo:"path" name:"igId"`
 
 	// Unique Oracle-assigned identifier for the request.

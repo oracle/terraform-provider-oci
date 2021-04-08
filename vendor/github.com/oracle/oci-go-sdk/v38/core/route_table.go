@@ -37,7 +37,7 @@ type RouteTable struct {
 	// The collection of rules for routing destination IPs to network devices.
 	RouteRules []RouteRule `mandatory:"true" json:"routeRules"`
 
-	// The OCID of the VCN the route table list belongs to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN the route table list belongs to.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

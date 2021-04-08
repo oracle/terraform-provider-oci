@@ -71,6 +71,9 @@ type BootVolumeReplica struct {
 
 	// The image OCID used to create the boot volume the replica is replicated from.
 	ImageId *string `mandatory:"false" json:"imageId"`
+
+	// The total size of the data transferred from the source boot volume to the boot volume replica, in GBs.
+	TotalDataTransferredInGBs *int64 `mandatory:"false" json:"totalDataTransferredInGBs"`
 }
 
 func (m BootVolumeReplica) String() string {
