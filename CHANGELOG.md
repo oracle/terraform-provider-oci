@@ -6,6 +6,7 @@
 - Support for Cross-Region Copy of Volume Group Backups in `core` added
 - Support for Network Bonding added to `ExaCS`
 - Support for ODSC - Model Store V2	
+- Support for `oci_log_analytics_log_analytics_object_collection_rule` resource
 
 ## 4.37.0 (July 28, 2021)
 
