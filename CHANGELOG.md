@@ -14,6 +14,7 @@
 
 ### Fixed
 - Fixed functions resource to sync `image_digest` with `image` appropriately
+- Removed incorrect document for `oci_data_safe_on_prem_connectors_configuration`. Issue [1344](https://github.com/terraform-providers/terraform-provider-oci/issues/1344)
 
 ## 4.21.0 (April 07, 2021)
 
