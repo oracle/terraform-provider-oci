@@ -62,7 +62,7 @@ type CreateVcnDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Whether IPv6 is enabled for the VCN. Default is `false`. You cannot change this later.
+	// Whether IPv6 is enabled for the VCN. Default is `false`.
 	// If enabled, Oracle will assign the VCN a IPv6 /56 CIDR block.
 	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `true`

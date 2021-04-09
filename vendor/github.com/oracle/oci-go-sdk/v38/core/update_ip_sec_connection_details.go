@@ -49,8 +49,9 @@ type UpdateIpSecConnectionDetails struct {
 
 	// Static routes to the CPE. If you provide this attribute, it replaces the entire current set of
 	// static routes. A static route's CIDR must not be a multicast address or class E address.
-	// The CIDR can be either IPv4 or IPv6. Note that IPv6 addressing is currently supported only
-	// in certain regions. See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// The CIDR can be either IPv4 or IPv6.
+	// IPv6 addressing is supported for all commercial and government regions.
+	// See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `10.0.1.0/24`
 	// Example: `2001:db8::/32`
 	StaticRoutes []string `mandatory:"false" json:"staticRoutes"`

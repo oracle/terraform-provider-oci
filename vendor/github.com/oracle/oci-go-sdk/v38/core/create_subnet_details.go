@@ -82,6 +82,14 @@ type CreateSubnetDetails struct {
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
+	// Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
+	// For IPv6, if `prohibitInternetIngress` is set to `true`, internet access is not allowed for any
+	// IPv6s assigned to VNICs in the subnet. Otherwise, ingress internet traffic is allowed by default.
+	// `prohibitPublicIpOnVnic` will be set to the value of `prohibitInternetIngress` to dictate IPv4
+	// behavior in this subnet. Only one or the other flag should be specified.
+	// Example: `true`
+	ProhibitInternetIngress *bool `mandatory:"false" json:"prohibitInternetIngress"`
+
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will
 	// automatically be assigned public IP addresses unless specified
@@ -90,7 +98,7 @@ type CreateSubnetDetails struct {
 	// If `prohibitPublicIpOnVnic` is set to true, VNICs created in this
 	// subnet cannot have public IP addresses (that is, it's a private
 	// subnet).
-	// If you intend to use a an IPv6 CIDR block, you should use the flag `prohibitInternetIngress` to
+	// If you intend to use an IPv6 CIDR block, you should use the flag `prohibitInternetIngress` to
 	// specify ingress internet traffic behavior of the subnet.
 	// Example: `true`
 	ProhibitPublicIpOnVnic *bool `mandatory:"false" json:"prohibitPublicIpOnVnic"`

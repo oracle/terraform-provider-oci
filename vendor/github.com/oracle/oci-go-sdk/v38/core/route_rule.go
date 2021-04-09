@@ -39,8 +39,9 @@ type RouteRule struct {
 	// Allowed values:
 	//   * IP address range in CIDR notation. Can be an IPv4 or IPv6 CIDR. For example: `192.168.1.0/24`
 	//   or `2001:0db8:0123:45::/56`. If you set this to an IPv6 CIDR, the route rule's target
-	//   can only be a DRG or internet gateway. Note that IPv6 addressing is currently supported
-	//   only in certain regions. See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	//   can only be a DRG or internet gateway.
+	//   IPv6 addressing is supported for all commercial and government regions.
+	//   See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	//   * The `cidrBlock` value for a Service, if you're
 	//     setting up a route rule for traffic destined for a particular `Service` through
 	//     a service gateway. For example: `oci-phx-objectstorage`.

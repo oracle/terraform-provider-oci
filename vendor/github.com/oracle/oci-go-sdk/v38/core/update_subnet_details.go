@@ -62,7 +62,6 @@ type UpdateSubnetDetails struct {
 	// The provided CIDR must maintain the following rules -
 	// a. The IPv6 CIDR block is valid and correctly formatted.
 	// b. The IPv6 CIDR is within the parent VCN IPv6 range.
-	// c. Once added the IPv6 CIDR block cannot me removed or modified
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 }
