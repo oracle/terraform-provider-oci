@@ -21,7 +21,7 @@ import (
 // The `IPv6` object is the API representation of an IPv6.
 // You can create and assign an IPv6 to any VNIC that is in an IPv6-enabled subnet in an
 // IPv6-enabled VCN.
-// **Note:** IPv6 addressing is currently supported only in certain regions. For important
+// **Note:** IPv6 addressing is supported for all commercial and government regions. For important
 // details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 type Ipv6 struct {
 
