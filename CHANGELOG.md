@@ -5,6 +5,7 @@
 - Support for Streaming analytics in OCI Connector Hub
 - Support for IPv6
 - Support for Compute preemptible Instances
+- Support for MDS High Availability
 
 ## 4.21.0 (April 07, 2021)
 
