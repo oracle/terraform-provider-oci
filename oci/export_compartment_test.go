@@ -418,7 +418,6 @@ func createTestParent(d *schema.ResourceData, m interface{}) error {
 }
 
 func readTestParent(d *schema.ResourceData, m interface{}) error {
-	initTestResources()
 	if resource, exists := parentResources[d.Id()]; exists {
 		for key, value := range resource {
 			d.Set(key, value)
@@ -435,7 +434,6 @@ func readTestParent(d *schema.ResourceData, m interface{}) error {
 var modifyParentLock sync.Mutex
 
 func listTestParents(d *schema.ResourceData, m interface{}) error {
-	initTestResources()
 	results := make([]interface{}, len(parentResources))
 	modifyParentLock.Lock()
 	for i := 0; i < len(parentResources); i++ {
@@ -466,14 +464,16 @@ func createTestChild(d *schema.ResourceData, m interface{}) error {
 }
 
 func readTestChild(d *schema.ResourceData, m interface{}) error {
-	initTestResources()
+	modifyChildLock.RLock()
 	if resource, exists := childrenResources[d.Id()]; exists {
 		for key, value := range resource {
 			d.Set(key, value)
 		}
 	} else {
+		modifyChildLock.RUnlock()
 		return fmt.Errorf("could not find child with id %s", d.Id())
 	}
+	modifyChildLock.RUnlock()
 	return nil
 }
 
@@ -484,10 +484,9 @@ func readTestChildWithError(d *schema.ResourceData, m interface{}) error {
 // TestUnitRunExportCommand_Parallel is reusing the same test resource CRUD definitions for different entries
 // in export graph for the test services, hence listTestChildren get called by multiple threads
 // need a lock to modify the `resource` map concurrently
-var modifyChildLock sync.Mutex
+var modifyChildLock sync.RWMutex
 
 func listTestChildren(d *schema.ResourceData, m interface{}) error {
-	initTestResources()
 
 	parentId, parentIdExists := d.GetOkExists("parent_id")
 	results := []interface{}{}
