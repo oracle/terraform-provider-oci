@@ -36,7 +36,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - Detector recipe description
 * `detector` - Type of detector
-* `detector_rules` - List of detetor rules for the detector type for recipe
+* `detector_rules` - List of detector rules for the detector type for recipe - user input
 	* `candidate_responder_rules` - List of CandidateResponderRule related to this rule
 		* `display_name` - The display name of the Responder rule
 		* `id` - The unique identifier of the Responder rule
@@ -69,7 +69,7 @@ The following attributes are exported:
 	* `time_created` - The date and time the detector recipe rule was created. Format defined by RFC3339.
 	* `time_updated` - The date and time the detector recipe rule was updated. Format defined by RFC3339.
 * `display_name` - DisplayName of detector recipe
-* `effective_detector_rules` - List of detetor rules for the detector type for recipe
+* `effective_detector_rules` - List of effective detector rules for the detector type for recipe after applying defaults
 	* `candidate_responder_rules` - List of CandidateResponderRule related to this rule
 		* `display_name` - The display name of the Responder rule
 		* `id` - The unique identifier of the Responder rule
