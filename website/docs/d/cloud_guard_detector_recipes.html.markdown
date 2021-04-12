@@ -51,7 +51,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned depending on the the setting of `accessLevel`. 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `resource_metadata_only` - (Optional) Default is false. When set to true, the list of all Oracle Managed Resources Metadata supported by Cloud Guard is returned. 
+* `resource_metadata_only` - (Optional) Default is false. When set to true, the list of all Oracle Managed Resources Metadata supported by Cloud Guard are returned. 
 * `state` - (Optional) The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
 
 
@@ -69,7 +69,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - Detector recipe description
 * `detector` - Type of detector
-* `detector_rules` - List of detetor rules for the detector type for recipe
+* `detector_rules` - List of detector rules for the detector type for recipe - user input
 	* `candidate_responder_rules` - List of CandidateResponderRule related to this rule
 		* `display_name` - The display name of the Responder rule
 		* `id` - The unique identifier of the Responder rule
@@ -102,7 +102,7 @@ The following attributes are exported:
 	* `time_created` - The date and time the detector recipe rule was created. Format defined by RFC3339.
 	* `time_updated` - The date and time the detector recipe rule was updated. Format defined by RFC3339.
 * `display_name` - DisplayName of detector recipe
-* `effective_detector_rules` - List of detetor rules for the detector type for recipe
+* `effective_detector_rules` - List of effective detector rules for the detector type for recipe after applying defaults
 	* `candidate_responder_rules` - List of CandidateResponderRule related to this rule
 		* `display_name` - The display name of the Responder rule
 		* `id` - The unique identifier of the Responder rule

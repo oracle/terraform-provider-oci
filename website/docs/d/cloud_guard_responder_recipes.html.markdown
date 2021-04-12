@@ -50,7 +50,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned depending on the the setting of `accessLevel`. 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `resource_metadata_only` - (Optional) Default is false. When set to true, the list of all Oracle Managed Resources Metadata supported by Cloud Guard is returned. 
+* `resource_metadata_only` - (Optional) Default is false. When set to true, the list of all Oracle Managed Resources Metadata supported by Cloud Guard are returned. 
 * `state` - (Optional) The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
 
 

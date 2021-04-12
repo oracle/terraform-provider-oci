@@ -301,6 +301,7 @@ cloud_guard
 * oci\_cloud\_guard\_target
 * oci\_cloud\_guard\_managed\_list
 * oci\_cloud\_guard\_responder\_recipe
+* oci\_cloud\_guard\_data\_mask\_rule
 * oci\_cloud\_guard\_detector\_recipe
 
 containerengine

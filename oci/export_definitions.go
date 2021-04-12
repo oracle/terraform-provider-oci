@@ -245,6 +245,18 @@ var exportCloudGuardResponderRecipeHints = &TerraformResourceHints{
 	},
 }
 
+var exportCloudGuardDataMaskRuleHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_data_mask_rule",
+	datasourceClass:        "oci_cloud_guard_data_mask_rules",
+	datasourceItemsAttr:    "data_mask_rule_collection",
+	resourceAbbreviation:   "data_mask_rule",
+	requireResourceRefresh: true,
+	isDatasourceCollection: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
 var exportCloudGuardDetectorRecipeHints = &TerraformResourceHints{
 	resourceClass:          "oci_cloud_guard_detector_recipe",
 	datasourceClass:        "oci_cloud_guard_detector_recipes",
