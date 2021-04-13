@@ -127,32 +127,28 @@ func CoreInstancePoolResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"load_balancers": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: loadBlancersSuppressDiff,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 						"backend_set_name": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"load_balancer_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"port": {
 							Type:     schema.TypeInt,
 							Required: true,
-							ForceNew: true,
 						},
 						"vnic_selection": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -442,6 +438,14 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if _, ok := s.D.GetOkExists("load_balancers"); ok && s.D.HasChange("load_balancers") {
+		oldRaw, newRaw := s.D.GetChange("load_balancers")
+		err := s.updateLoadBalancers(oldRaw, newRaw)
+		if err != nil {
+			return err
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -531,7 +535,9 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 
 	loadBalancers := []interface{}{}
 	for _, item := range s.Res.LoadBalancers {
-		loadBalancers = append(loadBalancers, InstancePoolLoadBalancerAttachmentToMap(item))
+		if item.LifecycleState != oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetached {
+			loadBalancers = append(loadBalancers, InstancePoolLoadBalancerAttachmentToMap(item))
+		}
 	}
 	s.D.Set("load_balancers", loadBalancers)
 
@@ -784,4 +790,89 @@ func (s *CoreInstancePoolResourceCrud) updateCompartment(compartment interface{}
 		return err
 	}
 	return nil
+}
+
+func (s *CoreInstancePoolResourceCrud) oneEditAway(oldLoadBalancers []oci_core.AttachLoadBalancerDetails, newLoadBalancers []oci_core.AttachLoadBalancerDetails) (bool, string, oci_core.AttachLoadBalancerDetails, oci_core.AttachLoadBalancerDetails) {
+	if Abs(len(newLoadBalancers)-len(oldLoadBalancers)) != 1 {
+		return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}
+	}
+	if len(newLoadBalancers) > len(oldLoadBalancers) {
+		for i := 0; i < len(oldLoadBalancers); i++ {
+			if *oldLoadBalancers[i].LoadBalancerId != *newLoadBalancers[i].LoadBalancerId {
+				return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}
+			}
+		}
+		return true, "attach", oci_core.AttachLoadBalancerDetails{}, newLoadBalancers[len(newLoadBalancers)-1]
+	}
+	for i := 0; i < len(newLoadBalancers); i++ {
+		if *oldLoadBalancers[i].LoadBalancerId != *newLoadBalancers[i].LoadBalancerId {
+			for j := i + 1; j < len(newLoadBalancers); j++ {
+				if *oldLoadBalancers[j].LoadBalancerId != *newLoadBalancers[j-1].LoadBalancerId {
+					return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}
+				}
+			}
+			return true, "detach", oldLoadBalancers[i], oci_core.AttachLoadBalancerDetails{}
+		}
+	}
+	return true, "detach", oldLoadBalancers[len(oldLoadBalancers)-1], oci_core.AttachLoadBalancerDetails{}
+}
+
+func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, newRaw interface{}) error {
+	interfaces := oldRaw.([]interface{})
+	oldBalancers := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
+	for i, item := range interfaces {
+		converted := mapToAttachLoadBalancerDetails(item.(map[string]interface{}))
+		oldBalancers[i] = converted
+	}
+
+	interfaces = newRaw.([]interface{})
+	newBalancers := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
+	for i, item := range interfaces {
+		converted := mapToAttachLoadBalancerDetails(item.(map[string]interface{}))
+		newBalancers[i] = converted
+	}
+	canEdit, operation, oldLoadbalancer, newLoadBalancer := s.oneEditAway(oldBalancers, newBalancers)
+	if !canEdit {
+		return fmt.Errorf("only one add/remove is allowed at once, new LoadBalancer must be added at the end of list")
+	}
+	id := s.D.Id()
+
+	if operation == "attach" {
+		attachLoadBalancerRequest := oci_core.AttachLoadBalancerRequest{}
+		attachLoadBalancerRequest.InstancePoolId = &id
+		attachLoadBalancerRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		attachLoadBalancerRequest.AttachLoadBalancerDetails = newLoadBalancer
+		_, err := s.Client.AttachLoadBalancer(context.Background(), attachLoadBalancerRequest)
+		if err != nil {
+			return err
+		}
+	}
+
+	if operation == "detach" {
+		detachLoadBalancerRequest := oci_core.DetachLoadBalancerRequest{}
+		detachLoadBalancerRequest.LoadBalancerId = oldLoadbalancer.LoadBalancerId
+		detachLoadBalancerRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		detachLoadBalancerRequest.InstancePoolId = &id
+		detachLoadBalancerRequest.BackendSetName = oldLoadbalancer.BackendSetName
+		_, err := s.Client.DetachLoadBalancer(context.Background(), detachLoadBalancerRequest)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func mapToAttachLoadBalancerDetails(item map[string]interface{}) oci_core.AttachLoadBalancerDetails {
+	result := oci_core.AttachLoadBalancerDetails{}
+
+	loadBalancerId := item["load_balancer_id"].(string)
+	result.LoadBalancerId = &loadBalancerId
+	backendSetName := item["backend_set_name"].(string)
+	result.BackendSetName = &backendSetName
+	port := item["port"].(int)
+	result.Port = &port
+	vnicSelection := item["vnic_selection"].(string)
+	result.VnicSelection = &vnicSelection
+
+	return result
 }
