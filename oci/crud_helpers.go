@@ -528,6 +528,31 @@ func mySqlVersionDiffSuppress(key string, old string, new string, d *schema.Reso
 	return false
 }
 
+func loadBlancersSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
+	if !d.HasChange("load_balancers") {
+		return true
+	}
+	oldRaw, newRaw := d.GetChange("load_balancers")
+	interfaces := oldRaw.([]interface{})
+	oldBalancers := make(map[string]bool, len(interfaces))
+	for _, item := range interfaces {
+		oldBalancers[item.(map[string]interface{})["load_balancer_id"].(string)] = true
+	}
+
+	interfaces = newRaw.([]interface{})
+	if len(interfaces) != len(oldBalancers) {
+		return false
+	}
+
+	for _, item := range interfaces {
+		converted := item.(map[string]interface{})["load_balancer_id"].(string)
+		if _, ok := oldBalancers[converted]; !ok {
+			return false
+		}
+	}
+	return true
+}
+
 func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
 	return strings.EqualFold(old, new)
 }
