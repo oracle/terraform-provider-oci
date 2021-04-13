@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v38/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v39/identity"
 )
 
 func init() {
