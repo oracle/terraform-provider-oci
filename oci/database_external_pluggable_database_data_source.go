@@ -75,6 +75,8 @@ func (s *DatabaseExternalPluggableDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("database_configuration", s.Res.DatabaseConfiguration)
+
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
 
 	if s.Res.DatabaseManagementConfig != nil {
@@ -119,6 +121,12 @@ func (s *DatabaseExternalPluggableDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.NcharacterSet != nil {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
+	}
+
+	if s.Res.OperationsInsightsConfig != nil {
+		s.D.Set("operations_insights_config", []interface{}{OperationsInsightsConfigToMap(s.Res.OperationsInsightsConfig)})
+	} else {
+		s.D.Set("operations_insights_config", nil)
 	}
 
 	if s.Res.SourceId != nil {

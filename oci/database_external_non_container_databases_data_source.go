@@ -115,6 +115,8 @@ func (s *DatabaseExternalNonContainerDatabasesDataSourceCrud) SetData() error {
 			externalNonContainerDatabase["character_set"] = *r.CharacterSet
 		}
 
+		externalNonContainerDatabase["database_configuration"] = r.DatabaseConfiguration
+
 		externalNonContainerDatabase["database_edition"] = r.DatabaseEdition
 
 		if r.DatabaseManagementConfig != nil {
@@ -159,6 +161,12 @@ func (s *DatabaseExternalNonContainerDatabasesDataSourceCrud) SetData() error {
 
 		if r.NcharacterSet != nil {
 			externalNonContainerDatabase["ncharacter_set"] = *r.NcharacterSet
+		}
+
+		if r.OperationsInsightsConfig != nil {
+			externalNonContainerDatabase["operations_insights_config"] = []interface{}{OperationsInsightsConfigToMap(r.OperationsInsightsConfig)}
+		} else {
+			externalNonContainerDatabase["operations_insights_config"] = nil
 		}
 
 		externalNonContainerDatabase["state"] = r.LifecycleState

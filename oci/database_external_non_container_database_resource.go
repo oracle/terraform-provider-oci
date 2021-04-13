@@ -57,6 +57,10 @@ func DatabaseExternalNonContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"database_configuration": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"database_edition": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -111,6 +115,29 @@ func DatabaseExternalNonContainerDatabaseResource() *schema.Resource {
 			"ncharacter_set": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"operations_insights_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"operations_insights_connector_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"operations_insights_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -343,6 +370,8 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("database_configuration", s.Res.DatabaseConfiguration)
+
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
 
 	if s.Res.DatabaseManagementConfig != nil {
@@ -385,6 +414,12 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}
 
+	if s.Res.OperationsInsightsConfig != nil {
+		s.D.Set("operations_insights_config", []interface{}{OperationsInsightsConfigToMap(s.Res.OperationsInsightsConfig)})
+	} else {
+		s.D.Set("operations_insights_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -408,6 +443,18 @@ func DatabaseManagementConfigToMap(obj *oci_database.DatabaseManagementConfig) m
 	result["database_management_status"] = string(obj.DatabaseManagementStatus)
 
 	result["license_model"] = string(obj.LicenseModel)
+
+	return result
+}
+
+func OperationsInsightsConfigToMap(obj *oci_database.OperationsInsightsConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.OperationsInsightsConnectorId != nil {
+		result["operations_insights_connector_id"] = string(*obj.OperationsInsightsConnectorId)
+	}
+
+	result["operations_insights_status"] = string(obj.OperationsInsightsStatus)
 
 	return result
 }

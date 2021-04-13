@@ -34,6 +34,7 @@ The following attributes are exported:
 
 * `character_set` - The character set of the external database.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `database_configuration` - The Oracle Database configuration
 * `database_edition` - The Oracle Database edition. 
 * `database_management_config` - The configuration of the Database Management service.
 	* `database_management_connection_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [external database connector](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/datatypes/CreateExternalDatabaseConnectorDetails). 
@@ -49,6 +50,9 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure external database resource. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `ncharacter_set` - The national character of the external database.
+* `operations_insights_config` - The configuration of Operations Insights for the external database
+	* `operations_insights_connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [external database connector](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/datatypes/CreateExternalDatabaseConnectorDetails). 
+	* `operations_insights_status` - The status of Operations Insights
 * `state` - The current state of the Oracle Cloud Infrastructure external database resource.
 * `time_created` - The date and time the database was created.
 * `time_zone` - The time zone of the external database. It is a time zone offset (a character type in the format '[+|-]TZH:TZM') or a time zone region name, depending on how the time zone value was specified when the database was created / last altered. 
