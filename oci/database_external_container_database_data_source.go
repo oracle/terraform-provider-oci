@@ -75,6 +75,8 @@ func (s *DatabaseExternalContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("database_configuration", s.Res.DatabaseConfiguration)
+
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
 
 	if s.Res.DatabaseManagementConfig != nil {
