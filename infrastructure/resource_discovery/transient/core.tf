@@ -284,6 +284,17 @@ resource "oci_core_private_ip" "private_ip_rd" {
   hostname_label = "somehostnamelabel"
 }
 
+# Gets a list of IPv6s on the second VNIC
+data "oci_core_ipv6s" "ipv6s2" {
+  vnic_id = "${data.oci_core_vnic.instance_vnic2.id}"
+}
+
+/* ipv6 id */
+resource "oci_core_ipv6" "ipv6_rd" {
+  vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
+  display_name   = "ipv6RD"
+}
+
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad1.name}"

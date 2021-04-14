@@ -16,6 +16,13 @@ variable "compartment_ocid" {}
 // If using the notification target
 //variable "notification_topic_id" {}
 
+// streaming cursor kind
+/* 
+variable "streaming_cursor_kind" {
+    default = "LATEST"
+}
+*/
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -128,6 +135,22 @@ resource "oci_sch_service_connector" "test_service_connector" {
     }
   }
 
+  // If using streaming source
+  /* 
+  source {
+    kind = "Streaming"
+
+    // Optional
+    cursor {
+
+      // Optional
+      kind = var.streaming_cursor_kind
+    }
+
+    stream_id = oci_streaming_stream.test_stream.id
+  }
+  */
+
   target {
     kind      = "streaming"
     stream_id = oci_streaming_stream.test_stream.id
@@ -138,9 +161,9 @@ resource "oci_sch_service_connector" "test_service_connector" {
     kind                        = "objectStorage"
     bucket                      = var.object_storage_bucket_name
 
-    //optional
+    // Optional
     batch_rollover_size_in_mbs" = "10"
-    //optional
+    // Optional
     batch_rollover_time_in_ms"  = "80000"
   }*/
 
@@ -152,8 +175,8 @@ resource "oci_sch_service_connector" "test_service_connector" {
 
   // If using the notification target
   /*target {
-    kind            		= "notifications"
-    topic_id  			= var.notification_topic_id
+    kind            		        = "notifications"
+    topic_id                    = var.notification_topic_id
     enable_formatted_messaging	= "true"
   }*/
 
@@ -161,6 +184,14 @@ resource "oci_sch_service_connector" "test_service_connector" {
     condition = "logContent='20'"
     kind      = "logRule"
   }
+
+  // If using function task
+  /*
+  tasks {
+    function_id = oci_functions_function.test_function.id
+    kind        = "functions"
+  }
+  */
 
   state = "ACTIVE"
 }

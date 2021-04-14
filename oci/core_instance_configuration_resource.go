@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -638,6 +638,54 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 											},
 										},
 									},
+									"preemptible_instance_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"preemption_action": {
+													Type:     schema.TypeList,
+													Required: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"TERMINATE",
+																}, true),
+															},
+
+															// Optional
+															"preserve_boot_volume": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
 									"preferred_maintenance_action": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -662,6 +710,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"baseline_ocpu_utilization": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
@@ -1910,6 +1964,17 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		}
 	}
 
+	if preemptibleInstanceConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preemptible_instance_config")); ok {
+		if tmpList := preemptibleInstanceConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "preemptible_instance_config"), 0)
+			tmp, err := s.mapToPreemptibleInstanceConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert preemptible_instance_config, encountered error: %v", err)
+			}
+			result.PreemptibleInstanceConfig = &tmp
+		}
+	}
+
 	if preferredMaintenanceAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preferred_maintenance_action")); ok {
 		result.PreferredMaintenanceAction = oci_core.InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum(preferredMaintenanceAction.(string))
 	}
@@ -2019,6 +2084,10 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 		result["platform_config"] = platformConfigArray
 	}
 
+	if obj.PreemptibleInstanceConfig != nil {
+		result["preemptible_instance_config"] = []interface{}{PreemptibleInstanceConfigDetailsToMap(obj.PreemptibleInstanceConfig)}
+	}
+
 	result["preferred_maintenance_action"] = string(obj.PreferredMaintenanceAction)
 
 	if obj.Shape != nil {
@@ -2081,6 +2150,10 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunchInstanceShapeConfigDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetails, error) {
 	result := oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetails{}
 
+	if baselineOcpuUtilization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "baseline_ocpu_utilization")); ok {
+		result.BaselineOcpuUtilization = oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(baselineOcpuUtilization.(string))
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
@@ -2096,6 +2169,8 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 
 func InstanceConfigurationLaunchInstanceShapeConfigDetailsToMap(obj *oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["baseline_ocpu_utilization"] = string(obj.BaselineOcpuUtilization)
 
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
@@ -2214,6 +2289,47 @@ func InstanceConfigurationVolumeSourceDetailsToMap(obj *oci_core.InstanceConfigu
 	}
 
 	return result
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) mapToPreemptibleInstanceConfigDetails(fieldKeyFormat string) (oci_core.PreemptibleInstanceConfigDetails, error) {
+	result := oci_core.PreemptibleInstanceConfigDetails{}
+
+	if preemptionAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preemption_action")); ok {
+		if tmpList := preemptionAction.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "preemption_action"), 0)
+			tmp, err := s.mapToPreemptionAction(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert preemption_action, encountered error: %v", err)
+			}
+			result.PreemptionAction = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) mapToPreemptionAction(fieldKeyFormat string) (oci_core.PreemptionAction, error) {
+	var baseObject oci_core.PreemptionAction
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("TERMINATE"):
+		details := oci_core.TerminatePreemptionAction{}
+		if preserveBootVolume, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preserve_boot_volume")); ok {
+			tmp := preserveBootVolume.(bool)
+			details.PreserveBootVolume = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
 }
 
 func (s *CoreInstanceConfigurationResourceCrud) populateTopLevelPolymorphicCreateInstanceConfigurationRequest(request *oci_core.CreateInstanceConfigurationRequest) error {

@@ -39,6 +39,10 @@ data "oci_ocvp_supported_vmware_software_versions" "test_supported_vmware_softwa
   compartment_id = "${var.compartment_ocid}"
 }
 
+data "oci_ocvp_supported_skus" "test_supported_skus" {
+  compartment_id = "${var.compartment_ocid}"
+}
+
 resource "oci_core_vcn" "test_vcn_ocvp" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = var.compartment_ocid
@@ -364,8 +368,9 @@ resource "oci_ocvp_sddc" "test_sddc" {
   vsan_vlan_id                = oci_core_vlan.test_vsan_net_vlan.id
   vsphere_vlan_id             = oci_core_vlan.test_vsphere_net_vlan.id
   // Optional
-  provisioning_vlan_id         = oci_core_vlan.test_provisioning_vlan.id
-  replication_vlan_id          = oci_core_vlan.test_replication_vlan.id
+  provisioning_vlan_id = oci_core_vlan.test_provisioning_vlan.id
+  replication_vlan_id  = oci_core_vlan.test_replication_vlan.id
+  initial_sku          = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.sddc_defined_tags_value}"}
   #display_name  = var.sddc_display_name
   #freeform_tags = var.sddc_freeform_tags
@@ -377,6 +382,8 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
   #Required
   sddc_id = oci_ocvp_sddc.test_sddc.id
   #Optional
+  current_sku = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
+  next_sku    = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
   #display_name  = var.esxihost_display_name
   #freeform_tags = var.esxihost_freeform_tags
@@ -415,4 +422,3 @@ data "oci_ocvp_esxi_hosts" "test_esxi_hosts" {
 data "oci_ocvp_esxi_host" "test_esxi_host" {
   esxi_host_id = oci_ocvp_esxi_host.test_esxi_host.id
 }
-

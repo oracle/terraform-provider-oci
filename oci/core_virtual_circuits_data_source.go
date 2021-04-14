@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -115,6 +115,8 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 		if r.BandwidthShapeName != nil {
 			virtualCircuit["bandwidth_shape_name"] = *r.BandwidthShapeName
 		}
+
+		virtualCircuit["bgp_ipv6session_state"] = r.BgpIpv6SessionState
 
 		virtualCircuit["bgp_management"] = r.BgpManagement
 

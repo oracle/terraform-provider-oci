@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v38/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v39/datasafe"
 )
 
 func init() {

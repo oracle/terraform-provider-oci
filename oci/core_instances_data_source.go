@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -210,6 +210,12 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["platform_config"] = platformConfigArray
 		} else {
 			instance["platform_config"] = nil
+		}
+
+		if r.PreemptibleInstanceConfig != nil {
+			instance["preemptible_instance_config"] = []interface{}{PreemptibleInstanceConfigDetailsToMap(r.PreemptibleInstanceConfig)}
+		} else {
+			instance["preemptible_instance_config"] = nil
 		}
 
 		if r.Region != nil {

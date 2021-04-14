@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v38/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v38/identity"
+	"github.com/oracle/oci-go-sdk/v39/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v39/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -65,7 +65,7 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DynamicGroupResourceDependencies+
+	saveConfigContent(config+compartmentIdVariableStr+matchingRuleVariableStr+DynamicGroupResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Create, dynamicGroupRepresentation), "identity", "dynamicGroup", t)
 
 	resource.Test(t, resource.TestCase{

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v38/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v38/ocvp"
+	oci_common "github.com/oracle/oci-go-sdk/v39/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v39/ocvp"
 )
 
 func init() {
@@ -114,6 +114,12 @@ func OcvpSddcResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"initial_sku": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+				Default:  "MONTH",
 			},
 			"instance_display_name_prefix": {
 				Type:     schema.TypeString,
@@ -332,6 +338,10 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
 		tmp := hcxVlanId.(string)
 		request.HcxVlanId = &tmp
+	}
+
+	if initialSku, ok := s.D.GetOkExists("initial_sku"); ok {
+		request.InitialSku = oci_ocvp.SkuEnum(initialSku.(string))
 	}
 
 	if instanceDisplayNamePrefix, ok := s.D.GetOkExists("instance_display_name_prefix"); ok {
@@ -730,6 +740,8 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 	if s.Res.HcxVlanId != nil {
 		s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
 	}
+
+	s.D.Set("initial_sku", s.Res.InitialSku)
 
 	if s.Res.InstanceDisplayNamePrefix != nil {
 		s.D.Set("instance_display_name_prefix", *s.Res.InstanceDisplayNamePrefix)

@@ -44,6 +44,9 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `available` - The count of available resources. 
-* `used` - The current usage in the given compartment. 
+* `available` - The count of available resources. Because we have introduced resources with fractional counts, the field will round down to the nearest integer. 
+* `effective_quota_value` - The effective quota value for given compartment. This field is only present if there is a current quota policy affecting the current resource in the target region or availability domain. 
+* `fractional_availability` - The most accurate count of available resources. 
+* `fractional_usage` - The current most accurate usage in the given compartment. 
+* `used` - The current usage in the given compartment. Because we have introduced resources with fractional counts, the field will round up to the nearest integer. 
 

@@ -142,6 +142,10 @@ The following attributes are exported:
 * `platform_config` - The platform configuration for the instance. 
 	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
 	* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM`. 
+* `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
+	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
+		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
+		* `type` - (Required) The type of action to run when the instance is interrupted for eviction.
 * `region` - The region that contains the availability domain the instance is running in.
 
 	For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively. For all other regions, the full region name is returned.
@@ -149,6 +153,12 @@ The following attributes are exported:
 	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `shape_config` - The shape configuration for an instance. The shape configuration determines the resources allocated to an instance. 
+	* `baseline_ocpu_utilization` - The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+
+		The following values are supported:
+		* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+		* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+		* `BASELINE_1_1` - baseline usage is the entire OCPU. This represents a non-burstable instance. 
 	* `gpu_description` - A short description of the instance's graphics processing unit (GPU).
 
 		If the instance does not have any GPUs, this field is `null`. 

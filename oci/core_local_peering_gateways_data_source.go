@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -126,6 +126,10 @@ func (s *CoreLocalPeeringGatewaysDataSourceCrud) SetData() error {
 		}
 
 		localPeeringGateway["peer_advertised_cidr_details"] = r.PeerAdvertisedCidrDetails
+
+		if r.PeerId != nil {
+			localPeeringGateway["peer_id"] = *r.PeerId
+		}
 
 		localPeeringGateway["peering_status"] = r.PeeringStatus
 

@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v38/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v39/mysql"
 )
 
 func init() {
@@ -231,6 +231,10 @@ func MysqlMysqlBackupResource() *schema.Resource {
 						},
 						"ip_address": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_highly_available": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"maintenance": {
@@ -690,6 +694,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface
 
 	if obj.IpAddress != nil {
 		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	if obj.IsHighlyAvailable != nil {
+		result["is_highly_available"] = bool(*obj.IsHighlyAvailable)
 	}
 
 	if obj.Maintenance != nil {

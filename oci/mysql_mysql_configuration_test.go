@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v38/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v38/mysql"
+	"github.com/oracle/oci-go-sdk/v39/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v39/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -96,6 +96,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.default_authentication_plugin", ""),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.foreign_key_checks", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.generated_random_password_length", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.group_replication_consistency", "BEFORE_ON_PRIMARY_FAILOVER"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.information_schema_stats_expiry", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_instances", "4"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_size", "10200547328"),

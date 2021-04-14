@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v38/ocvp"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v39/ocvp"
 )
 
 func init() {
@@ -109,6 +109,8 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 	if s.Res.HcxVlanId != nil {
 		s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
 	}
+
+	s.D.Set("initial_sku", s.Res.InitialSku)
 
 	if s.Res.InstanceDisplayNamePrefix != nil {
 		s.D.Set("instance_display_name_prefix", *s.Res.InstanceDisplayNamePrefix)

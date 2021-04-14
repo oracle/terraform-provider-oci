@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v38/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v38/datascience"
+	"github.com/oracle/oci-go-sdk/v39/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v39/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -31,6 +31,14 @@ var (
 	}
 
 	modelForModelDeploymentRepresentation = map[string]interface{}{
+		"artifact_content_length":      Representation{repType: Required, create: `6954`},
+		"model_artifact":               Representation{repType: Required, create: `../examples/datascience/artifact.zip`},
+		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
+		"project_id":                   Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
+		"artifact_content_disposition": Representation{repType: Optional, create: `attachment; filename=tfTestArtifact.zip`},
+	}
+
+	modelForUpdateModelDeploymentRepresentation = map[string]interface{}{
 		"artifact_content_length":      Representation{repType: Required, create: `6954`},
 		"model_artifact":               Representation{repType: Required, create: `../examples/datascience/artifact.zip`},
 		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
@@ -71,7 +79,7 @@ var (
 	}
 	modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation = map[string]interface{}{
 		"instance_configuration": RepresentationGroup{Required, modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation},
-		"model_id":               Representation{repType: Required, create: `${oci_datascience_model.test_model.id}`},
+		"model_id":               Representation{repType: Required, create: `${oci_datascience_model.test_model.id}`, update: `${oci_datascience_model.test_model_update.id}`},
 		"bandwidth_mbps":         Representation{repType: Optional, create: `10`},
 		"scaling_policy":         RepresentationGroup{Optional, modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsScalingPolicyRepresentation},
 	}
@@ -127,8 +135,8 @@ var (
 		"retention_duration": Representation{repType: Optional, create: `30`, update: `60`},
 	}
 
-	ModelDeploymentResourceDependencies = // generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentation) +
-	generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelForModelDeploymentRepresentation) +
+	ModelDeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelForModelDeploymentRepresentation) +
+		generateResourceFromRepresentationMap("oci_datascience_model", "test_model_update", Optional, Create, modelForUpdateModelDeploymentRepresentation) +
 		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
 
 		DefinedTagsDependencies +

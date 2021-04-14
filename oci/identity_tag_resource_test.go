@@ -21,7 +21,7 @@ var (
 )
 
 // This test will be executed in a separate suite with 'tags_import_if_exists = false'
-func TestIdentityTagDeletion(t *testing.T) {
+func TestResourceIdentityTagDeletion(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagDeletion")
 	defer httpreplay.SaveScenario()
 

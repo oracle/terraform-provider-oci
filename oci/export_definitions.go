@@ -4,49 +4,49 @@
 package oci
 
 import (
-	oci_analytics "github.com/oracle/oci-go-sdk/v38/analytics"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v38/apigateway"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v38/artifacts"
-	oci_bds "github.com/oracle/oci-go-sdk/v38/bds"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v38/blockchain"
-	oci_budget "github.com/oracle/oci-go-sdk/v38/budget"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v38/cloudguard"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v38/containerengine"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
-	oci_database "github.com/oracle/oci-go-sdk/v38/database"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v38/datacatalog"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v38/dataflow"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v38/dataintegration"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v38/datasafe"
-	oci_datascience "github.com/oracle/oci-go-sdk/v38/datascience"
-	oci_dns "github.com/oracle/oci-go-sdk/v38/dns"
-	oci_email "github.com/oracle/oci-go-sdk/v38/email"
-	oci_events "github.com/oracle/oci-go-sdk/v38/events"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v38/filestorage"
-	oci_functions "github.com/oracle/oci-go-sdk/v38/functions"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v38/goldengate"
-	oci_identity "github.com/oracle/oci-go-sdk/v38/identity"
-	oci_integration "github.com/oracle/oci-go-sdk/v38/integration"
-	oci_kms "github.com/oracle/oci-go-sdk/v38/keymanagement"
-	oci_limits "github.com/oracle/oci-go-sdk/v38/limits"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v38/loadbalancer"
-	oci_logging "github.com/oracle/oci-go-sdk/v38/logging"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v38/managementagent"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v38/marketplace"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v38/monitoring"
-	oci_mysql "github.com/oracle/oci-go-sdk/v38/mysql"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v38/networkloadbalancer"
-	oci_nosql "github.com/oracle/oci-go-sdk/v38/nosql"
-	oci_oce "github.com/oracle/oci-go-sdk/v38/oce"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v38/ocvp"
-	oci_oda "github.com/oracle/oci-go-sdk/v38/oda"
-	oci_ons "github.com/oracle/oci-go-sdk/v38/ons"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v38/optimizer"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v38/osmanagement"
-	oci_sch "github.com/oracle/oci-go-sdk/v38/sch"
-	oci_streaming "github.com/oracle/oci-go-sdk/v38/streaming"
-	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v38/vulnerabilityscanning"
-	oci_waas "github.com/oracle/oci-go-sdk/v38/waas"
+	oci_analytics "github.com/oracle/oci-go-sdk/v39/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v39/apigateway"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v39/artifacts"
+	oci_bds "github.com/oracle/oci-go-sdk/v39/bds"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v39/blockchain"
+	oci_budget "github.com/oracle/oci-go-sdk/v39/budget"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v39/cloudguard"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v39/containerengine"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
+	oci_database "github.com/oracle/oci-go-sdk/v39/database"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v39/datacatalog"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v39/dataflow"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v39/dataintegration"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v39/datasafe"
+	oci_datascience "github.com/oracle/oci-go-sdk/v39/datascience"
+	oci_dns "github.com/oracle/oci-go-sdk/v39/dns"
+	oci_email "github.com/oracle/oci-go-sdk/v39/email"
+	oci_events "github.com/oracle/oci-go-sdk/v39/events"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v39/filestorage"
+	oci_functions "github.com/oracle/oci-go-sdk/v39/functions"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v39/goldengate"
+	oci_identity "github.com/oracle/oci-go-sdk/v39/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/v39/integration"
+	oci_kms "github.com/oracle/oci-go-sdk/v39/keymanagement"
+	oci_limits "github.com/oracle/oci-go-sdk/v39/limits"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v39/loadbalancer"
+	oci_logging "github.com/oracle/oci-go-sdk/v39/logging"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v39/managementagent"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v39/marketplace"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v39/monitoring"
+	oci_mysql "github.com/oracle/oci-go-sdk/v39/mysql"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v39/networkloadbalancer"
+	oci_nosql "github.com/oracle/oci-go-sdk/v39/nosql"
+	oci_oce "github.com/oracle/oci-go-sdk/v39/oce"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v39/ocvp"
+	oci_oda "github.com/oracle/oci-go-sdk/v39/oda"
+	oci_ons "github.com/oracle/oci-go-sdk/v39/ons"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v39/optimizer"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v39/osmanagement"
+	oci_sch "github.com/oracle/oci-go-sdk/v39/sch"
+	oci_streaming "github.com/oracle/oci-go-sdk/v39/streaming"
+	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v39/vulnerabilityscanning"
+	oci_waas "github.com/oracle/oci-go-sdk/v39/waas"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -691,6 +691,16 @@ var exportCorePublicIpPoolHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_core.PublicIpPoolLifecycleStateActive),
+	},
+}
+
+var exportCoreIpv6Hints = &TerraformResourceHints{
+	resourceClass:        "oci_core_ipv6",
+	datasourceClass:      "oci_core_ipv6s",
+	datasourceItemsAttr:  "ipv6s",
+	resourceAbbreviation: "ipv6",
+	discoverableLifecycleStates: []string{
+		string(oci_core.Ipv6LifecycleStateAvailable),
 	},
 }
 

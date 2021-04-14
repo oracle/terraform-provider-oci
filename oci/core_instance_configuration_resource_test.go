@@ -33,6 +33,9 @@ var (
 	}), []string{
 		"dedicated_vm_host_id",
 	})
+	instanceLaunchOptionsRepresentationForInstanceConfiguration = map[string]interface{}{
+		"network_type": Representation{repType: Optional, create: `PARAVIRTUALIZED`},
+	}
 )
 
 func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {

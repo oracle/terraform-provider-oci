@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -41,6 +41,14 @@ func CoreShapesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"baseline_ocpu_utilizations": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MinItems: 0,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"gpu_description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -130,6 +138,10 @@ func CoreShapesDataSource() *schema.Resource {
 									},
 								},
 							},
+						},
+						"min_total_baseline_ocpus_required": {
+							Type:     schema.TypeFloat,
+							Computed: true,
 						},
 						"name": {
 							Type:     schema.TypeString,
@@ -274,6 +286,13 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		shape := map[string]interface{}{}
 
+		bous := []string{}
+		for _, bou := range r.BaselineOcpuUtilizations {
+			bous = append(bous, string(bou))
+		}
+
+		shape["baseline_ocpu_utilizations"] = bous
+
 		if r.GpuDescription != nil {
 			shape["gpu_description"] = *r.GpuDescription
 		}
@@ -312,6 +331,10 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 			shape["memory_options"] = []interface{}{ShapeMemoryOptionsToMap(r.MemoryOptions)}
 		} else {
 			shape["memory_options"] = nil
+		}
+
+		if r.MinTotalBaselineOcpusRequired != nil {
+			shape["min_total_baseline_ocpus_required"] = *r.MinTotalBaselineOcpusRequired
 		}
 
 		if r.Shape != nil {
