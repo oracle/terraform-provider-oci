@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -156,6 +156,12 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("platform_config", platformConfigArray)
 	} else {
 		s.D.Set("platform_config", nil)
+	}
+
+	if s.Res.PreemptibleInstanceConfig != nil {
+		s.D.Set("preemptible_instance_config", []interface{}{PreemptibleInstanceConfigDetailsToMap(s.Res.PreemptibleInstanceConfig)})
+	} else {
+		s.D.Set("preemptible_instance_config", nil)
 	}
 
 	if s.Res.Region != nil {

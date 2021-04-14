@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -182,6 +182,10 @@ func CoreVirtualCircuitResource() *schema.Resource {
 			},
 
 			// Computed
+			"bgp_ipv6session_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"bgp_management": {
 				Type:       schema.TypeString,
 				Computed:   true,
@@ -674,6 +678,8 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 	if s.Res.BandwidthShapeName != nil {
 		s.D.Set("bandwidth_shape_name", *s.Res.BandwidthShapeName)
 	}
+
+	s.D.Set("bgp_ipv6session_state", s.Res.BgpIpv6SessionState)
 
 	s.D.Set("bgp_management", s.Res.BgpManagement)
 

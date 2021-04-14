@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -117,7 +117,7 @@ func (s *RouteTableAttachmentResourceCrud) Create() error {
 
 func (s *RouteTableAttachmentResourceCrud) Get() error {
 
-	subnetId, routeTableId, err := parseRouteTableAttachmentId(s.D.Id())
+	subnetId, _, err := parseRouteTableAttachmentId(s.D.Id())
 	if err != nil {
 		return err
 	}
@@ -127,10 +127,6 @@ func (s *RouteTableAttachmentResourceCrud) Get() error {
 	response, err := s.Client.GetSubnet(context.Background(), request)
 	if err != nil {
 		return err
-	}
-
-	if response.Subnet.RouteTableId == nil || *response.Subnet.RouteTableId != routeTableId {
-		return fmt.Errorf("inconsistent route table id received: %s expected: %s", *response.Subnet.RouteTableId, routeTableId)
 	}
 
 	s.Res = &response.Subnet

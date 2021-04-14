@@ -5,10 +5,11 @@ resource "oci_identity_tag_namespace" "tag-namespace1" {
   #Required
   compartment_id = var.tenancy_ocid
   description    = "Just a test"
-  name           = "testexamples-tag-namespace"
+  name           = "testexamples-tag-namespace-1"
 }
 
 resource "oci_identity_tag" "tag1" {
+  depends_on = [oci_identity_tag_namespace.tag-namespace1]
   #Required
   description      = "tf example tag"
   name             = "tf-example-tag"

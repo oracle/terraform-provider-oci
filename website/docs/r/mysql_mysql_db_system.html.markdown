@@ -44,6 +44,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	freeform_tags = {"bar-key"= "value"}
 	hostname_label = var.mysql_db_system_hostname_label
 	ip_address = var.mysql_db_system_ip_address
+	is_highly_available = var.mysql_db_system_is_highly_available
 	maintenance {
 		#Required
 		window_start_time = var.mysql_db_system_maintenance_window_start_time
@@ -66,7 +67,11 @@ The following arguments are supported:
 
 * `admin_password` - (Required) The password for the administrative user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special (nonalphanumeric) character. 
 * `admin_username` - (Required) The username for the administrative user.
-* `availability_domain` - (Required) The Availability Domain where the primary instance should be located. 
+* `availability_domain` - (Required) The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
+
+	In a failover scenario, the Read/Write endpoint is redirected to one of the other availability domains and the MySQL instance in that domain is promoted to the primary instance. This redirection does not affect the IP address of the DB System in any way.
+
+	For a standalone DB System, this defines the availability domain in which the DB System is placed. 
 * `backup_policy` - (Optional) (Updatable) Backup policy as optionally used for DB System Creation. 
 	* `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 
@@ -91,7 +96,11 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) User-provided data about the DB System.
 * `display_name` - (Optional) (Updatable) The user-friendly name for the DB System. It does not have to be unique.
-* `fault_domain` - (Optional) The name of the Fault Domain the DB System is located in. 
+* `fault_domain` - (Optional) The fault domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
+
+	In a failover scenario, the Read/Write endpoint is redirected to one of the other fault domains and the MySQL instance in that domain is promoted to the primary instance. This redirection does not affect the IP address of the DB System in any way.
+
+	For a standalone DB System, this defines the fault domain in which the DB System is placed. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `hostname_label` - (Optional) The hostname for the primary endpoint of the DB System. Used for DNS.
 
@@ -99,6 +108,9 @@ The following arguments are supported:
 
 	Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 * `ip_address` - (Optional) The IP address the DB System is configured to listen on. A private IP address of your choice to assign to the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a "dotted-quad" style IPv4 address. 
+* `is_highly_available` - (Optional) (Updatable) Specifies if the DB System is highly available.
+
+	When creating a DB System with High Availability, three instances are created and placed according to your region- and subnet-type. The secondaries are placed automatically in the other two availability or fault domains.  You can choose the preferred location of your primary instance, only. 
 * `maintenance` - (Optional) (Updatable) The Maintenance Policy for the DB System. `maintenance` and `backup_policy` cannot be updated in the same request.
 	* `window_start_time` - (Required) (Updatable) The start of the 2 hour maintenance window.
 
@@ -131,7 +143,11 @@ The following attributes are exported:
 	* `state` - The current state of the MySQL Analytics Cluster.
 	* `time_created` - The date and time the Analytics Cluster was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 	* `time_updated` - The time the Analytics Cluster was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
-* `availability_domain` - The Availability Domain where the primary DB System should be located. 
+* `availability_domain` - The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
+
+	In a failover scenario, the Read/Write endpoint is redirected to one of the other availability domains and the MySQL instance in that domain is promoted to the primary instance. This redirection does not affect the IP address of the DB System in any way.
+
+	For a standalone DB System, this defines the availability domain in which the DB System is placed. 
 * `backup_policy` - The Backup policy for the DB System.
 	* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 
@@ -184,6 +200,9 @@ The following attributes are exported:
 	* `time_updated` - The time the Channel was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `compartment_id` - The OCID of the compartment the DB System belongs in.
 * `configuration_id` - The OCID of the Configuration to be used for Instances in this DB System.
+* `current_placement` - The availability domain and fault domain a DB System is placed in.
+	* `availability_domain` - The availability domain in which the DB System is placed.
+	* `fault_domain` - The fault domain in which the DB System is placed.
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - User-provided data about the DB System.
@@ -196,7 +215,11 @@ The following attributes are exported:
 	* `port_x` - The network port where to connect to use this endpoint using the X protocol.
 	* `status` - The state of the endpoints, as far as it can seen from the DB System. There may be some inconsistency with the actual state of the MySQL service. 
 	* `status_details` - Additional information about the current endpoint status.
-* `fault_domain` - The name of the Fault Domain the DB System is located in. 
+* `fault_domain` - The fault domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
+
+	In a failover scenario, the Read/Write endpoint is redirected to one of the other fault domains and the MySQL instance in that domain is promoted to the primary instance. This redirection does not affect the IP address of the DB System in any way.
+
+	For a standalone DB System, this defines the fault domain in which the DB System is placed. 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `heat_wave_cluster` - A summary of a HeatWave cluster. 
 	* `cluster_size` - The number of analytics-processing compute instances, of the specified shape, in the HeatWave cluster. 
@@ -209,6 +232,7 @@ The following attributes are exported:
 * `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
 * `is_analytics_cluster_attached` - DEPRECATED -- please use `isHeatWaveClusterAttached` instead. If the DB System has an Analytics Cluster attached. 
 * `is_heat_wave_cluster_attached` - If the DB System has a HeatWave Cluster attached. 
+* `is_highly_available` - If the policy is to enable high availability of the instance, by maintaining secondary/failover capacity as necessary. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance` - The Maintenance Policy for the DB System. 
 	* `window_start_time` - The start time of the maintenance window.

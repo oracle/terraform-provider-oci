@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_limits "github.com/oracle/oci-go-sdk/v38/limits"
+	oci_limits "github.com/oracle/oci-go-sdk/v39/limits"
 )
 
 func init() {
@@ -39,6 +39,18 @@ func LimitsResourceAvailabilityDataSource() *schema.Resource {
 			// Computed
 			"available": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"effective_quota_value": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"fractional_availability": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"fractional_usage": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"used": {
@@ -110,6 +122,18 @@ func (s *LimitsResourceAvailabilityDataSourceCrud) SetData() error {
 
 	if s.Res.Available != nil {
 		s.D.Set("available", strconv.FormatInt(*s.Res.Available, 10))
+	}
+
+	if s.Res.EffectiveQuotaValue != nil {
+		s.D.Set("effective_quota_value", *s.Res.EffectiveQuotaValue)
+	}
+
+	if s.Res.FractionalAvailability != nil {
+		s.D.Set("fractional_availability", *s.Res.FractionalAvailability)
+	}
+
+	if s.Res.FractionalUsage != nil {
+		s.D.Set("fractional_usage", *s.Res.FractionalUsage)
 	}
 
 	if s.Res.Used != nil {

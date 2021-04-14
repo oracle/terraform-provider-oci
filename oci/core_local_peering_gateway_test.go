@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v38/common"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	"github.com/oracle/oci-go-sdk/v39/common"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -30,6 +30,15 @@ var (
 	localPeeringGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_core_local_peering_gateway.test_local_peering_gateway.id}`}},
+	}
+
+	secondLocalPeeringGatewayDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn2.id}`},
+		"filter":         RepresentationGroup{Required, secondLocalPeeringGatewayDataSourceFilterRepresentation}}
+	secondLocalPeeringGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_local_peering_gateway.test_local_peering_gateway2.id}`}},
 	}
 
 	localPeeringGatewayRepresentation = map[string]interface{}{
@@ -209,7 +218,10 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways", Optional, Update, localPeeringGatewayDataSourceRepresentation) +
 					compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation),
+					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation) +
+					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", Optional, Update, secondLocalPeeringGatewayRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways2", Optional, Update, secondLocalPeeringGatewayDataSourceRepresentation) +
+					secondLocalPeeringGatewayWithPeerId,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
@@ -227,6 +239,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.vcn_id"),
+					resource.TestCheckResourceAttrSet(datasourceName+"2", "local_peering_gateways.0.peer_id"),
 				),
 			},
 			// verify resource import
@@ -252,6 +265,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_id"),
 					resource.TestCheckResourceAttr(resourceName+"2", "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName+"2", "display_name", "requestor"),
 					resource.TestCheckResourceAttrSet(resourceName+"2", "id"),

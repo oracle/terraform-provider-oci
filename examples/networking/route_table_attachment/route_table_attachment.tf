@@ -100,6 +100,7 @@ resource "oci_core_route_table" "example_route_table" {
 
 resource "oci_core_vnic_attachment" "example_vnic_attachment" {
   create_vnic_details {
+    assign_public_ip       = true
     subnet_id              = oci_core_subnet.example_subnet.id
     skip_source_dest_check = true
   }

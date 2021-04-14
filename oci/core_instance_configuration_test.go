@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v38/common"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	"github.com/oracle/oci-go-sdk/v39/common"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -57,6 +57,11 @@ var (
 		"instance_type":  Representation{repType: Required, create: `compute`},
 		"launch_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
 	}
+
+	instanceConfigurationInstanceDetailsLaunchRepresentationForFlexShape = getUpdatedRepresentationCopy("launch_details",
+		RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsRepresentationForFlexShape},
+		instanceConfigurationInstanceDetailsLaunchRepresentation)
+
 	instanceConfigurationInstanceDetailsBlockRepresentation = map[string]interface{}{
 		"instance_type": Representation{repType: Required, create: `compute`},
 		"block_volumes": RepresentationGroup{Required, instanceConfigurationInstanceDetailsBlockVolumesRepresentation},
@@ -110,6 +115,17 @@ var (
 		"preferred_maintenance_action":        Representation{repType: Optional, create: `LIVE_MIGRATE`},
 		"shape_config":                        RepresentationGroup{Optional, instanceShapeConfigRepresentation},
 	}
+	instanceConfigurationInstanceDetailsLaunchDetailsRepresentationForFlexShape = representationCopyWithRemovedProperties(
+		getMultipleUpdatedRepresenationCopy(
+			[]string{"shape", "source_details", "shape_config"},
+			[]interface{}{
+				Representation{repType: Optional, create: InstanceConfigurationVmShapeForFlex},
+				RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForFlexShape},
+				RepresentationGroup{Optional, instanceShapeConfigRepresentationForFlexShape},
+			},
+			instanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
+		[]string{"dedicated_vm_host_id", "preferred_maintenance_action"},
+	)
 	instanceConfigurationInstanceOptionsRepresentation = map[string]interface{}{
 		"are_legacy_imds_endpoints_disabled": Representation{repType: Optional, create: `false`},
 	}
@@ -158,6 +174,10 @@ var (
 		"image_id":                Representation{repType: Optional, create: `${var.InstanceImageOCID[var.region]}`},
 		"boot_volume_size_in_gbs": Representation{repType: Optional, create: `55`},
 	}
+	instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForFlexShape = getUpdatedRepresentationCopy("image_id",
+		Representation{repType: Optional, create: `${var.FlexInstanceImageOCID[var.region]}`},
+		instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)
+
 	instanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_public_ip":       Representation{repType: Optional, create: `false`},
 		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
@@ -185,7 +205,8 @@ var (
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
-	InstanceConfigurationVmShape = `VM.Standard2.1`
+	InstanceConfigurationVmShape        = `VM.Standard2.1`
+	InstanceConfigurationVmShapeForFlex = `VM.Standard.E3.Flex`
 
 	InstanceConfigurationResourceImageConfig = generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 		getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation))
@@ -212,7 +233,6 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	saveConfigContent(config+compartmentIdVariableStr+InstanceConfigurationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationRepresentation), "core", "instanceConfiguration", t)
-
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -253,6 +273,70 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies,
+			},
+
+			// verify create with optionals launch_details for E3 flex micro shape
+			{
+				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies + FlexVmImageIdsVariable +
+					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentationForFlexShape}, instanceConfigurationRepresentation)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.assign_public_ip", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.display_name", "backend-servers"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.nsg_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.display_name", "backend-servers"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.extended_metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.fault_domain", "FAULT-DOMAIN-2"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", InstanceConfigurationVmShapeForFlex),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.boot_volume_size_in_gbs", "55"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.source_details.0.image_id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_options.0.network_type", "PARAVIRTUALIZED"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_mode", "NATIVE"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.memory_in_gbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
 						return err
 					},
 				),

@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v38/networkloadbalancer"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v39/networkloadbalancer"
 
-	oci_common "github.com/oracle/oci-go-sdk/v38/common"
+	oci_common "github.com/oracle/oci-go-sdk/v39/common"
 )
 
 func init() {

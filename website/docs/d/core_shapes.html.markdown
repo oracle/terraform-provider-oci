@@ -46,6 +46,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `baseline_ocpu_utilizations` - For a subcore burstable VM, the supported baseline OCPU utilization for instances that use this shape. 
 * `gpu_description` - A short description of the graphics processing unit (GPU) available for this shape.
 
 	If the shape does not have any GPUs, this field is `null`. 
@@ -73,6 +74,7 @@ The following attributes are exported:
 	* `max_per_ocpu_in_gbs` - The maximum amount of memory per OCPU available for this shape, in gigabytes. 
 	* `min_in_gbs` - The minimum amount of memory, in gigabytes. 
 	* `min_per_ocpu_in_gbs` - The minimum amount of memory per OCPU available for this shape, in gigabytes. 
+* `min_total_baseline_ocpus_required` - For a subcore burstable VM, the minimum total baseline OCPUs required. The total baseline OCPUs is equal to baselineOcpuUtilization chosen multiplied by the number of OCPUs chosen. 
 * `name` - The name of the shape. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `networking_bandwidth_in_gbps` - The networking bandwidth available for this shape, in gigabits per second. 
 * `networking_bandwidth_options` - For a flexible shape, the amount of networking bandwidth available for instances that use this shape.

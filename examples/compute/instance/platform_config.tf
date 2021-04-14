@@ -25,7 +25,6 @@ resource "oci_core_instance" "test_instance_with_platform_config" {
   display_name        = "TestInstance${count.index}"
   shape               = var.platform_config_instance_shape
 
-
   platform_config {
     type = "${var.instance_platform_config_type}"
     numa_nodes_per_socket = "${var.instance_platform_config_numa_nodes_per_socket}"

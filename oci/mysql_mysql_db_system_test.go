@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v38/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v38/mysql"
+	"github.com/oracle/oci-go-sdk/v39/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v39/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -62,6 +62,7 @@ var (
 		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"hostname_label":          Representation{repType: Optional, create: `hostnameLabel`},
 		"ip_address":              Representation{repType: Optional, create: `10.0.0.3`},
+		"is_highly_available":     Representation{repType: Optional, create: `false`},
 		"maintenance":             RepresentationGroup{Optional, mysqlDbSystemMaintenanceRepresentation},
 		"port":                    Representation{repType: Optional, create: `3306`},
 		"port_x":                  Representation{repType: Optional, create: `33306`},
@@ -161,6 +162,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+					resource.TestCheckResourceAttr(resourceName, "is_highly_available", "false"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
 					resource.TestCheckResourceAttr(resourceName, "port", "3306"),
@@ -210,6 +212,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+					resource.TestCheckResourceAttr(resourceName, "is_highly_available", "false"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
 					resource.TestCheckResourceAttr(resourceName, "port", "3306"),
@@ -253,6 +256,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.analytics_cluster.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.current_placement.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.display_name", "displayName2"),
@@ -262,6 +266,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.heat_wave_cluster.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_analytics_cluster_attached", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_heat_wave_cluster_attached", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_highly_available", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_updated"),
@@ -287,6 +293,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "channels.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "current_placement.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_gb", "50"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
@@ -299,6 +306,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_analytics_cluster_attached", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_heat_wave_cluster_attached", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_highly_available", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.0.window_start_time", "sun 01:00"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "port", "3306"),

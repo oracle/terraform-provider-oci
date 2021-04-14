@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v38/common"
-	oci_sch "github.com/oracle/oci-go-sdk/v38/sch"
+	oci_common "github.com/oracle/oci-go-sdk/v39/common"
+	oci_sch "github.com/oracle/oci-go-sdk/v39/sch"
 )
 
 func init() {
@@ -56,20 +56,46 @@ func SchServiceConnectorResource() *schema.Resource {
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"logging",
+								"streaming",
 							}, true),
 						},
-						"log_sources": {
+
+						// Optional
+						"cursor": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"compartment_id": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
 
 									// Optional
+									"kind": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"log_sources": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"log_group_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -85,8 +111,11 @@ func SchServiceConnectorResource() *schema.Resource {
 								},
 							},
 						},
-
-						// Optional
+						"stream_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -212,20 +241,37 @@ func SchServiceConnectorResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"condition": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"kind": {
 							Type:             schema.TypeString,
 							Required:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"function",
 								"logRule",
 							}, true),
 						},
 
 						// Optional
+						"batch_size_in_kbs": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"batch_time_in_sec": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"condition": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"function_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -882,6 +928,23 @@ func (s *SchServiceConnectorResourceCrud) mapToSourceDetails(fieldKeyFormat stri
 			}
 		}
 		baseObject = details
+	case strings.ToLower("streaming"):
+		details := oci_sch.StreamingSourceDetails{}
+		if cursor, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cursor")); ok {
+			if tmpList := cursor.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "cursor"), 0)
+				tmp, err := s.mapToStreamingCursorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert cursor, encountered error: %v", err)
+				}
+				details.Cursor = tmp
+			}
+		}
+		if streamId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stream_id")); ok {
+			tmp := streamId.(string)
+			details.StreamId = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
 	}
@@ -899,6 +962,58 @@ func SourceDetailsToMap(obj *oci_sch.SourceDetails) map[string]interface{} {
 			logSources = append(logSources, LogSourceToMap(item))
 		}
 		result["log_sources"] = logSources
+	case oci_sch.StreamingSourceDetails:
+		result["kind"] = "streaming"
+
+		if v.Cursor != nil {
+			cursorArray := []interface{}{}
+			if cursorMap := StreamingCursorDetailsToMap(&v.Cursor); cursorMap != nil {
+				cursorArray = append(cursorArray, cursorMap)
+			}
+			result["cursor"] = cursorArray
+		}
+
+		if v.StreamId != nil {
+			result["stream_id"] = string(*v.StreamId)
+		}
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *SchServiceConnectorResourceCrud) mapToStreamingCursorDetails(fieldKeyFormat string) (oci_sch.StreamingCursorDetails, error) {
+	var baseObject oci_sch.StreamingCursorDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("LATEST"):
+		details := oci_sch.LatestStreamingCursor{}
+		baseObject = details
+	case strings.ToLower("TRIM_HORIZON"):
+		details := oci_sch.TrimHorizonStreamingCursor{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func StreamingCursorDetailsToMap(obj *oci_sch.StreamingCursorDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch (*obj).(type) {
+	case oci_sch.LatestStreamingCursor:
+		result["kind"] = "LATEST"
+	case oci_sch.TrimHorizonStreamingCursor:
+		result["kind"] = "TRIM_HORIZON"
 	default:
 		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
 		return nil
@@ -1080,6 +1195,21 @@ func (s *SchServiceConnectorResourceCrud) mapToTaskDetails(fieldKeyFormat string
 		kind = "" // default value
 	}
 	switch strings.ToLower(kind) {
+	case strings.ToLower("function"):
+		details := oci_sch.FunctionTaskDetails{}
+		if batchSizeInKbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_size_in_kbs")); ok {
+			tmp := batchSizeInKbs.(int)
+			details.BatchSizeInKbs = &tmp
+		}
+		if batchTimeInSec, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_time_in_sec")); ok {
+			tmp := batchTimeInSec.(int)
+			details.BatchTimeInSec = &tmp
+		}
+		if functionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "function_id")); ok {
+			tmp := functionId.(string)
+			details.FunctionId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("logRule"):
 		details := oci_sch.LogRuleTaskDetails{}
 		if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
@@ -1096,6 +1226,20 @@ func (s *SchServiceConnectorResourceCrud) mapToTaskDetails(fieldKeyFormat string
 func TaskDetailsToMap(obj oci_sch.TaskDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_sch.FunctionTaskDetails:
+		result["kind"] = "function"
+
+		if v.BatchSizeInKbs != nil {
+			result["batch_size_in_kbs"] = int(*v.BatchSizeInKbs)
+		}
+
+		if v.BatchTimeInSec != nil {
+			result["batch_time_in_sec"] = int(*v.BatchTimeInSec)
+		}
+
+		if v.FunctionId != nil {
+			result["function_id"] = string(*v.FunctionId)
+		}
 	case oci_sch.LogRuleTaskDetails:
 		result["kind"] = "logRule"
 

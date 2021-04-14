@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_waas "github.com/oracle/oci-go-sdk/v38/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v39/waas"
 )
 
 func init() {
@@ -432,6 +432,10 @@ func (s *WaasCertificateResourceCrud) Delete() error {
 }
 
 func (s *WaasCertificateResourceCrud) SetData() error {
+	if s.Res.CertificateData != nil {
+		s.D.Set("certificate_data", *s.Res.CertificateData)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -451,6 +455,10 @@ func (s *WaasCertificateResourceCrud) SetData() error {
 	s.D.Set("extensions", extensions)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsTrustVerificationDisabled != nil {
+		s.D.Set("is_trust_verification_disabled", *s.Res.IsTrustVerificationDisabled)
+	}
 
 	if s.Res.IssuedBy != nil {
 		s.D.Set("issued_by", *s.Res.IssuedBy)

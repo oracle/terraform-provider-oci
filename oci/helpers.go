@@ -70,6 +70,15 @@ variable "InstanceImageOCID" {
 		us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaah6o6qu3gdbxnqg6aw56amnosmnaycusttaa7abyq2tdgpgubvsgj"
 	  }
 	}
+    `
+	MysqlHAConfigurationIdVariable = `
+	variable "MysqlHAConfigurationOCID" {
+		type = "map"
+		default = {
+			us-ashburn-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm56fwjwfymixnulmbq3v77p5v4lcbb6qhkftxf2trq"
+			us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaantprksu6phqfgr5xvyut46wdfesdszonbclybfwvahgysfjbrb4q"
+		}
+	}
 	`
 	OciWindowsImageIdsVariable = `
 	variable "InstanceImageOCID" {

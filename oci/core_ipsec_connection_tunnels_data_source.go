@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -45,6 +45,10 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"bgp_ipv6state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"bgp_state": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -57,11 +61,19 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"customer_interface_ipv6": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"oracle_bgp_asn": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"oracle_interface_ip": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"oracle_interface_ipv6": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},

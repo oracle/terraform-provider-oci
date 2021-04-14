@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v38/apigateway"
-	"github.com/oracle/oci-go-sdk/v38/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v39/apigateway"
+	"github.com/oracle/oci-go-sdk/v39/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -54,7 +54,7 @@ var (
 	GatewayResourceDependencies = generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		DefinedTagsDependencies
+		DefinedTagsDependencies + apiCertificateVariableStr + apiPrivateKeyVariableStr
 )
 
 func TestApigatewayGatewayResource_basic(t *testing.T) {

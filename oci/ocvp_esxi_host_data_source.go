@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v38/ocvp"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v39/ocvp"
 )
 
 func init() {
@@ -67,6 +67,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.BillingContractEndDate != nil {
+		s.D.Set("billing_contract_end_date", s.Res.BillingContractEndDate.String())
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -74,6 +78,8 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 	if s.Res.ComputeInstanceId != nil {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}
+
+	s.D.Set("current_sku", s.Res.CurrentSku)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
@@ -84,6 +90,8 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("next_sku", s.Res.NextSku)
 
 	if s.Res.SddcId != nil {
 		s.D.Set("sddc_id", *s.Res.SddcId)

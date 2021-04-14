@@ -51,8 +51,15 @@ func TestLimitsLimitDefinitionResource_basic(t *testing.T) {
 					compartmentIdVariableStr + LimitDefinitionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-
 					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.#"),
+					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.0.are_quotas_supported"),
+					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.0.description"),
+					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.0.is_deprecated"),
+					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.0.is_eligible_for_limit_increase"),
+					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.0.is_resource_availability_supported"),
+					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.0.name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.0.scope_type"),
+					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.0.service_name"),
 				),
 			},
 		},

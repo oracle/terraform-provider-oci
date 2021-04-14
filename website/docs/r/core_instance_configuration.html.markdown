@@ -135,11 +135,22 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				#Optional
 				numa_nodes_per_socket = var.instance_configuration_instance_details_launch_details_platform_config_numa_nodes_per_socket
 			}
+			preemptible_instance_config {
+				#Required
+				preemption_action {
+					#Required
+					type = var.instance_configuration_instance_details_launch_details_preemptible_instance_config_preemption_action_type
+
+					#Optional
+					preserve_boot_volume = var.instance_configuration_instance_details_launch_details_preemptible_instance_config_preemption_action_preserve_boot_volume
+				}
+			}
 			preferred_maintenance_action = var.instance_configuration_instance_details_launch_details_preferred_maintenance_action
 			shape = var.instance_configuration_instance_details_launch_details_shape
 			shape_config {
 
 				#Optional
+				baseline_ocpu_utilization = var.instance_configuration_instance_details_launch_details_shape_config_baseline_ocpu_utilization
 				memory_in_gbs = var.instance_configuration_instance_details_launch_details_shape_config_memory_in_gbs
 				ocpus = var.instance_configuration_instance_details_launch_details_shape_config_ocpus
 			}
@@ -350,6 +361,10 @@ The following arguments are supported:
 			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
 			* `numa_nodes_per_socket` - (Optional) The number of NUMA nodes per socket. 
 			* `type` - (Required) The type of platform being configured. The only supported `type` is `AMD_MILAN_BM`. 
+		* `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
+			* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
+				* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
+				* `type` - (Required) The type of action to run when the instance is interrupted for eviction.
 		* `preferred_maintenance_action` - (Optional) The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 			* `LIVE_MIGRATE` - Run maintenance using a live migration.
 			* `REBOOT` - Run maintenance using a reboot. 
@@ -361,6 +376,12 @@ The following arguments are supported:
 			If the parameter is provided, the instance is created with the resources that you specify. If some properties are missing or the entire parameter is not provided, the instance is created with the default configuration values for the `shape` that you specify.
 
 			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
+			* `baseline_ocpu_utilization` - (Optional) The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+
+				The following values are supported:
+				* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+				* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+				* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - (Optional) The total amount of memory available to the instance, in gigabytes. 
 			* `ocpus` - (Optional) The total number of OCPUs available to the instance. 
 		* `source_details` - (Optional) 
@@ -572,6 +593,10 @@ The following attributes are exported:
 			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
 			* `numa_nodes_per_socket` - The number of NUMA nodes per socket. 
 			* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM`. 
+		* `preemptible_instance_config` - Configuration options for preemptible instances. 
+			* `preemption_action` - The action to run when the preemptible instance is interrupted for eviction. 
+				* `preserve_boot_volume` - Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
+				* `type` - The type of action to run when the instance is interrupted for eviction.
 		* `preferred_maintenance_action` - The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 			* `LIVE_MIGRATE` - Run maintenance using a live migration.
 			* `REBOOT` - Run maintenance using a reboot. 
@@ -583,6 +608,12 @@ The following attributes are exported:
 			If the parameter is provided, the instance is created with the resources that you specify. If some properties are missing or the entire parameter is not provided, the instance is created with the default configuration values for the `shape` that you specify.
 
 			Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
+			* `baseline_ocpu_utilization` - The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+
+				The following values are supported:
+				* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+				* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+				* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 			* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 			* `ocpus` - The total number of OCPUs available to the instance. 
 		* `source_details` - 

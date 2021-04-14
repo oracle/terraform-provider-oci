@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v38/common"
-	oci_sch "github.com/oracle/oci-go-sdk/v38/sch"
+	"github.com/oracle/oci-go-sdk/v39/common"
+	oci_sch "github.com/oracle/oci-go-sdk/v39/sch"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -47,7 +47,8 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `My_Service_Connector`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
-		"filter":         RepresentationGroup{Required, serviceConnectorDataSourceFilterRepresentation}}
+		"filter":         RepresentationGroup{Required, serviceConnectorDataSourceFilterRepresentation},
+	}
 
 	// task definitions
 	serviceConnectorTasksRepresentation = map[string]interface{}{
@@ -92,6 +93,7 @@ var (
 		"tasks":          RepresentationGroup{Optional, serviceConnectorTasksRepresentation},
 	}
 
+	// targets for logging as a source
 	serviceConnectorFunctionTargetRepresentation      = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget, functionTargetRepresentation)
 	serviceConnectorObjectStorageTargetRepresentation = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget, objectStorageTargetRepresentation)
 	serviceConnectorLogAnTargetRepresentation         = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget, logAnTargetRepresentation)

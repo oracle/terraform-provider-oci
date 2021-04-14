@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v38/core"
+	oci_core "github.com/oracle/oci-go-sdk/v39/core"
 )
 
 func init() {
@@ -105,13 +105,7 @@ func (s *CoreVcnDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.Ipv6CidrBlock != nil {
-		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
-	}
-
-	if s.Res.Ipv6PublicCidrBlock != nil {
-		s.D.Set("ipv6public_cidr_block", *s.Res.Ipv6PublicCidrBlock)
-	}
+	s.D.Set("ipv6cidr_blocks", s.Res.Ipv6CidrBlocks)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

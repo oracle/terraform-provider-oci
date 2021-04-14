@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v38/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v39/mysql"
 )
 
 func init() {
@@ -115,6 +115,11 @@ func MysqlMysqlConfigurationDataSource() *schema.Resource {
 						},
 						"generated_random_password_length": {
 							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"group_replication_consistency": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
@@ -460,6 +465,8 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 	if obj.GeneratedRandomPasswordLength != nil {
 		result["generated_random_password_length"] = int(*obj.GeneratedRandomPasswordLength)
 	}
+
+	result["group_replication_consistency"] = string(obj.GroupReplicationConsistency)
 
 	if obj.InformationSchemaStatsExpiry != nil {
 		result["information_schema_stats_expiry"] = int(*obj.InformationSchemaStatsExpiry)
