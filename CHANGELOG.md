@@ -1,4 +1,4 @@
-## 4.22.0 (Unreleased)
+## 4.22.0 (April 14, 2021)
 
 ### Added
 - Support for VCN API: include OCID of Local Peering Gateway in return model
